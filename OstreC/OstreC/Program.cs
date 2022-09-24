@@ -74,11 +74,11 @@
 
                     Console.WriteLine("\nJeśli chcesz zakończyć aktualną przygodę wciśnij 'Y' lub cokoliwek aby kontynuować");
                     choice = Console.ReadKey().Key;
-                } while (choice != ConsoleKey.Y && choice != ConsoleKey.Y);
+                } while (choice != ConsoleKey.Y);
 
                 Console.WriteLine("\nJeśli chcesz zakończyć działanie konsoli wciśnij 'Y' lub cokoliwek aby kontynuować");
                 choice = Console.ReadKey().Key;
-            } while (choice != ConsoleKey.Y && choice != ConsoleKey.Y);
+            } while (choice != ConsoleKey.Y);
         }
     }
 }
