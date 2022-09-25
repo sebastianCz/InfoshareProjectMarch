@@ -38,15 +38,25 @@ namespace OstreC
 
             Console.WriteLine(playerSerialized);
 
-            //File.WriteAllText(@"ścieżka", playerSerialized) - plik do json
+            var currentDirectory = Directory.GetCurrentDirectory();
+            var playerSerializedPath = Path.Combine(currentDirectory, "data", "data", "player.json");
+            var racesSerializedPath = Path.Combine(currentDirectory, "data", "data", "races.json");
 
-            //string playerDeserialize = File.ReadAllText(@"ścieżka"); - odczytanie pliku json
+            //Directory.CreateDirectory(Path.Combine(Directory.GetCurrentDirectory(), "data"));
+
+            //File.WriteAllText(Path.Combine(dataDirectory, "playerSerialized.json"), "");
+
+            //Console.WriteLine(Directory.GetCurrentDirectory());
+
+            File.WriteAllText(playerSerializedPath, playerSerialized); //- plik do json
+
+            string racesSerialized = File.ReadAllText(racesSerializedPath); // - odczytanie pliku json
 
             PlayerCreator player2 = JsonConvert.DeserializeObject<PlayerCreator>(playerSerialized);
 
             Console.WriteLine(player2.Name);
 
-            RacesList races = JsonConvert.DeserializeObject<RacesList>(DataJason.Races());
+            RacesList races = JsonConvert.DeserializeObject<RacesList>(racesSerialized);
 
             Console.WriteLine(races.Count);
 
