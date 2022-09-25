@@ -12,10 +12,10 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Update="data\data\player.json">
+    <None Update="data\dataJson\player.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Update="data\data\races.json">
+    <None Update="data\dataJson\races.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
