@@ -54,12 +54,19 @@ namespace OstreC
 
             PlayerCreator player2 = JsonConvert.DeserializeObject<PlayerCreator>(playerSerialized);
 
-            Console.WriteLine(player2.Name);
+            Console.WriteLine(player2.Statisctics[0].Name);
 
             RacesList races = JsonConvert.DeserializeObject<RacesList>(racesSerialized);
 
-            Console.WriteLine(races.Count);
-
+            Console.WriteLine(races.Results[3].Name);
+            foreach (var asi in races.Results[3].Asi)
+            {
+                foreach (var asi2 in asi.Attributes)
+                {
+                    Console.WriteLine(asi2);
+                    Console.WriteLine(asi.Value);
+                }
+            }
         }
     }
 }
