@@ -8,7 +8,7 @@ namespace OstreC
 {
     internal class Asi
     {
-        public string Attributes { get; set; }
+        public string[] Attributes { get; set; }
         public int Value { get; set; }
     }         
 }

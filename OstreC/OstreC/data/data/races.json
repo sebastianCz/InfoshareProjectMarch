@@ -10,7 +10,7 @@
       "asi_desc": "**_Ability Score Increase._** Your Constitution score increases by 2.",
       "asi": [
         {
-          "attributes": "Constitution",
+          "attributes": [ "Constitution" ],
           "value": 2
         }
       ],
@@ -29,7 +29,7 @@
           "desc": "As a hill dwarf, you have keen senses, deep intuition, and remarkable resilience.",
           "asi": [
             {
-              "attributes": "Wisdom",
+              "attributes": [ "Wisdom" ],
               "value": 1
             }
           ],
@@ -50,7 +50,7 @@
       "asi_desc": "**_Ability Score Increase._** Your Dexterity score increases by 2.",
       "asi": [
         {
-          "attributes": "Dexterity",
+          "attributes": [ "Dexterity" ],
           "value": 2
         }
       ],
@@ -69,7 +69,7 @@
           "desc": "As a high elf, you have a keen mind and a mastery of at least the basics of magic. In many fantasy gaming worlds, there are two kinds of high elves. One type is haughty and reclusive, believing themselves to be superior to non-elves and even other elves. The other type is more common and more friendly, and often encountered among humans and other races.",
           "asi": [
             {
-              "attributes": "Intelligence",
+              "attributes": [ "Intelligence" ],
               "value": 1
             }
           ],
@@ -90,7 +90,7 @@
       "asi_desc": "**_Ability Score Increase._** Your Dexterity score increases by 2.",
       "asi": [
         {
-          "attributes": "Dexterity",
+          "attributes": [ "Dexterity" ],
           "value": 2
         }
       ],
@@ -109,7 +109,7 @@
           "desc": "As a lightfoot halfling, you can easily hide from notice, even using other people as cover. You're inclined to be affable and get along well with others.\nLightfoots are more prone to wanderlust than other halflings, and often dwell alongside other races or take up a nomadic life.",
           "asi": [
             {
-              "attributes": "Charisma",
+              "attributes": [ "Charisma" ],
               "value": 1
             }
           ],
@@ -130,27 +130,27 @@
       "asi_desc": "**_Ability Score Increase._** Your ability scores each increase by 1.",
       "asi": [
         {
-          "attributes": "Strength",
+          "attributes": [ "Strength" ],
           "value": 1
         },
         {
-          "attributes": "Dexterity",
+          "attributes": [ "Dexterity" ],
           "value": 1
         },
         {
-          "attributes": "Constitution",
+          "attributes": [ "Constitution" ],
           "value": 1
         },
         {
-          "attributes": "Intelligence",
+          "attributes": [ "Intelligence" ],
           "value": 1
         },
         {
-          "attributes": "Wisdom",
+          "attributes": [ "Wisdom" ],
           "value": 1
         },
         {
-          "attributes": "Charisma",
+          "attributes": [ "Charisma" ],
           "value": 1
         }
       ],
@@ -174,11 +174,11 @@
       "asi_desc": "**_Ability Score Increase._** Your Strength score increases by 2, and your Charisma score increases by 1.",
       "asi": [
         {
-          "attributes": "Strength",
+          "attributes": [ "Strength" ],
           "value": 2
         },
         {
-          "attributes": "Charisma",
+          "attributes": [ "Charisma" ],
           "value": 1
         }
       ],
@@ -202,7 +202,7 @@
       "asi_desc": "**_Ability Score Increase._** Your Intelligence score increases by 2.",
       "asi": [
         {
-          "attributes": "Intelligence",
+          "attributes": [ "Intelligence" ],
           "value": 2
         }
       ],
@@ -221,7 +221,7 @@
           "desc": "## Rock Gnome\nAs a rock gnome, you have a natural inventiveness and hardiness beyond that of other gnomes.",
           "asi": [
             {
-              "attributes": "Constitution",
+              "attributes": [ "Constitution" ],
               "value": 1
             }
           ],
@@ -242,15 +242,15 @@
       "asi_desc": "**_Ability Score Increase._** Your Charisma score increases by 2, and two other ability scores of your choice increase by 1.",
       "asi": [
         {
-          "attributes": "Charisma",
+          "attributes": [ "Charisma" ],
           "value": 2
         },
         {
-          "attributes": "Other",
+          "attributes": [ "Other" ],
           "value": 1
         },
         {
-          "attributes": "Other",
+          "attributes": [ "Other" ],
           "value": 1
         }
       ],
@@ -274,11 +274,11 @@
       "asi_desc": "**_Ability Score Increase._** Your Strength score increases by 2, and your Constitution score increases by 1.",
       "asi": [
         {
-          "attributes": "Strength",
+          "attributes": [ "Strength" ],
           "value": 2
         },
         {
-          "attributes": "Constitution",
+          "attributes": [ "Constitution" ],
           "value": 1
         }
       ],
@@ -302,11 +302,11 @@
       "asi_desc": "**_Ability Score Increase._** Your Intelligence score increases by 1, and your Charisma score increases by 2.",
       "asi": [
         {
-          "attributes": "Intelligence",
+          "attributes": [ "Intelligence" ],
           "value": 1
         },
         {
-          "attributes": "Charisma",
+          "attributes": [ "Charisma" ],
           "value": 2
         }
       ],

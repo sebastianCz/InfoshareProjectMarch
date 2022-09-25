@@ -48,7 +48,7 @@ namespace OstreC
 
             //Console.WriteLine(Directory.GetCurrentDirectory());
 
-            File.WriteAllText(playerSerializedPath, playerSerialized); //- plik do json
+            //File.WriteAllText(playerSerializedPath, playerSerialized); //- plik do json
 
             string racesSerialized = File.ReadAllText(racesSerializedPath); // - odczytanie pliku json
 
