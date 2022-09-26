@@ -26,6 +26,7 @@ namespace OstreC.Paragraph
             {
                 ConsoleKey key = Console.ReadKey().Key;
 
+                
                 if (count == 1)
                 {
                     switch (key)
