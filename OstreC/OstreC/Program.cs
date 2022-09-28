@@ -26,6 +26,13 @@ namespace OstreC
             do
             {
                 Console.Clear();
+
+                if (Paragraph.Count < idParagraph)
+                {
+                    Console.WriteLine("This paragraph doesn't exist.\nPress ENTER to exit.");
+                    Console.ReadKey();
+                    break;
+                }
                 Console.ForegroundColor = ConsoleColor.Green;
                 Console.WriteLine(Paragraph.Paragraph[idParagraph].TextParagraph);
                 Console.ResetColor();
