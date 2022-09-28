@@ -14,4 +14,18 @@ namespace OstreC.Paragraph
         }
         public List<Paragraphs> Paragraph { get; set; }
     }
+
+    internal class Paragraphs
+    {
+        public int IdParagraph { get; set; }
+        public string TextParagraph { get; set; }
+        public int HowManyOptions { get { return NextParagraph.Count(); } }
+        public List<NextParagraph> NextParagraph { get; set; }
+    }
+
+    internal class NextParagraph
+    {
+        public string ChoiceText { get; set; }
+        public int IdParagraph { get; set; }
+    }
 }
