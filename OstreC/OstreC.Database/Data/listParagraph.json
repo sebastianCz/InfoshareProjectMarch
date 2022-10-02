@@ -1,5 +1,5 @@
 {
-  "Count": 2,
+  "Count": 10,
   "Paragraph": [
     {
       "IdParagraph": 0,
@@ -30,7 +30,7 @@
     {
       "IdParagraph": 2,
       "TextParagraph": "You've been on the Triboar Trail for about half a day. \nAs you come around a bend, you spot two dead horses sprawled about fifty feet ahead of you, blocking the path. \nEach has several black-feathered arrows sticking out of it. \nThe woods press close to the trail here, with a steep embankment and dense thickets on either side.",
-      "HowManyOptions": 1,
+      "HowManyOptions": 2,
       "NextParagraph": [
         {
           "ChoiceText": "Look around",
@@ -39,6 +39,103 @@
         {
           "ChoiceText": "Come closer",
           "IdParagraph": 4
+        }
+      ]
+    },
+    {
+      "IdParagraph": 3,
+      "TextParagraph": "(In the future) Test on perception - Player vs Goblin",
+      "HowManyOptions": 2,
+      "NextParagraph": [
+        {
+          "ChoiceText": "Ture",
+          "IdParagraph": 5
+        },
+        {
+          "ChoiceText": "False",
+          "IdParagraph": 4
+        }
+      ]
+    },
+    {
+      "IdParagraph": 4,
+      "TextParagraph": "The horses as belonging to Gundren Rockseeker and Sildar Hallwinter. They've been dead about a day, and it's clear that arrows killed the horses.",
+      "HowManyOptions": 1,
+      "NextParagraph": [
+        {
+          "ChoiceText": "Get closer to the dead horses",
+          "IdParagraph": 6
+        }
+      ]
+    },
+    {
+      "IdParagraph": 5,
+      "TextParagraph": "Two goblins are hiding in the woods, one on each side of the road.",
+      "HowManyOptions": 2,
+      "NextParagraph": [
+        {
+          "ChoiceText": "Get closer to the dead horses",
+          "IdParagraph": 6
+        },
+        {
+          "ChoiceText": "Attack",
+          "IdParagraph": 7
+        }
+      ]
+    },
+    {
+      "IdParagraph": 6,
+      "TextParagraph": "The saddlebags have been looted. Nearby lies an empty 1 leather map case.",
+      "HowManyOptions": 1,
+      "NextParagraph": [
+        {
+          "ChoiceText": "Next",
+          "IdParagraph": 7
+        }
+      ]
+    },
+    {
+      "IdParagraph": 7,
+      "TextParagraph": "(In the future) Fight with 2 goblin",
+      "HowManyOptions": 2,
+      "NextParagraph": [
+        {
+          "ChoiceText": "Victory",
+          "IdParagraph": 8
+        },
+        {
+          "ChoiceText": "Defeat",
+          "IdParagraph": 999
+        }
+      ]
+    },
+    {
+      "IdParagraph": 8,
+      "TextParagraph": "You are looking at two dead goblins.",
+      "HowManyOptions": 2,
+      "NextParagraph": [
+        {
+          "ChoiceText": "Look Around",
+          "IdParagraph": 9
+        },
+        {
+          "ChoiceText": "(In the future) Recorver",
+          "IdParagraph": 998
+        }
+      ]
+    },
+    {
+      "IdParagraph": 9,
+      "TextParagraph": "Test on perception DC 10 Wisdom",
+      "HowManyOptions": 2,
+      "NextParagraph": [
+        {
+          "ChoiceText": "False",
+          "IdParagraph": 10
+        },
+        {
+          "ChoiceText": "True",
+          "IdParagraph": 11
         }
       ]
     }
