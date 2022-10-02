@@ -1,109 +1,68 @@
-﻿using System;
+﻿using OstreC.Services;
+using OstreC;
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
+using static OstreC.UI;
+
 
 namespace OstreC
+{ 
+    
+       
+public static class InputValidation
 {
-    internal class inputValidation
-    {
-        public static bool isNumber(string x)
+
+        
+
+        
+
+       public static bool isNumber(string userInput)
         {
-            bool isNr = int.TryParse(x, out int n);
+            bool isNr = int.TryParse(userInput, out int n);
             if (isNr) { return true; }
             return false;
-
+          
 
         }
 
-        //Provides input check depending on active page. This way the same input can be entered per page with different results
 
-        public  static void inputCheck(ref Game Game,string input)
-        {
- 
-
-            switch (Game.activePageNr)
+        public static bool isCommand (string userInput) {
+        
+            foreach( string command in _menuCommands)
             {
-                //Input check for main menu
-                case 0:
+                if(command == userInput) {
 
-                    if (Game.isCommand(input.Trim()))
-                    {
-                        Game.executeCommand(input.Trim());
+                   HandleCommand(userInput);
 
-                    }
-                    else if (isNumber(input))
-                    {
-
-                        int inputNr = Convert.ToInt32(input);
-
-                        if (inputNr <= Game.maxPagesNr & inputNr >= 0)
-                        {
-                            Game.activePageNr = inputNr;
-                            Game.error = "";
-
-                        }
-                        else
-                        {
-                            Game.error = "The number provided was either too high or too low";
-
-                        }
-                    }
-                    else
-                    {
-                        Game.error = "You provided a text. It didn't match a command or a page number to navigate to";
-
-                    }
-
-                    break;
-                    //Input check for character creation
-                case 1:
-                    if (Game.isCommand(input.Trim()))
-                    {
-                        Game.executeCommand(input.Trim());
-
-                    }
-                   
-
-                    break;
-                    //Input check for load game screen
-                case 2:
-                    if (Game.isCommand(input.Trim()))
-                    {
-                        Game.executeCommand(input.Trim());
-
-                    }
-                    Program.startGameSession(ref Game);
-
-                    break;
-
-                case 3:
-
-                    //Input check once the game started
-                    if (Game.isCommand(input.Trim()))
-                    {
-                        Game.executeCommand(input.Trim());
-
-                    }
-                    break;
-                    //Input check for review screen (required based on project guidelines)
-                case 4:
-                    if (Game.isCommand(input.Trim()))
-                    {
-                        Game.executeCommand(input.Trim());
-
-                    }
-                    break;
-
-                default:
-
-                    break;
-
+                    return true; 
+                
+                }
+ 
             }
 
+            return false;
+        }
 
+        public static void HandleCommand(string command)
+        {
+            
+          //Do stuff based on commands. 
 
         }
+
+
+
+
+
+
+
+
     }
+
+
+
 }

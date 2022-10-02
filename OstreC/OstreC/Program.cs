@@ -1,6 +1,30 @@
 ﻿using OstreC.Services;
+using OstreC;
 
-string textText = Console.ReadLine();
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Reflection;
+using System.Text;
+using System.Threading.Tasks;
 
-textText = Services.ChangeText(textText);
-Console.WriteLine(textText);
+
+bool exitGame = false;
+
+
+
+ 
+
+
+do
+{
+   
+    //Draw(UI.ActivePageNr)
+    //checkInput()
+    
+
+
+} while (exitGame == false);
+
+
+ 
