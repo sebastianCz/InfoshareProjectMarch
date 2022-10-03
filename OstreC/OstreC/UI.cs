@@ -62,7 +62,7 @@ namespace OstreC
                     test.checkUserInput(UI); 
                 }else
                 {
-                    Console.WriteLine("Didn't find the page" +test.Type +"  uivalue: " +UI.Page.currentType);
+                   // Console.WriteLine("Didn't find the page" +test.Type +"  uivalue: " +UI.Page.currentType);
                 }
 
             }

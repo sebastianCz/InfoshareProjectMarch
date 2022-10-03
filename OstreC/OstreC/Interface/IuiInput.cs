@@ -203,15 +203,14 @@ namespace OstreC
         public void checkUserInput(UI UI)
         {
 
-            var input = Console.ReadLine();
+            //var input = Console.ReadLine();
 
             if (Helpers.isCommand(input, UI))
             {
                 Helpers.HandleCommand(input, UI);
             }
 
-            //Your code goes here
-
+          
 
 
 
