@@ -64,7 +64,7 @@ namespace OstreC
                 case PageType.Create_Character:
                     currentType = PageType.Create_Character;
                     pageInfo = "Welcome to character creation page!";
-                    instructions = "User input is not handled yet.";
+                    instructions = "Press 1 to select Name \n press  2 to cos tam";
                     UI.DrawUI(UI,true);
                     break;
 

@@ -36,12 +36,13 @@ namespace OstreC.ManageInput
 
                 if (input == "1")
                 {
+
+                    UI.Page.switchPage(PageType.Create_NewGame,UI  );
                     
-                    UI.Page.switchPage(PageType.Create_Character,UI  );
                 }
                 else if (input == "2")
                 {
-                    UI.Page.switchPage(PageType.Create_NewGame, UI  );
+                    UI.Page.switchPage(PageType.Create_Character, UI  );
                 }
                 else if (input == "3")
                 {

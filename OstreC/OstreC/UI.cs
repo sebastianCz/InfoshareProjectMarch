@@ -126,19 +126,19 @@ namespace OstreC
 
         public void clearData(UI UI)
         {
-            UI.Page.pageInfo = "";
+           
             UI.Page.error = "";
-            UI.Page.instructions = "";
+             
 
         }
 
         public static void DrawUI(UI UI,bool clear)
         {
-
+            if (clear) { UI.clearData(UI); }
             Console.Clear();
             UI.DrawHeader(UI);
             UI.DrawGenericPage(UI);
-            if (clear) { UI.clearData(UI); }
+
 
         }
       
