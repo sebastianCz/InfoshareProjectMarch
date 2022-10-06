@@ -16,7 +16,7 @@ namespace OstreC.ManageInput
         public PageType Type => PageType.Create_Character;
         public void checkUserInput(UI UI)
         {
-            Console.WriteLine("Pokaz opjce cos tam");
+            
             var input = Console.ReadLine();
 
             if (Helpers.isCommand(input, UI))
