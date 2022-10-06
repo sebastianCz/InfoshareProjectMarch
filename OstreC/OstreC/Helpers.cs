@@ -1,13 +1,14 @@
 ﻿using OstreC.Services;
 using OstreC;
-using static OstreC.UI;
+using OstreC.Interface;
+using OstreC.ManageInput;
 
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Security.Cryptography.X509Certificates;
 
- 
 
 namespace OstreC
 { 
@@ -32,7 +33,7 @@ public static class Helpers
 
         public static bool isCommand (string userInput,UI UI) {
         
-            foreach( string command in _menuCommands)
+            foreach( string command in UI._menuCommands)
             {
                 if(command == userInput) {
 
@@ -65,11 +66,8 @@ public static class Helpers
                     UI.exit = true;
                     break;
                 case "MAIN_MENU":
-
-                    UI.Page.currentType = Interface.PageType.Main_Menu;
-                    UI.Page.pageInfo = "Welcome to main menu";
-                    UI.Page.instructions = "Press 1 to create New Game \n Press 2 to Create new Character \n Press 3 to Load game \n Press 4 to view Bestiary \n Press 9 for example page";
-
+                    UI.Page.switchPage(PageType.Main_Menu, UI);
+                   
 
                     break;
                 default:
@@ -83,8 +81,11 @@ public static class Helpers
         }
   
 
+       
+
+
     }
 
-
+    
   
 }

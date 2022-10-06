@@ -1,0 +1,261 @@
+{
+  "count": 1469,
+  "next": "https://api.open5e.com/monsters/?page=2",
+  "previous": null,
+  "results": [
+    {
+      "slug": "a-mi-kuk",
+      "name": "A-mi-kuk",
+      "size": "Huge",
+      "type": "aberration",
+      "subtype": "",
+      "group": null,
+      "alignment": "chaotic evil",
+      "armor_class": 14,
+      "armor_desc": "natural armor",
+      "hit_points": 115,
+      "hit_dice": "10d12+50",
+      "speed": {
+        "swim": 40,
+        "burrow": 20,
+        "walk": 30
+      },
+      "strength": 21,
+      "dexterity": 8,
+      "constitution": 20,
+      "intelligence": 7,
+      "wisdom": 14,
+      "charisma": 10,
+      "strength_save": null,
+      "dexterity_save": null,
+      "constitution_save": null,
+      "intelligence_save": null,
+      "wisdom_save": null,
+      "charisma_save": null,
+      "perception": 5,
+      "skills": {
+        "athletics": 10,
+        "perception": 5,
+        "stealth": 2
+      },
+      "damage_vulnerabilities": "",
+      "damage_resistances": "acid; bludgeoning, piercing, and slashing from nonmagical attacks",
+      "damage_immunities": "cold",
+      "condition_immunities": "paralyzed, restrained",
+      "senses": "darkvision 60 ft., tremorsense 30 ft., passive Perception 15",
+      "languages": "understands Common but can’t speak",
+      "challenge_rating": "7",
+      "actions": [
+        {
+          "name": "Multiattack",
+          "desc": "The a-mi-kuk makes two attacks: one with its bite and one with its grasping claw."
+        },
+        {
+          "name": "Bite",
+          "desc": "Melee Weapon Attack: +8 to hit, reach 5 ft., one target. Hit: 12 (2d6 + 5) piercing damage.",
+          "attack_bonus": 8,
+          "damage_dice": "2d6+5"
+        },
+        {
+          "name": "Grasping Claw",
+          "desc": "Melee Weapon Attack: +8 to hit, reach 10 ft., one target. Hit: 18 (3d8 + 5) bludgeoning damage, and the target is grappled (escape DC 16). The a-mi-kuk has two grasping claws, each of which can grapple only one target at a time.",
+          "attack_bonus": 8,
+          "damage_dice": "3d8+5"
+        },
+        {
+          "name": "Strangle",
+          "desc": "The a-mi-kuk strangles one creature grappled by it. The target must make a DC 16 Strength saving throw. On a failure, the target takes 27 (6d8) bludgeoning damage, can’t breathe, speak, or cast spells, and begins suffocating. On a success, the target takes half the bludgeoning damage and is no longer grappled. Until this strangling grapple ends (escape DC 16), the target takes 13 (3d8) bludgeoning damage at the start of each of its turns. The a-mi-kuk can strangle up to two Medium or smaller targets or one Large target at a time."
+        }
+      ],
+      "reactions": "",
+      "legendary_desc": "",
+      "legendary_actions": "",
+      "special_abilities": [
+        {
+          "name": "Hold Breath",
+          "desc": "The a-mi-kuk can hold its breath for 30 minutes."
+        },
+        {
+          "name": "Fear of Fire",
+          "desc": "The a-mi-kuk is afraid of fire, and it won’t move toward any fiery or burning objects. If presented forcefully with a flame, or if it is dealt fire damage, the a-mi-kuk must succeed on a DC 13 Wisdom saving throw or become frightened until the end of its next turn. After it has been frightened by a specific source of fire (such as the burning hands spell), the a-mi-kuk can’t be frightened by that same source again for 24 hours."
+        },
+        {
+          "name": "Icy Slime",
+          "desc": "The a-mi-kuk’s body is covered in a layer of greasy, ice-cold slime that grants it the benefits of freedom of movement. In addition, a creature that touches the a-mi-kuk or hits it with a melee attack while within 5 feet of it takes 7 (2d6) cold damage from the freezing slime. A creature grappled by the a-mi-kuk takes this damage at the start of each of its turns."
+        }
+      ],
+      "spell_list": [],
+      "img_main": null,
+      "document__slug": "tob2",
+      "document__title": "Tome of Beasts 2 OGL",
+      "document__license_url": "http://open5e.com/legal"
+    },
+    {
+      "slug": "aalpamac",
+      "name": "Aalpamac",
+      "size": "Huge",
+      "type": "monstrosity",
+      "subtype": "",
+      "group": null,
+      "alignment": "unaligned",
+      "armor_class": 16,
+      "armor_desc": "natural armor",
+      "hit_points": 136,
+      "hit_dice": "13d12+52",
+      "speed": {
+        "walk": 15,
+        "swim": 50
+      },
+      "strength": 21,
+      "dexterity": 10,
+      "constitution": 19,
+      "intelligence": 2,
+      "wisdom": 16,
+      "charisma": 10,
+      "strength_save": null,
+      "dexterity_save": null,
+      "constitution_save": 7,
+      "intelligence_save": null,
+      "wisdom_save": null,
+      "charisma_save": null,
+      "perception": 6,
+      "skills": {
+        "perception": 6
+      },
+      "damage_vulnerabilities": "",
+      "damage_resistances": "cold",
+      "damage_immunities": "",
+      "condition_immunities": "",
+      "senses": "darkvision 60 ft., passive Perception 16",
+      "languages": "—",
+      "challenge_rating": "7",
+      "actions": [
+        {
+          "name": "Multiattack",
+          "desc": "The aalpamac makes three attacks: one with its bite and two with its claws."
+        },
+        {
+          "name": "Bite",
+          "desc": "Melee Weapon Attack: +8 to hit, reach 5 ft., one target. Hit: 16 (2d10 + 5) piercing damage.",
+          "attack_bonus": 8,
+          "damage_dice": "2d10+5"
+        },
+        {
+          "name": "Claws",
+          "desc": "Melee Weapon Attack: +8 to hit, reach 5 ft., one target. Hit: 12 (2d6 + 5) slashing damage.",
+          "attack_bonus": 8,
+          "damage_dice": "2d6+5"
+        }
+      ],
+      "reactions": "",
+      "legendary_desc": "",
+      "legendary_actions": "",
+      "special_abilities": [
+        {
+          "name": "Amphibious",
+          "desc": "The aalpamac can breathe air and water."
+        },
+        {
+          "name": "Distance Distortion Aura",
+          "desc": "The presence of an aalpamac distorts the vision of creatures within 60 feet of it. Each creature that starts its turn in that area must succeed on a DC 15 Wisdom saving throw or be unable to correctly judge the distance between itself and its surroundings until the start of its next turn. An affected creature has disadvantage on attack rolls and on Wisdom (Perception) checks that rely on sight, and it can’t move more than half its speed on its turn. On a successful saving throw, the creature is immune to the aalpamac’s Distance Distortion Aura for the next 24 hours. Creatures with blindsight, tremorsense, or truesight are unaffected by this trait."
+        }
+      ],
+      "spell_list": [],
+      "img_main": null,
+      "document__slug": "tob2",
+      "document__title": "Tome of Beasts 2 OGL",
+      "document__license_url": "http://open5e.com/legal"
+    },
+    {
+      "slug": "aatxe",
+      "name": "Aatxe",
+      "size": "Large",
+      "type": "celestial",
+      "subtype": "shapechanger",
+      "group": null,
+      "alignment": "lawful good",
+      "armor_class": 14,
+      "armor_desc": "natural armor",
+      "hit_points": 105,
+      "hit_dice": "10d10+50",
+      "speed": {
+        "walk": 50
+      },
+      "strength": 22,
+      "dexterity": 12,
+      "constitution": 20,
+      "intelligence": 10,
+      "wisdom": 14,
+      "charisma": 14,
+      "strength_save": null,
+      "dexterity_save": null,
+      "constitution_save": null,
+      "intelligence_save": null,
+      "wisdom_save": null,
+      "charisma_save": null,
+      "perception": null,
+      "skills": {
+        "athletics": 9,
+        "intimidation": 5
+      },
+      "damage_vulnerabilities": "",
+      "damage_resistances": "",
+      "damage_immunities": "",
+      "condition_immunities": "charmed, frightened",
+      "senses": "passive Perception 12",
+      "languages": "understands all but can't speak",
+      "challenge_rating": "5",
+      "actions": [
+        {
+          "attack_bonus": 9,
+          "damage_dice": "3d8+6",
+          "desc": "Melee Weapon Attack: +9 to hit, reach 5 ft., one target. Hit: 19 (3d8 + 6) piercing damage.",
+          "name": "Gore"
+        },
+        {
+          "desc": "The aatxe lowers its horns and paws at the ground with its hooves. Each creature within 30 feet of the aatxe must succeed on a DC 15 Wisdom saving throw or be frightened for 1 minute. A creature can repeat the saving throw at the end of each of its turns, ending the effect on itself on a success. If a creature's saving throw is successful or the effect ends for it, the creature is immune to the aatxe's Paw the Earth for the next 24 hours.",
+          "name": "Paw the Earth"
+        }
+      ],
+      "reactions": "",
+      "legendary_desc": "The aatxe can take 3 legendary actions, choosing from the options below. Only one legendary action option can be used at a time and only at the end of another creature's turn. The aatxe regains spent legendary actions at the start of its turn.",
+      "legendary_actions": [
+        {
+          "desc": "The aatxe makes a Wisdom (Perception) check.",
+          "name": "Detect"
+        },
+        {
+          "desc": "The aatxe makes one gore attack.",
+          "name": "Gore (Costs 2 Actions)"
+        },
+        {
+          "desc": "The aatxe flares crimson with celestial power, protecting those nearby. The next attack that would hit an ally within 5 feet of the aatxe hits the aatxe instead.",
+          "name": "Bulwark (Costs 3 Actions)"
+        }
+      ],
+      "special_abilities": [
+        {
+          "desc": "If the aatxe moves at least 20 feet straight toward a target and then hits it with a gore attack on the same turn, the target takes an extra 9 (2d8) piercing damage. If the target is a creature, it must succeed on a DC 15 Strength saving throw or be knocked prone.",
+          "name": "Charge"
+        },
+        {
+          "desc": "The aatxe can use an action to read the surface thoughts of one creature within 30 feet. This works like the detect thoughts spell, except it can only read surface thoughts and there is no limit to the duration. It can end this effect as a bonus action or by using an action to change the target. Limited Speech (Humanoid Form Only). The aatxe can verbally communicate only simple ideas and phrases, though it can understand and follow a conversation without issue.",
+          "name": "Know Thoughts"
+        },
+        {
+          "desc": "The aatxe has advantage on saving throws against spells and other magical effects.",
+          "name": "Magic Resistance"
+        },
+        {
+          "desc": "The aatxe can use its action to polymorph into a Medium male humanoid it has seen, or back into its true form. Its statistics, other than its size, are the same in each form. Any equipment it is wearing or carrying isn't transformed. It reverts to its true form if it dies.",
+          "name": "Shapechanger"
+        }
+      ],
+      "spell_list": [],
+      "img_main": null,
+      "document__slug": "cc",
+      "document__title": "Creature Codex OGL",
+      "document__license_url": "http://open5e.com/legal"
+    }
+  ]
+}
