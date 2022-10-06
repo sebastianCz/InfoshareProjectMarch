@@ -27,9 +27,6 @@ namespace OstreC.ManageInput
 
             //Your code goes here
 
-
-
-
         }
 
     }

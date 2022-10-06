@@ -9,19 +9,13 @@ using System.Linq;
 using System.Text;
 using System.Security.Cryptography.X509Certificates;
 
-
 UI UI = new UI();
 UI.Page.switchPage(PageType.Main_Menu,UI);
- 
  
 do
 {
 
-
-     
-
     UI.checkInput(UI);
-
 
 } while (UI.exit == false);
 

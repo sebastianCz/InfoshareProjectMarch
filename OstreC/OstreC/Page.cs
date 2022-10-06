@@ -14,24 +14,18 @@ namespace OstreC
 {
     public class Page
     {
-
         public PageType currentType { get; set; }
         public string breakLine { get; } = "\n=======================================================================================================\n";
-
         public string pageInfo { get; set; } = "";
         public string error { get; set; } = "";
         public string instructions { get; set; } = "";
-
-
 
 
         public Page(PageType x)
         {
             //Default value
             currentType = x;
-
         }
-
 
         //Main_Menu,
         //Create_NewGame,
@@ -42,9 +36,8 @@ namespace OstreC
         //Bestiary,
         //ExampleEnum
 
-
         //Text to show when transitioning to this page from a different one.
-        public void switchPage(PageType x,UI UI)
+        public void switchPage(PageType x, UI UI)
         {
             switch (x)
             {
@@ -53,10 +46,7 @@ namespace OstreC
                     pageInfo = "Welcome to the main menu!";
                     instructions = "Press 1 for new game\n Press 2 to create a new character \n Press 3 to load a game \n Press 4 to Paragraph \n Press 9 for example page";
                     UI.DrawUI(UI, true);
-
                     break;
-
-
 
                 case PageType.Create_NewGame:
                     break;
@@ -65,7 +55,7 @@ namespace OstreC
                     currentType = PageType.Create_Character;
                     pageInfo = "Welcome to character creation page!";
                     instructions = "User input is not handled yet.";
-                    UI.DrawUI(UI,true);
+                    UI.DrawUI(UI, true);
                     break;
 
                 case PageType.Load_Game:
@@ -105,13 +95,7 @@ namespace OstreC
                 default:
                     throw new Exception("SwitchPage() was ivoked at Page.Cs with an unhandled page type.Default message won't be assigned.");
                     break;
-
-
-
-
             }
-
         }
-
     }
 }

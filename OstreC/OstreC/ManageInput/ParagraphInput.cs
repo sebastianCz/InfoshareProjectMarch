@@ -26,11 +26,6 @@ namespace OstreC.ManageInput
             }
 
 
-          
-
-
-
         }
-
     }
 }
