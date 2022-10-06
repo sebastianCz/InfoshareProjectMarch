@@ -1,6 +1,6 @@
 ﻿namespace OstreC.Services.Stories
 {
-    internal abstract class Paragraph
+    public abstract class Paragraph
     {
         public int IdParagraph { get; }
         public string TextParagraph { get; }

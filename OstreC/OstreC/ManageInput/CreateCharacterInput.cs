@@ -1,17 +1,8 @@
-﻿using OstreC.Services;
-using OstreC;
-using OstreC.Interface;
- 
-
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Security.Cryptography.X509Certificates;
+﻿using OstreC.Interface;
 
 namespace OstreC.ManageInput
 {
-    public class Create_Character : IuiInput
+    public class CreateCharacterInput : IuiInput
     {
         public PageType Type => PageType.Create_Character;
         public void checkUserInput(UI UI)

@@ -1,6 +1,6 @@
 ﻿namespace OstreC.Services.Stories
 {
-    internal class NextParagraph
+    public class NextParagraph
     {
         public string ChoiceText { get; set; }
         public int IdParagraph { get; set; }

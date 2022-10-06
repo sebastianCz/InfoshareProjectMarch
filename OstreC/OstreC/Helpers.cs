@@ -1,14 +1,4 @@
-﻿using OstreC.Services;
-using OstreC;
-using OstreC.Interface;
-using OstreC.ManageInput;
-
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Security.Cryptography.X509Certificates;
-
+﻿using OstreC.Interface;
 
 namespace OstreC
 {

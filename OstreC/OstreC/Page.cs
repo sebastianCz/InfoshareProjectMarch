@@ -1,14 +1,4 @@
-﻿using OstreC.Services;
-using OstreC;
-using OstreC.Interface;
-using OstreC.ManageInput;
- 
-
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Security.Cryptography.X509Certificates;
+﻿using OstreC.Interface;
 
 namespace OstreC
 {
@@ -44,7 +34,7 @@ namespace OstreC
                 case PageType.Main_Menu:
                     currentType = PageType.Main_Menu;
                     pageInfo = "Welcome to the main menu!";
-                    instructions = "Press 1 for new game\n Press 2 to create a new character \n Press 3 to load a game \n Press 4 to Paragraph \n Press 9 for example page";
+                    instructions = "Press 1 for new game\nPress 2 to create a new character \nPress 3 to load a game \nPress 4 to Paragraph \nPress 5 to Creat new story \nPress 9 for example page";
                     UI.DrawUI(UI, true);
                     break;
 
@@ -72,9 +62,9 @@ namespace OstreC
                     UI.DrawUI(UI, true);
                     break;
 
-                case PageType.Paragraph_Combat:
-                    currentType = PageType.Paragraph_Combat;
-                    pageInfo = "Welcome to combat Paragraph!";
+                case PageType.Story_Bulider:
+                    currentType = PageType.Story_Bulider;
+                    pageInfo = "Welcome to the Story Builder!";
                     instructions = "User input is not handled yet.";
                     UI.DrawUI(UI, true);
                     break;

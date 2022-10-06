@@ -15,7 +15,6 @@ using System.Security.Cryptography.X509Certificates;
 namespace OstreC.Interface
 {
 
-
     public enum PageType
     {
         Main_Menu,
@@ -25,26 +24,17 @@ namespace OstreC.Interface
         Paragraph,
         Paragraph_Combat,
         Bestiary,
-        ExampleEnum
+        ExampleEnum,
+        Story_Bulider
     }
 
     public interface IuiInput
-    {
-         
+    {     
         PageType  Type { get; }
-
 
         //Check User Input depending on currently active page. 
         public void checkUserInput(UI UI);
-
     }
-    
-   
-
-
-
-    
-
 }
 
  
