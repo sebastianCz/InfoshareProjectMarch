@@ -1,14 +1,22 @@
-﻿using System;
+﻿using OstreC.Services;
+using OstreC;
+using OstreC.Interface;
+ 
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
+using System.Security.Cryptography.X509Certificates;
 
-namespace OstreC.Interface
+
+namespace OstreC.ManageInput
 {
-    public class Bestiary : IuiInput
+    public class Load_Game : IuiInput
     {
-        public PageType Type => PageType.Bestiary;
+
+        
+        public PageType Type => PageType.Load_Game;
         public void checkUserInput(UI UI)
         {
 

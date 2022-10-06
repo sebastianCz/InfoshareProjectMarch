@@ -1,16 +1,20 @@
-﻿using System;
+﻿using OstreC.Services;
+using OstreC;
+using OstreC.Interface;
+ 
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
+using System.Security.Cryptography.X509Certificates;
 
-namespace OstreC.Interface
+
+namespace OstreC.ManageInput
 {
-    public class Load_Game : IuiInput
+    public class ParagraphInput : IuiInput
     {
-
-        
-        public PageType Type => PageType.Load_Game;
+        public PageType Type => PageType.Paragraph;
         public void checkUserInput(UI UI)
         {
 
@@ -21,8 +25,8 @@ namespace OstreC.Interface
                 Helpers.HandleCommand(input, UI);
             }
 
-            //Your code goes here
 
+          
 
 
 

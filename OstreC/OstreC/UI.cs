@@ -1,12 +1,16 @@
 ﻿using OstreC.Services;
 using OstreC;
 using OstreC.Interface;
+using OstreC.ManageInput;
 
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Security.Cryptography.X509Certificates;
+
+
+
 
 namespace OstreC
 {
@@ -128,7 +132,16 @@ namespace OstreC
 
         }
 
+        public static void DrawUI(UI UI,bool clear)
+        {
 
+            Console.Clear();
+            UI.DrawHeader(UI);
+            UI.DrawGenericPage(UI);
+            if (clear) { UI.clearData(UI); }
+
+        }
+      
 
 
 
