@@ -1,18 +1,8 @@
-﻿using OstreC.Services;
-using OstreC;
-using OstreC.Interface;
- 
-
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Security.Cryptography.X509Certificates;
-
+﻿using OstreC.Interface;
 
 namespace OstreC.ManageInput
 {
-    public class Load_Game : IuiInput
+    public class LoadGameInput : IuiInput
     {
 
         

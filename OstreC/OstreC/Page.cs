@@ -1,37 +1,21 @@
-﻿using OstreC.Services;
-using OstreC;
-using OstreC.Interface;
-using OstreC.ManageInput;
- 
-
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Security.Cryptography.X509Certificates;
+﻿using OstreC.Interface;
 
 namespace OstreC
 {
     public class Page
     {
-
         public PageType currentType { get; set; }
         public string breakLine { get; } = "\n=======================================================================================================\n";
-
         public string pageInfo { get; set; } = "";
         public string error { get; set; } = "";
         public string instructions { get; set; } = "";
-
-
 
 
         public Page(PageType x)
         {
             //Default value
             currentType = x;
-
         }
-
 
         //Main_Menu,
         //Create_NewGame,
@@ -42,21 +26,17 @@ namespace OstreC
         //Bestiary,
         //ExampleEnum
 
-
         //Text to show when transitioning to this page from a different one.
-        public void switchPage(PageType x,UI UI)
+        public void switchPage(PageType x, UI UI)
         {
             switch (x)
             {
                 case PageType.Main_Menu:
                     currentType = PageType.Main_Menu;
                     pageInfo = "Welcome to the main menu!";
-                    instructions = "Press 1 for new game\n Press 2 to create a new character \n Press 3 to load a game \n Press 4 to Paragraph \n Press 9 for example page";
+                    instructions = "Press 1 for new game\nPress 2 to create a new character \nPress 3 to load a game \nPress 4 to Paragraph \nPress 5 to Creat new story \nPress 9 for example page";
                     UI.DrawUI(UI, true);
-
                     break;
-
-
 
                 case PageType.Create_NewGame:
                     break;
@@ -64,8 +44,8 @@ namespace OstreC
                 case PageType.Create_Character:
                     currentType = PageType.Create_Character;
                     pageInfo = "Welcome to character creation page!";
-                    instructions = "Press 1 to select Name \n press  2 to cos tam";
-                    UI.DrawUI(UI,true);
+                    instructions = "User input is not handled yet.";
+                    UI.DrawUI(UI, true);
                     break;
 
                 case PageType.Load_Game:
@@ -82,9 +62,9 @@ namespace OstreC
                     UI.DrawUI(UI, true);
                     break;
 
-                case PageType.Paragraph_Combat:
-                    currentType = PageType.Paragraph_Combat;
-                    pageInfo = "Welcome to combat Paragraph!";
+                case PageType.Story_Bulider:
+                    currentType = PageType.Story_Bulider;
+                    pageInfo = "Welcome to the Story Builder!";
                     instructions = "User input is not handled yet.";
                     UI.DrawUI(UI, true);
                     break;
@@ -105,13 +85,7 @@ namespace OstreC
                 default:
                     throw new Exception("SwitchPage() was ivoked at Page.Cs with an unhandled page type.Default message won't be assigned.");
                     break;
-
-
-
-
             }
-
         }
-
     }
 }

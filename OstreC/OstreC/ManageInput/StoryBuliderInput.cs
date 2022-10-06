@@ -1,10 +1,12 @@
-﻿using OstreC.Interface;
+﻿using OstreC.Services;
+using OstreC;
+using OstreC.Interface;
 
 namespace OstreC.ManageInput
 {
-    public class ParagraphInput : IuiInput
+    public class StoryBuliderInput : IuiInput
     {
-        public PageType Type => PageType.Paragraph;
+        public PageType Type => PageType.Story_Bulider;
         public void checkUserInput(UI UI)
         {
             var input = Console.ReadLine();
@@ -13,6 +15,7 @@ namespace OstreC.ManageInput
             {
                 Helpers.HandleCommand(input, UI);
             }
+
         }
     }
 }
