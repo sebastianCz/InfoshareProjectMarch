@@ -25,7 +25,8 @@ namespace OstreC.Interface
         Paragraph_Combat,
         Bestiary,
         ExampleEnum,
-        Story_Bulider
+        Story_Bulider,
+        Login
     }
 
     public interface IuiInput

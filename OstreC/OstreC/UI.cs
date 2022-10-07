@@ -1,5 +1,6 @@
 ﻿using OstreC.Interface;
 using OstreC.ManageInput;
+using OstreC.Services;
 
 namespace OstreC
 {
@@ -14,6 +15,7 @@ namespace OstreC
         //Page object containing current page info.
         public Page Page = new Page(PageType.Main_Menu);
 
+        public currentUser User = new currentUser(-1, "", "", false);
 
         //Link to player methods from services or reference to an existing one can be created through the constructor.
         //Player player = new Player();
@@ -48,6 +50,7 @@ namespace OstreC
             pageTypes.Add(new BestiaryInput());
             pageTypes.Add(new ExampleInput());
             pageTypes.Add(new StoryBuliderInput());
+            pageTypes.Add(new LoginInput());
         }
 
 
@@ -79,8 +82,10 @@ namespace OstreC
 
             if (UI.Page.currentType != PageType.Paragraph_Combat)
             {
+                string status = "Offline";
+                if (UI.User.LoggedIn) { status = "Online"; }
                 Console.ForegroundColor = ConsoleColor.Green;
-                genericHeader = $"Active Page: {Page.currentType} || Ostre C Game {Page.breakLine} Type any of the existing commands at any time: \n {_menuCommandsString} {Page.breakLine}";
+                genericHeader = $"Active Page: {Page.currentType} || Ostre C Game || Current status: {status} {Page.breakLine} Type any of the existing commands at any time: \n {_menuCommandsString} {Page.breakLine}";
                 Console.WriteLine($"{genericHeader}");
             }
         }

@@ -7,7 +7,7 @@ namespace OstreC.ManageInput
         public PageType Type => PageType.Create_Character;
         public void checkUserInput(UI UI)
         {
-            
+
             var input = Console.ReadLine();
 
             if (Helpers.isCommand(input, UI))
@@ -18,7 +18,8 @@ namespace OstreC.ManageInput
 
 
             //Your code goes here
-            if (input == "jeden" ) {
+            if (input == "jeden")
+            {
 
                 UI.Page.error = "brawo";
                 UI.DrawUI(UI, false);
@@ -28,7 +29,8 @@ namespace OstreC.ManageInput
                 UI.Page.error = "wpisales bzdury";
                 UI.DrawUI(UI, false);
 
-        }
+            }
 
+        }
     }
 }
