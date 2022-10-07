@@ -20,7 +20,7 @@ namespace OstreC
         //Paragraph Paragraph = new Paragraph(player) ;
 
         //LIST +string containing  existing menu commands. 
-        public static readonly string[] _menuCommands = { "MAIN_MENU", "EXIT" };
+        public static readonly string[] _menuCommands = { "MAIN_MENU", "MENU", "EXIT"};
         private static string _menuCommandsString { get; set; }
 
 
