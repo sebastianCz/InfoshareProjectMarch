@@ -34,13 +34,15 @@ namespace OstreC.Services
 
         }
 
-        public static void arrrayToJson(string serializedObject , string fileName)
+        public static void serializedToJson(string serializedObject , string fileName)
         {
+
              string dir = ReaderJson.dbDirectory();
             var fileNamePath = Path.Combine(dir, "data", fileName + ".json");
             File.WriteAllText(fileNamePath, serializedObject);
         }
 
+        
 
 
     }
