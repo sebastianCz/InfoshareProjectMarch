@@ -5,29 +5,41 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using OstreC.Database;
+using System.IO;
 
 namespace OstreC.Services
 {
-    public static class JsonFile
+    public  class JsonFile
     {
 
 
-        //I asumme all Json files are under Data.S
-        public static string deserializeJsonFile(string fileName)
+         public static UsersList  Deserialize(string X)
         {
-            string projectName = "OstreC.Database\\Data";
-            string extension = ".json";
-            string solutiondir = Directory.GetParent(Directory.GetCurrentDirectory()).Parent.FullName;
-            string solutiondir2 = Directory.GetParent(solutiondir).Parent.FullName;
-            string solutiondir3 = solutiondir2 + "\\" + projectName + "\\" + fileName + extension;
+            string x =  ReaderJson.readFile(X);
+            UsersList UsersList = JsonConvert.DeserializeObject<UsersList>(x);
 
 
-            var x = File.ReadAllText(solutiondir3);
-            return x;
+
+            return UsersList;
 
 
         }
 
+        public static string Serialize(UsersList x)
+        {
+            string y = JsonConvert.SerializeObject(x);
+
+            return y;
+
+        }
+
+        public static void arrrayToJson(string serializedObject , string fileName)
+        {
+             string dir = ReaderJson.dbDirectory();
+            var fileNamePath = Path.Combine(dir, "data", fileName + ".json");
+            File.WriteAllText(fileNamePath, serializedObject);
+        }
 
 
 

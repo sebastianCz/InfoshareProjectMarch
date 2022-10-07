@@ -7,29 +7,15 @@ using System.Threading.Tasks;
 using static OstreC.Services.JsonFile;
 using Newtonsoft.Json;
 using System.Text.Json;
+using System.Runtime.CompilerServices;
 
 namespace OstreC.Services
 {
-    public class userResults
-    {
-        //[JsonExtensionData]
-        //public Dictionary<string, JsonElement> AdditionalProperties { get; set; }
-
-        public int Id { get; set; }
-        public string UserName { get; set; }
-        public string Password { get; set; }
+    public abstract class UsersList
+    { 
+        public string filepath { get; set; }
+        public List<User> results { get; set; }
+  
     }
-    public class UsersList
-    {
-
-        public int Count { get; set; }
-        public List<userResults> results { get; set; }
-
-
-
-    }
-
-
-
-
+     
 }

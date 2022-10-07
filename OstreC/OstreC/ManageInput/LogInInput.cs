@@ -3,9 +3,9 @@
 using OstreC.Interface;
 using OstreC.Services;
 using OstreC;
-using static OstreC.Services.JsonFile;
 using Newtonsoft.Json;
 using System.Runtime.InteropServices;
+ 
 
 namespace OstreC.ManageInput
 {
@@ -43,8 +43,7 @@ namespace OstreC.ManageInput
 
 
             //Deserialization should be done in services but I can't parse deserialization result in method return easily. 
-            var x = deserializeJsonFile("Users");
-            UsersList UsersList = JsonConvert.DeserializeObject<UsersList>(x);
+           
 
             bool userFound = false;
             bool correctPassword = false;
@@ -96,27 +95,27 @@ namespace OstreC.ManageInput
             }
 
 
-            foreach (var user in UsersList.results)
-            {
-                if (user.UserName == username)
-                {
-                    userFound = true;
+            //foreach (var user in UsersList.results)
+            //{
+            //    if (user.UserName == username)
+            //    {
+            //        userFound = true;
 
-                    if (user.Password == password)
-                    {
+            //        if (user.Password == password)
+            //        {
 
-                        correctPassword = true;
-                        logIn = true;
-                        id = user.Id;
-                        break;
+            //            correctPassword = true;
+            //            logIn = true;
+            //            id = user.Id;
+            //            break;
 
 
 
-                    }
+            //        }
 
-                }
+            //    }
 
-            }
+            //}
             //Your code goes here
 
         }
