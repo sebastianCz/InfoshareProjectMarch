@@ -107,7 +107,8 @@ namespace OstreC
 
         public void clearData(UI UI)
         {
-            UI.Page.pageInfo = "";
+            //Comentted out since Page info would get cleared out together with the error despite having to stay. 
+            //UI.Page.pageInfo = "";
             UI.Page.error = "";
         }
 

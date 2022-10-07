@@ -87,7 +87,7 @@ namespace OstreC
                     currentType = PageType.Login;
                     pageInfo = "Welcome to the login page! ";
                     instructions = "Type 1 to login \n Type 2 to register \n Type 3 if you forgot your password";
-
+                    UI.DrawUI(UI, true);
                     break;
 
                 default:

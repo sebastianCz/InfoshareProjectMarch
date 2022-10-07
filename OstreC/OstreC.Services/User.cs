@@ -38,6 +38,26 @@ namespace OstreC.Services
             {
                 LoggedIn = loggedIn;
             }
+
+            public bool Login(string userName,string password)
+        {
+            
+             var x = JsonFile.Deserialize("Users");
+
+            foreach(var user in x.Results)
+            {
+                if(user.UserName == userName && user.Password == password ) {
+                    LoggedIn = true;
+
+                    return true;
+                }
+
+                
+            }
+            return false;
+        }
+
+
         }
 
 

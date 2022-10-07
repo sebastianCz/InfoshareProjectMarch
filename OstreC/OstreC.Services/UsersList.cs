@@ -11,10 +11,10 @@ using System.Runtime.CompilerServices;
 
 namespace OstreC.Services
 {
-    public abstract class UsersList
+    public class UsersList
     { 
-        public string filepath { get; set; }
-        public List<User> results { get; set; }
+       
+        public List<User> Results { get; set; }
   
     }
      
