@@ -5,6 +5,7 @@ using OstreC.Services;
 using OstreC;
 using static OstreC.Services.JsonFile;
 using Newtonsoft.Json;
+using System.Runtime.InteropServices;
 
 namespace OstreC.ManageInput
 {
@@ -14,15 +15,34 @@ namespace OstreC.ManageInput
         public void checkUserInput(UI UI)
         {
 
-            string input = Console.ReadLine();
+            //string input = Console.ReadLine();
 
 
-                 
+            //if (String.Equals(input.Replace(" ", null), "1"))
+            //{
+            //    //login 
 
-             
+            //}else if(String.Equals(input.Replace(" ", null), "2"))
+            //{
+
+            //    //create new user 
+
+            //}else if(String.Equals(input.Replace(" ", null), "3"))
+            //{
+            //    //forgot password
+
+            //}
+            //else
+            //{
+
+            //    UI.Page.error = "You didn't choose a valid option";
+            //}
 
 
 
+
+
+            //Deserialization should be done in services but I can't parse deserialization result in method return easily. 
             var x = deserializeJsonFile("Users");
             UsersList UsersList = JsonConvert.DeserializeObject<UsersList>(x);
 
@@ -33,11 +53,11 @@ namespace OstreC.ManageInput
             string password;
             int id = -1;
 
-            
+            UI.Page.pageInfo = "Proceed as specified below to login or type BACK to go back to previous screen.";
 
             UI.Page.instructions = "Provide your username";
             UI.DrawUI(UI, false);
-             input = Console.ReadLine();
+             string input = Console.ReadLine();
 
             username = input;
 
@@ -46,27 +66,7 @@ namespace OstreC.ManageInput
             input = Console.ReadLine();
             password = input;
 
-            foreach (var user in UsersList.results)
-            {
-                if (user.UserName == username)
-                {
-                    userFound = true;
-
-                    if (user.Password == password)
-                    {
-
-                        correctPassword = true;
-                        logIn = true;
-                        id = user.Id;
-                        break;
-
-
-
-                    }
-
-                }
-
-            }
+           
 
             if (logIn)
             {
@@ -95,6 +95,28 @@ namespace OstreC.ManageInput
 
             }
 
+
+            foreach (var user in UsersList.results)
+            {
+                if (user.UserName == username)
+                {
+                    userFound = true;
+
+                    if (user.Password == password)
+                    {
+
+                        correctPassword = true;
+                        logIn = true;
+                        id = user.Id;
+                        break;
+
+
+
+                    }
+
+                }
+
+            }
             //Your code goes here
 
         }

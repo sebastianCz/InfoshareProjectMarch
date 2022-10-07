@@ -14,10 +14,11 @@ namespace OstreC.ManageInput
             {
                 Helpers.HandleCommand(input, UI);
             }
-
-            if (Helpers.isNumber(input))
+            else if (Helpers.isNumber(input))
             {
-                
+
+
+
                 if (String.Equals(input.ToLower().Replace(" ",null), "1"))
                 {
                     UI.Page.switchPage(PageType.Create_Character, UI);
