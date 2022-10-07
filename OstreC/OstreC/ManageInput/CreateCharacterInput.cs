@@ -8,6 +8,7 @@ namespace OstreC.ManageInput
         public void checkUserInput(UI UI)
         {
 
+
             var input = Console.ReadLine();
 
             if (Helpers.isCommand(input, UI))
@@ -16,6 +17,11 @@ namespace OstreC.ManageInput
             }
 
             //Your code goes here
+
+        }
+
+        public void DisplaySomething()
+        {
 
         }
 
