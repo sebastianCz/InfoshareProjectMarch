@@ -2,8 +2,9 @@
 
 namespace OstreC.Services.Characters
 {
-    internal class Utilities
+    public class Utilities
     {
+        public static Regex rgxYN = new Regex("[^ynYN]");
         public static Regex rgxAZ = new Regex("[^a-zA-Z]");
         public static Regex rgxAZ09 = new Regex("[^a-zA-Z0-9]");
         public static bool isGarageCreated = false;
@@ -149,9 +150,9 @@ namespace OstreC.Services.Characters
             string underline = new string(symbol, value);
             Console.WriteLine(underline);
         }
-        public static void PressAnyKey(bool pressKey = true)
+        public static void PressAnyKey(string text = "Press any key to continue", bool pressKey = true)
         {
-            Utilities.WriteColorText("Press any key to continue", ConsoleColor.White);
+            Utilities.WriteColorText(text, ConsoleColor.White);
             if (pressKey)
                 Console.ReadKey();
         }

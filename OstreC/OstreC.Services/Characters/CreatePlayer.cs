@@ -10,55 +10,59 @@ namespace OstreC.Services.Characters
     {
         Player player = new Player();
         List<Player> playerList = new List<Player>();
-        List<int> attributePoints = new List<int>();
+        public List<int> attributePoints = new List<int>();
 
-        bool isPlayerCreated = false;
+        int maxValue = 7;
+        public bool isPlayerCreated = false;
+        string name;
+        string race;
+        string charClass;
 
         ConsoleColor ccWhite = ConsoleColor.White;
         ConsoleColor ccYellow = ConsoleColor.Yellow;
         ConsoleColor ccRed = ConsoleColor.Red;
-        public void Create()
-        {
-            while (true)
-            {
-                Utilities.WriteLineColorText("What do you want to do?", ccWhite, consoleClear: true);
-                Console.WriteLine("1. Use already created adventurer\n2. Create your own adventurer\n3. Delete your adventurer\n4. Display statistics\n0. Test functionality");
-                int.TryParse(Console.ReadLine(), out int input);
-                switch (input)
-                {
-                    case 1:
-                        CreateDefaultPlayer();
-                        break;
-                    case 2:
-                        CreateCustomPlayer();
-                        break;
-                    case 3:
-                        DeletePlayer();
-                        break;
-                    case 4:
-                        DisplayStatistics();
-                        break;
-                    case 9:
-                        GenerateAttributePoints();
-                        break;
-                    case 0:
-                        GenerateAttributePoints();
-                        //AddAttributePoints(Attributes.Strength);
-                        DisplayListAttributes(attributePoints);
-                        break;
-                    default:
-                        break;
-                }
-            }
-        }
+        //public void Create()
+        //{
+        //    while (true)
+        //    {
+        //        Utilities.WriteLineColorText("What do you want to do?", ccWhite, consoleClear: true);
+        //        Console.WriteLine("1. Use already created adventurer\n2. Create your own adventurer\n3. Delete your adventurer\n4. Display statistics\n0. Test functionality");
+        //        int.TryParse(Console.ReadLine(), out int input);
+        //        switch (input)
+        //        {
+        //            case 1:
+        //                CreateDefaultPlayer();
+        //                break;
+        //            case 2:
+        //                //CreateCustomPlayer();
+        //                break;
+        //            case 3:
+        //                DeletePlayer();
+        //                break;
+        //            case 4:
+        //                DisplayStatistics();
+        //                break;
+        //            case 9:
+        //                GenerateAttributePoints();
+        //                break;
+        //            case 0:
+        //                GenerateAttributePoints();
+        //                //AddAttributePoints(Attributes.Strength);
+        //                DisplayListAttributes(attributePoints);
+        //                break;
+        //            default:
+        //                break;
+        //        }
+        //    }
+        //}
         public void CreateDefaultPlayer()
         {
-            if (isPlayerCreated)
-            {
-                Utilities.WriteLineColorText("Player already exists. You can have only 1 adventurer", ccRed, consoleClear: true);
-                Utilities.PressAnyKey();
-                return;
-            }
+            //if (isPlayerCreated)
+            //{
+            //    Utilities.WriteLineColorText("Player already exists. You can have only 1 adventurer", ccRed, consoleClear: true);
+            //    Utilities.PressAnyKey();
+            //    return;
+            //}
             playerList.Clear();
             playerList.Add(new Player
             {
@@ -76,35 +80,145 @@ namespace OstreC.Services.Characters
             });
             isPlayerCreated = true;
         }
-        public void CreateCustomPlayer()
+        //public void CreateCustomPlayer()
+        //{
+        //    //if (isPlayerCreated)
+        //    //{
+        //    //    Utilities.WriteLineColorText("Player already exists. You can have only 1 adventurer", ccRed, consoleClear: true);
+        //    //    Utilities.PressAnyKey();
+        //    //    return;
+        //    //}
+        //    //playerList.Clear();
+        //    //Utilities.WriteLineColorText("Tell me your name: ", firstColor: ccWhite, consoleClear: true);
+            
+        //    //Utilities.WriteLineColorText("Choose your race: ", firstColor: ccWhite);
+            
+        //    //Utilities.WriteLineColorText("Choose your class: ", firstColor: ccWhite);
+
+        //    //Console.WriteLine("Spend your points on attributes");
+        //}
+        public void AddName()
         {
-            if (isPlayerCreated)
-            {
-                Utilities.WriteLineColorText("Player already exists. You can have only 1 adventurer", ccRed, consoleClear: true);
-                Utilities.PressAnyKey();
-                return;
-            }
-            playerList.Clear();
-            Utilities.WriteLineColorText("Tell me your name: ", firstColor: ccWhite, consoleClear: true);
-            string name = Utilities.InputDataAsString(Utilities.rgxAZ);
-            Utilities.WriteLineColorText("Choose your race: ", firstColor: ccWhite);
-            string race = Console.ReadLine();
-            Utilities.WriteLineColorText("Choose your class: ", firstColor: ccWhite);
-            string charClass = Console.ReadLine();
+            name = Utilities.InputDataAsString(Utilities.rgxAZ);
+        }
+        public void AddRace()
+        {
+            race = Console.ReadLine();
+        }
+        public void AddClass()
+        {
+            charClass = Console.ReadLine();
+        }
+        public void AddValueToProperties()
+        {
             playerList.Add(new Player
             {
                 Name = name,
                 Race = race,
-                CharClass = charClass
-
+                CharClass = charClass,                
             });
-            Console.WriteLine("Spend your points on attributes");
-            //
-            GenerateAttributePoints();
-
-            Utilities.PressAnyKey();
             isPlayerCreated = true;
+        }
 
+        public int AddAttributePoints(Attributes attribute)
+        {
+            DisplayStatistics();
+            //int minValue = attributePoints.Min();
+            //if (minValue == -1)
+            //{
+            //    classCounter++;
+            //    minValue = attributePoints[classCounter];
+            //}
+            //int maxValue = attributePoints.Max();
+            int minValue = 1;
+            maxValue -= 1;
+            int input = Utilities.InputDataAsInt(minValue, maxValue);
+            switch (attribute)
+            {
+                case Attributes.Strength:
+                    player.Strength = input;
+                    ChangeValueFromList(attributePoints, input);
+                    return player.Strength = input;
+                case Attributes.Dexterity:
+                    player.Dexterity = input;
+                    ChangeValueFromList(attributePoints, input);
+                    return player.Strength = input;
+                case Attributes.Constitution:
+                    player.Constitution = input;
+                    ChangeValueFromList(attributePoints, input);
+                    return player.Strength = input;
+                case Attributes.Intelligence:
+                    player.Intelligence = input;
+                    ChangeValueFromList(attributePoints, input);
+                    return player.Strength = input;
+                case Attributes.Wisdom:
+                    player.Wisdom = input;
+                    ChangeValueFromList(attributePoints, input);
+                    return player.Strength = input;
+                case Attributes.Charisma:
+                    player.Charisma = input;
+                    ChangeValueFromList(attributePoints, input);
+                    return player.Strength = input;
+                default:
+                    return -1;
+            }
+        }
+        public void DisplayListAttributes(List<int> list)
+        {
+            int i = 32;
+            Utilities.Underline('=', i);
+            int counter = 0;
+            foreach (var item in list)
+            {
+                counter++;
+                if (counter == 1)
+                    Console.Write("| ID  |");
+                Console.Write($"{counter,3} ");
+                if (counter == list.Count())
+                    Console.Write("|");
+            }
+            Console.WriteLine("");
+            Utilities.Underline('=', i);
+            counter = 0;
+            foreach (var item in list)
+            {
+                counter++;
+                if (counter == 1)
+                    Console.Write("| ATR |");
+                //Console.Write($"{item,3} ");
+                if (item == -1)
+                    Utilities.WriteColorText($"  - ", firstColor: ConsoleColor.Yellow);
+                else
+                    Utilities.WriteColorText($"{item,3} ", firstColor: ConsoleColor.Yellow);
+                if (counter == list.Count())
+                    Console.Write("|");
+            }
+            Console.WriteLine("");
+            Utilities.Underline('=', i);
+            //Utilities.PressAnyKey();
+        }
+        public void RemoveValueFromList(List<int> list, int input)
+        {
+            list.Remove(input);
+        }
+        public void ChangeValueFromList(List<int> list, int input)
+        {
+            list.RemoveAt(input - 1);
+            list.Insert(input -1, -1);
+        }
+        public enum Attributes
+        {
+            Strength,
+            Dexterity,
+            Constitution,
+            Intelligence,
+            Wisdom,
+            Charisma
+        }
+        public void DeletePlayer()
+        {
+            playerList.Clear();
+            isPlayerCreated = false;
         }
         public void GenerateAttributePoints()
         {
@@ -112,7 +226,7 @@ namespace OstreC.Services.Characters
             {
                 attributePoints.Clear();
             }
-            
+
             for (int i = 0; i < 6; i++)
             {
                 List<int> valueRollDiceTemp = new List<int>();
@@ -131,113 +245,26 @@ namespace OstreC.Services.Characters
                 foreach (var item in valueRollDiceTemp)
                 {
                     sum += item;
-                    Console.Write(item + ",");
+                    //Console.Write(item + ",");
                 }
-                Console.WriteLine("");
-                attributePoints.Add(sum);               
+                //Console.WriteLine("");
+                attributePoints.Add(sum);
             }
-            foreach (var item in attributePoints)
-            {
-                Console.WriteLine(item);
-            }
-            Utilities.PressAnyKey();
-        }
-        public void AddAttributePoints(Attributes attribute)
-        {
-            int minValue = attributePoints.Min();
-            int maxValue = attributePoints.Max();
-            switch (attribute)
-            {
-                case Attributes.Strength:
-                    Console.WriteLine($"Attribute {attribute}: ");
-                    player.Strength =  Utilities.InputDataAsInt(minValue,maxValue);
-                    break;
-                case Attributes.Dexterity:
-                    Console.WriteLine($"Attribute {attribute}: ");
-                    player.Dexterity = Utilities.InputDataAsInt(minValue, maxValue);
-                    break;
-                case Attributes.Constitution:
-                    Console.WriteLine($"Attribute {attribute}: ");
-                    player.Constitution = Utilities.InputDataAsInt(minValue, maxValue);
-                    break;
-                case Attributes.Intelligence:
-                    Console.WriteLine($"Attribute {attribute}: ");
-                    player.Intelligence = Utilities.InputDataAsInt(minValue, maxValue);
-                    break;
-                case Attributes.Wisdom:
-                    Console.WriteLine($"Attribute {attribute}: ");
-                    player.Wisdom = Utilities.InputDataAsInt(minValue, maxValue);
-                    break;
-                case Attributes.Charisma:
-                    Console.WriteLine($"Attribute {attribute}: ");
-                    player.Charisma = Utilities.InputDataAsInt(minValue, maxValue);
-                    break;                    
-                default:
-                    break;
-            }
-        }
-        public void DisplayListAttributes(List<int> list)
-        {
-            Console.Clear();
-            Utilities.Underline('=', 3);
-            int counter = 0;
-            foreach (var item in list)
-            {
-                counter++;
-                if (counter == 1)
-                    Console.Write("| ID  |");
-                Console.Write($"{counter,3} ");
-                if (counter == list.Count())
-                    Console.Write("|");
-            }
-            Console.WriteLine("");
-            Utilities.Underline('=', 30);
-            counter = 0;
-            foreach (var item in list)
-            {
-                counter++;
-                if (counter == 1)
-                    Console.Write("| ATR |");
-                Console.Write($"{item,3} ");
-                if (counter == list.Count())
-                    Console.Write("|");
-            }
-            Console.WriteLine("");
-            Utilities.Underline('=', 30);
-            Utilities.PressAnyKey();
-        }
-        public enum Attributes
-        {
-            Strength,
-            Dexterity,
-            Constitution,
-            Intelligence,
-            Wisdom,
-            Charisma
-        }
-        public void DeletePlayer()
-        {
-            if (!isPlayerCreated)
-            {
-                Utilities.WriteLineColorText("No adventurer to delete!", ccRed, true);
-                Utilities.PressAnyKey();
-            }
-            playerList.Clear();
-            isPlayerCreated = false;
-        }
-        public void SpendAttributePoints()
-        {
-            Console.WriteLine("Spend your points on attributes");
+            //foreach (var item in attributePoints)
+            //{
+            //    Console.WriteLine(item);
+            //}
+            //Utilities.PressAnyKey();
         }
         public void DisplayStatistics()
         {
-            if (!isPlayerCreated)
-            {
-                Utilities.WriteLineColorText("No adventurer to delete!", ccRed, true);
-                Utilities.PressAnyKey();
-                return;
-            }
-            Console.Clear();
+            //if (!isPlayerCreated)
+            //{
+            //    Utilities.WriteLineColorText("No adventurer to delete! im here", ccRed, true);
+            //    Utilities.PressAnyKey();
+            //    return;
+            //}
+            //Console.Clear();
             foreach (var item in playerList)
             {
                 //Console.WriteLine($"Name: {item.Name}\nRace: {item.Race}\nClass: {item.CharClass}\nHealthPoints: {item.HealthPoints}\nLevel: {item.Level}\n" +
@@ -255,7 +282,7 @@ namespace OstreC.Services.Characters
                 Utilities.WriteLineColorText($"Wisdom: ", $"{item.Wisdom}", secondColor: ccYellow, multiplierTab: 1);
                 Utilities.WriteLineColorText($"Charisma: ", $"{item.Charisma}", secondColor: ccYellow, multiplierTab: 1);
             }
-            Utilities.PressAnyKey();
+            //Utilities.PressAnyKey();
         }
         public void DisplayStatistics(params string[] List)
         {

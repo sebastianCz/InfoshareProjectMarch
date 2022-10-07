@@ -8,7 +8,8 @@ namespace OstreC.ManageInput
         public PageType Type => PageType.Create_Character;
         public void checkUserInput(UI UI)
         {
-
+            CreateCharacterHelper createCharacterHelper = new CreateCharacterHelper();
+            createCharacterHelper.CreateMenu();
 
             var input = Console.ReadLine();
 
@@ -16,14 +17,9 @@ namespace OstreC.ManageInput
             {
                 Helpers.HandleCommand(input, UI);
             }
-            
-            Console.WriteLine("Test z miejsca CreateCharacterInput");
-            //Your code goes here
-            CreatePlayer cp = new CreatePlayer();
-            //cp.Create();
-            UI.Page.instructions = "Test z miejsca CreateCharacterInput";
-            Console.WriteLine("Test z miejsca CreateCharacterInput");
-            UI.DrawUI(UI, false);
+            //UI.DrawUI(UI, false);
         }
+
+
     }
 }
