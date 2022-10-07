@@ -1,4 +1,5 @@
 ﻿using OstreC.Interface;
+using OstreC.Services.Characters;
 
 namespace OstreC.ManageInput
 {
@@ -15,15 +16,13 @@ namespace OstreC.ManageInput
             {
                 Helpers.HandleCommand(input, UI);
             }
-
+            
+            Console.WriteLine("Test z miejsca CreateCharacterInput");
             //Your code goes here
-
+            CreatePlayer cp = new CreatePlayer();
+            //cp.Create();
+            Console.WriteLine("Test z miejsca CreateCharacterInput");
+            UI.DrawUI(UI, false);
         }
-
-        public void DisplaySomething()
-        {
-
-        }
-
     }
 }

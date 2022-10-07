@@ -1,4 +1,5 @@
 ﻿using OstreC.Interface;
+using OstreC.Services;
 
 namespace OstreC
 {
@@ -10,7 +11,7 @@ namespace OstreC
         public string error { get; set; } = "";
         public string instructions { get; set; } = "";
 
-
+        
         public Page(PageType x)
         {
             //Default value
@@ -44,7 +45,7 @@ namespace OstreC
                 case PageType.Create_Character:
                     currentType = PageType.Create_Character;
                     pageInfo = "Welcome to character creation page!";
-                    instructions = "User input is not handled yet.";
+                    instructions = "User input is not handled yet. Create Character";
                     UI.DrawUI(UI, true);
                     break;
 

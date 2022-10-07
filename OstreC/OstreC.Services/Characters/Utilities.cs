@@ -155,5 +155,12 @@ namespace OstreC.Services.Characters
             if (pressKey)
                 Console.ReadKey();
         }
+
+        public static int DiceRoll(int value)
+        {
+            Random rand = new Random();
+            int valueRoll = rand.Next(1,value);
+            return valueRoll;
+        }
     }
 }

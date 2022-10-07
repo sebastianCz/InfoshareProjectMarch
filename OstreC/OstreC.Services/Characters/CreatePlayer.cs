@@ -6,11 +6,11 @@ using System.Threading.Tasks;
 
 namespace OstreC.Services.Characters
 {
-    internal class CreatePlayer
+    public class CreatePlayer
     {
         Player player = new Player();
         List<Player> playerList = new List<Player>();
-
+        List<int> attributePoints = new List<int>();
 
         bool isPlayerCreated = false;
 
@@ -22,7 +22,7 @@ namespace OstreC.Services.Characters
             while (true)
             {
                 Utilities.WriteLineColorText("What do you want to do?", ccWhite, consoleClear: true);
-                Console.WriteLine("1. Use already created adventurer\n2. Create your own adventurer\n3. Delete your adventurer\n4. Display statistics");
+                Console.WriteLine("1. Use already created adventurer\n2. Create your own adventurer\n3. Delete your adventurer\n4. Display statistics\n0. Test functionality");
                 int.TryParse(Console.ReadLine(), out int input);
                 switch (input)
                 {
@@ -37,6 +37,9 @@ namespace OstreC.Services.Characters
                         break;
                     case 4:
                         DisplayStatistics();
+                        break;
+                    case 0:
+                        GenerateAttributePoints();
                         break;
                     default:
                         break;
@@ -92,7 +95,44 @@ namespace OstreC.Services.Characters
             });
             Console.WriteLine("Spend your points on attributes");
             //
+            GenerateAttributePoints();
+            Utilities.PressAnyKey();
             isPlayerCreated = true;
+
+        }
+        public void GenerateAttributePoints()
+        {
+            for (int i = 0; i < 6; i++)
+            {
+                List<int> valueRollDiceTemp = new List<int>();
+                valueRollDiceTemp.Add(Utilities.DiceRoll(7));
+                valueRollDiceTemp.Add(Utilities.DiceRoll(7));
+                valueRollDiceTemp.Add(Utilities.DiceRoll(7));
+                valueRollDiceTemp.Add(Utilities.DiceRoll(7));
+
+                int lowestValues = valueRollDiceTemp.Min();
+                //Console.WriteLine("lowestValues: " + lowestValues);
+                int index = valueRollDiceTemp.IndexOf(lowestValues);
+                //Console.WriteLine("index of lowValues: " + index);
+                valueRollDiceTemp.RemoveAt(index);
+                int sum = 0;
+
+                foreach (var item in valueRollDiceTemp)
+                {
+                    sum += item;
+                    Console.Write(item + ",");
+                }
+                Console.WriteLine("");
+                attributePoints.Add(sum);               
+            }
+            foreach (var item in attributePoints)
+            {
+                Console.WriteLine(item);
+            }
+            Utilities.PressAnyKey();
+        }
+        public void AddAttributePoints()
+        {
 
         }
         public void DeletePlayer()
