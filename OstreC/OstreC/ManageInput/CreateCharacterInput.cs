@@ -21,6 +21,7 @@ namespace OstreC.ManageInput
             //Your code goes here
             CreatePlayer cp = new CreatePlayer();
             //cp.Create();
+            UI.Page.instructions = "Test z miejsca CreateCharacterInput";
             Console.WriteLine("Test z miejsca CreateCharacterInput");
             UI.DrawUI(UI, false);
         }

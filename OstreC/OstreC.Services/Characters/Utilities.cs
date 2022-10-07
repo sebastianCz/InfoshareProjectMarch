@@ -66,7 +66,7 @@ namespace OstreC.Services.Characters
             }
         }
         ///<summary>Get Data as int input with validation </summary>
-        public static int InputDataAsInt(int minValue, int maxValue, int valueSwitch)
+        public static int InputDataAsInt(int minValue, int maxValue, int valueSwitch = 1)
         {
             int number;
 

@@ -38,8 +38,13 @@ namespace OstreC.Services.Characters
                     case 4:
                         DisplayStatistics();
                         break;
+                    case 9:
+                        GenerateAttributePoints();
+                        break;
                     case 0:
                         GenerateAttributePoints();
+                        //AddAttributePoints(Attributes.Strength);
+                        DisplayListAttributes(attributePoints);
                         break;
                     default:
                         break;
@@ -96,12 +101,18 @@ namespace OstreC.Services.Characters
             Console.WriteLine("Spend your points on attributes");
             //
             GenerateAttributePoints();
+
             Utilities.PressAnyKey();
             isPlayerCreated = true;
 
         }
         public void GenerateAttributePoints()
         {
+            if (!(attributePoints.Count() == 0))
+            {
+                attributePoints.Clear();
+            }
+            
             for (int i = 0; i < 6; i++)
             {
                 List<int> valueRollDiceTemp = new List<int>();
@@ -131,9 +142,78 @@ namespace OstreC.Services.Characters
             }
             Utilities.PressAnyKey();
         }
-        public void AddAttributePoints()
+        public void AddAttributePoints(Attributes attribute)
         {
-
+            int minValue = attributePoints.Min();
+            int maxValue = attributePoints.Max();
+            switch (attribute)
+            {
+                case Attributes.Strength:
+                    Console.WriteLine($"Attribute {attribute}: ");
+                    player.Strength =  Utilities.InputDataAsInt(minValue,maxValue);
+                    break;
+                case Attributes.Dexterity:
+                    Console.WriteLine($"Attribute {attribute}: ");
+                    player.Dexterity = Utilities.InputDataAsInt(minValue, maxValue);
+                    break;
+                case Attributes.Constitution:
+                    Console.WriteLine($"Attribute {attribute}: ");
+                    player.Constitution = Utilities.InputDataAsInt(minValue, maxValue);
+                    break;
+                case Attributes.Intelligence:
+                    Console.WriteLine($"Attribute {attribute}: ");
+                    player.Intelligence = Utilities.InputDataAsInt(minValue, maxValue);
+                    break;
+                case Attributes.Wisdom:
+                    Console.WriteLine($"Attribute {attribute}: ");
+                    player.Wisdom = Utilities.InputDataAsInt(minValue, maxValue);
+                    break;
+                case Attributes.Charisma:
+                    Console.WriteLine($"Attribute {attribute}: ");
+                    player.Charisma = Utilities.InputDataAsInt(minValue, maxValue);
+                    break;                    
+                default:
+                    break;
+            }
+        }
+        public void DisplayListAttributes(List<int> list)
+        {
+            Console.Clear();
+            Utilities.Underline('=', 3);
+            int counter = 0;
+            foreach (var item in list)
+            {
+                counter++;
+                if (counter == 1)
+                    Console.Write("| ID  |");
+                Console.Write($"{counter,3} ");
+                if (counter == list.Count())
+                    Console.Write("|");
+            }
+            Console.WriteLine("");
+            Utilities.Underline('=', 30);
+            counter = 0;
+            foreach (var item in list)
+            {
+                counter++;
+                if (counter == 1)
+                    Console.Write("| ATR |");
+                Console.Write($"{item,3} ");
+                if (counter == list.Count())
+                    Console.Write("|");
+            }
+            Console.WriteLine("");
+            Utilities.Underline('=', 30);
+            Utilities.PressAnyKey();
+        }
+        public enum Attributes
+        {
+            Strength,
+            Dexterity,
+            Constitution,
+            Intelligence,
+            Wisdom,
+            Charisma
         }
         public void DeletePlayer()
         {

@@ -45,7 +45,7 @@ namespace OstreC
                 case PageType.Create_Character:
                     currentType = PageType.Create_Character;
                     pageInfo = "Welcome to character creation page!";
-                    instructions = "User input is not handled yet. Create Character";
+                    instructions = "1.Use already created adventurer\n2.Create your own adventurer\n3.Delete your adventurer\n4.Display statistics\n0.Test functionality";
                     UI.DrawUI(UI, true);
                     break;
 
