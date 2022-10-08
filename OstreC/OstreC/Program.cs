@@ -17,8 +17,16 @@ using System.Security.Cryptography.X509Certificates;
 
 //    UI.checkInput(UI);
 
-//} while (UI.exit == false);
 
+
+
+UI UI = new UI();
+//UI.Page.switchPage(PageType.Login, UI);
+
+UI.Page.switchPage(PageType.Main_Menu, UI);
+
+do
+{
 
 
 //Monster goblin1 = new Monster("Gorrak", 10,10,20,5,5,5);
@@ -29,5 +37,13 @@ using System.Security.Cryptography.X509Certificates;
 //FightResult.Fight(goblin1, goblin2);
 //Console.WriteLine($"{goblin2.Constitution}");
 
-//FightResult.whatever = "pełne";
-//Console.WriteLine(FightResult.whatever);
+
+
+
+
+
+
+
+
+
+
