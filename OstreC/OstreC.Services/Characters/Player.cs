@@ -20,5 +20,14 @@ namespace OstreC.Services.Characters
         public int Intelligence { get; set; } = 11;
         public int Wisdom { get; set; } = 14;
         public int Charisma { get; set; } = 16;
+
+        public int ModStrength { get; set; }
+        public int ModDexterity { get; set; }
+        public int ModConstitution { get; set; }
+        public int ModIntelligence { get; set; }
+        public int ModWisdom { get; set; }
+        public int ModCharisma { get; set; }
+
+
     }
 }

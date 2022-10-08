@@ -90,29 +90,6 @@ namespace OstreC.ManageInput
                 createPlayer.GenerateAttributePoints();
                 createPlayer.DisplayListAttributes(createPlayer.attributePoints);
 
-                //Utilities.WriteLineColorText("What's your strength: ", firstColor: ccWhite);
-                //createPlayer.AddAttributePoints(CreatePlayer.Attributes.Strength);
-                //createPlayer.DisplayListAttributes(createPlayer.attributePoints);
-
-                //Utilities.WriteLineColorText("What's your dexterity: ", firstColor: ccWhite);
-                //createPlayer.AddAttributePoints(CreatePlayer.Attributes.Dexterity);
-                //createPlayer.DisplayListAttributes(createPlayer.attributePoints);
-
-                //Utilities.WriteLineColorText("What's your constitution: ", firstColor: ccWhite);
-                //createPlayer.AddAttributePoints(CreatePlayer.Attributes.Constitution);
-                //createPlayer.DisplayListAttributes(createPlayer.attributePoints);
-
-                //Utilities.WriteLineColorText("What's your intelligence: ", firstColor: ccWhite);
-                //createPlayer.AddAttributePoints(CreatePlayer.Attributes.Intelligence);
-                //createPlayer.DisplayListAttributes(createPlayer.attributePoints);
-
-                //Utilities.WriteLineColorText("What's your wisdom: ", firstColor: ccWhite);
-                //createPlayer.AddAttributePoints(CreatePlayer.Attributes.Wisdom);
-                //createPlayer.DisplayListAttributes(createPlayer.attributePoints);
-
-                //Utilities.WriteLineColorText("What's your charisma: ", firstColor: ccWhite);
-                //createPlayer.AddAttributePoints(CreatePlayer.Attributes.Charisma);
-
                 AddAttribute(CreatePlayer.Attributes.Strength);
                 AddAttribute(CreatePlayer.Attributes.Dexterity);
                 AddAttribute(CreatePlayer.Attributes.Constitution);
@@ -120,7 +97,7 @@ namespace OstreC.ManageInput
                 AddAttribute(CreatePlayer.Attributes.Wisdom);
                 AddAttribute(CreatePlayer.Attributes.Charisma);
 
-                createPlayer.AddValueToProperties();
+                createPlayer.AddValueToProperty();
                 UI.Page.pageInfo = "Default player was created";
                 UI.DrawUI(UI, false);
                 Utilities.PressAnyKey();
@@ -146,7 +123,7 @@ namespace OstreC.ManageInput
             }
             if (createPlayer.isPlayerCreated)
             {
-                Console.WriteLine("Do you really want to delete your adventurer?\n Press Y - yes; Press N - no");
+                Console.WriteLine("Do you really want to delete your adventurer?\nPress Y - yes; Press N - no");
                 string input = Utilities.InputDataAsString(Utilities.rgxYN).ToLower();
                 if (input == "y")
                 {

@@ -13,9 +13,11 @@ namespace OstreC.Services.Characters
         public List<int> attributePoints = new List<int>();
 
         public bool isPlayerCreated = false;
+
         string name;
         string race;
         string charClass;
+
         int strength;
         int dexterity;
         int constitution;
@@ -73,9 +75,15 @@ namespace OstreC.Services.Characters
                 Strength = 18,
                 Dexterity = 17,
                 Constitution = 18,
-                Intelligence = 11,
+                Intelligence = 10,
                 Wisdom = 14,
-                Charisma = 16
+                Charisma = 16,
+                ModStrength = 4,
+                ModDexterity = 3,
+                ModConstitution = 4,
+                ModIntelligence = 0,
+                ModWisdom = 2,
+                ModCharisma = 3
             });
             isPlayerCreated = true;
         }
@@ -108,7 +116,7 @@ namespace OstreC.Services.Characters
         {
             charClass = Console.ReadLine();
         }
-        public void AddValueToProperties()
+        public void AddValueToProperty()
         {
             playerList.Add(new Player
             {
@@ -121,10 +129,20 @@ namespace OstreC.Services.Characters
                 Intelligence = intelligence,
                 Wisdom = wisdom,
                 Charisma = charisma,
+                ModStrength = CalculateModifier(strength),
+                ModDexterity = CalculateModifier(dexterity),
+                ModConstitution = CalculateModifier(constitution),
+                ModIntelligence = CalculateModifier(intelligence),
+                ModWisdom = CalculateModifier(wisdom),
+                ModCharisma = CalculateModifier(charisma)
             });
             isPlayerCreated = true;
         }
+        public void UpdatePropertyValue()
+        {
 
+        }
+        // do skończenia, trzeba obsłużyć wpisywanie wartości różnych od wartości na liście.
         public int AddAttributePoints(Attributes attribute)
         {
             //DisplayStatistics();
@@ -185,7 +203,6 @@ namespace OstreC.Services.Characters
                 counter++;
                 if (counter == 1)
                     Console.Write("| ATR |");
-                //Console.Write($"{item,3} ");
                 if (item == -1)
                     Utilities.WriteColorText($"  - ", firstColor: ConsoleColor.Yellow);
                 else
@@ -262,8 +279,18 @@ namespace OstreC.Services.Characters
                 attributePoints.Add(sum);
             }
         }
+        private int CalculateModifier(int value)
+        {
+            List<int> numbers = new List<int>() {
+                   -5,-4,-4,-3,-3,-2,-2,-1,-1, 0,
+                    0, 1, 1, 2, 2, 3, 3, 4, 4, 5,
+                    5, 6, 6, 7, 7, 8, 8, 9, 9, 10 };
+
+            return numbers.First(x => x == numbers[value - 1]);
+        }
         public void DisplayStatistics()
         {
+            string format = "+#.##;-#.##;+0";
             //if (!isPlayerCreated)
             //{
             //    Utilities.WriteLineColorText("No adventurer to delete! im here", ccRed, true);
@@ -281,12 +308,12 @@ namespace OstreC.Services.Characters
                 Utilities.WriteLineColorText($"Class: ", $"{item.CharClass}", secondColor: ccYellow, multiplierTab: 2);
                 Utilities.WriteLineColorText($"HP: ", $"{item.HealthPoints}", secondColor: ccYellow, multiplierTab: 2);
                 Utilities.WriteLineColorText($"Level: ", $"{item.Level}", secondColor: ccYellow, multiplierTab: 2);
-                Utilities.WriteLineColorText($"Strength: ", $"{item.Strength}", secondColor: ccYellow, multiplierTab: 1);
-                Utilities.WriteLineColorText($"Dexterity: ", $"{item.Dexterity}", secondColor: ccYellow, multiplierTab: 1);
-                Utilities.WriteLineColorText($"Constitution: ", $"{item.Constitution}", secondColor: ccYellow, multiplierTab: 1);
-                Utilities.WriteLineColorText($"Intelligence: ", $"{item.Intelligence}", secondColor: ccYellow, multiplierTab: 1);
-                Utilities.WriteLineColorText($"Wisdom: ", $"{item.Wisdom}", secondColor: ccYellow, multiplierTab: 1);
-                Utilities.WriteLineColorText($"Charisma: ", $"{item.Charisma}", secondColor: ccYellow, multiplierTab: 1);
+                Utilities.WriteLineColorText($"Strength: ", $"{item.Strength}\t{item.ModStrength.ToString(format)}", secondColor: ccYellow, multiplierTab: 1);
+                Utilities.WriteLineColorText($"Dexterity: ", $"{item.Dexterity}\t{item.ModDexterity.ToString(format)}", secondColor: ccYellow, multiplierTab: 1);
+                Utilities.WriteLineColorText($"Constitution: ", $"{item.Constitution}\t{item.ModConstitution.ToString(format)}", secondColor: ccYellow, multiplierTab: 1);
+                Utilities.WriteLineColorText($"Intelligence: ", $"{item.Intelligence}\t{item.ModIntelligence.ToString(format)}", secondColor: ccYellow, multiplierTab: 1);
+                Utilities.WriteLineColorText($"Wisdom: ", $"{item.Wisdom}\t{item.ModWisdom.ToString(format)}", secondColor: ccYellow, multiplierTab: 1);
+                Utilities.WriteLineColorText($"Charisma: ", $"{item.Charisma}\t{item.ModCharisma.ToString(format)}", secondColor: ccYellow, multiplierTab: 1);
             }
             //Utilities.PressAnyKey();
         }
