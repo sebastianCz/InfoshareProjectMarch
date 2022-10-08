@@ -32,7 +32,7 @@ namespace OstreC.Interface
     public interface IuiInput
     {     
         PageType  Type { get; }
-
+        
         //Check User Input depending on currently active page. 
         public void checkUserInput(UI UI);
     }

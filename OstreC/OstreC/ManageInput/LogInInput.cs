@@ -16,11 +16,14 @@ namespace OstreC.ManageInput
         {
             string username;
             string password;
+            string email;
             int id = -1;
+            string feedback = "";
 
             var input = Console.ReadLine();
             input = input.Replace(" ", null);
-          
+            if (Helpers.isCommand(input, UI)) { return; }
+
             switch (input)
             {
                 case "1":
@@ -30,21 +33,24 @@ namespace OstreC.ManageInput
                        
 
                         UI.Page.pageInfo = "Proceed as specified below to login or type BACK to go back to previous screen.";
+
                         UI.Page.instructions = "Provide your username";
                         UI.DrawUI(UI, false);
-
-
-
                         input = Console.ReadLine();
-                        if (Helpers.isCommand(input, UI)) { break; }
+
+                        if (Helpers.isCommand(input, UI)) { return; }
                         username = input;
 
-                        UI.Page.instructions = "Provide your password";
-                        if (Helpers.isCommand(input, UI)) { break; }
-                        UI.DrawUI(UI, true);
 
+                        UI.Page.instructions = "Provide your password";
+                        UI.DrawUI(UI, true);
                         input = Console.ReadLine();
+
+                        if (Helpers.isCommand(input, UI)) { return; }
                         password = input;
+
+
+                       
 
                         bool login = UI.currentUser.Login(username, password);
 
@@ -68,31 +74,37 @@ namespace OstreC.ManageInput
                 case "2":
                     do
                     {
-                        string feedback = "";
+                        
 
                         UI.Page.pageInfo = "Proceed as specified below to create a new User.";
+
+
                         UI.Page.instructions = "Provide a username";
                         UI.DrawUI(UI, false);
-
                         input = Console.ReadLine();
-                        if (Helpers.isCommand(input, UI)) { break; }
+
+                        if (Helpers.isCommand(input, UI)) { return; }
                         UI.currentUser.UserName = input;
 
 
-                        UI.Page.instructions = " Provide password";
+                        UI.Page.instructions = " Provide a password";
                          UI.DrawUI(UI, true);
-
-
                         input = Console.ReadLine();
-                        if (Helpers.isCommand(input, UI)) { break; }
+
+                        if (Helpers.isCommand(input, UI)) { return; }
                         UI.currentUser.Password = input;
 
+                        UI.Page.instructions = "Provide your email.Make sure it's correct. There's no email validation to see if the email exists.  ";
+                        UI.DrawUI(UI, true);
+                        input = Console.ReadLine();
 
+                        if (Helpers.isCommand(input, UI)) { return; }
+                        UI.currentUser.Email= input;
 
                         bool createUser = UI.currentUser.createUser(UI.currentUser, out feedback);
                         if (createUser)
                         {
-                            UI.Page.error = $"User created. Username: {UI.currentUser.UserName}";
+                            UI.Page.error = $"User created. Username: {UI.currentUser.UserName} User email: {UI.currentUser.Email}";
                             UI.Page.instructions = "Press enter to go back to login page. ";
 
 
@@ -108,10 +120,24 @@ namespace OstreC.ManageInput
                     break;
 
                 case "3":
-                    
-                //Forgot password
+
+                    UI.Page.instructions = " You forgot your password. Please provide your username. ";
+                    UI.DrawUI(UI,true);
+
+                    input = Console.ReadLine();
+                    if (Helpers.isCommand(input, UI)) { return; }
+
+                    UI.currentUser.UserName = input;
+                    UI.currentUser.sendEmail(1, UI.currentUser, out  feedback);
+
+                    return;
+ 
 
                 default:
+
+                    UI.DrawUI(UI, false);
+                    UI.Page.error = " You provded the wrong number. Please try again";
+                    UI.DrawUI(UI, false);
 
                     break;
             }

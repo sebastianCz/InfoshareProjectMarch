@@ -85,7 +85,10 @@ namespace OstreC
                 string status = "Offline";
                 if (UI.currentUser.LoggedIn) { status = "Online"; }
                 Console.ForegroundColor = ConsoleColor.Green;
-                genericHeader = $"Active Page: {Page.currentType} || Ostre C Game || Current status: {status} {Page.breakLine} Type any of the existing commands at any time: \n {_menuCommandsString} {Page.breakLine}";
+                genericHeader = $"Active Page: {Page.currentType} || Ostre C Game || Current status: {status} {Page.breakLine} || Current user:{currentUser.UserName}" +
+                    $"Type any of the existing commands at any time: \n {_menuCommandsString} {Page.breakLine}";
+
+
                 Console.WriteLine($"{genericHeader}");
             }
         }

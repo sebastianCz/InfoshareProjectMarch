@@ -3,22 +3,18 @@
     {
       "Id": 1,
       "UserName": "Admin",
-      "Password": "AdminPass"
+      "Password": "AdminPass",
+      "Email"   : "sebastianczarnowski95@gmail.com"
 
     },
     {
       "Id": 2,
-      "UserName": "Admin2",
-      "Password": "AdminPass"
-
-
-    },
-    {
-      "Id": 3,
-      "UserName": "Admin3",
-      "Password": "AdminPass"
+      "UserName": "AdminOstreC",
+      "Password": "AdminPass",
+      "Email": "ostreCGame@gmail.com"
 
     }
+   
 
 
 
