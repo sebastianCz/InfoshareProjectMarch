@@ -12,11 +12,16 @@ namespace OstreC.Services.Characters
         List<Player> playerList = new List<Player>();
         public List<int> attributePoints = new List<int>();
 
-        int maxValue = 7;
         public bool isPlayerCreated = false;
         string name;
         string race;
         string charClass;
+        int strength;
+        int dexterity;
+        int constitution;
+        int intelligence;
+        int wisdom;
+        int charisma;
 
         ConsoleColor ccWhite = ConsoleColor.White;
         ConsoleColor ccYellow = ConsoleColor.Yellow;
@@ -57,12 +62,6 @@ namespace OstreC.Services.Characters
         //}
         public void CreateDefaultPlayer()
         {
-            //if (isPlayerCreated)
-            //{
-            //    Utilities.WriteLineColorText("Player already exists. You can have only 1 adventurer", ccRed, consoleClear: true);
-            //    Utilities.PressAnyKey();
-            //    return;
-            //}
             playerList.Clear();
             playerList.Add(new Player
             {
@@ -115,56 +114,57 @@ namespace OstreC.Services.Characters
             {
                 Name = name,
                 Race = race,
-                CharClass = charClass,                
+                CharClass = charClass,
+                Strength = strength,
+                Dexterity = dexterity,
+                Constitution = constitution,
+                Intelligence = intelligence,
+                Wisdom = wisdom,
+                Charisma = charisma,
             });
             isPlayerCreated = true;
         }
 
         public int AddAttributePoints(Attributes attribute)
         {
-            DisplayStatistics();
-            //int minValue = attributePoints.Min();
+            //DisplayStatistics();
+            int minValue = attributePoints.Min();
             //if (minValue == -1)
             //{
             //    classCounter++;
             //    minValue = attributePoints[classCounter];
             //}
-            //int maxValue = attributePoints.Max();
-            int minValue = 1;
-            maxValue -= 1;
+            int maxValue = attributePoints.Max();
+            //int minValue = 1;
+            //int maxValue = 6;
             int input = Utilities.InputDataAsInt(minValue, maxValue);
             switch (attribute)
             {
                 case Attributes.Strength:
-                    player.Strength = input;
                     ChangeValueFromList(attributePoints, input);
-                    return player.Strength = input;
+                    return strength = input;
                 case Attributes.Dexterity:
-                    player.Dexterity = input;
                     ChangeValueFromList(attributePoints, input);
-                    return player.Strength = input;
+                    return dexterity = input;
                 case Attributes.Constitution:
-                    player.Constitution = input;
                     ChangeValueFromList(attributePoints, input);
-                    return player.Strength = input;
+                    return constitution = input;
                 case Attributes.Intelligence:
-                    player.Intelligence = input;
                     ChangeValueFromList(attributePoints, input);
-                    return player.Strength = input;
+                    return intelligence = input;
                 case Attributes.Wisdom:
-                    player.Wisdom = input;
                     ChangeValueFromList(attributePoints, input);
-                    return player.Strength = input;
+                    return wisdom = input;
                 case Attributes.Charisma:
-                    player.Charisma = input;
-                    ChangeValueFromList(attributePoints, input);
-                    return player.Strength = input;
+                    ChangeValueFromList(attributePoints, input);                    
+                    return charisma = input;
                 default:
                     return -1;
             }
         }
         public void DisplayListAttributes(List<int> list)
         {
+            Console.Clear();
             int i = 32;
             Utilities.Underline('=', i);
             int counter = 0;
@@ -195,16 +195,29 @@ namespace OstreC.Services.Characters
             }
             Console.WriteLine("");
             Utilities.Underline('=', i);
-            //Utilities.PressAnyKey();
         }
         public void RemoveValueFromList(List<int> list, int input)
         {
             list.Remove(input);
         }
-        public void ChangeValueFromList(List<int> list, int input)
+        public void ChangeValueFromList(List<int> list, int input, bool isID = false)
         {
-            list.RemoveAt(input - 1);
-            list.Insert(input -1, -1);
+            if (isID)
+            {
+                if (list.Contains(input))
+                {
+                    list.RemoveAt(input - 1);
+                    list.Insert(input - 1, -1);
+                }
+            }
+            else
+            {
+                if (list.Contains(input))
+                {
+                    list.Insert(list.IndexOf(input), -1);
+                    list.Remove(input);
+                }                
+            }
         }
         public enum Attributes
         {
@@ -245,16 +258,9 @@ namespace OstreC.Services.Characters
                 foreach (var item in valueRollDiceTemp)
                 {
                     sum += item;
-                    //Console.Write(item + ",");
                 }
-                //Console.WriteLine("");
                 attributePoints.Add(sum);
             }
-            //foreach (var item in attributePoints)
-            //{
-            //    Console.WriteLine(item);
-            //}
-            //Utilities.PressAnyKey();
         }
         public void DisplayStatistics()
         {

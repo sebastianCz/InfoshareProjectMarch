@@ -21,9 +21,7 @@ namespace OstreC.ManageInput
             {
                 Console.Clear();
                 UI.Page.switchPage(PageType.Create_Character, UI);
-
-                //Utilities.WriteLineColorText("What do you want to do?", ccWhite, consoleClear: true);
-                //Console.WriteLine("1. Use already created adventurer\n2. Create your own adventurer\n3. Delete your adventurer\n4. Display statistics\n0. Test functionality");
+                
                 int.TryParse(Console.ReadLine(), out int input);
                 switch (input)
                 {
@@ -43,7 +41,7 @@ namespace OstreC.ManageInput
                         //GenerateAttributePoints();
                         break;
                     case 8:
-                        createPlayer.GenerateAttributePoints();
+                        //createPlayer.GenerateAttributePoints();
                         //AddAttributePoints(Attributes.Strength);
                         DisplayListAttributes();
                         break;
@@ -65,7 +63,7 @@ namespace OstreC.ManageInput
             }
             if (!createPlayer.isPlayerCreated)
             {
-                UI.Page.pageInfo = "Custom player was created";
+                UI.Page.pageInfo = "Default player was created";
                 UI.DrawUI(UI, false);
                 Utilities.PressAnyKey();                
             }
@@ -73,33 +71,69 @@ namespace OstreC.ManageInput
         }
         private void CreateCustomPlayer()
         {
-            Utilities.WriteLineColorText("Tell me your name: ", firstColor: ccWhite);
-            //createPlayer.AddName();
-            Utilities.WriteLineColorText("Choose your race: ", firstColor: ccWhite);
-            //createPlayer.AddRace();
-            Utilities.WriteLineColorText("Choose your class: ", firstColor: ccWhite);
-            //createPlayer.AddClass();
+            if (createPlayer.isPlayerCreated)
+            {
+                UI.Page.error = "Player already exists. You can have only 1 adventurer";
+                UI.DrawUI(UI, false);
+                Utilities.PressAnyKey();
+                return;
+            }
+            if (!createPlayer.isPlayerCreated)
+            {
+                Utilities.WriteLineColorText("Tell me your name: ", firstColor: ccWhite);
+                //createPlayer.AddName();
+                Utilities.WriteLineColorText("Choose your race: ", firstColor: ccWhite);
+                //createPlayer.AddRace();
+                Utilities.WriteLineColorText("Choose your class: ", firstColor: ccWhite);
+                //createPlayer.AddClass();
 
-            createPlayer.GenerateAttributePoints();
-            createPlayer.DisplayListAttributes(createPlayer.attributePoints);
-            Utilities.WriteLineColorText("What's your strength: ", firstColor: ccWhite);
-            createPlayer.AddAttributePoints(CreatePlayer.Attributes.Strength);
-            createPlayer.DisplayListAttributes(createPlayer.attributePoints);
-            Utilities.WriteLineColorText("What's your dexterity: ", firstColor: ccWhite);
-            createPlayer.AddAttributePoints(CreatePlayer.Attributes.Dexterity);
-            createPlayer.DisplayListAttributes(createPlayer.attributePoints);
-            Utilities.WriteLineColorText("What's your constitution: ", firstColor: ccWhite);
-            createPlayer.AddAttributePoints(CreatePlayer.Attributes.Constitution);
-            createPlayer.DisplayListAttributes(createPlayer.attributePoints);
-            Utilities.WriteLineColorText("What's your intelligence: ", firstColor: ccWhite);
-            createPlayer.AddAttributePoints(CreatePlayer.Attributes.Intelligence);
-            createPlayer.DisplayListAttributes(createPlayer.attributePoints);
-            Utilities.WriteLineColorText("What's your wisdom: ", firstColor: ccWhite);
-            createPlayer.AddAttributePoints(CreatePlayer.Attributes.Wisdom);
-            createPlayer.DisplayListAttributes(createPlayer.attributePoints);
-            Utilities.WriteLineColorText("What's your charisma: ", firstColor: ccWhite);
-            createPlayer.AddAttributePoints(CreatePlayer.Attributes.Charisma);
-            createPlayer.AddValueToProperties();
+                createPlayer.GenerateAttributePoints();
+                createPlayer.DisplayListAttributes(createPlayer.attributePoints);
+
+                //Utilities.WriteLineColorText("What's your strength: ", firstColor: ccWhite);
+                //createPlayer.AddAttributePoints(CreatePlayer.Attributes.Strength);
+                //createPlayer.DisplayListAttributes(createPlayer.attributePoints);
+
+                //Utilities.WriteLineColorText("What's your dexterity: ", firstColor: ccWhite);
+                //createPlayer.AddAttributePoints(CreatePlayer.Attributes.Dexterity);
+                //createPlayer.DisplayListAttributes(createPlayer.attributePoints);
+
+                //Utilities.WriteLineColorText("What's your constitution: ", firstColor: ccWhite);
+                //createPlayer.AddAttributePoints(CreatePlayer.Attributes.Constitution);
+                //createPlayer.DisplayListAttributes(createPlayer.attributePoints);
+
+                //Utilities.WriteLineColorText("What's your intelligence: ", firstColor: ccWhite);
+                //createPlayer.AddAttributePoints(CreatePlayer.Attributes.Intelligence);
+                //createPlayer.DisplayListAttributes(createPlayer.attributePoints);
+
+                //Utilities.WriteLineColorText("What's your wisdom: ", firstColor: ccWhite);
+                //createPlayer.AddAttributePoints(CreatePlayer.Attributes.Wisdom);
+                //createPlayer.DisplayListAttributes(createPlayer.attributePoints);
+
+                //Utilities.WriteLineColorText("What's your charisma: ", firstColor: ccWhite);
+                //createPlayer.AddAttributePoints(CreatePlayer.Attributes.Charisma);
+
+                AddAttribute(CreatePlayer.Attributes.Strength);
+                AddAttribute(CreatePlayer.Attributes.Dexterity);
+                AddAttribute(CreatePlayer.Attributes.Constitution);
+                AddAttribute(CreatePlayer.Attributes.Intelligence);
+                AddAttribute(CreatePlayer.Attributes.Wisdom);
+                AddAttribute(CreatePlayer.Attributes.Charisma);
+
+                createPlayer.AddValueToProperties();
+                UI.Page.pageInfo = "Default player was created";
+                UI.DrawUI(UI, false);
+                Utilities.PressAnyKey();
+            }
+        }
+        private void AddAttribute(CreatePlayer.Attributes attr)
+        {
+            Utilities.WriteLineColorText($"What's your {attr}: ", firstColor: ccWhite);
+            createPlayer.AddAttributePoints(attr);
+            if (!(attr == CreatePlayer.Attributes.Charisma))
+            {
+                createPlayer.DisplayListAttributes(createPlayer.attributePoints);
+            }
         }
         private void DeletePlayer()
         {
@@ -145,6 +179,7 @@ namespace OstreC.ManageInput
         private void DisplayListAttributes()
         {
             createPlayer.DisplayListAttributes(createPlayer.attributePoints);
+            Utilities.PressAnyKey();
         }
         #endregion
     }
