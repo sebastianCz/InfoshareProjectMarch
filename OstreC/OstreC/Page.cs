@@ -82,6 +82,14 @@ namespace OstreC
                     instructions = "Press 1 to show example messages!\n Press 2 to go back to main menu!";
                     UI.DrawUI(UI, true);
                     break;
+
+                case PageType.Login:
+                    currentType = PageType.Login;
+                    pageInfo = "Welcome to the login page! ";
+                    instructions = "Type 1 to login \n Type 2 to register \n Type 3 if you forgot your password";
+                    UI.DrawUI(UI, true);
+                    break;
+
                 default:
                     throw new Exception("SwitchPage() was ivoked at Page.Cs with an unhandled page type.Default message won't be assigned.");
                     break;

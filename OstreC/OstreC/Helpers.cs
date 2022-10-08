@@ -45,6 +45,9 @@ namespace OstreC
                 case "MAIN_MENU":
                     UI.Page.switchPage(PageType.Main_Menu, UI);
                     break;
+                case "BACK":
+                    UI.Page.switchPage(UI.Page.currentType, UI);
+                    break;
                 default:
                     //Method shouldn't be inkoked if input != command. 
                     throw new Exception();
