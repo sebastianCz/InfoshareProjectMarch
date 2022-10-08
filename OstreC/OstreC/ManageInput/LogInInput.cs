@@ -6,6 +6,12 @@ using OstreC;
 using Newtonsoft.Json;
 using System.Runtime.InteropServices;
  
+/*
+ 
+ finish validating input for each options. in some places redraw isn't up. 
+ 
+ */
+
 
 namespace OstreC.ManageInput
 {
