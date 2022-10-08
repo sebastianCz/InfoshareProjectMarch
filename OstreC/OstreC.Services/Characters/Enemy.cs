@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace OstreC.Services.Characters
 {
-    internal class Enemy
+    public class Enemy:Character
     {
     }
 }
