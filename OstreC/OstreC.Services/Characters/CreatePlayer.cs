@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace OstreC.Services.Characters
 {
-    public class CreatePlayer
+    public class CreatePlayer:Player
     {
-        Player player = new Player();
+        //Player player = new Player();
         List<Player> playerList = new List<Player>();
         public List<int> attributePoints = new List<int>();
 
@@ -138,9 +138,10 @@ namespace OstreC.Services.Characters
             });
             isPlayerCreated = true;
         }
-        public void UpdatePropertyValue()
+        public void UpdatePropertyValue(Player player)
         {
-
+            player.Strength += 1;
+            player.ModStrength = CalculateModifier(player.Strength);
         }
         // do skończenia, trzeba obsłużyć wpisywanie wartości różnych od wartości na liście.
         public int AddAttributePoints(Attributes attribute)
@@ -315,7 +316,6 @@ namespace OstreC.Services.Characters
                 Utilities.WriteLineColorText($"Wisdom: ", $"{item.Wisdom}\t{item.ModWisdom.ToString(format)}", secondColor: ccYellow, multiplierTab: 1);
                 Utilities.WriteLineColorText($"Charisma: ", $"{item.Charisma}\t{item.ModCharisma.ToString(format)}", secondColor: ccYellow, multiplierTab: 1);
             }
-            //Utilities.PressAnyKey();
         }
         public void DisplayStatistics(params string[] List)
         {

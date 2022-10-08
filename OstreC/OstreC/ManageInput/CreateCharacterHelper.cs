@@ -13,6 +13,7 @@ namespace OstreC.ManageInput
     {
         UI UI = new UI();
         CreatePlayer createPlayer = new CreatePlayer();
+        Player player = new Player();
         ConsoleColor ccWhite = ConsoleColor.White;
         ConsoleColor ccRed = ConsoleColor.Red;
         public void CreateMenu()
@@ -37,10 +38,15 @@ namespace OstreC.ManageInput
                     case 4:
                         DisplayStatistics();
                         break;
-                    case 9:
-                        //GenerateAttributePoints();
+                    case 7:
+                        Console.WriteLine(createPlayer.Strength);
+                        Console.WriteLine(createPlayer.ModStrength);
+                        Utilities.PressAnyKey();
                         break;
                     case 8:
+                        createPlayer.UpdatePropertyValue(createPlayer);
+                        break;
+                    case 9:
                         //createPlayer.GenerateAttributePoints();
                         //AddAttributePoints(Attributes.Strength);
                         DisplayListAttributes();
@@ -143,6 +149,8 @@ namespace OstreC.ManageInput
         }
         private void DisplayStatistics()
         {
+            Console.Clear();
+            UI.Page.switchPage(PageType.Create_Character, UI);
             if (!createPlayer.isPlayerCreated)
             {
                 UI.Page.error = "No data to display";
