@@ -128,9 +128,32 @@ namespace OstreC.ManageInput
                     if (Helpers.isCommand(input, UI)) { return; }
 
                     UI.currentUser.UserName = input;
-                    UI.currentUser.sendEmail(1, UI.currentUser, out  feedback);
+                    bool test = UI.currentUser.sendEmail(1, UI.currentUser, out  feedback);
 
-                    return;
+                    if (test)
+                    {
+                        UI.Page.instructions = " We sent you an email with the password recovery. Press enter to proceed to main screen. ";
+                        UI.DrawUI(UI, true);
+
+                        Console.ReadLine();
+                        UI.Page.switchPage(PageType.Login, UI);
+                        return;
+                    }
+                    else
+                    {
+                        UI.Page.instructions = " You provided wrong username. email can't be sent.  ";
+                        UI.DrawUI(UI, true);
+
+                        Console.ReadLine();
+                        UI.Page.switchPage(PageType.Login, UI);
+                        return;
+                    }
+
+            
+
+                    
+
+                  
  
 
                 default:

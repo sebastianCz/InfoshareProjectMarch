@@ -39,6 +39,14 @@ namespace OstreC
                     break;
 
                 case PageType.Create_NewGame:
+                    currentType = PageType.Create_NewGame;
+                    pageInfo = "Welcome to game creation screen!";
+                    instructions = " Press 1 to create new game\n pres 2 to go back to main menu";
+ 
+                    UI.DrawUI(UI, true);
+
+
+
                     break;
 
                 case PageType.Create_Character:
