@@ -2,6 +2,7 @@
 using OstreC;
 using OstreC.Interface;
 using System;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace OstreC.ManageInput
 {
@@ -25,26 +26,22 @@ namespace OstreC.ManageInput
                 case 0: // Story Builder home page
                     {
                         input = input.ToUpper().Replace(" ", null);
-
-                        //Console.WriteLine(inputText);
-                        //Console.WriteLine(input);
-
                         if (Helpers.isCommand(input, UI)) return 0;
-                        else if (String.Equals(input.ToUpper().Replace(" ", null), "1"))
+                        else if (String.Equals(input.ToUpper().Replace(" ", null), "1")) // make a new story
                         {
                             UI.Page.pageInfo = "You've chosen to make a new story!";
                             UI.Page.instructions = "Press 1 to go Story Builder home page!\nPress 0 to go back to the main menu!\n\nLet's start with something easy, enter the name of the story:";
                             UI.DrawUI(UI, true);
                             return 1;
-                        }
-                        else if (String.Equals(input.ToUpper().Replace(" ", null), "2"))
+                        } // make a new story
+                        else if (String.Equals(input.ToUpper().Replace(" ", null), "2")) // load an existing history for editing
                         {
                             UI.Page.pageInfo = "You have chosen to load an existing history for editing!";
                             UI.Page.instructions = "Press 1 to go Story Builder home page!\nPress 0 to go back to the main menu!\n\nEnter a story name to edit: ";
                             UI.DrawUI(UI, true);
                             return 2;
-                        }
-                        else if (String.Equals(input.ToUpper().Replace(" ", null), "0"))
+                        } // load an existing history for editing
+                        else if (String.Equals(input.ToUpper().Replace(" ", null), "0")) // Main menu
                         {
                             Console.ForegroundColor = ConsoleColor.Red;
                             Console.WriteLine("Are you sure? You go back to menu.\nPress 'Y' - yes or 'N' - no");
@@ -68,8 +65,8 @@ namespace OstreC.ManageInput
                                         break;
                                 }
                             } while (key != ConsoleKey.N && key != ConsoleKey.Y);
-                            return idPage;
-                        }
+                            return 0;
+                        } // Main menu
                         else
                         {
                             UI.Page.error = "You didn't provide a correct number";
@@ -81,22 +78,32 @@ namespace OstreC.ManageInput
                 case 1: // create a new story
                     {
                         input = input.ToUpper().Replace(" ", null);
-
                         if (Helpers.isCommand(input, UI)) return 0;
-                        else if (String.Equals(input.ToUpper().Replace(" ", null), "1"))
+                        else if (String.Equals(input.ToUpper().Replace(" ", null), "1")) // Story Builder home page
                         {
-                            UI.Page.pageInfo = "Welcome to the Story Builder!";
-                            UI.Page.instructions = "Press 1 to create a new story!\nPress 2 to load an existing history and edit it!\nPress 0 to go back to the main menu!";
-                            UI.DrawUI(UI, true);
-                            return 0;
-                        }
-                        else if (String.Equals(input.ToUpper().Replace(" ", null), "2"))
-                        {
-                            UI.Page.pageInfo = "You have chosen to load an existing history for editing!";
-                            UI.Page.instructions = "Press 1 to go back back!\nPress 0 to go back to the main menu!\nEnter a story name to edit: ";
-                            UI.DrawUI(UI, true);
-                            return 2;
-                        }
+                            Console.ForegroundColor = ConsoleColor.Red;
+                            Console.WriteLine("Are you sure? You go back to Story Builder home page.\nPress 'Y' - yes or 'N' - no");
+                            Console.ResetColor();
+                            ConsoleKey key;
+                            do
+                            {
+                                key = Console.ReadKey().Key;
+                                switch (key)
+                                {
+                                    case ConsoleKey.Y:
+                                        UI.Page.switchPage(PageType.Story_Bulider, UI);
+                                        return 0;
+                                    case ConsoleKey.N:
+                                        UI.DrawUI(UI, true);
+                                        return idPage;
+                                    default:
+                                        Console.ForegroundColor = ConsoleColor.Red;
+                                        Console.WriteLine("You didn't press the correct key. Try again.");
+                                        Console.ResetColor();
+                                        break;
+                                }
+                            } while (key != ConsoleKey.N && key != ConsoleKey.Y);
+                        } // Story Builder home page
                         else if (String.Equals(input.ToUpper().Replace(" ", null), "0"))
                         {
                             Console.ForegroundColor = ConsoleColor.Red;
@@ -110,10 +117,10 @@ namespace OstreC.ManageInput
                                 {
                                     case ConsoleKey.Y:
                                         UI.Page.switchPage(PageType.Main_Menu, UI);
-                                        break;
+                                        return 0;
                                     case ConsoleKey.N:
                                         UI.DrawUI(UI, true);
-                                        break;
+                                        return idPage;
                                     default:
                                         Console.ForegroundColor = ConsoleColor.Red;
                                         Console.WriteLine("You didn't press the correct key. Try again.");
@@ -121,8 +128,7 @@ namespace OstreC.ManageInput
                                         break;
                                 }
                             } while (key != ConsoleKey.N && key != ConsoleKey.Y);
-                            return idPage;
-                        }
+                        } // Main menu
                         else
                         {
                             UI.Page.error = "You didn't provide a correct number";
@@ -134,22 +140,32 @@ namespace OstreC.ManageInput
                 case 2: // load an existing story
                     {
                         input = input.ToUpper().Replace(" ", null);
-
                         if (Helpers.isCommand(input, UI)) return 0;
-                        else if (String.Equals(input.ToUpper().Replace(" ", null), "1"))
+                        else if (String.Equals(input.ToUpper().Replace(" ", null), "1")) // Story Builder home page
                         {
-                            UI.Page.pageInfo = "You've chosen to make a new story!";
-                            UI.Page.instructions = "Let's start with something easy, enter the name of the story:";
-                            UI.DrawUI(UI, true);
-                            return 1;
-                        }
-                        else if (String.Equals(input.ToUpper().Replace(" ", null), "2"))
-                        {
-                            UI.Page.pageInfo = "You have chosen to load an existing history for editing!";
-                            UI.Page.instructions = "Press 1 to go back back!\nPress 0 to go back to the main menu!\nEnter a story name to edit: ";
-                            UI.DrawUI(UI, true);
-                            return 2;
-                        }
+                            Console.ForegroundColor = ConsoleColor.Red;
+                            Console.WriteLine("Are you sure? You go back to Story Builder home page.\nPress 'Y' - yes or 'N' - no");
+                            Console.ResetColor();
+                            ConsoleKey key;
+                            do
+                            {
+                                key = Console.ReadKey().Key;
+                                switch (key)
+                                {
+                                    case ConsoleKey.Y:
+                                        UI.Page.switchPage(PageType.Story_Bulider, UI);
+                                        return 0;
+                                    case ConsoleKey.N:
+                                        UI.DrawUI(UI, true);
+                                        return idPage;
+                                    default:
+                                        Console.ForegroundColor = ConsoleColor.Red;
+                                        Console.WriteLine("You didn't press the correct key. Try again.");
+                                        Console.ResetColor();
+                                        break;
+                                }
+                            } while (key != ConsoleKey.N && key != ConsoleKey.Y);
+                        } // Story Builder home page
                         else if (String.Equals(input.ToUpper().Replace(" ", null), "0"))
                         {
                             Console.ForegroundColor = ConsoleColor.Red;
@@ -163,10 +179,10 @@ namespace OstreC.ManageInput
                                 {
                                     case ConsoleKey.Y:
                                         UI.Page.switchPage(PageType.Main_Menu, UI);
-                                        break;
+                                        return 0;
                                     case ConsoleKey.N:
                                         UI.DrawUI(UI, true);
-                                        break;
+                                        return idPage;
                                     default:
                                         Console.ForegroundColor = ConsoleColor.Red;
                                         Console.WriteLine("You didn't press the correct key. Try again.");
@@ -174,8 +190,7 @@ namespace OstreC.ManageInput
                                         break;
                                 }
                             } while (key != ConsoleKey.N && key != ConsoleKey.Y);
-                            return idPage;
-                        }
+                        } // Main menu
                         else
                         {
                             UI.Page.error = "You didn't provide a correct number";
