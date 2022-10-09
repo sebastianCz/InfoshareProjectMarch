@@ -1,6 +1,7 @@
 ﻿using OstreC.Interface;
 using OstreC.ManageInput;
 using OstreC.Services;
+using OstreC.Services.Characters;
 
 namespace OstreC
 {
@@ -15,7 +16,9 @@ namespace OstreC
         //Page object containing current page info.
         public Page Page = new Page(PageType.Main_Menu);
 
-        public currentUser currentUser = new currentUser(-1, "", "", false);
+        public CurrentUser currentUser = new CurrentUser(-1, "", "", false);
+
+        public CurrentPlayer currentPlayer = new CurrentPlayer();
 
         //Link to player methods from services or reference to an existing one can be created through the constructor.
         //Player player = new Player();
@@ -34,6 +37,9 @@ namespace OstreC
 
         public UI()
         {
+
+            currentPlayer.CreateDefaultPlayer();
+
             for (int i = 0; i < _menuCommands.Count(); i++)
             {
                 _menuCommandsString += " || " + _menuCommands[i];
