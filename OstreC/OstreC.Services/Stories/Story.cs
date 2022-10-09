@@ -4,14 +4,19 @@
     {
         public string NameOfStory { get; }
         public int AmountOfParagrafh { get { return Paragraphs.Count(); } }
-        public List<Paragraph> Paragraphs { get; } = new List<Paragraph>();
+        public List<Object> Paragraphs { get; } = new List<Object>();
+
+        //public List<FightParagraph> FightParagraphs { get; } = new List<FightParagraph>();
+        //public List<TestParagraph> TestParagraphs { get; } = new List<TestParagraph>();
+        //public List<DialogParagraph> DialogParagraphs { get; } = new List<DialogParagraph>();
+        //public List<DescOfStage> DescOfStages { get; } = new List<DescOfStage>();
 
         public Story(string nameOfStory)
         {
             NameOfStory = nameOfStory;
         }
 
-        public void AddNewParagraph(Paragraph newParagraph)
+        public void AddNewParagraph(Object newParagraph)
         {
             Paragraphs.Add(newParagraph);
         }

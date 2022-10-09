@@ -54,10 +54,10 @@ namespace OstreC.ManageInput
                                 {
                                     case ConsoleKey.Y:
                                         UI.Page.switchPage(PageType.Main_Menu, UI);
-                                        break;
+                                        return 0;
                                     case ConsoleKey.N:
                                         UI.DrawUI(UI, true);
-                                        break;
+                                        return idPage;
                                     default:
                                         Console.ForegroundColor = ConsoleColor.Red;
                                         Console.WriteLine("You didn't press the correct key. Try again.");
@@ -65,7 +65,6 @@ namespace OstreC.ManageInput
                                         break;
                                 }
                             } while (key != ConsoleKey.N && key != ConsoleKey.Y);
-                            return 0;
                         } // Main menu
                         else
                         {
