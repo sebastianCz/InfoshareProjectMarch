@@ -14,18 +14,21 @@ namespace OstreC.ManageInput
         UI UI = new UI();
         Player player = new Player();
 
+        
+
         ConsoleColor ccWhite = ConsoleColor.White;
         ConsoleColor ccRed = ConsoleColor.Red;
         ConsoleColor ccYellow = ConsoleColor.Yellow;
         ConsoleColor ccDarkCyan = ConsoleColor.DarkCyan;
         public void CreateMenu()
-        {            
-            while (true)
+        {
+            bool menuState = true;
+            while (menuState)
             {
                 Console.Clear();
                 UI.Page.switchPage(PageType.Create_Character, UI);
-                
                 int.TryParse(Console.ReadLine(), out int input);
+                //int input = Utilities.InputDataAsInt(1, 10);
                 switch (input)
                 {
                     case 1:
@@ -39,6 +42,12 @@ namespace OstreC.ManageInput
                         break;
                     case 4:
                         DisplayStatistics();
+                        break;
+                    case 5:
+                        SavePlayerToList();
+                        break;
+                    case 6:
+                        menuState = false;
                         break;
                     case 7:
                         Console.WriteLine(player.Strength);
@@ -59,11 +68,40 @@ namespace OstreC.ManageInput
             }
             Utilities.PressAnyKey();
         }
+
+        //private void MainMenu()
+        //{
+        //    UI UI = new UI();
+        //    UI.Page.switchPage(PageType.Main_Menu, UI);
+
+        //    do
+        //    {
+        //        UI.checkInput(UI);
+
+        //    } while (UI.exit == false);
+        //}
+
+        private void SavePlayerToList()
+        {
+            if (!player.isPlayerCreated)
+            {
+                UI.Page.pageInfo = "Save your adventurer";
+                UI.Page.error = "First you have to create an adventurer";
+                UI.DrawUI(UI, false);
+                Utilities.PressAnyKey();
+                return;
+            }
+            UI.Page.pageInfo = "Adventurer was created sucessfully";
+            UI.DrawUI(UI, false);
+            player.AddPropertiesToList();
+            Utilities.PressAnyKey();
+        }
         #region
         private void CreateDefaultPlayer()
         {
             if (player.isPlayerCreated)
             {
+                UI.Page.pageInfo = "Use already created adventurer";
                 UI.Page.error = "Player already exists. You can have only 1 adventurer";
                 UI.DrawUI(UI, false);
                 Utilities.PressAnyKey();
@@ -81,6 +119,7 @@ namespace OstreC.ManageInput
         {
             if (player.isPlayerCreated)
             {
+                UI.Page.pageInfo = "Create your own adventurer";
                 UI.Page.error = "Player already exists. You can have only 1 adventurer";
                 UI.DrawUI(UI, false);
                 Utilities.PressAnyKey();
@@ -109,8 +148,8 @@ namespace OstreC.ManageInput
 
                 player.AddValueToProperty();
                 UI.Page.pageInfo = "Custom adventurer was created";
-                UI.DrawUI(UI, false);
                 Utilities.PressAnyKey();
+                UI.DrawUI(UI, false);                
             }
         }
         private void AddAttribute(Player.Attributes attr)
@@ -140,16 +179,17 @@ namespace OstreC.ManageInput
                 default:
                     break;
             }
-
-            if (!(attr == Player.Attributes.Charisma))
-            {
-                DisplayListAttributes(player.attributePoints);
-            }
+            DisplayListAttributes(player.attributePoints);
+            //if (!(attr == Player.Attributes.Charisma))
+            //{
+            //    DisplayListAttributes(player.attributePoints);
+            //}
         }
         private void DeletePlayer()
         {
             if (!player.isPlayerCreated)
-            {                
+            {
+                UI.Page.pageInfo = "Delete your adventurer";
                 UI.Page.error = "No adventurer to delete!";
                 UI.DrawUI(UI, false);
                 Utilities.PressAnyKey();
@@ -157,23 +197,28 @@ namespace OstreC.ManageInput
             }
             if (player.isPlayerCreated)
             {
-                Console.WriteLine("Do you really want to delete your adventurer?\nPress Y - yes; Press N - no");
+                UI.Page.pageInfo = "Delete your adventurer";
+                UI.Page.error = "Do you really want to delete your adventurer?\nPress Y - yes; Press N - no";
+                UI.DrawUI(UI, false);
+                //Console.WriteLine("Do you really want to delete your adventurer?\nPress Y - yes; Press N - no");
                 string input = Utilities.InputDataAsString(Utilities.rgxYN).ToLower();
                 if (input == "y")
                 {
                     UI.Page.pageInfo = "Adventurer was deleted";
+                    UI.Page.error = "";
                     UI.DrawUI(UI, false);
                     Utilities.PressAnyKey();
                     player.isPlayerCreated = false;
+                    player.DeletePlayer();
                 }
                 else
                 {
                     UI.Page.pageInfo = "Oh, you have changed your mind";
+                    UI.Page.error = "";
                     UI.DrawUI(UI, false);
                     Utilities.PressAnyKey();
                 }
-            }
-            player.DeletePlayer();
+            }            
         }
         private void DisplayStatistics()
         {
@@ -181,6 +226,7 @@ namespace OstreC.ManageInput
             UI.Page.switchPage(PageType.Create_Character, UI);
             if (!player.isPlayerCreated)
             {
+                UI.Page.pageInfo = "Display statistics";
                 UI.Page.error = "No data to display";
                 UI.DrawUI(UI, false);
                 Utilities.PressAnyKey();
@@ -222,7 +268,7 @@ namespace OstreC.ManageInput
             Utilities.WriteLineColorText("Description", firstColor: ccDarkCyan);
             Utilities.Underline(value: underline);
         }
-        public void DisplayListAttributes(List<int> list)
+        private void DisplayListAttributes(List<int> list)
         {
             Console.Clear();
             string format = "+#.##;-#.##;+0";
@@ -263,6 +309,10 @@ namespace OstreC.ManageInput
             Utilities.Underline('=', i);
             Utilities.WriteLineColorText("Attributes", firstColor: ccDarkCyan);
             Utilities.Underline('=', i);
+
+            //Utilities.WriteLineColorText($"Name: ", $"{player.Name}", ccWhite, ccYellow, multiplierTab: 1);
+            //Utilities.WriteLineColorText($"Race: ", $"{player.Race}", ccWhite, ccYellow, multiplierTab: 1);
+            //Utilities.WriteLineColorText($"Class: ", $"{player.CharClass}", ccWhite, ccYellow, multiplierTab: 1);
 
             Utilities.WriteLineColorText($"{Player.Attributes.Strength}:",$"{tab}{player.Strength}{tab}{player.ModStrength.ToString(format)}", ccWhite, ccYellow);
             Utilities.WriteLineColorText($"{Player.Attributes.Dexterity}:",$"{tab}{player.Dexterity}{tab}{player.ModDexterity.ToString(format)}", ccWhite, ccYellow);

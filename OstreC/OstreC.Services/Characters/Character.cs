@@ -38,6 +38,16 @@ namespace OstreC.Services.Characters
             Wisdom,
             Charisma
         }
+        public enum Races
+        {
+            Human,
+            Orc
+        }
+        public enum Classes
+        {
+            Thief,
+            Wizard
+        }
         public void UpdatePropertyValue(Attributes attribute, int value = 1)
         {
             switch (attribute)

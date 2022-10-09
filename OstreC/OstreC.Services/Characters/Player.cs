@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Numerics;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -17,17 +18,6 @@ namespace OstreC.Services.Characters
         string name;
         string race;
         string charClass;
-
-        int strength;
-        int dexterity;
-        int constitution;
-        int intelligence;
-        int wisdom;
-        int charisma;
-
-        ConsoleColor ccWhite = ConsoleColor.White;
-        ConsoleColor ccYellow = ConsoleColor.Yellow;
-        ConsoleColor ccRed = ConsoleColor.Red;
         public void CreateDefaultPlayer()
         {
             Name = "Jaheira";
@@ -81,37 +71,37 @@ namespace OstreC.Services.Characters
 
             HealthPoints = CalculateHealthPoints();
 
-            //ModStrength = CalculateModifier(strength);
-            //ModDexterity = CalculateModifier(dexterity);
-            //ModConstitution = CalculateModifier(constitution);
-            //ModIntelligence = CalculateModifier(intelligence);
-            //ModWisdom = CalculateModifier(wisdom);
-            //ModCharisma = CalculateModifier(charisma);
+            ModStrength = CalculateModifier(Strength);
+            ModDexterity = CalculateModifier(Dexterity);
+            ModConstitution = CalculateModifier(Constitution);
+            ModIntelligence = CalculateModifier(Intelligence);
+            ModWisdom = CalculateModifier(Wisdom);
+            ModCharisma = CalculateModifier(Charisma);
 
             isPlayerCreated = true;
         }
-        //public void AddPropertiesToList()
-        //{
-        //    playerList.Add(new Character
-        //    {
-        //        Name = name,
-        //        Race = race,
-        //        CharClass = charClass,
-        //        Strength = strength,
-        //        Dexterity = dexterity,
-        //        Constitution = constitution,
-        //        Intelligence = intelligence,
-        //        Wisdom = wisdom,
-        //        Charisma = charisma,
-        //        ModStrength = CalculateModifier(strength),
-        //        ModDexterity = CalculateModifier(dexterity),
-        //        ModConstitution = CalculateModifier(constitution),
-        //        ModIntelligence = CalculateModifier(intelligence),
-        //        ModWisdom = CalculateModifier(wisdom),
-        //        ModCharisma = CalculateModifier(charisma)
-        //    });
-        //    isPlayerCreated = true;
-        //}
+        public void AddPropertiesToList()
+        {
+            playerList.Add(new Character
+            {
+                Name = name,
+                Race = race,
+                CharClass = charClass,
+                Strength = Strength,
+                Dexterity = Dexterity,
+                Constitution = Constitution,
+                Intelligence = Intelligence,
+                Wisdom = Wisdom,
+                Charisma = Charisma,
+                ModStrength = CalculateModifier(Strength),
+                ModDexterity = CalculateModifier(Dexterity),
+                ModConstitution = CalculateModifier(Constitution),
+                ModIntelligence = CalculateModifier(Intelligence),
+                ModWisdom = CalculateModifier(Wisdom),
+                ModCharisma = CalculateModifier(Charisma)
+            });
+            isPlayerCreated = true;
+        }
 
         // do skończenia, trzeba obsłużyć wpisywanie wartości różnych od wartości na liście.
         public int AddAttributePoints(Attributes attribute)
@@ -145,7 +135,7 @@ namespace OstreC.Services.Characters
                     ChangeValueFromList(attributePoints, input);
                     return Wisdom = input;
                 case Attributes.Charisma:
-                    ChangeValueFromList(attributePoints, input);                    
+                    ChangeValueFromList(attributePoints, input);
                     return Charisma = input;
                 default:
                     return -1;

@@ -10,16 +10,13 @@ namespace OstreC.ManageInput
         {
             CreateCharacterHelper createCharacterHelper = new CreateCharacterHelper();
             createCharacterHelper.CreateMenu();
-
             var input = Console.ReadLine();
 
             if (Helpers.isCommand(input, UI))
             {
                 Helpers.HandleCommand(input, UI);
+                
             }
-            //UI.DrawUI(UI, false);
         }
-
-
     }
 }
