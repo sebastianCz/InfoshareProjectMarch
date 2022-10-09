@@ -13,7 +13,7 @@ namespace OstreC.ManageInput
         public PageType Type => PageType.Story_Bulider;
         public int IdPage { get; private set; } = 0;
         private static int IdCreator { get; set; }
-        public static Story CurrentStory { get; } = new Story();
+        public static Story CurrentStory { get; private set; } = new Story();
         public void checkUserInput(UI UI)
         {
 
@@ -22,7 +22,7 @@ namespace OstreC.ManageInput
             IdPage = CheckInput(input, UI, IdPage, inputText);
         }
 
-        public static int CheckInput(string input, UI UI, int idPage, string inputText)
+        private static int CheckInput(string input, UI UI, int idPage, string inputText)
         {
 
             switch (idPage)
@@ -218,7 +218,20 @@ namespace OstreC.ManageInput
                         }
                         else
                         {
-                            CreatNewStory(UI, inputText, CurrentStory, IdCreator);
+                            CurrentStory = JsonFile.DeserializeStory(inputText);
+                            CurrentStory.AddAllParagraph();
+
+                            Console.Clear();
+                            foreach(var x in CurrentStory.Paragraphs)
+                            {
+                                if (x.ParagraphType == ParagraphType.Fight)
+                                {
+                                    FightParagraph fight = (FightParagraph)x;
+                                    Console.WriteLine(fight.EnemyName);
+                                }
+                            }    
+                            
+
                             UI.DrawUI(UI, false);
                             UI.Page.error = "";
                             return idPage;
@@ -230,55 +243,142 @@ namespace OstreC.ManageInput
             }
         }
 
-        public static void CreatNewStory(UI UI, string inputText, Story newStory, int idCreator)
+        private static void CreatNewStory(UI UI, string inputText, Story newStory, int idCreator)
         {
             switch (idCreator)
             {
                 case 0: // Name for Story
-                    Console.WriteLine($"The name of your story is: {inputText}");
-
-                    Console.WriteLine("Are you sure? \nPress 'Y' - yes or 'N' - no");
-                    ConsoleKey key;
-                    do
                     {
-                        key = Console.ReadKey().Key;
-                        switch (key)
+                        Console.WriteLine($"The name of your story is: {inputText}");
+
+                        Console.WriteLine("Are you sure? \nPress 'Y' - yes or 'N' - no");
+                        ConsoleKey key;
+                        do
                         {
-                            case ConsoleKey.Y:
-                                UI.Page.pageInfo = $"You create a {inputText} story!";
-                                UI.Page.instructions = "Type 1 to go Story Builder home page!\nType 0 to go back to the main menu!\nType 'Save' to save changes!\nType 'New' to create a new paragraph\nEnter 'Link' to create a new paragraph link";
-                                newStory.ChangeNameOfStory(inputText);
-                                IdCreator = 1;
+                            key = Console.ReadKey().Key;
+                            switch (key)
+                            {
+                                case ConsoleKey.Y:
+                                    UI.Page.pageInfo = $"You create a {inputText} story!";
+                                    UI.Page.instructions = "Type 1 to go Story Builder home page!\nType 0 to go back to the main menu!\nType 'Save' to save changes!\nType 'New' to create a new paragraph\nEnter 'Link' to create a new paragraph link";
+                                    newStory.ChangeNameOfStory(inputText);
+                                    IdCreator = 1;
+                                    break;
+                                case ConsoleKey.N:
+                                    break;
+                                default:
+                                    Console.ForegroundColor = ConsoleColor.Red;
+                                    Console.WriteLine("You didn't press the correct key. Try again.");
+                                    Console.ResetColor();
+                                    break;
+                            }
+                        } while (key != ConsoleKey.N && key != ConsoleKey.Y);
+                        break;
+                    }
+                case 1: // New or Link
+                    {
+                        switch (inputText.ToUpper().Replace(" ", null))
+                        {
+                            case "NEW":
+                                CreatNewParagraph();
                                 break;
-                            case ConsoleKey.N:
+                            case "LINK":
+
                                 break;
                             default:
-                                Console.ForegroundColor = ConsoleColor.Red;
-                                Console.WriteLine("You didn't press the correct key. Try again.");
-                                Console.ResetColor();
+                                UI.Page.error = "You didn't type the correct option";
                                 break;
                         }
-                    } while (key != ConsoleKey.N && key != ConsoleKey.Y);
-                    break;
-                case 1:
-                    switch (inputText.ToUpper().Replace(" ", null))
-                    {
-                        case "NEW":
-                            Console.WriteLine(inputText);
-                            Console.ReadKey();
-                            break;
-                        case "LINK":
-                            Console.WriteLine(inputText);
-                            Console.ReadKey();
-                            break;
-                        default:
-                            UI.Page.error = "You didn't type the correct option";
-                            break;
                     }
                     break;
                 default:
                     break;
             }
+        }
+
+        private static void CreatNewParagraph()
+        {
+            List<Option> options = new List<Option>
+            {
+                new Option("DescOfStage", () => CreatNewDescOfStageParagraph()),
+                new Option("Fight", () =>  CreatNewFightParagraph()),
+                new Option("Dialog", () =>  CreatNewDialogParagraph()),
+                new Option("Test", () => CreatNewTestParagraph()),
+            };
+
+            int index = 0;
+            WriteOptionsSelect(options, options[index]);
+
+            ConsoleKeyInfo keyinfo;
+            do
+            {
+                keyinfo = Console.ReadKey();
+                if (keyinfo.Key == ConsoleKey.DownArrow)
+                {
+                    if (index + 1 < options.Count)
+                    {
+                        index++;
+                        WriteOptionsSelect(options, options[index]);
+                    }
+                }
+                if (keyinfo.Key == ConsoleKey.UpArrow)
+                {
+                    if (index - 1 >= 0)
+                    {
+                        index--;
+                        WriteOptionsSelect(options, options[index]);
+                    }
+                }
+                if (keyinfo.Key == ConsoleKey.Enter)
+                {
+                    options[index].Selected.Invoke();
+                    break;
+                }
+            } while (true);
+        }
+
+        static void WriteOptionsSelect(List<Option> options, Option selectedOption)
+        {
+            Console.Clear();
+            Console.Write("Type te current paragraph type: \n");
+
+            foreach (Option option in options)
+            {
+                if (option == selectedOption) Console.Write("> ");
+                else Console.Write(" ");
+                
+                Console.WriteLine(option.Name);
+            }
+        }
+
+
+        private static void CreatNewDescOfStageParagraph()
+        {
+            CurrentStory.AddNewDescOfStageParagraph(new DescOfStage(CurrentStory.AmountOfParagrafh, $"Desc: test{CurrentStory.AmountOfParagrafh}"));
+        }
+
+        private static void CreatNewFightParagraph()
+        {
+            CurrentStory.AddNewFightParagraph(new FightParagraph(CurrentStory.AmountOfParagrafh, $"Fight: test{CurrentStory.AmountOfParagrafh}", 2, "goblin"));
+        }
+
+        private static void CreatNewDialogParagraph()
+        {
+            CurrentStory.AddNewDialogParagraph(new DialogParagraph(CurrentStory.AmountOfParagrafh, $"Dialog: test{CurrentStory.AmountOfParagrafh}"));
+        }
+
+        private static void CreatNewTestParagraph()
+        {
+            CurrentStory.AddNewTestParagraph(new TestParagraph(CurrentStory.AmountOfParagrafh, $"Test: test{CurrentStory.AmountOfParagrafh}"));
+        }
+
+
+        public static void ClearCurrentConsoleLine()
+        {
+            int currentLineCursor = Console.CursorTop;
+            Console.SetCursorPosition(0, Console.CursorTop);
+            Console.Write(new string(' ', Console.WindowWidth));
+            Console.SetCursorPosition(0, currentLineCursor);
         }
     }
 }
