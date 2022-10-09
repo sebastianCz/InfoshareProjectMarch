@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace OstreC.Services
 {
-    
+
     public class CurrentUser : User
     {
 
@@ -23,7 +23,7 @@ namespace OstreC.Services
         public bool Login(string userName, string password)
         {
 
-            var x = JsonFile.Deserialize("Users");
+            var x = JsonFile.DeserializeUsersList("Users");
 
             foreach (var user in x.Results)
             {
@@ -42,7 +42,7 @@ namespace OstreC.Services
         public bool createUser(CurrentUser currentUser, out string feedback)
         {
 
-            var usersList = JsonFile.Deserialize("Users");
+            var usersList = JsonFile.DeserializeUsersList("Users");
             var usersArray = usersList.Results.ToArray();
             bool userExists = false;
 
@@ -72,7 +72,7 @@ namespace OstreC.Services
                 currentUser.Id = usersList.Results.Count() + 1;
                 usersList.Results.Add(currentUser);
 
-                var x = JsonFile.Serialize(usersList);
+                var x = JsonFile.SerializeUsersList(usersList);
                 JsonFile.serializedToJson(x, "Users");
 
                 feedback = "User created";
@@ -93,7 +93,7 @@ namespace OstreC.Services
         {
 
             //Checks if user exists
-            var usersList = JsonFile.Deserialize("Users");
+            var usersList = JsonFile.DeserializeUsersList("Users");
             var usersArray = usersList.Results.ToArray();
             bool userExists = false;
 

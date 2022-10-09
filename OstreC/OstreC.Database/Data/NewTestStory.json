@@ -1,0 +1,74 @@
+{
+  "NameOfStory": "NewTestStory",
+  "AmountOfParagrafh": 4,
+  "Paragraphs": [
+    {
+      "ParagraphType": 0,
+      "IdParagraph": 0,
+      "TextParagraph": "Desc: test0",
+      "HowManyOptions": 0,
+      "NextParagraphs": []
+    },
+    {
+      "AmountOfEnemy": 2,
+      "EnemyName": "goblin",
+      "ParagraphType": 1,
+      "IdParagraph": 1,
+      "TextParagraph": "Fight: test1",
+      "HowManyOptions": 0,
+      "NextParagraphs": []
+    },
+    {
+      "ParagraphType": 2,
+      "IdParagraph": 2,
+      "TextParagraph": "Dialog: test2",
+      "HowManyOptions": 0,
+      "NextParagraphs": []
+    },
+    {
+      "ParagraphType": 3,
+      "IdParagraph": 3,
+      "TextParagraph": "Test: test3",
+      "HowManyOptions": 0,
+      "NextParagraphs": []
+    }
+  ],
+  "FightParagraphs": [
+    {
+      "AmountOfEnemy": 2,
+      "EnemyName": "goblin",
+      "ParagraphType": 1,
+      "IdParagraph": 1,
+      "TextParagraph": "Fight: test1",
+      "HowManyOptions": 0,
+      "NextParagraphs": []
+    }
+  ],
+  "TestParagraphs": [
+    {
+      "ParagraphType": 3,
+      "IdParagraph": 3,
+      "TextParagraph": "Test: test3",
+      "HowManyOptions": 0,
+      "NextParagraphs": []
+    }
+  ],
+  "DialogParagraphs": [
+    {
+      "ParagraphType": 2,
+      "IdParagraph": 2,
+      "TextParagraph": "Dialog: test2",
+      "HowManyOptions": 0,
+      "NextParagraphs": []
+    }
+  ],
+  "DescOfStages": [
+    {
+      "ParagraphType": 0,
+      "IdParagraph": 0,
+      "TextParagraph": "Desc: test0",
+      "HowManyOptions": 0,
+      "NextParagraphs": []
+    }
+  ]
+}
