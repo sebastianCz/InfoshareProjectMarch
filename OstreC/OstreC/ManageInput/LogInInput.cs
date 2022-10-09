@@ -26,6 +26,8 @@ namespace OstreC.ManageInput
             int id = -1;
             string feedback = "";
 
+            
+
             var input = Console.ReadLine();
             input = input.Replace(" ", null);
             if (Helpers.isCommand(input, UI)) { return; }

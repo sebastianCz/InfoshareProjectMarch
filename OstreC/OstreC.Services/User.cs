@@ -69,14 +69,19 @@ namespace OstreC.Services
 
         public bool createUser(currentUser currentUser,out string feedback)
         {
+            
             var usersList = JsonFile.Deserialize("Users");
             var usersArray = usersList.Results.ToArray();
             bool userExists = false;
+
+          
 
             foreach (var user in usersArray)
             {
                 if(user.UserName == currentUser.UserName)
                 {
+
+                    
                     userExists = true;
                     break;
                 }
