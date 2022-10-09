@@ -16,18 +16,3 @@ do
     UI.checkInput(UI);
 
 } while (UI.exit == false);
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
