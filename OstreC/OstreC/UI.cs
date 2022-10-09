@@ -1,5 +1,6 @@
 ﻿using OstreC.Interface;
 using OstreC.ManageInput;
+using OstreC.Services;
 
 namespace OstreC
 {
@@ -14,13 +15,14 @@ namespace OstreC
         //Page object containing current page info.
         public Page Page = new Page(PageType.Main_Menu);
 
+        public currentUser currentUser = new currentUser(-1, "", "", false);
 
         //Link to player methods from services or reference to an existing one can be created through the constructor.
         //Player player = new Player();
         //Paragraph Paragraph = new Paragraph(player) ;
 
         //LIST +string containing  existing menu commands. 
-        public static readonly string[] _menuCommands = { "MAIN_MENU", "EXIT" };
+        public static readonly string[] _menuCommands = { "MAIN_MENU", "EXIT","BACK" };
         private static string _menuCommandsString { get; set; }
 
 
@@ -48,6 +50,7 @@ namespace OstreC
             pageTypes.Add(new BestiaryInput());
             pageTypes.Add(new ExampleInput());
             pageTypes.Add(new StoryBuliderInput());
+            pageTypes.Add(new LoginInput());
         }
 
 
@@ -79,8 +82,13 @@ namespace OstreC
 
             if (UI.Page.currentType != PageType.Paragraph_Combat)
             {
+                string status = "Offline";
+                if (UI.currentUser.LoggedIn) { status = "Online"; }
                 Console.ForegroundColor = ConsoleColor.Green;
-                genericHeader = $"Active Page: {Page.currentType} || Ostre C Game {Page.breakLine} Type any of the existing commands at any time: \n {_menuCommandsString} {Page.breakLine}";
+                genericHeader = $"Active Page: {Page.currentType} || Ostre C Game || Current status: {status} {Page.breakLine} || Current user:{currentUser.UserName}" +
+                    $"Type any of the existing commands at any time: \n {_menuCommandsString} {Page.breakLine}";
+
+
                 Console.WriteLine($"{genericHeader}");
             }
         }
@@ -102,6 +110,8 @@ namespace OstreC
 
         public void clearData(UI UI)
         {
+            //Comentted out since Page info would get cleared out together with the error despite having to stay. 
+            //UI.Page.pageInfo = "";
             UI.Page.error = "";
         }
 

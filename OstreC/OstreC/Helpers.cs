@@ -19,8 +19,27 @@ namespace OstreC
             {
                 if (command == userInput)
                 {
-                    HandleCommand(userInput, UI);
-                    return true;
+                    Console.ForegroundColor = ConsoleColor.Red;
+                    Console.WriteLine("Are you sure? You go back to menu.\nPress 'Y' - yes or 'N' - no");
+                    Console.ResetColor();              
+                    do
+                    {
+                        ConsoleKey key = Console.ReadKey().Key;
+                        switch (key)
+                        {
+                            case ConsoleKey.Y:
+                                UI.Page.switchPage(PageType.Main_Menu, UI);
+                                return true;
+                            case ConsoleKey.N:
+                                UI.DrawUI(UI, true);
+                                return true;
+                            default:
+                                Console.ForegroundColor = ConsoleColor.Red;
+                                Console.WriteLine("You didn't press the correct key. Try again.");
+                                Console.ResetColor();
+                                break;
+                        }
+                    } while (true);
                 }
             }
             return false;
@@ -42,8 +61,12 @@ namespace OstreC
                 case "EXIT":
                     UI.exit = true;
                     break;
+                case "MENU":
                 case "MAIN_MENU":
                     UI.Page.switchPage(PageType.Main_Menu, UI);
+                    break;
+                case "BACK":
+                    UI.Page.switchPage(UI.Page.currentType, UI);
                     break;
                 default:
                     //Method shouldn't be inkoked if input != command. 

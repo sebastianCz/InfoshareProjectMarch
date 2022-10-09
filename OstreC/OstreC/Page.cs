@@ -7,7 +7,7 @@ namespace OstreC
     {
         public PageType currentType { get; set; }
         public string breakLine { get; } = "\n=======================================================================================================\n";
-        public string pageInfo { get; set; } = "";
+        public string pageInfo { get; internal set; } = "";
         public string error { get; set; } = "";
         public string instructions { get; set; } = "";
 
@@ -40,6 +40,14 @@ namespace OstreC
                     break;
 
                 case PageType.Create_NewGame:
+                    currentType = PageType.Create_NewGame;
+                    pageInfo = "Welcome to game creation screen!";
+                    instructions = " Press 1 to create new game\n pres 2 to go back to main menu";
+ 
+                    UI.DrawUI(UI, true);
+
+
+
                     break;
 
                 case PageType.Create_Character:
@@ -67,7 +75,7 @@ namespace OstreC
                 case PageType.Story_Bulider:
                     currentType = PageType.Story_Bulider;
                     pageInfo = "Welcome to the Story Builder!";
-                    instructions = "User input is not handled yet.";
+                    instructions = "Press 1 to create a new story!\nPress 2 to load an existing history and edit it!\nPress 0 to go back to the main menu!";
                     UI.DrawUI(UI, true);
                     break;
 
@@ -81,9 +89,17 @@ namespace OstreC
                 case PageType.ExampleEnum:
                     currentType = PageType.ExampleEnum;
                     pageInfo = "Welcome to the example page!";
-                    instructions = "Press 1 to show example messages!\n Press 2 to go back to main menu!";
+                    instructions = "Press 1 to show example messages!\nPress 2 to go back to main menu!";
                     UI.DrawUI(UI, true);
                     break;
+
+                case PageType.Login:
+                    currentType = PageType.Login;
+                    pageInfo = "Welcome to the login page! ";
+                    instructions = "Type 1 to login \n Type 2 to register \n Type 3 if you forgot your password";
+                    UI.DrawUI(UI, true);
+                    break;
+
                 default:
                     throw new Exception("SwitchPage() was ivoked at Page.Cs with an unhandled page type.Default message won't be assigned.");
                     break;
