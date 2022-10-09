@@ -1,52 +1,44 @@
-﻿
-using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Newtonsoft.Json;
 using OstreC.Database;
-using System.IO;
+using OstreC.Services.Stories;
 
 namespace OstreC.Services
 {
     public  class JsonFile
     {
-
-
-         public static UsersList  Deserialize(string X)
+         public static UsersList DeserializeUsersList(string nameFile)
         {
-            string x =  ReaderJson.readFile(X);
-            UsersList UsersList = JsonConvert.DeserializeObject<UsersList>(x);
-
-
+            string textFromFile =  ReaderJson.readFile(nameFile);
+            UsersList UsersList = JsonConvert.DeserializeObject<UsersList>(textFromFile);
 
             return UsersList;
-
-
         }
 
-        public static string Serialize(UsersList x)
+        public static Story DeserializeStory(string nameFile)
         {
-            string y = JsonConvert.SerializeObject(x);
+            string textFromFile = ReaderJson.readFile(nameFile);
+            Story story = JsonConvert.DeserializeObject<Story>(textFromFile);
 
-            return y;
+            return story;
+        }
 
+        public static string SerializeUsersList(UsersList usersList)
+        {
+            string textToFile = JsonConvert.SerializeObject(usersList);
+            return textToFile;
+        }
+
+        public static string SerializeStory(Story story)
+        {
+            string textToFile = JsonConvert.SerializeObject(story);
+            return textToFile;
         }
 
         public static void serializedToJson(string serializedObject , string fileName)
         {
-
-             string dir = ReaderJson.dbDirectory();
+            string dir = ReaderJson.dbDirectory();
             var fileNamePath = Path.Combine(dir, "data", fileName + ".json");
             File.WriteAllText(fileNamePath, serializedObject);
         }
-
-        
-
-
     }
-
-
-
 }

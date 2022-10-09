@@ -3,6 +3,7 @@ using OstreC;
 using OstreC.Interface;
 using System;
 using static System.Net.Mime.MediaTypeNames;
+using OstreC.Services.Stories;
 
 namespace OstreC.ManageInput
 {
@@ -10,6 +11,8 @@ namespace OstreC.ManageInput
     {
         public PageType Type => PageType.Story_Bulider;
         public int IdPage { get; private set; } = 0;
+        private static int IdCreator { get; set; }
+        public static Story CurrentStory { get; } = new Story();
         public void checkUserInput(UI UI)
         {
 
@@ -25,19 +28,20 @@ namespace OstreC.ManageInput
             {
                 case 0: // Story Builder home page
                     {
+                        IdCreator = 0;
                         input = input.ToUpper().Replace(" ", null);
                         if (Helpers.isCommand(input, UI)) return 0;
                         else if (String.Equals(input.ToUpper().Replace(" ", null), "1")) // make a new story
                         {
                             UI.Page.pageInfo = "You've chosen to make a new story!";
-                            UI.Page.instructions = "Press 1 to go Story Builder home page!\nPress 0 to go back to the main menu!\n\nLet's start with something easy, enter the name of the story:";
+                            UI.Page.instructions = "Type 1 to go Story Builder home page!\nType 0 to go back to the main menu!\n\nLet's start with something easy, enter the name of the story:";
                             UI.DrawUI(UI, true);
                             return 1;
                         } // make a new story
                         else if (String.Equals(input.ToUpper().Replace(" ", null), "2")) // load an existing history for editing
                         {
                             UI.Page.pageInfo = "You have chosen to load an existing history for editing!";
-                            UI.Page.instructions = "Press 1 to go Story Builder home page!\nPress 0 to go back to the main menu!\n\nEnter a story name to edit: ";
+                            UI.Page.instructions = "Type 1 to go Story Builder home page!\nType 0 to go back to the main menu!\n\nEnter a story name to edit: ";
                             UI.DrawUI(UI, true);
                             return 2;
                         } // load an existing history for editing
@@ -68,7 +72,7 @@ namespace OstreC.ManageInput
                         } // Main menu
                         else
                         {
-                            UI.Page.error = "You didn't provide a correct number";
+                            UI.Page.error = "You didn't type the correct option";
                             UI.DrawUI(UI, false);
                             return idPage;
                         }
@@ -128,10 +132,18 @@ namespace OstreC.ManageInput
                                 }
                             } while (key != ConsoleKey.N && key != ConsoleKey.Y);
                         } // Main menu
+                        else if (String.Equals(input.ToUpper().Replace(" ", null), "SAVE")) // Save
+                        {
+                            Console.WriteLine("One Day Save");
+                            Console.ReadKey();
+                            UI.DrawUI(UI, true);
+                            return idPage;
+                        }
                         else
                         {
-                            UI.Page.error = "You didn't provide a correct number";
+                            CreatNewStory(UI, inputText, CurrentStory, IdCreator);
                             UI.DrawUI(UI, false);
+                            UI.Page.error = "";
                             return idPage;
                         }
                         return idPage;
@@ -190,10 +202,18 @@ namespace OstreC.ManageInput
                                 }
                             } while (key != ConsoleKey.N && key != ConsoleKey.Y);
                         } // Main menu
+                        else if (String.Equals(input.ToUpper().Replace(" ", null), "SAVE")) // Save
+                        {
+                            Console.WriteLine("One Day Save");
+                            Console.ReadKey();
+                            UI.DrawUI(UI, true);
+                            return idPage;
+                        }
                         else
                         {
-                            UI.Page.error = "You didn't provide a correct number";
+                            CreatNewStory(UI, inputText, CurrentStory, IdCreator);
                             UI.DrawUI(UI, false);
+                            UI.Page.error = "";
                             return idPage;
                         }
                         return idPage;
@@ -202,5 +222,57 @@ namespace OstreC.ManageInput
                     return idPage;
             }
         }
+
+        public static void CreatNewStory(UI UI, string inputText, Story newStory, int idCreator)
+        {
+            switch (idCreator)
+            {
+                case 0: // Name for Story
+                    Console.WriteLine($"The name of your story is: {inputText}");
+
+                    Console.WriteLine("Are you sure? \nPress 'Y' - yes or 'N' - no");
+                    ConsoleKey key;
+                    do
+                    {
+                        key = Console.ReadKey().Key;
+                        switch (key)
+                        {
+                            case ConsoleKey.Y:
+                                UI.Page.pageInfo = $"You create a {inputText} story!";
+                                UI.Page.instructions = "Type 1 to go Story Builder home page!\nType 0 to go back to the main menu!\nType 'Save' to save changes!\nType 'New' to create a new paragraph\nEnter 'Link' to create a new paragraph link";
+                                newStory.ChangeNameOfStory(inputText);
+                                IdCreator = 1;
+                                break;
+                            case ConsoleKey.N:
+                                break;
+                            default:
+                                Console.ForegroundColor = ConsoleColor.Red;
+                                Console.WriteLine("You didn't press the correct key. Try again.");
+                                Console.ResetColor();
+                                break;
+                        }
+                    } while (key != ConsoleKey.N && key != ConsoleKey.Y);
+                    break;
+                case 1:
+                    switch (inputText.ToUpper().Replace(" ", null))
+                    {
+                        case "NEW":
+                            Console.WriteLine(inputText);
+                            Console.ReadKey();
+                            break;
+                        case "LINK":
+                            Console.WriteLine(inputText);
+                            Console.ReadKey();
+                            break;
+                        default:
+                            UI.Page.error = "You didn't type the correct option";
+                            break;
+                    }
+                    break;
+                default:
+                    break;
+            }
+        }
     }
 }
+

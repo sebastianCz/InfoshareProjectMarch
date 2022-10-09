@@ -1,24 +1,32 @@
 ﻿namespace OstreC.Services.Stories
 {
-    internal class Story
+    public class Story
     {
-        public string NameOfStory { get; }
+        public string NameOfStory { get; private set; }
         public int AmountOfParagrafh { get { return Paragraphs.Count(); } }
-        public List<Object> Paragraphs { get; } = new List<Object>();
+        public List<Paragraph> Paragraphs { get; } = new List<Paragraph>();
 
-        //public List<FightParagraph> FightParagraphs { get; } = new List<FightParagraph>();
+        public List<FightParagraph> FightParagraphs { get; } = new List<FightParagraph>();
+
         //public List<TestParagraph> TestParagraphs { get; } = new List<TestParagraph>();
         //public List<DialogParagraph> DialogParagraphs { get; } = new List<DialogParagraph>();
-        //public List<DescOfStage> DescOfStages { get; } = new List<DescOfStage>();
+        public List<DescOfStage> DescOfStages { get; } = new List<DescOfStage>();
 
-        public Story(string nameOfStory)
+        public void ChangeNameOfStory(string nameOfStory)
         {
             NameOfStory = nameOfStory;
         }
 
-        public void AddNewParagraph(Object newParagraph)
+        public void AddNewFightParagraph(FightParagraph newFightParagraph)
         {
-            Paragraphs.Add(newParagraph);
+            Paragraphs.Add(newFightParagraph);
+            FightParagraphs.Add(newFightParagraph);
+        }
+
+        public void AddNewFightPDescOfStage(DescOfStage newDescOfStage)
+        {
+            Paragraphs.Add(newDescOfStage);
+            DescOfStages.Add(newDescOfStage);
         }
     }
 }
