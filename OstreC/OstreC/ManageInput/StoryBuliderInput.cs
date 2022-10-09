@@ -4,6 +4,7 @@ using OstreC.Interface;
 using System;
 using static System.Net.Mime.MediaTypeNames;
 using OstreC.Services.Stories;
+using Microsoft.Win32;
 
 namespace OstreC.ManageInput
 {
@@ -134,9 +135,12 @@ namespace OstreC.ManageInput
                         } // Main menu
                         else if (String.Equals(input.ToUpper().Replace(" ", null), "SAVE")) // Save
                         {
-                            Console.WriteLine("One Day Save");
-                            Console.ReadKey();
-                            UI.DrawUI(UI, true);
+                            string serializedStory = JsonFile.SerializeStory(CurrentStory);
+                            JsonFile.serializedToJson(serializedStory, CurrentStory.NameOfStory);
+                            Console.WriteLine("Wykonano zapis, naciśnij cokolwiek aby kontynuować.");
+                            UI.Page.error = "History saved!";
+                            UI.DrawUI(UI, false);
+                            UI.Page.error = "";
                             return idPage;
                         }
                         else
@@ -204,9 +208,12 @@ namespace OstreC.ManageInput
                         } // Main menu
                         else if (String.Equals(input.ToUpper().Replace(" ", null), "SAVE")) // Save
                         {
-                            Console.WriteLine("One Day Save");
-                            Console.ReadKey();
-                            UI.DrawUI(UI, true);
+                            string serializedStory = JsonFile.SerializeStory(CurrentStory);
+                            JsonFile.serializedToJson(serializedStory, CurrentStory.NameOfStory);
+                            Console.WriteLine("Wykonano zapis, naciśnij cokolwiek aby kontynuować.");
+                            UI.Page.error = "History saved!";
+                            UI.DrawUI(UI, false);
+                            UI.Page.error = "";
                             return idPage;
                         }
                         else
