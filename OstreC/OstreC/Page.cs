@@ -1,4 +1,5 @@
 ﻿using OstreC.Interface;
+using OstreC.Services;
 
 namespace OstreC
 {
@@ -6,11 +7,11 @@ namespace OstreC
     {
         public PageType currentType { get; set; }
         public string breakLine { get; } = "\n=======================================================================================================\n";
-        public string pageInfo { get; set; } = "";
+        public string pageInfo { get; internal set; } = "";
         public string error { get; set; } = "";
         public string instructions { get; set; } = "";
 
-
+        
         public Page(PageType x)
         {
             //Default value
@@ -39,12 +40,21 @@ namespace OstreC
                     break;
 
                 case PageType.Create_NewGame:
+                    currentType = PageType.Create_NewGame;
+                    pageInfo = "Welcome to game creation screen!";
+                    instructions = " Press 1 to create new game\n pres 2 to go back to main menu";
+ 
+                    UI.DrawUI(UI, true);
+
+
+
                     break;
 
                 case PageType.Create_Character:
                     currentType = PageType.Create_Character;
-                    pageInfo = "Welcome to character creation page!";
-                    instructions = "User input is not handled yet.";
+                    pageInfo = "Welcome to character creation page!";                    
+                    instructions = "1. Use already created adventurer\n2. Create your own adventurer\n3. Delete your adventurer\n4. Display statistics" +
+                        "\n5. Save your adventurer\n6. Exit to Main Menu";
                     UI.DrawUI(UI, true);
                     break;
 
@@ -65,7 +75,7 @@ namespace OstreC
                 case PageType.Story_Bulider:
                     currentType = PageType.Story_Bulider;
                     pageInfo = "Welcome to the Story Builder!";
-                    instructions = "User input is not handled yet.";
+                    instructions = "Press 1 to create a new story!\nPress 2 to load an existing history and edit it!\nPress 0 to go back to the main menu!";
                     UI.DrawUI(UI, true);
                     break;
 
@@ -79,7 +89,7 @@ namespace OstreC
                 case PageType.ExampleEnum:
                     currentType = PageType.ExampleEnum;
                     pageInfo = "Welcome to the example page!";
-                    instructions = "Press 1 to show example messages!\n Press 2 to go back to main menu!";
+                    instructions = "Press 1 to show example messages!\nPress 2 to go back to main menu!";
                     UI.DrawUI(UI, true);
                     break;
 

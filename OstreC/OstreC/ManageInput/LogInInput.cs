@@ -6,6 +6,12 @@ using OstreC;
 using Newtonsoft.Json;
 using System.Runtime.InteropServices;
  
+/*
+ 
+ finish validating input for each options. in some places redraw isn't up. 
+ 
+ */
+
 
 namespace OstreC.ManageInput
 {
@@ -19,6 +25,8 @@ namespace OstreC.ManageInput
             string email;
             int id = -1;
             string feedback = "";
+
+            
 
             var input = Console.ReadLine();
             input = input.Replace(" ", null);
@@ -128,9 +136,32 @@ namespace OstreC.ManageInput
                     if (Helpers.isCommand(input, UI)) { return; }
 
                     UI.currentUser.UserName = input;
-                    UI.currentUser.sendEmail(1, UI.currentUser, out  feedback);
+                    bool test = UI.currentUser.sendEmail(1, UI.currentUser, out  feedback);
 
-                    return;
+                    if (test)
+                    {
+                        UI.Page.instructions = " We sent you an email with the password recovery. Press enter to proceed to main screen. ";
+                        UI.DrawUI(UI, true);
+
+                        Console.ReadLine();
+                        UI.Page.switchPage(PageType.Login, UI);
+                        return;
+                    }
+                    else
+                    {
+                        UI.Page.instructions = " You provided wrong username. email can't be sent.  ";
+                        UI.DrawUI(UI, true);
+
+                        Console.ReadLine();
+                        UI.Page.switchPage(PageType.Login, UI);
+                        return;
+                    }
+
+            
+
+                    
+
+                  
  
 
                 default:
