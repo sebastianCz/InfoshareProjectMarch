@@ -13,9 +13,7 @@ namespace OstreC.ManageInput
     {
         UI UI = new UI();
         Player player = new Player();
-
         
-
         ConsoleColor ccWhite = ConsoleColor.White;
         ConsoleColor ccRed = ConsoleColor.Red;
         ConsoleColor ccYellow = ConsoleColor.Yellow;
@@ -41,7 +39,7 @@ namespace OstreC.ManageInput
                         DeletePlayer();
                         break;
                     case 4:
-                        DisplayStatistics();
+                        DisplayStatisticsMenu();
                         break;
                     case 5:
                         SavePlayerToList();
@@ -50,23 +48,15 @@ namespace OstreC.ManageInput
                         menuState = false;
                         break;
                     case 7:
-                        Console.WriteLine(player.Strength);
-                        Console.WriteLine(player.ModStrength);
-                        Utilities.PressAnyKey();
                         break;
                     case 8:
-                        //player.UpdatePropertyValue(player);
                         break;
                     case 9:
-                        //createPlayer.GenerateAttributePoints();
-                        //AddAttributePoints(Attributes.Strength);
-                        DisplayListAttributes();
                         break;
                     default:
                         break;
                 }
             }
-            Utilities.PressAnyKey();
         }
 
         //private void MainMenu()
@@ -144,8 +134,6 @@ namespace OstreC.ManageInput
                 AddAttribute(Player.Attributes.Wisdom);
                 AddAttribute(Player.Attributes.Charisma);
 
-                //player.ModStrength = player.CalculateModifier(player.Strength);
-
                 player.AddValueToProperty();
                 UI.Page.pageInfo = "Custom adventurer was created";
                 Utilities.PressAnyKey();
@@ -180,10 +168,6 @@ namespace OstreC.ManageInput
                     break;
             }
             DisplayListAttributes(player.attributePoints);
-            //if (!(attr == Player.Attributes.Charisma))
-            //{
-            //    DisplayListAttributes(player.attributePoints);
-            //}
         }
         private void DeletePlayer()
         {
@@ -200,7 +184,7 @@ namespace OstreC.ManageInput
                 UI.Page.pageInfo = "Delete your adventurer";
                 UI.Page.error = "Do you really want to delete your adventurer?\nPress Y - yes; Press N - no";
                 UI.DrawUI(UI, false);
-                //Console.WriteLine("Do you really want to delete your adventurer?\nPress Y - yes; Press N - no");
+
                 string input = Utilities.InputDataAsString(Utilities.rgxYN).ToLower();
                 if (input == "y")
                 {
@@ -220,7 +204,7 @@ namespace OstreC.ManageInput
                 }
             }            
         }
-        private void DisplayStatistics()
+        private void DisplayStatisticsMenu()
         {
             Console.Clear();
             UI.Page.switchPage(PageType.Create_Character, UI);
@@ -232,8 +216,8 @@ namespace OstreC.ManageInput
                 Utilities.PressAnyKey();
                 return;
             }
-            //player.DisplayStatistics();
-            DisplayStatisticsNew();
+
+            DisplayStatistics();
             Utilities.PressAnyKey();
         }
         private void DisplayListAttributes()
@@ -241,7 +225,7 @@ namespace OstreC.ManageInput
             DisplayListAttributes(player.attributePoints);
             Utilities.PressAnyKey();
         }
-        public void DisplayStatisticsNew()
+        public void DisplayStatistics()
         {
             Console.Clear();
             string format = "+#.##;-#.##;+0";
