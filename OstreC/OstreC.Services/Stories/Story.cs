@@ -16,9 +16,20 @@ namespace OstreC.Services.Stories
         public List<DialogParagraph> DialogParagraphs { get; } = new List<DialogParagraph>();
         public List<DescOfStage> DescOfStages { get; } = new List<DescOfStage>();
 
-        public void ChangeNameOfStory(string nameOfStory)
+        public Story(string nameOfStory)
         {
             NameOfStory = nameOfStory;
+        }
+
+        public void DeafaultParagraph()
+        {
+            DescOfStage menu = new DescOfStage(0, "menu");
+            DescOfStage dead = new DescOfStage(1, "dead");
+
+            DescOfStages.Add(menu);
+            Paragraphs.Add(menu);
+            DescOfStages.Add(dead);
+            Paragraphs.Add(dead);
         }
 
         public void AddNewDescOfStageParagraph(DescOfStage newDescOfStage)
