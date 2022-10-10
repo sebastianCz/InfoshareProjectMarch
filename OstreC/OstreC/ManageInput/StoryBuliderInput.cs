@@ -1,10 +1,6 @@
 ﻿using OstreC.Services;
-using OstreC;
 using OstreC.Interface;
-using System;
-using static System.Net.Mime.MediaTypeNames;
 using OstreC.Services.Stories;
-using Microsoft.Win32;
 
 namespace OstreC.ManageInput
 {
@@ -370,7 +366,6 @@ namespace OstreC.ManageInput
             }
         }
 
-
         private static void CreatNewDescOfStageParagraph(UI UI)
         {
             string textParagraph = AddTextParagraph(UI);
@@ -382,7 +377,7 @@ namespace OstreC.ManageInput
         {
             string textParagraph = AddTextParagraph(UI);
             string enemyName = AddEnemy(UI);
-            int amountOfEnemy = AddEnemy(UI, enemyName);
+            int amountOfEnemy = AmountOfEnemy(UI, enemyName);
 
             CurrentStory.AddNewFightParagraph(new FightParagraph(CurrentStory.AmountOfParagrafh, textParagraph, amountOfEnemy, enemyName));
             UI.Page.instructions = "Type 1 to go Story Builder home page!\nType 0 to go back to the main menu!\nType 'Save' to save changes!\nType 'New' to create a new paragraph\nEnter 'Link' to create a new paragraph link";
@@ -468,7 +463,7 @@ namespace OstreC.ManageInput
             } while (true);
         }
 
-        private static int AddEnemy(UI UI, string enemyName)
+        private static int AmountOfEnemy(UI UI, string enemyName)
         {
             do
             {
