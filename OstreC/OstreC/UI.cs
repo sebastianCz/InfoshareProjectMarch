@@ -16,7 +16,7 @@ namespace OstreC
         //Page object containing current page info.
         public Page Page = new Page(PageType.Main_Menu);
 
-        public CurrentUser currentUser = new CurrentUser(-1, "", "", false);
+        public CurrentUser currentUser = new CurrentUser(-1, "", "", false);//Instancied on init so UI can call it's methods. 
 
         public CurrentPlayer currentPlayer = new CurrentPlayer();
 

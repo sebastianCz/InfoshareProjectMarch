@@ -35,7 +35,7 @@ namespace OstreC
                 case PageType.Main_Menu:
                     currentType = PageType.Main_Menu;
                     pageInfo = "Welcome to the main menu!";
-                    instructions = "Press 1 for new game\nPress 2 to create a new character \nPress 3 to load a game \nPress 4 to Paragraph \nPress 5 to Creat new story \nPress 9 for example page";
+                    instructions = " Press 1 for new game\nPress 2 to create a new character \nPress 3 to load a game \nPress 4 to Paragraph \nPress 5 to Creat new story \nPress 9 for example page";
                     UI.DrawUI(UI, true);
                     break;
 
@@ -53,7 +53,7 @@ namespace OstreC
                 case PageType.Create_Character:
                     currentType = PageType.Create_Character;
                     pageInfo = "Welcome to character creation page!";                    
-                    instructions = "1. Use already created adventurer\n2. Create your own adventurer\n3. Delete your adventurer\n4. Display statistics" +
+                    instructions = " 1. Use already created adventurer\n2. Create your own adventurer\n3. Delete your adventurer\n4. Display statistics" +
                         "\n5. Save your adventurer\n6. Exit to Main Menu";
                     UI.DrawUI(UI, true);
                     break;
@@ -68,35 +68,35 @@ namespace OstreC
                 case PageType.Paragraph:
                     currentType = PageType.Paragraph;
                     pageInfo = "Welcome to Paragraphs!!";
-                    instructions = "User input is not handled yet.";
+                    instructions = " User input is not handled yet.";
                     UI.DrawUI(UI, true);
                     break;
 
                 case PageType.Story_Bulider:
                     currentType = PageType.Story_Bulider;
                     pageInfo = "Welcome to the Story Builder!";
-                    instructions = "Press 1 to create a new story!\nPress 2 to load an existing history and edit it!\nPress 0 to go back to the main menu!";
+                    instructions = " Press 1 to create a new story!\nPress 2 to load an existing history and edit it!\nPress 0 to go back to the main menu!";
                     UI.DrawUI(UI, true);
                     break;
 
                 case PageType.Bestiary:
                     currentType = PageType.Bestiary;
                     pageInfo = "Welcome to the Bestiary!";
-                    instructions = "User input is not handled yet.";
+                    instructions = " User input is not handled yet.";
                     UI.DrawUI(UI, true);
                     break;
 
                 case PageType.ExampleEnum:
                     currentType = PageType.ExampleEnum;
                     pageInfo = "Welcome to the example page!";
-                    instructions = "Press 1 to show example messages!\nPress 2 to go back to main menu!";
+                    instructions = " Press 1 to show example messages!\nPress 2 to go back to main menu!";
                     UI.DrawUI(UI, true);
                     break;
 
                 case PageType.Login:
                     currentType = PageType.Login;
                     pageInfo = "Welcome to the login page! ";
-                    instructions = "Type 1 to login \n Type 2 to register \n Type 3 if you forgot your password";
+                    instructions = " Type 1 to login \n Type 2 to register \n Type 3 if you forgot your password";
                     UI.DrawUI(UI, true);
                     break;
 
