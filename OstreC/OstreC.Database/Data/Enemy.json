@@ -1,22 +1,88 @@
-{
+{ 
+   
   "results": [
-    { 
-      "name": "A-mi-kuk",
-      "size": "Huge",
+    {
+      "name": "Goblin",
+      "size": "small",
       "type": "aberration",
-
       "alignment": "chaotic evil",
       "armor_class": 14,
       "armor_desc": "natural armor",
       "hit_points": 115,
-      "hit_dice": 50,
-       "strength": 21,
+      "hit_dice": 1,
+      "hit_dmg": 6,
+      "flat_dmg": 1,
+      "strength": 21,
       "dexterity": 8,
       "constitution": 20,
       "intelligence": 7,
       "wisdom": 14,
       "charisma": 10
-    } 
-          
+    },
+    {
+      "name": "HobGoblin",
+      "size": "Huge",
+      "type": "aberration",
+      "alignment": "chaotic evil",
+      "armor_class": 14,
+      "armor_desc": "natural armor",
+      "hit_points": 115,
+      "hit_dice": 50,
+      "strength": 21,
+      "dexterity": 8,
+      "constitution": 20,
+      "intelligence": 7,
+      "wisdom": 14,
+      "charisma": 10
+    },
+    {
+      "name": "WizardGoblin",
+      "size": "Huge",
+      "type": "aberration",
+      "alignment": "chaotic evil",
+      "armor_class": 14,
+      "armor_desc": "natural armor",
+      "hit_points": 115,
+      "hit_dice": 50,
+      "strength": 21,
+      "dexterity": 8,
+      "constitution": 20,
+      "intelligence": 7,
+      "wisdom": 14,
+      "charisma": 10
+    },
+    {
+      "name": "BossGoblin",
+      "size": "Huge",
+      "type": "aberration",
+      "alignment": "chaotic evil",
+      "armor_class": 14,
+      "armor_desc": "natural armor",
+      "hit_points": 115,
+      "hit_dice": 50,
+      "strength": 21,
+      "dexterity": 8,
+      "constitution": 20,
+      "intelligence": 7,
+      "wisdom": 14,
+      "charisma": 10
+    },
+    {
+      "name": "Dragon",
+      "size": "Huge",
+      "type": "aberration",
+      "alignment": "chaotic evil",
+      "armor_class": 14,
+      "armor_desc": "natural armor",
+      "hit_points": 115,
+      "hit_dice": 50,
+      "strength": 21,
+      "dexterity": 8,
+      "constitution": 20,
+      "intelligence": 7,
+      "wisdom": 14,
+      "charisma": 10
+    }
+
   ]
 }
