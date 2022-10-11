@@ -20,6 +20,16 @@ namespace OstreC.Services
             LoggedIn = loggedIn;
         }
 
+        public void logOff()
+        {
+            this.UserName = "";
+            this.Password = "";
+            this.Email = "";
+            this.Id = 0;
+            this.LoggedIn = false;
+
+        }
+
         public bool Login(string userName, string password,CurrentUser CurrentUser)
         {
 
@@ -41,17 +51,57 @@ namespace OstreC.Services
             return false;
         }
 
-        public bool updateUser(CurrentUser CurrentUser,string newUserName)
+        public void deleteUser(CurrentUser currentUser)
         {
-        
+            var usersList = JsonFile.DeserializeUsersList("Users");
+
+          foreach(var user in usersList.Results)
+            {
+                if(user.Id== currentUser.Id)
+                {
+                     usersList.Results.Remove(user);
+                } 
+            }
+            //Sets values to empty values since log off is the next step. 
+             logOff();
+ 
+            JsonFile.SerializeUsersList(usersList);
+
+        }
+
+        public bool updateUser(CurrentUser CurrentUser,string newData,int param)
+        {
+            
             var usersList = JsonFile.DeserializeUsersList("Users");
             bool updated = false;
             foreach ( var user in usersList.Results )
             {
                 if( user.Id == CurrentUser.Id)
                 {
-                    user.UserName = newUserName;
-                    CurrentUser.UserName = newUserName;
+                    switch (param)
+                    {
+                        case 1:
+                            user.UserName = newData;
+                            CurrentUser.UserName = newData;
+                            break;
+                        case 2:
+                            user.Password = newData;
+                            CurrentUser.Password = newData;
+                            break;
+                        case 3:
+                            if(newData.Contains("@") && newData.Contains(".")) {
+                                user.Email = newData;
+                                CurrentUser.Email = newData;
+                                break;
+                            }
+                            else
+                            {
+                                return false;
+                            }
+                            
+                        
+                    }
+                    
                     updated = true;
                 }
             }
@@ -137,7 +187,7 @@ namespace OstreC.Services
             {
                 case true:
 
-                    if(sendEmailSMTP(1, currentUser,out feedback)) { return true;feedback = "Email sent."; }
+                    if(sendEmailSMTP(1, currentUser,out feedback)) { feedback = "Email sent."; return true; }
                     feedback = "Username Exists but email couldn't be sent";
                     return false;
 
@@ -193,7 +243,6 @@ namespace OstreC.Services
 
         }
 
+
     }
-
-
 }

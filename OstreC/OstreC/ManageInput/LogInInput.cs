@@ -46,7 +46,7 @@ namespace OstreC.ManageInput
 
                         UI.Page.instructions = "Provide your username";
                         UI.DrawUI(UI, true);
-                        input = Console.ReadLine();
+                        input = Console.ReadLine().Trim();
 
                         if (Helpers.isCommand(input, UI)) { return; }
                         username = input;
@@ -91,7 +91,7 @@ namespace OstreC.ManageInput
                         UI.Page.pageInfo = "Proceed as specified below to create a new User.";
                         UI.Page.instructions = "Provide a username.Must be at least 1 character and can't be only a number.";
                         UI.DrawUI(UI, true);
-                        input = Console.ReadLine();
+                        input = Console.ReadLine().Trim();
 
                         if (Helpers.isCommand(input, UI)) { return; }
                        username = input;
@@ -156,7 +156,7 @@ namespace OstreC.ManageInput
                     UI.Page.instructions = " You forgot your password. Please provide your username. ";
                     UI.DrawUI(UI,true);
 
-                    input = Console.ReadLine();
+                    input = Console.ReadLine().Trim();
                     if (Helpers.isCommand(input, UI)) { return; }
 
                     username = input;

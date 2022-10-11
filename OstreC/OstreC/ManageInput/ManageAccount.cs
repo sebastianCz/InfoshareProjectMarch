@@ -59,7 +59,7 @@ namespace OstreC.ManageInput
                                     UI.Page.instructions = "Please wait. We are changing your username.";
                                     UI.DrawUI(UI, true);
 
-                                    if (UI.currentUser.updateUser(UI.currentUser, input))
+                                    if (UI.currentUser.updateUser(UI.currentUser, input,1))
                                     {
                                         UI.Page.error = "Username Updated";
                                         UI.Page.switchPage(PageType.ManageAccount, UI);
@@ -68,7 +68,7 @@ namespace OstreC.ManageInput
                                     }
                                     else
                                     {
-                                        throw new Exception("Currentuser username wasn't found in Users.json at updatedUser(). It shouldn't be possible. Only logged in users can change the name. ");
+                                        throw new Exception("Currentuser ID wasn't found in Users.json at updatedUser(). It shouldn't be possible. Only logged in users can change the name. ");
                                     }
 
                                    
@@ -86,10 +86,77 @@ namespace OstreC.ManageInput
                             break;
 
                         case "2":
+                            do
+                            {
+                                UI.Page.instructions = "Type your new password.It can't be only a number. It has to contain at least 1 character.";
+                                UI.DrawUI(UI, false);
+
+                                input = Console.ReadLine().Trim();
+                                if (Helpers.isCommand(input, UI)) { return; }
+
+                                if (!Helpers.isNumber(input) & input.Length != 0)
+                                {
+                                    UI.Page.instructions = "Please wait. We are changing your password.";
+                                    UI.DrawUI(UI, true);
+
+                                    if (UI.currentUser.updateUser(UI.currentUser, input,2))
+                                    {
+                                        UI.Page.error = "Username Updated";
+                                        UI.Page.switchPage(PageType.ManageAccount, UI);
+
+                                        return;
+                                    }
+                                    else
+                                    {
+                                        throw new Exception("Currentuser ID wasn't found in Users.json at updatedUser(). It shouldn't be possible. Only logged in users can change the name. ");
+                                    }
+
+
+
+                                }
+                                else
+                                {
+                                    UI.Page.error = "Invalid input.";
+
+
+                                }
+
+                            } while (true);
+
 
                             break;
 
                         case "3":
+
+                            do
+                            {
+                                UI.Page.instructions = "Type your new email.It can't be only a number. It has to contain both key characters: '@' and '.'. Make sure it's valid or you won't receive our emails!";
+                                UI.DrawUI(UI, false);
+
+                                input = Console.ReadLine().Trim();
+                                if (Helpers.isCommand(input, UI)) { return; }
+
+                                if (!Helpers.isNumber(input) & input.Length != 0)
+                                {
+                                    UI.Page.instructions = "Please wait. We are changing your email.";
+                                    UI.DrawUI(UI, true);
+                                    if (UI.currentUser.updateUser(UI.currentUser, input, 3))
+                                    {
+                                        UI.Page.error = "Email Updated";
+                                        UI.Page.switchPage(PageType.ManageAccount, UI);
+
+                                        return;
+                                    }
+                                    else
+                                    {
+                                        UI.Page.error = "Invalid data provided";
+                                    }
+                                }
+                                else
+                                {
+                                    UI.Page.error = "Invalid input.";
+                                }
+                            } while (true);
 
                             break;
                         default:
@@ -101,8 +168,30 @@ namespace OstreC.ManageInput
                     break;
                 case "2":
 
-                    //Delete account
+                    UI.Page.instructions = "Are you sure you want to delete your account? If you do so you will loose access to all your saves. Type DELETE(case sensitive) or BACK to leave this menu.";
+                    UI.DrawUI(UI,true);
+                    if (Helpers.isCommand(input, UI)) { return; }
 
+                    if (input == "DELETE")
+                    {
+                        UI.currentUser.deleteUser(UI.currentUser);
+                        UI.Page.switchPage(PageType.Login, UI);
+                        
+
+
+                    }
+                    else if (input == "BACK")
+                    {
+
+                    }
+                    else
+                    {
+                        UI.Page.error = " Invalid input. Your account still exists. Press enter and you will be back on account management page.";
+                        UI.Page.switchPage(PageType.ManageAccount,UI);
+                    }
+
+
+                    break;
                 case "3":
 
                     //Log off
