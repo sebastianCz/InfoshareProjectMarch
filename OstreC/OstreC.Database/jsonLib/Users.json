@@ -13,8 +13,15 @@
       "Password": "AdminPass",
       "Email": "ostreCGame@gmail.com"
 
+    },
+
+    {
+      "Id": 3,
+      "UserName": "C",
+      "Password": "C",
+      "Email": "@."
+
     }
-   
 
 
 

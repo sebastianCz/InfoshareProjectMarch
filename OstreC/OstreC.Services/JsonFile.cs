@@ -37,7 +37,7 @@ namespace OstreC.Services
         public static void serializedToJson(string serializedObject , string fileName)
         {
             string dir = ReaderJson.dbDirectory();
-            var fileNamePath = Path.Combine(dir, "data", fileName + ".json");
+            var fileNamePath = Path.Combine(dir, "JsonLib", fileName + ".json");
             File.WriteAllText(fileNamePath, serializedObject);
         }
     }

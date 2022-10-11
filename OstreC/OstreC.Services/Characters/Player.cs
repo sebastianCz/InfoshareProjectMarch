@@ -20,7 +20,7 @@ namespace OstreC.Services
         public List<int> attributePoints = new List<int>();
 
         public bool isPlayerCreated = false;
-
+        int userIdKey = 3; //Allows to link player instance to user. When character is created this INT should be assigned based on Program.currentUser.Id
         string name;
         string race;
         string charClass;

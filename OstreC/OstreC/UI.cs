@@ -5,47 +5,25 @@ using OstreC.Services;
 
 namespace OstreC
 {
-    public class UI
-
-
+    public class UI : ProgramSession
     {
-
-        //If set to true program exits on next loop completion.
-        public bool exit { get; set; } = false;
-
         //Page object containing current page info.
         public Page Page = new Page(PageType.Main_Menu);
-
-        public CurrentUser currentUser = new CurrentUser(1, "Admin", "AdminPass", false);//Instancied on init so UI can call it's methods. 
-
-        public CurrentPlayer currentPlayer = new CurrentPlayer();
-
-        //Link to player methods from services or reference to an existing one can be created through the constructor.
 
         //LIST +string containing  existing menu commands. 
         public static readonly string[] _menuCommands = { "MAIN_MENU", "EXIT","BACK" };
         private static string _menuCommandsString { get; set; }
 
-
         //Holds all different methods allowing to draw the UI thanks to constructor below.
         public List<IuiInput> pageTypes { get; } = new List<IuiInput>();
 
-
-
-
         public UI()
         {
-
-            currentPlayer.CreateDefaultPlayer();
-
             for (int i = 0; i < _menuCommands.Count(); i++)
             {
                 _menuCommandsString += " || " + _menuCommands[i];
 
             }
-
-            //paragraphHeader = $"{genericHeader} Active  paragraph ID: {Paragraph.ID} \n Your items: {Player.InvetoryItemsString}"
-
             pageTypes.Add(new MainMenuInput());
             pageTypes.Add(new CreateNewGameInput());
             pageTypes.Add(new CreateCharacterInput());
@@ -56,19 +34,13 @@ namespace OstreC
             pageTypes.Add(new StoryBuliderInput());
             pageTypes.Add(new LoginInput());
             pageTypes.Add(new ManageAccount());
-
         }
-
-
-
         public void checkInput(UI UI)
         {
             //pageTypes defined above
             foreach (var test in pageTypes)
             {
-
                 //Compares activepage.currentType values  (Paragraph_Dialogue for instance) with " type" param of all classes implementing IuiInterface. 
-
                 if (test.Type == UI.Page.currentType)
                 {
                     test.checkUserInput(UI);
@@ -78,14 +50,13 @@ namespace OstreC
                 {
                     //Console.WriteLine("Didn't find the page" +test.Type +"  uivalue: " +UI.Page.currentType);
                 }
-
             }
         }
 
         public void DrawLoginHeader(UI UI)
         {
 
-
+            //
 
         }
 

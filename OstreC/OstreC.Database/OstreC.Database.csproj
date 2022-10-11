@@ -7,16 +7,16 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Update="Data\Classes.json">
+    <None Update="jsonLib\classes.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Update="Data\listParagraph.json">
+    <None Update="jsonLib\listParagraph.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Update="Data\races.json">
+    <None Update="jsonLib\races.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Update="Data\Users.json">
+    <None Update="jsonLib\Users.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>

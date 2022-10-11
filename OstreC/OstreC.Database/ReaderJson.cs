@@ -14,7 +14,7 @@
         {
 
             var currentDirectory = Directory.GetCurrentDirectory();
-            var fileNamePath = Path.Combine(currentDirectory, "data", fileName + ".json");
+            var fileNamePath = Path.Combine(currentDirectory, "JsonLib", fileName + ".json");
 
             return File.ReadAllText(fileNamePath);
         }
