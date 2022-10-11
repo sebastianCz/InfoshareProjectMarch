@@ -168,33 +168,26 @@ namespace OstreC.ManageInput
                     break;
                 case "2":
 
-                    UI.Page.instructions = "Are you sure you want to delete your account? If you do so you will loose access to all your saves. Type DELETE(case sensitive) or BACK to leave this menu.";
+                    UI.Page.instructions = "Are you sure you want to delete your account? If you do so you will loose access to all your saves. Type DELETE(case sensitive) or any key to leave this menu.";
                     UI.DrawUI(UI,true);
+                    input = Console.ReadLine();
                     if (Helpers.isCommand(input, UI)) { return; }
+
+                    
 
                     if (input == "DELETE")
                     {
                         UI.currentUser.deleteUser(UI.currentUser);
                         UI.Page.switchPage(PageType.Login, UI);
                         
-
-
                     }
-                    else if (input == "BACK")
-                    {
-
-                    }
-                    else
-                    {
-                        UI.Page.error = " Invalid input. Your account still exists. Press enter and you will be back on account management page.";
-                        UI.Page.switchPage(PageType.ManageAccount,UI);
-                    }
+                    
 
 
                     break;
                 case "3":
 
-                    //Log off
+                    UI.Page.switchPage(PageType.Login, UI);
 
                     break;
 
