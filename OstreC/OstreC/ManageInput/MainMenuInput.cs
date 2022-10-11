@@ -39,7 +39,10 @@ namespace OstreC.ManageInput
                 {
                     UI.Page.switchPage(PageType.Story_Bulider, UI);
                 }
-                else if (String.Equals(input.ToLower().Replace(" ", null), "9"))
+                else if (String.Equals(input.ToLower().Replace(" ", null), "6"))
+                {
+                    UI.Page.switchPage(PageType.ManageAccount, UI);
+                } else if (String.Equals(input.ToLower().Replace(" ", null), "9"))
                 {
                     UI.Page.switchPage(PageType.ExampleEnum, UI);
                 }

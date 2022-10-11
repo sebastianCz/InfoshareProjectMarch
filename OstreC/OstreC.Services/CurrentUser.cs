@@ -41,6 +41,41 @@ namespace OstreC.Services
             return false;
         }
 
+        public bool updateUser(CurrentUser CurrentUser,string newUserName)
+        {
+        
+            var usersList = JsonFile.DeserializeUsersList("Users");
+            bool updated = false;
+            foreach ( var user in usersList.Results )
+            {
+                if( user.UserName == CurrentUser.UserName)
+                {
+                    user.UserName = newUserName;
+                    CurrentUser.UserName = newUserName;
+                    updated = true;
+                }
+                
+
+            }
+
+           
+
+            if (updated) {
+
+                var x = JsonFile.SerializeUsersList(usersList);
+                JsonFile.serializedToJson(x, "Users");
+
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+           
+
+
+        }
+
         public bool createUser(string userName,string password,string email,CurrentUser currentUser, out string feedback)
         {
 

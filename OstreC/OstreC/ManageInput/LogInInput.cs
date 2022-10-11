@@ -71,7 +71,12 @@ namespace OstreC.ManageInput
                             break;
                         }
 
-                        UI.Page.error = "Your password or login were not correct";
+                        UI.Page.error = "Your password or login were not correct.Press enter to proceed.";
+                        UI.DrawUI(UI, false);
+                        Console.ReadLine();
+                        UI.Page.switchPage(PageType.Login,UI);
+
+                        break;
 
                         
                     } while (true);
@@ -84,8 +89,6 @@ namespace OstreC.ManageInput
                         bool createUser = false;
 
                         UI.Page.pageInfo = "Proceed as specified below to create a new User.";
-
-
                         UI.Page.instructions = "Provide a username.Must be at least 1 character and can't be only a number.";
                         UI.DrawUI(UI, true);
                         input = Console.ReadLine();

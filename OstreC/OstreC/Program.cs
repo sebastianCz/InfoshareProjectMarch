@@ -6,9 +6,10 @@ using OstreC.Interface;
 
 
 UI UI = new UI();
-UI.Page.switchPage(PageType.Login, UI);
+UI.currentUser.Email = "debug@debug.com";
+//UI.Page.switchPage(PageType.Login, UI);
 
-//UI.Page.switchPage(PageType.Main_Menu, UI);
+UI.Page.switchPage(PageType.Main_Menu, UI);
 
 do
 {

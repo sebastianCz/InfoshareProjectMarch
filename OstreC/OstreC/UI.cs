@@ -16,13 +16,11 @@ namespace OstreC
         //Page object containing current page info.
         public Page Page = new Page(PageType.Main_Menu);
 
-        public CurrentUser currentUser = new CurrentUser(-1, "", "", false);//Instancied on init so UI can call it's methods. 
+        public CurrentUser currentUser = new CurrentUser(10, "Admin", "AdminPass", false);//Instancied on init so UI can call it's methods. 
 
         public CurrentPlayer currentPlayer = new CurrentPlayer();
 
         //Link to player methods from services or reference to an existing one can be created through the constructor.
-        //Player player = new Player();
-        //Paragraph Paragraph = new Paragraph(player) ;
 
         //LIST +string containing  existing menu commands. 
         public static readonly string[] _menuCommands = { "MAIN_MENU", "EXIT","BACK" };
@@ -57,6 +55,8 @@ namespace OstreC
             pageTypes.Add(new ExampleInput());
             pageTypes.Add(new StoryBuliderInput());
             pageTypes.Add(new LoginInput());
+            pageTypes.Add(new ManageAccount());
+
         }
 
 
