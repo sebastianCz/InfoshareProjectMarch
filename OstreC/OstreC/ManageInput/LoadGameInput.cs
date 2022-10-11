@@ -1,4 +1,5 @@
 ﻿using OstreC.Interface;
+using System.Collections.Generic;
 
 namespace OstreC.ManageInput
 {
@@ -15,14 +16,8 @@ namespace OstreC.ManageInput
             if (Helpers.isCommand(input, UI))
             {
                 Helpers.HandleCommand(input, UI);
-            }
-
-            
-            
-
-
-
+            } 
         }
-
+        
     }
 }

@@ -1,4 +1,4 @@
-﻿namespace OstreC.Services.Stories
+﻿namespace OstreC.Services
 {
     public class DescOfStage : Paragraph
     {

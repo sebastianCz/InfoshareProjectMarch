@@ -1,7 +1,7 @@
 ﻿using Newtonsoft.Json;
 using System.Collections.Generic;
 
-namespace OstreC.Services.Stories
+namespace OstreC.Services
 {
     public class Story
     {

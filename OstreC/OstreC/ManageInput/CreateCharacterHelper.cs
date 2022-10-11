@@ -5,7 +5,7 @@ using System.Numerics;
 using System.Text;
 using System.Threading.Tasks;
 using OstreC.Interface;
-using OstreC.Services.Characters;
+using OstreC.Services;
 
 namespace OstreC.ManageInput
 {

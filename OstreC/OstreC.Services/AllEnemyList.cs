@@ -3,10 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using OstreC.Services;
+
 namespace OstreC.Services
 {
-    internal class Enemy:Character
+    internal class AllEnemyList
     {
+
+        internal List<Enemy> AllEnemies = new List<Enemy>();
     }
 }

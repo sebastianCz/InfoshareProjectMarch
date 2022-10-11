@@ -1,17 +1,17 @@
-﻿using OstreC.Services.Stories;
+﻿using OstreC.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Numerics;
 using System.Text;
 using System.Threading.Tasks;
+using OstreC.Services;
 
 
 
 
 
-
-namespace OstreC.Services.Characters
+namespace OstreC.Services
 {
     public class Player:Character
     {

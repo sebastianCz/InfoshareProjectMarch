@@ -2,87 +2,37 @@
    
   "results": [
     {
-      "name": "Goblin",
+      "Name": "Goblin",
+      "Race": "Monster",
+      "CharClass": null,
+      "HealthPoints": 10,
+      "Level": 1,
+      "Strenght": 21,
+      "Dexterity": 8,
+      "Constitution": 20,
+      "Intelligence": 7,
+      "Wisdom": 14,
+      "Charisma":10,
+
+      "ModStrenght":0, 
+      "ModDexterity": 0,
+      "ModConstitution": 0,
+      "ModIntelligence": 0,
+      "ModWisdom": 0,
+      "ModCharisma": 0
+
+
       "size": "small",
       "type": "aberration",
       "alignment": "chaotic evil",
       "armor_class": 14,
       "armor_desc": "natural armor",
-      "hit_points": 115,
       "hit_dice": 1,
       "hit_dmg": 6,
       "flat_dmg": 1,
-      "strength": 21,
-      "dexterity": 8,
-      "constitution": 20,
-      "intelligence": 7,
-      "wisdom": 14,
-      "charisma": 10
-    },
-    {
-      "name": "HobGoblin",
-      "size": "Huge",
-      "type": "aberration",
-      "alignment": "chaotic evil",
-      "armor_class": 14,
-      "armor_desc": "natural armor",
-      "hit_points": 115,
-      "hit_dice": 50,
-      "strength": 21,
-      "dexterity": 8,
-      "constitution": 20,
-      "intelligence": 7,
-      "wisdom": 14,
-      "charisma": 10
-    },
-    {
-      "name": "WizardGoblin",
-      "size": "Huge",
-      "type": "aberration",
-      "alignment": "chaotic evil",
-      "armor_class": 14,
-      "armor_desc": "natural armor",
-      "hit_points": 115,
-      "hit_dice": 50,
-      "strength": 21,
-      "dexterity": 8,
-      "constitution": 20,
-      "intelligence": 7,
-      "wisdom": 14,
-      "charisma": 10
-    },
-    {
-      "name": "BossGoblin",
-      "size": "Huge",
-      "type": "aberration",
-      "alignment": "chaotic evil",
-      "armor_class": 14,
-      "armor_desc": "natural armor",
-      "hit_points": 115,
-      "hit_dice": 50,
-      "strength": 21,
-      "dexterity": 8,
-      "constitution": 20,
-      "intelligence": 7,
-      "wisdom": 14,
-      "charisma": 10
-    },
-    {
-      "name": "Dragon",
-      "size": "Huge",
-      "type": "aberration",
-      "alignment": "chaotic evil",
-      "armor_class": 14,
-      "armor_desc": "natural armor",
-      "hit_points": 115,
-      "hit_dice": 50,
-      "strength": 21,
-      "dexterity": 8,
-      "constitution": 20,
-      "intelligence": 7,
-      "wisdom": 14,
-      "charisma": 10
     }
+     
+    
 
   ]
 }

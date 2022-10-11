@@ -1,11 +1,14 @@
-﻿using System;
+﻿using Newtonsoft.Json.Converters;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using static OstreC.Services.Characters.Player;
+//using static OstreC.Services.Characters.Player;
+using Newtonsoft.Json;
+using OstreC.Services;
 
-namespace OstreC.Services.Characters
+namespace OstreC.Services
 {
     public class Character
     {
@@ -29,6 +32,7 @@ namespace OstreC.Services.Characters
         public int ModWisdom { get; set; }
         public int ModCharisma { get; set; }
 
+        [JsonConverter(typeof(StringEnumConverter))]
         public enum Attributes
         {
             Strength,
@@ -38,11 +42,13 @@ namespace OstreC.Services.Characters
             Wisdom,
             Charisma
         }
+        [JsonConverter(typeof(StringEnumConverter))]
         public enum Races
         {
             Human,
             Orc
         }
+        [JsonConverter(typeof(StringEnumConverter))]
         public enum Classes
         {
             Thief,

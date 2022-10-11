@@ -1,7 +1,7 @@
 ﻿using OstreC.Interface;
 using OstreC.ManageInput;
 using OstreC.Services;
-using OstreC.Services.Characters;
+
 
 namespace OstreC
 {

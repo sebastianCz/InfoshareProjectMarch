@@ -1,5 +1,5 @@
 ﻿using OstreC.Interface;
-using OstreC.Services.Characters;
+using OstreC.Services;
 using System.Numerics;
 
 namespace OstreC.ManageInput
@@ -60,7 +60,7 @@ namespace OstreC.ManageInput
                 default:
                     UI.Page.pageInfo = "Character creation page";
                     UI.Page.error = "You didn't provide a correct number";
-                    UI.DrawUI(UI, true);
+                    UI.DrawUI(UI, false);
                     break;
             }
             #region Switch 01

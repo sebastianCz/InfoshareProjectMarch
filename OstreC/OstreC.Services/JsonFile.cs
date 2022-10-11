@@ -1,6 +1,6 @@
 ﻿using Newtonsoft.Json;
 using OstreC.Database;
-using OstreC.Services.Stories;
+using OstreC.Services;
 
 namespace OstreC.Services
 {

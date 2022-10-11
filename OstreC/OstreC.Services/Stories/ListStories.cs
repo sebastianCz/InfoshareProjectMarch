@@ -4,7 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace OstreC.Services.Stories
+
+namespace OstreC.Services
 {
     //public class ListStories
     //{

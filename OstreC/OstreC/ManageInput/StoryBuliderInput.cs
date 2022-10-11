@@ -3,7 +3,7 @@ using OstreC;
 using OstreC.Interface;
 using System;
 using static System.Net.Mime.MediaTypeNames;
-using OstreC.Services.Stories;
+using OstreC.Services;
 using Microsoft.Win32;
 
 namespace OstreC.ManageInput
