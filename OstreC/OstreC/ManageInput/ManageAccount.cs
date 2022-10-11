@@ -46,40 +46,42 @@ namespace OstreC.ManageInput
                     switch (input)
                     {
                         case "1":
-
-                            UI.Page.instructions = "Type your new username.It can't be only a number. It has to contain at least 1 character.";
-                            UI.DrawUI(UI, false);
-
-                            input = Console.ReadLine().Trim();
-                            if (Helpers.isCommand(input, UI)) { return; }
-                            
-                            if( !Helpers.isNumber(input) & input.Length != 0)
+                            do
                             {
-                                UI.Page.instructions  = "Please wait. We are changing your username.";
-                                UI.DrawUI(UI, true);
+                                UI.Page.instructions = "Type your new username.It can't be only a number. It has to contain at least 1 character.";
+                                UI.DrawUI(UI, false);
 
-                                if (UI.currentUser.updateUser(UI.currentUser, input))
+                                input = Console.ReadLine().Trim();
+                                if (Helpers.isCommand(input, UI)) { return; }
+
+                                if (!Helpers.isNumber(input) & input.Length != 0)
                                 {
-                                    UI.Page.error = "Username Updated";
-                                    UI.Page.switchPage(PageType.ManageAccount, UI);
+                                    UI.Page.instructions = "Please wait. We are changing your username.";
+                                    UI.DrawUI(UI, true);
 
+                                    if (UI.currentUser.updateUser(UI.currentUser, input))
+                                    {
+                                        UI.Page.error = "Username Updated";
+                                        UI.Page.switchPage(PageType.ManageAccount, UI);
+
+                                        return;
+                                    }
+                                    else
+                                    {
+                                        throw new Exception("Currentuser username wasn't found in Users.json at updatedUser(). It shouldn't be possible. Only logged in users can change the name. ");
+                                    }
+
+                                   
 
                                 }
                                 else
                                 {
-                                    throw new Exception("Currentuser username wasn't found in Users.json at updatedUser().");
-                                };
-                              
-                                return;
+                                    UI.Page.error = "Invalid input.";
+                                  
 
-                            }
-                            else
-                            {
-                                UI.Page.error = "Invalid input.";
-                                UI.DrawUI(UI, false);
-                            }
+                                }
 
-
+                            } while (true);
 
                             break;
 

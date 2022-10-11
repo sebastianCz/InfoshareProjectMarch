@@ -48,18 +48,13 @@ namespace OstreC.Services
             bool updated = false;
             foreach ( var user in usersList.Results )
             {
-                if( user.UserName == CurrentUser.UserName)
+                if( user.Id == CurrentUser.Id)
                 {
                     user.UserName = newUserName;
                     CurrentUser.UserName = newUserName;
                     updated = true;
                 }
-                
-
             }
-
-           
-
             if (updated) {
 
                 var x = JsonFile.SerializeUsersList(usersList);
@@ -71,9 +66,6 @@ namespace OstreC.Services
             {
                 return false;
             }
-           
-
-
         }
 
         public bool createUser(string userName,string password,string email,CurrentUser currentUser, out string feedback)

@@ -16,7 +16,7 @@ namespace OstreC
         //Page object containing current page info.
         public Page Page = new Page(PageType.Main_Menu);
 
-        public CurrentUser currentUser = new CurrentUser(10, "Admin", "AdminPass", false);//Instancied on init so UI can call it's methods. 
+        public CurrentUser currentUser = new CurrentUser(1, "Admin", "AdminPass", false);//Instancied on init so UI can call it's methods. 
 
         public CurrentPlayer currentPlayer = new CurrentPlayer();
 
@@ -127,6 +127,14 @@ namespace OstreC
             Console.Clear();
             UI.DrawHeader(UI);
             UI.DrawGenericPage(UI);
+        }
+
+        public static void DrawUI(UI UI, bool clear,bool consoleclear)
+        {
+            if (clear) { UI.clearData(UI); }
+            if (consoleclear) { Console.Clear(); }
+            UI.DrawHeader(UI);
+           
         }
     }
 }
