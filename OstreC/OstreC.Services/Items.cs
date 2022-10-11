@@ -6,8 +6,7 @@ using System.Threading.Tasks;
 
 namespace OstreC.Services
 {
-    internal class GameSession :ProgramSession
+    public class Items
     {
-        public CurrentPlayer currentPlayer = new CurrentPlayer();
     }
 }

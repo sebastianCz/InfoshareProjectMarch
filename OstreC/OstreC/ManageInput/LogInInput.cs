@@ -62,7 +62,7 @@ namespace OstreC.ManageInput
 
                        
 
-                        bool login = UI.currentUser.Login(username, password,UI.currentUser);
+                        bool login = UI.Login(username, password);
 
                         if (login)
                         {
@@ -114,7 +114,7 @@ namespace OstreC.ManageInput
                        //Checks user input. If it's correct creates user and serialises the new Users.Json file. If not returns to main login page. Returns bool to know if operation succeeded.
                         if(email.Contains("@") && email.Contains(".") && username.Length != 0 && password.Length != 0 && !Helpers.isNumber(password) && !Helpers.isNumber(username))
                         {
-                           createUser = UI.currentUser.createUser(username, password, email, UI.currentUser, out feedback);
+                           createUser = UI.currentUser.createUser(username, password, email,UI.currentUser, out feedback);
                         }
                         else
                         {
@@ -132,8 +132,8 @@ namespace OstreC.ManageInput
                         //If  user created confirms this to user. Otherwise 
                         if (createUser)
                         {
-                       
-                            UI.Page.error = $"User created. Username: {UI.currentUser.UserName} User email: {UI.currentUser.Email} User password: {UI.currentUser.Password}";
+                            string presentUser = UI.currentUser.presentUser();
+                            UI.Page.error = $"User created. ";
                             UI.Page.instructions = "Press enter to go back to main login page. ";
 
                             
@@ -164,9 +164,9 @@ namespace OstreC.ManageInput
                     UI.Page.instructions = "Attempting to send password recovery email for provided username. Retrieving user data. Please wait. This process should take a couple seconds";
                     UI.DrawUI(UI, true);
 
-
+                    Mailing Mail = new Mailing();
                     // int = email template, username provided just above, UI.currentUser = obj holding all data, feedback == error validation attempt on Services side of the app. 
-                    bool test = UI.currentUser.CanSendEmail(1, username,UI.currentUser, out  feedback);
+                    bool test = Mail.CanSendEmail(1, username,UI.currentUser, out  feedback);
 
                     if (test)
                     {

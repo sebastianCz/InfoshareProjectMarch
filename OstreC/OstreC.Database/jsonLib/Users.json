@@ -4,24 +4,25 @@
       "Id": 1,
       "UserName": "Admin",
       "Password": "AdminPass",
-      "Email"   : "sebastianczarnowski95@gmail.com"
-      
+      "Email"   : "sebastianczarnowski95@gmail.com",
+      "Stories": []
     },
     {
       "Id": 2,
       "UserName": "AdminOstreC",
       "Password": "AdminPass",
-      "Email": "ostreCGame@gmail.com"
-
+      "Email": "ostreCGame@gmail.com",
+      "Stories": []
     },
 
     {
       "Id": 3,
       "UserName": "C",
       "Password": "C",
-      "Email": "@."
-
+      "Email": "@.",
+      "Stories": []
     }
+
 
 
 

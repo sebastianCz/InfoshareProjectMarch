@@ -102,11 +102,8 @@ namespace OstreC
 
                 case PageType.ManageAccount:
                     currentType = PageType.ManageAccount;
-                    pageInfo = $"Welcome to account management page dear : {UI.currentUser.UserName} \n Your account data is visible below: \n User name:" +
-                        $" {UI.currentUser.UserName} \n " +
-                        $"Password: {UI.currentUser.Password}\n" +
-                        $"Email: {UI.currentUser.Email}";
-
+                    pageInfo = $"Welcome to account management page dear : {UI.currentUser.UserName} \n Your account data is visible below: \n {UI.currentUser.presentUserBreakLine(true)} ";
+                       
                     instructions = " Type 1 edit your data \n Type 2 to delete your account";
                     UI.DrawUI(UI, true);
                     break;

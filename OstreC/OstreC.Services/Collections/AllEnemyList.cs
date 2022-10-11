@@ -8,7 +8,8 @@ namespace OstreC.Services
 {
     internal class AllEnemyList
     {
-        //Used for fight generation
+        //Used to deserialize all enemies.
+
         internal List<Enemy> AllEnemies = new List<Enemy>();
     }
 }
