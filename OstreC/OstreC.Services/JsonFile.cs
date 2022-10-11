@@ -18,7 +18,7 @@ namespace OstreC.Services
         {
             string textFromFile = ReaderJson.readFile(nameFile);
             Story story = JsonConvert.DeserializeObject<Story>(textFromFile);
-
+            story.AddAllParagraph();
             return story;
         }
 
