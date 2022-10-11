@@ -31,7 +31,7 @@ namespace OstreC.ManageInput
 
             var input = Console.ReadLine();
             input = input.Replace(" ", null);
-            if (Helpers.isCommand(input, UI)) { return; }
+           
 
             switch (input)
             {
@@ -48,7 +48,7 @@ namespace OstreC.ManageInput
                         UI.DrawUI(UI, true);
                         input = Console.ReadLine().Trim();
 
-                        if (Helpers.isCommand(input, UI)) { return; }
+                      
                         username = input;
 
 
@@ -93,7 +93,7 @@ namespace OstreC.ManageInput
                         UI.DrawUI(UI, true);
                         input = Console.ReadLine().Trim();
 
-                        if (Helpers.isCommand(input, UI)) { return; }
+                     
                        username = input;
 
 
@@ -101,14 +101,14 @@ namespace OstreC.ManageInput
                          UI.DrawUI(UI, true);
                         input = Console.ReadLine();
 
-                        if (Helpers.isCommand(input, UI)) { return; }
+                       
                         password = input;
 
                         UI.Page.instructions = " Provide your email.Make sure it's correct.It must contain '@' and '.'.\n There's no email validation to see if the email exists. \n If you provide a wrong one you won't receive emails from us!  ";
                         UI.DrawUI(UI, true);
                         input = Console.ReadLine();
 
-                        if (Helpers.isCommand(input, UI)) { return; }
+                      
                         email= input;
                         
                        //Checks user input. If it's correct creates user and serialises the new Users.Json file. If not returns to main login page. Returns bool to know if operation succeeded.
@@ -157,7 +157,7 @@ namespace OstreC.ManageInput
                     UI.DrawUI(UI,true);
 
                     input = Console.ReadLine().Trim();
-                    if (Helpers.isCommand(input, UI)) { return; }
+                  
 
                     username = input;
 

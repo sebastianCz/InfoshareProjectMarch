@@ -82,6 +82,13 @@ namespace OstreC
             }
         }
 
+        public void DrawLoginHeader(UI UI)
+        {
+
+
+
+        }
+
         public void DrawHeader(UI UI)
         {
             string genericHeader = "";
@@ -125,8 +132,21 @@ namespace OstreC
         {
             if (clear) { UI.clearData(UI); }
             Console.Clear();
-            UI.DrawHeader(UI);
-            UI.DrawGenericPage(UI);
+
+            switch (UI.Page.currentType)
+            {
+                case PageType.Login:
+                    UI.DrawHeader(UI);
+                    UI.DrawGenericPage(UI);
+
+                    break;
+
+                 default:
+                    //Default header for all pages
+                    UI.DrawHeader(UI);
+                    UI.DrawGenericPage(UI);
+                  break;
+            }
         }
 
         public static void DrawUI(UI UI, bool clear,bool consoleclear)

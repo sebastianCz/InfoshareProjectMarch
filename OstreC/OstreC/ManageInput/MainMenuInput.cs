@@ -21,11 +21,12 @@ namespace OstreC.ManageInput
 
                 if (String.Equals(input.ToLower().Replace(" ",null), "1"))
                 {
-                    UI.Page.switchPage(PageType.Create_Character, UI);
+
+                    UI.Page.switchPage(PageType.Create_NewGame, UI);
                 }
                 else if (String.Equals(input.ToLower().Replace(" ", null), "2"))
                 {
-                    UI.Page.switchPage(PageType.Create_NewGame, UI);
+                    UI.Page.switchPage(PageType.Create_Character, UI);
                 }
                 else if (String.Equals(input.ToLower().Replace(" ", null), "3"))
                 {
