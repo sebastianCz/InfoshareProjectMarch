@@ -13,11 +13,6 @@
             IdParagraph = idParagraph;
             TextParagraph = textParagraph;
         }
-
-        public void AddNewChoice(NextParagraph newParagraph)
-        {
-            NextParagraphs.Add(newParagraph);
-        }
     }
     public enum ParagraphType
     {
