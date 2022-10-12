@@ -10,6 +10,9 @@
         {
             AmountOfEnemy = amountOfEnemy;
             EnemyName = enemyName;
+
+            NextParagraphs.Add(new NextParagraph(ParagraphType.DescOfStage, "Go back to menu!", 0));
+            NextParagraphs.Add(new NextParagraph(ParagraphType.DescOfStage, "Defeat!", 1));
         }
     }
 }
