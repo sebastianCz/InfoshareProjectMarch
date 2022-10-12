@@ -83,14 +83,26 @@
       "IdParagraph": 0,
       "TextParagraph": "Menu",
       "HowManyOptions": 1,
-      "NextParagraphs": []
+      "NextParagraphs": [
+        {
+          "ParagraphType": 0,
+          "ChoiceText": "Go back to menu!",
+          "IdParagraph": 0
+        }
+      ]
     },
     {
       "ParagraphType": 0,
       "IdParagraph": 1,
       "TextParagraph": "Dead",
       "HowManyOptions": 1,
-      "NextParagraphs": []
+      "NextParagraphs": [
+        {
+          "ParagraphType": 0,
+          "ChoiceText": "Go back to menu!",
+          "IdParagraph": 0
+        }
+      ]
     },
     {
       "ParagraphType": 0,
@@ -168,7 +180,7 @@
           "IdParagraph": 0
         },
         {
-          "ParagraphType": 3,
+          "ParagraphType": 0,
           "ChoiceText": "Get closer to the dead horses",
           "IdParagraph": 8
         }

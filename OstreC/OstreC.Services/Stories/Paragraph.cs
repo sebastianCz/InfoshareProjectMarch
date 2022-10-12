@@ -1,10 +1,13 @@
-﻿namespace OstreC.Services
+﻿using Newtonsoft.Json;
+
+namespace OstreC.Services
 {
     public abstract class Paragraph
     {
         public int IdParagraph { get; }
         public string TextParagraph { get; }
-        public int HowManyOptions { get { return NextParagraphs.Count(); } }
+        [JsonIgnore]
+        public int AmountOfOptions { get { return NextParagraphs.Count(); } }
         public abstract ParagraphType ParagraphType { get; }
         public List<NextParagraph> NextParagraphs { get; } = new List<NextParagraph>();
 

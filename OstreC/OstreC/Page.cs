@@ -46,9 +46,6 @@ namespace OstreC
                     instructions = " Press 1 to create new game\n pres 2 to go back to main menu";
  
                     UI.DrawUI(UI, true);
-
-
-
                     break;
 
                 case PageType.Create_Character:
@@ -67,15 +64,15 @@ namespace OstreC
 
                 case PageType.Paragraph:
                     currentType = PageType.Paragraph;
-                    pageInfo = "Welcome to Paragraphs!!";
-                    instructions = " User input is not handled yet.";
+                    pageInfo = "Welcome to Paragraphs!";
+                    instructions = " Press ENTER to start the story!";
                     UI.DrawUI(UI, true);
                     break;
 
                 case PageType.Story_Bulider:
                     currentType = PageType.Story_Bulider;
                     pageInfo = "Welcome to the Story Builder!";
-                    instructions = " Press 1 to create a new story!\nPress 2 to load an existing history and edit it!\nPress 0 to go back to the main menu!";
+                    instructions = " Type 1 to create a new story!\n Type 2 to load an existing story and edit it!\n Type 0 to go back to the main menu!";
                     UI.DrawUI(UI, true);
                     break;
 
