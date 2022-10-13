@@ -10,7 +10,7 @@ namespace OstreC.Services.Characters.Actions
     //This is supposed to be an abstract class. Dmg dices should be in hereditating classes.
     //For instance : ShortBowAttack, ShortSowrdAttack etc. But in this case deserializing it will be 
     //a nightmare.
-    public  class Action
+    public  class EnemyAction
     {
         public string ActionName { get; set; }
         public string ActionDescription { get; set; }
@@ -20,7 +20,7 @@ namespace OstreC.Services.Characters.Actions
         public int Hit_dmg { get; set; }
         public int Flat_dmg { get; set; }
 
-      public Action()
+      public EnemyAction()
         {
 
 

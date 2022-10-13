@@ -9,16 +9,16 @@
       "Charisma": 8,
       "Constitution": 10,
       "Dexterity": 14,
-      //"EnemyActions": [
-      //  {
-      //    "ActionName": "Default",
-      //    "ActionDescription": "Standard sword Attack",
-      //    "ActionType": "Attack",
-      //    "Hit_Dice": 1,
-      //    "Hit_dmg": 6,
-      //    "Flat_dmg": 2
-      //  }
-      //],
+      "EnemyActions": [
+        {
+          "ActionName": "Default",
+          "ActionDescription": "Standard sword Attack",
+          "ActionType": "Attack",
+          "Hit_Dice": 1,
+          "Hit_dmg": 6,
+          "Flat_dmg": 2
+        }
+      ],
       "HealthPoints": 10,
       "Intelligence": 10,
       "Level": 1,

@@ -24,7 +24,7 @@ using System.Runtime.CompilerServices;
 
 var x = JsonFile.DeserializeEnemyList("Enemy");
 
-Console.WriteLine(x.Results[0]);
+Console.WriteLine(x.Results[0].EnemyActions[0].ActionDescription);
 
 Console.ReadKey();
  
