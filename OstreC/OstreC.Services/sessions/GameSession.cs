@@ -16,7 +16,7 @@ namespace OstreC.Services
         public CurrentPlayer currentPlayer = new CurrentPlayer(); //Inherited by UI in console to update data based on input. 
         //Passed to console to save data for current Player Character
 
-        public Story activeStory { get; set; } //I'm not defining it yet. I'm not sure bsaed on was we initialise that part of the object. 
+        public Story activeStory { get; set; } //I'm not defining it yet. I'm not sure bsaed on what we initialise that part of the object. 
 
         public void NewGame()
         {

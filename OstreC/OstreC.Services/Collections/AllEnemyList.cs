@@ -6,10 +6,13 @@ using System.Threading.Tasks;
 
 namespace OstreC.Services
 {
-    internal class AllEnemyList
+    public class AllEnemyList
     {
         //Used to deserialize all enemies.
+        //AllEnemyList X = JsonFile.DeserializeEnemyList("Enemy");
+        public List<Enemy> Results { get; set; }       
+   
+   
 
-        internal List<Enemy> AllEnemies = new List<Enemy>();
     }
 }

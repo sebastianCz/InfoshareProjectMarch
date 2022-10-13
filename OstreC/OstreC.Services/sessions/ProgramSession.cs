@@ -15,10 +15,15 @@ namespace OstreC.Services
         //Inherited by UI in console to update data based on input. 
         public CurrentUser currentUser = new CurrentUser(1, "Admin", "AdminPass", false);
 
+        //Not sure if we need an instance of this at all times. We most likely don't. 
+        //internal AllEnemyList enemyList = JsonFile.DeserializeEnemyList("Enemy");
        
 
         //If set to true program will exit on next iteration due to console logic. 
         public bool exit { get; set; } = false;
+
+
+
 
         //Updates user values. 
         public bool Login(string userName, string password)

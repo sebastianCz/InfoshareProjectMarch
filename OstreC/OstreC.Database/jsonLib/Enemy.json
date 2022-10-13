@@ -1,38 +1,46 @@
-{ 
-   
-  "results": [
+{
+
+  "Results": [
     {
-      "Name": "Goblin",
-      "Race": "Monster",
+      "Name": "GoblinWarrior",
+      "Race": "Humanoid",
       "CharClass": null,
       "HealthPoints": 10,
       "Level": 1,
-      "Strenght": 21,
-      "Dexterity": 8,
-      "Constitution": 20,
-      "Intelligence": 7,
-      "Wisdom": 14,
-      "Charisma":10,
+      "Strenght": 8,
+      "Dexterity": 14,
+      "Constitution": 10,
+      "Intelligence": 10,
+      "Wisdom": 8,
+      "Charisma": 8,
 
-      "ModStrenght":0, 
-      "ModDexterity": 0,
+      "ModStrenght": 0,
+      "ModDexterity": 2,
       "ModConstitution": 0,
       "ModIntelligence": 0,
-      "ModWisdom": 0,
-      "ModCharisma": 0
+      "ModWisdom": -1,
+      "ModCharisma": -1,
 
 
-      "size": "small",
-      "type": "aberration",
-      "alignment": "chaotic evil",
-      "armor_class": 14,
-      "armor_desc": "natural armor",
-      "hit_dice": 1,
-      "hit_dmg": 6,
-      "flat_dmg": 1,
+      "Size": "small",
+      "Type": "aberration",
+      "Alignment": "  evil",
+      "Armor_class": 14,
+      "Armor_desc": "natural armor",
+      "EnemyActions": [
+        {
+          "ActionName": "Default",
+          "ActionDescription": "Standard sword Attack",
+          "ActionType": "Attack",
+          "Hit_Dice": 1,
+          "Hit_dmg": 6,
+          "Flat_dmg": 2
+        }
+      ]
     }
-     
-    
+   
+      
 
-  ]
+
+    ]
 }
