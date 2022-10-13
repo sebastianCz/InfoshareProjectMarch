@@ -20,7 +20,11 @@ namespace OstreC.Services.Characters.Actions
         public int Hit_dmg { get; set; }
         public int Flat_dmg { get; set; }
 
-      
+      public Action()
+        {
+
+
+        }
      
 
 

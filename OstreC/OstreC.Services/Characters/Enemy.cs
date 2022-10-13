@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Newtonsoft.Json;
 using OstreC.Services;
 namespace OstreC.Services
 {
@@ -22,7 +23,7 @@ namespace OstreC.Services
         //public int Dmg_Dice { get; set; } //Amount of dmg dices thrown to calculate dmg 
         //public int Dmg_Dice_Max { get; set; }//Max value of dmg dice. Usually 6 for lesser creatures
         //public int Flat_Dmg { get; set; } //Flat dmg bonus
-
-        public List<Action> EnemyActions { get; set; } = new List<Action>();
+      
+        //public List<Action> EnemyActions { get; set; }
     }
 }

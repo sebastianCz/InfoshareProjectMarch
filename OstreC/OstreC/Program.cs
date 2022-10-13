@@ -22,9 +22,9 @@ using System.Runtime.CompilerServices;
 
 
 
-var x = JsonFile.DeserializeEnemyList("Enemy").Results;
+var x = JsonFile.DeserializeEnemyList("Enemy");
 
-Console.WriteLine(x[0].Name);
+Console.WriteLine(x.Results[0]);
 
 Console.ReadKey();
  

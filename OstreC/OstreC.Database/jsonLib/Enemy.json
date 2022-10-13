@@ -2,41 +2,38 @@
 
   "Results": [
     {
-      "Name": "GoblinWarrior",
-      "Race": "Humanoid",
-      "CharClass": null,
-      "HealthPoints": 10,
-      "Level": 1,
-      "Strenght": 8,
-      "Dexterity": 14,
-      "Constitution": 10,
-      "Intelligence": 10,
-      "Wisdom": 8,
-      "Charisma": 8,
-
-      "ModStrenght": 0,
-      "ModDexterity": 2,
-      "ModConstitution": 0,
-      "ModIntelligence": 0,
-      "ModWisdom": -1,
-      "ModCharisma": -1,
-
-
-      "Size": "small",
-      "Type": "aberration",
       "Alignment": "  evil",
       "Armor_class": 14,
       "Armor_desc": "natural armor",
-      "EnemyActions": [
-        {
-          "ActionName": "Default",
-          "ActionDescription": "Standard sword Attack",
-          "ActionType": "Attack",
-          "Hit_Dice": 1,
-          "Hit_dmg": 6,
-          "Flat_dmg": 2
-        }
-      ]
+      "CharClass": null,
+      "Charisma": 8,
+      "Constitution": 10,
+      "Dexterity": 14,
+      //"EnemyActions": [
+      //  {
+      //    "ActionName": "Default",
+      //    "ActionDescription": "Standard sword Attack",
+      //    "ActionType": "Attack",
+      //    "Hit_Dice": 1,
+      //    "Hit_dmg": 6,
+      //    "Flat_dmg": 2
+      //  }
+      //],
+      "HealthPoints": 10,
+      "Intelligence": 10,
+      "Level": 1,
+      "ModCharisma": -1,
+      "ModConstitution": 0,
+      "ModDexterity": 2,
+      "ModIntelligence": 0,
+      "ModStrenght": 0,
+      "ModWisdom": -1,
+      "Name": "GoblinWarrior",
+      "Race": "Humanoid",
+      "Size": "small",
+      "Strenght": 8,
+      "Type": "aberration",
+      "Wisdom": 8
     }
    
       

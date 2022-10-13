@@ -12,7 +12,8 @@ namespace OstreC.Services.Collections
         //Used to deserialize all actions of enemies(Or players might use that lis too ? Maybe?. 
 
         public List<Action> AllActions = new List<Action>();
-        
+       
+
     }
   }
  
