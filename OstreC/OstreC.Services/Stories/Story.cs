@@ -5,6 +5,9 @@ namespace OstreC.Services
 {
     public class Story
     {
+
+        public ParagraphType ActiveParagraphType { get; set; }
+        public int ActiveParagraph { get; set; }
         public string NameOfStory { get; private set; }
         [JsonIgnore]
         public int AmountOfParagrafh { get { return FightParagraphs.Count() + TestParagraphs.Count() + DialogParagraphs.Count() + DescOfStages.Count(); } }

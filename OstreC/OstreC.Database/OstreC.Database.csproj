@@ -10,7 +10,7 @@
     <None Update="jsonLib\classes.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Update="jsonLib\DefaultStory.json">
+    <None Update="jsonLib\Stories\DefaultStory.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Update="jsonLib\Enemy.json">

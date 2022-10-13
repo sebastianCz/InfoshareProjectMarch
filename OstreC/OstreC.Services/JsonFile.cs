@@ -23,7 +23,7 @@ namespace OstreC.Services
 
         public static Story DeserializeStory(string nameFile)
         {
-            string textFromFile = ReaderJson.readFile(nameFile);
+            string textFromFile = ReaderJson.readFile("Stories\\"+nameFile);
             Story story = JsonConvert.DeserializeObject<Story>(textFromFile);
             //story.AddAllParagraph();
             return story;

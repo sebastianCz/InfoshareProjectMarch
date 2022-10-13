@@ -8,8 +8,8 @@ namespace OstreC.ManageInput
     {
         public PageType Type => PageType.Paragraph;
         public static Story CurrentStory { get; } = JsonFile.DeserializeStory("DefaultStory");
-        private int IdParagraph { get; set; } = 2;
-        private ParagraphType ParagraphType { get; set; } = ParagraphType.DescOfStage;
+        private int IdParagraph { get; set; } = CurrentStory.ActiveParagraph;
+        private ParagraphType ParagraphType { get; set; } = CurrentStory.ActiveParagraphType;
         private int AmountOfOptions { get; set; } = 0;
         private int i { get; set; } = 0;
         private Paragraph Paragraph { get; set; }
@@ -17,17 +17,24 @@ namespace OstreC.ManageInput
         {
             if (i != 0)
             {
+                
+               
+               
                 UI.Page.pageInfo = ReaderStories.ThrowParagraphText(ParagraphType, CurrentStory, IdParagraph);
                 UI.Page.instructions = ReaderStories.ThrowOptionsText(ParagraphType, CurrentStory, IdParagraph);
                 Paragraph = ReaderStories.ThrowObjParagraph(ParagraphType, CurrentStory, IdParagraph);
                 AmountOfOptions = Paragraph.AmountOfOptions;
                 UI.DrawUI(UI, false);
                 UI.Page.error = "";
+                CurrentStory.ActiveParagraph = IdParagraph;
+                CurrentStory.ActiveParagraphType = ParagraphType;
             }
             i++;
 
             string input = Console.ReadLine();
             input = input.ToUpper().Replace(" ", null);
+
+
 
             switch (AmountOfOptions)
             {
@@ -117,7 +124,7 @@ namespace OstreC.ManageInput
                         }
                         break;
                     }
-                case 3:
+                case  3:
                     {
                         if (Helpers.isCommand(input, UI)) ;
                         else if (String.Equals(input.ToUpper().Replace(" ", null), "SAVE")) // Save
@@ -221,6 +228,8 @@ namespace OstreC.ManageInput
                         break;
                     }
             }
+
+         
         }
     }
 }

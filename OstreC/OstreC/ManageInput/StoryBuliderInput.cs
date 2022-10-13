@@ -134,7 +134,7 @@ namespace OstreC.ManageInput
                         else if (String.Equals(input.ToUpper().Replace(" ", null), "SAVE")) // Save
                         {
                             string serializedStory = JsonFile.SerializeStory(CurrentStory);
-                            JsonFile.serializedToJson(serializedStory, CurrentStory.NameOfStory);
+                            JsonFile.serializedToJson(serializedStory, "Stories\\"+CurrentStory.NameOfStory);
                             Console.WriteLine("Wykonano zapis, naciśnij cokolwiek aby kontynuować.");
                             UI.Page.error = "History saved!";
                             UI.DrawUI(UI, false);
@@ -207,7 +207,7 @@ namespace OstreC.ManageInput
                         else if (String.Equals(input.ToUpper().Replace(" ", null), "SAVE")) // Save
                         {
                             string serializedStory = JsonFile.SerializeStory(CurrentStory);
-                            JsonFile.serializedToJson(serializedStory, CurrentStory.NameOfStory);
+                            JsonFile.serializedToJson(serializedStory, "Stories\\"+ CurrentStory.NameOfStory);
                             Console.WriteLine("Wykonano zapis, naciśnij cokolwiek aby kontynuować.");
                             UI.Page.error = "History saved!";
                             UI.DrawUI(UI, false);
