@@ -40,6 +40,11 @@ namespace OstreC.Services
             string textToFile = JsonConvert.SerializeObject(story);
             return textToFile;
         }
+        public static string SerializeSaveFile(SaveFile saveFile)
+        {
+            string textToFile = JsonConvert.SerializeObject(saveFile);
+            return textToFile;
+        }
 
         public static void serializedToJson(string serializedObject , string fileName)
         {

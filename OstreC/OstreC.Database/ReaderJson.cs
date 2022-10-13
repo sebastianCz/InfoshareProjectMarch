@@ -10,9 +10,8 @@
             return currentDirectory;
         }
 
-          public static string readFile(string fileName)
+        public static string readFile(string fileName)
         {
-
             var currentDirectory = Directory.GetCurrentDirectory();
             var fileNamePath = Path.Combine(currentDirectory, "JsonLib", fileName + ".json");
 
