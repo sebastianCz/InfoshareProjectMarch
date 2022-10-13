@@ -17,6 +17,8 @@ namespace OstreC.ManageInput
             {
                 Helpers.HandleCommand(input, UI);
             } 
+
+
         }
         
     }

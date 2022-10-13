@@ -12,6 +12,9 @@ namespace OstreC.Services
         public ParagraphType ActiveParagraphType { get; set; }
         public int ActiveParagraph { get; set; }
         public string NameOfStory { get; set; }
+
+        
+
         [JsonIgnore]
         public Story CurrentStory { get; private set; }
         public SaveFile(ParagraphType activeParagraphType, int activeParagraph, string nameOfStory)

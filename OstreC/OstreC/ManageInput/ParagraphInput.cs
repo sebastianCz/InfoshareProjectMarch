@@ -7,9 +7,9 @@ namespace OstreC.ManageInput
     public class ParagraphInput : IuiInput
     {
         public PageType Type => PageType.Paragraph;
-        public static SaveFile SaveFile { get; } = new SaveFile(ParagraphType.DescOfStage, 2, "DefaultStory");
-        private int IdParagraph { get; set; } = SaveFile.ActiveParagraph;
-        private ParagraphType ParagraphType { get; set; } = SaveFile.ActiveParagraphType;
+      
+        private int IdParagraph { get; set; } = GameSession.SaveFile.ActiveParagraph;
+        private ParagraphType ParagraphType { get; set; } = GameSession.SaveFile.ActiveParagraphType;
         private int AmountOfOptions { get; set; } = 0;
         private int i { get; set; } = 0;
         private Paragraph Paragraph { get; set; }
@@ -17,14 +17,14 @@ namespace OstreC.ManageInput
         {
             if (i != 0)
             {
-                UI.Page.pageInfo = ReaderStories.ThrowParagraphText(ParagraphType, SaveFile.CurrentStory, IdParagraph);
-                UI.Page.instructions = ReaderStories.ThrowOptionsText(ParagraphType, SaveFile.CurrentStory, IdParagraph);
-                Paragraph = ReaderStories.ThrowObjParagraph(ParagraphType, SaveFile.CurrentStory, IdParagraph);
+                UI.Page.pageInfo = ReaderStories.ThrowParagraphText(ParagraphType, GameSession.SaveFile.CurrentStory, IdParagraph);
+                UI.Page.instructions = ReaderStories.ThrowOptionsText(ParagraphType, GameSession.SaveFile.CurrentStory, IdParagraph);
+                Paragraph = ReaderStories.ThrowObjParagraph(ParagraphType, GameSession.SaveFile.CurrentStory, IdParagraph);
                 AmountOfOptions = Paragraph.AmountOfOptions;
                 UI.DrawUI(UI, false);
                 UI.Page.error = "";
-                SaveFile.ActiveParagraph = IdParagraph;
-                SaveFile.ActiveParagraphType = ParagraphType;
+                GameSession.SaveFile.ActiveParagraph = IdParagraph;
+                GameSession.SaveFile.ActiveParagraphType = ParagraphType;
             }
             i++;
 
@@ -43,7 +43,7 @@ namespace OstreC.ManageInput
                         if (Helpers.isCommand(input, UI)) ;
                         else if (String.Equals(input.ToUpper().Replace(" ", null), "SAVE")) // Save
                         {
-                            string serializedSaveFile = JsonFile.SerializeSaveFile(SaveFile);
+                            string serializedSaveFile = JsonFile.SerializeSaveFile(GameSession.SaveFile);
                             JsonFile.serializedToJson(serializedSaveFile, $"UsersFile\\" + UI.currentUser.UserName);
                             UI.Page.error = "History progress saved!";
                         } // Save
@@ -82,7 +82,7 @@ namespace OstreC.ManageInput
                         if (Helpers.isCommand(input, UI)) ;
                         else if (String.Equals(input.ToUpper().Replace(" ", null), "SAVE")) // Save
                         {
-                            string serializedSaveFile = JsonFile.SerializeSaveFile(SaveFile);
+                            string serializedSaveFile = JsonFile.SerializeSaveFile(GameSession.SaveFile);
                             JsonFile.serializedToJson(serializedSaveFile, $"UsersFile\\" + UI.currentUser.UserName);
                             UI.Page.error = "History progress saved!";
                         } // Save
@@ -126,7 +126,7 @@ namespace OstreC.ManageInput
                         if (Helpers.isCommand(input, UI)) ;
                         else if (String.Equals(input.ToUpper().Replace(" ", null), "SAVE")) // Save
                         {
-                            string serializedSaveFile = JsonFile.SerializeSaveFile(SaveFile);
+                            string serializedSaveFile = JsonFile.SerializeSaveFile(GameSession.SaveFile);
                             JsonFile.serializedToJson(serializedSaveFile, $"UsersFile\\" + UI.currentUser.UserName);
                             UI.Page.error = "History progress saved!";
                         } // Save
@@ -175,7 +175,7 @@ namespace OstreC.ManageInput
                         if (Helpers.isCommand(input, UI)) ;
                         else if (String.Equals(input.ToUpper().Replace(" ", null), "SAVE")) // Save
                         {
-                            string serializedSaveFile = JsonFile.SerializeSaveFile(SaveFile);
+                            string serializedSaveFile = JsonFile.SerializeSaveFile(GameSession.SaveFile);
                             JsonFile.serializedToJson(serializedSaveFile, $"UsersFile\\" + UI.currentUser.UserName);
                             UI.Page.error = "History progress saved!";
                         } // Save
