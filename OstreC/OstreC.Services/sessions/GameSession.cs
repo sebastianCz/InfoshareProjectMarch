@@ -32,7 +32,7 @@ namespace OstreC.Services
         {
             var session = new GameSession();
             session.FileLoaded = true; //Sets to true and loads "default" instance of save file without deserializing. There's nothing to deserialize. 
-            session.SaveFile = new SaveFile(0,3, storyName);//Default values
+            session.SaveFile = new SaveFile(0,2, storyName);//Default values
             return session;
         }
 

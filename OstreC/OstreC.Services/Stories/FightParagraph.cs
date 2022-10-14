@@ -1,15 +1,18 @@
-﻿namespace OstreC.Services
+﻿using System.Text.Json.Serialization;
+
+namespace OstreC.Services
 {
     public class FightParagraph : Paragraph
     {
-        public int AmountOfEnemy { get; }
-        public string EnemyName { get; }
+        public List<ParagraphEnemy> ParagraphEnemies { get; } = new List<ParagraphEnemy>();
         public override ParagraphType ParagraphType => ParagraphType.Fight;
-        public FightParagraph(int idParagraph, string textParagraph, int amountOfEnemy, string enemyName) 
+        public FightParagraph(int idParagraph, string textParagraph) 
             : base(idParagraph, textParagraph)
         {
-            AmountOfEnemy = amountOfEnemy;
-            EnemyName = enemyName;
+        }
+        public void AddEnemy(int amountOfEnemy, string enemyName)
+        {
+            ParagraphEnemies.Add(new ParagraphEnemy(amountOfEnemy, enemyName));
         }
         public void DefaultChoice()
         {

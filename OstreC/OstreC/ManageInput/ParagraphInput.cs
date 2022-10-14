@@ -13,6 +13,7 @@ namespace OstreC.ManageInput
         private int AmountOfOptions { get; set; } = 0;
         private int i { get; set; } = 0;
         private Paragraph Paragraph { get; set; }
+        private FightParagraph currentFightPatagraph { get; set; }
         public void checkUserInput(UI UI)
         {
         //public string NameOfStory { get; set; }
@@ -32,7 +33,14 @@ namespace OstreC.ManageInput
             string input = Console.ReadLine();
             input = input.ToUpper().Replace(" ", null);
 
+            if (UI.GameSession.SaveFile.ActiveParagraphType == ParagraphType.Fight)
+            {
+                currentFightPatagraph = (FightParagraph)Paragraph;
+            }
+
             if (Helpers.isCommand(input, UI)) ;
+            else if (UI.GameSession.SaveFile.ActiveParagraphType == ParagraphType.Fight && ReaderStories.Fight(out input, currentFightPatagraph.ParagraphEnemies)) ;
+            else if (UI.GameSession.SaveFile.ActiveParagraphType == ParagraphType.Test && ReaderStories.Test(out input)) ;
             else if (String.Equals(input.ToUpper().Replace(" ", null), "SAVE") && AmountOfOptions > 0) // Save
             {
                 string serializedSaveFile = JsonFile.SerializeSaveFile(UI.GameSession.SaveFile);

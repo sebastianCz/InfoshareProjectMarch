@@ -137,5 +137,15 @@
             }
             return null;
         }
+        public static bool Fight(out string input, List<ParagraphEnemy> paragraphEnemies)
+        {
+            input = "2";
+            return false;
+        }
+        public static bool Test(out string input)
+        {
+            input = "2";
+            return false;
+        }
     }
 }

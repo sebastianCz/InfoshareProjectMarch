@@ -379,7 +379,7 @@ namespace OstreC.ManageInput
             string enemyName = AddEnemy(UI);
             int amountOfEnemy = AmountOfEnemy(UI, enemyName);
 
-            CurrentStory.AddNewFightParagraph(new FightParagraph(CurrentStory.AmountOfParagrafh, textParagraph, amountOfEnemy, enemyName));
+            CurrentStory.AddNewFightParagraph(new FightParagraph(CurrentStory.AmountOfParagrafh, textParagraph));
             UI.Page.instructions = "Type 1 to go Story Builder home page!\nType 0 to go back to the main menu!\nType 'Save' to save changes!\nType 'New' to create a new paragraph\nEnter 'Link' to create a new paragraph link";
         }
 

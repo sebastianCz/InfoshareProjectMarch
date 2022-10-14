@@ -1,13 +1,20 @@
 {
-  "ActiveParagraph": 2,
-  "ActiveParagraphType": 0,
-  "UserId":0,
+  "StartParagraph": 2,
+  "StartParagraphType": 0,
   "NameOfStory": "DefaultStory",
   "AmountOfParagrafh": 6,
   "FightParagraphs": [
     {
-      "AmountOfEnemy": 2,
-      "EnemyName": "Goblin",
+      "ParagraphEnemies": [
+        {
+          "AmountOfEnemy": 2,
+          "EnemyName": "Goblin"
+        },
+        {
+          "AmountOfEnemy": 1,
+          "EnemyName": "Orc"
+        }
+      ],
       "ParagraphType": 1,
       "IdParagraph": 9,
       "TextParagraph": "Fight with 2 goblin",
