@@ -11,13 +11,16 @@ namespace OstreC.Services
     public class GameSession : ProgramSession
     {
         //I belive this one is handled by story. 
-        public static SaveFile SaveFile { get; set; }  //We need a default save file in current build. 
+        public  SaveFile SaveFile { get; set; }  //We need a default save file in current build. 
 
        public CurrentPlayer currentPlayer { get; set; } //Inherited by UI in console to update data based on input.   //Passed to console to save data for current Player Character
-         public bool GameLoaded = false;
+         public bool FileLoaded = false;
 
         
+        public GameSession()
+        {
 
+        }
         public GameSession(SaveFile saveFile,CurrentPlayer currentplayer,bool gameLoaded)
         {
 
@@ -25,18 +28,20 @@ namespace OstreC.Services
         }
 
       
-        public void NewGame()
+        public GameSession NewGame(string storyName)
         {
-
-            
+            var session = new GameSession();
+            session.FileLoaded = true; //Sets to true and loads "default" instance of save file without deserializing. There's nothing to deserialize. 
+            session.SaveFile = new SaveFile(0,3, storyName);//Default values
+            return session;
         }
 
-        public GameSession init(string userName)
+        public GameSession loadSave(string userName)
         {
-
-            GameLoaded = true;
-            SaveFile = JsonFile.DeserializeSaveFile($"UsersFile\\" + userName);
-            return GameSession;
+            var session = new GameSession();
+            session.FileLoaded = true;
+            session.SaveFile = JsonFile.DeserializeSaveFile($"UsersFile\\" + userName);
+            return session;
         }
 
     }

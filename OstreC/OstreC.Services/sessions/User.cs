@@ -92,6 +92,11 @@ namespace OstreC.Services
                             {
                                 return false;
                             }
+                        case 4:
+                            if(newData == "true") { user.SaveFileExists = true; }
+                            if (newData == "false") { user.SaveFileExists = false; }
+
+                            break;
                     }
                     updated = true;
                 }

@@ -20,25 +20,39 @@ namespace OstreC.ManageInput
 
             }else if(String.Equals(input.ToLower().Replace(" ", null), "2"))
             {
-                UI.Page.pageInfo = " You want to start a new game.";
+                UI.Page.pageInfo = " You are creating a new game. This will overwrite your existing save file! ";
                UI.Page.instructions= " Press enter to proceed";
                 UI.DrawUI(UI,true);
                 Console.ReadLine();
-                
 
+              UI.GameSession = UI.GameSession.NewGame("DefaultStory");
+                UI.Page.switchPage(PageType.Paragraph,UI);
+                
             }else if(String.Equals(input.ToLower().Replace(" ", null), "3"))
             {//Checks if current user has the save file exists bool set to true ( It saves in USERS.json files). It's set to true when a user creates his first save file. 
-                UI.Page.pageInfo = $" You want to load a game. \n Your current username : {UI.currentUser.UserName} \n Do you have a save file: {UI.currentUser.SaveFileExists} \n ";
-                if (UI.currentUser.SaveFileExists) { UI.Page.error = $"Your save file will be loaded now with the following story \n: {GameSession.SaveFile.NameOfStory}"; }
-                if (!UI.currentUser.SaveFileExists) { UI.Page.error = " You do not have an existing save file to load. You will be redirected to Main Menu.\n Press enter to proceed"; } 
+                UI.Page.pageInfo = $" You want to load a game. \n Your current username : {UI.currentUser.UserName} \n Your save file exists: {UI.currentUser.SaveFileExists} \n ";
+                if (UI.currentUser.SaveFileExists) {
+
+                    UI.Page.instructions = "Press enter.";
+                    UI.GameSession = UI.GameSession.loadSave(UI.currentUser.UserName);
+                    UI.Page.error = $"Your save file will be loaded now with the following story \n: {UI.GameSession.SaveFile.NameOfStory}"; 
+                
+                
+                }
+                if (!UI.currentUser.SaveFileExists) { UI.Page.instructions = "Press enter."; UI.Page.error = " You do not have an existing save file to load. You will be redirected to Main Menu."; } 
 
                 UI.DrawUI(UI, false);
                 Console.ReadLine();
-                
-                if (UI.currentUser.SaveFileExists)
+
+                if (UI.GameSession.FileLoaded)
                 {
-                    UI.GameSession.init(UI.currentUser.UserName);
+                    UI.Page.switchPage(PageType.Paragraph, UI);
                 }
+                else
+                {
+                    UI.Page.switchPage(PageType.StartGame, UI);
+                }
+                
                 
                 
             }

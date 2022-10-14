@@ -13,7 +13,7 @@ namespace OstreC.Services
     {
         //Instancied on init so UI can call it's methods   
         //Inherited by UI in console to update data based on input. 
-        public CurrentUser currentUser { get; set; } //= new CurrentUser("Default", "Default", false, false, -1);// Default values. 
+        public CurrentUser currentUser { get; set; } 
 
         public GameSession GameSession { get; set; } //
         //Not sure if we need an instance of this at all times. We most likely don't. 
