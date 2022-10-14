@@ -13,8 +13,9 @@ namespace OstreC.Services
     {
         //Instancied on init so UI can call it's methods   
         //Inherited by UI in console to update data based on input. 
-        public CurrentUser currentUser = new CurrentUser(1, "Admin", "AdminPass", false);
+        public CurrentUser currentUser { get; set; } //= new CurrentUser("Default", "Default", false, false, -1);// Default values. 
 
+        public GameSession GameSession { get; set; } //
         //Not sure if we need an instance of this at all times. We most likely don't. 
         //internal AllEnemyList enemyList = JsonFile.DeserializeEnemyList("Enemy");
        
@@ -41,6 +42,7 @@ namespace OstreC.Services
                     currentUser.Email = user.Email;
                     currentUser.Id = user.Id;
                     currentUser.LoggedIn = true;
+                    currentUser.SaveFileExists = user.SaveFileExists;
                     return true;
                 }
             }

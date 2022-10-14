@@ -35,8 +35,8 @@ namespace OstreC
                 case PageType.Main_Menu:
                     currentType = PageType.Main_Menu;
                     pageInfo = "Welcome to the main menu!";
-                    instructions = " Press 1 for new game \n Press 2 to create a new character \n Press 3 to load a game \nPress 4 to Paragraph \n Press 5 to Create new story \n " +
-                        "Press 6 to manage your account\n Press 9 for example page";
+                    instructions = " Press 1 to Start a game! \n Press 2 to create a new character \n Press 3 to Debug paragraph \n Press 4 to Create new story \n " +
+                        "Press 5 to Manage your account \n Press 9 for Example page";
                     UI.DrawUI(UI, true);
                     break;
 
@@ -103,6 +103,14 @@ namespace OstreC
                        
                     instructions = " Type 1 edit your data \n Type 2 to delete your account";
                     UI.DrawUI(UI, true);
+                    break;
+
+                case PageType.StartGame:
+                    currentType = PageType.StartGame;
+                    pageInfo = $"You're about to start a game. Choose one of the options below. ";
+                    instructions = "Type 1 to go back to Main Menu. \n Type 2 to Start a new Game \n Press 3 to Load a game";
+                    UI.DrawUI(UI, true);
+  
                     break;
 
                 default:

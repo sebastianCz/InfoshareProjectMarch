@@ -24,15 +24,17 @@ namespace OstreC.Services
             public string Password { get; set; }
 
             public string Email { get; set; }
+        public bool SaveFileExists { get; set; } 
 
             
 
             //Init with -1 until defined.
-            public User(string username, string password, int id = -1)
+            public User(string username, string password,bool saveFileExists, int id = -1)
             {
                 Id = id;
                 UserName = username;
                 Password = password;
+                this.SaveFileExists = saveFileExists;
 
             }
 
@@ -140,6 +142,7 @@ namespace OstreC.Services
                 currentUser.Email = email;
                 currentUser.UserName = userName;
                 currentUser.Password = password;
+                currentUser.SaveFileExists = false;
                 usersList.Results.Add((User)currentUser);
 
                 var x = JsonFile.SerializeUsersList(usersList);

@@ -11,22 +11,32 @@ namespace OstreC.Services
     public class GameSession : ProgramSession
     {
         //I belive this one is handled by story. 
-        public static SaveFile SaveFile { get; } = new SaveFile(ParagraphType.DescOfStage, 2, "DefaultStory");
+        public static SaveFile SaveFile { get; set; }  //We need a default save file in current build. 
 
-        public CurrentPlayer currentPlayer = new CurrentPlayer(); //Inherited by UI in console to update data based on input. 
-        //Passed to console to save data for current Player Character
+       public CurrentPlayer currentPlayer { get; set; } //Inherited by UI in console to update data based on input.   //Passed to console to save data for current Player Character
+         public bool GameLoaded = false;
 
+        
 
+        public GameSession(SaveFile saveFile,CurrentPlayer currentplayer,bool gameLoaded)
+        {
+
+            
+        }
+
+      
         public void NewGame()
         {
 
-
+            
         }
 
-        public void LoadGame()
+        public GameSession init(string userName)
         {
 
-
+            GameLoaded = true;
+            SaveFile = JsonFile.DeserializeSaveFile($"UsersFile\\" + userName);
+            return GameSession;
         }
 
     }

@@ -25,15 +25,16 @@ namespace OstreC
 
             }
             pageTypes.Add(new MainMenuInput());
-            pageTypes.Add(new CreateNewGameInput());
+
             pageTypes.Add(new CreateCharacterInput());
-            pageTypes.Add(new LoadGameInput());
             pageTypes.Add(new ParagraphInput());
             pageTypes.Add(new BestiaryInput());
             pageTypes.Add(new ExampleInput());
             pageTypes.Add(new StoryBuliderInput());
             pageTypes.Add(new LoginInput());
             pageTypes.Add(new ManageAccount());
+            pageTypes.Add(new StartGameInput());
+           
         }
         public void checkInput(UI UI)
         {

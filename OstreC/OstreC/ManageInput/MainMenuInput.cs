@@ -22,7 +22,7 @@ namespace OstreC.ManageInput
                 if (String.Equals(input.ToLower().Replace(" ",null), "1"))
                 {
 
-                    UI.Page.switchPage(PageType.Create_NewGame, UI);
+                    UI.Page.switchPage(PageType.StartGame, UI);
                 }
                 else if (String.Equals(input.ToLower().Replace(" ", null), "2"))
                 {
@@ -30,20 +30,17 @@ namespace OstreC.ManageInput
                 }
                 else if (String.Equals(input.ToLower().Replace(" ", null), "3"))
                 {
-                    UI.Page.switchPage(PageType.Load_Game, UI);
+                    UI.Page.switchPage(PageType.Paragraph, UI);
                 }
                 else if (String.Equals(input.ToLower().Replace(" ", null), "4"))
                 {
-                    UI.Page.switchPage(PageType.Paragraph, UI);
+                    UI.Page.switchPage(PageType.Story_Bulider, UI);
                 }
                 else if (String.Equals(input.ToLower().Replace(" ", null), "5"))
                 {
-                    UI.Page.switchPage(PageType.Story_Bulider, UI);
-                }
-                else if (String.Equals(input.ToLower().Replace(" ", null), "6"))
-                {
                     UI.Page.switchPage(PageType.ManageAccount, UI);
-                } else if (String.Equals(input.ToLower().Replace(" ", null), "9"))
+                }
+                else if (String.Equals(input.ToLower().Replace(" ", null), "9"))
                 {
                     UI.Page.switchPage(PageType.ExampleEnum, UI);
                 }

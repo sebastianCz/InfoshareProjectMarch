@@ -6,6 +6,14 @@ namespace OstreC.Services
 {
     public  class JsonFile
     {
+
+        public static SaveFile DeserializeSaveFile(string nameFIle)
+        {
+            string textFromFile = ReaderJson.readFile(nameFIle);
+            SaveFile saveFile = JsonConvert.DeserializeObject<SaveFile>(textFromFile);
+            return saveFile;
+
+        }
         public static AllEnemyList DeserializeEnemyList(string nameFIle)
         {
             string textFromFile = ReaderJson.readFile(nameFIle);

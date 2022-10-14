@@ -27,7 +27,8 @@ namespace OstreC.Interface
         ExampleEnum,
         Story_Bulider,
         Login,
-        ManageAccount
+        ManageAccount,
+        StartGame
     }
 
     public interface IuiInput
