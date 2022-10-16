@@ -32,7 +32,7 @@ namespace OstreC.ManageInput
             }
 
             if (Helpers.IsCommand(input, UI)) ;
-            else if (String.Equals(input, "SAVE") && AmountOfOptions > 0) // Save
+            else if (AmountOfOptions > 0 && String.Equals(input, "SAVE")) // Save
             {
                 ReaderStories.SaveProgress(UI.CurrentUser, UI.GameSession);
                 UI.Page.Error = "History progress saved!";
