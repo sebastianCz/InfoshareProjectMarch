@@ -16,11 +16,9 @@ namespace OstreC.Services
         public CurrentUser CurrentUser { get; set; } 
 
         public GameSession GameSession { get; set; } 
+
         //If set to true program will exit on next iteration due to console logic. 
-        public bool exit { get; set; } = false;
-
-
-
+        public bool Exit { get; set; } = false;
 
         //Updates user values. 
         public bool Login(string userName, string password)
@@ -44,9 +42,5 @@ namespace OstreC.Services
             }
             return false;
         }
-
-
     }
-
-
 }
