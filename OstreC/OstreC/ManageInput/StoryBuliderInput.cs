@@ -11,14 +11,18 @@ namespace OstreC.ManageInput
         {
             UI.DrawUI(UI, false);
             UI.Page.Error = "";
-            string? input = Console.ReadLine()?.ToUpper().Replace(" ", null);
+            string input = Console.ReadLine()?.ToUpper().Replace(" ", null);
 
-            if (Helpers.IsCommand(input, UI)) ;
+            if (Helpers.IsCommand(input, UI)) CurrentStory = null;
             else if (String.Equals(input, "0"))
             {
                 Helpers.WriteLineColorText("Are you sure? You go back to menu.\nPress 'Y' - yes or 'N' - no", ConsoleColor.Red);
-                if (Helpers.YesOrNoKey()) UI.Page.switchPage(PageType.Main_Menu, UI);
-                HomePage = true;
+                if (Helpers.YesOrNoKey())
+                {
+                    CurrentStory = null;
+                    HomePage = true;
+                    UI.Page.switchPage(PageType.Main_Menu, UI);
+                }
             } // Go back to main menu
             else if (!HomePage && String.Equals(input, "SAVE")) // Save
             {
@@ -39,9 +43,9 @@ namespace OstreC.ManageInput
             {
                 do
                 {
-                    Helpers.WriteLineColorText("\n You chose creat new story!\n Let's start with something easy, enter the name of the story: ", ConsoleColor.Green);
+                    Helpers.WriteColorText("\n You chose creat new story!\n Let's start with something easy, enter the name of the story: ", ConsoleColor.Green);
 
-                    string? nameOfStory = Console.ReadLine();
+                    string nameOfStory = Console.ReadLine();
                     Console.WriteLine($"\nThe name of your story is: {nameOfStory}");
 
                     Helpers.WriteLineColorText("\nDo you approve the name? \nPress 'Y' - yes or 'N' - no", ConsoleColor.Red);
@@ -61,9 +65,9 @@ namespace OstreC.ManageInput
             {
                 do
                 {
-                    Helpers.WriteLineColorText("\n You have chosen to load an existing story to edit it.\n Enter the name of the story: ", ConsoleColor.Green);
+                    Helpers.WriteColorText("\n You have chosen to load an existing story to edit it.\n Enter the name of the story: ", ConsoleColor.Green);
 
-                    string? nameOfStory = Console.ReadLine();
+                    string nameOfStory = Console.ReadLine();
                     Console.WriteLine($"\nThe name of your story is: {nameOfStory}");
 
                     Helpers.WriteLineColorText("\n Do you approve the name? \n Press 'Y' - yes or 'N' - no", ConsoleColor.Red);
@@ -154,7 +158,7 @@ namespace OstreC.ManageInput
         }
         private static void CreatNewDescOfStageParagraph(UI UI)
         {
-            string? textParagraph = AddTextParagraph(UI, "DescOfStage Paragraph");
+            string textParagraph = AddTextParagraph(UI, "DescOfStage Paragraph");
 
             DescOfStage newDesc = new DescOfStage(CurrentStory.AmountOfParagrafh, textParagraph);
             newDesc.DefaultChoice();
@@ -163,7 +167,7 @@ namespace OstreC.ManageInput
         }
         private static void CreatNewFightParagraph(UI UI)
         {
-            string? textParagraph = AddTextParagraph(UI, "Fight Paragraph");
+            string textParagraph = AddTextParagraph(UI, "Fight Paragraph");
             string enemyName = AddEnemy(UI);
             int amountOfEnemy = AmountOfEnemy(UI, enemyName);
 
@@ -175,7 +179,7 @@ namespace OstreC.ManageInput
         }
         private static void CreatNewDialogParagraph(UI UI)
         {
-            string? textParagraph = AddTextParagraph(UI, "Dialog Paragraph");
+            string textParagraph = AddTextParagraph(UI, "Dialog Paragraph");
 
             DialogParagraph newDialog = new DialogParagraph(CurrentStory.AmountOfParagrafh, textParagraph);
             newDialog.DefaultChoice();
@@ -184,14 +188,14 @@ namespace OstreC.ManageInput
         }
         private static void CreatNewTestParagraph(UI UI)
         {
-            string? textParagraph = AddTextParagraph(UI, "Test Paragraph");
+            string textParagraph = AddTextParagraph(UI, "Test Paragraph");
 
             TestParagraph newTest = new TestParagraph(CurrentStory.AmountOfParagrafh, textParagraph);
             newTest.DefaultChoice();
 
             CurrentStory.AddNewTestParagraph(newTest);
         }
-        private static string? AddTextParagraph(UI UI, string typeParagraph)
+        private static string AddTextParagraph(UI UI, string typeParagraph)
         {
             UI.Page.PageInfo += $"\nYou create an {typeParagraph}.";
             do
@@ -201,7 +205,7 @@ namespace OstreC.ManageInput
                 UI.DrawUI(UI, true);
 
                 Console.Write("Entry new text here: ");
-                string? inputText = Console.ReadLine();
+                string inputText = Console.ReadLine();
 
                 Console.WriteLine($"You entered the text of the paragraph: \n{inputText}");
 
@@ -236,7 +240,7 @@ namespace OstreC.ManageInput
                 do
                 {
                     Console.Write("Entry amount here: ");
-                    string? inputText = Console.ReadLine();
+                    string inputText = Console.ReadLine();
 
                     if (int.TryParse(inputText, out amountOfEnemy))
                     {

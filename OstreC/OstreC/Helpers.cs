@@ -14,7 +14,7 @@ namespace OstreC
             return false;
         }
         //checks if provided string is a command.
-        public static bool IsCommand(string? userInput, UI UI)
+        public static bool IsCommand(string userInput, UI UI)
         {
             foreach (string command in UI._menuCommands)
             {
@@ -97,6 +97,12 @@ namespace OstreC
         {
             Console.ForegroundColor = firstColor;
             Console.WriteLine(textColored);
+            Console.ForegroundColor = ConsoleColor.White;
+        }
+        public static void WriteColorText(string textColored, ConsoleColor firstColor = ConsoleColor.DarkGreen)
+        {
+            Console.ForegroundColor = firstColor;
+            Console.Write(textColored);
             Console.ForegroundColor = ConsoleColor.White;
         }
     }
