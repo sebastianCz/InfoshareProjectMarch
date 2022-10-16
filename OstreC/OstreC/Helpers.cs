@@ -64,7 +64,7 @@ namespace OstreC
             switch (command)
             {
                 case "EXIT":
-                    UI.exit = true;
+                    UI.Exit = true;
                     break;
                 case "MENU":
                 case "MAIN_MENU":

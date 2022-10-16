@@ -17,7 +17,7 @@ namespace OstreC.Services
 
         public GameSession GameSession { get; set; } 
 
-        //If set to true program will exit on next iteration due to console logic. 
+        //If set to true program will Exit on next iteration due to console logic. 
         public bool Exit { get; set; } = false;
 
         //Updates user values. 
