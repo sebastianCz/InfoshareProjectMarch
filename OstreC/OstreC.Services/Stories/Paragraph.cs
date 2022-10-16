@@ -12,7 +12,7 @@ namespace OstreC.Services
         public abstract ParagraphType ParagraphType { get; }
         public List<NextParagraph> NextParagraphs { get; } = new List<NextParagraph>();
 
-        public Paragraph(int idParagraph, string textParagraph)
+        public Paragraph(int idParagraph, string textParagraph = "")
         {
             IdParagraph = idParagraph;
             TextParagraph = textParagraph;
@@ -20,9 +20,9 @@ namespace OstreC.Services
     }
     public enum ParagraphType
     {
-        DescOfStage,
-        Fight,
-        Dialog,
-        Test
+        DescOfStage = 0,
+        Fight = 1,
+        Dialog = 2,
+        Test = 3
     }
 }

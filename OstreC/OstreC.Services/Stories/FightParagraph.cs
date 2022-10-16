@@ -7,7 +7,7 @@ namespace OstreC.Services
     {
         public List<ParagraphEnemy> ParagraphEnemies { get; } = new List<ParagraphEnemy>();
         public override ParagraphType ParagraphType => ParagraphType.Fight;
-        public FightParagraph(int idParagraph, string textParagraph) 
+        public FightParagraph(int idParagraph, string textParagraph = "") 
             : base(idParagraph, textParagraph)
         {
         }

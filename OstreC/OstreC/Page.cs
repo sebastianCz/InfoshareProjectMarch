@@ -25,8 +25,8 @@ namespace OstreC
                 case PageType.Main_Menu:
                     CurrentType = PageType.Main_Menu;
                     PageInfo = "Welcome to the main menu!";
-                    Instructions = " Press 1 to Start a game! \n Press 2 to create a new character \n Press 3 to Debug paragraph \n Press 4 to Create new story \n " +
-                        "Press 5 to Manage your account \n Press 9 for Example page";
+                    Instructions = " Press 1 to Start a game! \n Press 2 to create a new character \n Press 3 to Debug paragraph \n Press 4 to enter the Story Builder \n" +
+                        " Press 5 to Manage your account \n Press 9 for Example page";
                     UI.DrawUI(UI, true);
                     break;
 
@@ -62,7 +62,7 @@ namespace OstreC
                 case PageType.Story_Bulider:
                     CurrentType = PageType.Story_Bulider;
                     PageInfo = "Welcome to the Story Builder!";
-                    Instructions = " Type 1 to create a new story!\n Type 2 to load an existing story and edit it!\n Type 0 to go back to the main menu!";
+                    Instructions = " Type 0 to go back to the main menu! \n Type 1 to create a new story!\n Type 2 to load an existing story and edit it!";
                     UI.DrawUI(UI, true);
                     break;
 
@@ -98,7 +98,7 @@ namespace OstreC
                 case PageType.StartGame:
                     CurrentType = PageType.StartGame;
                     PageInfo = $"You're about to start a game. Choose one of the options below. ";
-                    Instructions = "Type 1 to go back to Main Menu. \n Type 2 to Start a new Game \n Press 3 to Load a game";
+                    Instructions = " Type 1 to go back to Main Menu. \n Type 2 to Start a new Game \n Type 3 to Load a game";
                     UI.DrawUI(UI, true);
   
                     break;

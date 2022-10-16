@@ -5,306 +5,98 @@ namespace OstreC.ManageInput
     public class StoryBuilderInput : IuiInput
     {
         public PageType Type => PageType.Story_Bulider;
-        public int IdPage { get; private set; } = 0;
-        private static int IdCreator { get; set; }
-        public static Story CurrentStory { get; private set; }
+        private static bool HomePage { get; set; } = true; // True - StoryBuilder home page, 
+        private static Story CurrentStory { get; set; }
         public void CheckUserInput(UI UI)
         {
+            UI.DrawUI(UI, false);
+            UI.Page.Error = "";
+            string input = Console.ReadLine()?.ToUpper().Replace(" ", null);
 
-            string input = Console.ReadLine();
-            string inputText = input;
-            IdPage = CheckInput(input, UI, IdPage, inputText);
-        }
-
-        private static int CheckInput(string input, UI UI, int idPage, string inputText)
-        {
-
-            switch (idPage)
+            if (Helpers.IsCommand(input, UI)) CurrentStory = null;
+            else if (String.Equals(input, "0"))
             {
-                case 0: // Story Builder home page
+                Helpers.WriteLineColorText("Are you sure? You go back to menu.\nPress 'Y' - yes or 'N' - no", ConsoleColor.Red);
+                if (Helpers.YesOrNoKey())
+                {
+                    CurrentStory = null;
+                    HomePage = true;
+                    UI.Page.switchPage(PageType.Main_Menu, UI);
+                }
+            } // Go back to main menu
+            else if (!HomePage && String.Equals(input, "SAVE")) // Save
+            {
+                string serializedStory = JsonFile.SerializeStory(CurrentStory);
+                JsonFile.SerializedToJson(serializedStory, "Stories\\" + CurrentStory.NameOfStory);
+                UI.Page.Error = "Story saved!";
+            } // Save changed to NameStory.json
+            else if (!HomePage && String.Equals(input, "1")) // Go back to story Builder home page
+            {
+                Helpers.WriteLineColorText("Are you sure? You go back to Story Builder home page.\nPress 'Y' - yes or 'N' - no", ConsoleColor.Red);
+                if (Helpers.YesOrNoKey())
+                {
+                    UI.Page.switchPage(PageType.Story_Bulider, UI);
+                    HomePage = true;
+                }
+            } // Go back to story Builder home page
+            else if (HomePage && String.Equals(input, "1")) // New story in Story Builder home page
+            {
+                do
+                {
+                    Helpers.WriteColorText("\n You chose creat new story!\n Let's start with something easy, enter the name of the story: ", ConsoleColor.Green);
+
+                    string nameOfStory = Console.ReadLine();
+                    Console.WriteLine($"\nThe name of your story is: {nameOfStory}");
+
+                    Helpers.WriteLineColorText("\nDo you approve the name? \nPress 'Y' - yes or 'N' - no", ConsoleColor.Red);
+                    if (Helpers.YesOrNoKey())
                     {
-                        IdCreator = 0;
-                        input = input.ToUpper().Replace(" ", null);
-                        if (Helpers.IsCommand(input, UI)) return 0;
-                        else if (String.Equals(input.ToUpper().Replace(" ", null), "1")) // make a new story
-                        {
-                            UI.Page.PageInfo = "You've chosen to make a new story!";
-                            UI.Page.Instructions = "Type 1 to go Story Builder home page!\nType 0 to go back to the main menu!\n\nLet's start with something easy, enter the name of the story:";
-                            IdCreator = 0;
-                            UI.DrawUI(UI, true);
-                            return 1;
-                        } // make a new story
-                        else if (String.Equals(input.ToUpper().Replace(" ", null), "2")) // load an existing history for editing
-                        {
-                            UI.Page.PageInfo = "You have chosen to load an existing history for editing!";
-                            UI.Page.Instructions = "Type 1 to go Story Builder home page!\nType 0 to go back to the main menu!\n\nEnter a story name to edit: ";
-                            IdCreator = -1;
-                            UI.DrawUI(UI, true);
-                            return 2;
-                        } // load an existing history for editing
-                        else if (String.Equals(input.ToUpper().Replace(" ", null), "0")) // Main menu
-                        {
-                            Console.ForegroundColor = ConsoleColor.Red;
-                            Console.WriteLine("Are you sure? You go back to menu.\nPress 'Y' - yes or 'N' - no");
-                            Console.ResetColor();
-                            ConsoleKey key;
-                            do
-                            {
-                                key = Console.ReadKey().Key;
-                                switch (key)
-                                {
-                                    case ConsoleKey.Y:
-                                        UI.Page.switchPage(PageType.Main_Menu, UI);
-                                        return 0;
-                                    case ConsoleKey.N:
-                                        UI.DrawUI(UI, true);
-                                        return idPage;
-                                    default:
-                                        Console.ForegroundColor = ConsoleColor.Red;
-                                        Console.WriteLine("You didn't press the correct key. Try again.");
-                                        Console.ResetColor();
-                                        break;
-                                }
-                            } while (key != ConsoleKey.N && key != ConsoleKey.Y);
-                        } // Main menu
-                        else
-                        {
-                            UI.Page.Error = "You didn't type the correct option";
-                            UI.DrawUI(UI, false);
-                            return idPage;
-                        }
-                        return idPage;
+                        CurrentStory = new Story(nameOfStory);
+                        CurrentStory.DeafaultParagraph();
+                        UI.Page.PageInfo = $"You create a {CurrentStory.NameOfStory} story!";
+                        UI.Page.Instructions = " Type 0 to go back to the main menu!\n Type 1 to go Story Builder home page!\n Type 'Save' to save changes!\n Type 'New' to create a new paragraph\n Type 'Link' to create a new paragraph link";
+                        HomePage = false;
+                        break;
                     }
-                case 1: // create a new story
+                    UI.DrawUI(UI, false);
+                } while (true);
+            } // New story in Story Builder home page
+            else if (HomePage && String.Equals(input, "2")) // Loade exist story in Story Builder home page
+            {
+                do
+                {
+                    Helpers.WriteColorText("\n You have chosen to load an existing story to edit it.\n Enter the name of the story: ", ConsoleColor.Green);
+
+                    string nameOfStory = Console.ReadLine();
+                    Console.WriteLine($"\nThe name of your story is: {nameOfStory}");
+
+                    Helpers.WriteLineColorText("\n Do you approve the name? \n Press 'Y' - yes or 'N' - no", ConsoleColor.Red);
+                    if (Helpers.YesOrNoKey())
                     {
-                        input = input.ToUpper().Replace(" ", null);
-                        if (Helpers.IsCommand(input, UI)) return 0;
-                        else if (String.Equals(input.ToUpper().Replace(" ", null), "1")) // Story Builder home page
-                        {
-                            Console.ForegroundColor = ConsoleColor.Red;
-                            Console.WriteLine("Are you sure? You go back to Story Builder home page.\nPress 'Y' - yes or 'N' - no");
-                            Console.ResetColor();
-                            ConsoleKey key;
-                            do
-                            {
-                                key = Console.ReadKey().Key;
-                                switch (key)
-                                {
-                                    case ConsoleKey.Y:
-                                        UI.Page.switchPage(PageType.Story_Bulider, UI);
-                                        return 0;
-                                    case ConsoleKey.N:
-                                        UI.DrawUI(UI, true);
-                                        return idPage;
-                                    default:
-                                        Console.ForegroundColor = ConsoleColor.Red;
-                                        Console.WriteLine("You didn't press the correct key. Try again.");
-                                        Console.ResetColor();
-                                        break;
-                                }
-                            } while (key != ConsoleKey.N && key != ConsoleKey.Y);
-                        } // Story Builder home page
-                        else if (String.Equals(input.ToUpper().Replace(" ", null), "0"))
-                        {
-                            Console.ForegroundColor = ConsoleColor.Red;
-                            Console.WriteLine("Are you sure? You go back to menu.\nPress 'Y' - yes or 'N' - no");
-                            Console.ResetColor();
-                            ConsoleKey key;
-                            do
-                            {
-                                key = Console.ReadKey().Key;
-                                switch (key)
-                                {
-                                    case ConsoleKey.Y:
-                                        UI.Page.switchPage(PageType.Main_Menu, UI);
-                                        return 0;
-                                    case ConsoleKey.N:
-                                        UI.DrawUI(UI, true);
-                                        return idPage;
-                                    default:
-                                        Console.ForegroundColor = ConsoleColor.Red;
-                                        Console.WriteLine("You didn't press the correct key. Try again.");
-                                        Console.ResetColor();
-                                        break;
-                                }
-                            } while (key != ConsoleKey.N && key != ConsoleKey.Y);
-                        } // Main menu
-                        else if (String.Equals(input.ToUpper().Replace(" ", null), "SAVE")) // Save
-                        {
-                            string serializedStory = JsonFile.SerializeStory(CurrentStory);
-                            JsonFile.SerializedToJson(serializedStory, "Stories\\"+CurrentStory.NameOfStory);
-                            Console.WriteLine("Wykonano zapis, naciśnij cokolwiek aby kontynuować.");
-                            UI.Page.Error = "History saved!";
-                            UI.DrawUI(UI, false);
-                            UI.Page.Error = "";
-                            return idPage;
-                        }
-                        else
-                        {
-                            StoryCreator(UI, inputText);
-                            UI.DrawUI(UI, false);
-                            UI.Page.Error = "";
-                            return idPage;
-                        }
-                        return idPage;
+                        CurrentStory = JsonFile.DeserializeStory(nameOfStory);
+                        UI.Page.PageInfo = $"You create a {CurrentStory.NameOfStory} story!";
+                        UI.Page.Instructions = " Type 0 to go back to the main menu!\n Type 1 to go Story Builder home page!\n Type 'Save' to save changes!\n Type 'New' to create a new paragraph\n Type 'Link' to create a new paragraph link";
+                        HomePage = false;
+                        break;
                     }
-                case 2: // load an existing story
-                    {
-                        input = input.ToUpper().Replace(" ", null);
-                        if (Helpers.IsCommand(input, UI)) return 0;
-                        else if (String.Equals(input.ToUpper().Replace(" ", null), "1")) // Story Builder home page
-                        {
-                            Console.ForegroundColor = ConsoleColor.Red;
-                            Console.WriteLine("Are you sure? You go back to Story Builder home page.\nPress 'Y' - yes or 'N' - no");
-                            Console.ResetColor();
-                            ConsoleKey key;
-                            do
-                            {
-                                key = Console.ReadKey().Key;
-                                switch (key)
-                                {
-                                    case ConsoleKey.Y:
-                                        UI.Page.switchPage(PageType.Story_Bulider, UI);
-                                        return 0;
-                                    case ConsoleKey.N:
-                                        UI.DrawUI(UI, true);
-                                        return idPage;
-                                    default:
-                                        Console.ForegroundColor = ConsoleColor.Red;
-                                        Console.WriteLine("You didn't press the correct key. Try again.");
-                                        Console.ResetColor();
-                                        break;
-                                }
-                            } while (key != ConsoleKey.N && key != ConsoleKey.Y);
-                        } // Story Builder home page
-                        else if (String.Equals(input.ToUpper().Replace(" ", null), "0"))
-                        {
-                            Console.ForegroundColor = ConsoleColor.Red;
-                            Console.WriteLine("Are you sure? You go back to menu.\nPress 'Y' - yes or 'N' - no");
-                            Console.ResetColor();
-                            ConsoleKey key;
-                            do
-                            {
-                                key = Console.ReadKey().Key;
-                                switch (key)
-                                {
-                                    case ConsoleKey.Y:
-                                        UI.Page.switchPage(PageType.Main_Menu, UI);
-                                        return 0;
-                                    case ConsoleKey.N:
-                                        UI.DrawUI(UI, true);
-                                        return idPage;
-                                    default:
-                                        Console.ForegroundColor = ConsoleColor.Red;
-                                        Console.WriteLine("You didn't press the correct key. Try again.");
-                                        Console.ResetColor();
-                                        break;
-                                }
-                            } while (key != ConsoleKey.N && key != ConsoleKey.Y);
-                        } // Main menu
-                        else if (String.Equals(input.ToUpper().Replace(" ", null), "SAVE")) // Save
-                        {
-                            string serializedStory = JsonFile.SerializeStory(CurrentStory);
-                            JsonFile.SerializedToJson(serializedStory, "Stories\\"+ CurrentStory.NameOfStory);
-                            Console.WriteLine("Wykonano zapis, naciśnij cokolwiek aby kontynuować.");
-                            UI.Page.Error = "History saved!";
-                            UI.DrawUI(UI, false);
-                            UI.Page.Error = "";
-                            return idPage;
-                        }
-                        else
-                        {
-                            StoryCreator(UI, inputText);
-                            UI.DrawUI(UI, false);
-                            UI.Page.Error = "";
-                            return idPage;
-                        }
-                        return idPage;
-                    }
-                default:
-                    return idPage;
+                    UI.DrawUI(UI, false);
+                } while (true);
+            } // Loade exist story in Story Builder home page
+            else if (!HomePage && String.Equals(input, "NEW"))
+            {
+                CreatNewParagraph(UI); // Creat new paragraph
+                UI.Page.PageInfo = $"You create a {CurrentStory.NameOfStory} story!";
+                UI.Page.Instructions = " Type 0 to go back to the main menu!\n Type 1 to go Story Builder home page!\n Type 'Save' to save changes!\n Type 'New' to create a new paragraph\n Type 'Link' to create a new paragraph link";
             }
-        }
-
-        private static void StoryCreator(UI UI, string inputText)
-        {
-            switch (IdCreator)
+            else if (!HomePage && String.Equals(input, "LINK"))
             {
-                case -1: // Load exist Story
-                    {
-                        Console.WriteLine($"The name of your story is: {inputText}");
-
-                        Console.WriteLine("\nAre you sure? \nPress 'Y' - yes or 'N' - no");
-                        ConsoleKey key;
-                        do
-                        {
-                            key = Console.ReadKey().Key;
-                            switch (key)
-                            {
-                                case ConsoleKey.Y:
-                                    CurrentStory = JsonFile.DeserializeStory(inputText);
-                                    UI.Page.PageInfo = $"You create a {CurrentStory.NameOfStory} story!";
-                                    UI.Page.Instructions = "Type 1 to go Story Builder home page!\nType 0 to go back to the main menu!\nType 'Save' to save changes!\nType 'New' to create a new paragraph\nEnter 'Link' to create a new paragraph link";
-                                    IdCreator = 1;
-                                    break;
-                                case ConsoleKey.N:
-                                    break;
-                                default:
-                                    Console.ForegroundColor = ConsoleColor.Red;
-                                    Console.WriteLine("You didn't press the correct key. Try again.");
-                                    Console.ResetColor();
-                                    break;
-                            }
-                        } while (key != ConsoleKey.N && key != ConsoleKey.Y);
-                        break;
-                    }
-                case 0: // Name for Story - creat new story
-                    {
-                        Console.WriteLine($"The name of your story is: {inputText}");
-
-                        Console.WriteLine("\nAre you sure? \nPress 'Y' - yes or 'N' - no");
-                        ConsoleKey key;
-                        do
-                        {
-                            key = Console.ReadKey().Key;
-                            switch (key)
-                            {
-                                case ConsoleKey.Y:
-                                    UI.Page.PageInfo = $"You create a {inputText} story!";
-                                    UI.Page.Instructions = "Type 1 to go Story Builder home page!\nType 0 to go back to the main menu!\nType 'Save' to save changes!\nType 'New' to create a new paragraph\nEnter 'Link' to create a new paragraph link";
-                                    CurrentStory = new Story(inputText);
-                                    CurrentStory.DeafaultParagraph();
-                                    IdCreator = 1;
-                                    break;
-                                case ConsoleKey.N:
-                                    break;
-                                default:
-                                    Console.ForegroundColor = ConsoleColor.Red;
-                                    Console.WriteLine("You didn't press the correct key. Try again.");
-                                    Console.ResetColor();
-                                    break;
-                            }
-                        } while (key != ConsoleKey.N && key != ConsoleKey.Y);
-                        break;
-                    }
-                case 1: // New or Link
-                    {
-                        switch (inputText.ToUpper().Replace(" ", null))
-                        {
-                            case "NEW":
-                                CreatNewParagraph(UI);
-                                break;
-                            case "LINK":
-
-                                break;
-                            default:
-                                UI.Page.Error = "You didn't type the correct option";
-                                break;
-                        }
-                    }
-                    break;
-                default:
-                    break;
+                UI.Page.Error = "User input is not handled yet."; // place for method
+                UI.Page.PageInfo = $"You create a {CurrentStory.NameOfStory} story!";
+                UI.Page.Instructions = " Type 0 to go back to the main menu!\n Type 1 to go Story Builder home page!\n Type 'Save' to save changes!\n Type 'New' to create a new paragraph\n Type 'Link' to create a new paragraph link";
+            }
+            else
+            {
+                UI.Page.Error = "You didn't type the correct option";
             }
         }
 
@@ -312,10 +104,11 @@ namespace OstreC.ManageInput
         {
             List<Option> options = new List<Option>
             {
-                new Option("DescOfStage", () => CreatNewDescOfStageParagraph(UI)),
-                new Option("Fight", () =>  CreatNewFightParagraph(UI)),
-                new Option("Dialog", () =>  CreatNewDialogParagraph(UI)),
-                new Option("Test", () => CreatNewTestParagraph(UI)),
+                new Option("DescOfStage Paragraph", () => CreatNewDescOfStageParagraph(UI)),
+                new Option("Fight Paragraph", () =>  CreatNewFightParagraph(UI)),
+                new Option("Dialog Paragraph", () =>  CreatNewDialogParagraph(UI)),
+                new Option("Test Paragraph", () => CreatNewTestParagraph(UI)),
+                new Option("Go back!", () => Console.Clear())
             };
 
             int index = 0;
@@ -324,7 +117,7 @@ namespace OstreC.ManageInput
             ConsoleKeyInfo keyinfo;
             do
             {
-                keyinfo = Console.ReadKey();              
+                keyinfo = Console.ReadKey();
                 if (keyinfo.Key == ConsoleKey.DownArrow)
                 {
                     if (index + 1 < options.Count)
@@ -351,54 +144,63 @@ namespace OstreC.ManageInput
 
         static void WriteOptionsSelect(List<Option> options, Option selectedOption, UI UI)
         {
-            UI.Page.Instructions = "Use keyboard arrows";
+            UI.Page.Instructions = "Use keyboard arrows and press ENTER to aprove.";
             UI.DrawUI(UI, true);
-            Console.Write("Type te current paragraph type: \n");
+            Console.WriteLine("Select the type of paragraph:\n");
 
             foreach (Option option in options)
             {
                 if (option == selectedOption) Console.Write("> ");
                 else Console.Write(" ");
-                
+
                 Console.WriteLine(option.Name);
             }
         }
-
         private static void CreatNewDescOfStageParagraph(UI UI)
         {
-            string textParagraph = AddTextParagraph(UI);
-            CurrentStory.AddNewDescOfStageParagraph(new DescOfStage(CurrentStory.AmountOfParagrafh, textParagraph));
-            UI.Page.Instructions = "Type 1 to go Story Builder home page!\nType 0 to go back to the main menu!\nType 'Save' to save changes!\nType 'New' to create a new paragraph\nEnter 'Link' to create a new paragraph link";
-        }
+            string textParagraph = AddTextParagraph(UI, "DescOfStage Paragraph");
 
+            DescOfStage newDesc = new DescOfStage(CurrentStory.AmountOfParagrafh, textParagraph);
+            newDesc.DefaultChoice();
+
+            CurrentStory.AddNewDescOfStageParagraph(newDesc);      
+        }
         private static void CreatNewFightParagraph(UI UI)
         {
-            string textParagraph = AddTextParagraph(UI);
+            string textParagraph = AddTextParagraph(UI, "Fight Paragraph");
             string enemyName = AddEnemy(UI);
             int amountOfEnemy = AmountOfEnemy(UI, enemyName);
 
-            CurrentStory.AddNewFightParagraph(new FightParagraph(CurrentStory.AmountOfParagrafh, textParagraph));
-            UI.Page.Instructions = "Type 1 to go Story Builder home page!\nType 0 to go back to the main menu!\nType 'Save' to save changes!\nType 'New' to create a new paragraph\nEnter 'Link' to create a new paragraph link";
-        }
+            FightParagraph newFight = new FightParagraph(CurrentStory.AmountOfParagrafh, textParagraph);
+            newFight.DefaultChoice();
+            newFight.AddEnemy(amountOfEnemy, enemyName);
 
+            CurrentStory.AddNewFightParagraph(newFight);
+        }
         private static void CreatNewDialogParagraph(UI UI)
         {
-            string textParagraph = AddTextParagraph(UI);
-            CurrentStory.AddNewDialogParagraph(new DialogParagraph(CurrentStory.AmountOfParagrafh, textParagraph));
-            UI.Page.Instructions = "Type 1 to go Story Builder home page!\nType 0 to go back to the main menu!\nType 'Save' to save changes!\nType 'New' to create a new paragraph\nEnter 'Link' to create a new paragraph link";
-        }
+            string textParagraph = AddTextParagraph(UI, "Dialog Paragraph");
 
+            DialogParagraph newDialog = new DialogParagraph(CurrentStory.AmountOfParagrafh, textParagraph);
+            newDialog.DefaultChoice();
+
+            CurrentStory.AddNewDialogParagraph(newDialog);
+        }
         private static void CreatNewTestParagraph(UI UI)
         {
-            string textParagraph = AddTextParagraph(UI);
-            CurrentStory.AddNewTestParagraph(new TestParagraph(CurrentStory.AmountOfParagrafh, textParagraph));
-            UI.Page.Instructions = "Type 1 to go Story Builder home page!\nType 0 to go back to the main menu!\nType 'Save' to save changes!\nType 'New' to create a new paragraph\nEnter 'Link' to create a new paragraph link";
-        }
+            string textParagraph = AddTextParagraph(UI, "Test Paragraph");
 
-        private static string AddTextParagraph(UI UI)
+            TestParagraph newTest = new TestParagraph(CurrentStory.AmountOfParagrafh, textParagraph);
+            newTest.DefaultChoice();
+
+            CurrentStory.AddNewTestParagraph(newTest);
+        }
+        private static string AddTextParagraph(UI UI, string typeParagraph)
         {
+            UI.Page.PageInfo += $"\nYou create an {typeParagraph}.";
             do
             {
+                
                 UI.Page.Instructions = "Enter text for the paragraph describing the stage.";
                 UI.DrawUI(UI, true);
 
@@ -407,27 +209,10 @@ namespace OstreC.ManageInput
 
                 Console.WriteLine($"You entered the text of the paragraph: \n{inputText}");
 
-                Console.WriteLine("\nDo you accept the text? \nPress 'Y' - yes or 'N' - no,");
-                ConsoleKey key;
-                do
-                {
-                    key = Console.ReadKey().Key;
-                    switch (key)
-                    {
-                        case ConsoleKey.Y:
-                            return inputText;
-                        case ConsoleKey.N:
-                            break;
-                        default:
-                            Console.ForegroundColor = ConsoleColor.Red;
-                            Console.WriteLine("You didn't press the correct key. Try again.");
-                            Console.ResetColor();
-                            break;
-                    }
-                } while (true);
+                Helpers.WriteLineColorText("\n Do you accept the text? \n Press 'Y' - yes or 'N' - no\t", ConsoleColor.Red);
+                if (Helpers.YesOrNoKey()) return inputText;
             } while (true);
         }
-
         private static string AddEnemy(UI UI)
         {
             do
@@ -440,27 +225,10 @@ namespace OstreC.ManageInput
 
                 Console.WriteLine($"You entered enemy name: \n{inputText}");
 
-                Console.WriteLine("\nDo you accept? \nPress 'Y' - yes or 'N' - no,");
-                ConsoleKey key;
-                do
-                {
-                    key = Console.ReadKey().Key;
-                    switch (key)
-                    {
-                        case ConsoleKey.Y:
-                            return inputText;
-                        case ConsoleKey.N:
-                            break;
-                        default:
-                            Console.ForegroundColor = ConsoleColor.Red;
-                            Console.WriteLine("You didn't press the correct key. Try again.");
-                            Console.ResetColor();
-                            break;
-                    }
-                } while (true);
+                Helpers.WriteLineColorText("\n Do you accept? \n Press 'Y' - yes or 'N' - no\t", ConsoleColor.Red);
+                if (Helpers.YesOrNoKey()) return inputText;
             } while (true);
         }
-
         private static int AmountOfEnemy(UI UI, string enemyName)
         {
             do
@@ -474,9 +242,9 @@ namespace OstreC.ManageInput
                     Console.Write("Entry amount here: ");
                     string inputText = Console.ReadLine();
 
-                    if(int.TryParse(inputText, out amountOfEnemy))
+                    if (int.TryParse(inputText, out amountOfEnemy))
                     {
-                        if(amountOfEnemy > 0 && amountOfEnemy < 10) break;
+                        if (amountOfEnemy > 0 && amountOfEnemy < 11) break;
                         else Console.WriteLine("Entered a value outside the range 1-10.");
                     }
                     else Console.WriteLine("Entered a value is not a number.");
@@ -484,36 +252,9 @@ namespace OstreC.ManageInput
 
                 Console.WriteLine($"You entered: \n{amountOfEnemy} {enemyName}");
 
-                Console.WriteLine("\nDo you accept? \nPress 'Y' - yes or 'N' - no,");
-                ConsoleKey key;
-                bool oneMore = true;
-                do
-                {
-                    key = Console.ReadKey().Key;
-                    switch (key)
-                    {
-                        case ConsoleKey.Y:
-                            return amountOfEnemy;
-                        case ConsoleKey.N:
-                            oneMore = false;
-                            break;
-                        default:
-                            Console.ForegroundColor = ConsoleColor.Red;
-                            Console.WriteLine("You didn't press the correct key. Try again.");
-                            Console.ResetColor();
-                            break;
-                    }
-                } while (oneMore);
+                Helpers.WriteLineColorText("\n Do you accept the amount of enemies?\n Press 'Y' - yes or 'N' - no\t", ConsoleColor.Red);
+                if (Helpers.YesOrNoKey()) return amountOfEnemy;
             } while (true);
         }
-
-        //public static void ClearCurrentConsoleLine(UI UI)
-        //{
-        //    int currentLineCursor = Console.CursorTop;
-        //    Console.SetCursorPosition(0, Console.CursorTop);
-        //    Console.Write(new string(' ', Console.WindowWidth));
-        //    Console.SetCursorPosition(0, currentLineCursor);
-        //}
     }
 }
-

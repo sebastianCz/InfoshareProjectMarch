@@ -99,5 +99,11 @@ namespace OstreC
             Console.WriteLine(textColored);
             Console.ForegroundColor = ConsoleColor.White;
         }
+        public static void WriteColorText(string textColored, ConsoleColor firstColor = ConsoleColor.DarkGreen)
+        {
+            Console.ForegroundColor = firstColor;
+            Console.Write(textColored);
+            Console.ForegroundColor = ConsoleColor.White;
+        }
     }
 }

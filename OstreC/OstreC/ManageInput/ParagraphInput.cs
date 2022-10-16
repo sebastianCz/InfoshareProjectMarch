@@ -7,8 +7,8 @@ namespace OstreC.ManageInput
     {
         public PageType Type => PageType.Paragraph;
         private int AmountOfOptions { get; set; } = 0;
-        private Paragraph? Paragraph { get; set; }
-        private FightParagraph? CurrentFightPatagraph { get; set; }
+        private Paragraph Paragraph { get; set; }
+        private FightParagraph CurrentFightPatagraph { get; set; }
         public void CheckUserInput(UI UI)
         {
             var saveFile = UI.GameSession.SaveFile;
@@ -16,7 +16,7 @@ namespace OstreC.ManageInput
             UI.DrawUI(UI, false);
             UI.Page.Error = "";
 
-            string? input = "";
+            string input = "";
             if (saveFile.ActiveParagraphType != ParagraphType.Fight && saveFile.ActiveParagraphType != ParagraphType.Test) 
                 input = Console.ReadLine()?.ToUpper().Replace(" ", null);
 
@@ -32,7 +32,7 @@ namespace OstreC.ManageInput
             }
 
             if (Helpers.IsCommand(input, UI)) ;
-            else if (String.Equals(input, "SAVE") && AmountOfOptions > 0) // Save
+            else if (AmountOfOptions > 0 && String.Equals(input, "SAVE")) // Save
             {
                 ReaderStories.SaveProgress(UI.CurrentUser, UI.GameSession);
                 UI.Page.Error = "History progress saved!";
