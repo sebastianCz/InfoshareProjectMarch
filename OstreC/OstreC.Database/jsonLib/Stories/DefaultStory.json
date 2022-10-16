@@ -8,7 +8,7 @@
       "ParagraphEnemies": [
         {
           "AmountOfEnemy": 2,
-          "EnemyName": "Goblin"
+          "EnemyName": "GoblinWarrior"
         },
         {
           "AmountOfEnemy": 1,
@@ -42,7 +42,7 @@
     {
       "ParagraphType": 3,
       "IdParagraph": 5,
-      "TextParagraph": "Test on perception - Player vs Goblin",
+      "TextParagraph": "Test on perception", // Player vs Goblin? >= 10 Wisdom?
       "HowManyOptions": 3,
       "NextParagraphs": [
         {
@@ -52,20 +52,20 @@
         },
         {
           "ParagraphType": 0,
-          "ChoiceText": "Success",
-          "IdParagraph": 7
+          "ChoiceText": "Failure",
+          "IdParagraph": 6
         },
         {
           "ParagraphType": 0,
-          "ChoiceText": "Failure",
-          "IdParagraph": 6
+          "ChoiceText": "Success",
+          "IdParagraph": 7
         }
       ]
     },
     {
       "ParagraphType": 3,
       "IdParagraph": 11,
-      "TextParagraph": "Test on perception DC 10 Wisdom",
+      "TextParagraph": "Test on perception DC 10 Wisdom", // Player >= 10 Wisdom 
       "HowManyOptions": 3,
       "NextParagraphs": [
         {
@@ -75,13 +75,13 @@
         },
         {
           "ParagraphType": 0,
-          "ChoiceText": "Success",
-          "IdParagraph": 12
+          "ChoiceText": "Failure",
+          "IdParagraph": 13
         },
         {
           "ParagraphType": 0,
-          "ChoiceText": "Failure",
-          "IdParagraph": 13
+          "ChoiceText": "Success",
+          "IdParagraph": 12
         }
       ]
     }

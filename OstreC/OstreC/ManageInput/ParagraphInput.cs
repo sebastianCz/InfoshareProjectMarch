@@ -6,90 +6,81 @@ namespace OstreC.ManageInput
     public class ParagraphInput : IuiInput
     {
         public PageType Type => PageType.Paragraph;
-      
-        //private int UI.GameSession.SaveFile.ActiveParagraph { get; set; } //= GameSession.SaveFile.ActiveParagraph;
-        //private ParagraphType UI.GameSession.SaveFile.ActiveParagraphType { get; set; } //= GameSession.SaveFile.ActiveParagraphType;
         private int AmountOfOptions { get; set; } = 0;
-        private int i { get; set; } = 0;
-        private Paragraph Paragraph { get; set; }
-        private FightParagraph currentFightPatagraph { get; set; }
+        private Paragraph? Paragraph { get; set; }
+        private FightParagraph? CurrentFightPatagraph { get; set; }
         public void CheckUserInput(UI UI)
         {
-        //public string NameOfStory { get; set; }
-            if (i != 0)
+            var saveFile = UI.GameSession.SaveFile;
+            ThrowCurrentParagraph(UI);     
+            UI.DrawUI(UI, false);
+            UI.Page.Error = "";
+
+            string? input = "";
+            if (saveFile.ActiveParagraphType != ParagraphType.Fight && saveFile.ActiveParagraphType != ParagraphType.Test) 
+                input = Console.ReadLine()?.ToUpper().Replace(" ", null);
+
+            if (saveFile.ActiveParagraphType == ParagraphType.Fight) // Result form method ParagraphTest
             {
-                UI.Page.PageInfo = ReaderStories.ThrowParagraphText(UI.GameSession.SaveFile.ActiveParagraphType, UI.GameSession.SaveFile.CurrentStory, UI.GameSession.SaveFile.ActiveParagraph);
-                UI.Page.Instructions = ReaderStories.ThrowOptionsText(UI.GameSession.SaveFile.ActiveParagraphType, UI.GameSession.SaveFile.CurrentStory, UI.GameSession.SaveFile.ActiveParagraph);
-                Paragraph = ReaderStories.ThrowObjParagraph(UI.GameSession.SaveFile.ActiveParagraphType, UI.GameSession.SaveFile.CurrentStory, UI.GameSession.SaveFile.ActiveParagraph);
-                AmountOfOptions = Paragraph.AmountOfOptions;
-                UI.DrawUI(UI, false);
-                UI.Page.Error = "";
-                //UI.GameSession.SaveFile.ActiveParagraph = UI.GameSession.SaveFile.ActiveParagraph;
-                //UI.GameSession.SaveFile.ActiveParagraphType = ParagraphType;
+                CurrentFightPatagraph = (FightParagraph)Paragraph;
+                input = ReaderStories.SolveFight(CurrentFightPatagraph.ParagraphEnemies);
             }
-            i++;
 
-            string input = Console.ReadLine();
-            input = input.ToUpper().Replace(" ", null);
-
-            if (UI.GameSession.SaveFile.ActiveParagraphType == ParagraphType.Fight)
+            if (saveFile.ActiveParagraphType == ParagraphType.Test) // Result form method ParagraphTest
             {
-                currentFightPatagraph = (FightParagraph)Paragraph;
+                input = ReaderStories.SolveTest();
             }
 
             if (Helpers.IsCommand(input, UI)) ;
-            else if (UI.GameSession.SaveFile.ActiveParagraphType == ParagraphType.Fight && ReaderStories.Fight(out input, currentFightPatagraph.ParagraphEnemies)) ;
-            else if (UI.GameSession.SaveFile.ActiveParagraphType == ParagraphType.Test && ReaderStories.Test(out input)) ;
-            else if (String.Equals(input.ToUpper().Replace(" ", null), "SAVE") && AmountOfOptions > 0) // Save
+            else if (String.Equals(input, "SAVE") && AmountOfOptions > 0) // Save
             {
-                string serializedSaveFile = JsonFile.SerializeSaveFile(UI.GameSession.SaveFile);
-                JsonFile.SerializedToJson(serializedSaveFile, $"UsersFile\\" + UI.CurrentUser.UserName);
-                UI.CurrentUser.SaveFileExists = true;
+                ReaderStories.SaveProgress(UI.CurrentUser, UI.GameSession);
                 UI.Page.Error = "History progress saved!";
-                UI.CurrentUser.UpdateUser(UI.CurrentUser, "true", 4);
             } // Save
-            else if (String.Equals(input, "0") && AmountOfOptions > 0)
+            else if (AmountOfOptions > 0 && String.Equals(input, "0") )
             {
-                Console.ForegroundColor = ConsoleColor.Red;
-                Console.WriteLine("Are you sure? You go back to menu.\nPress 'Y' - yes or 'N' - no");
-                Console.ResetColor();
-                ConsoleKey key;
-                do
-                {
-                    key = Console.ReadKey().Key;
-                    switch (key)
-                    {
-                        case ConsoleKey.Y:
-                            UI.Page.switchPage(PageType.Main_Menu, UI);
-                            break;
-                        case ConsoleKey.N:
-                            break;
-                        default:
-                            Console.ForegroundColor = ConsoleColor.Red;
-                            Console.WriteLine("You didn't press the correct key. Try again.");
-                            Console.ResetColor();
-                            break;
-                    }
-                } while (key != ConsoleKey.N && key != ConsoleKey.Y);
+                Helpers.WriteLineColorText("Are you sure? You go back to menu.\nPress 'Y' - yes or 'N' - no", ConsoleColor.Red);
+                if (Helpers.YesOrNoKey()) UI.Page.switchPage(PageType.Main_Menu, UI);
             } // Main menu
-            else if (String.Equals(input, "1") && AmountOfOptions > 1)
+            else if (AmountOfOptions > 1 && String.Equals(input, "1"))
             {
-                UI.GameSession.SaveFile.ActiveParagraph = Paragraph.NextParagraphs[1].IdParagraph;
-                UI.GameSession.SaveFile.ActiveParagraphType = Paragraph.NextParagraphs[1].ParagraphType;
+                NextParagraph(UI, 1);
             }
-            else if (String.Equals(input, "2") && AmountOfOptions > 2)
+            else if (AmountOfOptions > 2 && String.Equals(input, "2"))
             {
-                UI.GameSession.SaveFile.ActiveParagraph = Paragraph.NextParagraphs[2].IdParagraph;
-                UI.GameSession.SaveFile.ActiveParagraphType = Paragraph.NextParagraphs[2].ParagraphType;
+                NextParagraph(UI, 2);
             }
-            else if (String.Equals(input, "3") && AmountOfOptions > 3)
+            else if (AmountOfOptions > 3 && String.Equals(input, "3"))
             {
-                UI.GameSession.SaveFile.ActiveParagraph = Paragraph.NextParagraphs[3].IdParagraph;
-                UI.GameSession.SaveFile.ActiveParagraphType = Paragraph.NextParagraphs[3].ParagraphType;
+                NextParagraph(UI, 3);
             }
-            else if (AmountOfOptions > 0)
+            else
             {
                 UI.Page.Error = "You didn't type the correct option";
+            }
+        }
+        private void NextParagraph(UI UI, int input)
+        {
+            var saveFile = UI.GameSession.SaveFile;
+            saveFile.ActiveParagraph = Paragraph.NextParagraphs[input].IdParagraph;
+            saveFile.ActiveParagraphType = Paragraph.NextParagraphs[input].ParagraphType;
+        }
+        private void ThrowCurrentParagraph(UI UI)
+        {
+            try
+            {
+                var saveFile = UI.GameSession.SaveFile;
+                UI.Page.PageInfo = ReaderStories.ThrowParagraphText(saveFile.ActiveParagraphType, saveFile.CurrentStory, saveFile.ActiveParagraph);
+                UI.Page.Instructions = ReaderStories.ThrowOptionsText(saveFile.ActiveParagraphType, saveFile.CurrentStory, saveFile.ActiveParagraph);
+                Paragraph = ReaderStories.ThrowObjParagraph(saveFile.ActiveParagraphType, saveFile.CurrentStory, saveFile.ActiveParagraph);
+                AmountOfOptions = Paragraph.AmountOfOptions;
+                if (saveFile.ActiveParagraphType == ParagraphType.Fight || saveFile.ActiveParagraphType == ParagraphType.Test) UI.Page.Instructions = ""; //Clear intruction for Fight and Test paragraph, result from other page
+            }
+            catch (Exception)
+            {
+                UI.Page.PageInfo = "Next Paragraph doesn't exist! - End Game";
+                UI.Page.Instructions = "Press 0 go back to menu!";
+                AmountOfOptions = 1;
             }
         }
     }

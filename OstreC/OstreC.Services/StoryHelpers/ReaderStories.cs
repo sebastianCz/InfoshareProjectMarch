@@ -1,38 +1,34 @@
 ﻿namespace OstreC.Services
 {
     //Contains method to loop through paragraphs in a given story and show their content.   
-    public class ReaderStories
+    public static class ReaderStories
     {
         public static string ThrowParagraphText(ParagraphType type, Story currentStory, int idParagraph)
         {
             switch (type)
             {
                 case ParagraphType.DescOfStage:
-                    foreach (DescOfStage descOfStage in currentStory.DescOfStages)
-                    {
-                        if (idParagraph == descOfStage.IdParagraph) return descOfStage.TextParagraph;
-                    }
-                    throw new ArgumentException("DescOfStage Paragraph not found");
+                    DescOfStage? descOfStage = currentStory.DescOfStages.FirstOrDefault(p => p.IdParagraph == idParagraph);
+                    if (descOfStage != null) return descOfStage.TextParagraph;
+                    throw new Exception("DescOfStage Paragraph not found");
+
                 case ParagraphType.Fight:
-                    foreach (FightParagraph fightParagraph in currentStory.FightParagraphs)
-                    {
-                        if (idParagraph == fightParagraph.IdParagraph) return fightParagraph.TextParagraph;
-                    }
-                    throw new ArgumentException("Fight Paragraph not found");
+                    FightParagraph? fightParagraph = currentStory.FightParagraphs.FirstOrDefault(p => p.IdParagraph == idParagraph);
+                    if (fightParagraph != null) return fightParagraph.TextParagraph;
+                    throw new Exception("Fight Paragraph not found");
+
                 case ParagraphType.Test:
-                    foreach (TestParagraph testParagraph in currentStory.TestParagraphs)
-                    {
-                        if (idParagraph == testParagraph.IdParagraph) return testParagraph.TextParagraph;
-                    }
-                    throw new ArgumentException("Test Paragraph not found");
+                    TestParagraph? testParagraph = currentStory.TestParagraphs.FirstOrDefault(p => p.IdParagraph == idParagraph);
+                    if (testParagraph != null) return testParagraph.TextParagraph;
+                    throw new Exception("Test Paragraph not found");
+
                 case ParagraphType.Dialog:
-                    foreach (DialogParagraph dialogParagraph in currentStory.DialogParagraphs)
-                    {
-                        if (idParagraph == dialogParagraph.IdParagraph) return dialogParagraph.TextParagraph;
-                    }
-                    throw new ArgumentException("Dialog Paragraph not found");
+                    DialogParagraph? dialogParagraph = currentStory.DialogParagraphs.FirstOrDefault(p => p.IdParagraph == idParagraph);
+                    if (dialogParagraph != null) return dialogParagraph.TextParagraph;
+                    throw new Exception("Dialog Paragraph not found");
+                default:
+                    throw new Exception("Unknow ParagraphType");
             }
-            return "";
         }
         public static string ThrowOptionsText(ParagraphType type, Story currentStory, int idParagraph)
         {
@@ -41,112 +37,111 @@
             switch (type)
             {
                 case ParagraphType.DescOfStage:
-                    foreach (DescOfStage descOfStage in currentStory.DescOfStages)
+                    DescOfStage? descOfStage = currentStory.DescOfStages.FirstOrDefault(p => p.IdParagraph == idParagraph);
+                    if (descOfStage != null)
                     {
-                        if (idParagraph == descOfStage.IdParagraph)
+                        foreach (NextParagraph nextParagraph in descOfStage.NextParagraphs)
                         {
-                            foreach(NextParagraph nextParagraph in descOfStage.NextParagraphs)
-                            {
-                                options += $" Type {i}. ";
-                                options += nextParagraph.ChoiceText;
-                                options += "\n";
-                                i++;
-                            }
-                            return options;
+                            options += $" Type {i}. ";
+                            options += nextParagraph.ChoiceText;
+                            options += "\n";
+                            i++;
                         }
+                        return options;
                     }
-                    throw new ArgumentException("DescOfStage Paragraph not found");
+                    throw new Exception("DescOfStage Paragraph not found");
+
                 case ParagraphType.Fight:
-                    foreach (FightParagraph fightParagraph in currentStory.FightParagraphs)
+                    FightParagraph? fightParagraph = currentStory.FightParagraphs.FirstOrDefault(p => p.IdParagraph == idParagraph);
+                    if (fightParagraph != null)
                     {
-                        if (idParagraph == fightParagraph.IdParagraph)
+                        foreach (NextParagraph nextParagraph in fightParagraph.NextParagraphs)
                         {
-                            foreach (NextParagraph nextParagraph in fightParagraph.NextParagraphs)
-                            {
-                                options += $" Type {i}. ";
-                                options += nextParagraph.ChoiceText;
-                                options += "\n";
-                                i++;
-                            }
-                            return options;
+                            options += $" Type {i}. ";
+                            options += nextParagraph.ChoiceText;
+                            options += "\n";
+                            i++;
                         }
+                        return options;
                     }
-                    throw new ArgumentException("Fight Paragraph not found");
+                    throw new Exception("Fight Paragraph not found");
+
                 case ParagraphType.Test:
-                    foreach (TestParagraph testParagraph in currentStory.TestParagraphs)
+                    TestParagraph? testParagraph = currentStory.TestParagraphs.FirstOrDefault(p => p.IdParagraph == idParagraph);
+                    if (testParagraph != null)
                     {
-                        if (idParagraph == testParagraph.IdParagraph)
+                        foreach (NextParagraph nextParagraph in testParagraph.NextParagraphs)
                         {
-                            foreach (NextParagraph nextParagraph in testParagraph.NextParagraphs)
-                            {
-                                options += $" Type {i}. ";
-                                options += nextParagraph.ChoiceText;
-                                options += "\n";
-                                i++;
-                            }
-                            return options;
+                            options += $" Type {i}. ";
+                            options += nextParagraph.ChoiceText;
+                            options += "\n";
+                            i++;
                         }
+                        return options;
                     }
-                    throw new ArgumentException("Test Paragraph not found");
+                    throw new Exception("Test Paragraph not found");
+
                 case ParagraphType.Dialog:
-                    foreach (DialogParagraph dialogParagraph in currentStory.DialogParagraphs)
+                    DialogParagraph? dialogParagraph = currentStory.DialogParagraphs.FirstOrDefault(p => p.IdParagraph == idParagraph);
+                    if (dialogParagraph != null)
                     {
-                        if (idParagraph == dialogParagraph.IdParagraph)
+                        foreach (NextParagraph nextParagraph in dialogParagraph.NextParagraphs)
                         {
-                            foreach (NextParagraph nextParagraph in dialogParagraph.NextParagraphs)
-                            {
-                                options += $" Type {i}. ";
-                                options += nextParagraph.ChoiceText;
-                                options += "\n";
-                                i++;
-                            }
-                            return options;
+                            options += $" Type {i}. ";
+                            options += nextParagraph.ChoiceText;
+                            options += "\n";
+                            i++;
                         }
+                        return options;
                     }
-                    throw new ArgumentException("Dialog Paragraph not found");
+                    throw new Exception("Dialog Paragraph not found");
+                default:
+                    throw new Exception("Unknow ParagraphType");
             }
-            return "";
         }
         public static Paragraph ThrowObjParagraph(ParagraphType type, Story currentStory, int idParagraph)
         {
             switch (type)
             {
                 case ParagraphType.DescOfStage:
-                    foreach (DescOfStage descOfStage in currentStory.DescOfStages)
-                    {
-                        if (idParagraph == descOfStage.IdParagraph) return descOfStage;
-                    }
-                    throw new ArgumentException("DescOfStage Paragraph not found");
+                    DescOfStage? descOfStage = currentStory.DescOfStages.FirstOrDefault(p => p.IdParagraph == idParagraph);
+                    if (descOfStage != null) return descOfStage;
+                    throw new Exception("DescOfStage Paragraph not found");
+
                 case ParagraphType.Fight:
-                    foreach (FightParagraph fightParagraph in currentStory.FightParagraphs)
-                    {
-                        if (idParagraph == fightParagraph.IdParagraph) return fightParagraph;
-                    }
-                    throw new ArgumentException("Fight Paragraph not found");
+                    FightParagraph? fightParagraph = currentStory.FightParagraphs.FirstOrDefault(p => p.IdParagraph == idParagraph);
+                    if (fightParagraph != null) return fightParagraph;
+                    throw new Exception("Fight Paragraph not found");
+
                 case ParagraphType.Test:
-                    foreach (TestParagraph testParagraph in currentStory.TestParagraphs)
-                    {
-                        if (idParagraph == testParagraph.IdParagraph) return testParagraph;
-                    }
-                    throw new ArgumentException("Test Paragraph not found");
+                    TestParagraph? testParagraph = currentStory.TestParagraphs.FirstOrDefault(p => p.IdParagraph == idParagraph);
+                    if (testParagraph != null) return testParagraph;
+                    throw new Exception("Test Paragraph not found");
+
                 case ParagraphType.Dialog:
-                    foreach (DialogParagraph dialogParagraph in currentStory.DialogParagraphs)
-                    {
-                        if (idParagraph == dialogParagraph.IdParagraph) return dialogParagraph;
-                    }
-                    throw new ArgumentException("Dialog Paragraph not found");
+                    DialogParagraph? dialogParagraph = currentStory.DialogParagraphs.FirstOrDefault(p => p.IdParagraph == idParagraph);
+                    if (dialogParagraph != null) return dialogParagraph;
+                    throw new Exception("Dialog Paragraph not found");
+                default:
+                    throw new Exception("Unknow ParagraphType");
             }
-            return null;
         }
-        public static bool Fight(out string input, List<ParagraphEnemy> paragraphEnemies)
+        public static void SaveProgress(CurrentUser currentUser, GameSession gameSession)
         {
-            input = "2";
-            return false;
+            string serializedSaveFile = JsonFile.SerializeSaveFile(gameSession.SaveFile);
+            JsonFile.SerializedToJson(serializedSaveFile, $"UsersFile\\" + currentUser.UserName);
+            currentUser.SaveFileExists = true;
+            currentUser.UpdateUser(currentUser, "true", 4);
         }
-        public static bool Test(out string input)
+        public static string SolveFight(List<ParagraphEnemy> paragraphEnemies) // result - 1 - lose; 2 - win;
         {
-            input = "2";
-            return false;
+            return "1"; // lose
+            return "2"; // win
+        }
+        public static string SolveTest() // result - 1 - lose; 2 - win;
+        {
+            return "1"; // lose
+            return "2"; // win
         }
     }
 }

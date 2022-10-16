@@ -4,8 +4,6 @@
 namespace OstreC
 {
     //Static " helper " methods used in different contexts.
-
-
     public static class Helpers
     {
         //checks if provided string is a number.
@@ -14,8 +12,6 @@ namespace OstreC
             bool isNr = int.TryParse(userInput, out int n);
             if (isNr) { return true; }
             return false;
-
-
         }
         //checks if provided string is a command.
         public static bool IsCommand(string userInput, UI UI)
@@ -26,7 +22,7 @@ namespace OstreC
                 {
                     Console.ForegroundColor = ConsoleColor.Red;
                     Console.WriteLine("Are you sure? You go back to menu.\nPress 'Y' - yes or 'N' - no");
-                    Console.ResetColor();              
+                    Console.ResetColor();
                     do
                     {
                         ConsoleKey key = Console.ReadKey().Key;
@@ -64,7 +60,7 @@ namespace OstreC
             switch (command)
             {
                 case "EXIT":
-                    UI.exit = true;
+                    UI.Exit = true;
                     break;
                 case "MENU":
                 case "MAIN_MENU":
@@ -78,9 +74,30 @@ namespace OstreC
                     throw new Exception();
             }
         }
-
-      
-
-
+        public static bool YesOrNoKey()
+        {
+            do
+            {
+                ConsoleKey key = Console.ReadKey().Key;
+                switch (key)
+                {
+                    case ConsoleKey.Y:
+                        return true;
+                    case ConsoleKey.N:
+                        return false;
+                    default:
+                        Console.ForegroundColor = ConsoleColor.Red;
+                        Console.WriteLine("You didn't press the correct key. Try again.");
+                        Console.ResetColor();
+                        break;
+                }
+            } while (true);
+        }
+        public static void WriteLineColorText(string textColored, ConsoleColor firstColor = ConsoleColor.DarkGreen)
+        {
+            Console.ForegroundColor = firstColor;
+            Console.WriteLine(textColored);
+            Console.ForegroundColor = ConsoleColor.White;
+        }
     }
 }
