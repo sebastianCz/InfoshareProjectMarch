@@ -1,10 +1,15 @@
-﻿using OstreC.Interface;
+﻿using OstreC.Services;
+
 
 namespace OstreC
 {
+    //Static " helper " methods used in different contexts.
+
+
     public static class Helpers
     {
-        public static bool isNumber(string userInput)
+        //checks if provided string is a number.
+        public static bool IsNumber(string userInput)
         {
             bool isNr = int.TryParse(userInput, out int n);
             if (isNr) { return true; }
@@ -12,8 +17,8 @@ namespace OstreC
 
 
         }
-
-        public static bool isCommand(string userInput, UI UI)
+        //checks if provided string is a command.
+        public static bool IsCommand(string userInput, UI UI)
         {
             foreach (string command in UI._menuCommands)
             {
@@ -52,7 +57,7 @@ namespace OstreC
                 return Enum.GetValues(typeof(T)).Cast<T>();
             }
         }
-
+        //Contains code to execute if provided string is a command.
         public static void HandleCommand(string command, UI UI)
         {
 
@@ -66,7 +71,7 @@ namespace OstreC
                     UI.Page.switchPage(PageType.Main_Menu, UI);
                     break;
                 case "BACK":
-                    UI.Page.switchPage(UI.Page.currentType, UI);
+                    UI.Page.switchPage(UI.Page.CurrentType, UI);
                     break;
                 default:
                     //Method shouldn't be inkoked if input != command. 

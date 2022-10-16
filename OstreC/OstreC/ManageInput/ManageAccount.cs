@@ -1,17 +1,10 @@
 ﻿using OstreC.Services;
-using OstreC;
-using OstreC.Interface;
- 
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Security.Cryptography.X509Certificates;
- 
 
 namespace OstreC.ManageInput
 {
+
+    
     public class ManageAccount : IuiInput
     {
         //Has to define it's type.Type has to be one of the existing types defined in IuiInput
@@ -19,14 +12,14 @@ namespace OstreC.ManageInput
 
 
         //Main function. It's name can't change.
-        public void checkUserInput(UI UI)
+        public void CheckUserInput(UI UI)
         {
             var input = Console.ReadLine();
-            if (Helpers.isCommand(input, UI)){ return; }
+            if (Helpers.IsCommand(input, UI)){ return; }
 
-            if ( !Helpers.isNumber(input) || input.Length == 0)
+            if ( !Helpers.IsNumber(input) || input.Length == 0)
             {
-                UI.Page.error = "Invalit input";
+                UI.Page.Error = "Invalit input";
                 UI.DrawUI(UI,false);
                 return;
             }
@@ -35,11 +28,11 @@ namespace OstreC.ManageInput
             {
                 case "1":
                     
-                    UI.Page.instructions = "Press 1 to change your username.\n Press 2 to change your password \n Press 3 to change your email.";
+                    UI.Page.Instructions = "Press 1 to change your username.\n Press 2 to change your password \n Press 3 to change your email.";
                     UI.DrawUI(UI,true);
 
                     input = Console.ReadLine();
-                    if (Helpers.isCommand(input, UI)) { return; }
+                    if (Helpers.IsCommand(input, UI)) { return; }
 
 
 
@@ -48,20 +41,20 @@ namespace OstreC.ManageInput
                         case "1":
                             do
                             {
-                                UI.Page.instructions = "Type your new username.It can't be only a number. It has to contain at least 1 character.";
+                                UI.Page.Instructions = "Type your new username.It can't be only a number. It has to contain at least 1 character.";
                                 UI.DrawUI(UI, false);
 
                                 input = Console.ReadLine().Trim();
-                                if (Helpers.isCommand(input, UI)) { return; }
+                                if (Helpers.IsCommand(input, UI)) { return; }
 
-                                if (!Helpers.isNumber(input) & input.Length != 0)
+                                if (!Helpers.IsNumber(input) & input.Length != 0)
                                 {
-                                    UI.Page.instructions = "Please wait. We are changing your username.";
+                                    UI.Page.Instructions = "Please wait. We are changing your username.";
                                     UI.DrawUI(UI, true);
 
-                                    if (UI.currentUser.updateUser(UI.currentUser, input,1))
+                                    if (UI.CurrentUser.UpdateUser(UI.CurrentUser, input,1))
                                     {
-                                        UI.Page.error = "Username Updated";
+                                        UI.Page.Error = "Username Updated";
                                         UI.Page.switchPage(PageType.ManageAccount, UI);
 
                                         return;
@@ -70,15 +63,10 @@ namespace OstreC.ManageInput
                                     {
                                         throw new Exception("Currentuser ID wasn't found in Users.json at updatedUser(). It shouldn't be possible. Only logged in users can change the name. ");
                                     }
-
-                                   
-
                                 }
                                 else
                                 {
-                                    UI.Page.error = "Invalid input.";
-                                  
-
+                                    UI.Page.Error = "Invalid input.";
                                 }
 
                             } while (true);
@@ -88,20 +76,20 @@ namespace OstreC.ManageInput
                         case "2":
                             do
                             {
-                                UI.Page.instructions = "Type your new password.It can't be only a number. It has to contain at least 1 character.";
+                                UI.Page.Instructions = "Type your new password.It can't be only a number. It has to contain at least 1 character.";
                                 UI.DrawUI(UI, false);
 
                                 input = Console.ReadLine().Trim();
-                                if (Helpers.isCommand(input, UI)) { return; }
+                                if (Helpers.IsCommand(input, UI)) { return; }
 
-                                if (!Helpers.isNumber(input) & input.Length != 0)
+                                if (!Helpers.IsNumber(input) & input.Length != 0)
                                 {
-                                    UI.Page.instructions = "Please wait. We are changing your password.";
+                                    UI.Page.Instructions = "Please wait. We are changing your password.";
                                     UI.DrawUI(UI, true);
 
-                                    if (UI.currentUser.updateUser(UI.currentUser, input,2))
+                                    if (UI.CurrentUser.UpdateUser(UI.CurrentUser, input,2))
                                     {
-                                        UI.Page.error = "Username Updated";
+                                        UI.Page.Error = "Username Updated";
                                         UI.Page.switchPage(PageType.ManageAccount, UI);
 
                                         return;
@@ -110,51 +98,44 @@ namespace OstreC.ManageInput
                                     {
                                         throw new Exception("Currentuser ID wasn't found in Users.json at updatedUser(). It shouldn't be possible. Only logged in users can change the name. ");
                                     }
-
-
-
                                 }
                                 else
                                 {
-                                    UI.Page.error = "Invalid input.";
-
-
+                                    UI.Page.Error = "Invalid input.";
                                 }
 
                             } while (true);
-
-
                             break;
 
                         case "3":
 
                             do
                             {
-                                UI.Page.instructions = "Type your new email.It can't be only a number. It has to contain both key characters: '@' and '.'. Make sure it's valid or you won't receive our emails!";
+                                UI.Page.Instructions = "Type your new email.It can't be only a number. It has to contain both key characters: '@' and '.'. Make sure it's valid or you won't receive our emails!";
                                 UI.DrawUI(UI, false);
 
                                 input = Console.ReadLine().Trim();
-                                if (Helpers.isCommand(input, UI)) { return; }
+                                if (Helpers.IsCommand(input, UI)) { return; }
 
-                                if (!Helpers.isNumber(input) & input.Length != 0)
+                                if (!Helpers.IsNumber(input) & input.Length != 0)
                                 {
-                                    UI.Page.instructions = "Please wait. We are changing your email.";
+                                    UI.Page.Instructions = "Please wait. We are changing your email.";
                                     UI.DrawUI(UI, true);
-                                    if (UI.currentUser.updateUser(UI.currentUser, input, 3))
+                                    if (UI.CurrentUser.UpdateUser(UI.CurrentUser, input, 3))
                                     {
-                                        UI.Page.error = "Email Updated";
+                                        UI.Page.Error = "Email Updated";
                                         UI.Page.switchPage(PageType.ManageAccount, UI);
 
                                         return;
                                     }
                                     else
                                     {
-                                        UI.Page.error = "Invalid data provided";
+                                        UI.Page.Error = "Invalid data provided";
                                     }
                                 }
                                 else
                                 {
-                                    UI.Page.error = "Invalid input.";
+                                    UI.Page.Error = "Invalid input.";
                                 }
                             } while (true);
 
@@ -162,29 +143,25 @@ namespace OstreC.ManageInput
                         default:
                             break;
                     }
-
-
                     
                     break;
                 case "2":
 
-                    UI.Page.instructions = "Are you sure you want to delete your account? If you do so you will loose access to all your saves. Type DELETE(case sensitive) or any key to leave this menu.";
+                    UI.Page.Instructions = "Are you sure you want to delete your account? If you do so you will loose access to all your saves. Type DELETE(case sensitive) or any key to leave this menu.";
                     UI.DrawUI(UI,true);
                     input = Console.ReadLine();
-                    if (Helpers.isCommand(input, UI)) { return; }
+                    if (Helpers.IsCommand(input, UI)) { return; }
 
                     
 
                     if (input == "DELETE")
                     {
-                        UI.currentUser.deleteUser(UI.currentUser);
-                        UI.currentUser.logOff();
+                        UI.CurrentUser.DeleteUser(UI.CurrentUser);
+                        UI.CurrentUser.logOff();
                         UI.Page.switchPage(PageType.Login, UI);
                         
                     }
                     
-
-
                     break;
                 case "3":
 
@@ -193,18 +170,11 @@ namespace OstreC.ManageInput
                     break;
 
                 default:
-                    UI.Page.error=("You provided the wrong number");
+                    UI.Page.Error=("You provided the wrong number");
                     UI.DrawUI(UI,false);
                     break;
 
-
             }
-
-            
-
         }
-
-
-
     }
 }

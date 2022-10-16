@@ -1,23 +1,20 @@
-﻿using OstreC.Interface;
-
+﻿using OstreC.Services;
 namespace OstreC.ManageInput
 {
     public class MainMenuInput : IuiInput
     {
         public PageType Type => PageType.Main_Menu;
 
-        public void checkUserInput(UI UI)
+        public void CheckUserInput(UI UI)
         {
             var input = Console.ReadLine();
 
-            if (Helpers.isCommand(input, UI))
+            if (Helpers.IsCommand(input, UI))
             {
                 Helpers.HandleCommand(input, UI);
             }
-            else if (Helpers.isNumber(input))
+            else if (Helpers.IsNumber(input))
             {
-
-
 
                 if (String.Equals(input.ToLower().Replace(" ",null), "1"))
                 {
@@ -46,20 +43,20 @@ namespace OstreC.ManageInput
                 }
                 else
                 {
-                    UI.Page.error = "You didn't provide a correct number";
+                    UI.Page.Error = "You didn't provide a correct number";
                     UI.DrawUI(UI, false);
                 }
             }
             else
             {
-                UI.Page.error = "You didn't provide a correct number";
+                UI.Page.Error = "You didn't provide a correct number";
                 UI.DrawUI(UI, false);
             }
 
             //ENUM iteration -> So options can be created dynamically without having to update the entire logic each time. 
             //foreach (int i  in Enum.GetValues(typeof(PageType)))
             //{
-            //    pageInfo += ($"{Enum.GetName(typeof(PageType), i)}");
+            //    PageInfo += ($"{Enum.GetName(typeof(PageType), i)}");
             //}
         }
     }

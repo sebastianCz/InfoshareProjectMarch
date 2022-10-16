@@ -10,6 +10,7 @@ namespace OstreC.Services
 {
     public class Mailing
     {
+        //Verifies if user exists and if yes sends an email. 
         public bool CanSendEmail(int emailType, string userName, CurrentUser currentUser, out string feedback)
         {
             //Checks if user exists
@@ -49,6 +50,8 @@ namespace OstreC.Services
             }
         }
 
+
+        //Method sends an email if invoked.
         //Feedback param used to provide 'waiting" message before sending email. It can take time sometimes. 
         public bool sendEmailSMTP(int emailType,CurrentUser currentUser, out string feedback)
         {

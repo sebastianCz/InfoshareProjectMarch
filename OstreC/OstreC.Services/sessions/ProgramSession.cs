@@ -13,13 +13,9 @@ namespace OstreC.Services
     {
         //Instancied on init so UI can call it's methods   
         //Inherited by UI in console to update data based on input. 
-        public CurrentUser currentUser { get; set; } 
+        public CurrentUser CurrentUser { get; set; } 
 
-        public GameSession GameSession { get; set; } //
-        //Not sure if we need an instance of this at all times. We most likely don't. 
-        //internal AllEnemyList enemyList = JsonFile.DeserializeEnemyList("Enemy");
-       
-
+        public GameSession GameSession { get; set; } 
         //If set to true program will exit on next iteration due to console logic. 
         public bool exit { get; set; } = false;
 
@@ -37,12 +33,12 @@ namespace OstreC.Services
                 if (user.UserName == userName && user.Password == password)
                 {
                      
-                    currentUser.UserName = userName;
-                    currentUser.Password = password;
-                    currentUser.Email = user.Email;
-                    currentUser.Id = user.Id;
-                    currentUser.LoggedIn = true;
-                    currentUser.SaveFileExists = user.SaveFileExists;
+                    CurrentUser.UserName = userName;
+                    CurrentUser.Password = password;
+                    CurrentUser.Email = user.Email;
+                    CurrentUser.Id = user.Id;
+                    CurrentUser.LoggedIn = true;
+                    CurrentUser.SaveFileExists = user.SaveFileExists;
                     return true;
                 }
             }

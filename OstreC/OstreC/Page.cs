@@ -1,114 +1,104 @@
-﻿using OstreC.Interface;
-using OstreC.Services;
+﻿using OstreC.Services;
 
 namespace OstreC
-{
+{//Used to save " active page" data.
     public class Page
     {
-        public PageType currentType { get; set; }
-        public string breakLine { get; } = "\n=======================================================================================================\n";
-        public string pageInfo { get; internal set; } = "";
-        public string error { get; set; } = "";
-        public string instructions { get; set; } = "";
+        public PageType CurrentType { get; set; }
+        public string BreakLine { get; } = "\n=======================================================================================================\n";
+        public string PageInfo { get; internal set; } = "";
+        public string Error { get; set; } = "";
+        public string Instructions { get; set; } = "";
 
         
         public Page(PageType x)
         {
             //Default value
-            currentType = x;
+            CurrentType = x;
         }
 
-        //Main_Menu,
-        //Create_NewGame,
-        //Create_Character,
-        //Load_Game,
-        //Paragraph,
-        //Paragraph_Combat,
-        //Bestiary,
-        //ExampleEnum
-
-        //Text to show when transitioning to this page from a different one.
+        //Text to show when  UI.Page.CurrentType  page changes to a differnt one. 
         public void switchPage(PageType x, UI UI)
         {
             switch (x)
             {
                 case PageType.Main_Menu:
-                    currentType = PageType.Main_Menu;
-                    pageInfo = "Welcome to the main menu!";
-                    instructions = " Press 1 to Start a game! \n Press 2 to create a new character \n Press 3 to Debug paragraph \n Press 4 to Create new story \n " +
+                    CurrentType = PageType.Main_Menu;
+                    PageInfo = "Welcome to the main menu!";
+                    Instructions = " Press 1 to Start a game! \n Press 2 to create a new character \n Press 3 to Debug paragraph \n Press 4 to Create new story \n " +
                         "Press 5 to Manage your account \n Press 9 for Example page";
                     UI.DrawUI(UI, true);
                     break;
 
                 case PageType.Create_NewGame:
-                    currentType = PageType.Create_NewGame;
-                    pageInfo = "Welcome to game creation screen!";
-                    instructions = " Press 1 to create new game\n pres 2 to go back to main menu";
+                    CurrentType = PageType.Create_NewGame;
+                    PageInfo = "Welcome to game creation screen!";
+                    Instructions = " Press 1 to create new game\n pres 2 to go back to main menu";
  
                     UI.DrawUI(UI, true);
                     break;
 
                 case PageType.Create_Character:
-                    currentType = PageType.Create_Character;
-                    pageInfo = "Welcome to character creation page!";                    
-                    instructions = " 1. Create Default Player \n 2. Create customer Player \n 3.DeletePlayer \n 4.DisplayStatistics \n 5.Save Player \n 6.Exit to Main Menu";
+                    CurrentType = PageType.Create_Character;
+                    PageInfo = "Welcome to character creation page!";                    
+                    Instructions = " 1. Create Default Player \n 2. Create customer Player \n 3.DeletePlayer \n 4.DisplayStatistics \n 5.Save Player \n 6.Exit to Main Menu";
                     UI.DrawUI(UI, true);
                     break;
 
                 case PageType.Load_Game:
-                    currentType = PageType.Load_Game;
-                    pageInfo = "Welcome to game loading screen!";
-                    instructions = "User input is not handled yet.";
+                    CurrentType = PageType.Load_Game;
+                    PageInfo = "Welcome to game loading screen!";
+                    Instructions = "User input is not handled yet.";
                     UI.DrawUI(UI, true);
                     break;
 
                 case PageType.Paragraph:
-                    currentType = PageType.Paragraph;
-                    pageInfo = "Welcome to Paragraphs!";
-                    instructions = " Press ENTER to start the story!";
+                    CurrentType = PageType.Paragraph;
+                    PageInfo = "Welcome to Paragraphs!";
+                    Instructions = " Press ENTER to start the story!";
                     UI.DrawUI(UI, true);
                     break;
 
                 case PageType.Story_Bulider:
-                    currentType = PageType.Story_Bulider;
-                    pageInfo = "Welcome to the Story Builder!";
-                    instructions = " Type 1 to create a new story!\n Type 2 to load an existing story and edit it!\n Type 0 to go back to the main menu!";
+                    CurrentType = PageType.Story_Bulider;
+                    PageInfo = "Welcome to the Story Builder!";
+                    Instructions = " Type 1 to create a new story!\n Type 2 to load an existing story and edit it!\n Type 0 to go back to the main menu!";
                     UI.DrawUI(UI, true);
                     break;
 
                 case PageType.Bestiary:
-                    currentType = PageType.Bestiary;
-                    pageInfo = "Welcome to the Bestiary!";
-                    instructions = " User input is not handled yet.";
+                    CurrentType = PageType.Bestiary;
+                    PageInfo = "Welcome to the Bestiary!";
+                    Instructions = " User input is not handled yet.";
                     UI.DrawUI(UI, true);
                     break;
 
                 case PageType.ExampleEnum:
-                    currentType = PageType.ExampleEnum;
-                    pageInfo = "Welcome to the example page!";
-                    instructions = " Press 1 to show example messages!\nPress 2 to go back to main menu!";
+                    CurrentType = PageType.ExampleEnum;
+                    PageInfo = "Welcome to the example page!";
+                    Instructions = " Press 1 to show example messages!\nPress 2 to go back to main menu!";
                     UI.DrawUI(UI, true);
                     break;
 
                 case PageType.Login:
-                    currentType = PageType.Login;
-                    pageInfo = "Welcome to the login page! ";
-                    instructions = " Type 1 to login \n Type 2 to register \n Type 3 if you forgot your password";
+                    CurrentType = PageType.Login;
+                    PageInfo = "Welcome to the login page! ";
+                    Instructions = " Type 1 to login \n Type 2 to register \n Type 3 if you forgot your password";
                     UI.DrawUI(UI, true);
                     break;
 
                 case PageType.ManageAccount:
-                    currentType = PageType.ManageAccount;
-                    pageInfo = $"Welcome to account management page dear : {UI.currentUser.UserName} \n Your account data is visible below: \n {UI.currentUser.presentUserBreakLine(true)} ";
+                    CurrentType = PageType.ManageAccount;
+                    PageInfo = $"Welcome to account management page dear : {UI.CurrentUser.UserName} \n Your account data is visible below: \n {UI.CurrentUser.PresentUserBreakLine(true)} ";
                        
-                    instructions = " Type 1 edit your data \n Type 2 to delete your account";
+                    Instructions = " Type 1 edit your data \n Type 2 to delete your account";
                     UI.DrawUI(UI, true);
                     break;
 
                 case PageType.StartGame:
-                    currentType = PageType.StartGame;
-                    pageInfo = $"You're about to start a game. Choose one of the options below. ";
-                    instructions = "Type 1 to go back to Main Menu. \n Type 2 to Start a new Game \n Press 3 to Load a game";
+                    CurrentType = PageType.StartGame;
+                    PageInfo = $"You're about to start a game. Choose one of the options below. ";
+                    Instructions = "Type 1 to go back to Main Menu. \n Type 2 to Start a new Game \n Press 3 to Load a game";
                     UI.DrawUI(UI, true);
   
                     break;

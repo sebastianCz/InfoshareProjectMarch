@@ -1,15 +1,9 @@
-﻿using Newtonsoft.Json.Converters;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-//using static OstreC.Services.Characters.Player;
+﻿using System;
+using Newtonsoft.Json.Converters;
 using Newtonsoft.Json;
-using OstreC.Services;
 
 namespace OstreC.Services
-{
+{//Basse class. Enemy and Player classes use it.
     public class Character
     {
         public string Name { get; set; }

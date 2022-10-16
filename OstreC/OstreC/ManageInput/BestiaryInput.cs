@@ -1,16 +1,16 @@
-﻿using OstreC.Interface;
+﻿using OstreC;
 
 namespace OstreC.ManageInput
-{
+{//Will use user input to filter through all monsters.
     public class BestiaryInput : IuiInput
     {
         public PageType Type => PageType.Bestiary;
-        public void checkUserInput(UI UI)
+        public void CheckUserInput(UI UI)
         {
 
             var input = Console.ReadLine();
 
-            if (Helpers.isCommand(input, UI))
+            if (Helpers.IsCommand(input, UI))
             {
                 Helpers.HandleCommand(input, UI);
             }

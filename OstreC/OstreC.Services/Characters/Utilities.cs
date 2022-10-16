@@ -1,6 +1,4 @@
 ﻿using System.Text.RegularExpressions;
-using OstreC.Services;
-namespace OstreC.Services;
 
 public class Utilities
 {
@@ -22,7 +20,7 @@ public class Utilities
         }
         return input;
     }
-    public static string InputDataAsString(int valueSwitch = 1)
+    public static string InputDataAsString(int ValueSwitch = 1)
     {
         string input = Console.ReadLine();
 
@@ -32,7 +30,7 @@ public class Utilities
         }
         else
         {
-            switch (valueSwitch)
+            switch (ValueSwitch)
             {
                 case 1:
                     Console.WriteLine("Podano niepoprawną wartość. Proszę sprobować raz jeszcze");
@@ -41,7 +39,7 @@ public class Utilities
                     Console.WriteLine("Podano niepoprawną wartość. Proszę sprobować raz jeszcze");
                     break;
             }
-            return InputDataAsString(valueSwitch);
+            return InputDataAsString(ValueSwitch);
         }
     }
     public static string InputDataAsString(Regex rgx, int valueSwitch = 1)

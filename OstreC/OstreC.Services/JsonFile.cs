@@ -4,26 +4,27 @@ using OstreC.Services;
 
 namespace OstreC.Services
 {
+    //Contains methods to deserialize and serialize Json Files to lists of given type. 
     public  class JsonFile
     {
 
         public static SaveFile DeserializeSaveFile(string nameFIle)
         {
-            string textFromFile = ReaderJson.readFile(nameFIle);
+            string textFromFile = ReaderJson.ReadFile(nameFIle);
             SaveFile saveFile = JsonConvert.DeserializeObject<SaveFile>(textFromFile);
             return saveFile;
 
         }
         public static AllEnemyList DeserializeEnemyList(string nameFIle)
         {
-            string textFromFile = ReaderJson.readFile(nameFIle);
+            string textFromFile = ReaderJson.ReadFile(nameFIle);
             AllEnemyList enemyList = JsonConvert.DeserializeObject<AllEnemyList>(textFromFile);
             return enemyList;
         }
 
          public static UsersList DeserializeUsersList(string nameFile)
         {
-            string textFromFile =  ReaderJson.readFile(nameFile);
+            string textFromFile =  ReaderJson.ReadFile(nameFile);
             UsersList UsersList = JsonConvert.DeserializeObject<UsersList>(textFromFile);
 
             return UsersList;
@@ -31,7 +32,7 @@ namespace OstreC.Services
 
         public static Story DeserializeStory(string nameFile)
         {
-            string textFromFile = ReaderJson.readFile("Stories\\"+nameFile);
+            string textFromFile = ReaderJson.ReadFile("Stories\\"+nameFile);
             Story story = JsonConvert.DeserializeObject<Story>(textFromFile);
             //story.AddAllParagraph();
             return story;
@@ -54,9 +55,9 @@ namespace OstreC.Services
             return textToFile;
         }
 
-        public static void serializedToJson(string serializedObject , string fileName)
+        public static void SerializedToJson(string serializedObject , string fileName)
         {
-            string dir = ReaderJson.dbDirectory();
+            string dir = ReaderJson.DbDirectory();
             var fileNamePath = Path.Combine(dir, "JsonLib", fileName + ".json");
             File.WriteAllText(fileNamePath, serializedObject);
         }

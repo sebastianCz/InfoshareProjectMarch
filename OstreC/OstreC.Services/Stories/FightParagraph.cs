@@ -1,7 +1,8 @@
-﻿using System.Text.Json.Serialization;
+﻿
 
 namespace OstreC.Services
 {
+    //Type of paragraph
     public class FightParagraph : Paragraph
     {
         public List<ParagraphEnemy> ParagraphEnemies { get; } = new List<ParagraphEnemy>();

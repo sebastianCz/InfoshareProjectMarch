@@ -1,5 +1,6 @@
 ﻿namespace OstreC.Services
 {
+    //Contains method to loop through paragraphs in a given story and show their content.   
     public class ReaderStories
     {
         public static string ThrowParagraphText(ParagraphType type, Story currentStory, int idParagraph)

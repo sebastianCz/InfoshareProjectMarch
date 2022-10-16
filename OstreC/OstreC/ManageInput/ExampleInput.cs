@@ -1,16 +1,7 @@
 ﻿using OstreC.Services;
-using OstreC;
-using OstreC.Interface;
- 
-
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Security.Cryptography.X509Certificates;
 
 namespace OstreC.ManageInput
-{
+{//Example page used to describe how to implement a new " input" class. 
     public class ExampleInput : IuiInput
     {
         //Has to define it's type.Type has to be one of the existing types defined in IuiInput
@@ -18,16 +9,16 @@ namespace OstreC.ManageInput
 
 
         //Main function. It's name can't change.
-        public void checkUserInput(UI UI)
+        public void CheckUserInput(UI UI)
         {
 
 
             /*
              * Variables to change based on user input and desired outcome: 
             Strings :
-                UI.Page.pageInfo; -> Prints above error. Inteded use : Description of page/ Additional info for user.
-                UI.Page.error; -> Prints in red to show input error message for user.
-                UI.Page.Instruction; -> Prints below error. Instructions on which button to press. 
+                UI.Page.PageInfo; -> Prints above Error. Inteded use : Description of page/ Additional info for user.
+                UI.Page.Error; -> Prints in red to show input Error message for user.
+                UI.Page.Instruction; -> Prints below Error. Instructions on which button to press. 
 
             Methods you can use :
 
@@ -42,24 +33,24 @@ namespace OstreC.ManageInput
             var input = Console.ReadLine();
 
             //Checks if input is a command and executes it. Must always be here.
-            if (Helpers.isCommand(input, UI))
+            if (Helpers.IsCommand(input, UI))
             {
                 Helpers.HandleCommand(input, UI);
             }
 
             //WRITE YOUR CODE BELOW. THIS PART IS 100% CUSTOM AND DEPENDS ON THE FUNCTION.
 
-            //isNumber returns true if it's a number. Basicaly it's a premade bolean from try parse. 
-            if (Helpers.isNumber(input))
+            //IsNumber returns true if it's a number. Basicaly it's a premade bolean from try parse. 
+            if (Helpers.IsNumber(input))
             {
 
                 if (input == "1")
                 {
                     //FOR EXAMPLE: 
                  
-                    UI.Page.instructions = "You pressed 1! Good job! Press 1 to do something else. \n Press 2 to do something else.   ";
-                    UI.Page.pageInfo = "It doesn't matter what you type you will end up back in the main menu. It's just an example page.";
-                    UI.Page.error = "Example error";
+                    UI.Page.Instructions = "You pressed 1! Good job! Press 1 to do something else. \n Press 2 to do something else.   ";
+                    UI.Page.PageInfo = "It doesn't matter what you type you will end up back in the main menu. It's just an example page.";
+                    UI.Page.Error = "Example Error";
                     UI.DrawUI(UI,true);
 
                     input = Console.ReadLine();
@@ -75,7 +66,7 @@ namespace OstreC.ManageInput
                 }
                 else
                 {
-                    UI.Page.error = "Number is either too high or too low!";
+                    UI.Page.Error = "Number is either too high or too low!";
                     UI.DrawUI(UI,false);
 
                 }
@@ -84,7 +75,7 @@ namespace OstreC.ManageInput
             }
             else
             {
-                UI.Page.error = "You didn't provide a correct number";
+                UI.Page.Error = "You didn't provide a correct number";
                 UI.DrawUI(UI,false);
 
             }

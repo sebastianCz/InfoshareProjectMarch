@@ -1,5 +1,6 @@
 ﻿namespace OstreC.Services
 {
+    //Type of paragraph
     public class DescOfStage : Paragraph
     {
         public sealed override ParagraphType ParagraphType => ParagraphType.DescOfStage;
