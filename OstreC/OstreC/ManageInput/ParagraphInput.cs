@@ -1,9 +1,8 @@
-﻿using OstreC.Interface;
-using OstreC.Services;
-using static System.Net.Mime.MediaTypeNames;
+﻿using OstreC.Services;
 
 namespace OstreC.ManageInput
 {
+    //Shows possible inputs to user depending on currently active paragraph.  Analyzes strings. Launches correct methods depending on user input. 
     public class ParagraphInput : IuiInput
     {
         public PageType Type => PageType.Paragraph;
@@ -14,17 +13,17 @@ namespace OstreC.ManageInput
         private int i { get; set; } = 0;
         private Paragraph Paragraph { get; set; }
         private FightParagraph currentFightPatagraph { get; set; }
-        public void checkUserInput(UI UI)
+        public void CheckUserInput(UI UI)
         {
         //public string NameOfStory { get; set; }
             if (i != 0)
             {
-                UI.Page.pageInfo = ReaderStories.ThrowParagraphText(UI.GameSession.SaveFile.ActiveParagraphType, UI.GameSession.SaveFile.CurrentStory, UI.GameSession.SaveFile.ActiveParagraph);
-                UI.Page.instructions = ReaderStories.ThrowOptionsText(UI.GameSession.SaveFile.ActiveParagraphType, UI.GameSession.SaveFile.CurrentStory, UI.GameSession.SaveFile.ActiveParagraph);
+                UI.Page.PageInfo = ReaderStories.ThrowParagraphText(UI.GameSession.SaveFile.ActiveParagraphType, UI.GameSession.SaveFile.CurrentStory, UI.GameSession.SaveFile.ActiveParagraph);
+                UI.Page.Instructions = ReaderStories.ThrowOptionsText(UI.GameSession.SaveFile.ActiveParagraphType, UI.GameSession.SaveFile.CurrentStory, UI.GameSession.SaveFile.ActiveParagraph);
                 Paragraph = ReaderStories.ThrowObjParagraph(UI.GameSession.SaveFile.ActiveParagraphType, UI.GameSession.SaveFile.CurrentStory, UI.GameSession.SaveFile.ActiveParagraph);
                 AmountOfOptions = Paragraph.AmountOfOptions;
                 UI.DrawUI(UI, false);
-                UI.Page.error = "";
+                UI.Page.Error = "";
                 //UI.GameSession.SaveFile.ActiveParagraph = UI.GameSession.SaveFile.ActiveParagraph;
                 //UI.GameSession.SaveFile.ActiveParagraphType = ParagraphType;
             }
@@ -38,16 +37,16 @@ namespace OstreC.ManageInput
                 currentFightPatagraph = (FightParagraph)Paragraph;
             }
 
-            if (Helpers.isCommand(input, UI)) ;
+            if (Helpers.IsCommand(input, UI)) ;
             else if (UI.GameSession.SaveFile.ActiveParagraphType == ParagraphType.Fight && ReaderStories.Fight(out input, currentFightPatagraph.ParagraphEnemies)) ;
             else if (UI.GameSession.SaveFile.ActiveParagraphType == ParagraphType.Test && ReaderStories.Test(out input)) ;
             else if (String.Equals(input.ToUpper().Replace(" ", null), "SAVE") && AmountOfOptions > 0) // Save
             {
                 string serializedSaveFile = JsonFile.SerializeSaveFile(UI.GameSession.SaveFile);
-                JsonFile.serializedToJson(serializedSaveFile, $"UsersFile\\" + UI.currentUser.UserName);
-                UI.currentUser.SaveFileExists = true;
-                UI.Page.error = "History progress saved!";
-                UI.currentUser.updateUser(UI.currentUser, "true", 4);
+                JsonFile.SerializedToJson(serializedSaveFile, $"UsersFile\\" + UI.CurrentUser.UserName);
+                UI.CurrentUser.SaveFileExists = true;
+                UI.Page.Error = "History progress saved!";
+                UI.CurrentUser.UpdateUser(UI.CurrentUser, "true", 4);
             } // Save
             else if (String.Equals(input, "0") && AmountOfOptions > 0)
             {
@@ -90,7 +89,7 @@ namespace OstreC.ManageInput
             }
             else if (AmountOfOptions > 0)
             {
-                UI.Page.error = "You didn't type the correct option";
+                UI.Page.Error = "You didn't type the correct option";
             }
         }
     }

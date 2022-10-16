@@ -2,6 +2,7 @@
 
 namespace OstreC.Services
 {
+    //Main Paragraph object. 
     public abstract class Paragraph
     {
         public int IdParagraph { get; }

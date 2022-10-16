@@ -1,5 +1,6 @@
 ﻿namespace OstreC.Services
 {
+    //Paragraph used to make a dice roll. For instance a perception test dice roll. 
     public class TestParagraph : Paragraph
     {
         public override ParagraphType ParagraphType => ParagraphType.Test;

@@ -1,16 +1,14 @@
 ﻿using OstreC.Services;
-using OstreC.Interface;
-using OstreC.Services;
 
 namespace OstreC.ManageInput
-{
-    public class StoryBuliderInput : IuiInput
+{//Creates a Story Object depending on input. Analyzes strings.
+    public class StoryBuilderInput : IuiInput
     {
         public PageType Type => PageType.Story_Bulider;
         public int IdPage { get; private set; } = 0;
         private static int IdCreator { get; set; }
         public static Story CurrentStory { get; private set; }
-        public void checkUserInput(UI UI)
+        public void CheckUserInput(UI UI)
         {
 
             string input = Console.ReadLine();
@@ -27,19 +25,19 @@ namespace OstreC.ManageInput
                     {
                         IdCreator = 0;
                         input = input.ToUpper().Replace(" ", null);
-                        if (Helpers.isCommand(input, UI)) return 0;
+                        if (Helpers.IsCommand(input, UI)) return 0;
                         else if (String.Equals(input.ToUpper().Replace(" ", null), "1")) // make a new story
                         {
-                            UI.Page.pageInfo = "You've chosen to make a new story!";
-                            UI.Page.instructions = "Type 1 to go Story Builder home page!\nType 0 to go back to the main menu!\n\nLet's start with something easy, enter the name of the story:";
+                            UI.Page.PageInfo = "You've chosen to make a new story!";
+                            UI.Page.Instructions = "Type 1 to go Story Builder home page!\nType 0 to go back to the main menu!\n\nLet's start with something easy, enter the name of the story:";
                             IdCreator = 0;
                             UI.DrawUI(UI, true);
                             return 1;
                         } // make a new story
                         else if (String.Equals(input.ToUpper().Replace(" ", null), "2")) // load an existing history for editing
                         {
-                            UI.Page.pageInfo = "You have chosen to load an existing history for editing!";
-                            UI.Page.instructions = "Type 1 to go Story Builder home page!\nType 0 to go back to the main menu!\n\nEnter a story name to edit: ";
+                            UI.Page.PageInfo = "You have chosen to load an existing history for editing!";
+                            UI.Page.Instructions = "Type 1 to go Story Builder home page!\nType 0 to go back to the main menu!\n\nEnter a story name to edit: ";
                             IdCreator = -1;
                             UI.DrawUI(UI, true);
                             return 2;
@@ -71,7 +69,7 @@ namespace OstreC.ManageInput
                         } // Main menu
                         else
                         {
-                            UI.Page.error = "You didn't type the correct option";
+                            UI.Page.Error = "You didn't type the correct option";
                             UI.DrawUI(UI, false);
                             return idPage;
                         }
@@ -80,7 +78,7 @@ namespace OstreC.ManageInput
                 case 1: // create a new story
                     {
                         input = input.ToUpper().Replace(" ", null);
-                        if (Helpers.isCommand(input, UI)) return 0;
+                        if (Helpers.IsCommand(input, UI)) return 0;
                         else if (String.Equals(input.ToUpper().Replace(" ", null), "1")) // Story Builder home page
                         {
                             Console.ForegroundColor = ConsoleColor.Red;
@@ -134,18 +132,18 @@ namespace OstreC.ManageInput
                         else if (String.Equals(input.ToUpper().Replace(" ", null), "SAVE")) // Save
                         {
                             string serializedStory = JsonFile.SerializeStory(CurrentStory);
-                            JsonFile.serializedToJson(serializedStory, "Stories\\"+CurrentStory.NameOfStory);
+                            JsonFile.SerializedToJson(serializedStory, "Stories\\"+CurrentStory.NameOfStory);
                             Console.WriteLine("Wykonano zapis, naciśnij cokolwiek aby kontynuować.");
-                            UI.Page.error = "History saved!";
+                            UI.Page.Error = "History saved!";
                             UI.DrawUI(UI, false);
-                            UI.Page.error = "";
+                            UI.Page.Error = "";
                             return idPage;
                         }
                         else
                         {
                             StoryCreator(UI, inputText);
                             UI.DrawUI(UI, false);
-                            UI.Page.error = "";
+                            UI.Page.Error = "";
                             return idPage;
                         }
                         return idPage;
@@ -153,7 +151,7 @@ namespace OstreC.ManageInput
                 case 2: // load an existing story
                     {
                         input = input.ToUpper().Replace(" ", null);
-                        if (Helpers.isCommand(input, UI)) return 0;
+                        if (Helpers.IsCommand(input, UI)) return 0;
                         else if (String.Equals(input.ToUpper().Replace(" ", null), "1")) // Story Builder home page
                         {
                             Console.ForegroundColor = ConsoleColor.Red;
@@ -207,18 +205,18 @@ namespace OstreC.ManageInput
                         else if (String.Equals(input.ToUpper().Replace(" ", null), "SAVE")) // Save
                         {
                             string serializedStory = JsonFile.SerializeStory(CurrentStory);
-                            JsonFile.serializedToJson(serializedStory, "Stories\\"+ CurrentStory.NameOfStory);
+                            JsonFile.SerializedToJson(serializedStory, "Stories\\"+ CurrentStory.NameOfStory);
                             Console.WriteLine("Wykonano zapis, naciśnij cokolwiek aby kontynuować.");
-                            UI.Page.error = "History saved!";
+                            UI.Page.Error = "History saved!";
                             UI.DrawUI(UI, false);
-                            UI.Page.error = "";
+                            UI.Page.Error = "";
                             return idPage;
                         }
                         else
                         {
                             StoryCreator(UI, inputText);
                             UI.DrawUI(UI, false);
-                            UI.Page.error = "";
+                            UI.Page.Error = "";
                             return idPage;
                         }
                         return idPage;
@@ -245,8 +243,8 @@ namespace OstreC.ManageInput
                             {
                                 case ConsoleKey.Y:
                                     CurrentStory = JsonFile.DeserializeStory(inputText);
-                                    UI.Page.pageInfo = $"You create a {CurrentStory.NameOfStory} story!";
-                                    UI.Page.instructions = "Type 1 to go Story Builder home page!\nType 0 to go back to the main menu!\nType 'Save' to save changes!\nType 'New' to create a new paragraph\nEnter 'Link' to create a new paragraph link";
+                                    UI.Page.PageInfo = $"You create a {CurrentStory.NameOfStory} story!";
+                                    UI.Page.Instructions = "Type 1 to go Story Builder home page!\nType 0 to go back to the main menu!\nType 'Save' to save changes!\nType 'New' to create a new paragraph\nEnter 'Link' to create a new paragraph link";
                                     IdCreator = 1;
                                     break;
                                 case ConsoleKey.N:
@@ -272,8 +270,8 @@ namespace OstreC.ManageInput
                             switch (key)
                             {
                                 case ConsoleKey.Y:
-                                    UI.Page.pageInfo = $"You create a {inputText} story!";
-                                    UI.Page.instructions = "Type 1 to go Story Builder home page!\nType 0 to go back to the main menu!\nType 'Save' to save changes!\nType 'New' to create a new paragraph\nEnter 'Link' to create a new paragraph link";
+                                    UI.Page.PageInfo = $"You create a {inputText} story!";
+                                    UI.Page.Instructions = "Type 1 to go Story Builder home page!\nType 0 to go back to the main menu!\nType 'Save' to save changes!\nType 'New' to create a new paragraph\nEnter 'Link' to create a new paragraph link";
                                     CurrentStory = new Story(inputText);
                                     CurrentStory.DeafaultParagraph();
                                     IdCreator = 1;
@@ -300,7 +298,7 @@ namespace OstreC.ManageInput
 
                                 break;
                             default:
-                                UI.Page.error = "You didn't type the correct option";
+                                UI.Page.Error = "You didn't type the correct option";
                                 break;
                         }
                     }
@@ -353,7 +351,7 @@ namespace OstreC.ManageInput
 
         static void WriteOptionsSelect(List<Option> options, Option selectedOption, UI UI)
         {
-            UI.Page.instructions = "Use keyboard arrows";
+            UI.Page.Instructions = "Use keyboard arrows";
             UI.DrawUI(UI, true);
             Console.Write("Type te current paragraph type: \n");
 
@@ -370,7 +368,7 @@ namespace OstreC.ManageInput
         {
             string textParagraph = AddTextParagraph(UI);
             CurrentStory.AddNewDescOfStageParagraph(new DescOfStage(CurrentStory.AmountOfParagrafh, textParagraph));
-            UI.Page.instructions = "Type 1 to go Story Builder home page!\nType 0 to go back to the main menu!\nType 'Save' to save changes!\nType 'New' to create a new paragraph\nEnter 'Link' to create a new paragraph link";
+            UI.Page.Instructions = "Type 1 to go Story Builder home page!\nType 0 to go back to the main menu!\nType 'Save' to save changes!\nType 'New' to create a new paragraph\nEnter 'Link' to create a new paragraph link";
         }
 
         private static void CreatNewFightParagraph(UI UI)
@@ -380,28 +378,28 @@ namespace OstreC.ManageInput
             int amountOfEnemy = AmountOfEnemy(UI, enemyName);
 
             CurrentStory.AddNewFightParagraph(new FightParagraph(CurrentStory.AmountOfParagrafh, textParagraph));
-            UI.Page.instructions = "Type 1 to go Story Builder home page!\nType 0 to go back to the main menu!\nType 'Save' to save changes!\nType 'New' to create a new paragraph\nEnter 'Link' to create a new paragraph link";
+            UI.Page.Instructions = "Type 1 to go Story Builder home page!\nType 0 to go back to the main menu!\nType 'Save' to save changes!\nType 'New' to create a new paragraph\nEnter 'Link' to create a new paragraph link";
         }
 
         private static void CreatNewDialogParagraph(UI UI)
         {
             string textParagraph = AddTextParagraph(UI);
             CurrentStory.AddNewDialogParagraph(new DialogParagraph(CurrentStory.AmountOfParagrafh, textParagraph));
-            UI.Page.instructions = "Type 1 to go Story Builder home page!\nType 0 to go back to the main menu!\nType 'Save' to save changes!\nType 'New' to create a new paragraph\nEnter 'Link' to create a new paragraph link";
+            UI.Page.Instructions = "Type 1 to go Story Builder home page!\nType 0 to go back to the main menu!\nType 'Save' to save changes!\nType 'New' to create a new paragraph\nEnter 'Link' to create a new paragraph link";
         }
 
         private static void CreatNewTestParagraph(UI UI)
         {
             string textParagraph = AddTextParagraph(UI);
             CurrentStory.AddNewTestParagraph(new TestParagraph(CurrentStory.AmountOfParagrafh, textParagraph));
-            UI.Page.instructions = "Type 1 to go Story Builder home page!\nType 0 to go back to the main menu!\nType 'Save' to save changes!\nType 'New' to create a new paragraph\nEnter 'Link' to create a new paragraph link";
+            UI.Page.Instructions = "Type 1 to go Story Builder home page!\nType 0 to go back to the main menu!\nType 'Save' to save changes!\nType 'New' to create a new paragraph\nEnter 'Link' to create a new paragraph link";
         }
 
         private static string AddTextParagraph(UI UI)
         {
             do
             {
-                UI.Page.instructions = "Enter text for the paragraph describing the stage.";
+                UI.Page.Instructions = "Enter text for the paragraph describing the stage.";
                 UI.DrawUI(UI, true);
 
                 Console.Write("Entry new text here: ");
@@ -434,7 +432,7 @@ namespace OstreC.ManageInput
         {
             do
             {
-                UI.Page.instructions = "Enter enemy name.";
+                UI.Page.Instructions = "Enter enemy name.";
                 UI.DrawUI(UI, true);
 
                 Console.Write("Entry new enemy here: ");
@@ -468,7 +466,7 @@ namespace OstreC.ManageInput
             do
             {
                 int amountOfEnemy;
-                UI.Page.instructions = $"Enter amount of {enemyName}.";
+                UI.Page.Instructions = $"Enter amount of {enemyName}.";
                 UI.DrawUI(UI, true);
 
                 do

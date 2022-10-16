@@ -1,16 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net.Mail;
-using System.Net;
-using System.Text;
-using System.Threading.Tasks;
-using Newtonsoft.Json;
-using System.Security.Cryptography.X509Certificates;
+﻿ using Newtonsoft.Json;
 
 namespace OstreC.Services
 {
-  
+  //Contains variables useful only for currently Logged in User.
     public class CurrentUser : User
     {
         [JsonIgnore]

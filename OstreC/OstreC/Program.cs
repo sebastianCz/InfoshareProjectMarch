@@ -1,11 +1,10 @@
 ﻿using OstreC.Services;
 using OstreC;
-using OstreC.Interface;
-using System.Runtime.CompilerServices;
 
+//UI instance is the main object storing all variables used later on. Save files, characters, enemies instances.
 UI UI = new UI();
-UI.GameSession = new GameSession(new SaveFile(ParagraphType.DescOfStage, 2, "DefaultStory"), new CurrentPlayer(), false); //We need a default value for now. 
-UI.currentUser = new CurrentUser("Default", "Default", false, false, -1);// Default values. UI.currentUser
+UI.GameSession = new GameSession(new SaveFile(ParagraphType.DescOfStage, 2, "DefaultStory"), new Player(), false); //We need a default value for now. 
+UI.CurrentUser = new CurrentUser("Default", "Default", false, false, -1);// Default values. UI.CurrentUser
 
 
 UI.Page.switchPage(PageType.Login, UI);
@@ -13,18 +12,8 @@ UI.Page.switchPage(PageType.Login, UI);
 do
 {
 
-    UI.checkInput(UI);
+    UI.ChooseInputMethod(UI);
 
 } while (UI.exit == false);
 
-
-var x = JsonFile.DeserializeEnemyList("Enemy");
-//sConsole.WriteLine(x.AllEnemies);
-
-
-
-//var x = JsonFile.DeserializeEnemyList("Enemy");
-
-//Console.WriteLine(x.Results[0].EnemyActions[0].ActionDescription);
-
-//Console.ReadKey();
+ 

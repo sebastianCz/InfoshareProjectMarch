@@ -1,18 +1,10 @@
 ﻿using OstreC.Services;
 using OstreC;
-using OstreC.Interface;
-using OstreC.ManageInput;
-
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Security.Cryptography.X509Certificates;
+ 
 
 
 
-
-namespace OstreC.Interface
+namespace OstreC
 {
 
     public enum PageType
@@ -36,7 +28,7 @@ namespace OstreC.Interface
         PageType  Type { get; }
         
         //Check User Input depending on currently active page. 
-        public void checkUserInput(UI UI);
+        public void CheckUserInput(UI UI);
     }
 }
 

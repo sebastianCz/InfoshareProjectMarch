@@ -1,17 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Security.Cryptography.X509Certificates;
-using System.Text;
-using System.Threading.Tasks;
-
-using System.Net.Mail;
-using System.Net;
-using System.Collections.Specialized;
-
-
-
-
+﻿  
 namespace OstreC.Services
 {
     
@@ -38,21 +25,21 @@ namespace OstreC.Services
 
             }
 
-        public string presentUser()
+        public string PresentUser()
         {
             return  $"Username: {this.UserName}  User email: {this.Email} User password: {this.Password}"; 
         }
-        public string showEmail()
+        public string ShowEmail()
         {
             return $" {this.Email} ";
         }
 
-        public string presentUserBreakLine(bool xs)
+        public string PresentUserBreakLine(bool xs)
         {
             return $"Username: {this.UserName} \n User email: {this.Email}\n User password: {this.Password}";
         }
 
-        public bool updateUser(CurrentUser CurrentUser, string newData, int param)
+        public bool UpdateUser(CurrentUser CurrentUser, string newData, int param)
         {
 
             var usersList = JsonFile.DeserializeUsersList("Users");
@@ -105,7 +92,7 @@ namespace OstreC.Services
             {
 
                 var x = JsonFile.SerializeUsersList(usersList);
-                JsonFile.serializedToJson(x, "Users");
+                JsonFile.SerializedToJson(x, "Users");
 
                 return true;
             }
@@ -113,14 +100,9 @@ namespace OstreC.Services
             {
                 return false;
             }
-
-
         }
-
-
-        public bool createUser(string userName, string password, string email, CurrentUser currentUser, out string feedback)
+        public bool CreateUser(string userName, string password, string email, CurrentUser currentUser, out string feedback)
         {
-
             var usersList = JsonFile.DeserializeUsersList("Users");
             bool userExists = false;
 
@@ -128,8 +110,6 @@ namespace OstreC.Services
             {
                 if (user.UserName == userName)
                 {
-
-
                     userExists = true;
                     break;
                 }
@@ -139,7 +119,6 @@ namespace OstreC.Services
             {
                 feedback = "User with provided userName already exists";
                 return false;
-
             }
             else if (userName.Length != 0)
             {
@@ -151,7 +130,7 @@ namespace OstreC.Services
                 usersList.Results.Add((User)currentUser);
 
                 var x = JsonFile.SerializeUsersList(usersList);
-                JsonFile.serializedToJson(x, "Users");
+                JsonFile.SerializedToJson(x, "Users");
 
                 feedback = "User created";
 
@@ -159,19 +138,17 @@ namespace OstreC.Services
             }
             else
             {
-                feedback = "User name provided is not valid. You can't provide an empty string for a username.";
+                feedback = "User Name provided is not valid. You can't provide an empty string for a username.";
                 return false;
             }
         }
-
-
-        public void deleteUser(CurrentUser currentUser)
+        public void DeleteUser(CurrentUser currentUser)
         {
             UsersList usersList = JsonFile.DeserializeUsersList("Users");
 
             bool found = false;
             //This variable is most likely avoidable. But I can't remove an objet from an array while iterating. I can't do X = I  as I will be equal to last index of usersList.
-            //From here the name of the variable is self explanatory.
+            //From here the Name of the variable is self explanatory.
             int[] IhadNoChoice = new int[1];
             for (int i = 0; i < usersList.Results.Count(); i++)
             {
@@ -181,28 +158,20 @@ namespace OstreC.Services
                     found = true;
                     break;
                 }
-
             }
-
             if (found)
             {
                 usersList.Results.Remove(usersList.Results[IhadNoChoice[0]]);
                 //Sets values to empty values since log off is the next step. 
             
-
                 var z = JsonFile.SerializeUsersList(usersList);
-                JsonFile.serializedToJson(z, "Users");
-
-
+                JsonFile.SerializedToJson(z, "Users");
             }
             else
             {
                 throw new Exception("Couldn't find ID of connected user.");
-
             }
         }
-
     }
-        
 }
  

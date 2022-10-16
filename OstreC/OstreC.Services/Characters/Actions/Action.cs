@@ -1,16 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿
 
-namespace OstreC.Services.Characters.Actions
+namespace OstreC.Services
 {
+    //WORK IN PROGRESS ON THIS CLASS.
     //This is supposed to be an abstract class. Dmg dices should be in hereditating classes.
     //For instance : ShortBowAttack, ShortSowrdAttack etc. But in this case deserializing it will be 
     //a nightmare.
-    public  class EnemyAction
+    public abstract class EnemyActionBase
     {
         public string ActionName { get; set; }
         public string ActionDescription { get; set; }
@@ -20,14 +16,18 @@ namespace OstreC.Services.Characters.Actions
         public int Hit_dmg { get; set; }
         public int Flat_dmg { get; set; }
 
-      public EnemyAction()
+        public EnemyActionBase()
         {
 
 
         }
-     
+
+    }
+ 
+    public class EnemyAction
+    {
 
 
     }
 
-}
+ }

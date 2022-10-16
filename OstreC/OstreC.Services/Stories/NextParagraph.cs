@@ -1,5 +1,6 @@
 ﻿namespace OstreC.Services
 {
+    //Object in each paragraph. Contains the information about what should be the next paragraph to select, and the text shown to user. 
     public class NextParagraph
     {
         public ParagraphType ParagraphType { get; }

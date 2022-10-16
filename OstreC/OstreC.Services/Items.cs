@@ -1,11 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
+﻿
 namespace OstreC.Services
 {
+    //Will contain the definition for items in Player inventory.
     public class Items
     {
     }

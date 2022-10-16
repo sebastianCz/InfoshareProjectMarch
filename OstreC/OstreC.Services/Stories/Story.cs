@@ -1,13 +1,9 @@
 ﻿using Newtonsoft.Json;
-using System.Collections.Generic;
-
 namespace OstreC.Services
 {
+    //Story object. Contains all paragraphs for a given story. 
     public class Story
     {
-
-        //public ParagraphType ActiveParagraphType { get; set; }
-        //public int ActiveParagraph { get; set; }
         public string NameOfStory { get; private set; }
         [JsonIgnore]
         public int AmountOfParagrafh { get { return FightParagraphs.Count() + TestParagraphs.Count() + DialogParagraphs.Count() + DescOfStages.Count(); } }
@@ -55,27 +51,5 @@ namespace OstreC.Services
             //Paragraphs.Add(newTestParagraph);
             TestParagraphs.Add(newTestParagraph);
         }
-
-        //public void AddAllParagraph()
-        //{
-            
-        //    foreach (FightParagraph x in FightParagraphs)
-        //    {
-        //        Paragraphs.Add(x);
-        //    }
-        //    foreach (DescOfStage x in DescOfStages)
-        //    {
-        //        Paragraphs.Add(x);
-        //    }
-        //    foreach (DialogParagraph x in DialogParagraphs)
-        //    {
-        //        Paragraphs.Add(x);
-        //    }
-        //    foreach (TestParagraph x in TestParagraphs)
-        //    {
-        //        Paragraphs.Add(x);
-        //    }
-        //    Paragraphs = Paragraphs.OrderBy(o => o.IdParagraph).ToList();
-        //}
     }
 }
