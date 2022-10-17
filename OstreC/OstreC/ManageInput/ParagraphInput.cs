@@ -22,8 +22,10 @@ namespace OstreC.ManageInput
 
             if (saveFile.ActiveParagraphType == ParagraphType.Fight) // Result form method ParagraphTest
             {
+
                 CurrentFightPatagraph = (FightParagraph)Paragraph;
-                input = ReaderStories.SolveFight(CurrentFightPatagraph.ParagraphEnemies);
+                AllEnemyList currentEnemies = ReaderStories.InitialEnemies(CurrentFightPatagraph.ParagraphEnemies); // Creat object enemies
+                input = ReaderStories.SolveFight(currentEnemies, UI.GameSession.CurrentPlayer);
             }
 
             if (saveFile.ActiveParagraphType == ParagraphType.Test) // Result form method ParagraphTest
