@@ -26,7 +26,7 @@ namespace OstreC
                     CurrentType = PageType.Main_Menu;
                     PageInfo = "You are in the main menu!";
                     Instructions = " Press 1 to Start a New Game! \n Press 2 to Load a game! \n Press 3 to Create a new character! \n Press 4 to enter the Story Builder \n" +
-                        " Press 5 to view the D&D Library \n Press 6 to logout \n Press 7 to exit the program \n Press 8 to manage your account \n Press 9 for Example page";
+                        " Press 5 to view the D&D Library \n Press 6 to logout \n Press 7 to exit the program \n Press 8 to manage your account";
                     UI.DrawUI(UI, true);
                     break;
 
