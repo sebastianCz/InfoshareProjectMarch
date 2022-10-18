@@ -33,7 +33,7 @@ namespace OstreC
             PageTypes.Add(new StoryBuilderInput());
             PageTypes.Add(new LoginInput());
             PageTypes.Add(new ManageAccount());
-            PageTypes.Add(new StartGameInput());
+          
            
         }
         //Main method.Launched indefinitely by the program to identify how he's supposed to process user input. 
@@ -58,18 +58,42 @@ namespace OstreC
         public void DrawHeader(UI UI)
         {
             string genericHeader = "";
+            string status = "Offline";
 
-            if (UI.Page.CurrentType != PageType.Paragraph_Combat)
+            if (UI.Page.CurrentType != PageType.Login)
             {
-                string status = "Offline";
+               
                 if (UI.CurrentUser.LoggedIn) { status = "Online"; }
                 Console.ForegroundColor = ConsoleColor.Green;
-                genericHeader = $"Active Page: {Page.CurrentType} || Ostre C Game || Current status: {status} {Page.BreakLine} || Current user:{CurrentUser.UserName}" +
+
+                genericHeader = $"Active Page: {Page.CurrentType} || Ostre C Game || Current status: {status} || Current user:{CurrentUser.UserName} {Page.BreakLine}  " +
                     $"Type any of the existing commands at any time: \n {_menuCommandsString} {Page.BreakLine}";
 
 
-                Console.WriteLine($"{genericHeader}");
+                
+            }else if (UI.Page.CurrentType == PageType.Login) {
+
+                genericHeader = $"Active Page: {Page.CurrentType} || Ostre C Game || Current status: {status} {Page.BreakLine} ";
+                   
             }
+            Console.ForegroundColor = ConsoleColor.Green;
+            Console.WriteLine($"{genericHeader}");
+            Console.ForegroundColor = ConsoleColor.White;
+        }
+ 
+        public void DrawCombatHeader(UI UI)
+        {
+            string genericHeader = "";
+            string status = "Offline";
+
+            Console.ForegroundColor = ConsoleColor.Green;
+            genericHeader = $"Active Page: {Page.CurrentType} || Ostre C Game || Current status: {status} || Current user:{CurrentUser.UserName} || {Page.BreakLine}   " +
+                "Commands are disabled during combat.";
+
+            Console.WriteLine($"{genericHeader}");
+            Console.ForegroundColor = ConsoleColor.White;
+
+
         }
 
         //Invoked in Draw UI.

@@ -9,25 +9,42 @@ namespace OstreC.ManageInput
         {
             var input = Console.ReadLine();
 
-            if (Helpers.IsCommand(input, UI))
-            {
-                Helpers.HandleCommand(input, UI);
-            }
-            else if (Helpers.IsNumber(input))
+            if (Helpers.IsCommand(input, UI)){ return; }
+
+            if (Helpers.IsNumber(input))
             {
 
-                if (String.Equals(input.ToLower().Replace(" ",null), "1"))
+                if (String.Equals(input.ToLower().Replace(" ", null), "1"))
                 {
+                    UI.Page.PageInfo = " You are creating a new game. This will overwrite your existing save file if you save once in the game! Do you want to proceed anyway? ";
+                    UI.Page.Error = "Press Y  to proceed or any key to cancel the operation";
+                    UI.DrawUI(UI, false);
 
-                    UI.Page.switchPage(PageType.StartGame, UI);
+                    //Exits this if statement if user doesn't want to continue. CheckUserInput() will start from the top again.
+                    if (!Helpers.YesOrNoKey(false)) { UI.Page.switchPage(PageType.Main_Menu, UI); return; }
+
+                    //Starts a new game with current character and current /default story. 
+                    UI.GameSession = UI.GameSession.NewGame("DefaultStory");
+                    UI.Page.switchPage(PageType.Paragraph, UI);
+
                 }
                 else if (String.Equals(input.ToLower().Replace(" ", null), "2"))
                 {
-                    UI.Page.switchPage(PageType.Create_Character, UI);
+
+                    if (UI.CurrentUser.SaveFileExists)
+                    {
+                        UI.GameSession = UI.GameSession.LoadSave(UI.CurrentUser.UserName);
+                        if (UI.GameSession.FileLoaded) { UI.Page.switchPage(PageType.Paragraph, UI); }
+
+                    }else
+                    {
+                        UI.Page.Error = "You didn't create a save file yet.";
+                        UI.DrawUI(UI, false);
+                    } 
                 }
                 else if (String.Equals(input.ToLower().Replace(" ", null), "3"))
                 {
-                    UI.Page.switchPage(PageType.Paragraph, UI);
+                    UI.Page.switchPage(PageType.Create_Character, UI);
                 }
                 else if (String.Equals(input.ToLower().Replace(" ", null), "4"))
                 {
@@ -35,29 +52,32 @@ namespace OstreC.ManageInput
                 }
                 else if (String.Equals(input.ToLower().Replace(" ", null), "5"))
                 {
+                    UI.Page.switchPage(PageType.Bestiary, UI);
+
+                } else if (String.Equals(input.ToLower().Replace(" ", null), "6"))
+                {
+                    UI.CurrentUser.logOff();
+                    UI.Page.switchPage(PageType.Login, UI);
+
+                }else if(String.Equals(input.ToLower().Replace(" ", null), "7"))
+                {
+                    UI.Exit = true;
+                }
+                else if (String.Equals(input.ToLower().Replace(" ", null), "8"))
+                {
                     UI.Page.switchPage(PageType.ManageAccount, UI);
                 }
-                else if (String.Equals(input.ToLower().Replace(" ", null), "9"))
-                {
-                    UI.Page.switchPage(PageType.ExampleEnum, UI);
-                }
-                else
-                {
-                    UI.Page.Error = "You didn't provide a correct number";
-                    UI.DrawUI(UI, false);
-                }
+                 else
+                 {
+                     UI.Page.Error = "You didn't provide a correct number";
+                      UI.DrawUI(UI, false);
+                  }
             }
             else
             {
-                UI.Page.Error = "You didn't provide a correct number";
+                UI.Page.Error = "You didn't provide a  number";
                 UI.DrawUI(UI, false);
-            }
-
-            //ENUM iteration -> So options can be created dynamically without having to update the entire logic each time. 
-            //foreach (int i  in Enum.GetValues(typeof(PageType)))
-            //{
-            //    PageInfo += ($"{Enum.GetName(typeof(PageType), i)}");
-            //}
+            } 
         }
     }
 }

@@ -93,6 +93,23 @@ namespace OstreC
                 }
             } while (true);
         }
+        public static bool YesOrNoKey(bool DontLoop)
+        {
+
+            ConsoleKey key = Console.ReadKey().Key;
+            switch (key)
+            {
+                case ConsoleKey.Y:
+                    return true;
+                case ConsoleKey.N:
+                    return false;
+                default:
+                    return false;
+                    break;
+
+            }
+        }
+
         public static void WriteLineColorText(string textColored, ConsoleColor firstColor = ConsoleColor.DarkGreen)
         {
             Console.ForegroundColor = firstColor;
