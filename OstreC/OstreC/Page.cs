@@ -73,13 +73,6 @@ namespace OstreC
                     UI.DrawUI(UI, true);
                     break;
 
-                case PageType.ExampleEnum:
-                    CurrentType = PageType.ExampleEnum;
-                    PageInfo = "Welcome to the example page!";
-                    Instructions = " Press 1 to show example messages!\nPress 2 to go back to main menu!";
-                    UI.DrawUI(UI, true);
-                    break;
-
                 case PageType.Login:
                     CurrentType = PageType.Login;
                     PageInfo = "Welcome to the login page! ";
@@ -93,14 +86,6 @@ namespace OstreC
                        
                     Instructions = " Type 1 edit your data \n Type 2 to delete your account";
                     UI.DrawUI(UI, true);
-                    break;
-
-                case PageType.StartGame:
-                    CurrentType = PageType.StartGame;
-                    PageInfo = $"You're about to start a game. Choose one of the options below. ";
-                    Instructions = " Type 1 to go back to Main Menu. \n Type 2 to Start a new Game \n Type 3 to Load a game";
-                    UI.DrawUI(UI, true);
-  
                     break;
 
                 default:

@@ -16,11 +16,9 @@ namespace OstreC
         Paragraph,
         Paragraph_Combat,
         Bestiary,
-        ExampleEnum,
         Story_Bulider,
         Login,
         ManageAccount,
-        StartGame
     }
 
     public interface IuiInput

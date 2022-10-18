@@ -3,14 +3,14 @@ using OstreC.ManageInput;
 
 namespace OstreC
 {
-    
+
     public class UI : ProgramSession //ProgramSession is in OstreC.Services. Hereditated to provide instances of objects.
     {
         //Page object containing current page info.
         public Page Page = new Page(PageType.Main_Menu);
 
         //LIST containing existing menu commands for user. He can use them almost any time.
-        public static readonly string[] _menuCommands = { "MAIN_MENU", "EXIT","BACK" };
+        public static readonly string[] _menuCommands = { "MAIN_MENU", "EXIT", "BACK" };
 
         //LIST containing existing menu commands for user. He can use them almost any time.
         private static string _menuCommandsString { get; set; }
@@ -24,17 +24,14 @@ namespace OstreC
             {
                 _menuCommandsString += " || " + _menuCommands[i];
             }
-            PageTypes.Add(new MainMenuInput());
 
+            PageTypes.Add(new MainMenuInput());
             PageTypes.Add(new CreateCharacterInput());
             PageTypes.Add(new ParagraphInput());
             PageTypes.Add(new BestiaryInput());
-            PageTypes.Add(new ExampleInput());
             PageTypes.Add(new StoryBuilderInput());
             PageTypes.Add(new LoginInput());
             PageTypes.Add(new ManageAccount());
-          
-           
         }
         //Main method.Launched indefinitely by the program to identify how he's supposed to process user input. 
         public void ChooseInputMethod(UI UI)
@@ -48,12 +45,9 @@ namespace OstreC
                     test.CheckUserInput(UI);
                     break;
                 }
-                //else
-                //{
-                //    //Console.WriteLine("Didn't find the page" +test.Type +"  uivalue: " +UI.Page.CurrentType);
-                //}
             }
         }
+
         //Invoked in Draw UI.
         public void DrawHeader(UI UI)
         {
@@ -62,25 +56,20 @@ namespace OstreC
 
             if (UI.Page.CurrentType != PageType.Login)
             {
-               
-                if (UI.CurrentUser.LoggedIn) { status = "Online"; }
+                if (UI.CurrentUser.LoggedIn)  status = "Online"; 
+
                 Console.ForegroundColor = ConsoleColor.Green;
-
                 genericHeader = $"Active Page: {Page.CurrentType} || Ostre C Game || Current status: {status} || Current user:{CurrentUser.UserName} {Page.BreakLine}  " +
-                    $"Type any of the existing commands at any time: \n {_menuCommandsString} {Page.BreakLine}";
-
-
-                
-            }else if (UI.Page.CurrentType == PageType.Login) {
-
+               $"Type any of the existing commands at any time: \n {_menuCommandsString} {Page.BreakLine}";
+            }
+            else if (UI.Page.CurrentType == PageType.Login)
+            {
                 genericHeader = $"Active Page: {Page.CurrentType} || Ostre C Game || Current status: {status} {Page.BreakLine} ";
-                   
             }
             Console.ForegroundColor = ConsoleColor.Green;
             Console.WriteLine($"{genericHeader}");
             Console.ForegroundColor = ConsoleColor.White;
         }
- 
         public void DrawCombatHeader(UI UI)
         {
             string genericHeader = "";
@@ -92,10 +81,7 @@ namespace OstreC
 
             Console.WriteLine($"{genericHeader}");
             Console.ForegroundColor = ConsoleColor.White;
-
-
         }
-
         //Invoked in Draw UI.
         public void DrawGenericPage(UI UI)
         {
@@ -111,7 +97,6 @@ namespace OstreC
                 Console.WriteLine($"{UI.Page.Instructions} \n ");
             }
         }
-
         //Invoked in Draw UI depending on bool in parameter. If user input is valid Error gets cleared.
         public void ClearData(UI UI)
         {
@@ -134,21 +119,20 @@ namespace OstreC
 
                     break;
 
-                 default:
+                default:
                     //Default header for all pages
                     UI.DrawHeader(UI);
                     UI.DrawGenericPage(UI);
-                  break;
+                    break;
             }
         }
 
         //Overload if we want to Draw UI without clearing older content. Good for debugging. 
-        public static void DrawUI(UI UI, bool clear,bool consoleclear)
+        public static void DrawUI(UI UI, bool clear, bool consoleclear)
         {
             if (clear) { UI.ClearData(UI); }
             if (consoleclear) { Console.Clear(); }
             UI.DrawHeader(UI);
-           
         }
     }
 }
