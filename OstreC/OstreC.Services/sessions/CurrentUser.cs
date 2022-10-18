@@ -11,10 +11,14 @@ namespace OstreC.Services
         //Stores stories ID
         internal List<Story> LinkedStoriesId { get; set; }
 
-        public CurrentUser(string username, string password, bool SaveFileExists, bool loggedIn,int id)
-       : base(username, password,SaveFileExists,id)
+        public CurrentUser() { }
+        public CurrentUser(string username, string password, bool saveFileExists, bool loggedIn,int id)
         {
+            UserName = username;
+            Password = password;
+            SaveFileExists = saveFileExists;
             LoggedIn = loggedIn;
+            Id = id;
         }
 
         //Changes values to empty values since console 

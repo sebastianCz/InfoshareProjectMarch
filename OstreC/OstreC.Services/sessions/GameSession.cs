@@ -45,5 +45,11 @@ namespace OstreC.Services
             return session;
         }
 
+        public Player createPlayer(string CharacterName)
+        {
+            Player Player= new Player();
+            return Player;
+        }
+
     }
 }

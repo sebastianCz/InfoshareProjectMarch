@@ -35,10 +35,11 @@ namespace OstreC.ManageInput
                         input = Console.ReadLine();
 
                         if (Helpers.IsCommand(input, UI)) { return; }
-                        password = input; 
+                        password = input;
+
 
                         bool login = UI.Login(username, password);
-
+                        Console.WriteLine(UI.CurrentUser);
                         if (login)
                         {
                             UI.Page.switchPage(PageType.Main_Menu, UI);

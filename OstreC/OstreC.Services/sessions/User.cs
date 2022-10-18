@@ -11,19 +11,19 @@ namespace OstreC.Services
             public string Password { get; set; }
 
             public string Email { get; set; }
-        public bool SaveFileExists { get; set; } 
+        public bool SaveFileExists { get; set; }
 
-            
 
-            //Init with -1 until defined.
-            public User(string username, string password,bool saveFileExists, int id = -1)
-            {
-                Id = id;
-                UserName = username;
-                Password = password;
-                this.SaveFileExists = saveFileExists;
 
-            }
+     
+            //public User(string username, string password,bool saveFileExists, int id = -1)
+            //{
+            //    Id = id;
+            //    UserName = username;
+            //    Password = password;
+            //    this.SaveFileExists = saveFileExists;
+
+            //}
 
         public string PresentUser()
         {

@@ -1,9 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System; 
 using System.Linq;
-using System.Security.AccessControl;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace OstreC.Services
 {
@@ -23,23 +19,20 @@ namespace OstreC.Services
         //Updates user values. 
         public bool Login(string userName, string password)
         {
+            var userList = JsonFile.DeserializeUsersList("Users");
+            var user = userList.Results.FirstOrDefault(o => (o.UserName == userName) &&(o.Password == password ));
 
-            var x = JsonFile.DeserializeUsersList("Users");
-
-            foreach (var user in x.Results)
-            {
-                if (user.UserName == userName && user.Password == password)
-                {
-                     
-                    CurrentUser.UserName = userName;
-                    CurrentUser.Password = password;
-                    CurrentUser.Email = user.Email;
-                    CurrentUser.Id = user.Id;
-                    CurrentUser.LoggedIn = true;
-                    CurrentUser.SaveFileExists = user.SaveFileExists;
-                    return true;
-                }
-            }
+            if (user == null) return false;
+            // CurrentUser has a Parameter LoggedIn. // That parameter is set to true when invoked. //   
+            CurrentUser = CurrentUserInit((User)user);
+           return true;
+        }
+        public CurrentUser CurrentUserInit(User user)
+        {
+           return new CurrentUser(user.UserName, user.Password, user.SaveFileExists, true, user.Id);
+        }
+        public bool CreateGameSession()
+        {
             return false;
         }
     }
