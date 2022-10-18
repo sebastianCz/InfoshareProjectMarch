@@ -17,7 +17,7 @@ namespace OstreC.ManageInput
             else if (String.Equals(input, "0"))
             {
                 Helpers.WriteLineColorText("Are you sure? You go back to menu.\nPress 'Y' - yes or 'N' - no", ConsoleColor.Red);
-                if (Helpers.YesOrNoKey())
+                if (Helpers.YesOrNoKey(true))
                 {
                     CurrentStory = null;
                     HomePage = true;
@@ -33,7 +33,7 @@ namespace OstreC.ManageInput
             else if (!HomePage && String.Equals(input, "1")) // Go back to story Builder home page
             {
                 Helpers.WriteLineColorText("Are you sure? You go back to Story Builder home page.\nPress 'Y' - yes or 'N' - no", ConsoleColor.Red);
-                if (Helpers.YesOrNoKey())
+                if (Helpers.YesOrNoKey(true))
                 {
                     UI.Page.switchPage(PageType.Story_Bulider, UI);
                     HomePage = true;
@@ -49,7 +49,7 @@ namespace OstreC.ManageInput
                     Console.WriteLine($"\nThe name of your story is: {nameOfStory}");
 
                     Helpers.WriteLineColorText("\nDo you approve the name? \nPress 'Y' - yes or 'N' - no", ConsoleColor.Red);
-                    if (Helpers.YesOrNoKey())
+                    if (Helpers.YesOrNoKey(true))
                     {
                         CurrentStory = new Story(nameOfStory);
                         CurrentStory.DeafaultParagraph();
@@ -71,7 +71,7 @@ namespace OstreC.ManageInput
                     Console.WriteLine($"\nThe name of your story is: {nameOfStory}");
 
                     Helpers.WriteLineColorText("\n Do you approve the name? \n Press 'Y' - yes or 'N' - no", ConsoleColor.Red);
-                    if (Helpers.YesOrNoKey())
+                    if (Helpers.YesOrNoKey(true))
                     {
                         CurrentStory = JsonFile.DeserializeStory(nameOfStory);
                         UI.Page.PageInfo = $"You create a {CurrentStory.NameOfStory} story!";
@@ -210,7 +210,7 @@ namespace OstreC.ManageInput
                 Console.WriteLine($"You entered the text of the paragraph: \n{inputText}");
 
                 Helpers.WriteLineColorText("\n Do you accept the text? \n Press 'Y' - yes or 'N' - no\t", ConsoleColor.Red);
-                if (Helpers.YesOrNoKey()) return inputText;
+                if (Helpers.YesOrNoKey(true)) return inputText;
             } while (true);
         }
         private static string AddEnemy(UI UI)
@@ -226,7 +226,7 @@ namespace OstreC.ManageInput
                 Console.WriteLine($"You entered enemy name: \n{inputText}");
 
                 Helpers.WriteLineColorText("\n Do you accept? \n Press 'Y' - yes or 'N' - no\t", ConsoleColor.Red);
-                if (Helpers.YesOrNoKey()) return inputText;
+                if (Helpers.YesOrNoKey(true)) return inputText;
             } while (true);
         }
         private static int AmountOfEnemy(UI UI, string enemyName)
@@ -253,7 +253,7 @@ namespace OstreC.ManageInput
                 Console.WriteLine($"You entered: \n{amountOfEnemy} {enemyName}");
 
                 Helpers.WriteLineColorText("\n Do you accept the amount of enemies?\n Press 'Y' - yes or 'N' - no\t", ConsoleColor.Red);
-                if (Helpers.YesOrNoKey()) return amountOfEnemy;
+                if (Helpers.YesOrNoKey(true)) return amountOfEnemy;
             } while (true);
         }
     }

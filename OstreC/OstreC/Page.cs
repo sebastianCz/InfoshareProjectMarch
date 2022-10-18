@@ -24,9 +24,9 @@ namespace OstreC
             {
                 case PageType.Main_Menu:
                     CurrentType = PageType.Main_Menu;
-                    PageInfo = "Welcome to the main menu!";
-                    Instructions = " Press 1 to Start a game! \n Press 2 to create a new character \n Press 3 to Debug paragraph \n Press 4 to enter the Story Builder \n" +
-                        " Press 5 to Manage your account \n Press 9 for Example page";
+                    PageInfo = "You are in the main menu!";
+                    Instructions = " Press 1 to Start a New Game! \n Press 2 to Load a game! \n Press 3 to Create a new character! \n Press 4 to enter the Story Builder \n" +
+                        " Press 5 to view the D&D Library \n Press 6 to logout \n Press 7 to exit the program \n Press 8 to manage your account";
                     UI.DrawUI(UI, true);
                     break;
 
@@ -73,13 +73,6 @@ namespace OstreC
                     UI.DrawUI(UI, true);
                     break;
 
-                case PageType.ExampleEnum:
-                    CurrentType = PageType.ExampleEnum;
-                    PageInfo = "Welcome to the example page!";
-                    Instructions = " Press 1 to show example messages!\nPress 2 to go back to main menu!";
-                    UI.DrawUI(UI, true);
-                    break;
-
                 case PageType.Login:
                     CurrentType = PageType.Login;
                     PageInfo = "Welcome to the login page! ";
@@ -93,14 +86,6 @@ namespace OstreC
                        
                     Instructions = " Type 1 edit your data \n Type 2 to delete your account";
                     UI.DrawUI(UI, true);
-                    break;
-
-                case PageType.StartGame:
-                    CurrentType = PageType.StartGame;
-                    PageInfo = $"You're about to start a game. Choose one of the options below. ";
-                    Instructions = " Type 1 to go back to Main Menu. \n Type 2 to Start a new Game \n Type 3 to Load a game";
-                    UI.DrawUI(UI, true);
-  
                     break;
 
                 default:

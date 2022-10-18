@@ -45,7 +45,7 @@ namespace OstreC.Services
 
                 default:
 
-                    throw new Exception("This method should exit either with user existing ( so a password recovery email is sent) or non existing.");
+                    throw new Exception("This method should Exit either with user existing ( so a password recovery email is sent) or non existing.");
                     break;
             }
         }
