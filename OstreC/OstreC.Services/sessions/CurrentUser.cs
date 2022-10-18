@@ -8,9 +8,6 @@ namespace OstreC.Services
         [JsonIgnore]
         public bool LoggedIn { get; set; }
 
-        //Stores stories ID
-        internal List<Story> LinkedStoriesId { get; set; }
-
         public CurrentUser() { }
         public CurrentUser(string username, string password, bool saveFileExists, bool loggedIn,int id)
         {
@@ -22,30 +19,10 @@ namespace OstreC.Services
         }
 
         //Changes values to empty values since console 
-        public void logOff()
+        public void logOff(CurrentUser user)
         {
-            this.UserName = "";
-            this.Password = "";
-            this.Email = "";
-            this.Id = 0;
-            this.LoggedIn = false;
-
+            user = null;
         }
-
-        public string showLinkedStoriesName()
-        {
-            string x = "";
-
-            for (int i=0; i < LinkedStoriesId.Count(); i++)
-            {
-                //Open Stories Json file, read everything.
-
-            } 
-
-            return x;
-
-        }
-
-
+      
     }
 }

@@ -7,7 +7,7 @@ namespace OstreC.ManageInput
         public PageType Type => PageType.Login;
         public void CheckUserInput(UI UI)
         {
-            string username;
+            string userName;
             string password;
             string email = "";
             int id = -1;
@@ -28,7 +28,7 @@ namespace OstreC.ManageInput
                         UI.DrawUI(UI, true);
                         input = Console.ReadLine().Trim(); 
 
-                        username = input; 
+                        userName = input; 
 
                         UI.Page.Instructions = "Provide your password";
                         UI.DrawUI(UI, true);
@@ -38,7 +38,7 @@ namespace OstreC.ManageInput
                         password = input;
 
 
-                        bool login = UI.Login(username, password);
+                        bool login = UI.Login(userName, password);
                         Console.WriteLine(UI.CurrentUser);
                         if (login)
                         {
@@ -60,42 +60,38 @@ namespace OstreC.ManageInput
 
                     //Create new user
                 case "2":
-                    do
-                    {
-                        bool createUser = false;
+                     
+                        bool userCreated = false;
 
                         UI.Page.PageInfo = "Proceed as specified below to create a new User.";
                         UI.Page.Instructions = "Provide a username.Must be at least 1 character and can't be only a number.";
                         UI.DrawUI(UI, true);
-                        input = Console.ReadLine().Trim();
-
-                     
-                       username = input;
-
-
+                        input = Console.ReadLine().Trim(); 
+                        
+                        userName = input;
                         UI.Page.Instructions = " Provide a password.Must be at least 1 character and can't be only a number.";
                          UI.DrawUI(UI, true);
                         input = Console.ReadLine();
 
                        
                         password = input;
-
                         UI.Page.Instructions = " Provide your email.Make sure it's correct.It must contain '@' and '.'.\n There's no email validation to see if the email exists. \n If you provide a wrong one you won't receive emails from us!  ";
                         UI.DrawUI(UI, true);
                         input = Console.ReadLine();
 
                       
-                        email= input;
                         
+                        
+                        email= input;
                        //Checks user input. If it's correct creates user and serialises the new Users.Json file. If not returns to main login page. Returns bool to know if operation succeeded.
-                        if(email.Contains("@") && email.Contains(".") && username.Length != 0 && password.Length != 0 && !Helpers.IsNumber(password) && !Helpers.IsNumber(username))
+                        if(email.Contains("@") && email.Contains(".") && userName.Length != 0 && password.Length != 0 && !Helpers.IsNumber(password) && !Helpers.IsNumber(userName))
                         {
-                           createUser = UI.CurrentUser.CreateUser(username, password, email,UI.CurrentUser, out feedback);
+                           userCreated = UI.CreateUser(userName, password, email, out feedback);
                         }
                         else
                         {
                             UI.Page.Error= (" You provided wrong data. Make sure your username and password is not only a number and contains at least 1 character.\n Make sure your email contains the following 2 characters" +
-                                "'@' and '.' \n Press enter to attempt again.");
+                                $"'@' and '.' \n {feedback}\n Press enter to attempt again.");
                             UI.Page.Instructions = "";
                             UI.DrawUI(UI, false);
                             Console.ReadLine();
@@ -103,14 +99,13 @@ namespace OstreC.ManageInput
 
                             return;
                         }
-                      
-
-                        //If  user created confirms this to user.  
-                        if (createUser)
+                        
+                        
+                        if (userCreated)
                         {
-                            string presentUser = UI.CurrentUser.PresentUser();
-                            UI.Page.Error = $"User created. ";
-                            UI.Page.Instructions = "Press enter to go back to main login page. ";
+                           
+                            UI.Page.Instructions = $"User created. \n Username:{userName} \n Password:{password} \n email: {email} \n If you provided the wrong email login and change it. ";
+                            UI.Page.Error = "Press enter to go back to main login page. ";
 
                             
 
@@ -119,11 +114,21 @@ namespace OstreC.ManageInput
                             UI.Page.switchPage(UI.Page.CurrentType, UI);
                             break;
                         }
+                        else
+                        {
+                            UI.Page.Error = "User already exists.";
+                        UI.Page.Instructions = "Press Enter to go back to main menu.";
+                            UI.DrawUI(UI, false);
+                            Console.ReadLine();
+                            UI.Page.switchPage(UI.Page.CurrentType, UI);
+                            UI.Page.Error = feedback;
+                            
+                        }
 
-                        UI.Page.Error = feedback;
-                        UI.DrawUI(UI, false);
+                       
+                     
 
-                    } while (true);
+                   
                     break;
 
                     //Passowrd recovery
@@ -135,14 +140,14 @@ namespace OstreC.ManageInput
                     input = Console.ReadLine().Trim();
                   
 
-                    username = input;
+                    userName = input;
 
                     UI.Page.Instructions = "Attempting to send password recovery email for provided username. Retrieving user data. Please wait. This process should take a couple seconds";
                     UI.DrawUI(UI, true);
 
                     Mailing Mail = new Mailing();
                     // int = email template, username provided just above, UI.CurrentUser = obj holding all data, feedback == Error validation attempt on Services side of the app. 
-                    bool test = Mail.CanSendEmail(1, username,UI.CurrentUser, out  feedback);
+                    bool test = Mail.CanSendEmail(1, userName,UI.CurrentUser, out  feedback);
 
                     if (test)
                     {

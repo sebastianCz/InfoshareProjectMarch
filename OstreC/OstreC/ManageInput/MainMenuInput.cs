@@ -52,7 +52,7 @@ namespace OstreC.ManageInput
                 }
                 else if (String.Equals(input, "6"))
                 {
-                    UI.CurrentUser.logOff();
+                    UI.CurrentUser.logOff(UI.CurrentUser);
                     UI.Page.switchPage(PageType.Login, UI);
                 }
                 else if (String.Equals(input, "7"))

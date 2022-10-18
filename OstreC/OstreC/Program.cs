@@ -5,8 +5,7 @@ using OstreC;
 UI UI = new UI();
 UI.GameSession = new GameSession(new SaveFile(ParagraphType.DescOfStage, 2, "DefaultStory"), new Player(), false); //We need a default value for now. 
 // Default values. UI.CurrentUser
-
-
+ 
 UI.Page.switchPage(PageType.Login, UI);
 
 do
