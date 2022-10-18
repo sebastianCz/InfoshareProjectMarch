@@ -74,7 +74,7 @@ namespace OstreC
                     throw new Exception();
             }
         }
-        public static bool YesOrNoKey()
+        public static bool YesOrNoKey(bool loop)
         {
             do
             {
@@ -86,6 +86,7 @@ namespace OstreC
                     case ConsoleKey.N:
                         return false;
                     default:
+                        if (!loop) return false;
                         Console.ForegroundColor = ConsoleColor.Red;
                         Console.WriteLine("You didn't press the correct key. Try again.");
                         Console.ResetColor();
@@ -93,12 +94,14 @@ namespace OstreC
                 }
             } while (true);
         }
+
         public static void WriteLineColorText(string textColored, ConsoleColor firstColor = ConsoleColor.DarkGreen)
         {
             Console.ForegroundColor = firstColor;
             Console.WriteLine(textColored);
             Console.ForegroundColor = ConsoleColor.White;
         }
+
         public static void WriteColorText(string textColored, ConsoleColor firstColor = ConsoleColor.DarkGreen)
         {
             Console.ForegroundColor = firstColor;
