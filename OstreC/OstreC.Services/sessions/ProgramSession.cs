@@ -1,5 +1,4 @@
 ﻿using OstreC.Database;
-using OstreC.Services.sessions;
 using System; 
 using System.Linq;
 using System.Security.Cryptography.X509Certificates;
@@ -12,9 +11,9 @@ namespace OstreC.Services
     public class ProgramSession
     {
         //A list of action for each story. Displays in Main Menu.
-        public List<Option> ChooseStoryList { get; } = new List<ActionChooseStory>();
+      
 
-        public int AmountOfOptions { get { return ChooseStoryList.Count(); } }
+ 
         //Inherited by UI in console to update data based on input. 
         public CurrentUser CurrentUser { get; set; } 
 

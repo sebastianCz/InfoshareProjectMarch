@@ -1,5 +1,5 @@
 ﻿using OstreC.Services;
-using OstreC.Services.sessions;
+using System;
 
 namespace OstreC.ManageInput
 {
@@ -23,18 +23,52 @@ namespace OstreC.ManageInput
                     // CheckUserInput() will start from the top again if user doesn't want to continue.
                     if (!Helpers.YesOrNoKey(false)) { UI.Page.switchPage(PageType.Main_Menu, UI); return; }
 
-                    //Starts a new game with current character and current /default story. 
+                    //Starts a new game with current character and chosen story.
 
                     string[] allStories = UI.ShowAllStories("\\JsonLib\\Stories");
-                    var StoriesOptions = new Option();
-                    for(int i =0;i< allStories.Count();i++) 
+
+                    Dictionary<int,string> stories = new Dictionary<int,string>();
+                    string message = "";
+                    for(int i = 0;i <allStories.Count();i++)  
                     {
-                        Option storiesOptions = new Option(allStories[i],i);
-                        UI.ChooseStoryList.Add(new ActionChooseStory("Go back to menu!", 0));  //invoke
+                        stories.Add(i+1,allStories[i]);
+                         
                     }
-                    Console.ReadLine();
-                    //UI.GameSession = UI.GameSession.NewGame("DefaultStory");
-                    //UI.Page.switchPage(PageType.Paragraph, UI);
+
+                    foreach (KeyValuePair<int, string> entry in stories)
+                    {
+                        message += ($"Type {entry.Key} : {entry.Value}");
+                    }
+                    
+                    UI.Page.PageInfo = "Choose a story you want to play!";
+                    UI.Page.Instructions = message;
+
+                    UI.DrawUI(UI, true);
+                    while (true)
+                    {
+                        UI.DrawUI(UI, false);
+                        input = Console.ReadLine().ToUpper().Replace(" ", null);
+                        if (Helpers.IsCommand(input, UI)) return;
+                        if (Helpers.IsNumber(input))
+                        {
+                            int chosenOption = Convert.ToInt32(input);
+
+                            if (chosenOption >= 0 && chosenOption <= stories.Count())
+                            {
+                                var storyToLaunch = stories.FirstOrDefault(o => o.Key == chosenOption);
+                                UI.GameSession = UI.GameSession.NewGame(storyToLaunch.Value);
+                                UI.Page.switchPage(PageType.Paragraph, UI);
+                                return;
+                            }
+                        }
+                        else
+                        {
+                            UI.Page.Error = "You didn't provide a number!";
+                            UI.DrawUI(UI, false);
+                        }
+
+                    }
+                  
                 }
                 else if (String.Equals(input, "2"))
                 {

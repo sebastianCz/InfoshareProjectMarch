@@ -221,6 +221,8 @@
                 Console.WriteLine(item);
             }
         }
+
+      
         //public void DisplayStatistics()
         //{
         //    PropertyInfo[] myAttributesInfo;
