@@ -1,4 +1,6 @@
 ﻿using OstreC.Services;
+using OstreC.Services.sessions;
+
 namespace OstreC.ManageInput
 {
     public class MainMenuInput : IuiInput
@@ -18,12 +20,21 @@ namespace OstreC.ManageInput
                     UI.Page.Error = "Press Y  to proceed or any key to cancel the operation";
                     UI.DrawUI(UI, false);
 
-                    //Exits this if statement if user doesn't want to continue. CheckUserInput() will start from the top again.
+                    // CheckUserInput() will start from the top again if user doesn't want to continue.
                     if (!Helpers.YesOrNoKey(false)) { UI.Page.switchPage(PageType.Main_Menu, UI); return; }
 
                     //Starts a new game with current character and current /default story. 
-                    UI.GameSession = UI.GameSession.NewGame("DefaultStory");
-                    UI.Page.switchPage(PageType.Paragraph, UI);
+
+                    string[] allStories = UI.ShowAllStories("\\JsonLib\\Stories");
+                    var StoriesOptions = new Option();
+                    for(int i =0;i< allStories.Count();i++) 
+                    {
+                        Option storiesOptions = new Option(allStories[i],i);
+                        UI.ChooseStoryList.Add(new ActionChooseStory("Go back to menu!", 0));  //invoke
+                    }
+                    Console.ReadLine();
+                    //UI.GameSession = UI.GameSession.NewGame("DefaultStory");
+                    //UI.Page.switchPage(PageType.Paragraph, UI);
                 }
                 else if (String.Equals(input, "2"))
                 {

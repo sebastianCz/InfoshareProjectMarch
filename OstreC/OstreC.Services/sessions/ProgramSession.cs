@@ -1,14 +1,20 @@
-﻿using System; 
+﻿using OstreC.Database;
+using OstreC.Services.sessions;
+using System; 
 using System.Linq;
+using System.Security.Cryptography.X509Certificates;
 
 namespace OstreC.Services
 {
-   
 
-    //Contains session related objects. 
+
+    //Instancied on init so UI can call it's methods   
     public class ProgramSession
     {
-        //Instancied on init so UI can call it's methods   
+        //A list of action for each story. Displays in Main Menu.
+        public List<Option> ChooseStoryList { get; } = new List<ActionChooseStory>();
+
+        public int AmountOfOptions { get { return ChooseStoryList.Count(); } }
         //Inherited by UI in console to update data based on input. 
         public CurrentUser CurrentUser { get; set; } 
 
@@ -37,6 +43,14 @@ namespace OstreC.Services
         {
             return new GameSession();
         }
+
+
+        public string[] ShowAllStories(string relationalPath)
+        {
+            string[] allStories = ReaderJson.FindAllFileNames(relationalPath);
+            return allStories; 
+        }
+
         public bool CreateUser(string userName, string password, string email, out string feedback)
         {
             var allUsersList = JsonFile.DeserializeUsersList("Users");
