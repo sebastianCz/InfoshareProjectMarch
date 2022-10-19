@@ -1,12 +1,33 @@
 ﻿using Newtonsoft.Json;
 using OstreC.Database;
 using OstreC.Services;
+using System.Linq;
 
 namespace OstreC.Services
 {
     //Contains methods to deserialize and serialize Json Files to lists of given type. 
-    public  class JsonFile
+    public static class JsonFile
     {
+
+        public static Player DeserializeCharacter(string name)
+        {
+            var dir = ReaderJson.ReadFile(name);
+            Player player = JsonConvert.DeserializeObject<Player>(name);
+            
+            return player;
+        }
+        public static bool SerializeCharacter(Player player)
+        {
+            string dir = ReaderJson.DbDirectory() + "\\JsonLib\\Characters\\" ;
+            string serializedPlayer = JsonConvert.SerializeObject(player);
+           
+            if (ReaderJson.FindAllFilesPaths("\\JsonLib\\Characters\\")[0].Contains(player.Name)) ;
+                        File.Create(dir+"\\"+ player.Name+".json").Close();
+
+            SerializedToJson(serializedPlayer,player.Name);
+
+            return true;
+        }
 
         public static SaveFile DeserializeSaveFile(string nameFIle)
         {
@@ -59,6 +80,12 @@ namespace OstreC.Services
         {
             string dir = ReaderJson.DbDirectory();
             var fileNamePath = Path.Combine(dir, "JsonLib", fileName + ".json");
+            File.WriteAllText(fileNamePath, serializedObject);
+        }
+        public static void SerializedToJson(string serializedObject, string fileName,string folderName)
+        {
+            string dir = ReaderJson.DbDirectory();
+            var fileNamePath = Path.Combine(dir, "JsonLib\\"+folderName, fileName + ".json");
             File.WriteAllText(fileNamePath, serializedObject);
         }
     }

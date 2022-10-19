@@ -1,9 +1,12 @@
-﻿namespace OstreC.Services
+﻿using OstreC.Database;
+
+namespace OstreC.Services
 {
     //Used to generate a charcter. Will be inherited by " CurrentPlayer "class
-    public class Player:Character
+    public class Player : Character
     {
-        int UserIdKey = 0; //Will Allow to link player instance to user. That admits we want to have multiple characters per user. 
+        internal string CreatedBy { get; set; }
+        int UserId = 0; //Will Allow to link player instance to user. That admits we want to have multiple characters per user. 
                            //This way we will be able to link multiple characters to one user. 
 
         public int Hit_Dice_Nr { get; set; }// Amount of dices used to attack.
@@ -24,9 +27,10 @@
         string CharClass;
         public void CreateDefaultPlayer()
         {
+            CreatedBy = "Admin";
             base.Name = "Jaheira";
             base.Race = "Human";
-            base.CharClass = "Warrior";            
+            base.CharClass = "Warrior";
             Level = 1;
 
             Strength = 18;
@@ -165,7 +169,7 @@
                 {
                     list.Insert(list.IndexOf(input), 0);
                     list.Remove(input);
-                }                
+                }
             }
         }
         public void DeletePlayer()
@@ -221,8 +225,15 @@
                 Console.WriteLine(item);
             }
         }
+        //Serializes player to a file and saves him in a folder with all characters. 
+        public bool SavePlayer(Player character,ProgramSession x)
+        {
+            character.UserId = x.CurrentUser.Id;
+            character.CreatedBy = x.CurrentUser.UserName;
+            JsonFile.SerializeCharacter(character);
+            return true;
+        }
 
-      
         //public void DisplayStatistics()
         //{
         //    PropertyInfo[] myAttributesInfo;
