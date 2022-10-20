@@ -15,10 +15,28 @@ namespace OstreC.Database
 
         public static string ReadFile(string fileName)
         {
-            var currentDirectory = Directory.GetCurrentDirectory();
-            var fileNamePath = Path.Combine(currentDirectory, "JsonLib", fileName + ".json");
+            var dir = Directory.GetCurrentDirectory();
+            var fileNamePath = Path.Combine(dir, "JsonLib", fileName + ".json");
             return File.ReadAllText(fileNamePath);
         }
+
+        public static bool FileExitsInDirectory(string fileName,string extension)
+        {
+            string dir = DbDirectory();
+            string filePath = Path.Combine(dir, "JsonLib", fileName + "."+extension);
+            var filesInDirectory = FindAllFilesPaths(filePath);
+            if (filesInDirectory.Any()) return true;
+            return false;
+        }
+        public static bool FileExitsInDirectory(string fileName,string folder, string extension)
+        {
+            string dir = DbDirectory();
+            string filePath = Path.Combine(dir, "JsonLib",folder, fileName + "." + extension);
+            var filesInDirectory = FindAllFilesPaths(filePath);
+            if (filesInDirectory.Any()) return true;
+            return false;
+        }
+
         //Finds all paths for files inside the given path. Returns array of strings.
         public static string[] FindAllFilesPaths(string relationalPath)
         {

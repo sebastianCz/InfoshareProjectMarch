@@ -9,13 +9,18 @@ namespace OstreC.Services
     public static class JsonFile
     {
 
-        public static Player DeserializeCharacter(string name)
+        public static Player DeserializeCharacter(string fileName)
         {
-            var dir = ReaderJson.ReadFile(name);
-            Player player = JsonConvert.DeserializeObject<Player>(name);
-            
-            return player;
+            bool fileExists = ReaderJson.FileExitsInDirectory(fileName, "Characters","json");
+            if (fileExists)
+            {
+                var dir = ReaderJson.ReadFile(fileName);
+                Player player = JsonConvert.DeserializeObject<Player>(fileName);
+                return player;
+            }
+            else{  return null; }
         }
+
         public static bool SerializeCharacter(Player player)
         {
             string dir = ReaderJson.DbDirectory() + "\\JsonLib\\Characters\\" ;
@@ -31,6 +36,7 @@ namespace OstreC.Services
 
         public static SaveFile DeserializeSaveFile(string nameFIle)
         {
+           
             string textFromFile = ReaderJson.ReadFile(nameFIle);
             SaveFile saveFile = JsonConvert.DeserializeObject<SaveFile>(textFromFile);
             return saveFile;

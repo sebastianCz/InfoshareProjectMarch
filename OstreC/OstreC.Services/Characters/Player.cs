@@ -226,10 +226,17 @@ namespace OstreC.Services
             }
         }
         //Serializes player to a file and saves him in a folder with all characters. 
-        public bool SavePlayer(Player character,ProgramSession x)
+        public bool SavePlayer(Player character,ProgramSession sessionInfo)
         {
-            character.UserId = x.CurrentUser.Id;
-            character.CreatedBy = x.CurrentUser.UserName;
+         
+            Player alreadySavedCharacter = JsonFile.DeserializeCharacter(character.Name, bool sucess);
+            //If character doesn't belong to our user. 
+            if (sessionInfo.CurrentUser.Id != character.UserId) return false;
+
+
+            character.UserId = sessionInfo.CurrentUser.Id;
+            character.CreatedBy = sessionInfo.CurrentUser.UserName;
+            
             JsonFile.SerializeCharacter(character);
             return true;
         }
