@@ -242,7 +242,7 @@ namespace OstreC.Services
                 return true;
             }
             //if character file exists but doesn't belong to user
-            if (alreadySavedCharacter != null && sessionInfo.CurrentUser.Id != character.UserId)
+            if (alreadySavedCharacter != null && sessionInfo.CurrentUser.Id != alreadySavedCharacter.UserId)
             {
                 return false;
             }
