@@ -22,7 +22,6 @@ namespace OstreC.Services
         public List<int> AttributePoints = new List<int>();
 
         public bool IsPlayerCreated = false;
-        string Name;
         string Race;
         string CharClass;
         public void CreateDefaultPlayer()
@@ -228,17 +227,30 @@ namespace OstreC.Services
         //Serializes player to a file and saves him in a folder with all characters. 
         public bool SavePlayer(Player character,ProgramSession sessionInfo)
         {
-         
-            Player alreadySavedCharacter = JsonFile.DeserializeCharacter(character.Name, bool sucess);
-            //If character doesn't belong to our user. 
-            if (sessionInfo.CurrentUser.Id != character.UserId) return false;
-
-
-            character.UserId = sessionInfo.CurrentUser.Id;
-            character.CreatedBy = sessionInfo.CurrentUser.UserName;
             
-            JsonFile.SerializeCharacter(character);
-            return true;
+            Player alreadySavedCharacter = JsonFile.DeserializeCharacter(character.Name);
+
+         //If character file  exists and belongs to our logged in user.
+            if( alreadySavedCharacter != null && sessionInfo.CurrentUser.Id == character.UserId )
+            {
+                character.UserId = sessionInfo.CurrentUser.Id;
+                character.CreatedBy = sessionInfo.CurrentUser.UserName;
+                JsonFile.SerializeCharacter(character);
+                return true;
+            }
+            //if character file exists but doesn't belong to user
+            if (alreadySavedCharacter != null && sessionInfo.CurrentUser.Id != character.UserId)
+            {
+                return false;
+            }
+                //If character file doesn't exist 
+             if (alreadySavedCharacter == null)
+            {
+                return false;
+            }
+             //if i didn't predict something. 
+            return false;
+       
         }
 
         //public void DisplayStatistics()

@@ -19,21 +19,28 @@ namespace OstreC.Database
             var fileNamePath = Path.Combine(dir, "JsonLib", fileName + ".json");
             return File.ReadAllText(fileNamePath);
         }
+ /// <summary>
+ /// Checks if file exists in given directory. It assumes file is in JsonLib
+ /// </summary>
+ /// <param name="folder">Folder name</param>
+ /// <param name="fileName">File name</param>
+ /// <returns></returns>
+        public static bool FileExitsInDirectory(string folder,string fileName)
+        {
+            string dir = DbDirectory();
+            string filePath = Path.Combine(dir, "JsonLib",folder);
+            string[] filesInDirectory = Directory.GetFiles(filePath);
+            //If directory is empty LinQ will throw an " value cannot be null " exception
+            if(filesInDirectory != null && filesInDirectory.Length != 0)
+            {
+                var x= filesInDirectory.FirstOrDefault(o => o.Contains(fileName));
+               
+                if (filesInDirectory.Contains(fileName))
+                {
+                    return true;
 
-        public static bool FileExitsInDirectory(string fileName,string extension)
-        {
-            string dir = DbDirectory();
-            string filePath = Path.Combine(dir, "JsonLib", fileName + "."+extension);
-            var filesInDirectory = FindAllFilesPaths(filePath);
-            if (filesInDirectory.Any()) return true;
-            return false;
-        }
-        public static bool FileExitsInDirectory(string fileName,string folder, string extension)
-        {
-            string dir = DbDirectory();
-            string filePath = Path.Combine(dir, "JsonLib",folder, fileName + "." + extension);
-            var filesInDirectory = FindAllFilesPaths(filePath);
-            if (filesInDirectory.Any()) return true;
+                }; 
+            }
             return false;
         }
 

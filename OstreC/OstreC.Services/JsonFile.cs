@@ -8,30 +8,28 @@ namespace OstreC.Services
     //Contains methods to deserialize and serialize Json Files to lists of given type. 
     public static class JsonFile
     {
-
+/// <summary>
+/// Provide character name. It will deserialize it and return a Player object or null if it failed to retrieve it. 
+/// </summary>
+/// <param name="fileName"></param>
+/// <returns></returns>
         public static Player DeserializeCharacter(string fileName)
         {
-            bool fileExists = ReaderJson.FileExitsInDirectory(fileName, "Characters","json");
-            if (fileExists)
-            {
-                var dir = ReaderJson.ReadFile(fileName);
-                Player player = JsonConvert.DeserializeObject<Player>(fileName);
-                return player;
-            }
-            else{  return null; }
+            
         }
-
-        public static bool SerializeCharacter(Player player)
+        /// <summary>
+        /// Serializes character and saves him under a new file with character name. 
+        /// </summary>
+        /// <param name="character"></param>
+        /// <returns>true</returns>
+        public static void SerializeCharacter(Player character)
         {
-            string dir = ReaderJson.DbDirectory() + "\\JsonLib\\Characters\\" ;
-            string serializedPlayer = JsonConvert.SerializeObject(player);
-           
-            if (ReaderJson.FindAllFilesPaths("\\JsonLib\\Characters\\")[0].Contains(player.Name)) ;
-                        File.Create(dir+"\\"+ player.Name+".json").Close();
-
-            SerializedToJson(serializedPlayer,player.Name);
-
-            return true;
+            string dir = ReaderJson.DbDirectory();
+            string serializedPlayer = JsonConvert.SerializeObject(character);
+            var filePath = Path.Combine(dir, "Characters",character.Name,".json");
+            File.Create(filePath).Close();
+            SerializedToJson(serializedPlayer, character.Name);
+   
         }
 
         public static SaveFile DeserializeSaveFile(string nameFIle)
