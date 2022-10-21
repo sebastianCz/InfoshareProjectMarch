@@ -13,11 +13,13 @@ namespace OstreC.Services
         //A list of action for each story. Displays in Main Menu.
       
 
- 
+        
         //Inherited by UI in console to update data based on input. 
         public CurrentUser CurrentUser { get; set; } 
 
         public GameSession GameSession { get; set; } 
+
+
 
         //If set to true program will Exit on next iteration due to console logic. 
         public bool Exit { get; set; } = false;
@@ -43,7 +45,11 @@ namespace OstreC.Services
             return new GameSession();
         }
 
-
+        /// <summary>
+        /// Retuns a list of all existing stories
+        /// </summary>
+        /// <param name="relationalPath"></param>
+        /// <returns></returns>
         public string[] ShowAllStories(string relationalPath)
         {
             string[] allStories = ReaderJson.FindAllFileNames(relationalPath);
@@ -76,5 +82,15 @@ namespace OstreC.Services
                 return false;
             }
         }
+
+        //public void LoadDictionary<TMyDictionnary>(TMyDictionnary dictionnary)
+        //{
+        //    string[] allStories = ShowAllStories("\\JsonLib\\Stories");
+        //    string message = "";
+        //    for (int i = 0; i < allStories.Count(); i++)
+        //    {
+        //        stories.Add(i + 1, allStories[i]);
+        //    }
+        //}
     }
 }

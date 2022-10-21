@@ -1,4 +1,5 @@
-﻿using System.Text.RegularExpressions;
+﻿using System.Linq.Expressions;
+using System.Text.RegularExpressions;
 
 public class Utilities
 {
@@ -158,7 +159,27 @@ public class Utilities
     public static int DiceRoll(int value)
     {
         Random rand = new Random();
-        int valueRoll = rand.Next(1,value);
+        int valueRoll = rand.Next(1, value);
         return valueRoll;
     }
+
+    public static string ReadDictionnary(Dictionary<int, string> myDictionarry)
+    {
+
+        return "";
+    }
+    /// <summary>
+    /// Gets member as a value. For instance:
+    ///string testVariable = "value";
+    //string nameOfTestVariable = nameof(testVariable);
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
+    /// <param name="memberExpression"></param>
+    /// <returns>Returns the name of a parameter in the form of a string. </returns>
+    public static string GetMemberName<T>(Expression<Func<T>> memberExpression)
+    {
+        MemberExpression expressionBody = (MemberExpression)memberExpression.Body;
+        return expressionBody.Member.Name;
+    }
+
 }

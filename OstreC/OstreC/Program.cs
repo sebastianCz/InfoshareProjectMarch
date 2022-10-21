@@ -17,5 +17,4 @@ do
     UI.ChooseInputMethod(UI);
 
 } while (UI.Exit == false);
-
  
