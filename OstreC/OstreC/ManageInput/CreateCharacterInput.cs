@@ -40,7 +40,24 @@ namespace OstreC.ManageInput
                 case "5":
                     SavePlayerToList();
                     //This will serialize the character to a new file or override existing ones.
-                    Player.SavePlayer(Player, (ProgramSession)UI);
+                    
+                    if (Player.IsPlayerCreated) { 
+                        
+                        bool saved = Player.SavePlayer(Player, (ProgramSession)UI);
+                        if (saved)
+                        {
+                            UI.Page.PageInfo = "Create your own adventurer";
+                            UI.Page.Error = "Character saved in characters folder under name:  "+Player.Name;
+                            UI.DrawUI(UI, false);
+                        }
+                        else
+                        {
+                            UI.Page.PageInfo = "Create your own adventurer";
+                            UI.Page.Error = "You can't override a character that wasn't created by you.";
+                            UI.DrawUI(UI, false);
+                        }
+                    }
+                     
                     break;
                 case "6":
                     ExitToMainMenu();

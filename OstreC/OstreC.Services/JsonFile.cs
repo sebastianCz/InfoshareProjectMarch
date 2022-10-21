@@ -15,20 +15,25 @@ namespace OstreC.Services
 /// <returns></returns>
         public static Player DeserializeCharacter(string fileName)
         {
-            
+            bool fileExists = ReaderJson.FileExitsInDirectory("Characters", fileName);
+            if (fileExists) 
+            {
+                string playerFile = ReaderJson.ReadFile(fileName,"Characters");
+                Player player = JsonConvert.DeserializeObject<Player>(playerFile);
+                return player;
+            }  
+
+            return null; 
         }
         /// <summary>
         /// Serializes character and saves him under a new file with character name. 
         /// </summary>
-        /// <param name="character"></param>
-        /// <returns>true</returns>
         public static void SerializeCharacter(Player character)
         {
             string dir = ReaderJson.DbDirectory();
             string serializedPlayer = JsonConvert.SerializeObject(character);
-            var filePath = Path.Combine(dir, "Characters",character.Name,".json");
-            File.Create(filePath).Close();
-            SerializedToJson(serializedPlayer, character.Name);
+            ReaderJson.CreateFile(character.Name,"Characters", ".json");
+            SerializedToJson(serializedPlayer, character.Name,"Characters");
    
         }
 
@@ -79,6 +84,9 @@ namespace OstreC.Services
             string textToFile = JsonConvert.SerializeObject(saveFile);
             return textToFile;
         }
+        /// <summary>
+        /// saves given json string under the given file. Provide 3rd param string yourFolderName for overload. 
+        /// </summary>
 
         public static void SerializedToJson(string serializedObject , string fileName)
         {
@@ -89,7 +97,7 @@ namespace OstreC.Services
         public static void SerializedToJson(string serializedObject, string fileName,string folderName)
         {
             string dir = ReaderJson.DbDirectory();
-            var fileNamePath = Path.Combine(dir, "JsonLib\\"+folderName, fileName + ".json");
+            var fileNamePath = Path.Combine(dir, "JsonLib",folderName, fileName + ".json");
             File.WriteAllText(fileNamePath, serializedObject);
         }
     }
