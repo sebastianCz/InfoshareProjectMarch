@@ -6,8 +6,9 @@ using System.Threading.Tasks;
 
 namespace OstreC.Services.Collections
 {
+  
     internal class GenericDictionnary : DictionnaryReader
     {
-        Dictionary<int, string> test;
+        Dictionary<int,string> test;
     }
 }

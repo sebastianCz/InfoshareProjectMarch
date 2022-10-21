@@ -1,4 +1,8 @@
-﻿using System.Linq.Expressions;
+﻿using OstreC.Database;
+using OstreC.Services;
+using System;
+using System.Linq.Expressions;
+using System.Security.Cryptography.X509Certificates;
 using System.Text.RegularExpressions;
 
 public class Utilities
@@ -168,18 +172,40 @@ public class Utilities
 
         return "";
     }
+
+   
     /// <summary>
-    /// Gets member as a value. For instance:
-    ///string testVariable = "value";
-    //string nameOfTestVariable = nameof(testVariable);
+    /// Load provided dictionary with all files from provided directory and assigns them an ID.... 
     /// </summary>
-    /// <typeparam name="T"></typeparam>
-    /// <param name="memberExpression"></param>
-    /// <returns>Returns the name of a parameter in the form of a string. </returns>
-    public static string GetMemberName<T>(Expression<Func<T>> memberExpression)
+    /// <param name="myDictionnary"></param>
+    public static Dictionary<int, string> LoadDictionaryFromJson(string folderName)
     {
-        MemberExpression expressionBody = (MemberExpression)memberExpression.Body;
-        return expressionBody.Member.Name;
+        var myDictionary = new Dictionary<int, string>();
+        var dir = Path.Combine("\\JsonLib", folderName);
+        string[] allFileNames = ReaderJson.FindAllFileNames(dir);
+
+        for (int i = 0; i < allFileNames.Count(); i++)
+        {
+            myDictionary.Add(i + 1, allFileNames[i]);
+        }
+        return myDictionary;
     }
+
+    /// <summary>
+    /// Provide a dictionary as param. It will loop through provided dictionnary and show the key and value as a string. 
+    /// </summary>
+    /// <param name="myDictionnary"></param>
+    /// <returns>String with key and value + \n for each position in the dictionnary</returns>
+    public static string ShowChoice(Dictionary<int, string> myDictionnary)
+    {
+        string storiesWithOptions = "";
+        foreach (KeyValuePair<int, string> entry in myDictionnary)
+        {
+            storiesWithOptions += $" {entry.Key} : {entry.Value} \n";
+        }
+        return storiesWithOptions;
+    }
+    
+
 
 }

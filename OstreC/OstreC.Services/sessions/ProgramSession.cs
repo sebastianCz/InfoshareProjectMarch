@@ -1,5 +1,7 @@
 ﻿using OstreC.Database;
-using System; 
+using OstreC.Services.Collections;
+using System;
+using System.ComponentModel;
 using System.Linq;
 using System.Security.Cryptography.X509Certificates;
 
@@ -17,9 +19,13 @@ namespace OstreC.Services
         //Inherited by UI in console to update data based on input. 
         public CurrentUser CurrentUser { get; set; } 
 
-        public GameSession GameSession { get; set; } 
+        public GameSession GameSession { get; set; }
 
+   
+        public Dictionary<int, string> StoriesNames  { get { return Utilities.LoadDictionaryFromJson("Stories");}}
+        public Dictionary<int, string> CharacterNames { get { return Utilities.LoadDictionaryFromJson("Characters"); } }
 
+        //public Dictionary<int, string> CharactersNames{get {return Utilities.LoadDictionaryFromJson(CharactersNames, "Stories"); } set {CharactersNames = value; }}
 
         //If set to true program will Exit on next iteration due to console logic. 
         public bool Exit { get; set; } = false;
@@ -82,15 +88,24 @@ namespace OstreC.Services
                 return false;
             }
         }
+        public GameSession NewGame(string storyName, string characterName)
+        {
+            var session = new GameSession();
+            session.FileLoaded = true;
+            session.SaveFile = new SaveFile(0, 2, storyName);//Default Starting
+            session.CurrentPlayer = JsonFile.DeserializeFile<Player>("Characters\\" + characterName);
 
-        //public void LoadDictionary<TMyDictionnary>(TMyDictionnary dictionnary)
-        //{
-        //    string[] allStories = ShowAllStories("\\JsonLib\\Stories");
-        //    string message = "";
-        //    for (int i = 0; i < allStories.Count(); i++)
-        //    {
-        //        stories.Add(i + 1, allStories[i]);
-        //    }
-        //}
+
+            return session;
+        }
+
+        public GameSession LoadSave(string userName)
+        {
+            var session = new GameSession();
+            session.FileLoaded = true;
+            session.SaveFile = JsonFile.DeserializeSaveFile($"UsersFile\\" + userName);
+            return session;
+        }
+
     }
 }

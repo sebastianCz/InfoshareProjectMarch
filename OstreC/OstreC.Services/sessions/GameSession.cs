@@ -24,29 +24,8 @@ namespace OstreC.Services
             CurrentPlayer = currentplayer;
             FileLoaded = gameLoaded;
         }
-        public GameSession NewGame(string storyName)
-        {
-            var session = new GameSession();
-            session.FileLoaded = true;  
-            session.SaveFile = new SaveFile(0,2, storyName);//Default Starting
-
-            return session;
-        }
-
-        public GameSession LoadSave(string userName)
-        {
-            var session = new GameSession();
-            session.FileLoaded = true;
-            session.SaveFile = JsonFile.DeserializeSaveFile($"UsersFile\\" + userName);
-            return session;
-        }
-
-        public Player createPlayer(string CharacterName)
-        {
-            Player Player= new Player();
-            return Player;
-        }
-
+  
+ 
 
     }
 }

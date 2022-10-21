@@ -1,4 +1,5 @@
-﻿using OstreC.Services;
+﻿using OstreC.Database;
+using OstreC.Services;
 using System;
 
 namespace OstreC.ManageInput
@@ -11,12 +12,14 @@ namespace OstreC.ManageInput
         {
             var input = Console.ReadLine().ToUpper().Replace(" ", null);
 
-            if (Helpers.IsCommand(input, UI)) ;
+            if (Helpers.IsCommand(input, UI)){ return; }
+
+
             else if (Helpers.IsNumber(input))
             {
-                if (String.Equals(input,"1"))
+                if (String.Equals(input, "1"))
                 {
-                     
+
 
                     UI.Page.PageInfo = " You are creating a new game. This will overwrite your existing save file if you save once in the game! Do you want to proceed anyway? ";
                     UI.Page.Error = "Press Y  to proceed or any key to cancel the operation";
@@ -24,49 +27,77 @@ namespace OstreC.ManageInput
 
                     // CheckUserInput() will start from the top again if user doesn't want to continue.
                     if (!Helpers.YesOrNoKey(false)) { UI.Page.switchPage(PageType.Main_Menu, UI); return; }
-                    
-                    Player chosenCharacter = null;
-                    //UI.GameSession.CurrentPlayer = 
-                    //do
-                    //{
-                       
-
-                    //} while (chosenCharacter == null);
-
-
-                    //Draws all existing stories together with their dictionnary key. 
-
-                   
-
-                    UI.Page.PageInfo = "Choose a story you want to play!";
-                    //UI.Page.Instructions = message;
-
+                     
+                    UI.Page.PageInfo = "Choose a story you want to play!\n";
+                    UI.Page.Instructions = Utilities.ShowChoice(UI.StoriesNames);
                     UI.DrawUI(UI, true);
+
+                    string storyToLoad = "";
+                    var characterToLoad = "";
+
                     while (true)
                     {
-                        //UI.DrawUI(UI, false);
-                        //input = Console.ReadLine().ToUpper().Replace(" ", null);
-                        //if (Helpers.IsCommand(input, UI)) return;
-                        //if (Helpers.IsNumber(input))
-                        //{
-                        //    int chosenOption = Convert.ToInt32(input);
+                        UI.DrawUI(UI, false);
+                        input = Console.ReadLine().ToUpper().Replace(" ", null);
+                        if (Helpers.IsCommand(input, UI)) return;
+                        if (Helpers.IsNumber(input))
+                        {
+                            int chosenOption = Convert.ToInt32(input);
 
-                        //    if (chosenOption >= 0 && chosenOption <= stories.Count())
-                        //    {
-                        //        var storyToLaunch = stories.FirstOrDefault(o => o.Key == chosenOption);
-                        //        UI.GameSession = UI.GameSession.NewGame(storyToLaunch.Value);
-                        //        UI.Page.switchPage(PageType.Paragraph, UI);
-                        //        return;
-                        //    }
-                        //}
-                        //else
-                        //{
-                        //    UI.Page.Error = "You didn't provide a number!";
-                        //    UI.DrawUI(UI, false);
-                        //}
-
+                            if (chosenOption >= 0 && chosenOption <= UI.StoriesNames.Count())
+                            {
+                                var storyToLaunch = UI.StoriesNames.FirstOrDefault(o => o.Key == chosenOption);
+                                
+                                storyToLoad = storyToLaunch.Value;
+                                break;
+                            }
+                        }
+                        else
+                        {
+                            UI.Page.Error = "You didn't provide a number!";
+                            UI.DrawUI(UI, false);
+                        }
                     }
-                  
+     
+                    UI.Page.PageInfo = "Choose a character you want to play. You can choose also characters created by other users!\n Type BACK to go back to main menu and create a new one.  ";
+                    UI.Page.Instructions = Utilities.ShowChoice(UI.CharacterNames);
+
+                    while (true)
+                    {
+                        UI.DrawUI(UI, false);
+                        input = Console.ReadLine().ToUpper().Replace(" ", null);
+                        if (Helpers.IsCommand(input, UI)) return;
+                        if (Helpers.IsNumber(input))
+                        {
+                            int chosenOption = Convert.ToInt32(input);
+
+                            if (chosenOption >= 0 && chosenOption <= UI.CharacterNames.Count())
+                            {
+                                var characterToLaunch = UI.CharacterNames.FirstOrDefault(o => o.Key == chosenOption);
+                                
+                                characterToLoad = characterToLaunch.Value;
+                                break;
+                            }
+                        }
+                        else
+                        {
+                            UI.Page.Error = "You didn't provide a number!";
+                            UI.DrawUI(UI, false);
+                        }
+                    }
+                    UI.GameSession = UI.NewGame(storyToLoad,characterToLoad);
+                    UI.Page.switchPage(PageType.Paragraph, UI);
+                    return;
+                   
+                    /*
+                    NewGame should take story to launch + player as input and assign them both to UI.Gamesession and go to paragraphs!! 
+                    
+                    */
+                    //UI.GameSession = UI.GameSession.NewGame(storyToLaunch.Value);
+                    //UI.Page.switchPage(PageType.Paragraph, UI);
+                    //return;
+
+
                 }
                 else if (String.Equals(input, "2"))
                 {
@@ -79,7 +110,7 @@ namespace OstreC.ManageInput
                     {
                         UI.Page.Error = "You didn't create a save file yet.";
                         UI.DrawUI(UI, false);
-                    } 
+                    }
                 }
                 else if (String.Equals(input, "3"))
                 {

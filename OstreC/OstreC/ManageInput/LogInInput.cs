@@ -108,7 +108,7 @@ namespace OstreC.ManageInput
                             UI.Page.Error = "Press enter to go back to main login page. ";
 
                             
-
+                        
                             UI.DrawUI(UI, false);
                             Console.ReadLine();
                             UI.Page.switchPage(UI.Page.CurrentType, UI);

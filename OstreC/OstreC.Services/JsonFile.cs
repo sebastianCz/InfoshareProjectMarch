@@ -5,8 +5,9 @@ using System.Linq;
 
 namespace OstreC.Services
 {
+   
     //Contains methods to deserialize and serialize Json Files to lists of given type. 
-    public static class JsonFile
+    public static class JsonFile  
     {
 /// <summary>
 /// Provide character name. It will deserialize it and return a Player object or null if it failed to retrieve it. 
@@ -23,7 +24,32 @@ namespace OstreC.Services
                 return player;
             }  
 
+
+
             return null; 
+        }
+
+      
+
+        public static void test()
+        {
+            var TestStory = JsonFile.DeserializeFile<Story>("Stories\\" + "DefaultStory");
+
+            Console.WriteLine(TestStory);
+        }
+        /// <summary>
+        /// Deserializes given json filename to provided Type. 
+        ///Invoke: JsonFile.DeserializeFile<Player>("ExampleCharacterName");
+        /// </summary>
+        /// <typeparam name="T">Class you want to deserialize to.</typeparam>
+        /// <param name="fileName">Name of json file. </param>
+        /// <returns>Object of class T</returns>
+        public static T DeserializeFile<T>(string fileName)
+        {
+            //Console.WriteLine(x);
+            string textFromFile = ReaderJson.ReadFile(fileName);
+        
+            return JsonConvert.DeserializeObject<T>(textFromFile);
         }
         /// <summary>
         /// Serializes character and saves him under a new file with character name. 
