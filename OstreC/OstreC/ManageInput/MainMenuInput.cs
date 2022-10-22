@@ -116,7 +116,7 @@ namespace OstreC.ManageInput
                 }
                 else if (String.Equals(input, "5"))
                 {
-                    UI.Page.switchPage(PageType.Bestiary, UI);
+                    UI.Page.switchPage(PageType.Dictionary, UI);
                 }
                 else if (String.Equals(input, "6"))
                 {

@@ -15,7 +15,7 @@ namespace OstreC
         Load_Game,
         Paragraph,
         Paragraph_Combat,
-        Bestiary,
+        Dictionary,
         Story_Bulider,
         Login,
         ManageAccount,
