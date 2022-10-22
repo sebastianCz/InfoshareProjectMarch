@@ -1,4 +1,9 @@
-﻿using System.Text.RegularExpressions;
+﻿using OstreC.Database;
+using OstreC.Services;
+using System;
+using System.Linq.Expressions;
+using System.Security.Cryptography.X509Certificates;
+using System.Text.RegularExpressions;
 
 public class Utilities
 {
@@ -158,7 +163,49 @@ public class Utilities
     public static int DiceRoll(int value)
     {
         Random rand = new Random();
-        int valueRoll = rand.Next(1,value);
+        int valueRoll = rand.Next(1, value);
         return valueRoll;
     }
+
+    public static string ReadDictionnary(Dictionary<int, string> myDictionarry)
+    {
+
+        return "";
+    }
+
+   
+    /// <summary>
+    /// Load provided dictionary with all files from provided directory and assigns them an ID.... 
+    /// </summary>
+    /// <param name="myDictionnary"></param>
+    public static Dictionary<int, string> LoadDictionaryFromJson(string folderName)
+    {
+        var myDictionary = new Dictionary<int, string>();
+        var dir = Path.Combine("\\JsonLib", folderName);
+        string[] allFileNames = ReaderJson.FindAllFileNames(dir);
+
+        for (int i = 0; i < allFileNames.Count(); i++)
+        {
+            myDictionary.Add(i + 1, allFileNames[i]);
+        }
+        return myDictionary;
+    }
+
+    /// <summary>
+    /// Provide a dictionary as param. It will loop through provided dictionnary and show the key and value as a string. 
+    /// </summary>
+    /// <param name="myDictionnary"></param>
+    /// <returns>String with key and value + \n for each position in the dictionnary</returns>
+    public static string ShowChoice(Dictionary<int, string> myDictionnary)
+    {
+        string storiesWithOptions = "";
+        foreach (KeyValuePair<int, string> entry in myDictionnary)
+        {
+            storiesWithOptions += $" {entry.Key} : {entry.Value} \n";
+        }
+        return storiesWithOptions;
+    }
+    
+
+
 }

@@ -1,7 +1,8 @@
-﻿using OstreC.Services;
+﻿
 
-namespace OstreC
+namespace OstreC.Services
 {
+
     public class Option
     {
         public string Name { get; }

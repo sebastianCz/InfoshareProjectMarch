@@ -157,7 +157,7 @@ namespace OstreC.ManageInput
                     if (input == "DELETE")
                     {
                         UI.CurrentUser.DeleteUser(UI.CurrentUser);
-                        UI.CurrentUser.logOff();
+                        UI.CurrentUser.logOff(UI.CurrentUser);
                         UI.Page.switchPage(PageType.Login, UI);
                         
                     }
