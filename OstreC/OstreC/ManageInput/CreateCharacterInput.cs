@@ -7,7 +7,7 @@ namespace OstreC.ManageInput
     {
         public PageType Type => PageType.Create_Character;
         //UI ui = new UI(); // stackoverflow
-        Player player = new Player();
+        Player Player = new Player();
 
         ConsoleColor ccWhite = ConsoleColor.White;
         ConsoleColor ccRed = ConsoleColor.Red;
@@ -39,6 +39,25 @@ namespace OstreC.ManageInput
                     break;
                 case "5":
                     SavePlayerToList();
+                    //This will serialize the character to a new file or override existing ones.
+                    
+                    if (Player.IsPlayerCreated) { 
+                        
+                        bool saved = Player.SavePlayer(Player, (ProgramSession)UI);
+                        if (saved)
+                        {
+                            UI.Page.PageInfo = "Create your own adventurer";
+                            UI.Page.Error = "Character saved in characters folder under name:  "+Player.Name;
+                            UI.DrawUI(UI, false);
+                        }
+                        else
+                        {
+                            UI.Page.PageInfo = "Create your own adventurer";
+                            UI.Page.Error = "You can't override a character that wasn't created by you.";
+                            UI.DrawUI(UI, false);
+                        }
+                    }
+                     
                     break;
                 case "6":
                     ExitToMainMenu();
@@ -65,7 +84,7 @@ namespace OstreC.ManageInput
             #region Switch 01
             void CreateDefaultPlayer()
             {
-                if (player.IsPlayerCreated)
+                if (Player.IsPlayerCreated)
                 {
                     UI.Page.PageInfo = "Use already created adventurer";
                     UI.Page.Error = "Player already exists. You can have only 1 adventurer";
@@ -73,38 +92,38 @@ namespace OstreC.ManageInput
                     //Utilities.PressAnyKey();
                     return;
                 }
-                if (!player.IsPlayerCreated)
+                if (!Player.IsPlayerCreated)
                 {
                     UI.Page.PageInfo = "Default Player was created";
                     UI.Page.Error = "";
                     UI.DrawUI(UI, false);
                     //Utilities.PressAnyKey();
                 }
-                player.CreateDefaultPlayer();
+                Player.CreateDefaultPlayer();
             }
             #endregion
             #region Switch 02
             void CreateCustomPlayer()
             {
-                if (player.IsPlayerCreated)
+                if (Player.IsPlayerCreated)
                 {
                     UI.Page.PageInfo = "Create your own adventurer";
-                    UI.Page.Error = "Player already exists. You can have only 1 adventurer";
+                    UI.Page.Error = "Player already exists. You can have only 1 active adventurer";
                     UI.DrawUI(UI, false);
                     //Utilities.PressAnyKey();
                     return;
                 }
-                if (!player.IsPlayerCreated)
+                if (!Player.IsPlayerCreated)
                 {
                     Utilities.WriteLineColorText("Tell me your name: ", firstColor: ccWhite);
-                    player.AddName();
+                    Player.AddName();
                     Utilities.WriteLineColorText("Choose your race: ", firstColor: ccWhite);
-                    player.AddRace();
+                    Player.AddRace();
                     Utilities.WriteLineColorText("Choose your class: ", firstColor: ccWhite);
-                    player.AddClass();
+                    Player.AddClass();
 
-                    player.GenerateAttributePoints();
-                    DisplayListAttributes(player.AttributePoints);
+                    Player.GenerateAttributePoints();
+                    DisplayListAttributes(Player.AttributePoints);
 
                     AddAttribute(Player.Attributes.Strength);
                     AddAttribute(Player.Attributes.Dexterity);
@@ -115,7 +134,8 @@ namespace OstreC.ManageInput
 
                     //Player.ModStrength = Player.CalculateModifier(Player.Strength);
 
-                    player.AddValueToProperty();
+                    Player.AddValueToProperty();
+                    
                     UI.Page.PageInfo = "Custom adventurer was created";
                     UI.Page.Error = "";
                     Utilities.PressAnyKey();
@@ -126,7 +146,7 @@ namespace OstreC.ManageInput
             #region Switch 03
             void DeletePlayer()
             {
-                if (!player.IsPlayerCreated)
+                if (!Player.IsPlayerCreated)
                 {
                     UI.Page.PageInfo = "Delete your adventurer";
                     UI.Page.Error = "No adventurer to delete!";
@@ -134,7 +154,7 @@ namespace OstreC.ManageInput
                     //Utilities.PressAnyKey();
                     return;
                 }
-                if (player.IsPlayerCreated)
+                if (Player.IsPlayerCreated)
                 {
                     UI.Page.PageInfo = "Delete your adventurer";
                     UI.Page.Error = "Do you really want to delete your adventurer?\nPress Y - yes; Press N - no";
@@ -147,8 +167,8 @@ namespace OstreC.ManageInput
                         UI.Page.Error = "";
                         UI.DrawUI(UI, false);
                         //Utilities.PressAnyKey();
-                        player.IsPlayerCreated = false;
-                        player.DeletePlayer();
+                        Player.IsPlayerCreated = false;
+                        Player.DeletePlayer();
                     }
                     else
                     {
@@ -165,7 +185,7 @@ namespace OstreC.ManageInput
             {
                 Console.Clear();
                 UI.Page.switchPage(PageType.Create_Character, UI);
-                if (!player.IsPlayerCreated)
+                if (!Player.IsPlayerCreated)
                 {
                     UI.Page.PageInfo = "Display statistics";
                     UI.Page.Error = "No data to display";
@@ -181,7 +201,7 @@ namespace OstreC.ManageInput
             #region Switch 05
             void SavePlayerToList()
             {
-                if (!player.IsPlayerCreated)
+                if (!Player.IsPlayerCreated)
                 {
                     UI.Page.PageInfo = "Save your adventurer";
                     UI.Page.Error = "First you have to create an adventurer";
@@ -191,7 +211,8 @@ namespace OstreC.ManageInput
                 }
                 UI.Page.PageInfo = "Adventurer was created sucessfully";
                 UI.DrawUI(UI, false);
-                player.AddPropertiesToList();
+                Player.AddPropertiesToList();
+               
                 //Utilities.PressAnyKey();
             }
             #endregion
@@ -205,31 +226,31 @@ namespace OstreC.ManageInput
         private void AddAttribute(Player.Attributes attr)
         {
             Utilities.WriteLineColorText($"What's your {attr}: ", firstColor: ccWhite);
-            player.AddAttributePoints(attr);
+            Player.AddAttributePoints(attr);
             switch (attr)
             {
                 case Character.Attributes.Strength:
-                    player.ModStrength = player.CalculateModifier(player.Strength);
+                    Player.ModStrength = Player.CalculateModifier(Player.Strength);
                     break;
                 case Character.Attributes.Dexterity:
-                    player.ModDexterity = player.CalculateModifier(player.Dexterity);
+                    Player.ModDexterity = Player.CalculateModifier(Player.Dexterity);
                     break;
                 case Character.Attributes.Constitution:
-                    player.ModConstitution = player.CalculateModifier(player.Constitution);
+                    Player.ModConstitution = Player.CalculateModifier(Player.Constitution);
                     break;
                 case Character.Attributes.Intelligence:
-                    player.ModIntelligence = player.CalculateModifier(player.Intelligence);
+                    Player.ModIntelligence = Player.CalculateModifier(Player.Intelligence);
                     break;
                 case Character.Attributes.Wisdom:
-                    player.ModWisdom = player.CalculateModifier(player.Wisdom);
+                    Player.ModWisdom = Player.CalculateModifier(Player.Wisdom);
                     break;
                 case Character.Attributes.Charisma:
-                    player.ModCharisma = player.CalculateModifier(player.Charisma);
+                    Player.ModCharisma = Player.CalculateModifier(Player.Charisma);
                     break;
                 default:
                     break;
             }
-            DisplayListAttributes(player.AttributePoints);
+            DisplayListAttributes(Player.AttributePoints);
             //if (!(attr == Player.Attributes.Charisma))
             //{
             //    DisplayListAttributes(Player.AttributePoints);
@@ -281,12 +302,12 @@ namespace OstreC.ManageInput
             //Utilities.WriteLineColorText($"Race: ", $"{Player.Race}", ccWhite, ccYellow, multiplierTab: 1);
             //Utilities.WriteLineColorText($"Class: ", $"{Player.CharClass}", ccWhite, ccYellow, multiplierTab: 1);
 
-            Utilities.WriteLineColorText($"{Player.Attributes.Strength}:", $"{tab}{player.Strength}{tab}{player.ModStrength.ToString(format)}", ccWhite, ccYellow);
-            Utilities.WriteLineColorText($"{Player.Attributes.Dexterity}:", $"{tab}{player.Dexterity}{tab}{player.ModDexterity.ToString(format)}", ccWhite, ccYellow);
-            Utilities.WriteLineColorText($"{Player.Attributes.Constitution}:", $"{tab}{player.Constitution}{tab}{player.ModConstitution.ToString(format)}", ccWhite, ccYellow);
-            Utilities.WriteLineColorText($"{Player.Attributes.Intelligence}:", $"{tab}{player.Intelligence}{tab}{player.ModIntelligence.ToString(format)}", ccWhite, ccYellow);
-            Utilities.WriteLineColorText($"{Player.Attributes.Wisdom}:", $"{tab}\t{player.Wisdom}{tab}{player.ModWisdom.ToString(format)}", ccWhite, ccYellow);
-            Utilities.WriteLineColorText($"{Player.Attributes.Charisma}:", $"{tab}{player.Charisma}{tab}{player.ModCharisma.ToString(format)}", ccWhite, ccYellow);
+            Utilities.WriteLineColorText($"{Player.Attributes.Strength}:", $"{tab}{Player.Strength}{tab}{Player.ModStrength.ToString(format)}", ccWhite, ccYellow);
+            Utilities.WriteLineColorText($"{Player.Attributes.Dexterity}:", $"{tab}{Player.Dexterity}{tab}{Player.ModDexterity.ToString(format)}", ccWhite, ccYellow);
+            Utilities.WriteLineColorText($"{Player.Attributes.Constitution}:", $"{tab}{Player.Constitution}{tab}{Player.ModConstitution.ToString(format)}", ccWhite, ccYellow);
+            Utilities.WriteLineColorText($"{Player.Attributes.Intelligence}:", $"{tab}{Player.Intelligence}{tab}{Player.ModIntelligence.ToString(format)}", ccWhite, ccYellow);
+            Utilities.WriteLineColorText($"{Player.Attributes.Wisdom}:", $"{tab}\t{Player.Wisdom}{tab}{Player.ModWisdom.ToString(format)}", ccWhite, ccYellow);
+            Utilities.WriteLineColorText($"{Player.Attributes.Charisma}:", $"{tab}{Player.Charisma}{tab}{Player.ModCharisma.ToString(format)}", ccWhite, ccYellow);
             Utilities.Underline('=', i);
         }
         private void DisplayStatisticsNew()
@@ -301,17 +322,17 @@ namespace OstreC.ManageInput
             Utilities.Underline(value: underline);
             Utilities.WriteLineColorText("Attribute     | Value     | Modificator|", firstColor: ccWhite);
             Utilities.Underline(value: underline);
-            Utilities.WriteLineColorText($"Name: ", $"{player.Name}", secondColor: ccYellow, multiplierTab: 2);
-            Utilities.WriteLineColorText($"Race: ", $"{player.Race}", secondColor: ccYellow, multiplierTab: 2);
-            Utilities.WriteLineColorText($"Class: ", $"{player.CharClass}", secondColor: ccYellow, multiplierTab: 2);
-            Utilities.WriteLineColorText($"HP: ", $"{player.HealthPoints}", secondColor: ccYellow, multiplierTab: 2);
-            Utilities.WriteLineColorText($"Level: ", $"{player.Level}", secondColor: ccYellow, multiplierTab: 2);
-            Utilities.WriteLineColorText($"Strength: ", $"{player.Strength}{tab}{player.ModStrength.ToString(format)}", secondColor: ccYellow, multiplierTab: 1);
-            Utilities.WriteLineColorText($"Dexterity: ", $"{player.Dexterity}{tab}{player.ModDexterity.ToString(format)}", secondColor: ccYellow, multiplierTab: 1);
-            Utilities.WriteLineColorText($"Constitution: ", $"{player.Constitution}{tab}{player.ModConstitution.ToString(format)}", secondColor: ccYellow, multiplierTab: 1);
-            Utilities.WriteLineColorText($"Intelligence: ", $"{player.Intelligence}{tab}{player.ModIntelligence.ToString(format)}", secondColor: ccYellow, multiplierTab: 1);
-            Utilities.WriteLineColorText($"Wisdom: ", $"{player.Wisdom}{tab}{player.ModWisdom.ToString(format)}", secondColor: ccYellow, multiplierTab: 1);
-            Utilities.WriteLineColorText($"Charisma: ", $"{player.Charisma}{tab}{player.ModCharisma.ToString(format)}", secondColor: ccYellow, multiplierTab: 1);
+            Utilities.WriteLineColorText($"Name: ", $"{Player.Name}", secondColor: ccYellow, multiplierTab: 2);
+            Utilities.WriteLineColorText($"Race: ", $"{Player.Race}", secondColor: ccYellow, multiplierTab: 2);
+            Utilities.WriteLineColorText($"Class: ", $"{Player.CharClass}", secondColor: ccYellow, multiplierTab: 2);
+            Utilities.WriteLineColorText($"HP: ", $"{Player.HealthPoints}", secondColor: ccYellow, multiplierTab: 2);
+            Utilities.WriteLineColorText($"Level: ", $"{Player.Level}", secondColor: ccYellow, multiplierTab: 2);
+            Utilities.WriteLineColorText($"Strength: ", $"{Player.Strength}{tab}{Player.ModStrength.ToString(format)}", secondColor: ccYellow, multiplierTab: 1);
+            Utilities.WriteLineColorText($"Dexterity: ", $"{Player.Dexterity}{tab}{Player.ModDexterity.ToString(format)}", secondColor: ccYellow, multiplierTab: 1);
+            Utilities.WriteLineColorText($"Constitution: ", $"{Player.Constitution}{tab}{Player.ModConstitution.ToString(format)}", secondColor: ccYellow, multiplierTab: 1);
+            Utilities.WriteLineColorText($"Intelligence: ", $"{Player.Intelligence}{tab}{Player.ModIntelligence.ToString(format)}", secondColor: ccYellow, multiplierTab: 1);
+            Utilities.WriteLineColorText($"Wisdom: ", $"{Player.Wisdom}{tab}{Player.ModWisdom.ToString(format)}", secondColor: ccYellow, multiplierTab: 1);
+            Utilities.WriteLineColorText($"Charisma: ", $"{Player.Charisma}{tab}{Player.ModCharisma.ToString(format)}", secondColor: ccYellow, multiplierTab: 1);
             Utilities.Underline(value: underline);
             Utilities.WriteLineColorText("Description", firstColor: ccDarkCyan);
             Utilities.Underline(value: underline);

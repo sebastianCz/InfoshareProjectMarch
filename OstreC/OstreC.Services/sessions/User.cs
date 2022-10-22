@@ -1,4 +1,4 @@
-﻿  
+﻿using System.Linq;
 namespace OstreC.Services
 {
     
@@ -11,19 +11,19 @@ namespace OstreC.Services
             public string Password { get; set; }
 
             public string Email { get; set; }
-        public bool SaveFileExists { get; set; } 
+        public bool SaveFileExists { get; set; }
 
-            
 
-            //Init with -1 until defined.
-            public User(string username, string password,bool saveFileExists, int id = -1)
-            {
-                Id = id;
-                UserName = username;
-                Password = password;
-                this.SaveFileExists = saveFileExists;
 
-            }
+     
+            //public User(string username, string password,bool saveFileExists, int id = -1)
+            //{
+            //    Id = id;
+            //    UserName = username;
+            //    Password = password;
+            //    this.SaveFileExists = saveFileExists;
+
+            //}
 
         public string PresentUser()
         {
@@ -101,47 +101,8 @@ namespace OstreC.Services
                 return false;
             }
         }
-        public bool CreateUser(string userName, string password, string email, CurrentUser currentUser, out string feedback)
-        {
-            var usersList = JsonFile.DeserializeUsersList("Users");
-            bool userExists = false;
+        
 
-            foreach (var user in usersList.Results)
-            {
-                if (user.UserName == userName)
-                {
-                    userExists = true;
-                    break;
-                }
-            }
-
-            if (userExists)
-            {
-                feedback = "User with provided userName already exists";
-                return false;
-            }
-            else if (userName.Length != 0)
-            {
-                currentUser.Id = usersList.Results.Count() + 1;
-                currentUser.Email = email;
-                currentUser.UserName = userName;
-                currentUser.Password = password;
-                currentUser.SaveFileExists = false;
-                usersList.Results.Add((User)currentUser);
-
-                var x = JsonFile.SerializeUsersList(usersList);
-                JsonFile.SerializedToJson(x, "Users");
-
-                feedback = "User created";
-
-                return true;
-            }
-            else
-            {
-                feedback = "User Name provided is not valid. You can't provide an empty string for a username.";
-                return false;
-            }
-        }
         public void DeleteUser(CurrentUser currentUser)
         {
             UsersList usersList = JsonFile.DeserializeUsersList("Users");

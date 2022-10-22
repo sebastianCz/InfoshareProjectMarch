@@ -3,11 +3,13 @@ using OstreC.ManageInput;
 
 namespace OstreC
 {
-
+    /// <summary>
+    /// Inherits from ProgramSession. 
+    /// </summary>
     public class UI : ProgramSession //ProgramSession is in OstreC.Services. Hereditated to provide instances of objects.
     {
         //Page object containing current page info.
-        public Page Page = new Page(PageType.Main_Menu);
+        internal Page Page = new Page(PageType.Main_Menu);
 
         //LIST containing existing menu commands for user. He can use them almost any time.
         public static readonly string[] _menuCommands = { "MAIN_MENU", "EXIT", "BACK" };
@@ -48,29 +50,38 @@ namespace OstreC
             }
         }
 
+        
         //Invoked in Draw UI.
-        public void DrawHeader(UI UI)
+        private void DrawHeader(UI UI)
         {
-            string genericHeader = "";
+            string header = "";
             string status = "Offline";
 
-            if (UI.Page.CurrentType != PageType.Login)
+            if (UI.Page.CurrentType != PageType.Login && UI.Page.CurrentType != PageType.Paragraph)
             {
                 if (UI.CurrentUser.LoggedIn)  status = "Online"; 
 
                 Console.ForegroundColor = ConsoleColor.Green;
-                genericHeader = $"Active Page: {Page.CurrentType} || Ostre C Game || Current status: {status} || Current user:{CurrentUser.UserName} {Page.BreakLine}  " +
+                header = $"Active Page: {Page.CurrentType} || Ostre C Game || Current status: {status} || Current user:{CurrentUser.UserName} {Page.BreakLine}  " +
                $"Type any of the existing commands at any time: \n {_menuCommandsString} {Page.BreakLine}";
             }
             else if (UI.Page.CurrentType == PageType.Login)
             {
-                genericHeader = $"Active Page: {Page.CurrentType} || Ostre C Game || Current status: {status} {Page.BreakLine} ";
+                header = $"Active Page: {Page.CurrentType} || Ostre C Game || Current status: {status} {Page.BreakLine} ";
+            }else if(UI.Page.CurrentType == PageType.Paragraph)
+            {
+                header = $"Active Page: {Page.CurrentType} || Ostre C Game || Current status: {status}||Story Name:{UI.GameSession.SaveFile.NameOfStory}{Page.BreakLine}"+
+                         $"Character Name:{UI.GameSession.CurrentPlayer.Name} Character HP:{UI.GameSession.CurrentPlayer.HealthPoints}"+
+                         $"Type any of the existing commands at any time: {_menuCommandsString} {Page.BreakLine}";
+
             }
+
+
             Console.ForegroundColor = ConsoleColor.Green;
-            Console.WriteLine($"{genericHeader}");
+            Console.WriteLine($"{header}");
             Console.ForegroundColor = ConsoleColor.White;
         }
-        public void DrawCombatHeader(UI UI)
+        private void DrawCombatHeader(UI UI)
         {
             string genericHeader = "";
             string status = "Offline";
@@ -83,7 +94,7 @@ namespace OstreC
             Console.ForegroundColor = ConsoleColor.White;
         }
         //Invoked in Draw UI.
-        public void DrawGenericPage(UI UI)
+        private void DrawGenericPage(UI UI)
         {
             if (UI.Page.CurrentType != PageType.Paragraph_Combat)
             {
@@ -98,7 +109,7 @@ namespace OstreC
             }
         }
         //Invoked in Draw UI depending on bool in parameter. If user input is valid Error gets cleared.
-        public void ClearData(UI UI)
+        private void ClearData(UI UI)
         {
             //Comentted out since Page info would get cleared out together with the Error despite having to stay. 
             //UI.Page.PageInfo = "";

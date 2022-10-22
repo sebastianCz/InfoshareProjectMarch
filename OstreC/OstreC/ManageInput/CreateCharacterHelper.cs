@@ -4,7 +4,7 @@ using OstreC.Services;
 
 namespace OstreC.ManageInput
 {//Helper methods for create character class.
-    public class CreateCharacterHelper
+    internal class CreateCharacterHelper
     {
         UI UI = new UI();
         Player Player = new Player();
