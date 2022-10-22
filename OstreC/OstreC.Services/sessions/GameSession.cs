@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 namespace OstreC.Services
 {
     //Will be used to store values once the function start new game or load game is used. Should allow to merge Character creation + Paragraph + Menu logic into one. S
-    public class GameSession : ProgramSession
+    public class GameSession 
     {
         //I belive this one is handled by story. 
        public  SaveFile SaveFile { get; set; }  //We need a default save file in current build. 
@@ -23,9 +23,6 @@ namespace OstreC.Services
             SaveFile = saveFile;
             CurrentPlayer = currentplayer;
             FileLoaded = gameLoaded;
-        }
-  
- 
-
+        } 
     }
 }
