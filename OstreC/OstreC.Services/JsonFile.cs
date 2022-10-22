@@ -29,26 +29,17 @@ namespace OstreC.Services
             return null; 
         }
 
-      
 
-        public static void test()
-        {
-            var TestStory = JsonFile.DeserializeFile<Story>("Stories\\" + "DefaultStory");
-
-            Console.WriteLine(TestStory);
-        }
         /// <summary>
         /// Deserializes given json filename to provided Type. 
-        ///Invoke: JsonFile.DeserializeFile<Player>("ExampleCharacterName");
+        ///Invoke: JsonFile.DeserializeFile<Player>("\\Stories\\ExampleCharacterName");
         /// </summary>
         /// <typeparam name="T">Class you want to deserialize to.</typeparam>
         /// <param name="fileName">Name of json file. </param>
         /// <returns>Object of class T</returns>
         public static T DeserializeFile<T>(string fileName)
         {
-            //Console.WriteLine(x);
             string textFromFile = ReaderJson.ReadFile(fileName);
-        
             return JsonConvert.DeserializeObject<T>(textFromFile);
         }
         /// <summary>

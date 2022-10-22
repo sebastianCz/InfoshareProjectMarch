@@ -89,13 +89,7 @@ namespace OstreC.ManageInput
                     UI.Page.switchPage(PageType.Paragraph, UI);
                     return;
                    
-                    /*
-                    NewGame should take story to launch + player as input and assign them both to UI.Gamesession and go to paragraphs!! 
-                    
-                    */
-                    //UI.GameSession = UI.GameSession.NewGame(storyToLaunch.Value);
-                    //UI.Page.switchPage(PageType.Paragraph, UI);
-                    //return;
+               
 
 
                 }
@@ -103,7 +97,7 @@ namespace OstreC.ManageInput
                 {
                     if (UI.CurrentUser.SaveFileExists)
                     {
-                        UI.GameSession = UI.GameSession.LoadSave(UI.CurrentUser.UserName);
+                        UI.GameSession = UI.LoadSave(UI.CurrentUser.UserName);
                         if (UI.GameSession.FileLoaded) { UI.Page.switchPage(PageType.Paragraph, UI); }
                     }
                     else

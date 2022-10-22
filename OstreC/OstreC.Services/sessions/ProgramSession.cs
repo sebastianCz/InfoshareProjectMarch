@@ -98,12 +98,15 @@ namespace OstreC.Services
 
             return session;
         }
-
+        
         public GameSession LoadSave(string userName)
         {
             var session = new GameSession();
-            session.FileLoaded = true;
             session.SaveFile = JsonFile.DeserializeSaveFile($"UsersFile\\" + userName);
+            session.FileLoaded = true;
+            session.CurrentPlayer = JsonFile.DeserializeFile<Player>($"Characters\\" + session.SaveFile.CharacterName);
+            session.CurrentPlayer.HealthPoints = session.SaveFile.HealthPoints;
+     
             return session;
         }
 

@@ -128,6 +128,8 @@
         }
         public static void SaveProgress(CurrentUser currentUser, GameSession gameSession)
         {
+            gameSession.SaveFile.HealthPoints =gameSession.CurrentPlayer.HealthPoints;//Saves only healthpoints instead of the entire character in the save file... 
+            gameSession.SaveFile.CharacterName = gameSession.CurrentPlayer.Name;
             string serializedSaveFile = JsonFile.SerializeSaveFile(gameSession.SaveFile);
             JsonFile.SerializedToJson(serializedSaveFile, $"UsersFile\\" + currentUser.UserName);
             currentUser.SaveFileExists = true;
