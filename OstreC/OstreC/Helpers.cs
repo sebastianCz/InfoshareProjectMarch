@@ -1,4 +1,5 @@
-﻿using OstreC.Services;
+﻿using Newtonsoft.Json.Linq;
+using OstreC.Services;
 
 
 namespace OstreC
@@ -107,6 +108,50 @@ namespace OstreC
             Console.ForegroundColor = firstColor;
             Console.Write(textColored);
             Console.ForegroundColor = ConsoleColor.White;
+        }
+
+        public static int ThrowDice(UI UI)
+        {
+            int powerThrow = 1;            
+            UI.Page.Instructions = $"Press the right arrow to increase the power of the dice throw or the left arrow to decrease the power. \nPress Enter to accept the power of the dice throw.";
+            UI.DrawUI(UI, false);
+            string power = $" Power({powerThrow}/ 10): █";
+            do
+            {
+                Console.WriteLine(power);               
+                ConsoleKey key = Console.ReadKey().Key;                                       
+                if (key == ConsoleKey.Enter) break;
+                else if (key == ConsoleKey.LeftArrow && powerThrow > 1) powerThrow--;
+                else if (key == ConsoleKey.RightArrow && powerThrow < 10) powerThrow++;
+                power = $" Power({powerThrow}/ 10): ";
+
+                for (int i = 0; i < powerThrow; i++)
+                {
+                    power += "█";
+                }
+                Console.SetCursorPosition(Console.CursorLeft, Console.CursorTop - 1);
+                Console.WriteLine("                                                      ");
+                Console.SetCursorPosition(Console.CursorLeft, Console.CursorTop - 1);
+            } while (true);
+
+            int valueRoll = 0;
+
+            for (int i = 0; i < powerThrow * powerThrow; i++)
+            {
+                Random rand = new Random();
+                valueRoll = rand.Next(1, 21);
+
+                Console.WriteLine(" Roll:" + valueRoll);
+                Console.SetCursorPosition(Console.CursorLeft, Console.CursorTop - 1);
+                int timeSleep = (int)Math.Pow(2, (i / powerThrow));
+                Thread.Sleep(timeSleep);
+                Console.WriteLine("                                                      ");
+                Console.SetCursorPosition(Console.CursorLeft, Console.CursorTop - 1);
+            }
+            Console.WriteLine(" Roll:" + valueRoll);
+            Console.WriteLine("\nPress anything.");
+            Console.ReadKey();
+            return valueRoll;
         }
     }
 }

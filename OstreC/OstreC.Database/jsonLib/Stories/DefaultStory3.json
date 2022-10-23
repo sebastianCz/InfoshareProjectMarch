@@ -1,7 +1,7 @@
 {
   "StartParagraph": 2,
   "StartParagraphType": 0,
-  "NameOfStory": "DefaultStory3",
+  "NameOfStory": "DefaultStory",
   "AmountOfParagrafh": 6,
   "FightParagraphs": [
     {
@@ -42,6 +42,8 @@
     {
       "ParagraphType": 3,
       "IdParagraph": 5,
+      "Property": "Wisdom",
+      "PropertyValue": 10,
       "TextParagraph": "Test on perception", // Player vs Goblin? >= 10 Wisdom?
       "HowManyOptions": 3,
       "NextParagraphs": [
@@ -65,7 +67,9 @@
     {
       "ParagraphType": 3,
       "IdParagraph": 11,
-      "TextParagraph": "Test on perception DC 10 Wisdom", // Player >= 10 Wisdom 
+      "Property": "Wisdom",
+      "PropertyValue": 10,
+      "TextParagraph": "Test on perception", // Player >= 10 Wisdom 
       "HowManyOptions": 3,
       "NextParagraphs": [
         {

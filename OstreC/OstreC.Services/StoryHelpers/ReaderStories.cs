@@ -159,11 +159,7 @@ namespace OstreC.Services
                 if (currentPlayer.HealthPoints <= 0) return "1"; // lose
             } while (true);
         }
-        public static string SolveTest() // result - 1 - lose; 2 - win;
-        {
-            return "1"; // lose
-            return "2"; // win
-        }
+
         public static AllEnemyList InitialEnemies(List<ParagraphEnemy> paragraphEnemies)
         {
             AllEnemyList allEnemiesList = JsonFile.DeserializeEnemyList("Enemy");
