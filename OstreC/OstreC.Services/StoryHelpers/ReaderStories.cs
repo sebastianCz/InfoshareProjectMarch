@@ -1,4 +1,6 @@
-﻿namespace OstreC.Services
+﻿using Newtonsoft.Json;
+
+namespace OstreC.Services
 {
     //Contains method to loop through paragraphs in a given story and show their content.   
     public static class ReaderStories
@@ -135,15 +137,46 @@
             currentUser.SaveFileExists = true;
             currentUser.UpdateUser(currentUser, "true", 4);
         }
-        public static string SolveFight(List<ParagraphEnemy> paragraphEnemies) // result - 1 - lose; 2 - win;
+        public static string SolveFight(AllEnemyList paragraphEnemies, Player currentPlayer) // result - 1 - lose; 2 - win;
         {
-            return "1"; // lose
-            return "2"; // win
+            do
+            {
+                Console.WriteLine($"HP1: {paragraphEnemies.Results[0].Name} {paragraphEnemies.Results[0].HealthPoints}");
+                Console.WriteLine($"HP2: {paragraphEnemies.Results[1].Name} {paragraphEnemies.Results[1].HealthPoints}");
+                Console.WriteLine($"HP3: {paragraphEnemies.Results[2].Name} {paragraphEnemies.Results[2].HealthPoints}\n");
+                paragraphEnemies.Results[0].HealthPoints -= 10;
+                paragraphEnemies.Results[1].HealthPoints -= 10;
+                paragraphEnemies.Results[2].HealthPoints -= 10;
+                Console.WriteLine($"HP1: {paragraphEnemies.Results[0].Name} {paragraphEnemies.Results[0].HealthPoints}");
+                Console.WriteLine($"HP2: {paragraphEnemies.Results[1].Name} {paragraphEnemies.Results[1].HealthPoints}");
+                Console.WriteLine($"HP3: {paragraphEnemies.Results[2].Name} {paragraphEnemies.Results[2].HealthPoints}\n");
+
+                if (paragraphEnemies.Results[2].HealthPoints <= 0) paragraphEnemies.Results.Remove(paragraphEnemies.Results[2]);
+                if (paragraphEnemies.Results[1].HealthPoints <= 0) paragraphEnemies.Results.Remove(paragraphEnemies.Results[1]);
+                if (paragraphEnemies.Results[0].HealthPoints <= 0) paragraphEnemies.Results.Remove(paragraphEnemies.Results[0]);
+
+                if (paragraphEnemies.Results.Count == 0) return "2"; // win
+                if (currentPlayer.HealthPoints <= 0) return "1"; // lose
+            } while (true);
         }
-        public static string SolveTest() // result - 1 - lose; 2 - win;
+
+        public static AllEnemyList InitialEnemies(List<ParagraphEnemy> paragraphEnemies)
         {
-            return "1"; // lose
-            return "2"; // win
+            AllEnemyList allEnemiesList = JsonFile.DeserializeEnemyList("Enemy");
+
+            AllEnemyList enemies = new AllEnemyList();
+
+            for (int i = 0; i < paragraphEnemies.Count(); i++)
+            {
+                for (int j = 0; j < paragraphEnemies[i].AmountOfEnemy; j++)
+                {
+                    enemies.Results.Add(allEnemiesList.Results.First(n => n.Name == paragraphEnemies[i].EnemyName));
+                }
+            }
+            string serializeEnemies = JsonConvert.SerializeObject(enemies); // One reference to parameter in two diffrent enemy
+            enemies = JsonConvert.DeserializeObject<AllEnemyList>(serializeEnemies); // Two regerento to parametr in two diffrent enemy
+
+            return enemies;
         }
     }
 }

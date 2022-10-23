@@ -5,6 +5,6 @@ namespace OstreC.Services
     {
         //Used to deserialize all enemies.
         //AllEnemyList X = JsonFile.DeserializeEnemyList("Enemy");
-        public List<Enemy> Results { get; set; }       
+        public List<Enemy> Results { get; set; } = new List<Enemy>();     
     }
 }
