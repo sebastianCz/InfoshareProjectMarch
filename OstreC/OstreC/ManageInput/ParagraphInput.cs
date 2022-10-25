@@ -1,4 +1,5 @@
-﻿using OstreC.Services;
+﻿using Newtonsoft.Json.Linq;
+using OstreC.Services;
 
 namespace OstreC.ManageInput
 {
@@ -8,7 +9,6 @@ namespace OstreC.ManageInput
         public PageType Type => PageType.Paragraph;
         private int AmountOfOptions { get; set; } = 0;
         private Paragraph Paragraph { get; set; }
-        private FightParagraph CurrentFightPatagraph { get; set; }
         public void CheckUserInput(UI UI)
         {
             var saveFile = UI.GameSession.SaveFile;
@@ -22,13 +22,43 @@ namespace OstreC.ManageInput
 
             if (saveFile.ActiveParagraphType == ParagraphType.Fight) // Result form method ParagraphTest
             {
-                CurrentFightPatagraph = (FightParagraph)Paragraph;
-                input = ReaderStories.SolveFight(CurrentFightPatagraph.ParagraphEnemies);
+
+                var currentFightPatagraph = (FightParagraph)Paragraph;
+                AllEnemyList currentEnemies = ReaderStories.InitialEnemies(currentFightPatagraph.ParagraphEnemies); // Creat object enemies
+                input = ReaderStories.SolveFight(currentEnemies, UI.GameSession.CurrentPlayer);
             }
 
             if (saveFile.ActiveParagraphType == ParagraphType.Test) // Result form method ParagraphTest
             {
-                input = ReaderStories.SolveTest();
+                var currentTestPatagraph = (TestParagraph)Paragraph;
+                int throwDice = Helpers.ThrowDice(UI);
+               
+                switch (currentTestPatagraph.Property.ToLower().Trim())
+                {
+                    
+                    case "strength":
+                        throwDice += UI.GameSession.CurrentPlayer.ModStrength;
+                        break;
+                    case "dexterity":
+                        throwDice += UI.GameSession.CurrentPlayer.ModDexterity;
+                        break;
+                    case "constitution":
+                        throwDice += UI.GameSession.CurrentPlayer.ModConstitution;
+                        break;
+                    case "intelligence":
+                        throwDice += UI.GameSession.CurrentPlayer.ModIntelligence;
+                        break;
+                    case "wisdom":
+                        throwDice += UI.GameSession.CurrentPlayer.ModWisdom;
+                        break;
+                    case "charisma":
+                        throwDice += UI.GameSession.CurrentPlayer.ModCharisma;
+                        break;
+                    default:
+                        throw new Exception("Unkonown Property");                            
+                }
+                if (throwDice >= currentTestPatagraph.PropertyValue) input = "2";
+                else input = "1";
             }
 
             if (Helpers.IsCommand(input, UI)) ;

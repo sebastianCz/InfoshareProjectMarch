@@ -4,6 +4,8 @@
     public class TestParagraph : Paragraph
     {
         public override ParagraphType ParagraphType => ParagraphType.Test;
+        public string Property { get; set; }
+        public int PropertyValue { get; set; }
         public TestParagraph(int idParagraph, string textParagraph = "") 
             : base(idParagraph, textParagraph)
         {
