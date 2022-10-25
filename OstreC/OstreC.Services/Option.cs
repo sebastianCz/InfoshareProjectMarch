@@ -1,8 +1,5 @@
-﻿
-
-namespace OstreC.Services
+﻿namespace OstreC.Services
 {
-
     public class Option
     {
         public string Name { get; }

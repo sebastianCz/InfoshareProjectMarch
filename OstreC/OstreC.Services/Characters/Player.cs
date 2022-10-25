@@ -232,13 +232,12 @@ namespace OstreC.Services
         public bool SavePlayer(Player character,ProgramSession sessionInfo)
         {
             
-            Player alreadySavedCharacter = JsonFile.DeserializeCharacter(character.Name);
+            Player alreadySavedCharacter = JsonFile.DeserializeFile<Player>("Characters" + character.Name);
 
          //If character file  exists and belongs to our logged in user.
             if( alreadySavedCharacter != null && sessionInfo.CurrentUser.Id == alreadySavedCharacter.UserId )
             {
-
-                JsonFile.SerializeCharacter(character);
+                JsonFile.SerializedToJson(character, "Characters\\" + character.Name);
                 return true;
             }
             //if character file exists but doesn't belong to user
@@ -251,8 +250,7 @@ namespace OstreC.Services
             {
                 character.UserId = sessionInfo.CurrentUser.Id;
                 character.CreatedBy = sessionInfo.CurrentUser.UserName;
-                
-                JsonFile.SerializeCharacter(character);
+                JsonFile.SerializedToJson(character, "Characters\\" + character.Name);
                 return true;
             }
             //if i didn't predict something. 

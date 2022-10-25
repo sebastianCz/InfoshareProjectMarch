@@ -1,8 +1,8 @@
-﻿ using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 
 namespace OstreC.Services
 {
-  //Contains variables useful only for currently Logged in User.
+    //Contains variables useful only for currently Logged in User.
     public class CurrentUser : User
     {
         [JsonIgnore]
@@ -22,7 +22,6 @@ namespace OstreC.Services
         public void logOff(CurrentUser user)
         {
             user = null;
-        }
-      
+        }     
     }
 }

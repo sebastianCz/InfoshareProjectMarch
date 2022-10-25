@@ -23,7 +23,7 @@ namespace OstreC.Services
         }
         private static Story LoadStory(string nameOfStory)
         {
-            return JsonFile.DeserializeStory(nameOfStory);
+            return JsonFile.DeserializeFile<Story>("Stories\\" + nameOfStory);
         }
     }
 }
