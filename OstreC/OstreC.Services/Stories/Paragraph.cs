@@ -17,6 +17,10 @@ namespace OstreC.Services
             IdParagraph = idParagraph;
             TextParagraph = textParagraph;
         }
+        public void AddNewChoice(NextParagraph newChioce)
+        {
+            NextParagraphs.Add(newChioce);
+        }
     }
     public enum ParagraphType
     {

@@ -1,27 +1,13 @@
-﻿using OstreC.Database;
-using OstreC.Services.Collections;
-using System;
-using System.ComponentModel;
-using System.Linq;
-using System.Security.Cryptography.X509Certificates;
-
-namespace OstreC.Services
+﻿namespace OstreC.Services
 {
-
-
     //Instancied on init so UI can call it's methods   
     public class ProgramSession
     {
-        //A list of action for each story. Displays in Main Menu.
-      
+        //A list of action for each story. Displays in Main Menu.  
 
-        
         //Inherited by UI in console to update data based on input. 
         public CurrentUser CurrentUser { get; set; } 
-
-        public GameSession GameSession { get; set; }
-
-   
+        public GameSession GameSession { get; set; }   
         public Dictionary<int, string> StoriesNames  { get { return Utilities.LoadDictionaryFromJson("Stories");}}
         public Dictionary<int, string> CharacterNames { get { return Utilities.LoadDictionaryFromJson("Characters"); } }
 
@@ -33,7 +19,7 @@ namespace OstreC.Services
         //Updates user values. 
         public bool Login(string userName, string password)
         {
-            var userList = JsonFile.DeserializeUsersList("Users");
+            var userList = JsonFile.DeserializeFile<UsersList>("Users");
             var user = userList.Results.FirstOrDefault(o => (o.UserName == userName) &&(o.Password == password ));
 
             if (user == null) return false;
@@ -45,26 +31,10 @@ namespace OstreC.Services
         {
            return new CurrentUser(user.UserName, user.Password, user.SaveFileExists, true, user.Id);
         }
-        
-        private GameSession CreateGameSession()
-        {
-            return new GameSession();
-        }
-
-        /// <summary>
-        /// Retuns a list of all existing stories
-        /// </summary>
-        /// <param name="relationalPath"></param>
-        /// <returns></returns>
-        public string[] ShowAllStories(string relationalPath)
-        {
-            string[] allStories = ReaderJson.FindAllFileNames(relationalPath);
-            return allStories; 
-        }
 
         public bool CreateUser(string userName, string password, string email, out string feedback)
         {
-            var allUsersList = JsonFile.DeserializeUsersList("Users");
+            var allUsersList = JsonFile.DeserializeFile<UsersList>("Users");
             var userExists = allUsersList.Results.FirstOrDefault(user => user.UserName == userName);
 
             if (userExists != null)
@@ -77,8 +47,7 @@ namespace OstreC.Services
                 var newUser = new CurrentUser(userName, password, false, false, allUsersList.Results.Count() + 1);
                 allUsersList.Results.Add((User)newUser);
 
-                string allUsersListToString = JsonFile.SerializeUsersList(allUsersList);
-                JsonFile.SerializedToJson(allUsersListToString, "Users");
+                JsonFile.SerializedToJson(allUsersList, "Users");
                 feedback = "User created";
                 return true;
             }
@@ -94,21 +63,17 @@ namespace OstreC.Services
             session.FileLoaded = true;
             session.SaveFile = new SaveFile(0, 2, storyName);//Default Starting
             session.CurrentPlayer = JsonFile.DeserializeFile<Player>("Characters\\" + characterName);
-
-
             return session;
         }
         
         public GameSession LoadSave(string userName)
         {
             var session = new GameSession();
-            session.SaveFile = JsonFile.DeserializeSaveFile($"UsersFile\\" + userName);
+            session.SaveFile = JsonFile.DeserializeFile<SaveFile>($"UsersFile\\" + userName);
             session.FileLoaded = true;
             session.CurrentPlayer = JsonFile.DeserializeFile<Player>($"Characters\\" + session.SaveFile.CharacterName);
-            session.CurrentPlayer.HealthPoints = session.SaveFile.HealthPoints;
-     
+            session.CurrentPlayer.HealthPoints = session.SaveFile.HealthPoints;    
             return session;
         }
-
     }
 }

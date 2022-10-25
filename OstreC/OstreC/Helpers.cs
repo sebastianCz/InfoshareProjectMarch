@@ -1,8 +1,4 @@
-﻿using Newtonsoft.Json.Linq;
-using OstreC.Services;
-
-
-namespace OstreC
+﻿namespace OstreC
 {
     //Static " helper " methods used in different contexts.
     public static class Helpers
@@ -112,14 +108,14 @@ namespace OstreC
 
         public static int ThrowDice(UI UI)
         {
-            int powerThrow = 1;            
+            int powerThrow = 1;
             UI.Page.Instructions = $"Press the right arrow to increase the power of the dice throw or the left arrow to decrease the power. \nPress Enter to accept the power of the dice throw.";
             UI.DrawUI(UI, false);
             string power = $" Power({powerThrow}/ 10): █";
             do
             {
-                Console.WriteLine(power);               
-                ConsoleKey key = Console.ReadKey().Key;                                       
+                Console.WriteLine(power);
+                ConsoleKey key = Console.ReadKey().Key;
                 if (key == ConsoleKey.Enter) break;
                 else if (key == ConsoleKey.LeftArrow && powerThrow > 1) powerThrow--;
                 else if (key == ConsoleKey.RightArrow && powerThrow < 10) powerThrow++;

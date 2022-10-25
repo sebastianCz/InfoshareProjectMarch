@@ -1,8 +1,4 @@
-﻿using OstreC.Services;
-using OstreC;
-using static System.Net.Mime.MediaTypeNames;
-
- 
+﻿using OstreC;
 
 //Main components Init.
 UI UI = new UI();
@@ -14,4 +10,3 @@ do
     UI.ChooseInputMethod(UI);
 
 } while (UI.Exit == false);
- 

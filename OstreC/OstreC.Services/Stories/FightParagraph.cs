@@ -9,8 +9,8 @@ namespace OstreC.Services
         public override ParagraphType ParagraphType => ParagraphType.Fight;
         public FightParagraph(int idParagraph, string textParagraph = "") 
             : base(idParagraph, textParagraph)
-        {
-        }
+        { }
+
         public void AddEnemy(int amountOfEnemy, string enemyName)
         {
             ParagraphEnemies.Add(new ParagraphEnemy(amountOfEnemy, enemyName));
@@ -19,10 +19,6 @@ namespace OstreC.Services
         {
             NextParagraphs.Add(new NextParagraph(ParagraphType.DescOfStage, "Go back to menu!", 0));
             NextParagraphs.Add(new NextParagraph(ParagraphType.DescOfStage, "Defeat!", 1));
-        }
-        public void AddNewChoice(NextParagraph newChioce)
-        {
-            NextParagraphs.Add(newChioce);
         }
     }
 }

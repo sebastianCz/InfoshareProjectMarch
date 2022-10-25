@@ -1,10 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Net;
 using System.Net.Mail;
-using System.Net;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace OstreC.Services
 {
@@ -14,7 +9,7 @@ namespace OstreC.Services
         public bool CanSendEmail(int emailType, string userName, CurrentUser currentUser, out string feedback)
         {
             //Checks if user exists
-            var usersList = JsonFile.DeserializeUsersList("Users");
+            var usersList = JsonFile.DeserializeFile<UsersList>("Users");
             var usersArray = usersList.Results.ToArray();
             bool userExists = false;
 
@@ -50,10 +45,9 @@ namespace OstreC.Services
             }
         }
 
-
         //Method sends an email if invoked.
         //Feedback param used to provide 'waiting" message before sending email. It can take time sometimes. 
-        public bool sendEmailSMTP(int emailType,CurrentUser currentUser, out string feedback)
+        public bool sendEmailSMTP(int emailType, CurrentUser currentUser, out string feedback)
         {
             var smtpClient = new SmtpClient("smtp.gmail.com")
             {
@@ -91,6 +85,5 @@ namespace OstreC.Services
 
             }
         }
-
     }
 }

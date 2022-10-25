@@ -1,5 +1,4 @@
-﻿using Newtonsoft.Json.Linq;
-using OstreC.Services;
+﻿using OstreC.Services;
 
 namespace OstreC.ManageInput
 {
@@ -12,30 +11,30 @@ namespace OstreC.ManageInput
         public void CheckUserInput(UI UI)
         {
             var saveFile = UI.GameSession.SaveFile;
-            ThrowCurrentParagraph(UI);     
+            ThrowCurrentParagraph(UI);
             UI.DrawUI(UI, false);
             UI.Page.Error = "";
 
             string input = "";
-            if (saveFile.ActiveParagraphType != ParagraphType.Fight && saveFile.ActiveParagraphType != ParagraphType.Test) 
+            if (saveFile.ActiveParagraphType != ParagraphType.Fight && saveFile.ActiveParagraphType != ParagraphType.Test)
                 input = Console.ReadLine()?.ToUpper().Replace(" ", null);
 
             if (saveFile.ActiveParagraphType == ParagraphType.Fight) // Result form method ParagraphTest
             {
 
                 var currentFightPatagraph = (FightParagraph)Paragraph;
-                AllEnemyList currentEnemies = ReaderStories.InitialEnemies(currentFightPatagraph.ParagraphEnemies); // Creat object enemies
-                input = ReaderStories.SolveFight(currentEnemies, UI.GameSession.CurrentPlayer);
+                var currentEnemies = ReaderStories.InitialEnemies(currentFightPatagraph.ParagraphEnemies); // Creat object enemies
+                //input = ReaderStories.SolveFight(currentEnemies, UI.GameSession.CurrentPlayer);
+                input = "2";
             }
 
             if (saveFile.ActiveParagraphType == ParagraphType.Test) // Result form method ParagraphTest
             {
                 var currentTestPatagraph = (TestParagraph)Paragraph;
                 int throwDice = Helpers.ThrowDice(UI);
-               
+
                 switch (currentTestPatagraph.Property.ToLower().Trim())
                 {
-                    
                     case "strength":
                         throwDice += UI.GameSession.CurrentPlayer.ModStrength;
                         break;
@@ -55,7 +54,7 @@ namespace OstreC.ManageInput
                         throwDice += UI.GameSession.CurrentPlayer.ModCharisma;
                         break;
                     default:
-                        throw new Exception("Unkonown Property");                            
+                        throw new Exception("Unkonown Property");
                 }
                 if (throwDice >= currentTestPatagraph.PropertyValue) input = "2";
                 else input = "1";
@@ -67,7 +66,7 @@ namespace OstreC.ManageInput
                 ReaderStories.SaveProgress(UI.CurrentUser, UI.GameSession);
                 UI.Page.Error = "History progress saved!";
             } // Save
-            else if (AmountOfOptions > 0 && String.Equals(input, "0") )
+            else if (AmountOfOptions > 0 && String.Equals(input, "0"))
             {
                 Helpers.WriteLineColorText("Are you sure? You go back to menu.\nPress 'Y' - yes or 'N' - no", ConsoleColor.Red);
                 if (Helpers.YesOrNoKey(true)) UI.Page.switchPage(PageType.Main_Menu, UI);

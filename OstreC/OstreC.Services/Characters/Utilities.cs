@@ -1,8 +1,4 @@
 ﻿using OstreC.Database;
-using OstreC.Services;
-using System;
-using System.Linq.Expressions;
-using System.Security.Cryptography.X509Certificates;
 using System.Text.RegularExpressions;
 
 public class Utilities
@@ -205,7 +201,4 @@ public class Utilities
         }
         return storiesWithOptions;
     }
-    
-
-
 }

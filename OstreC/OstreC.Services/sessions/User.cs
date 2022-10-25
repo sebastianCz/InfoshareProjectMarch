@@ -1,33 +1,16 @@
-﻿using System.Linq;
-namespace OstreC.Services
+﻿namespace OstreC.Services
 {
-    
-        public class User
-        {
-
-            public int Id { get; set; }
-
-            public string UserName { get; set; }
-            public string Password { get; set; }
-
-            public string Email { get; set; }
+    public class User
+    {
+        public int Id { get; set; }
+        public string UserName { get; set; }
+        public string Password { get; set; }
+        public string Email { get; set; }
         public bool SaveFileExists { get; set; }
-
-
-
-     
-            //public User(string username, string password,bool saveFileExists, int id = -1)
-            //{
-            //    Id = id;
-            //    UserName = username;
-            //    Password = password;
-            //    this.SaveFileExists = saveFileExists;
-
-            //}
 
         public string PresentUser()
         {
-            return  $"Username: {this.UserName}  User email: {this.Email} User password: {this.Password}"; 
+            return $"Username: {this.UserName}  User email: {this.Email} User password: {this.Password}";
         }
         public string ShowEmail()
         {
@@ -42,7 +25,7 @@ namespace OstreC.Services
         public bool UpdateUser(CurrentUser CurrentUser, string newData, int param)
         {
 
-            var usersList = JsonFile.DeserializeUsersList("Users");
+            var usersList = JsonFile.DeserializeFile<UsersList>("Users");
             bool updated = false;
             bool userExists = false;
 
@@ -80,7 +63,7 @@ namespace OstreC.Services
                                 return false;
                             }
                         case 4:
-                            if(newData == "true") { user.SaveFileExists = true; }
+                            if (newData == "true") { user.SaveFileExists = true; }
                             if (newData == "false") { user.SaveFileExists = false; }
 
                             break;
@@ -90,10 +73,7 @@ namespace OstreC.Services
             }
             if (updated)
             {
-
-                var x = JsonFile.SerializeUsersList(usersList);
-                JsonFile.SerializedToJson(x, "Users");
-
+                JsonFile.SerializedToJson(usersList, "Users");
                 return true;
             }
             else
@@ -101,11 +81,11 @@ namespace OstreC.Services
                 return false;
             }
         }
-        
+
 
         public void DeleteUser(CurrentUser currentUser)
         {
-            UsersList usersList = JsonFile.DeserializeUsersList("Users");
+            UsersList usersList = JsonFile.DeserializeFile<UsersList>("Users");
 
             bool found = false;
             //This variable is most likely avoidable. But I can't remove an objet from an array while iterating. I can't do X = I  as I will be equal to last index of usersList.
@@ -123,10 +103,8 @@ namespace OstreC.Services
             if (found)
             {
                 usersList.Results.Remove(usersList.Results[IhadNoChoice[0]]);
-                //Sets values to empty values since log off is the next step. 
-            
-                var z = JsonFile.SerializeUsersList(usersList);
-                JsonFile.SerializedToJson(z, "Users");
+                //Sets values to empty values since log off is the next step.            
+                JsonFile.SerializedToJson(usersList, "Users");
             }
             else
             {
