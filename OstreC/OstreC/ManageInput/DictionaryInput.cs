@@ -1,4 +1,5 @@
 ﻿using OstreC;
+using OstreC.Services;
 
 namespace OstreC.ManageInput
 {//Will use user input to filter through all monsters.
@@ -9,6 +10,7 @@ namespace OstreC.ManageInput
         {
 
             var input = Console.ReadLine();
+            var dictionary = new GameDictionary();
 
             if (Helpers.IsCommand(input, UI))
             {
@@ -16,7 +18,17 @@ namespace OstreC.ManageInput
             }
             else if (String.Equals(input, "1"))
             {
-                Console.WriteLine("Metoda wczytująca bibliotekę historii");
+                Console.WriteLine("Czesc, podaj mi imie przeciwnika");
+
+                input = Console.ReadLine();
+                //jakies tam checki inputu 
+
+                string result = dictionary.FindEnemiesWithName(input);
+
+                Console.WriteLine(result);
+
+
+
 
             }
             else if (String.Equals(input, "2"))

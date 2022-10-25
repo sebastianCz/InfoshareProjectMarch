@@ -1,6 +1,4 @@
-{
-
-  "Results": [
+[
     {
       "Alignment": "  evil",
       "Armor_class": 14,
@@ -69,39 +67,106 @@
       "Type": "aberration",
       "Wisdom": 8
     },
-    {
-      "Alignment": "  evil",
-      "Armor_class": 14,
-      "Armor_desc": "natural armor",
-      "CharClass": null,
-      "Charisma": 8,
-      "Constitution": 10,
-      "Dexterity": 14,
-      "EnemyActions": [
-        {
-          "ActionName": "Default",
-          "ActionDescription": "Standard sword Attack",
-          "ActionType": "Attack",
-          "Hit_Dice": 1,
-          "Hit_dmg": 6,
-          "Flat_dmg": 2
-        }
-      ],
-      "HealthPoints": 10,
-      "Intelligence": 10,
-      "Level": 1,
-      "ModCharisma": -1,
-      "ModConstitution": 0,
-      "ModDexterity": 2,
-      "ModIntelligence": 0,
-      "ModStrenght": 0,
-      "ModWisdom": -1,
-      "Name": "Orc",
-      "Race": "Humanoid",
-      "Size": "medium",
-      "Strenght": 8,
-      "Type": "aberration",
-      "Wisdom": 8
-    }
-  ]
-}
+  {
+    "Alignment": "  evil",
+    "Armor_class": 14,
+    "Armor_desc": "natural armor",
+    "CharClass": null,
+    "Charisma": 8,
+    "Constitution": 10,
+    "Dexterity": 14,
+    "EnemyActions": [
+      {
+        "ActionName": "Default",
+        "ActionDescription": "Standard sword Attack",
+        "ActionType": "Attack",
+        "Hit_Dice": 1,
+        "Hit_dmg": 6,
+        "Flat_dmg": 2
+      }
+    ],
+    "HealthPoints": 10,
+    "Intelligence": 10,
+    "Level": 1,
+    "ModCharisma": -1,
+    "ModConstitution": 0,
+    "ModDexterity": 2,
+    "ModIntelligence": 0,
+    "ModStrenght": 0,
+    "ModWisdom": -1,
+    "Name": "Orc",
+    "Race": "Humanoid",
+    "Size": "medium",
+    "Strenght": 8,
+    "Type": "aberration",
+    "Wisdom": 8
+  },
+  {
+    "Alignment": "  evil",
+    "Armor_class": 14,
+    "Armor_desc": "natural armor",
+    "CharClass": null,
+    "Charisma": 8,
+    "Constitution": 10,
+    "Dexterity": 14,
+    "EnemyActions": [
+      {
+        "ActionName": "Default",
+        "ActionDescription": "Standard sword Attack",
+        "ActionType": "Attack",
+        "Hit_Dice": 1,
+        "Hit_dmg": 6,
+        "Flat_dmg": 2
+      }
+    ],
+    "HealthPoints": 10,
+    "Intelligence": 10,
+    "Level": 1,
+    "ModCharisma": -1,
+    "ModConstitution": 0,
+    "ModDexterity": 2,
+    "ModIntelligence": 0,
+    "ModStrenght": 0,
+    "ModWisdom": -1,
+    "Name": "Orc",
+    "Race": "Humanoid",
+    "Size": "medium",
+    "Strenght": 8,
+    "Type": "aberration",
+    "Wisdom": 8
+  },
+  {
+    "Alignment": "  evil",
+    "Armor_class": 15,
+    "Armor_desc": "Heavy Armor",
+    "CharClass": null,
+    "Charisma": 8,
+    "Constitution": 10,
+    "Dexterity": 14,
+    "EnemyActions": [
+      {
+        "ActionName": "Default",
+        "ActionDescription": "Standard sword Attack",
+        "ActionType": "Attack",
+        "Hit_Dice": 1,
+        "Hit_dmg": 6,
+        "Flat_dmg": 2
+      }
+    ],
+    "HealthPoints": 35,
+    "Intelligence": 15,
+    "Level": 1,
+    "ModCharisma": -1,
+    "ModConstitution": 0,
+    "ModDexterity": 2,
+    "ModIntelligence": 0,
+    "ModStrenght": 0,
+    "ModWisdom": -1,
+    "Name": "Drow",
+    "Race": "Humanoid",
+    "Size": "medium",
+    "Strenght": 8,
+    "Type": "aberration",
+    "Wisdom": 8
+  }
+]
