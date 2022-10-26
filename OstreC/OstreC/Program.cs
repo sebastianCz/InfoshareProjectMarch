@@ -1,18 +1,12 @@
-﻿using OstreC.Services;
-using OstreC;
-using static System.Net.Mime.MediaTypeNames;
-
- 
+﻿using OstreC;
 
 //Main components Init.
 UI UI = new UI();
-UI.CurrentUser = new CurrentUser(); //To delete once branch is ready for merge. 
 
-UI.Page.switchPage(PageType.Main_Menu, UI);
+UI.Page.switchPage(PageType.Login, UI);
 
 do
 {
     UI.ChooseInputMethod(UI);
 
 } while (UI.Exit == false);
- 

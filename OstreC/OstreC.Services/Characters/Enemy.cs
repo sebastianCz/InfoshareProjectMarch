@@ -1,7 +1,4 @@
-﻿using System;
-
-
-namespace OstreC.Services
+﻿namespace OstreC.Services
 {
     public class Enemy : Character
     {

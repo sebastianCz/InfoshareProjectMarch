@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+
 namespace OstreC.Services
 {
     //Story object. Contains all paragraphs for a given story. 

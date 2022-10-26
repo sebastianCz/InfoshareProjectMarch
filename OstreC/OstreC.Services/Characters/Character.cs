@@ -1,6 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
-using Newtonsoft.Json;
 
 namespace OstreC.Services
 {//Basse class. Enemy and Player classes use it.
@@ -93,6 +92,5 @@ namespace OstreC.Services
         {
             return Constitution * 1;
         }
-
     }
 }

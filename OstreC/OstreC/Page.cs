@@ -1,6 +1,4 @@
-﻿using OstreC.Services;
-
-namespace OstreC
+﻿namespace OstreC
 {//Used to save " active page" data.
     public class Page
     {
@@ -9,7 +7,6 @@ namespace OstreC
         public string PageInfo { get; internal set; } = "";
         public string Error { get; set; } = "";
         public string Instructions { get; set; } = "";
-
         
         public Page(PageType x)
         {

@@ -177,6 +177,7 @@ namespace OstreC.ManageInput
                     UI.DrawUI(UI, false);
                     Utilities.PressAnyKey();
                     Player.IsPlayerCreated = false;
+                    JsonFile.DeleteJsonFile("Characters\\" + Player.Name);
                     Player.DeletePlayer();
                 }
                 else

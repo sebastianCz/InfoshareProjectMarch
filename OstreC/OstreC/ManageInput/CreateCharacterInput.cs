@@ -41,13 +41,13 @@ namespace OstreC.ManageInput
                     SavePlayerToList();
                     //This will serialize the character to a new file or override existing ones.
                     
-                    if (Player.IsPlayerCreated) { 
-                        
+                    if (Player.IsPlayerCreated) 
+                    {     
                         bool saved = Player.SavePlayer(Player, (ProgramSession)UI);
                         if (saved)
                         {
                             UI.Page.PageInfo = "Create your own adventurer";
-                            UI.Page.Error = "Character saved in characters folder under name:  "+Player.Name;
+                            UI.Page.Error = "Character saved in characters folder under name:  " + Player.Name;
                             UI.DrawUI(UI, false);
                         }
                         else
@@ -168,6 +168,7 @@ namespace OstreC.ManageInput
                         UI.DrawUI(UI, false);
                         //Utilities.PressAnyKey();
                         Player.IsPlayerCreated = false;
+                        JsonFile.DeleteJsonFile("Characters\\" + Player.Name);
                         Player.DeletePlayer();
                     }
                     else

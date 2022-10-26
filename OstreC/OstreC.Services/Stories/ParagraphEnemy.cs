@@ -1,5 +1,4 @@
-﻿ 
-namespace OstreC.Services
+﻿ namespace OstreC.Services
 {
     //Type of paragraph
     public class ParagraphEnemy

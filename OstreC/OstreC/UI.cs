@@ -1,5 +1,5 @@
-﻿using OstreC.Services;
-using OstreC.ManageInput;
+﻿using OstreC.ManageInput;
+using OstreC.Services;
 
 namespace OstreC
 {
@@ -48,9 +48,7 @@ namespace OstreC
                     break;
                 }
             }
-        }
-
-        
+        }    
         //Invoked in Draw UI.
         private void DrawHeader(UI UI)
         {
@@ -73,9 +71,7 @@ namespace OstreC
                 header = $"Active Page: {Page.CurrentType} || Ostre C Game || Current status: {status}||Story Name:{UI.GameSession.SaveFile.NameOfStory}{Page.BreakLine}"+
                          $"Character Name:{UI.GameSession.CurrentPlayer.Name} Character HP:{UI.GameSession.CurrentPlayer.HealthPoints}"+
                          $"Type any of the existing commands at any time: {_menuCommandsString} {Page.BreakLine}";
-
             }
-
 
             Console.ForegroundColor = ConsoleColor.Green;
             Console.WriteLine($"{header}");

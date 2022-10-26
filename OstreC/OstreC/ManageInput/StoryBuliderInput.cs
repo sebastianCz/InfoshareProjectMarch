@@ -26,8 +26,7 @@ namespace OstreC.ManageInput
             } // Go back to main menu
             else if (!HomePage && String.Equals(input, "SAVE")) // Save
             {
-                string serializedStory = JsonFile.SerializeStory(CurrentStory);
-                JsonFile.SerializedToJson(serializedStory, "Stories\\" + CurrentStory.NameOfStory);
+                JsonFile.SerializedToJson(CurrentStory, "Stories\\" + CurrentStory.NameOfStory);
                 UI.Page.Error = "Story saved!";
             } // Save changed to NameStory.json
             else if (!HomePage && String.Equals(input, "1")) // Go back to story Builder home page
@@ -73,7 +72,7 @@ namespace OstreC.ManageInput
                     Helpers.WriteLineColorText("\n Do you approve the name? \n Press 'Y' - yes or 'N' - no", ConsoleColor.Red);
                     if (Helpers.YesOrNoKey(true))
                     {
-                        CurrentStory = JsonFile.DeserializeStory(nameOfStory);
+                        CurrentStory = JsonFile.DeserializeFile<Story>("Stories\\" + nameOfStory);
                         UI.Page.PageInfo = $"You create a {CurrentStory.NameOfStory} story!";
                         UI.Page.Instructions = " Type 0 to go back to the main menu!\n Type 1 to go Story Builder home page!\n Type 'Save' to save changes!\n Type 'New' to create a new paragraph\n Type 'Link' to create a new paragraph link";
                         HomePage = false;

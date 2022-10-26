@@ -1,12 +1,5 @@
-﻿using OstreC.Services;
-using OstreC;
- 
-
-
-
-namespace OstreC
+﻿namespace OstreC
 {
-
     public enum PageType
     {
         Main_Menu,
@@ -28,7 +21,4 @@ namespace OstreC
         //Check User Input depending on currently active page. 
         public void CheckUserInput(UI UI);
     }
-}
-
- 
- 
+} 

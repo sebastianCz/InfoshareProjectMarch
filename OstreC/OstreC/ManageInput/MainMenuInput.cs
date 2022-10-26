@@ -1,8 +1,4 @@
-﻿using OstreC.Database;
-using OstreC.Services;
-using System;
-
-namespace OstreC.ManageInput
+﻿namespace OstreC.ManageInput
 {
     public class MainMenuInput : IuiInput
     {
@@ -12,21 +8,21 @@ namespace OstreC.ManageInput
         {
             var input = Console.ReadLine().ToUpper().Replace(" ", null);
 
-            if (Helpers.IsCommand(input, UI)){ return; }
-
-
+            if (Helpers.IsCommand(input, UI)) return; 
             else if (Helpers.IsNumber(input))
             {
                 if (String.Equals(input, "1"))
                 {
-
-
                     UI.Page.PageInfo = " You are creating a new game. This will overwrite your existing save file if you save once in the game! Do you want to proceed anyway? ";
                     UI.Page.Error = "Press Y  to proceed or any key to cancel the operation";
                     UI.DrawUI(UI, false);
 
                     // CheckUserInput() will start from the top again if user doesn't want to continue.
-                    if (!Helpers.YesOrNoKey(false)) { UI.Page.switchPage(PageType.Main_Menu, UI); return; }
+                    if (!Helpers.YesOrNoKey(false)) 
+                    { 
+                        UI.Page.switchPage(PageType.Main_Menu, UI); 
+                        return; 
+                    }
                      
                     UI.Page.PageInfo = "Choose a story you want to play!\n";
                     UI.Page.Instructions = Utilities.ShowChoice(UI.StoriesNames);
@@ -88,10 +84,6 @@ namespace OstreC.ManageInput
                     UI.GameSession = UI.NewGame(storyToLoad,characterToLoad);
                     UI.Page.switchPage(PageType.Paragraph, UI);
                     return;
-                   
-               
-
-
                 }
                 else if (String.Equals(input, "2"))
                 {
