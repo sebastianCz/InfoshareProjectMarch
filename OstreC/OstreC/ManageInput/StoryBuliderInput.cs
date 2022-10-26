@@ -13,7 +13,11 @@ namespace OstreC.ManageInput
             UI.Page.Error = "";
             string input = Console.ReadLine()?.ToUpper().Replace(" ", null);
 
-            if (Helpers.IsCommand(input, UI)) CurrentStory = null;
+            if (Helpers.IsCommand(input, UI))
+            {
+                CurrentStory = null;
+                HomePage = true;
+            }
             else if (String.Equals(input, "0"))
             {
                 Helpers.WriteLineColorText("Are you sure? You go back to menu.\nPress 'Y' - yes or 'N' - no", ConsoleColor.Red);
@@ -89,7 +93,7 @@ namespace OstreC.ManageInput
             }
             else if (!HomePage && String.Equals(input, "LINK"))
             {
-                UI.Page.Error = "User input is not handled yet."; // place for method
+                CreatNewLink(UI); // place for method
                 UI.Page.PageInfo = $"You create a {CurrentStory.NameOfStory} story!";
                 UI.Page.Instructions = " Type 0 to go back to the main menu!\n Type 1 to go Story Builder home page!\n Type 'Save' to save changes!\n Type 'New' to create a new paragraph\n Type 'Link' to create a new paragraph link";
             }
@@ -111,7 +115,7 @@ namespace OstreC.ManageInput
             };
 
             int index = 0;
-            WriteOptionsSelect(options, options[index], UI);
+            WriteOptionsSelect(options, options[index], UI, "Use keyboard arrows and press ENTER to aprove.");
 
             ConsoleKeyInfo keyinfo;
             do
@@ -122,7 +126,7 @@ namespace OstreC.ManageInput
                     if (index + 1 < options.Count)
                     {
                         index++;
-                        WriteOptionsSelect(options, options[index], UI);
+                        WriteOptionsSelect(options, options[index], UI, "Use keyboard arrows and press ENTER to aprove.");
                     }
                 }
                 if (keyinfo.Key == ConsoleKey.UpArrow)
@@ -130,7 +134,7 @@ namespace OstreC.ManageInput
                     if (index - 1 >= 0)
                     {
                         index--;
-                        WriteOptionsSelect(options, options[index], UI);
+                        WriteOptionsSelect(options, options[index], UI, "Use keyboard arrows and press ENTER to aprove.");
                     }
                 }
                 if (keyinfo.Key == ConsoleKey.Enter)
@@ -141,9 +145,9 @@ namespace OstreC.ManageInput
             } while (true);
         }
 
-        static void WriteOptionsSelect(List<Option> options, Option selectedOption, UI UI)
+        static void WriteOptionsSelect(List<Option> options, Option selectedOption, UI UI, string pageInstruction)
         {
-            UI.Page.Instructions = "Use keyboard arrows and press ENTER to aprove.";
+            UI.Page.Instructions = pageInstruction;
             UI.DrawUI(UI, true);
             Console.WriteLine("Select the type of paragraph:\n");
 
@@ -162,7 +166,7 @@ namespace OstreC.ManageInput
             DescOfStage newDesc = new DescOfStage(CurrentStory.AmountOfParagrafh, textParagraph);
             newDesc.DefaultChoice();
 
-            CurrentStory.AddNewDescOfStageParagraph(newDesc);      
+            CurrentStory.AddNewDescOfStageParagraph(newDesc);
         }
         private static void CreatNewFightParagraph(UI UI)
         {
@@ -199,7 +203,7 @@ namespace OstreC.ManageInput
             UI.Page.PageInfo += $"\nYou create an {typeParagraph}.";
             do
             {
-                
+
                 UI.Page.Instructions = "Enter text for the paragraph describing the stage.";
                 UI.DrawUI(UI, true);
 
@@ -254,6 +258,57 @@ namespace OstreC.ManageInput
                 Helpers.WriteLineColorText("\n Do you accept the amount of enemies?\n Press 'Y' - yes or 'N' - no\t", ConsoleColor.Red);
                 if (Helpers.YesOrNoKey(true)) return amountOfEnemy;
             } while (true);
+        }
+
+        private static void CreatNewLink(UI UI)
+        {
+            List<Option> options = new List<Option>
+            {
+                new Option("DescOfStage Paragraph", () => CreateLinkBetweenParagraph(UI, ParagraphType.DescOfStage)),
+                new Option("Fight Paragraph", () =>  CreateLinkBetweenParagraph(UI, ParagraphType.Fight)),
+                new Option("Dialog Paragraph", () =>  CreateLinkBetweenParagraph(UI, ParagraphType.Dialog)),
+                new Option("Test Paragraph", () => CreateLinkBetweenParagraph(UI, ParagraphType.Test)),
+                new Option("Go back!", () => Console.Clear())
+            };
+
+            int index = 0;
+            WriteOptionsSelect(options, options[index], UI, "Select type of the paragraph where you want to start linking.\nUse keyboard arrows and press ENTER to aprove.");
+
+            ConsoleKeyInfo keyinfo;
+            do
+            {
+                keyinfo = Console.ReadKey();
+                if (keyinfo.Key == ConsoleKey.DownArrow)
+                {
+                    if (index + 1 < options.Count)
+                    {
+                        index++;
+                        WriteOptionsSelect(options, options[index], UI, "Select type of the paragraph where you want to start linking.\nUse keyboard arrows and press ENTER to aprove.");
+                    }
+                }
+                if (keyinfo.Key == ConsoleKey.UpArrow)
+                {
+                    if (index - 1 >= 0)
+                    {
+                        index--;
+                        WriteOptionsSelect(options, options[index], UI, "Select type of the paragraph where you want to start linking.\nUse keyboard arrows and press ENTER to aprove.");
+                    }
+                }
+                if (keyinfo.Key == ConsoleKey.Enter)
+                {
+                    options[index].Selected.Invoke();
+                    break;
+                }
+            } while (true);
+        }
+
+        public static void CreateLinkBetweenParagraph(UI UI, ParagraphType paragraphType)
+        {
+            Console.Clear();
+            Helpers.WriteLineColorText("User input is not handled yet.", ConsoleColor.Red);
+            Console.ReadKey();
+
+            return;
         }
     }
 }
