@@ -96,7 +96,8 @@ namespace OstreC.ManageInput
             }
             else if (!HomePage && String.Equals(input, "LINK"))
             {
-                CreatNewLink(UI); // place for method
+                //ChoseTypeOfParagraphToLink(UI, "Select type of the paragraph where you want to start linking.\nUse the up or down arrow on the keyboard and press ENTER to confirm.", true); // place for method
+                AddNextParagraph(UI);
                 UI.Page.PageInfo = $"You create a {CurrentStory.NameOfStory} story!";
                 UI.Page.Instructions = " Type 0 to go back to the main menu!\n Type 1 to go Story Builder home page!\n Type 'Save' to save changes!\n Type 'New' to create a new paragraph\n Type 'Link' to create a new paragraph link";
             }
@@ -148,7 +149,7 @@ namespace OstreC.ManageInput
             } while (true);
         }
 
-        static void WriteOptionsSelect(List<Option> options, Option selectedOption, UI UI, string pageInstruction)
+        private static void WriteOptionsSelect(List<Option> options, Option selectedOption, UI UI, string pageInstruction)
         {
             UI.Page.Instructions = pageInstruction;
             UI.DrawUI(UI, true);
@@ -167,14 +168,14 @@ namespace OstreC.ManageInput
         {
             string textParagraph = AddTextParagraph(UI, "DescOfStage Paragraph");
 
-            DescOfStage newDesc = new DescOfStage(CurrentStory.AmountOfParagrafh, textParagraph);
+            DescOfStage newDesc = new DescOfStage(CurrentStory.AmountOfParagraphs, textParagraph);
             newDesc.DefaultChoice();
             CurrentStory.AddNewDescOfStageParagraph(newDesc);
 
             if (first)
             {
                 Helpers.WriteLineColorText("\n Do you want creat link from this paragraph?\n Press 'Y' - yes or 'N' - no", ConsoleColor.Green);
-                if (Helpers.YesOrNoKey(true)) CreateLinkBetweenParagraph(UI, ParagraphType.DescOfStage, newDesc.IdParagraph);
+                if (Helpers.YesOrNoKey(true)) AddNextParagraph(UI, false, newDesc.IdParagraph, newDesc.ParagraphType);
             }
         }
         private static void CreatNewFightParagraph(UI UI, bool first = true)
@@ -183,7 +184,7 @@ namespace OstreC.ManageInput
             string enemyName = AddEnemy(UI);
             int amountOfEnemy = AmountOfEnemy(UI, enemyName);
 
-            FightParagraph newFight = new FightParagraph(CurrentStory.AmountOfParagrafh, textParagraph);
+            FightParagraph newFight = new FightParagraph(CurrentStory.AmountOfParagraphs, textParagraph);
             newFight.DefaultChoice();
             newFight.AddEnemy(amountOfEnemy, enemyName);
             CurrentStory.AddNewFightParagraph(newFight);
@@ -191,14 +192,14 @@ namespace OstreC.ManageInput
             if (first)
             {
                 Helpers.WriteLineColorText("\n Do you want creat link from this paragraph?\n Press 'Y' - yes or 'N' - no", ConsoleColor.Green);
-                if (Helpers.YesOrNoKey(true)) CreateLinkBetweenParagraph(UI, ParagraphType.Fight, newFight.IdParagraph);
+                if (Helpers.YesOrNoKey(true)) AddNextParagraph(UI, false, newFight.IdParagraph, newFight.ParagraphType);
             }
         }
         private static void CreatNewTestParagraph(UI UI, bool first = true)
         {
             string textParagraph = AddTextParagraph(UI, "Test Paragraph");
 
-            TestParagraph newTest = new TestParagraph(CurrentStory.AmountOfParagrafh, textParagraph);
+            TestParagraph newTest = new TestParagraph(CurrentStory.AmountOfParagraphs, textParagraph);
             newTest.DefaultChoice();
 
             CurrentStory.AddNewTestParagraph(newTest);
@@ -206,21 +207,21 @@ namespace OstreC.ManageInput
             if (first)
             {
                 Helpers.WriteLineColorText("\n Do you want creat link from this paragraph?\n Press 'Y' - yes or 'N' - no", ConsoleColor.Green);
-                if (Helpers.YesOrNoKey(true)) CreateLinkBetweenParagraph(UI, ParagraphType.Test, newTest.IdParagraph);
+                if (Helpers.YesOrNoKey(true)) AddNextParagraph(UI, false, newTest.IdParagraph, newTest.ParagraphType);
             }
         }
         private static void CreatNewDialogParagraph(UI UI, bool first = true)
         {
             string textParagraph = AddTextParagraph(UI, "Dialog Paragraph");
 
-            DialogParagraph newDialog = new DialogParagraph(CurrentStory.AmountOfParagrafh, textParagraph);
+            DialogParagraph newDialog = new DialogParagraph(CurrentStory.AmountOfParagraphs, textParagraph);
             newDialog.DefaultChoice();
             CurrentStory.AddNewDialogParagraph(newDialog);
 
             if (first)
             {
                 Helpers.WriteLineColorText("\n Do you want creat link from this paragraph?\n Press 'Y' - yes or 'N' - no", ConsoleColor.Green);
-                if (Helpers.YesOrNoKey(true)) CreateLinkBetweenParagraph(UI, ParagraphType.Dialog, newDialog.IdParagraph);
+                if (Helpers.YesOrNoKey(true)) AddNextParagraph(UI, false, newDialog.IdParagraph, newDialog.ParagraphType);
             }
         }
 
@@ -285,19 +286,39 @@ namespace OstreC.ManageInput
             } while (true);
         }
 
-        private static void CreatNewLink(UI UI)
+
+        private static void AddNextParagraph(UI UI, bool first = true, int fisrtParagraphID = -1, ParagraphType firstParagraphType = default)
         {
+            string messageSelect = "Select type of the paragraph where you want to start linking.\nUse the up or down arrow on the keyboard and press ENTER to confirm.";
+            if (first) firstParagraphType = ChoseTypeOfParagraphToLink(UI, messageSelect, first, out fisrtParagraphID);           
+            first  = false;
+
+            if (fisrtParagraphID == -1) return;
+
+            string textOfOptnio = AddTextOfOption(UI);
+
+            ParagraphType secondParagraphType = ChoseTypeOfParagraphToLink(UI, messageSelect, first, out int secondParagraphID);
+                   
+            if (secondParagraphID == -1 || !(CurrentStory.AmountOfParagraphs > secondParagraphID)) return;
+
+            StoryBuilder.AddNextParagraphToList(CurrentStory, firstParagraphType, fisrtParagraphID, textOfOptnio, secondParagraphType, secondParagraphID);
+            UI.Page.Error = "Successful linking of paragraphs!";
+        }
+
+        private static ParagraphType ChoseTypeOfParagraphToLink(UI UI, string message, bool first, out int returnParagraphID)
+        {
+            int paragraphID = -1;
             List<Option> options = new List<Option>
             {
-                new Option("DescOfStage Paragraph", () => CreateLinkBetweenParagraph(UI, ParagraphType.DescOfStage)),
-                new Option("Fight Paragraph", () =>  CreateLinkBetweenParagraph(UI, ParagraphType.Fight)),
-                new Option("Dialog Paragraph", () =>  CreateLinkBetweenParagraph(UI, ParagraphType.Dialog)),
-                new Option("Test Paragraph", () => CreateLinkBetweenParagraph(UI, ParagraphType.Test)),
+                new Option("DescOfStage Paragraph", () => CreateLinkBetweenParagraph(UI, ParagraphType.DescOfStage, first, out paragraphID)),
+                new Option("Fight Paragraph", () =>  CreateLinkBetweenParagraph(UI, ParagraphType.Fight, first, out paragraphID)),
+                new Option("Dialog Paragraph", () =>  CreateLinkBetweenParagraph(UI, ParagraphType.Dialog, first, out paragraphID)),
+                new Option("Test Paragraph", () => CreateLinkBetweenParagraph(UI, ParagraphType.Test, first, out paragraphID)),
                 new Option("Go back!", () => Console.Clear())
             };
 
             int index = 0;
-            WriteOptionsSelect(options, options[index], UI, "Select type of the paragraph where you want to start linking.\nUse the up or down arrow on the keyboard and press ENTER to confirm.");
+            WriteOptionsSelect(options, options[index], UI, message);
 
             ConsoleKeyInfo keyinfo;
             do
@@ -308,7 +329,7 @@ namespace OstreC.ManageInput
                     if (index + 1 < options.Count)
                     {
                         index++;
-                        WriteOptionsSelect(options, options[index], UI, "Select type of the paragraph where you want to start linking.\nUse the up or down arrow on the keyboard and press ENTER to confirm.");
+                        WriteOptionsSelect(options, options[index], UI, message);
                     }
                 }
                 if (keyinfo.Key == ConsoleKey.UpArrow)
@@ -316,7 +337,7 @@ namespace OstreC.ManageInput
                     if (index - 1 >= 0)
                     {
                         index--;
-                        WriteOptionsSelect(options, options[index], UI, "Select type of the paragraph where you want to start linking.\nUse the up or down arrow on the keyboard and press ENTER to confirm.");
+                        WriteOptionsSelect(options, options[index], UI, message);
                     }
                 }
                 if (keyinfo.Key == ConsoleKey.Enter)
@@ -325,90 +346,110 @@ namespace OstreC.ManageInput
                     break;
                 }
             } while (true);
+            returnParagraphID = paragraphID;
+            if (index == 0) return ParagraphType.DescOfStage;
+            if (index == 1) return ParagraphType.Fight;
+            if (index == 2) return ParagraphType.Dialog;
+            if (index == 3) return ParagraphType.Test;
+            return default;
         }
 
-        public static void CreateLinkBetweenParagraph(UI UI, ParagraphType paragraphType, int paragraphID = 0)
+        private static void CreateLinkBetweenParagraph(UI UI, ParagraphType paragraphType, bool first, out int paragraphID)
         {
-            if(paragraphID == 0)
-            {
-                UI.Page.Instructions = "Select paragraph where you want to start linking.\nUse the left or right arrow on the keyboard and press ENTER to confirm or ESC to exit the link builder.";
-                var listParagraph = StoryBuilder.SelectList(CurrentStory, paragraphType);
+            ConsoleKeyInfo keyinfo;
+            if (first) UI.Page.Instructions = "Select paragraph where you want to start linking.\nUse the left or right arrow on the keyboard and press ENTER to confirm or ESC to exit the link builder.";
+            else UI.Page.Instructions = "Select paragraph where you want to end linking.\nUse the left or right arrow on the keyboard and press ENTER to confirm or ESC to exit the link builder.";
+            var listParagraph = StoryBuilder.SelectList(CurrentStory, paragraphType);
 
-                if (listParagraph.Count() == 0)
+            if (listParagraph.Count() == 0)
+            {
+                Helpers.WriteLineColorText($" List of {paragraphType} Paragraphs doesn't exist!", ConsoleColor.Red);
+                Helpers.WriteLineColorText($" Do you want to create a new {paragraphType} Paragraph?\n Press 'Y' - yes or 'N' - no", ConsoleColor.Green);
+                if (Helpers.YesOrNoKey(true))
                 {
-                    Helpers.WriteLineColorText($" List of {paragraphType} Paragraphs doesn't exist!", ConsoleColor.Red);
-                    Helpers.WriteLineColorText($" Do you want to create a new {paragraphType} Paragraph?\n Press 'Y' - yes or 'N' - no", ConsoleColor.Green);
-                    if (Helpers.YesOrNoKey(true))
-                    {
-                        if (paragraphType == ParagraphType.DescOfStage) CreatNewDescOfStageParagraph(UI);
-                        else if (paragraphType == ParagraphType.Fight) CreatNewFightParagraph(UI);
-                        else if (paragraphType == ParagraphType.Test) CreatNewTestParagraph(UI);
-                        else if (paragraphType == ParagraphType.Dialog) CreatNewDialogParagraph(UI);
-                        return;
-                    }
+                    if (paragraphType == ParagraphType.DescOfStage) CreatNewDescOfStageParagraph(UI, first);
+                    else if (paragraphType == ParagraphType.Fight) CreatNewFightParagraph(UI, first);
+                    else if (paragraphType == ParagraphType.Test) CreatNewTestParagraph(UI, first);
+                    else if (paragraphType == ParagraphType.Dialog) CreatNewDialogParagraph(UI, first);
+                    if (first) paragraphID = -1;
+                    else paragraphID = CurrentStory.AmountOfParagraphs - 1;
                     return;
                 }
-
-                ConsoleKeyInfo keyinfo;
-                int index = 0;
-                do
-                {
-                    UI.DrawUI(UI, true);
-
-                    Helpers.WriteLineColorText($"Strona {index + 1}/{listParagraph.Count()}", ConsoleColor.Magenta);
-                    Console.WriteLine($"ParagraphId {listParagraph[index].IdParagraph}");
-                    Helpers.WriteLineColorText("\nParagraph text: ", ConsoleColor.Blue);
-                    Console.WriteLine($"{listParagraph[index].TextParagraph}");
-
-                    string options = "";
-                    int i = 0;
-                    foreach (var item in listParagraph[index].NextParagraphs)
-                    {
-                        options += $"  {i}. ";
-                        options += item.ChoiceText;
-                        options += "\n";
-                        i++;
-                    }
-                    Helpers.WriteLineColorText($"\nExist options:", ConsoleColor.Green);
-                    Console.WriteLine(options);
-
-                    keyinfo = Console.ReadKey();
-                    if (keyinfo.Key == ConsoleKey.RightArrow)
-                    {
-                        if (index + 1 < listParagraph.Count()) index++;                           
-                        else
-                        {
-                            Helpers.WriteLineColorText(" The next paragraph doesn't exist!", ConsoleColor.Red);
-                            Helpers.WriteLineColorText($" Do you want to create a new {paragraphType} Paragraph?\n Press 'Y' - yes or 'N' - no", ConsoleColor.Green);
-                            if (Helpers.YesOrNoKey(true))
-                            {
-                                if (paragraphType == ParagraphType.DescOfStage) CreatNewDescOfStageParagraph(UI);
-                                else if (paragraphType == ParagraphType.Fight) CreatNewFightParagraph(UI);
-                                else if (paragraphType == ParagraphType.Test) CreatNewTestParagraph(UI);
-                                else if (paragraphType == ParagraphType.Dialog) CreatNewDialogParagraph(UI);
-                                return;
-                            }
-                            Helpers.WriteLineColorText("\n Do you want to exit the link builder?\n Press 'Y' - yes or 'N' - no", ConsoleColor.Red);
-                            if (Helpers.YesOrNoKey(true)) return;
-                        }    
-                    }
-                    else if (keyinfo.Key == ConsoleKey.LeftArrow)
-                    {
-                        if (index > 0) index--;
-                    }
-                    else if (keyinfo.Key == ConsoleKey.Enter)
-                    {
-                        Helpers.WriteLineColorText("\n You selected this paragraph, are you sure of your choice?\n Press 'Y' - yes or 'N' - no", ConsoleColor.Red);
-                        if (Helpers.YesOrNoKey(true))
-                        {
-                            paragraphID = listParagraph[index].IdParagraph;
-                            break;
-                        }                        
-                    }
-                    else if (keyinfo.Key == ConsoleKey.Escape) return;
-                } while (true);
+                paragraphID = -1;
+                return;
             }
 
+            int index = 0;
+            do
+            {
+                UI.DrawUI(UI, true);
+
+                Helpers.WriteLineColorText($"Strona {index + 1}/{listParagraph.Count()}", ConsoleColor.Magenta);
+                Console.WriteLine($"ParagraphId {listParagraph[index].IdParagraph}");
+                Helpers.WriteLineColorText("\nParagraph text: ", ConsoleColor.Blue);
+                Console.WriteLine($"{listParagraph[index].TextParagraph}");
+
+                string options = "";
+                int i = 0;
+                foreach (var item in listParagraph[index].NextParagraphs)
+                {
+                    options += $"  {i}. ";
+                    options += item.ChoiceText;
+                    options += "\n";
+                    i++;
+                }
+                Helpers.WriteLineColorText($"\nExist options:", ConsoleColor.Green);
+                Console.WriteLine(options);
+
+                keyinfo = Console.ReadKey();
+                if (keyinfo.Key == ConsoleKey.RightArrow)
+                {
+                    if (index + 1 < listParagraph.Count()) index++;
+                    else
+                    {
+                        Helpers.WriteLineColorText(" The next paragraph doesn't exist!", ConsoleColor.Red);
+                        Helpers.WriteLineColorText($" Do you want to create a new {paragraphType} Paragraph?\n Press 'Y' - yes or 'N' - no", ConsoleColor.Green);
+                        if (Helpers.YesOrNoKey(true))
+                        {
+                            if (paragraphType == ParagraphType.DescOfStage) CreatNewDescOfStageParagraph(UI, first);
+                            else if (paragraphType == ParagraphType.Fight) CreatNewFightParagraph(UI, first);
+                            else if (paragraphType == ParagraphType.Test) CreatNewTestParagraph(UI, first);
+                            else if (paragraphType == ParagraphType.Dialog) CreatNewDialogParagraph(UI, first);
+                            if (first) paragraphID = -1;
+                            else paragraphID = CurrentStory.AmountOfParagraphs - 1;
+                            return;
+                        }
+                        Helpers.WriteLineColorText("\n Do you want to exit the link builder?\n Press 'Y' - yes or 'N' - no", ConsoleColor.Red);
+                        if (Helpers.YesOrNoKey(true))
+                        {
+                            paragraphID = -1;
+                            return;
+                        }
+                    }
+                }
+                else if (keyinfo.Key == ConsoleKey.LeftArrow)
+                {
+                    if (index > 0) index--;
+                }
+                else if (keyinfo.Key == ConsoleKey.Enter)
+                {
+                    Helpers.WriteLineColorText("\n You selected this paragraph, are you sure of your choice?\n Press 'Y' - yes or 'N' - no", ConsoleColor.Red);
+                    if (Helpers.YesOrNoKey(true))
+                    {
+                        paragraphID = listParagraph[index].IdParagraph;
+                        return;
+                    }
+                }
+                else if (keyinfo.Key == ConsoleKey.Escape)
+                {
+                    paragraphID = -1;
+                    return;
+                }
+            } while (true);
+        }
+
+        private static string AddTextOfOption(UI UI)
+        {
             UI.Page.Instructions = "Creat an option";
             string textOfOption = "";
             do
@@ -420,14 +461,8 @@ namespace OstreC.ManageInput
 
                 Console.WriteLine($"\nYou have entered the option text: \n{textOfOption}");
                 Helpers.WriteLineColorText("\n Do you accept the text? \n Press 'Y' - yes or 'N' - no\t", ConsoleColor.Red);
-                if (Helpers.YesOrNoKey(true)) break;
+                if (Helpers.YesOrNoKey(true)) return textOfOption;
             } while (true);
-
-            Console.WriteLine($"\n\nYou chose start paragrafID {paragraphID}");
-            Console.WriteLine($"\nYou have entered the option text: \n{textOfOption}");
-            Console.ReadLine();
-
-            return;
         }
     }
 }

@@ -4,13 +4,13 @@ namespace OstreC.Services
 {
     public class StoryBuilder
     {
-        public static Paragraph[] SelectList(Story currentStory, ParagraphType paragraphType)
+        public static Paragraph[] SelectList(Story editStory, ParagraphType paragraphType)
         {
 
             switch (paragraphType)
             {
                 case ParagraphType.DescOfStage:
-                    var listDesc = currentStory.DescOfStages.Select(d =>
+                    var listDesc = editStory.DescOfStages.Select(d =>
                     new DescOfStage(d.IdParagraph, d.TextParagraph)
                     {
                         NextParagraphs = d.NextParagraphs
@@ -18,7 +18,7 @@ namespace OstreC.Services
                     return listDesc;
 
                 case ParagraphType.Fight:
-                    var listFight = currentStory.FightParagraphs.Select(d =>
+                    var listFight = editStory.FightParagraphs.Select(d =>
                     new FightParagraph(d.IdParagraph, d.TextParagraph)
                     {
                         NextParagraphs = d.NextParagraphs
@@ -26,7 +26,7 @@ namespace OstreC.Services
                     return listFight;
 
                 case ParagraphType.Test:
-                    var listTest = currentStory.TestParagraphs.Select(d =>
+                    var listTest = editStory.TestParagraphs.Select(d =>
                     new TestParagraph(d.IdParagraph, d.TextParagraph)
                     {
                         NextParagraphs = d.NextParagraphs
@@ -34,7 +34,7 @@ namespace OstreC.Services
                     return listTest;
 
                 case ParagraphType.Dialog:
-                    var listDialog = currentStory.DialogParagraphs.Select(d =>
+                    var listDialog = editStory.DialogParagraphs.Select(d =>
                     new DialogParagraph(d.IdParagraph, d.TextParagraph)
                     {
                         NextParagraphs = d.NextParagraphs
@@ -44,6 +44,10 @@ namespace OstreC.Services
                 default:
                     throw new Exception("Unknow ParagraphType");
             }
+        }
+        public static void AddNextParagraphToList(Story editStory, ParagraphType firstParagraphType, int firstParagraphID, string textOfOption, ParagraphType secondParagraphType, int secondParagraphID)
+        {
+
         }
     }
 }
