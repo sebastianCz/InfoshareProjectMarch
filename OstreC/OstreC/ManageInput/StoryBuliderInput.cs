@@ -1,6 +1,7 @@
 ﻿using OstreC.Services;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Reflection;
 
 namespace OstreC.ManageInput
@@ -80,10 +81,18 @@ namespace OstreC.ManageInput
                     if (Helpers.YesOrNoKey(true))
                     {
                         CurrentStory = JsonFile.DeserializeFile<Story>("Stories\\" + nameOfStory);
-                        UI.Page.PageInfo = $"You create a {CurrentStory.NameOfStory} story!";
-                        UI.Page.Instructions = " Type 0 to go back to the main menu!\n Type 1 to go Story Builder home page!\n Type 'Save' to save changes!\n Type 'New' to create a new paragraph\n Type 'Link' to create a new paragraph link";
-                        HomePage = false;
-                        break;
+                        if (CurrentStory != default)
+                        {
+                            UI.Page.PageInfo = $"You create a {CurrentStory.NameOfStory} story!";
+                            UI.Page.Instructions = " Type 0 to go back to the main menu!\n Type 1 to go Story Builder home page!\n Type 'Save' to save changes!\n Type 'New' to create a new paragraph\n Type 'Link' to create a new paragraph link";
+                            HomePage = false;
+                            break;
+                        }
+                        else
+                        {
+                            UI.Page.Error = "Story doesn't found! Create new story.";
+                            break;
+                        }
                     }
                     UI.DrawUI(UI, false);
                 } while (true);
