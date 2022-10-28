@@ -199,7 +199,11 @@ namespace OstreC.ManageInput
         {
             string textParagraph = AddTextParagraph(UI, "Test Paragraph");
 
-            TestParagraph newTest = new TestParagraph(CurrentStory.AmountOfParagraphs, textParagraph);
+            TestParagraph newTest = new TestParagraph(CurrentStory.AmountOfParagraphs, textParagraph)
+            {
+                Property = ChoicePropertyTest(UI, out int propertyValue),
+                PropertyValue = propertyValue
+            };
             newTest.DefaultChoice();
 
             CurrentStory.AddNewTestParagraph(newTest);
@@ -286,6 +290,62 @@ namespace OstreC.ManageInput
             } while (true);
         }
 
+        private static string ChoicePropertyTest(UI UI, out int propertyValue)
+        {
+            string[] propeties = new string[] { "Strength", "Dexterity", "Constitution", "Intelligence", "Wisdom", "Charisma"};
+            UI.Page.Instructions = "Choose what property you want to check during the test.\nUse the left or right arrow on the keyboard and press ENTER to confirm.";
+            UI.DrawUI(UI, true);
+            ConsoleKeyInfo keyinfo;
+            int index = 0;
+            string property;
+            do
+            {           
+                Helpers.WriteColorText($"Property {index + 1}/{propeties.Count()}: ", ConsoleColor.Magenta);
+                Console.WriteLine(propeties[index]);
+
+                keyinfo = Console.ReadKey();
+                if (keyinfo.Key == ConsoleKey.RightArrow)
+                {
+                    if (index + 1 >= propeties.Count()) index = 0;
+                    else index++;
+                }
+                else if (keyinfo.Key == ConsoleKey.LeftArrow)
+                {
+                    if (index <= 0) index = propeties.Count() - 1;
+                    else index--;
+                }
+                else if (keyinfo.Key == ConsoleKey.Enter) break;                
+                Console.SetCursorPosition(Console.CursorLeft, Console.CursorTop - 1);
+                Console.WriteLine("                                                                                   ");
+                Console.SetCursorPosition(Console.CursorLeft, Console.CursorTop - 1);
+            } while (true);
+
+
+            int difficulty = 10;
+            UI.Page.Instructions = $"Press the right arrow to increase the difficulty of the property test or the left arrow to decrease the difficulty. \nPress Enter to accept the power of the dice throw.";
+            UI.DrawUI(UI, true);
+            string power = $"Difficulty level: ({difficulty}/ 30): ██████████";
+            do
+            {
+                Console.WriteLine(power);
+                ConsoleKey key = Console.ReadKey().Key;
+                if (key == ConsoleKey.Enter) break;
+                else if (key == ConsoleKey.LeftArrow && difficulty > 1) difficulty--;
+                else if (key == ConsoleKey.RightArrow && difficulty < 30) difficulty++;
+                power = $"Difficulty level: ({difficulty}/ 30): ";
+
+                for (int i = 0; i < difficulty; i++)
+                {
+                    power += "█";
+                }
+                Console.SetCursorPosition(Console.CursorLeft, Console.CursorTop - 1);
+                Console.WriteLine("                                                                                   ");
+                Console.SetCursorPosition(Console.CursorLeft, Console.CursorTop - 1);
+            } while (true);
+
+            propertyValue = difficulty;
+            return propeties[index];
+        }
 
         private static void AddNextParagraph(UI UI, bool first = true, int fisrtParagraphID = -1, ParagraphType firstParagraphType = default)
         {
