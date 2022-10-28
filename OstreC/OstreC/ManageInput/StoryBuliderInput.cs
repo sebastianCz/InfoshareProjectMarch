@@ -290,17 +290,22 @@ namespace OstreC.ManageInput
         private static void AddNextParagraph(UI UI, bool first = true, int fisrtParagraphID = -1, ParagraphType firstParagraphType = default)
         {
             string messageSelect = "Select type of the paragraph where you want to start linking.\nUse the up or down arrow on the keyboard and press ENTER to confirm.";
-            if (first) firstParagraphType = ChoseTypeOfParagraphToLink(UI, messageSelect, first, out fisrtParagraphID);           
+            if (first)
+            {
+                firstParagraphType = ChoseTypeOfParagraphToLink(UI, messageSelect, first, out fisrtParagraphID);
+                if (fisrtParagraphID == -1) return;
+            }
             first  = false;
-
-            if (fisrtParagraphID == -1) return;
-
             string textOfOptnio = AddTextOfOption(UI);
 
             ParagraphType secondParagraphType = ChoseTypeOfParagraphToLink(UI, messageSelect, first, out int secondParagraphID);
-                   
-            if (secondParagraphID == -1 || !(CurrentStory.AmountOfParagraphs > secondParagraphID)) return;
 
+            if (secondParagraphID == -1 || !(CurrentStory.AmountOfParagraphs > secondParagraphID))
+            {
+                UI.Page.Error = "Something went wrong!";
+                return;
+            }
+                
             StoryBuilder.AddNextParagraphToList(CurrentStory, firstParagraphType, fisrtParagraphID, textOfOptnio, secondParagraphType, secondParagraphID);
             UI.Page.Error = "Successful linking of paragraphs!";
         }

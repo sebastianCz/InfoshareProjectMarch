@@ -47,7 +47,30 @@ namespace OstreC.Services
         }
         public static void AddNextParagraphToList(Story editStory, ParagraphType firstParagraphType, int firstParagraphID, string textOfOption, ParagraphType secondParagraphType, int secondParagraphID)
         {
+            switch (firstParagraphType)
+            {
+                case ParagraphType.DescOfStage:
+                    DescOfStage? descOfStage = editStory.DescOfStages.FirstOrDefault(p => p.IdParagraph == firstParagraphID);
+                    descOfStage.AddNewChoice(new NextParagraph(secondParagraphType, textOfOption, secondParagraphID));
+                    break;
 
+                case ParagraphType.Fight:
+                    FightParagraph? fightParagraph = editStory.FightParagraphs.FirstOrDefault(p => p.IdParagraph == firstParagraphID);
+                    fightParagraph.AddNewChoice(new NextParagraph(secondParagraphType, textOfOption, secondParagraphID));
+                    break;
+
+                case ParagraphType.Test:
+                    TestParagraph? testParagraph = editStory.TestParagraphs.FirstOrDefault(p => p.IdParagraph == firstParagraphID);
+                    testParagraph.AddNewChoice(new NextParagraph(secondParagraphType, textOfOption, secondParagraphID));
+                    break;
+
+                case ParagraphType.Dialog:
+                    DialogParagraph? dialogParagraph = editStory.DialogParagraphs.FirstOrDefault(p => p.IdParagraph == firstParagraphID);
+                    dialogParagraph.AddNewChoice(new NextParagraph(secondParagraphType, textOfOption, secondParagraphID));
+                    break;
+                default:
+                    throw new Exception("Unknow ParagraphType");
+            }
         }
     }
 }
