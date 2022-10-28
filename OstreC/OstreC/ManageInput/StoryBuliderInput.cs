@@ -118,7 +118,18 @@ namespace OstreC.ManageInput
 
         private static void CreatNewParagraph(UI UI)
         {
-            List<Option> options = new List<Option>
+            List<Option> options;
+            if (CurrentStory.AmountOfParagraphs == 2)
+            {
+                options = new List<Option>
+            {
+                new Option("DescOfStage Paragraph", () => CreatNewDescOfStageParagraph(UI)),
+                new Option("Go back!", () => Console.Clear())
+            };
+            }
+            else
+            {
+                options = new List<Option>
             {
                 new Option("DescOfStage Paragraph", () => CreatNewDescOfStageParagraph(UI)),
                 new Option("Fight Paragraph", () =>  CreatNewFightParagraph(UI)),
@@ -126,6 +137,7 @@ namespace OstreC.ManageInput
                 new Option("Test Paragraph", () => CreatNewTestParagraph(UI)),
                 new Option("Go back!", () => Console.Clear())
             };
+            }
 
             int index = 0;
             WriteOptionsSelect(options, options[index], UI, "Use the up or down arrow on the keyboard and press ENTER to confirm.");
@@ -374,8 +386,12 @@ namespace OstreC.ManageInput
                 UI.Page.Error = "Something went wrong!";
                 return;
             }
-                
-            StoryBuilder.AddNextParagraphToList(CurrentStory, firstParagraphType, fisrtParagraphID, textOfOptnio, secondParagraphType, secondParagraphID);
+
+            Helpers.WriteLineColorText("\n Want to change the starting and ending positions of a paragraph in an option?", ConsoleColor.Green);
+            Helpers.WriteLineColorText(" Press 'Y' - yes or 'N' - no", ConsoleColor.Red);
+            if (Helpers.YesOrNoKey(true)) StoryBuilder.AddNextParagraphToList(CurrentStory, secondParagraphType, secondParagraphID, textOfOptnio, firstParagraphType, fisrtParagraphID);
+            else StoryBuilder.AddNextParagraphToList(CurrentStory, firstParagraphType, fisrtParagraphID, textOfOptnio, secondParagraphType, secondParagraphID);
+
             UI.Page.Error = "Successful linking of paragraphs!";
         }
 
