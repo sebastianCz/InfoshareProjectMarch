@@ -27,19 +27,17 @@ namespace OstreC.Services
     public  class GameDictionary
     {
         
-
-       public string LoadEnemies()
+        internal List<Enemy> Enemies = JsonFile.DeserializeFile<List<Enemy>>("Enemy");
+        public string LoadEnemies()
         {
-            Enemies = JsonFile.DeserializeFile<List<Enemy>>("Enemy");
             string message = "\n";
             foreach (var item in Enemies)
             {
                 message += item.Name + "\n";
             }
             return message;
-         
         }
-        public List<Enemy> Enemies { get; set; }
+         
 
     public string FindEnemiesWithName(string userInput)
         {
