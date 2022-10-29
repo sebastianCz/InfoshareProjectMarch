@@ -1,28 +1,45 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
+using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace OstreC.Services
 {
-    
+    //public string OptionsEnemies()
+    //{
+    //    Console.WriteLine("What action you want to take? \n 1) Show me all list with enemies \n 2) Compare two enemies with each other \n 3) Search in dictionary by key word");
+    //    bool input = int.TryParse(Console.ReadLine(), out int result);
+    //    if (input)
+    //        switch
+    //        {
+    //            case 1:
+    //                Console.WriteLine("This is list of all enemies in a game");
+
+
+
+    //        }
+    //}
+
     public  class GameDictionary
     {
-        public List<Enemy> Enemies = new List<Enemy>();
+        
 
-        public GameDictionary()
-        {
-           LoadEnemies();
-
-        }
-
-       public  void LoadEnemies()
+       public string LoadEnemies()
         {
             Enemies = JsonFile.DeserializeFile<List<Enemy>>("Enemy");
+            string message = "\n";
+            foreach (var item in Enemies)
+            {
+                message += item.Name + "\n";
+            }
+            return message;
          
         }
+        public List<Enemy> Enemies { get; set; }
 
     public string FindEnemiesWithName(string userInput)
         {

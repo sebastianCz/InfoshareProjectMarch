@@ -13,6 +13,9 @@
     <None Update="jsonLib\classes.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <None Update="jsonLib\Enemy.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Update="jsonLib\Stories\DefaultStory3.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
@@ -21,9 +24,6 @@
     </None>
     <None Update="jsonLib\Stories\DefaultStory.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Update="jsonLib\Enemy.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Update="jsonLib\races.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
