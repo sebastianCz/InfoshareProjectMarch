@@ -5,7 +5,9 @@ namespace OstreC.ManageInput
     //Shows possible inputs to user depending on currently active paragraph.  Analyzes strings. Launches correct methods depending on user input. 
     public class ParagraphInput : IuiInput
     {
+       
         public PageType Type => PageType.Paragraph;
+        
         private int AmountOfOptions { get; set; } = 0;
         private Paragraph Paragraph { get; set; }
         public void CheckUserInput(UI UI)
