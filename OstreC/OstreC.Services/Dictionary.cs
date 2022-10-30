@@ -27,8 +27,8 @@ namespace OstreC.Services
     public  class GameDictionary
     {
         
-        internal List<Enemy> Enemies = JsonFile.DeserializeFile<List<Enemy>>("Enemy");
-        public string LoadEnemies()
+        public List<Enemy> Enemies = JsonFile.DeserializeFile<List<Enemy>>("Enemy");
+        public string ShowEnemies()
         {
             string message = "\n";
             foreach (var item in Enemies)
@@ -36,6 +36,22 @@ namespace OstreC.Services
                 message += item.Name + "\n";
             }
             return message;
+        }
+
+        public void CompareEnemies(Enemy monster1, Enemy monster2)
+        {
+                Console.WriteLine($"Health of Monster 1 is: {monster1.HealthPoints} \n Health of Monster 2 is {monster2.HealthPoints}");
+            int result = 0;
+            if(monster1.HealthPoints >= monster2.HealthPoints)
+            {
+                result = monster1.HealthPoints - monster2.HealthPoints;
+                Console.WriteLine($"Difference between Monster 1 Health Points and Monster 2 Health Points is: {result}");
+            }
+            else if (monster1.HealthPoints < monster2.HealthPoints)
+            {
+                result = monster2.HealthPoints - monster1.HealthPoints;
+                Console.WriteLine($"Difference between Monster 2 Health Points and Monster 1 Health Points is: {result}");
+            }
         }
          
 

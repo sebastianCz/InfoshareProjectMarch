@@ -9,7 +9,11 @@ namespace OstreC.ManageInput
         public PageType Type => PageType.Dictionary;
         public void CheckUserInput(UI UI)
         {
-            var dictionary = new GameDictionary();
+            GameDictionary dictionary = new GameDictionary();
+
+
+
+
             //Pozwolic uzytkownikowi wpisac nazwe przeciwnika 1 oraz 2. 
             //User input1 oraz user input2
             //monster1 oraz monster2
@@ -25,10 +29,19 @@ namespace OstreC.ManageInput
               dictionary.compare(monster1,monster2)
 
             //Metoda compare porownuje przeciwnikow 
-
+            
              
-             */
+            // */
+            //while (true)
+            //{
+            //    var input1 = Console.ReadLine().ToUpper().Trim();
+            //    if (input1 != string.Empty);
+            //    {
 
+            //        break;
+            //    }
+
+            //}
             ///Jak moze wygladac calos?
             /*
              while(true){
@@ -58,9 +71,11 @@ namespace OstreC.ManageInput
              
              
              */
-
+            UI.DrawUI(UI, false);
 
             var input = Console.ReadLine();
+            Enemy monster1 = null;
+            Enemy monster2 = null;
            
 
             if (Helpers.IsCommand(input, UI))
@@ -69,38 +84,55 @@ namespace OstreC.ManageInput
             }
             else if (String.Equals(input, "1"))
             {
-                Console.WriteLine("Czesc, podaj mi imie przeciwnika"); //library with stories
+                Console.WriteLine("Library with enemies");
 
-                input = Console.ReadLine();
-                //jakies tam checki inputu 
+                Console.WriteLine($"This is list of all enemies in a game \n {dictionary.ShowEnemies()}");
 
-                string result = dictionary.FindEnemiesWithName(input);
-
-                Console.WriteLine(result);
             }
             else if (String.Equals(input, "2"))
             {
-                Console.WriteLine("What action you want to take? \n 1) Show me all list with enemies \n 2) Compare two enemies with each other \n 3) Search in dictionary by key word");
-                bool inputNumber = int.TryParse(Console.ReadLine(), out int result);
-                if (inputNumber)
-                {
-                    switch(result)
+                var next = false;
+                    while (!next)
                     {
-                        case 1:
-                            Console.WriteLine($"This is list of all enemies in a game \n {dictionary.LoadEnemies()}");
-                            
-                        break;
-
-                        case 2:
-                            Console.WriteLine("Select the enemies you want to compare: \n 1) GoblinWarrior \n 2) GoblinArcher \n 3) Orc \n 4) Mirmidon \n 5) Phobos");
-                            //UI.CharacterNames;
-
-                        break;
-
+                    UI.Page.Instructions = "Provide name of the first enemy to compare";
+                    UI.DrawUI(UI, false);
+                    string userInput = Console.ReadLine();
+                        foreach (var Enemy in dictionary.Enemies)
+                        {
+                            if (Enemy.Name == userInput)
+                            {
+                                monster1 = Enemy;
+                                next = true;
+                            break;
+                            }
+                        }
+                        UI.Page.Error = "You provide the wrong name,"; 
                     }
+                UI.Page.Error = "";
+                next = false;
+                while (!next)
+                {
+                    UI.Page.Instructions = "Provide the name of the secend enemy";
+                    UI.DrawUI(UI, false);
+                    string userInput = Console.ReadLine();
+                    foreach (var Enemy in dictionary.Enemies)
+                    {
+                        if (Enemy.Name == userInput)
+                        {
+                            monster2 = Enemy;
+                            next = true;
+                            break;
+                        }
+                    }
+                    UI.Page.Error = "You provide the wrong name,";
                 }
+                UI.Page.Error = "";
+                next = false;
+                dictionary.CompareEnemies(monster1, monster2);
+                Console.WriteLine("Press anything to proceed");
+                Console.ReadLine();
             }
-            //Your code goes here
+
 
         }
 
