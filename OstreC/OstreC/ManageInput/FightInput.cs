@@ -47,7 +47,7 @@ namespace OstreC.ManageInput
                     {
                         Console.WriteLine("3.Special Attack");
                     }
-                    Console.WriteLine($"4.To go back to main menu");
+                    Console.WriteLine($"9.To go back to main menu");
                     ConsoleKey key;
                     int idEnemy = 0;
                     int attack = 0;
@@ -89,7 +89,7 @@ namespace OstreC.ManageInput
                             }
                             specialAttack = false;
                             break;
-                        }else if(key == ConsoleKey.D4 || key == ConsoleKey.NumPad4)
+                        }else if(key == ConsoleKey.D9 || key == ConsoleKey.NumPad9)
                         {
                             return "0";
                         }
