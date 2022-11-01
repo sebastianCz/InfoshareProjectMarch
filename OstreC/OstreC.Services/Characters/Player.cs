@@ -1,4 +1,5 @@
 ﻿using OstreC.Database;
+using System;
 
 namespace OstreC.Services
 {
@@ -20,6 +21,7 @@ namespace OstreC.Services
         List<Character> PlayerList = new List<Character>();
 
         public List<int> AttributePoints = new List<int>();
+        public List<int> SavedAttributePoints = new List<int>();
 
         public bool IsPlayerCreated = false;
         string Race;
@@ -31,9 +33,9 @@ namespace OstreC.Services
             base.CharClass = "Warrior";
             Level = 1;
 
-            Strength = 18;
+            Strength = 16;
             Dexterity = 17;
-            Constitution = 18;
+            Constitution = 15;
             Intelligence = 10;
             Wisdom = 14;
             Charisma = 16;
@@ -53,13 +55,13 @@ namespace OstreC.Services
         {
             Name = Utilities.InputDataAsString(Utilities.rgxAZ);
         }
-        public void AddRace()
+        public void AddRace(string race)
         {
-            Race = Console.ReadLine();
+            Race = race;
         }
-        public void AddClass()
+        public void AddClass(string charClass)
         {
-            CharClass = Console.ReadLine();
+            CharClass = charClass;
         }
         public void AddValueToProperty()
         {
@@ -84,7 +86,7 @@ namespace OstreC.Services
             ModWisdom = CalculateModifier(Wisdom);
             ModCharisma = CalculateModifier(Charisma);
 
-            IsPlayerCreated = true;
+            //IsPlayerCreated = true;
         }
         public void AddPropertiesToList()
         {
@@ -123,25 +125,27 @@ namespace OstreC.Services
             //int minValue = 1;
             //int maxValue = 6;
             int input = Utilities.InputDataAsInt(minValue, maxValue);
+            if (!AttributePoints.Contains(input))
+                return AddAttributePoints(attribute);
             switch (attribute)
             {
                 case Attributes.Strength:
-                    ChangeValueFromList(AttributePoints, input);
+                    ChangeValueFromList(AttributePoints, input, Attributes.Strength);
                     return Strength = input;
                 case Attributes.Dexterity:
-                    ChangeValueFromList(AttributePoints, input);
+                    ChangeValueFromList(AttributePoints, input, Attributes.Dexterity);
                     return Dexterity = input;
                 case Attributes.Constitution:
-                    ChangeValueFromList(AttributePoints, input);
+                    ChangeValueFromList(AttributePoints, input, Attributes.Constitution);
                     return Constitution = input;
                 case Attributes.Intelligence:
-                    ChangeValueFromList(AttributePoints, input);
+                    ChangeValueFromList(AttributePoints, input, Attributes.Intelligence);
                     return Intelligence = input;
                 case Attributes.Wisdom:
-                    ChangeValueFromList(AttributePoints, input);
+                    ChangeValueFromList(AttributePoints, input, Attributes.Wisdom);
                     return Wisdom = input;
                 case Attributes.Charisma:
-                    ChangeValueFromList(AttributePoints, input);
+                    ChangeValueFromList(AttributePoints, input, Attributes.Charisma);
                     return Charisma = input;
                 default:
                     return -1;
@@ -151,15 +155,18 @@ namespace OstreC.Services
         {
             list.Remove(input);
         }
-        public void ChangeValueFromList(List<int> list, int input, bool isID = false)
+        public void ChangeValueFromList(List<int> list, int input, Attributes attribute, bool isID = true)
         {
             if (isID)
             {
                 if (list.Contains(input))
                 {
-                    list.RemoveAt(input - 1);
-                    list.Insert(input - 1, 0);
+                    int checkInput = list.IndexOf(input);
+                    list.RemoveAt(checkInput);
+                    list.Insert(checkInput, 0);
                 }
+                else
+                    AddAttributePoints(attribute);
             }
             else
             {

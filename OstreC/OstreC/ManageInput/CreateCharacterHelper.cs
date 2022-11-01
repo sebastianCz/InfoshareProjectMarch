@@ -104,9 +104,9 @@ namespace OstreC.ManageInput
                 Utilities.WriteLineColorText("Tell me your name: ", firstColor: ccWhite);
                 Player.AddName();
                 Utilities.WriteLineColorText("Choose your race: ", firstColor: ccWhite);
-                Player.AddRace();
+                //Player.AddRace();
                 Utilities.WriteLineColorText("Choose your class: ", firstColor: ccWhite);
-                Player.AddClass();
+                //Player.AddClass();
 
                 Player.GenerateAttributePoints();
                 DisplayListAttributes(Player.AttributePoints);

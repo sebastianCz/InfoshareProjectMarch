@@ -7,6 +7,16 @@ public class Utilities
     public static Regex rgxAZ = new Regex("[^a-zA-Z]");
     public static Regex rgxAZ09 = new Regex("[^a-zA-Z0-9]");
     public static bool isGarageCreated = false;
+
+    public static void DisplayList(List<string> list)
+    {
+        Console.Write("|");
+        foreach (var item in list)
+        {
+            Console.Write($" {item} |");
+        }
+        Console.WriteLine();
+    }
     public static string InputDataAsString()
     {
         string input = Console.ReadLine();

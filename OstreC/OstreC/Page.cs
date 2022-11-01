@@ -38,7 +38,7 @@
                 case PageType.Create_Character:
                     CurrentType = PageType.Create_Character;
                     PageInfo = "Welcome to character creation page!";                    
-                    Instructions = " 1. Create Default Player \n 2. Create customer Player \n 3.DeletePlayer \n 4.DisplayStatistics \n 5.Save Player \n 6.Exit to Main Menu";
+                    Instructions = " 1. Create Default Player \n 2. Create customer Player \n 3. DeletePlayer \n 4. DisplayStatistics \n 5. Save Player \n 6. Exit to Main Menu";
                     UI.DrawUI(UI, true);
                     break;
 

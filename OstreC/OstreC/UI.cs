@@ -55,23 +55,24 @@ namespace OstreC
             string header = "";
             string status = "Offline";
 
-            if (UI.Page.CurrentType != PageType.Login && UI.Page.CurrentType != PageType.Paragraph)
-            {
-                if (UI.CurrentUser.LoggedIn)  status = "Online"; 
+            //if (UI.Page.CurrentType != PageType.Login && UI.Page.CurrentType != PageType.Paragraph)
+            //{
+            //    if (UI.CurrentUser.LoggedIn) status = "Online";
 
-                Console.ForegroundColor = ConsoleColor.Green;
-                header = $"Active Page: {Page.CurrentType} || Ostre C Game || Current status: {status} || Current user:{CurrentUser.UserName} {Page.BreakLine}  " +
-               $"Type any of the existing commands at any time: \n {_menuCommandsString} {Page.BreakLine}";
-            }
-            else if (UI.Page.CurrentType == PageType.Login)
-            {
-                header = $"Active Page: {Page.CurrentType} || Ostre C Game || Current status: {status} {Page.BreakLine} ";
-            }else if(UI.Page.CurrentType == PageType.Paragraph)
-            {
-                header = $"Active Page: {Page.CurrentType} || Ostre C Game || Current status: {status}||Story Name:{UI.GameSession.SaveFile.NameOfStory}{Page.BreakLine}"+
-                         $"Character Name:{UI.GameSession.CurrentPlayer.Name} Character HP:{UI.GameSession.CurrentPlayer.HealthPoints}"+
-                         $"Type any of the existing commands at any time: {_menuCommandsString} {Page.BreakLine}";
-            }
+            //    Console.ForegroundColor = ConsoleColor.Green;
+            //    header = $"Active Page: {Page.CurrentType} || Ostre C Game || Current status: {status} || Current user:{CurrentUser.UserName} {Page.BreakLine}  " +
+            //   $"Type any of the existing commands at any time: \n {_menuCommandsString} {Page.BreakLine}";
+            //}
+            //else if (UI.Page.CurrentType == PageType.Login)
+            //{
+            //    header = $"Active Page: {Page.CurrentType} || Ostre C Game || Current status: {status} {Page.BreakLine} ";
+            //}
+            //else if (UI.Page.CurrentType == PageType.Paragraph)
+            //{
+            //    header = $"Active Page: {Page.CurrentType} || Ostre C Game || Current status: {status}||Story Name:{UI.GameSession.SaveFile.NameOfStory}{Page.BreakLine}" +
+            //             $"Character Name:{UI.GameSession.CurrentPlayer.Name} Character HP:{UI.GameSession.CurrentPlayer.HealthPoints}" +
+            //             $"Type any of the existing commands at any time: {_menuCommandsString} {Page.BreakLine}";
+            //} //odkomentowac
 
             Console.ForegroundColor = ConsoleColor.Green;
             Console.WriteLine($"{header}");
