@@ -1,4 +1,6 @@
-﻿namespace OstreC
+﻿using OstreC.Services;
+
+namespace OstreC
 {
     //Static " helper " methods used in different contexts.
     public static class Helpers
@@ -108,6 +110,7 @@
 
         public static int ThrowDice(UI UI)
         {
+
             int powerThrow = 1;
             UI.Page.Instructions = $"Press the right arrow to increase the power of the dice throw or the left arrow to decrease the power. \nPress Enter to accept the power of the dice throw.";
             UI.DrawUI(UI, false);
@@ -148,6 +151,54 @@
             Console.WriteLine("\nPress anything.");
             Console.ReadKey();
             return valueRoll;
+        }
+        public static int ThrowDice(int diceNumber, bool player)
+        {
+            if (player)
+                {
+                int powerThrow = 1;
+                Console.WriteLine("Press the right arrow to increase the power of the dice throw or the left arrow to decrease the power. \nPress Enter to accept the power of the dice throw.");
+                string power = $" Power({powerThrow}/ 10): █";
+                do
+                {
+                    Console.WriteLine(power);
+                    ConsoleKey key = Console.ReadKey().Key;
+                    if (key == ConsoleKey.Enter) break;
+                    else if (key == ConsoleKey.LeftArrow && powerThrow > 1) powerThrow--;
+                    else if (key == ConsoleKey.RightArrow && powerThrow < 10) powerThrow++;
+                    power = $" Power({powerThrow}/ 10): ";
+
+                    for (int i = 0; i < powerThrow; i++)
+                    {
+                        power += "█";
+                    }
+                    Console.SetCursorPosition(Console.CursorLeft, Console.CursorTop - 1);
+                    Console.WriteLine("                                                      ");
+                    Console.SetCursorPosition(Console.CursorLeft, Console.CursorTop - 1);
+                } while (true);
+
+                int valueRoll = 0;
+
+                for (int i = 0; i < powerThrow * powerThrow; i++)
+                {
+                    Random rand = new Random();
+                    valueRoll = rand.Next(1, diceNumber + 1);
+
+                    Console.WriteLine(" Roll:" + valueRoll);
+                    Console.SetCursorPosition(Console.CursorLeft, Console.CursorTop - 1);
+                    int timeSleep = (int)Math.Pow(2, (i / powerThrow));
+                    Thread.Sleep(timeSleep);
+                    Console.WriteLine("                                                      ");
+                    Console.SetCursorPosition(Console.CursorLeft, Console.CursorTop - 1);
+                }
+                Console.WriteLine(" Roll:" + valueRoll);
+                return valueRoll;
+            }
+            else
+            {
+                Random rand = new Random();
+               return rand.Next(1, diceNumber + 1);
+            }
         }
     }
 }

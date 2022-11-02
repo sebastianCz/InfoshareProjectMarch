@@ -7,7 +7,7 @@ namespace OstreC.Services
     {
         public string NameOfStory { get; private set; }
         [JsonIgnore]
-        public int AmountOfParagrafh { get { return FightParagraphs.Count() + TestParagraphs.Count() + DialogParagraphs.Count() + DescOfStages.Count(); } }
+        public int AmountOfParagraphs { get { return FightParagraphs.Count() + TestParagraphs.Count() + DialogParagraphs.Count() + DescOfStages.Count(); } }
         public List<FightParagraph> FightParagraphs { get; } = new List<FightParagraph>();
         public List<TestParagraph> TestParagraphs { get; } = new List<TestParagraph>();
         public List<DialogParagraph> DialogParagraphs { get; } = new List<DialogParagraph>();

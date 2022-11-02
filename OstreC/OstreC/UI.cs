@@ -68,9 +68,9 @@ namespace OstreC
                 header = $"Active Page: {Page.CurrentType} || Ostre C Game || Current status: {status} {Page.BreakLine} ";
             }else if(UI.Page.CurrentType == PageType.Paragraph)
             {
-                header = $"Active Page: {Page.CurrentType} || Ostre C Game || Current status: {status}||Story Name:{UI.GameSession.SaveFile.NameOfStory}{Page.BreakLine}"+
-                         $"Character Name:{UI.GameSession.CurrentPlayer.Name} Character HP:{UI.GameSession.CurrentPlayer.HealthPoints}"+
-                         $"Type any of the existing commands at any time: {_menuCommandsString} {Page.BreakLine}";
+                header = $" Active Page: {Page.CurrentType} || Ostre C Game || Current status: {status}||Story Name:{UI.GameSession.SaveFile.NameOfStory}{Page.BreakLine}"+
+                         $" Character Name:{UI.GameSession.CurrentPlayer.Name} Character HP:{UI.GameSession.CurrentPlayer.HealthPoints}"+
+                         $"\n Type any of the existing commands at any time: {_menuCommandsString} {Page.BreakLine}";
             }
 
             Console.ForegroundColor = ConsoleColor.Green;

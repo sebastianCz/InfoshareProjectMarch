@@ -10,7 +10,7 @@ namespace OstreC.Services
         [JsonIgnore]
         public int AmountOfOptions { get { return NextParagraphs.Count(); } }
         public abstract ParagraphType ParagraphType { get; }
-        public List<NextParagraph> NextParagraphs { get; } = new List<NextParagraph>();
+        public List<NextParagraph> NextParagraphs { get; set; } = new List<NextParagraph>();
 
         public Paragraph(int idParagraph, string textParagraph = "")
         {
