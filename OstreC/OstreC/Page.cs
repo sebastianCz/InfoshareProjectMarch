@@ -63,10 +63,10 @@
                     UI.DrawUI(UI, true);
                     break;
 
-                case PageType.Bestiary:
-                    CurrentType = PageType.Bestiary;
-                    PageInfo = "Welcome to the Bestiary!";
-                    Instructions = " User input is not handled yet.";
+                case PageType.Dictionary:
+                    CurrentType = PageType.Dictionary;
+                    PageInfo = "Welcome to Dictionary!";
+                    Instructions = " Type 1 to open library with stories\n Type 2 to open libriary with Enemies ";
                     UI.DrawUI(UI, true);
                     break;
 

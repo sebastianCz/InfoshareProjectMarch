@@ -30,7 +30,7 @@ namespace OstreC
             PageTypes.Add(new MainMenuInput());
             PageTypes.Add(new CreateCharacterInput());
             PageTypes.Add(new ParagraphInput());
-            PageTypes.Add(new BestiaryInput());
+            PageTypes.Add(new DictionaryInput());
             PageTypes.Add(new StoryBuilderInput());
             PageTypes.Add(new LoginInput());
             PageTypes.Add(new ManageAccount());
