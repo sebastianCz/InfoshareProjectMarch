@@ -15,16 +15,16 @@
         }
 
         //Text to show when  UI.Page.CurrentType  page changes to a differnt one. 
-        public void switchPage(PageType x, UI UI)
+        public void SwitchPage(PageType pageType, UI UI)
         {
-            switch (x)
+            switch (pageType)
             {
                 case PageType.Main_Menu:
                     CurrentType = PageType.Main_Menu;
                     PageInfo = "You are in the main menu!";
                     Instructions = " Press 1 to Start a New Game! \n Press 2 to Load a game! \n Press 3 to Create a new character! \n Press 4 to enter the Story Builder \n" +
                         " Press 5 to view the D&D Library \n Press 6 to logout \n Press 7 to exit the program \n Press 8 to manage your account";
-                    UI.DrawUI(UI, true);
+                    UI.DrawUI(UI, false);
                     break;
 
                 case PageType.Create_NewGame:
@@ -38,7 +38,7 @@
                 case PageType.Create_Character:
                     CurrentType = PageType.Create_Character;
                     PageInfo = "Welcome to character creation page!";                    
-                    Instructions = " 1. Create Default Player \n 2. Create customer Player \n 3.DeletePlayer \n 4.DisplayStatistics \n 5.Save Player \n 6.Exit to Main Menu";
+                    Instructions = " 1. Create default character \n 2. Create custom character \n 3. Delete a character \n 4. DisplayStatistics \n 5. Save Player \n 6. Exit to Main Menu";
                     UI.DrawUI(UI, true);
                     break;
 
@@ -74,7 +74,7 @@
                     CurrentType = PageType.Login;
                     PageInfo = "Welcome to the login page! ";
                     Instructions = " Type 1 to login \n Type 2 to register \n Type 3 if you forgot your password";
-                    UI.DrawUI(UI, true);
+                    UI.DrawUI(UI, false);
                     break;
 
                 case PageType.ManageAccount:

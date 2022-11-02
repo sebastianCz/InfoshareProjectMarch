@@ -1,4 +1,5 @@
-﻿using OstreC.Services;
+﻿using OstreC.Database;
+using OstreC.Services;
 using System.Numerics;
 
 namespace OstreC.ManageInput
@@ -9,10 +10,17 @@ namespace OstreC.ManageInput
         //UI ui = new UI(); // stackoverflow
         Player Player = new Player();
 
+        private bool isNamed = false;
+        private bool isRaceChosen = false;
+        private bool isClassChosen = false;
+        private bool isAttrPointsSpent = false;
+
+
         ConsoleColor ccWhite = ConsoleColor.White;
         ConsoleColor ccRed = ConsoleColor.Red;
         ConsoleColor ccYellow = ConsoleColor.Yellow;
         ConsoleColor ccDarkCyan = ConsoleColor.DarkCyan;
+        ConsoleColor ccGreen = ConsoleColor.Green;
         public void CheckUserInput(UI UI)
         {
             //CreateCharacterHelper createCharacterHelper = new CreateCharacterHelper();
@@ -56,8 +64,7 @@ namespace OstreC.ManageInput
                             UI.Page.Error = "You can't override a character that wasn't created by you.";
                             UI.DrawUI(UI, false);
                         }
-                    }
-                     
+                    }                     
                     break;
                 case "6":
                     ExitToMainMenu();
@@ -105,87 +112,236 @@ namespace OstreC.ManageInput
             #region Switch 02
             void CreateCustomPlayer()
             {
+                Player = new Player();
                 if (Player.IsPlayerCreated)
                 {
                     UI.Page.PageInfo = "Create your own adventurer";
                     UI.Page.Error = "Player already exists. You can have only 1 active adventurer";
                     UI.DrawUI(UI, false);
-                    //Utilities.PressAnyKey();
                     return;
                 }
                 if (!Player.IsPlayerCreated)
                 {
-                    Utilities.WriteLineColorText("Tell me your name: ", firstColor: ccWhite);
-                    Player.AddName();
-                    Utilities.WriteLineColorText("Choose your race: ", firstColor: ccWhite);
-                    Player.AddRace();
-                    Utilities.WriteLineColorText("Choose your class: ", firstColor: ccWhite);
-                    Player.AddClass();
+                    while (true)
+                    {
+                        Console.Clear();
+                        DisplaySubMenu("Character Creator");
+                        Console.WriteLine(" 1. Choose name\n 2. Choose race\n 3. Choose class\n 4. Spend attribute points\n 5. Accept your character\n 6. Exit Character Creator");
+                        var input = Console.ReadLine();
 
-                    Player.GenerateAttributePoints();
-                    DisplayListAttributes(Player.AttributePoints);
+                        if (Helpers.IsCommand(input, UI))
+                        {
+                            Helpers.HandleCommand(input, UI);
+                        }
+                        switch (input)
+                        {
+                            case "1":
+                                ChooseName();
+                                break;
+                            case "2":
+                                ChooseRace();
+                                break;
+                            case "3":
+                                ChooseClass();
+                                break;
+                            case "4":
+                                SpendAttributePoints();
+                                break;
+                            case "5":
+                                AcceptCharacter();
+                                return;
+                            case "6":
+                                Exit();
+                                return;
+                            default:
+                                break;
+                        }
+                    }
+                    void ChooseName()
+                    {
+                        if (isNamed)
+                        {
+                            Utilities.WriteLineColorText("Would you like to change your character name?", ccYellow);
+                            if (YesOrNoKey() == false)
+                                return;
+                        }
+                        Console.Clear();
+                        DisplaySubMenu("Choose your name");
+                        Player.AddName();
+                        isNamed = true;
+                    }
+                    void ChooseRace()
+                    {
+                        if (isRaceChosen)
+                        {
+                            Utilities.WriteLineColorText("Would you like to change your race?", ccYellow);
+                            if (YesOrNoKey() == false)
+                                return;
+                        }
+                        Console.Clear();
+                        DisplaySubMenu("Choose your race");
+                        Utilities.DisplayList(Player.races);
+                        while (true)
+                        {
+                            string input = Utilities.InputDataAsString();
+                            if (Player.races.Contains(input))
+                            {
+                                Player.AddRace(input);
+                                isRaceChosen = true;
+                                break;
+                            }
+                            else
+                                Utilities.WriteLineColorText("You typed incorrect race", ccRed);
+                        }
+                    }
+                    void ChooseClass()
+                    {
+                        if (isClassChosen)
+                        {
+                            Utilities.WriteLineColorText("Would you like to change your class?", ccYellow);
+                            if (YesOrNoKey() == false)
+                                return;
+                        }
+                        Console.Clear();
+                        DisplaySubMenu("Choose your class");
+                        Utilities.DisplayList(Player.classes);
+                        while (true)
+                        {
+                            string input = Utilities.InputDataAsString();
+                            if (Player.classes.Contains(input))
+                            {
+                                Player.AddClass(input);
+                                isClassChosen = true;
+                                break;
+                            }
+                            else
+                                Utilities.WriteLineColorText("You typed incorrect class", ccRed);
+                        }
+                    }
+                    void SpendAttributePoints()
+                    {
+                        if (isAttrPointsSpent)
+                        {
+                            Utilities.WriteLineColorText("Would you like to change your attribute points?", ccYellow);
+                            if (YesOrNoKey() == false)
+                                return;
+                        }
+                        Console.Clear();
+                        DisplaySubMenu("Spend your attribute points");
+                        Player.GenerateAttributePoints();
+                        DisplayListAttributes(Player.AttributePoints, true);
+                        ConsoleKeyInfo cki;
+                        while (true)
+                        {
+                            cki = Console.ReadKey();
+                            if (cki.Key == ConsoleKey.R)
+                            {
+                                Player.GenerateAttributePoints();
+                                DisplayListAttributes(Player.AttributePoints, true);
+                            }
+                            if (cki.Key == ConsoleKey.S)
+                            {
+                                Player.SavedAttributePoints = Player.AttributePoints.ToList();
+                                DisplayListAttributes(Player.AttributePoints, true);
+                            }
+                            if (cki.Key == ConsoleKey.L)
+                            {
+                                Player.AttributePoints = Player.SavedAttributePoints.ToList();
+                                DisplayListAttributes(Player.AttributePoints, true);
+                            }
+                            if (cki.Key == ConsoleKey.Enter)
+                                break;
+                            if (cki.Key == ConsoleKey.Escape)
+                                return;
+                        }
 
-                    AddAttribute(Player.Attributes.Strength);
-                    AddAttribute(Player.Attributes.Dexterity);
-                    AddAttribute(Player.Attributes.Constitution);
-                    AddAttribute(Player.Attributes.Intelligence);
-                    AddAttribute(Player.Attributes.Wisdom);
-                    AddAttribute(Player.Attributes.Charisma);
+                        AddAttribute(Player.Attributes.Strength);
+                        AddAttribute(Player.Attributes.Dexterity);
+                        AddAttribute(Player.Attributes.Constitution);
+                        AddAttribute(Player.Attributes.Intelligence);
+                        AddAttribute(Player.Attributes.Wisdom);
+                        AddAttribute(Player.Attributes.Charisma);
 
-                    //Player.ModStrength = Player.CalculateModifier(Player.Strength);
+                        Player.AddValueToProperty();
+                        isAttrPointsSpent = true;
+                        Utilities.PressAnyKey();
+                    }
+                    void AcceptCharacter()
+                    {
+                        string message = "Are you sure? You can't change all of these things later";
+                        Utilities.WriteLineColorText(message, ConsoleColor.Yellow);
+                        YesOrNoKey();
+                        Player.IsPlayerCreated = true;
+                        UI.Page.PageInfo = "Custom adventurer was created";
+                        UI.Page.Error = "";
+                        UI.DrawUI(UI, false);
+                    }
+                    void Exit()
+                    {
+                        string message = "Are you sure you want to quit?";
+                        Utilities.WriteLineColorText(message, ConsoleColor.Yellow);
+                        YesOrNoKey();
+                        UI.Page.PageInfo = "You left the character creator";
+                        UI.Page.Error = "The character was not created";
+                        UI.DrawUI(UI, false);
+                    }
+                    bool YesOrNoKey()
+                    {
+                        Utilities.WriteLineColorText("Press Y to Yes, N to No", ConsoleColor.DarkYellow);
+                        while (true)
+                        {
+                            ConsoleKeyInfo cki;
+                            cki = Console.ReadKey();
+                            if (cki.Key == ConsoleKey.Y)
+                                return true;
+                            else if (cki.Key == ConsoleKey.N)
+                                return false;
+                            else
+                            {
+                                var cursorTop = Console.CursorTop;
+                                var cursorLeft = Console.CursorLeft;
 
-                    Player.AddValueToProperty();
-                    
-                    UI.Page.PageInfo = "Custom adventurer was created";
-                    UI.Page.Error = "";
-                    Utilities.PressAnyKey();
-                    UI.DrawUI(UI, false);
+                                Console.SetCursorPosition(0, cursorTop);
+                                Console.Write(new string(' ', Console.BufferWidth));
+
+                                Console.SetCursorPosition(cursorLeft, cursorTop - 1);
+                                YesOrNoKey();
+                            }
+                        }
+                    }
                 }
             }
             #endregion
             #region Switch 03
             void DeletePlayer()
-            {
-                if (!Player.IsPlayerCreated)
-                {
-                    UI.Page.PageInfo = "Delete your adventurer";
-                    UI.Page.Error = "No adventurer to delete!";
-                    UI.DrawUI(UI, false);
-                    //Utilities.PressAnyKey();
-                    return;
-                }
-                if (Player.IsPlayerCreated)
-                {
-                    UI.Page.PageInfo = "Delete your adventurer";
-                    UI.Page.Error = "Do you really want to delete your adventurer?\nPress Y - yes; Press N - no";
-                    UI.DrawUI(UI, false);
-                    //Console.WriteLine("Do you really want to delete your adventurer?\nPress Y - yes; Press N - no");
-                    string input = Utilities.InputDataAsString(Utilities.rgxYN).ToLower();
-                    if (input == "y")
-                    {
-                        UI.Page.PageInfo = "Adventurer was deleted";
-                        UI.Page.Error = "";
-                        UI.DrawUI(UI, false);
-                        //Utilities.PressAnyKey();
-                        Player.IsPlayerCreated = false;
-                        JsonFile.DeleteJsonFile("Characters\\" + Player.Name);
+            { 
+                var chosenCharacter = Helpers.ChooseCharacterToDelete(ReaderJson.FindAllUserCharacters(UI.CurrentUser.UserName));
+                if (chosenCharacter != "cancel") {
+                    Helpers.WriteLineColorText( $"Are you sure you want to delete your character: {chosenCharacter}? Press Y for yes, or N to cancel.",ConsoleColor.Red);
+
+                    if (Helpers.YesOrNoKey(true))
+                    { 
+                        JsonFile.DeleteJsonFile("Characters\\" + chosenCharacter);
+                        UI.Page.Error = $"Adventurer {chosenCharacter} was deleted!";
                         Player.DeletePlayer();
                     }
                     else
                     {
-                        UI.Page.PageInfo = "Oh, you have changed your mind";
-                        UI.Page.Error = "";
-                        UI.DrawUI(UI, false);
-                        //Utilities.PressAnyKey();
+                        UI.Page.Error = "Characeter wasn't deleted.";
                     }
                 }
+                else
+                {
+                    UI.Page.Error = "Characeter wasn't deleted.";
+                }
+                UI.DrawUI(UI, false); 
             }
-            #endregion
+            #endregion 
             #region Switch 04
             void DisplayStatistics()
             {
                 Console.Clear();
-                UI.Page.switchPage(PageType.Create_Character, UI);
+                UI.Page.SwitchPage(PageType.Create_Character, UI);
                 if (!Player.IsPlayerCreated)
                 {
                     UI.Page.PageInfo = "Display statistics";
@@ -220,7 +376,7 @@ namespace OstreC.ManageInput
             #region Switch 06
             void ExitToMainMenu()
             {
-                UI.Page.switchPage(PageType.Main_Menu, UI);
+                UI.Page.SwitchPage(PageType.Main_Menu, UI);
             }
             #endregion
         }
@@ -257,17 +413,31 @@ namespace OstreC.ManageInput
             //    DisplayListAttributes(Player.AttributePoints);
             //}
         }
-        private void DisplayListAttributes(List<int> list)
+        void DisplaySubMenu(string text)
+        {
+            int underline = 38;
+            Utilities.Underline('=', underline);
+            Utilities.WriteLineColorText(text, firstColor: ccDarkCyan);
+            Utilities.Underline('=', underline);
+        }
+        private void DisplayListAttributes(List<int> list, bool displayInfo = false)
         {
             Console.Clear();
+            DisplaySubMenu("Spend Attribute Points");
+            if (displayInfo)
+            {
+                //Console.Clear();
+                //DisplaySubMenu("Spend Attribute Points");
+                Utilities.WriteLineColorText("R - Roll again\nS - Save points\nL - Load saved points\nEnter - Accept points\nESC - Exit", ccGreen);
+            }          
             string format = "+#.##;-#.##;+0";
 
             int sum = list.Sum(x => Convert.ToInt32(x));
             string tab = "\t";
 
             int i = 38;
-            Utilities.Underline('=', i);
-            Utilities.WriteLineColorText("Available Points", firstColor: ccDarkCyan);
+            //Utilities.Underline('=', i);
+            //Utilities.WriteLineColorText("Available Points", firstColor: ccDarkCyan);
             Utilities.Underline('=', i);
             int counter = 0;
             foreach (var item in list)

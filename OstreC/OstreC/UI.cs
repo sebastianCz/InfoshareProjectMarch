@@ -57,7 +57,7 @@ namespace OstreC
 
             if (UI.Page.CurrentType != PageType.Login && UI.Page.CurrentType != PageType.Paragraph)
             {
-                if (UI.CurrentUser.LoggedIn)  status = "Online"; 
+                if (UI.CurrentUser.LoggedIn) status = "Online";
 
                 Console.ForegroundColor = ConsoleColor.Green;
                 header = $"Active Page: {Page.CurrentType} || Ostre C Game || Current status: {status} || Current user:{CurrentUser.UserName} {Page.BreakLine}  " +
@@ -66,7 +66,8 @@ namespace OstreC
             else if (UI.Page.CurrentType == PageType.Login)
             {
                 header = $"Active Page: {Page.CurrentType} || Ostre C Game || Current status: {status} {Page.BreakLine} ";
-            }else if(UI.Page.CurrentType == PageType.Paragraph)
+            }
+            else if (UI.Page.CurrentType == PageType.Paragraph)
             {
                 header = $" Active Page: {Page.CurrentType} || Ostre C Game || Current status: {status}||Story Name:{UI.GameSession.SaveFile.NameOfStory}{Page.BreakLine}"+
                          $" Character Name:{UI.GameSession.CurrentPlayer.Name} Character HP:{UI.GameSession.CurrentPlayer.HealthPoints}"+

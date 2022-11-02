@@ -20,6 +20,7 @@ namespace OstreC.ManageInput
             {
                 //Login  
                 case "1":
+                    
                     do
                     { 
                         UI.Page.PageInfo = "Proceed as specified below to login or type BACK to go back to previous screen.";
@@ -33,8 +34,7 @@ namespace OstreC.ManageInput
                         UI.Page.Instructions = "Provide your password";
                         UI.DrawUI(UI, true);
                         input = Console.ReadLine();
-
-                        if (Helpers.IsCommand(input, UI)) { return; }
+                         
                         password = input;
 
 
@@ -42,16 +42,13 @@ namespace OstreC.ManageInput
                         Console.WriteLine(UI.CurrentUser);
                         if (login)
                         {
-                            UI.Page.switchPage(PageType.Main_Menu, UI);
+                            UI.Page.SwitchPage(PageType.Main_Menu, UI);
  
                             break;
                         }
 
                         UI.Page.Error = "Your password or login were not correct.Press enter to proceed.";
-                        UI.DrawUI(UI, false);
-                        Console.ReadLine();
-                        UI.Page.switchPage(PageType.Login,UI);
-
+                        UI.Page.SwitchPage(PageType.Login, UI);
                         break;
 
                         
@@ -95,7 +92,7 @@ namespace OstreC.ManageInput
                             UI.Page.Instructions = "";
                             UI.DrawUI(UI, false);
                             Console.ReadLine();
-                            UI.Page.switchPage(PageType.Login,UI);
+                            UI.Page.SwitchPage(PageType.Login,UI);
 
                             return;
                         }
@@ -111,7 +108,7 @@ namespace OstreC.ManageInput
                         
                             UI.DrawUI(UI, false);
                             Console.ReadLine();
-                            UI.Page.switchPage(UI.Page.CurrentType, UI);
+                            UI.Page.SwitchPage(UI.Page.CurrentType, UI);
                             break;
                         }
                         else
@@ -120,7 +117,7 @@ namespace OstreC.ManageInput
                         UI.Page.Instructions = "Press Enter to go back to main menu.";
                             UI.DrawUI(UI, false);
                             Console.ReadLine();
-                            UI.Page.switchPage(UI.Page.CurrentType, UI);
+                            UI.Page.SwitchPage(UI.Page.CurrentType, UI);
                             UI.Page.Error = feedback;
                             
                         }
@@ -155,7 +152,7 @@ namespace OstreC.ManageInput
                         UI.DrawUI(UI, true);
 
                         Console.ReadLine();
-                        UI.Page.switchPage(PageType.Login, UI);
+                        UI.Page.SwitchPage(PageType.Login, UI);
                         return;
                     }
                     else
@@ -165,7 +162,7 @@ namespace OstreC.ManageInput
 
 
                         Console.ReadLine();
-                        UI.Page.switchPage(PageType.Login, UI);
+                        UI.Page.SwitchPage(PageType.Login, UI);
 
                         return;
                     } 

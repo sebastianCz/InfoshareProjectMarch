@@ -7,6 +7,16 @@ public class Utilities
     public static Regex rgxAZ = new Regex("[^a-zA-Z]");
     public static Regex rgxAZ09 = new Regex("[^a-zA-Z0-9]");
     public static bool isGarageCreated = false;
+
+    public static void DisplayList(List<string> list)
+    {
+        Console.Write("|");
+        foreach (var item in list)
+        {
+            Console.Write($" {item} |");
+        }
+        Console.WriteLine();
+    }
     public static string InputDataAsString()
     {
         string input = Console.ReadLine();
@@ -175,6 +185,19 @@ public class Utilities
     /// </summary>
     /// <param name="myDictionnary"></param>
     public static Dictionary<int, string> LoadDictionaryFromJson(string folderName)
+    {
+        var myDictionary = new Dictionary<int, string>();
+        var dir = Path.Combine("\\JsonLib", folderName);
+        string[] allFileNames = ReaderJson.FindAllFileNames(dir);
+
+        for (int i = 0; i < allFileNames.Count(); i++)
+        {
+            myDictionary.Add(i + 1, allFileNames[i]);
+        }
+        return myDictionary;
+    }
+
+    public static Dictionary<int, string> LoadDictionaryFromJson(string folderName,string userName)
     {
         var myDictionary = new Dictionary<int, string>();
         var dir = Path.Combine("\\JsonLib", folderName);

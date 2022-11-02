@@ -30,7 +30,7 @@ namespace OstreC.ManageInput
                 dictionary.ShowAllEnemiesData();
                 Console.WriteLine("\nPress ENTER to proceed");
                 Console.ReadLine();
-                UI.Page.switchPage(PageType.Dictionary, UI);
+                UI.Page.SwitchPage(PageType.Dictionary, UI);
             }
             else if (String.Equals(input, "2"))
             {
@@ -86,7 +86,7 @@ namespace OstreC.ManageInput
                 dictionary.CompareEnemies(monster1, monster2);
                 Console.WriteLine("\nPress ENTER to proceed");
                 Console.ReadLine();
-                UI.Page.switchPage(PageType.Dictionary, UI);
+                UI.Page.SwitchPage(PageType.Dictionary, UI);
             }
         }
     }
