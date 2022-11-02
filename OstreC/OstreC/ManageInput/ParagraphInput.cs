@@ -5,7 +5,9 @@ namespace OstreC.ManageInput
     //Shows possible inputs to user depending on currently active paragraph.  Analyzes strings. Launches correct methods depending on user input. 
     public class ParagraphInput : IuiInput
     {
+       
         public PageType Type => PageType.Paragraph;
+        
         private int AmountOfOptions { get; set; } = 0;
         private Paragraph Paragraph { get; set; }
         public void CheckUserInput(UI UI)
@@ -24,8 +26,12 @@ namespace OstreC.ManageInput
 
                 var currentFightPatagraph = (FightParagraph)Paragraph;
                 var currentEnemies = ReaderStories.InitialEnemies(currentFightPatagraph.ParagraphEnemies); // Creat object enemies
-                //input = ReaderStories.SolveFight(currentEnemies, UI.GameSession.CurrentPlayer);
-                input = "2";
+                input = FightInput.SolveFight(currentEnemies, UI.GameSession.CurrentPlayer);
+                if (input == "0")
+                {
+                    UI.Page.switchPage(PageType.Main_Menu, UI);
+                    return;
+                } 
             }
 
             if (saveFile.ActiveParagraphType == ParagraphType.Test) // Result form method ParagraphTest
