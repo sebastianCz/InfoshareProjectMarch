@@ -26,7 +26,7 @@ namespace OstreC.Services
         public int ModIntelligence { get; set; }
         public int ModWisdom { get; set; }
         public int ModCharisma { get; set; }
-
+        [JsonIgnore]
         public List<string> races = new List<string>()
         {
             "Dwarf",
@@ -39,6 +39,7 @@ namespace OstreC.Services
             "HalfOrc",
             "Tiefling"
         };
+        [JsonIgnore]
         public List<string> classes = new List<string>()
         {
             "Barbarian",

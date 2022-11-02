@@ -20,7 +20,7 @@
                     // CheckUserInput() will start from the top again if user doesn't want to continue.
                     if (!Helpers.YesOrNoKey(false)) 
                     { 
-                        UI.Page.switchPage(PageType.Main_Menu, UI); 
+                        UI.Page.SwitchPage(PageType.Main_Menu, UI); 
                         return; 
                     }
                      
@@ -82,15 +82,21 @@
                         }
                     }
                     UI.GameSession = UI.NewGame(storyToLoad,characterToLoad);
-                    UI.Page.switchPage(PageType.Paragraph, UI);
+                    UI.Page.SwitchPage(PageType.Paragraph, UI);
                     return;
                 }
                 else if (String.Equals(input, "2"))
                 {
                     if (UI.CurrentUser.SaveFileExists)
                     {
-                        UI.GameSession = UI.LoadSave(UI.CurrentUser.UserName);
-                        if (UI.GameSession.FileLoaded) { UI.Page.switchPage(PageType.Paragraph, UI); }
+                        try { UI.GameSession = UI.LoadSave(UI.CurrentUser.UserName); }
+                        catch {
+                            UI.CurrentUser.SaveFileExists = false;
+                            UI.Page.Error = " Your save file is corrupted. Make sure you didn't delete your character or the story you want to load!";
+                            UI.Page.SwitchPage(PageType.Main_Menu, UI);
+                            return;
+                        }
+                        if (UI.GameSession.FileLoaded) { UI.Page.SwitchPage(PageType.Paragraph, UI); } 
                     }
                     else
                     {
@@ -100,20 +106,20 @@
                 }
                 else if (String.Equals(input, "3"))
                 {
-                    UI.Page.switchPage(PageType.Create_Character, UI);
+                    UI.Page.SwitchPage(PageType.Create_Character, UI);
                 }
                 else if (String.Equals(input, "4"))
                 {
-                    UI.Page.switchPage(PageType.Story_Bulider, UI);
+                    UI.Page.SwitchPage(PageType.Story_Bulider, UI);
                 }
                 else if (String.Equals(input, "5"))
                 {
-                    UI.Page.switchPage(PageType.Bestiary, UI);
+                    UI.Page.SwitchPage(PageType.Bestiary, UI);
                 }
                 else if (String.Equals(input, "6"))
                 {
                     UI.CurrentUser.logOff(UI.CurrentUser);
-                    UI.Page.switchPage(PageType.Login, UI);
+                    UI.Page.SwitchPage(PageType.Login, UI);
                 }
                 else if (String.Equals(input, "7"))
                 {
@@ -121,7 +127,7 @@
                 }
                 else if (String.Equals(input, "8"))
                 {
-                    UI.Page.switchPage(PageType.ManageAccount, UI);
+                    UI.Page.SwitchPage(PageType.ManageAccount, UI);
                 }
                 else
                 {

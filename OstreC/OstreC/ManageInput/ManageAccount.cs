@@ -47,7 +47,7 @@
                                     if (UI.CurrentUser.UpdateUser(UI.CurrentUser, input, 1))
                                     {
                                         UI.Page.Error = "Username Updated";
-                                        UI.Page.switchPage(PageType.ManageAccount, UI);
+                                        UI.Page.SwitchPage(PageType.ManageAccount, UI);
                                         return;
                                     }
                                     else
@@ -80,7 +80,7 @@
                                     if (UI.CurrentUser.UpdateUser(UI.CurrentUser, input, 2))
                                     {
                                         UI.Page.Error = "Username Updated";
-                                        UI.Page.switchPage(PageType.ManageAccount, UI);
+                                        UI.Page.SwitchPage(PageType.ManageAccount, UI);
                                         return;
                                     }
                                     else
@@ -113,7 +113,7 @@
                                     if (UI.CurrentUser.UpdateUser(UI.CurrentUser, input, 3))
                                     {
                                         UI.Page.Error = "Email Updated";
-                                        UI.Page.switchPage(PageType.ManageAccount, UI);
+                                        UI.Page.SwitchPage(PageType.ManageAccount, UI);
                                         return;
                                     }
                                     else
@@ -143,12 +143,12 @@
                     {
                         UI.CurrentUser.DeleteUser(UI.CurrentUser);
                         UI.CurrentUser.logOff(UI.CurrentUser);
-                        UI.Page.switchPage(PageType.Login, UI);
+                        UI.Page.SwitchPage(PageType.Login, UI);
                     }
                     break;
 
                 case "3":
-                    UI.Page.switchPage(PageType.Login, UI);
+                    UI.Page.SwitchPage(PageType.Login, UI);
                     break;
 
                 default:

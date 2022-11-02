@@ -197,6 +197,19 @@ public class Utilities
         return myDictionary;
     }
 
+    public static Dictionary<int, string> LoadDictionaryFromJson(string folderName,string userName)
+    {
+        var myDictionary = new Dictionary<int, string>();
+        var dir = Path.Combine("\\JsonLib", folderName);
+        string[] allFileNames = ReaderJson.FindAllFileNames(dir);
+
+        for (int i = 0; i < allFileNames.Count(); i++)
+        {
+            myDictionary.Add(i + 1, allFileNames[i]);
+        }
+        return myDictionary;
+    }
+
     /// <summary>
     /// Provide a dictionary as param. It will loop through provided dictionnary and show the key and value as a string. 
     /// </summary>

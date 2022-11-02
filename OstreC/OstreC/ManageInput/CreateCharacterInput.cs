@@ -1,4 +1,5 @@
-﻿using OstreC.Services;
+﻿using OstreC.Database;
+using OstreC.Services;
 using System.Numerics;
 
 namespace OstreC.ManageInput
@@ -111,6 +112,7 @@ namespace OstreC.ManageInput
             #region Switch 02
             void CreateCustomPlayer()
             {
+                Player = new Player();
                 if (Player.IsPlayerCreated)
                 {
                     UI.Page.PageInfo = "Create your own adventurer";
@@ -191,7 +193,6 @@ namespace OstreC.ManageInput
                             else
                                 Utilities.WriteLineColorText("You typed incorrect race", ccRed);
                         }
-
                     }
                     void ChooseClass()
                     {
@@ -313,51 +314,34 @@ namespace OstreC.ManageInput
             #endregion
             #region Switch 03
             void DeletePlayer()
-            {
-                if (!Player.IsPlayerCreated)
-                {
-                    UI.Page.PageInfo = "Delete your adventurer";
-                    UI.Page.Error = "No adventurer to delete!";
-                    UI.DrawUI(UI, false);
-                    //Utilities.PressAnyKey();
-                    return;
-                }
-                if (Player.IsPlayerCreated)
-                {
-                    UI.Page.PageInfo = "Delete your adventurer";
-                    UI.Page.Error = "Do you really want to delete your adventurer?\nPress Y - yes; Press N - no";
-                    UI.DrawUI(UI, false);
-                    //Console.WriteLine("Do you really want to delete your adventurer?\nPress Y - yes; Press N - no");
-                    string input = Utilities.InputDataAsString(Utilities.rgxYN).ToLower();
-                    if (input == "y")
-                    {
-                        UI.Page.PageInfo = "Adventurer was deleted";
-                        UI.Page.Error = "";
-                        UI.DrawUI(UI, false);
-                        //Utilities.PressAnyKey();
-                        Player.IsPlayerCreated = false;
-                        isNamed = false;
-                        isRaceChosen = false;
-                        isClassChosen = false;
-                        isAttrPointsSpent = false;
-                        JsonFile.DeleteJsonFile("Characters\\" + Player.Name);
+            { 
+                var chosenCharacter = Helpers.ChooseCharacterToDelete(ReaderJson.FindAllUserCharacters(UI.CurrentUser.UserName));
+                if (chosenCharacter != "cancel") {
+                    Helpers.WriteLineColorText( $"Are you sure you want to delete your character: {chosenCharacter}? Press Y for yes, or N to cancel.",ConsoleColor.Red);
+
+                    if (Helpers.YesOrNoKey(true))
+                    { 
+                        JsonFile.DeleteJsonFile("Characters\\" + chosenCharacter);
+                        UI.Page.Error = $"Adventurer {chosenCharacter} was deleted!";
                         Player.DeletePlayer();
                     }
                     else
                     {
-                        UI.Page.PageInfo = "Oh, you have changed your mind";
-                        UI.Page.Error = "";
-                        UI.DrawUI(UI, false);
-                        //Utilities.PressAnyKey();
+                        UI.Page.Error = "Characeter wasn't deleted.";
                     }
                 }
+                else
+                {
+                    UI.Page.Error = "Characeter wasn't deleted.";
+                }
+                UI.DrawUI(UI, false); 
             }
-            #endregion
+            #endregion 
             #region Switch 04
             void DisplayStatistics()
             {
                 Console.Clear();
-                UI.Page.switchPage(PageType.Create_Character, UI);
+                UI.Page.SwitchPage(PageType.Create_Character, UI);
                 if (!Player.IsPlayerCreated)
                 {
                     UI.Page.PageInfo = "Display statistics";
@@ -392,7 +376,7 @@ namespace OstreC.ManageInput
             #region Switch 06
             void ExitToMainMenu()
             {
-                UI.Page.switchPage(PageType.Main_Menu, UI);
+                UI.Page.SwitchPage(PageType.Main_Menu, UI);
             }
             #endregion
         }

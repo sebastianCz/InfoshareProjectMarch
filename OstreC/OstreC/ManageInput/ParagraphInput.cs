@@ -29,7 +29,7 @@ namespace OstreC.ManageInput
                 input = FightInput.SolveFight(currentEnemies, UI.GameSession.CurrentPlayer);
                 if (input == "0")
                 {
-                    UI.Page.switchPage(PageType.Main_Menu, UI);
+                    UI.Page.SwitchPage(PageType.Main_Menu, UI);
                     return;
                 } 
             }
@@ -75,7 +75,7 @@ namespace OstreC.ManageInput
             else if (AmountOfOptions > 0 && String.Equals(input, "0"))
             {
                 Helpers.WriteLineColorText("Are you sure? You go back to menu.\nPress 'Y' - yes or 'N' - no", ConsoleColor.Red);
-                if (Helpers.YesOrNoKey(true)) UI.Page.switchPage(PageType.Main_Menu, UI);
+                if (Helpers.YesOrNoKey(true)) UI.Page.SwitchPage(PageType.Main_Menu, UI);
             } // Main menu
             else if (AmountOfOptions > 1 && String.Equals(input, "1"))
             {

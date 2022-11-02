@@ -53,7 +53,15 @@ namespace OstreC.Services
         }
         public void AddName()
         {
-            Name = Utilities.InputDataAsString(Utilities.rgxAZ);
+            do
+            {
+                string name = Utilities.InputDataAsString(Utilities.rgxAZ);
+
+                if (!ReaderJson.FileExitsInDirectory("Characters\\" + name)) { Name = name; break; }
+                Console.Write("\n Player already exists. Provide a unique name:  ");
+                
+
+            } while (true); 
         }
         public void AddRace(string race)
         {
@@ -263,10 +271,8 @@ namespace OstreC.Services
                 JsonFile.SerializedToJson(character, "Characters\\" + character.Name);
                 return true;
             }
-            //if i didn't predict something. 
-
-            throw new  Exception("Error when saving character");
-       
+            //if i didn't predict something.  
+            throw new  Exception("Error when saving character"); 
         }
 
         //public void DisplayStatistics()
