@@ -179,6 +179,9 @@ namespace OstreC.Services
         }
         public void DeletePlayer()
         {
+            Name = "";
+            Race = "";
+            CharClass = "";
             PlayerList.Clear();
             IsPlayerCreated = false;
 

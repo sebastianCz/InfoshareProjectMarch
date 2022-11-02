@@ -9,6 +9,12 @@ namespace OstreC.ManageInput
         //UI ui = new UI(); // stackoverflow
         Player Player = new Player();
 
+        private bool isNamed = false;
+        private bool isRaceChosen = false;
+        private bool isClassChosen = false;
+        private bool isAttrPointsSpent = false;
+
+
         ConsoleColor ccWhite = ConsoleColor.White;
         ConsoleColor ccRed = ConsoleColor.Red;
         ConsoleColor ccYellow = ConsoleColor.Yellow;
@@ -57,8 +63,7 @@ namespace OstreC.ManageInput
                             UI.Page.Error = "You can't override a character that wasn't created by you.";
                             UI.DrawUI(UI, false);
                         }
-                    }
-                     
+                    }                     
                     break;
                 case "6":
                     ExitToMainMenu();
@@ -111,7 +116,6 @@ namespace OstreC.ManageInput
                     UI.Page.PageInfo = "Create your own adventurer";
                     UI.Page.Error = "Player already exists. You can have only 1 active adventurer";
                     UI.DrawUI(UI, false);
-                    //Utilities.PressAnyKey();
                     return;
                 }
                 if (!Player.IsPlayerCreated)
@@ -153,26 +157,35 @@ namespace OstreC.ManageInput
                     }
                     void ChooseName()
                     {
+                        if (isNamed)
+                        {
+                            Utilities.WriteLineColorText("Would you like to change your character name?", ccYellow);
+                            if (YesOrNoKey() == false)
+                                return;
+                        }
                         Console.Clear();
                         DisplaySubMenu("Choose your name");
-                        //Utilities.WriteLineColorText("Tell me your name: ", firstColor: ccWhite);
                         Player.AddName();
+                        isNamed = true;
                     }
                     void ChooseRace()
                     {
+                        if (isRaceChosen)
+                        {
+                            Utilities.WriteLineColorText("Would you like to change your race?", ccYellow);
+                            if (YesOrNoKey() == false)
+                                return;
+                        }
                         Console.Clear();
                         DisplaySubMenu("Choose your race");
-                        //Console.WriteLine($"Race:{Player.Race}");
                         Utilities.DisplayList(Player.races);
-                        //Utilities.WriteLineColorText("Choose your race: ", firstColor: ccWhite);
                         while (true)
                         {
                             string input = Utilities.InputDataAsString();
                             if (Player.races.Contains(input))
                             {
                                 Player.AddRace(input);
-                                //Console.WriteLine($"Race:{Player.Race}");
-                                Utilities.PressAnyKey();
+                                isRaceChosen = true;
                                 break;
                             }
                             else
@@ -182,6 +195,12 @@ namespace OstreC.ManageInput
                     }
                     void ChooseClass()
                     {
+                        if (isClassChosen)
+                        {
+                            Utilities.WriteLineColorText("Would you like to change your class?", ccYellow);
+                            if (YesOrNoKey() == false)
+                                return;
+                        }
                         Console.Clear();
                         DisplaySubMenu("Choose your class");
                         Utilities.DisplayList(Player.classes);
@@ -191,6 +210,7 @@ namespace OstreC.ManageInput
                             if (Player.classes.Contains(input))
                             {
                                 Player.AddClass(input);
+                                isClassChosen = true;
                                 break;
                             }
                             else
@@ -199,6 +219,12 @@ namespace OstreC.ManageInput
                     }
                     void SpendAttributePoints()
                     {
+                        if (isAttrPointsSpent)
+                        {
+                            Utilities.WriteLineColorText("Would you like to change your attribute points?", ccYellow);
+                            if (YesOrNoKey() == false)
+                                return;
+                        }
                         Console.Clear();
                         DisplaySubMenu("Spend your attribute points");
                         Player.GenerateAttributePoints();
@@ -236,6 +262,7 @@ namespace OstreC.ManageInput
                         AddAttribute(Player.Attributes.Charisma);
 
                         Player.AddValueToProperty();
+                        isAttrPointsSpent = true;
                         Utilities.PressAnyKey();
                     }
                     void AcceptCharacter()
@@ -257,33 +284,26 @@ namespace OstreC.ManageInput
                         UI.Page.Error = "The character was not created";
                         UI.DrawUI(UI, false);
                     }
-                    void YesOrNoKey()
+                    bool YesOrNoKey()
                     {
                         Utilities.WriteLineColorText("Press Y to Yes, N to No", ConsoleColor.DarkYellow);
                         while (true)
                         {
-                            //Utilities.WriteLineColorText(message, ConsoleColor.Yellow);
-                            
-                            //Console.WriteLine("Press Y to Yes, N to No");
                             ConsoleKeyInfo cki;
                             cki = Console.ReadKey();
                             if (cki.Key == ConsoleKey.Y)
-                                break;
+                                return true;
                             else if (cki.Key == ConsoleKey.N)
-                                CreateCustomPlayer();
+                                return false;
                             else
                             {
-                                // Capture current cursor position
                                 var cursorTop = Console.CursorTop;
                                 var cursorLeft = Console.CursorLeft;
 
-                                // Clear the previous line (above the current position)
                                 Console.SetCursorPosition(0, cursorTop);
                                 Console.Write(new string(' ', Console.BufferWidth));
 
-                                // Resume cusor at it's original position
                                 Console.SetCursorPosition(cursorLeft, cursorTop - 1);
-                                //Console.Write("You pressed the wrong button");
                                 YesOrNoKey();
                             }
                         }
@@ -316,6 +336,10 @@ namespace OstreC.ManageInput
                         UI.DrawUI(UI, false);
                         //Utilities.PressAnyKey();
                         Player.IsPlayerCreated = false;
+                        isNamed = false;
+                        isRaceChosen = false;
+                        isClassChosen = false;
+                        isAttrPointsSpent = false;
                         JsonFile.DeleteJsonFile("Characters\\" + Player.Name);
                         Player.DeletePlayer();
                     }
