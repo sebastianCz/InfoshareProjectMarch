@@ -114,7 +114,7 @@
                 }
                 else if (String.Equals(input, "5"))
                 {
-                    UI.Page.SwitchPage(PageType.Bestiary, UI);
+                    UI.Page.SwitchPage(PageType.Dictionary, UI);
                 }
                 else if (String.Equals(input, "6"))
                 {
