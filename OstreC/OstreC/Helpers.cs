@@ -168,7 +168,6 @@ namespace OstreC
 
             for (int i = 0; i < powerThrow * powerThrow; i++)
             {
-                UI.DrawUI(UI, false);
                 Random rand = new Random();
                 valueRoll = rand.Next(1, 21);
 
