@@ -66,7 +66,7 @@
                 case PageType.Dictionary:
                     CurrentType = PageType.Dictionary;
                     PageInfo = "Welcome to Dictionary!";
-                    Instructions = " Type 1 to open library with stories\n Type 2 to open libriary with Enemies ";
+                    Instructions = " Type 1 to view all enemies! \n Type 2 to compare two enemies with each other!";
                     UI.DrawUI(UI, true);
                     break;
 
