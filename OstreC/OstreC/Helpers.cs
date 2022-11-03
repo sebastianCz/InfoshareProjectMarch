@@ -51,7 +51,9 @@ namespace OstreC
                 if (command == userInput)
                 {
                     Console.ForegroundColor = ConsoleColor.Red;
-                    Console.WriteLine("Are you sure? You go back to menu.\nPress 'Y' - yes or 'N' - no");
+                    if (String.Equals(command, "EXIT"))  Console.WriteLine(" Are you sure you want to exit from program? \n Press Y - yes or 'N' - no"); 
+                    else Console.WriteLine(" Are you sure? You go back to menu.\n Press 'Y' - yes or 'N' - no");
+
                     Console.ResetColor();
                     do
                     {
@@ -59,14 +61,14 @@ namespace OstreC
                         switch (key)
                         {
                             case ConsoleKey.Y:
-                                UI.Page.SwitchPage(PageType.Main_Menu, UI);
+                                HandleCommand(command, UI);
                                 return true;
                             case ConsoleKey.N:
                                 UI.DrawUI(UI, true);
                                 return true;
                             default:
                                 Console.ForegroundColor = ConsoleColor.Red;
-                                Console.WriteLine("You didn't press the correct key. Try again.");
+                                Console.WriteLine(" You didn't press the correct key. Try again.");
                                 Console.ResetColor();
                                 break;
                         }
@@ -74,14 +76,6 @@ namespace OstreC
                 }
             }
             return false;
-        }
-
-        public static class EnumUtil
-        {
-            public static IEnumerable<T> GetValues<T>()
-            {
-                return Enum.GetValues(typeof(T)).Cast<T>();
-            }
         }
         //Contains code to execute if provided string is a command.
         public static void HandleCommand(string command, UI UI)
@@ -92,12 +86,8 @@ namespace OstreC
                 case "EXIT":
                     UI.Exit = true;
                     break;
-                case "MENU":
-                case "MAIN_MENU":
-                    UI.Page.SwitchPage(PageType.Main_Menu, UI);
-                    break;
                 case "BACK":
-                    UI.Page.SwitchPage(UI.Page.CurrentType, UI);
+                    UI.Page.SwitchPage(PageType.Main_Menu, UI);
                     break;
                 default:
                     //Method shouldn't be inkoked if input != command. 
