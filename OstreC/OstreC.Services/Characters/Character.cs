@@ -1,5 +1,7 @@
 ﻿using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
+using System;
+using System.Security.Cryptography;
 
 namespace OstreC.Services
 {//Basse class. Enemy and Player classes use it.
@@ -24,7 +26,35 @@ namespace OstreC.Services
         public int ModIntelligence { get; set; }
         public int ModWisdom { get; set; }
         public int ModCharisma { get; set; }
-
+        [JsonIgnore]
+        public List<string> races = new List<string>()
+        {
+            "Dwarf",
+            "Elf",
+            "Halfling",
+            "Human",
+            "Dragonborn",
+            "Gnome",
+            "HalfElf",
+            "HalfOrc",
+            "Tiefling"
+        };
+        [JsonIgnore]
+        public List<string> classes = new List<string>()
+        {
+            "Barbarian",
+            "Bard",
+            "Cleric",
+            "Druid",
+            "Fighter",
+            "Monk",
+            "Paladin",
+            "Ranger",
+            "Rogue",
+            "Sorcerer",
+            "Warlock",
+            "Wizard"
+        };
         [JsonConverter(typeof(StringEnumConverter))]
         public enum Attributes
         {
@@ -38,13 +68,30 @@ namespace OstreC.Services
         [JsonConverter(typeof(StringEnumConverter))]
         public enum Races
         {
+            Dwarf,
+            Elf,
+            Halfling,
             Human,
-            Orc
+            Dragonborn,
+            Gnome,
+            HalfElf,
+            HalfOrc,
+            Tiefling
         }
         [JsonConverter(typeof(StringEnumConverter))]
         public enum Classes
         {
-            Thief,
+            Barbarian,
+            Bard,
+            Cleric,
+            Druid,
+            Fighter,
+            Monk,
+            Paladin,
+            Ranger,
+            Rogue,
+            Sorcerer,
+            Warlock,
             Wizard
         }
         public void UpdatePropertyValue(Attributes attribute, int value = 1)

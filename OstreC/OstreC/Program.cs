@@ -3,7 +3,7 @@
 //Main components Init.
 UI UI = new UI();
 
-UI.Page.switchPage(PageType.Login, UI);
+UI.Page.SwitchPage(PageType.Login, UI);
 
 do
 {

@@ -41,11 +41,13 @@ namespace OstreC.ManageInput
                     Console.WriteLine($"Choose action");
                     Console.WriteLine($"1.Attack");
                     Console.WriteLine($"2.Heal");
+                 
 
                     if (specialAttack)
                     {
                         Console.WriteLine("3.Special Attack");
                     }
+                    Console.WriteLine($"9.To go back to main menu");
                     ConsoleKey key;
                     int idEnemy = 0;
                     int attack = 0;
@@ -53,56 +55,49 @@ namespace OstreC.ManageInput
                     {
                         key = Console.ReadKey().Key;
 
-                        switch (key)
+
+                        if (key == ConsoleKey.D1 || key == ConsoleKey.NumPad1)
                         {
-                            case ConsoleKey.D1:
-                            case ConsoleKey.NumPad1:
-                                idEnemy = ChooseOpponent(enemies);
-                                attack = StandardAttack(player.ModDexterity, player.ModStrength, true, enemies[idEnemy].Armor_Class, 12);
-                                if (attack == 0)
-                                    Helpers.WriteLineColorText("You've missed!", ConsoleColor.Red);
-                                else
-                                {
-                                    enemies[idEnemy].HealthPoints -= attack;
-                                    Helpers.WriteLineColorText($"You hit enemy for {attack} damage\n{enemies[idEnemy].Name} have now {enemies[idEnemy].HealthPoints} HP");
-                                }
-                                break;
-                            case ConsoleKey.D2:
-                            case ConsoleKey.NumPad2:
-                                int heal = Heal(player.ModConstitution, true, 6);
-                                Helpers.WriteLineColorText($"You've restored {heal} points");
-                                player.HealthPoints += heal;
-                                break;
-                            case ConsoleKey.D3:
-                            case ConsoleKey.NumPad3:
-                                if (specialAttack)
-                                {
-                                    idEnemy = ChooseOpponent(enemies);
-                                    attack = StandardAttack(player.ModDexterity * 2, player.ModStrength, true, enemies[idEnemy].Armor_Class, 12) * 2;
-                                    if (attack == 0)
-                                        Helpers.WriteLineColorText("You've missed!", ConsoleColor.Red);
-                                    else
-                                    {
-                                        enemies[idEnemy].HealthPoints -= attack;
-                                        Helpers.WriteLineColorText($"You hit enemy for {attack} damage\n{enemies[idEnemy].Name} have now {enemies[idEnemy].HealthPoints} HP");
-                                    }
-                                    specialAttack = false;
-                                }
-                                else
-                                {
-                                    Helpers.WriteLineColorText($"Wrong action selected", ConsoleColor.Red);
-                                }
-                                break;
-                            //case ConsoleKey.D4:
-                            //case ConsoleKey.NumPad4:
-                            //    break;
-                            default:
-                                Helpers.WriteLineColorText($"Wrong action selected", ConsoleColor.Red);
-
-                                break;
+                            idEnemy = ChooseOpponent(enemies);
+                            attack = StandardAttack(player.ModDexterity, player.ModStrength, true, enemies[idEnemy].Armor_Class, 12);
+                            if (attack == 0)
+                                Helpers.WriteLineColorText("You've missed!", ConsoleColor.Red);
+                            else
+                            {
+                                enemies[idEnemy].HealthPoints -= attack;
+                                Helpers.WriteLineColorText($"You hit enemy for {attack} damage\n{enemies[idEnemy].Name} have now {enemies[idEnemy].HealthPoints} HP");
+                            }
+                            break;
                         }
-
-                    } while (key != ConsoleKey.D1 && key != ConsoleKey.D2 && key != ConsoleKey.D3);
+                        else if (key == ConsoleKey.D2 || key == ConsoleKey.NumPad2)
+                        {
+                            int heal = Heal(player.ModConstitution, true, 6);
+                            Helpers.WriteLineColorText($"You've restored {heal} points");
+                            player.HealthPoints += heal;
+                            break;
+                        }
+                        else if (specialAttack && (key == ConsoleKey.D3 || key == ConsoleKey.NumPad3))
+                        {
+                            idEnemy = ChooseOpponent(enemies);
+                            attack = StandardAttack(player.ModDexterity * 2, player.ModStrength, true, enemies[idEnemy].Armor_Class, 12) * 2;
+                            if (attack == 0)
+                                Helpers.WriteLineColorText("You've missed!", ConsoleColor.Red);
+                            else
+                            {
+                                enemies[idEnemy].HealthPoints -= attack;
+                                Helpers.WriteLineColorText($"You hit enemy for {attack} damage\n{enemies[idEnemy].Name} have now {enemies[idEnemy].HealthPoints} HP");
+                            }
+                            specialAttack = false;
+                            break;
+                        }else if(key == ConsoleKey.D9 || key == ConsoleKey.NumPad9)
+                        {
+                            return "0";
+                        }
+                        else
+                        {
+                            Helpers.WriteLineColorText($"Wrong action selected", ConsoleColor.Red);
+                        }
+                    } while (true);
                     if (enemies[idEnemy].HealthPoints <= 0)
                     {
                         Helpers.WriteLineColorText($"You've killed an enemy\n{enemies[idEnemy].Name}");

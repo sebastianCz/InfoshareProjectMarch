@@ -1,4 +1,6 @@
-﻿namespace OstreC.Database
+﻿using System.Linq;
+
+namespace OstreC.Database
 {
     /// <summary>
     /// Contains static methods to help deal with Json files.
@@ -54,6 +56,22 @@
             }
 
             return allFiles;
+        }
+        public static List<string> FindAllUserCharacters(string userName)
+        {
+            var dir = DbDirectory();
+            
+            string[] allFiles = Directory.GetFiles(dir + "\\JsonLib\\Characters");
+            List<string> userFiles = new List<string>();
+
+            for (int i = 0; i < allFiles.Count(); i++)
+            {
+                var x = File.ReadAllText(allFiles[i]);
+                if (File.ReadAllText(allFiles[i]).Contains($"CreatedBy\":\"{userName}")) {
+                    userFiles.Add(Path.GetFileName(allFiles[i]).Split(".")[0]);
+                }
+            }
+            return userFiles;
         }
     }
 }

@@ -5,6 +5,37 @@ namespace OstreC
     //Static " helper " methods used in different contexts.
     public static class Helpers
     {
+
+        public static string ChooseCharacterToDelete(List<String> characters)
+        {
+            ConsoleKeyInfo keyinfo;
+            int index = 0;
+            Helpers.WriteLineColorText("Choose which character you want to delete\nUse the left or right arrow on the keyboard and press ENTER to confirm or esc to exit.");
+            do
+            {
+                Helpers.WriteColorText($"Character {index + 1}/{characters.Count()}: ", ConsoleColor.Magenta);
+                Console.WriteLine(characters[index]);
+
+                keyinfo = Console.ReadKey();
+                if (keyinfo.Key == ConsoleKey.RightArrow)
+                {
+                    if (index + 1 >= characters.Count()) index = 0;
+                    else index++;
+                }
+                else if (keyinfo.Key == ConsoleKey.LeftArrow)
+                {
+                    if (index <= 0) index = characters.Count() - 1;
+                    else index--;
+                }
+                else if (keyinfo.Key == ConsoleKey.Enter) break;
+                else if(keyinfo.Key == ConsoleKey.Escape) return "cancel";
+                Console.SetCursorPosition(Console.CursorLeft, Console.CursorTop - 1);
+                Console.WriteLine("                                                                                   ");
+                Console.SetCursorPosition(Console.CursorLeft, Console.CursorTop - 1);
+            } while (true);
+            return characters[index];
+        }
+
         //checks if provided string is a number.
         public static bool IsNumber(string userInput)
         {
@@ -28,7 +59,7 @@ namespace OstreC
                         switch (key)
                         {
                             case ConsoleKey.Y:
-                                UI.Page.switchPage(PageType.Main_Menu, UI);
+                                UI.Page.SwitchPage(PageType.Main_Menu, UI);
                                 return true;
                             case ConsoleKey.N:
                                 UI.DrawUI(UI, true);
@@ -63,10 +94,10 @@ namespace OstreC
                     break;
                 case "MENU":
                 case "MAIN_MENU":
-                    UI.Page.switchPage(PageType.Main_Menu, UI);
+                    UI.Page.SwitchPage(PageType.Main_Menu, UI);
                     break;
                 case "BACK":
-                    UI.Page.switchPage(UI.Page.CurrentType, UI);
+                    UI.Page.SwitchPage(UI.Page.CurrentType, UI);
                     break;
                 default:
                     //Method shouldn't be inkoked if input != command. 

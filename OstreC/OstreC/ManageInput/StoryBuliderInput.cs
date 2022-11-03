@@ -29,7 +29,7 @@ namespace OstreC.ManageInput
                 {
                     CurrentStory = null;
                     HomePage = true;
-                    UI.Page.switchPage(PageType.Main_Menu, UI);
+                    UI.Page.SwitchPage(PageType.Main_Menu, UI);
                 }
             } // Go back to main menu
             else if (!HomePage && String.Equals(input, "SAVE")) // Save
@@ -42,7 +42,7 @@ namespace OstreC.ManageInput
                 Helpers.WriteLineColorText("Are you sure? You go back to Story Builder home page.\nPress 'Y' - yes or 'N' - no", ConsoleColor.Red);
                 if (Helpers.YesOrNoKey(true))
                 {
-                    UI.Page.switchPage(PageType.Story_Bulider, UI);
+                    UI.Page.SwitchPage(PageType.Story_Bulider, UI);
                     HomePage = true;
                 }
             } // Go back to story Builder home page
