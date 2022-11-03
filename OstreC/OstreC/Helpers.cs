@@ -147,7 +147,7 @@ namespace OstreC
             UI.DrawUI(UI, false);
             string power = $" Power({powerThrow}/ 10): █";
             do
-            {
+            {               
                 Console.WriteLine(power);
                 ConsoleKey key = Console.ReadKey().Key;
                 if (key == ConsoleKey.Enter) break;
@@ -168,6 +168,7 @@ namespace OstreC
 
             for (int i = 0; i < powerThrow * powerThrow; i++)
             {
+                UI.DrawUI(UI, false);
                 Random rand = new Random();
                 valueRoll = rand.Next(1, 21);
 

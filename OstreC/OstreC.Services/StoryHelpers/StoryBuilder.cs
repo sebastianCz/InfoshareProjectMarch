@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+﻿using OstreC.Database;
 
 namespace OstreC.Services
 {
@@ -71,6 +71,12 @@ namespace OstreC.Services
                 default:
                     throw new Exception("Unknow ParagraphType");
             }
+        }
+        public static bool StoryFileExitsInDirectory(string fileName)
+        {
+            string dir = ReaderJson.DbDirectory();
+            string filePath = Path.Combine(dir, "JsonLib\\Stories", fileName + ".json");
+            return File.Exists(filePath);
         }
     }
 }

@@ -15,7 +15,7 @@ namespace OstreC.ManageInput
         {
             UI.DrawUI(UI, false);
             UI.Page.Error = "";
-            string input = Console.ReadLine()?.ToUpper().Replace(" ", null);
+            string input = Console.ReadLine().ToUpper().Replace(" ", null);
 
             if (Helpers.IsCommand(input, UI))
             {
@@ -51,8 +51,25 @@ namespace OstreC.ManageInput
                 do
                 {
                     Helpers.WriteColorText("\n You chose creat new story!\n Let's start with something easy, enter the name of the story: ", ConsoleColor.Green);
-
-                    string nameOfStory = Console.ReadLine();
+                    string nameOfStory;
+                    do
+                    {
+                        nameOfStory = Console.ReadLine();
+                        if (Helpers.IsCommand(nameOfStory.ToUpper().Trim(), UI))
+                        {
+                            CurrentStory = null;
+                            HomePage = true;
+                            return;
+                        }
+                        if (!StoryBuilder.StoryFileExitsInDirectory(nameOfStory)) break;
+                        else
+                        {
+                            UI.Page.Error = $"A story {nameOfStory} already exists.";
+                            UI.DrawUI(UI, false);
+                            Helpers.WriteColorText("\n You chose creat new story!\n Enter a different story name: ", ConsoleColor.Green);
+                        }                       
+                    } while (true);
+                    UI.DrawUI(UI, true);
                     Console.WriteLine($"\nThe name of your story is: {nameOfStory}");
 
                     Helpers.WriteLineColorText("\nDo you approve the name? \nPress 'Y' - yes or 'N' - no", ConsoleColor.Red);
@@ -323,7 +340,6 @@ namespace OstreC.ManageInput
             UI.DrawUI(UI, true);
             ConsoleKeyInfo keyinfo;
             int index = 0;
-            string property;
             do
             {           
                 Helpers.WriteColorText($"Property {index + 1}/{propeties.Count()}: ", ConsoleColor.Magenta);
