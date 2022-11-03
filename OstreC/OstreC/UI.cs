@@ -12,7 +12,7 @@ namespace OstreC
         internal Page Page = new Page(PageType.Main_Menu);
 
         //LIST containing existing menu commands for user. He can use them almost any time.
-        public static readonly string[] _menuCommands = { "MAIN_MENU", "EXIT", "BACK" };
+        public static readonly string[] _menuCommands = { "EXIT", "BACK" };
 
         //LIST containing existing menu commands for user. He can use them almost any time.
         private static string _menuCommandsString { get; set; }
@@ -78,69 +78,27 @@ namespace OstreC
             Console.WriteLine($"{header}");
             Console.ForegroundColor = ConsoleColor.White;
         }
-        private void DrawCombatHeader(UI UI)
-        {
-            string genericHeader = "";
-            string status = "Offline";
-
-            Console.ForegroundColor = ConsoleColor.Green;
-            genericHeader = $"Active Page: {Page.CurrentType} || Ostre C Game || Current status: {status} || Current user:{CurrentUser.UserName} || {Page.BreakLine}   " +
-                "Commands are disabled during combat.";
-
-            Console.WriteLine($"{genericHeader}");
-            Console.ForegroundColor = ConsoleColor.White;
-        }
         //Invoked in Draw UI.
-        private void DrawGenericPage(UI UI)
+        private void DrawGenericPage(string pageInfo, string error, string instruction)
         {
-            if (UI.Page.CurrentType != PageType.Paragraph_Combat)
-            {
                 Console.ForegroundColor = ConsoleColor.Green;
-                Console.WriteLine($"{UI.Page.PageInfo} \n ");
+                Console.WriteLine($"{pageInfo} \n ");
 
                 Console.ForegroundColor = ConsoleColor.Red;
-                Console.WriteLine($"{UI.Page.Error} \n ");
+                Console.WriteLine($"{error} \n ");
 
                 Console.ForegroundColor = ConsoleColor.White;
-                Console.WriteLine($"{UI.Page.Instructions} \n ");
-            }
+                Console.WriteLine($"{instruction} \n ");
         }
-        //Invoked in Draw UI depending on bool in parameter. If user input is valid Error gets cleared.
-        private void ClearData(UI UI)
-        {
-            //Comentted out since Page info would get cleared out together with the Error despite having to stay. 
-            //UI.Page.PageInfo = "";
-            UI.Page.Error = "";
-        }
-
         //Draws UI  everytime it's invoked. Clear + UI.Page.Instructions + UI.Page.PageInfo +UI.Page.Error
-        public static void DrawUI(UI UI, bool clear)
+        public static void DrawUI(UI UI, bool clearError)
         {
-            if (clear) { UI.ClearData(UI); }
+            if (clearError) UI.Page.Error = "";
             Console.Clear();
 
-            switch (UI.Page.CurrentType)
-            {
-                case PageType.Login:
-                    UI.DrawHeader(UI);
-                    UI.DrawGenericPage(UI);
-
-                    break;
-
-                default:
-                    //Default header for all pages
-                    UI.DrawHeader(UI);
-                    UI.DrawGenericPage(UI);
-                    break;
-            }
-        }
-
-        //Overload if we want to Draw UI without clearing older content. Good for debugging. 
-        public static void DrawUI(UI UI, bool clear, bool consoleclear)
-        {
-            if (clear) { UI.ClearData(UI); }
-            if (consoleclear) { Console.Clear(); }
+            //Default header for all pages
             UI.DrawHeader(UI);
+            UI.DrawGenericPage(UI.Page.PageInfo, UI.Page.Error, UI.Page.Instructions);
         }
     }
 }

@@ -15,7 +15,7 @@ namespace OstreC.ManageInput
         {
             UI.DrawUI(UI, false);
             UI.Page.Error = "";
-            string input = Console.ReadLine()?.ToUpper().Replace(" ", null);
+            string input = Console.ReadLine().ToUpper().Replace(" ", null);
 
             if (Helpers.IsCommand(input, UI))
             {
@@ -51,8 +51,25 @@ namespace OstreC.ManageInput
                 do
                 {
                     Helpers.WriteColorText("\n You chose creat new story!\n Let's start with something easy, enter the name of the story: ", ConsoleColor.Green);
-
-                    string nameOfStory = Console.ReadLine();
+                    string nameOfStory;
+                    do
+                    {
+                        nameOfStory = Console.ReadLine();
+                        if (Helpers.IsCommand(nameOfStory.ToUpper().Trim(), UI))
+                        {
+                            CurrentStory = null;
+                            HomePage = true;
+                            return;
+                        }
+                        if (!StoryBuilder.StoryFileExitsInDirectory(nameOfStory)) break;
+                        else
+                        {
+                            UI.Page.Error = $"A story {nameOfStory} already exists.";
+                            UI.DrawUI(UI, false);
+                            Helpers.WriteColorText("\n You chose creat new story!\n Enter a different story name: ", ConsoleColor.Green);
+                        }                       
+                    } while (true);
+                    UI.DrawUI(UI, true);
                     Console.WriteLine($"\nThe name of your story is: {nameOfStory}");
 
                     Helpers.WriteLineColorText("\nDo you approve the name? \nPress 'Y' - yes or 'N' - no", ConsoleColor.Red);
@@ -118,7 +135,18 @@ namespace OstreC.ManageInput
 
         private static void CreatNewParagraph(UI UI)
         {
-            List<Option> options = new List<Option>
+            List<Option> options;
+            if (CurrentStory.AmountOfParagraphs == 2)
+            {
+                options = new List<Option>
+            {
+                new Option("DescOfStage Paragraph", () => CreatNewDescOfStageParagraph(UI)),
+                new Option("Go back!", () => Console.Clear())
+            };
+            }
+            else
+            {
+                options = new List<Option>
             {
                 new Option("DescOfStage Paragraph", () => CreatNewDescOfStageParagraph(UI)),
                 new Option("Fight Paragraph", () =>  CreatNewFightParagraph(UI)),
@@ -126,6 +154,7 @@ namespace OstreC.ManageInput
                 new Option("Test Paragraph", () => CreatNewTestParagraph(UI)),
                 new Option("Go back!", () => Console.Clear())
             };
+            }
 
             int index = 0;
             WriteOptionsSelect(options, options[index], UI, "Use the up or down arrow on the keyboard and press ENTER to confirm.");
@@ -161,7 +190,8 @@ namespace OstreC.ManageInput
         private static void WriteOptionsSelect(List<Option> options, Option selectedOption, UI UI, string pageInstruction)
         {
             UI.Page.Instructions = pageInstruction;
-            UI.DrawUI(UI, true);
+            UI.DrawUI(UI, false);
+            UI.Page.Error = "";
             Console.WriteLine("Select the type of paragraph:\n");
 
             foreach (Option option in options)
@@ -180,6 +210,7 @@ namespace OstreC.ManageInput
             DescOfStage newDesc = new DescOfStage(CurrentStory.AmountOfParagraphs, textParagraph);
             newDesc.DefaultChoice();
             CurrentStory.AddNewDescOfStageParagraph(newDesc);
+            UI.Page.Error = $"New {newDesc.ParagraphType} Paragraph successfully created and added to story!";
 
             if (first)
             {
@@ -197,6 +228,7 @@ namespace OstreC.ManageInput
             newFight.DefaultChoice();
             newFight.AddEnemy(amountOfEnemy, enemyName);
             CurrentStory.AddNewFightParagraph(newFight);
+            UI.Page.Error = $"New {newFight.ParagraphType} Paragraph successfully created and added to story!";
 
             if (first)
             {
@@ -216,6 +248,7 @@ namespace OstreC.ManageInput
             newTest.DefaultChoice();
 
             CurrentStory.AddNewTestParagraph(newTest);
+            UI.Page.Error = $"New {newTest.ParagraphType} Paragraph successfully created and added to story!";
 
             if (first)
             {
@@ -230,6 +263,7 @@ namespace OstreC.ManageInput
             DialogParagraph newDialog = new DialogParagraph(CurrentStory.AmountOfParagraphs, textParagraph);
             newDialog.DefaultChoice();
             CurrentStory.AddNewDialogParagraph(newDialog);
+            UI.Page.Error = $"New {newDialog.ParagraphType} Paragraph successfully created and added to story!";
 
             if (first)
             {
@@ -306,7 +340,6 @@ namespace OstreC.ManageInput
             UI.DrawUI(UI, true);
             ConsoleKeyInfo keyinfo;
             int index = 0;
-            string property;
             do
             {           
                 Helpers.WriteColorText($"Property {index + 1}/{propeties.Count()}: ", ConsoleColor.Magenta);
@@ -358,24 +391,30 @@ namespace OstreC.ManageInput
 
         private static void AddNextParagraph(UI UI, bool first = true, int fisrtParagraphID = -1, ParagraphType firstParagraphType = default)
         {
-            string messageSelect = "Select type of the paragraph where you want to start linking.\nUse the up or down arrow on the keyboard and press ENTER to confirm.";
+            string messageSelect;
             if (first)
             {
+                messageSelect = "Select type of the paragraph where you want to start linking.\nUse the up or down arrow on the keyboard and press ENTER to confirm.";
                 firstParagraphType = ChoseTypeOfParagraphToLink(UI, messageSelect, first, out fisrtParagraphID);
                 if (fisrtParagraphID == -1) return;
             }
             first  = false;
             string textOfOptnio = AddTextOfOption(UI);
 
+            messageSelect = "Select type of the paragraph where you want to end linking.\nUse the up or down arrow on the keyboard and press ENTER to confirm.";
             ParagraphType secondParagraphType = ChoseTypeOfParagraphToLink(UI, messageSelect, first, out int secondParagraphID);
 
             if (secondParagraphID == -1 || !(CurrentStory.AmountOfParagraphs > secondParagraphID))
             {
-                UI.Page.Error = "Something went wrong!";
+                UI.Page.Error = "Something went wrong! Failed linking of paragraphs!";
                 return;
             }
-                
-            StoryBuilder.AddNextParagraphToList(CurrentStory, firstParagraphType, fisrtParagraphID, textOfOptnio, secondParagraphType, secondParagraphID);
+
+            Helpers.WriteLineColorText("\n Want to change the starting and ending positions of a paragraph in an option?", ConsoleColor.Green);
+            Helpers.WriteLineColorText(" Press 'Y' - yes or 'N' - no", ConsoleColor.Red);
+            if (Helpers.YesOrNoKey(true)) StoryBuilder.AddNextParagraphToList(CurrentStory, secondParagraphType, secondParagraphID, textOfOptnio, firstParagraphType, fisrtParagraphID);
+            else StoryBuilder.AddNextParagraphToList(CurrentStory, firstParagraphType, fisrtParagraphID, textOfOptnio, secondParagraphType, secondParagraphID);
+
             UI.Page.Error = "Successful linking of paragraphs!";
         }
 
@@ -528,7 +567,8 @@ namespace OstreC.ManageInput
             string textOfOption = "";
             do
             {
-                UI.DrawUI(UI, true);
+                UI.DrawUI(UI, false);
+                UI.Page.Error = "";
 
                 Helpers.WriteColorText("Entry text of the option here: ", ConsoleColor.Green);
                 textOfOption = Console.ReadLine();

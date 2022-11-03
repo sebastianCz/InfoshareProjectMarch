@@ -147,7 +147,7 @@ namespace OstreC
             UI.DrawUI(UI, false);
             string power = $" Power({powerThrow}/ 10): █";
             do
-            {
+            {               
                 Console.WriteLine(power);
                 ConsoleKey key = Console.ReadKey().Key;
                 if (key == ConsoleKey.Enter) break;
