@@ -77,6 +77,7 @@ namespace OstreC
             }
             return false;
         }
+ 
         //Contains code to execute if provided string is a command.
         public static void HandleCommand(string command, UI UI)
         {
