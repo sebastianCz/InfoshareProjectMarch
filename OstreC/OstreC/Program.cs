@@ -1,36 +1,12 @@
-﻿namespace OstreC
+﻿using OstreC;
+
+//Main components Init.
+UI UI = new UI();
+
+UI.Page.SwitchPage(PageType.Login, UI);
+
+do
 {
-    internal class Program
-    {
-        static void Main(string[] args)
-        {
-            do
-            {
-                //Wprowadzenie do gry - Sebastian
+    UI.ChooseInputMethod(UI);
 
-
-                //Tworzenie postaci -Arek
-                do
-                {
-
-                } while (true);
-
-                //Wprowadznie do fabuły - puste
-
-
-                //Wybór typ paragrafu - Michał
-                
-                int id = int.Parse(Console.ReadLine());
-
-                switch (id)
-                {
-                    case 0: //Walka - Piotr
-                        break;
-                    case 1: //Dialog - Tomek
-                        break;
-                }
-
-            } while (true);
-        }
-    }
-}
+} while (UI.Exit == false);
