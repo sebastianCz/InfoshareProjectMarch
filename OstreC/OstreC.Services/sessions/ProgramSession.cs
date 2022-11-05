@@ -29,7 +29,7 @@
         }
         public CurrentUser CreateCurrentUser(User user,bool loggedIn)
         {
-           return new CurrentUser(user.UserName, user.Password, user.SaveFileExists, true, user.Id);
+           return new CurrentUser(user.UserName, user.Password, user.SaveFileExists, true, user.Id,user.Email);
         }
 
         public bool CreateUser(string userName, string password, string email, out string feedback)
@@ -44,7 +44,7 @@
             }
             else if (userName.Length != 0)
             {
-                var newUser = new CurrentUser(userName, password, false, false, allUsersList.Results.Count() + 1);
+                var newUser = new CurrentUser(userName, password, false, false, allUsersList.Results.Count() + 1,email);
                 allUsersList.Results.Add((User)newUser);
 
                 JsonFile.SerializedToJson(allUsersList, "Users");
