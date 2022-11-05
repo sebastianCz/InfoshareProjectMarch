@@ -9,12 +9,13 @@ namespace OstreC.Services
         public bool LoggedIn { get; set; }
 
         public CurrentUser() { }
-        public CurrentUser(string username, string password, bool saveFileExists, bool loggedIn,int id)
+        public CurrentUser(string username, string password, bool saveFileExists, bool loggedIn,int id,string email)
         {
             UserName = username;
             Password = password;
             SaveFileExists = saveFileExists;
             LoggedIn = loggedIn;
+            Email = email;
             Id = id;
         }
 

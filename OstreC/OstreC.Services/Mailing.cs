@@ -6,8 +6,9 @@ namespace OstreC.Services
     public class Mailing
     {
         //Verifies if user exists and if yes sends an email. 
-        public bool CanSendEmail(int emailType, string userName, CurrentUser currentUser, out string feedback)
+        public bool CanSendEmail(int emailType, string userName, out string feedback)
         {
+            var currentUser = new CurrentUser();
             //Checks if user exists
             var usersList = JsonFile.DeserializeFile<UsersList>("Users");
             var usersArray = usersList.Results.ToArray();

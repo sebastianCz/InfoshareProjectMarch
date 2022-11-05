@@ -137,6 +137,7 @@ namespace OstreC.ManageInput
                     input = Console.ReadLine().Trim();
                   
 
+                    
                     userName = input;
 
                     UI.Page.Instructions = "Attempting to send password recovery email for provided username. Retrieving user data. Please wait. This process should take a couple seconds";
@@ -144,7 +145,7 @@ namespace OstreC.ManageInput
 
                     Mailing Mail = new Mailing();
                     // int = email template, username provided just above, UI.CurrentUser = obj holding all data, feedback == Error validation attempt on Services side of the app. 
-                    bool test = Mail.CanSendEmail(1, userName,UI.CurrentUser, out  feedback);
+                    bool test = Mail.CanSendEmail(1, userName, out  feedback);
 
                     if (test)
                     {

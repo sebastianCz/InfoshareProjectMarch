@@ -3,7 +3,7 @@
   "IsPlayerCreated": true,
   "Race": "Human",
   "CharClass": "Warrior",
-  "CreatedBy": "Admin",
+  "CreatedBy":"Admin",
   "UserId": 1,
   "Hit_Dice_Nr": 0,
   "Hit_Dmg": 0,
