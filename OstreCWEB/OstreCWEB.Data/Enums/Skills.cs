@@ -4,7 +4,7 @@
     {
         //Strength - Athletics
         Athletics = 0,
-        W
+        
         //Dexterity - Acrobatics - Sleight of Hand - Stealth
         Acrobatics = 1,
         SleightOfHand = 2,

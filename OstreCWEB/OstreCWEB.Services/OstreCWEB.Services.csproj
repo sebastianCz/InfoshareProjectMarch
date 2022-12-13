@@ -16,8 +16,4 @@
     <ProjectReference Include="..\OstreCWEB.Data\OstreCWEB.Data.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="StoryBuilder\" />
-  </ItemGroup>
-
 </Project>
