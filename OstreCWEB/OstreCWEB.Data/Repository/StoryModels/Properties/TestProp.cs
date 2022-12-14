@@ -3,7 +3,7 @@ using OstreCWEB.Data.Repository.StoryModels.Enums;
 
 namespace OstreCWEB.Data.Repository.StoryModels.Properties
 {
-    public class Test
+    public class TestProp
     {
         // General
         public int Id { get; set; }

@@ -1,6 +1,6 @@
 ﻿namespace OstreCWEB.Data.Repository.StoryModels.Properties
 {
-    public class Shopkeeper
+    public class DialogProp
     {
         // General
         public int Id { get; set; }

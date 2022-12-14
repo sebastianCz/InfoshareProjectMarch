@@ -12,10 +12,10 @@ namespace OstreCWEB.Data.Repository.StoryModels
         public string StageDescription { get; set; }
 
         // Paragraph type properties
-        public Fight? FightProp { get; set; }
-        public Dialog? DialogProp { get; set; }
-        public Test? TestProp { get; set; }
-        public Shopkeeper? ShopkeeperProp { get; set; }
+        public FightProp? FightProp { get; set; }
+        public DialogProp? DialogProp { get; set; }
+        public TestProp? TestProp { get; set; }
+        public ShopkeeperProp? ShopkeeperProp { get; set; }
 
         // Choice options
         public List<NextParagraph> Choices { get; set; } = new List<NextParagraph>();
