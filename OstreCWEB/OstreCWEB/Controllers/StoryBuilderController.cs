@@ -20,10 +20,10 @@ namespace OstreCWEB.Controllers
         public ActionResult Index()
         {
             var stories = _storyService.GetAll();
-            var model = new List<StoryDetailsView>();
+            var model = new List<StoryView>();
             foreach (var item in stories)
             {
-                model.Add(_mapper.Map<StoryDetailsView>(item));
+                model.Add(_mapper.Map<StoryView>(item));
             }
             
             return View(model);
@@ -32,7 +32,10 @@ namespace OstreCWEB.Controllers
         // GET: StoryBuilderController/Details/5
         public ActionResult Details(int id)
         {
-            return View();
+            var story = _storyService.GetById(id);
+            var model = _mapper.Map<StoryDetailsView>(story);
+
+            return View(model);
         }
 
         // GET: StoryBuilderController/Create

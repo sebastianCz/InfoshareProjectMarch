@@ -12,10 +12,10 @@ namespace OstreCWEB.Data.Repository.StoryModels
         public string StageDescription { get; set; }
 
         // Paragraph type properties
-        public Fight? Fight { get; set; }
-        public Dialog? Dialog { get; set; }
-        public Test? Test { get; set; }
-        public Shopkeeper? Shopkeeper { get; set; }
+        public Fight? FightProp { get; set; }
+        public Dialog? DialogProp { get; set; }
+        public Test? TestProp { get; set; }
+        public Shopkeeper? ShopkeeperProp { get; set; }
 
         // Choice options
         public List<NextParagraph> Choices { get; set; }
@@ -27,5 +27,10 @@ namespace OstreCWEB.Data.Repository.StoryModels
         public int? ShopkeeperId { get; set; }
         public int StoryId { get; set; }
         public Story Story { get; set; }
+
+        public int GetAmountOfChoices()
+        {
+            return Choices.Count();
+        }
     }
 }

@@ -7,10 +7,15 @@
 
         public string Name { get; set; }
         public string Description { get; set; }
-        public List<Paragraph> Paragraphs { get; set; }
+        public List<Paragraph> Paragraphs { get; set; } = new List<Paragraph>();
         public int FirstParagraphId { get; set; }
 
         // DB
         public int UserId { get; set; }
+
+        public int GetAmountOfParagraphs()
+        {
+            return Paragraphs.Count();
+        }
     }
 }

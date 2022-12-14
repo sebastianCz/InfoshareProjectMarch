@@ -8,6 +8,10 @@ namespace OstreCWEB.Mapping
     {
         public StoryProfile() 
         {
+            CreateMap<Story, StoryView>();
+
+            CreateMap<Paragraph, ParagraphView>();
+
             CreateMap<Story, StoryDetailsView>();
         }
     }
