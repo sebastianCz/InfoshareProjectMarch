@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace OstreCWEB.Data.Enums
 {
-    internal enum CharacterActionType
+    public enum CharacterActionType
     {
         MeleeAttack=1,
         Spell=2,

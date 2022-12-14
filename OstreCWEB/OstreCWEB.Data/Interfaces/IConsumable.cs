@@ -2,10 +2,10 @@
 
 namespace OstreCWEB.Data.Interfaces
 {
-    public interface IUsable
+    public interface IConsumable
     {
-        public ITargetable UseItem(ITargetable itemUser,ITargetable itemTarget);
+        public ITargetable UseItem(ITargetable itemUser,ITargetable itemarget);
         public CharacterActions ActionToTrigger { get; }
-        public int UsesRemaining { get;}
+        
     }
 }

@@ -1,9 +1,10 @@
-﻿using OstreCWEB.Data.Repository;
+﻿using OstreCWEB.Data.Repository.Characters;
 using OstreCWEB.Data.Enums;
 namespace OstreCWEB.Data.Interfaces
 {
-    internal interface IEquipable
+    public interface IEquipable
     {
-        public bool EquipItem(IEquipable itemToEqup,Character equippingTarget,Slot slot );
+        public string Name { get; set; }
+        public bool EquipItem(IEquipable itemToEqup,Character equippingTarget,Slot slot ,out string actionResult);
     }
 }

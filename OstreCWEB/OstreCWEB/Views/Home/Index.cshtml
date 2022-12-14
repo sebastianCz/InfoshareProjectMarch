@@ -1,4 +1,7 @@
-﻿@{
+﻿@model OstreCWEB.Models.ItemsTest
+@using OstreCWEB.Data.Repository.Items;
+@using OstreCWEB.Data.Enums;
+@{
     ViewData["Title"] = "Home Page";
 }
 
@@ -8,10 +11,30 @@
         <ol class="breadcrumb">
             <li class="breadcrumb-item"><a asp-area="" asp-controller="Home" asp-action="Index">Home</a></li>
             @*<li class="breadcrumb-item active">Fangehull</li>*@
+            <button asp-controller="Home"asp-action="test">test button</button>
         </ol>
     </nav>
 </div><!-- End Page Title -->
 
 <section class="section dashboard">
     <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+
+    @foreach(var  item in Model.Items){
+
+       <div>@item.Id</div>
+       <div>@item.Name</div>
+       <div>@item.ItemType</div>
+       
+     
+       if(item.ItemType == ItemType.Armors){
+            Armor casted = item as Armor;
+
+            if (casted != null)
+            {
+                <div>@casted.ArmorClass  </div>
+                <div> @casted.ArmorType</div> 
+            }
+
+       }
+    }
 </section>

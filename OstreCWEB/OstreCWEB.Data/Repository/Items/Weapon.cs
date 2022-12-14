@@ -4,27 +4,33 @@ using OstreCWEB.Data.Repository.Characters;
 
 namespace OstreCWEB.Data.Repository.Items
 {
-    internal class Weapons :Item, IUsable,IEquipable
+    internal class Weapon : Item, IWeapon, IEquipable
     {
-        public CharacterActions ActionToTrigger { get; }
+        public CharacterActions? ActionToTrigger { get; set; } 
         public ITargetable UseItem(ITargetable itemUser, ITargetable itemTarget)
         {
             //Calculate hit% etc here , return target hp?
             return itemTarget;
         }
-        public bool EquipItem(IEquipable itemToEquip, Character equippingTarget,Slot slot)
+        public bool EquipItem(IEquipable itemToEquip, Character equippingTarget,Slot slot,out string actionResult)
         {
             switch(slot){ 
                 case Slot.SecondHand:
                     equippingTarget.EquippedSecondaryWeapon = (Item)itemToEquip;
+                    actionResult = $"{itemToEquip.Name}  was equipped successfully";
                     return true; 
                 case Slot.MainHand:
                     equippingTarget.EquippedWeapon = (Item)itemToEquip;
+                    actionResult = $"{itemToEquip.Name}  was equipped successfully";
                     return true;
                 default:
+                    actionResult = $"{itemToEquip.Name}  cannot be quipped in this slot";
                     return false;
             }
             return false;
         }
+        
+         
+      
     }
 }

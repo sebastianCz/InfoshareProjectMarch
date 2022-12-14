@@ -1,21 +1,28 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using OstreCWEB.Models;
+using OstreCWEB.Services;
 using System.Diagnostics;
+using OstreCWEB.Services.Test;
 
 namespace OstreCWEB.Controllers
 {
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
+        private TestService _testService { get; set; }
 
         public HomeController(ILogger<HomeController> logger)
         {
             _logger = logger;
+            _testService = new TestService();
         }
 
-        public IActionResult Index()
+        public ActionResult Index()
         {
-            return View();
+            var model = new ItemsTest();
+            model.Items = _testService.GetItems();
+            
+            return View(model );
         }
 
         public IActionResult Privacy()

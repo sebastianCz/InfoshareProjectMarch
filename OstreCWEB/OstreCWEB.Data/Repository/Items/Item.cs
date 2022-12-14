@@ -2,10 +2,18 @@
 
 namespace OstreCWEB.Data.Repository.Items
 {
-    internal abstract class Item
+    public abstract class Item
     {
-        int Id { get; set; }
-        string Name { get; set; }
-        ItemType ItemType { get;set; } 
+        public Item() { }
+        public Item(int id, string name, ItemType itemType)
+        {
+            Id = id;
+            Name = name;
+            ItemType = itemType;
+        }
+
+        public int? Id { get; set; }
+        public string? Name { get; set; }
+        public ItemType? ItemType { get;set; } 
     }
 }

@@ -2,10 +2,9 @@
 
 namespace OstreCWEB.Data.Interfaces
 {
-    public interface IUsable
+    public interface IWeapon
     {
         public ITargetable UseItem(ITargetable itemUser,ITargetable itemTarget);
-        public CharacterActions ActionToTrigger { get; }
-        public int UsesRemaining { get;}
+        public CharacterActions ActionToTrigger { get; } 
     }
 }

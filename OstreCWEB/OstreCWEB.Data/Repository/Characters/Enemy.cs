@@ -1,14 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using OstreCWEB.Data.Repository.Items;
+namespace OstreCWEB.Data.Repository.Characters
 
-namespace OstreCWEB.Data.Repository
 {
-    internal class Enemy : Character
+    public class Enemy : Character
     {
         //It's essentially the name of the enemy. I'm assuming enemies will have a different set of methods that's why this class exists. 
-        public string Type { get; set; }
+        //public Enemy(int id, string characterName, string race, int healtPoints, int level, string alignment, Item equippedArmor, Item equippedWeapon,
+        //    Item equippedSecondaryWeapon, Item[] items, int strenght, int modStrenght, int dexterity, int modDexterity, int constitution,
+        //    int modConstitution, int intelligence, int modIntelligence, int wisdom, int modWisdom, int charisma, int modCharisma)
+        //    : base(id, characterName, race, healtPoints, level, alignment, equippedArmor, equippedWeapon, equippedSecondaryWeapon,
+        //          items, strenght, modStrenght, dexterity, modDexterity, constitution, modConstitution, intelligence, modIntelligence,
+        //          wisdom, modWisdom, charisma, modCharisma)
+        //{
+        }
     }
-}
+
