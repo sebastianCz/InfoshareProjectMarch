@@ -13,6 +13,8 @@ namespace OstreCWEB.Mapping
             CreateMap<Paragraph, ParagraphView>();
 
             CreateMap<Story, StoryDetailsView>();
+
+            CreateMap <Paragraph, ParagraphDetailsView>();
         }
     }
 }

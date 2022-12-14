@@ -9,7 +9,7 @@ namespace OstreCWEB.ViewModel.StoryBuilder
         public string Name { get; set; }
         public string Description { get; set; }
 
-        public List<Paragraph> Paragraphs { get; set; }
+        public List<ParagraphView> ParagraphsView { get; set; } = new List<ParagraphView>();
 
         [Display(Name = "Amount Of Paragraphs")]
         public int AmountOfParagraphs { get; set; }

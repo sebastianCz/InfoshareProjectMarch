@@ -38,19 +38,19 @@
     <thead>
         <tr>
             <th>
-                <label>Paragraph Type</label>
+                <label asp-for="ParagraphsView.First().ParagraphType"></label>
             </th>
             <th>
-                <label>Stage Description</label>
+                <label asp-for="ParagraphsView.First().StageDescription"></label>
             </th>
             <th>
-                <label>Amount Of Choices</label>
+                <label asp-for="ParagraphsView.First().AmountOfChoices"></label>
             </th>
             <th></th>
         </tr>
     </thead>
     <tbody>
-        @foreach (var item in Model.Paragraphs)
+        @foreach (var item in Model.ParagraphsView)
         {
             <tr>
                 <td>
@@ -60,12 +60,11 @@
                     @item.StageDescription
                 </td>
                 <td>
-                    nothing
-                    @*@item.GetAmountOfChoices()*@
+                    @item.AmountOfChoices
                 </td>
                 <td>
                     <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                    <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                    <a asp-action="ParagraphDetails" asp-route-id="@item.Id">Details</a> |
                     <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
                 </td>
             </tr>

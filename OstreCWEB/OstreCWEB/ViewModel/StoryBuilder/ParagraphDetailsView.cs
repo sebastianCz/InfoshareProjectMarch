@@ -1,14 +1,19 @@
 ﻿using OstreCWEB.Data.Repository.StoryModels.Enums;
 using OstreCWEB.Data.Repository.StoryModels.Properties;
+using OstreCWEB.Data.Repository.StoryModels;
+using System.ComponentModel.DataAnnotations;
+using System.Xml.Linq;
 
-namespace OstreCWEB.Data.Repository.StoryModels
+namespace OstreCWEB.ViewModel.StoryBuilder
 {
-    public class Paragraph
+    public class ParagraphDetailsView
     {
-        // General
         public int Id { get; set; }
 
+        [Display(Name = "Paragraph Type")]
         public ParagraphType ParagraphType { get; set; }
+
+        [Display(Name = "Stage Description")]
         public string StageDescription { get; set; }
 
         // Paragraph type properties
@@ -19,18 +24,5 @@ namespace OstreCWEB.Data.Repository.StoryModels
 
         // Choice options
         public List<NextParagraph> Choices { get; set; } = new List<NextParagraph>();
-
-        // Db relations properties
-        public int? FightId { get; set; }
-        public int? DialogId { get; set; }
-        public int? TestId { get; set; }
-        public int? ShopkeeperId { get; set; }
-        public int StoryId { get; set; }
-        public Story Story { get; set; }
-
-        public int GetAmountOfChoices()
-        {
-            return Choices.Count();
-        }
     }
 }

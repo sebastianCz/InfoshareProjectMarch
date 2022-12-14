@@ -109,9 +109,20 @@ namespace OstreCWEB.Services.StoryService
             return _stories;
         }
 
-        public Story GetById(int id)
+        public Story GetStoryById(int id)
         {
             return _stories.FirstOrDefault(s => s.Id == id);
+        }
+
+        public List<Paragraph> GetParagraphsById(int id)
+        {
+            var story = _stories.FirstOrDefault(s => s.Id == id);
+            return story.Paragraphs;
+        }
+
+        public Paragraph GetParagraphById(int id)
+        {
+            return _stories.SelectMany(s => s.Paragraphs).FirstOrDefault(s => s.Id == id);
         }
     }
 }

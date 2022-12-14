@@ -32,8 +32,22 @@ namespace OstreCWEB.Controllers
         // GET: StoryBuilderController/Details/5
         public ActionResult Details(int id)
         {
-            var story = _storyService.GetById(id);
-            var model = _mapper.Map<StoryDetailsView>(story);
+            var story = _storyService.GetStoryById(id);
+            var paragraphs = _storyService.GetParagraphsById(id);
+            var model = _mapper.Map<StoryDetailsView>(story);            
+            foreach (var item in paragraphs)
+            {
+                model.ParagraphsView.Add(_mapper.Map<ParagraphView>(item));
+            }
+
+            return View(model);
+        }
+
+        // GET: StoryBuilderController/ParagraphDetails/5
+        public ActionResult ParagraphDetails(int id)
+        {
+            var paragraph = _storyService.GetParagraphById(id);
+            var model = _mapper.Map<ParagraphDetailsView>(paragraph);
 
             return View(model);
         }
