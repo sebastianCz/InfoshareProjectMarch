@@ -1,7 +1,43 @@
-﻿namespace OstreCWEB.Services.Fight
+﻿using OstreCWEB.Data;
+using OstreCWEB.Data.Repository;
+using OstreCWEB.Services.HardCoding;
+using System.Security.Cryptography.X509Certificates;
+
+namespace OstreCWEB.Services.Fight
 {
     public class Fight
     {
+        private int _id = 1;
+        public int PlayerActionCounter { get; set; }
+
+        public List<string> FightHistory { get; set; }
+
+        public Fight()
+        {
+
+            Player = new Player();
+            Enemy enemy = new Enemy();
+            enemy.HealthPoints = 20;
+            enemy.Name = "Ganjalf";
+            enemy.ID = 1;
+            Enemy enemy2 = new Enemy();
+            enemy2.HealthPoints = 15;
+            enemy2.Name = "Bulbo";
+            enemy2.ID = 2;
+            Enemies = new List<Enemy>(); 
+            Enemies.Add(enemy);
+            Enemies.Add(enemy2);
+            PlayerActionCounter = Player.ActionCounter;
+            FightHistory = new List<string>();
+
+        }
+        
+        public List<Enemy> Enemies { get; set; }
+        public Player Player { get; set; }
+
+
+
+        
         //        ProvidePossibleTargets(id ChosenAction)
 
         //foreach var action in Character.Actions

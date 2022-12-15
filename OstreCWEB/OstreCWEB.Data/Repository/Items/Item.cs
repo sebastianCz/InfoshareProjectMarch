@@ -2,7 +2,7 @@
 
 namespace OstreCWEB.Data.Repository.Items
 {
-    internal abstract class Item
+     public abstract class Item
     {
         int Id { get; set; }
         string Name { get; set; }

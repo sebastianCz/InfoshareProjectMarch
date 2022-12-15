@@ -1,0 +1,102 @@
+﻿@model OstreCWEB.Services.Fight.Fight
+
+@{
+    ViewData["Title"] = "Fight";
+}
+<h1>Fight Fight Fight!</h1>
+
+<p>
+    <a asp-action="Fight">Create New</a>
+</p>
+<p>Avaible Actions: @Model.PlayerActionCounter</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                Player Hit Points
+            </th>
+            <th>
+                Player Name
+            </th>
+            <th>
+                Player Race
+            </th>
+            <th>
+                Player Id
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+                <tr>
+                    <td>
+                @Model.Player.HealthPoints
+                    </td>
+                    <td>
+                @Model.Player.Name
+                    </td>
+                    <td>
+                @Model.Player.Race
+                    </td>
+                    <td>
+                @Model.Player.ID
+                    </td>
+                </tr>
+    </tbody>
+
+
+</table>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+               Enemy Hit Points
+            </th>
+            <th>
+                Enemy Name
+            </th>
+            <th>
+                Enemy Race
+            </th>
+            <th>
+                Enemy Id
+            </th>
+            <th>
+                Action
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var enemy in Model.Enemies)
+        {
+                        <tr>
+                            <td>
+                    @enemy.HealthPoints
+                            </td>
+                            <td>
+                    @enemy.Name
+                            </td>
+                            <td>
+                    @enemy.Race
+                            </td>
+                            <td>
+                    @enemy.ID
+                            </td>
+                            <td> 
+                             <form class="form-inline my-2 my-lg-0" asp-controller="Fight" asp-action="Action" style="padding-right: 25px;">
+                            <select name="action" asp-items="@(new SelectList(Model.Player.Actions))">
+                        <option selected="selected" value="">Choose action!</option>
+                        </select>
+                            <input type="hidden" name="enemyId" value="@enemy.ID">
+                                <button type="submit"><i class="bi bi-nintendo-switch"></i></button>
+                        </form>
+                            </td>
+                        </tr>
+        }
+    </tbody>
+</table>
+@foreach (var note in Model.FightHistory)
+{
+    <p>@note</p>
+}

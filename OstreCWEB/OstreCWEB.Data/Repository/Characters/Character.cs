@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace OstreCWEB.Data.Repository
 {
-    internal abstract class Character : ITargetable
+    public abstract class Character : ITargetable
     {
         [Required]
         public int ID { get; set; }
@@ -51,5 +51,16 @@ namespace OstreCWEB.Data.Repository
         public int Charisma { get; set; }
         [Required]
         public int ModCharisma { get; set; }
+
+        public List<CharacterAction> Actions { get; set; } 
+    }
+
+    public enum CharacterAction
+    {
+        ATTACK=1,
+        HEAL,
+        SUPERATTACK,
+        SPELL,
+        ITEM_USE
     }
 }
