@@ -10,5 +10,6 @@ namespace OstreCWEB.ViewModel.StoryBuilder
 
         [Display(Name = "Amount Of Paragraphs")]
         public int AmountOfParagraphs { get; set; }
+        public int FirstParagraphId { get; set; }
     }
 }

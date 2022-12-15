@@ -1,6 +1,8 @@
 ﻿using AutoMapper;
 using OstreCWEB.Data.Repository.StoryModels;
+using OstreCWEB.Data.Repository.StoryModels.Properties;
 using OstreCWEB.ViewModel.StoryBuilder;
+using OstreCWEB.ViewModel.StoryBuilder.Properties;
 
 namespace OstreCWEB.Mapping
 {
@@ -14,7 +16,13 @@ namespace OstreCWEB.Mapping
 
             CreateMap<Story, StoryDetailsView>();
 
-            CreateMap <Paragraph, ParagraphDetailsView>();
+            CreateMap<Paragraph, ParagraphDetailsView>();
+
+            CreateMap<TestProp, TestPropView>();
+
+            CreateMap<FightProp, FightPropView>();
+
+            CreateMap<EnemyInParagraph, EnemyInParagraphView>();
         }
     }
 }

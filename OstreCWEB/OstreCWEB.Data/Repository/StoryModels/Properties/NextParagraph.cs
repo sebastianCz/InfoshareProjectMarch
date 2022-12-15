@@ -1,4 +1,4 @@
-﻿namespace OstreCWEB.Data.Repository.StoryModels
+﻿namespace OstreCWEB.Data.Repository.StoryModels.Properties
 {
     public class NextParagraph
     {

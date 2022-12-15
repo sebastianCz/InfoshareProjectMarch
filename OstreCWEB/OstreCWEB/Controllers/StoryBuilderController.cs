@@ -11,7 +11,7 @@ namespace OstreCWEB.Controllers
         private readonly StoryService _storyService;
 
         public StoryBuilderController(IMapper mapper)
-        {          
+        {
             _mapper = mapper;
             _storyService = new StoryService();
         }
@@ -25,20 +25,20 @@ namespace OstreCWEB.Controllers
             {
                 model.Add(_mapper.Map<StoryView>(item));
             }
-            
+
             return View(model);
         }
 
-        // GET: StoryBuilderController/Details/5
-        public ActionResult Details(int id)
+        // GET: StoryBuilderController/Details/5/1
+        public ActionResult Details(int id, int paragraphId)
         {
             var story = _storyService.GetStoryById(id);
-            var paragraphs = _storyService.GetParagraphsById(id);
-            var model = _mapper.Map<StoryDetailsView>(story);            
-            foreach (var item in paragraphs)
+            var model = _mapper.Map<StoryDetailsView>(story);
+            foreach (var item in _storyService.GetPreviousParagraphsById(paragraphId, id))
             {
-                model.ParagraphsView.Add(_mapper.Map<ParagraphView>(item));
+                model.PreviousParagraphs.Add(_mapper.Map<ParagraphView>(item));
             }
+            model.ActuallyParagraphView = _mapper.Map<ParagraphView>(_storyService.GetParagraphById(paragraphId));
 
             return View(model);
         }

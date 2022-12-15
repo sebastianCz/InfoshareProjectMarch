@@ -1,5 +1,4 @@
-﻿using OstreCWEB.Data.Repository.StoryModels;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace OstreCWEB.ViewModel.StoryBuilder
 {
@@ -9,10 +8,13 @@ namespace OstreCWEB.ViewModel.StoryBuilder
         public string Name { get; set; }
         public string Description { get; set; }
 
-        public List<ParagraphView> ParagraphsView { get; set; } = new List<ParagraphView>();
-
         [Display(Name = "Amount Of Paragraphs")]
         public int AmountOfParagraphs { get; set; }
 
+        public List<ParagraphView> PreviousParagraphs { get; set; } = new List<ParagraphView>();
+        public ParagraphView ActuallyParagraphView { get; set; }
+        public List<ParagraphView> NextParagraphs { get; set; } = new List<ParagraphView>();
+
+        public int FirstParagraphId { get; set; }
     }
 }

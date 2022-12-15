@@ -1,8 +1,7 @@
 ﻿using OstreCWEB.Data.Repository.StoryModels.Enums;
 using OstreCWEB.Data.Repository.StoryModels.Properties;
-using OstreCWEB.Data.Repository.StoryModels;
+using OstreCWEB.ViewModel.StoryBuilder.Properties;
 using System.ComponentModel.DataAnnotations;
-using System.Xml.Linq;
 
 namespace OstreCWEB.ViewModel.StoryBuilder
 {
@@ -17,10 +16,8 @@ namespace OstreCWEB.ViewModel.StoryBuilder
         public string StageDescription { get; set; }
 
         // Paragraph type properties
-        public FightProp? FightProp { get; set; }
-        public DialogProp? DialogProp { get; set; }
-        public TestProp? TestProp { get; set; }
-        public ShopkeeperProp? ShopkeeperProp { get; set; }
+        public FightPropView? FightPropView { get; set; }
+        public TestPropView? TestPropView { get; set; }
 
         // Choice options
         public List<NextParagraph> Choices { get; set; } = new List<NextParagraph>();
