@@ -76,38 +76,7 @@ namespace OstreCWEB.Data.DataBase
                 }
             };
 
-            PlayableCharacters = new List<PlayableCharacter>
-            {
-                new PlayableCharacter
-                {
-                    ID = 1,
-                    CharacterName = "AdminCharacter",
-                    HealthPoints = 10,
-                    Level = 1,
-                    Alignment = "Good",
-                    EquippedArmor = (Armor)Items.First(c=>c.Id==1),
-                    EquippedWeapon = (Weapon)Items.First(c=>c.Id==1),
-                    EquippedSecondaryWeapon = (Armor)Items.First(c =>c.Id ==1),
-                    Inventory = new Item[5],
-                    AllAvailableActions = new List<CharacterActions>(),
-                    Strenght = 16,
-                    ModStrenght =2,
-                    Dexterity = 14,
-                    ModDexterity=1,
-                    Constitution = 10,
-                    ModConstitution=1,
-                    Intelligence = 15,
-                    ModIntelligence =1,
-                    Wisdom = 12,
-                    ModWisdom=1,
-                    Charisma = 2,
-                    ModCharisma= 1,
-                    Race = PlayableRaces.FirstOrDefault(r=>r.ID ==1),
-                    UserId = Users.FirstOrDefault(u=>u.Id == 1).Id,
-                    CharacterClass =PlayableCharacterClasses.FirstOrDefault(c=>c.ID ==1) 
-
-                }
-            };
+     
 
             Actions = new List<CharacterActions>
             {
@@ -176,7 +145,7 @@ namespace OstreCWEB.Data.DataBase
 
             Items = new List<Item>
             {
-                new Armor
+                new Item
                 {
                     Id=1,
                     Name="Light Armor",
@@ -185,21 +154,21 @@ namespace OstreCWEB.Data.DataBase
                     ArmorType="Light"
 
                 },
-                new Weapon()
+                new Item()
                 {
                     Id=2,
                     Name="Short Sword",
                     ItemType =ItemType.Weapons,
                     ActionToTrigger = Actions.FirstOrDefault(a=> a.Id == 1)
                 },
-                new Consumable()
+                new Item()
                 {
                     Id=3,
                     Name="Healing Potion",
                     ItemType = ItemType.Consumable,
                     ActionToTrigger = Actions.FirstOrDefault(a=>a.Id == 4 )
                 },
-                new Armor()
+                new Item()
                 {
                     Id=4,
                     Name="Small Wooden Shield",
@@ -220,9 +189,11 @@ namespace OstreCWEB.Data.DataBase
                     HealthPoints = 10,
                     Level = 1,
                     Alignment = "evil",
-                    EquippedArmor = (Armor)Items.FirstOrDefault(a => a.Id == 1),
-                    EquippedWeapon = (Weapon)Items.FirstOrDefault(a => a.Id == 2),
+                    EquippedArmor = Items.FirstOrDefault(a => a.Id == 1),
+                    EquippedWeapon =Items.FirstOrDefault(a => a.Id == 2),
+                    EquippedSecondaryWeapon = Items.FirstOrDefault(a=>a.Id ==4),
                     Inventory = new Item[5],
+                    AllAvailableActions = new List<CharacterActions>(),
                     Strenght = 10,
                     ModStrenght =0,
                     Dexterity =12,
@@ -238,6 +209,43 @@ namespace OstreCWEB.Data.DataBase
                 }
             };
 
+            PlayableCharacters = new List<PlayableCharacter>
+            {
+                new PlayableCharacter
+                {
+                    ID = 1,
+                    CharacterName = "AdminCharacter",
+                    HealthPoints = 10,
+                    Level = 1,
+                    Alignment = "Good",
+                    EquippedArmor = Items.First(c=>c.Id==1),
+                    EquippedWeapon = Items.First(c=>c.Id==2),
+                    EquippedSecondaryWeapon =Items.First(c =>c.Id ==4),
+                    Inventory = new Item[5],
+                    AllAvailableActions = new List<CharacterActions>(),
+                    Strenght = 16,
+                    ModStrenght =2,
+                    Dexterity = 14,
+                    ModDexterity=1,
+                    Constitution = 10,
+                    ModConstitution=1,
+                    Intelligence = 15,
+                    ModIntelligence =1,
+                    Wisdom = 12,
+                    ModWisdom=1,
+                    Charisma = 2,
+                    ModCharisma= 1,
+                    Race = PlayableRaces.FirstOrDefault(r=>r.ID ==1),
+                    UserId = Users.FirstOrDefault(u=>u.Id == 1).Id,
+                    CharacterClass =PlayableCharacterClasses.FirstOrDefault(c=>c.ID ==1)
+
+                }
+            };
+
+            foreach(var enemy in Enemies)
+            {
+                enemy.InitializePossibleActions();
+            }
         }
 
         public Enemy GetEnemy()

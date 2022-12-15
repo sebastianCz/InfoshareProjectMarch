@@ -1,12 +1,11 @@
-﻿using OstreCWEB.Data.Interfaces;
-using OstreCWEB.Data.Repository.Items;
+﻿using OstreCWEB.Data.Repository.Items;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Text.Json.Serialization;
 
 namespace OstreCWEB.Data.Repository.Characters
 {
-    public abstract class Character : ITargetable
+    public abstract class Character  
     {
         [Required]
         public int ID { get; set; }
@@ -20,11 +19,11 @@ namespace OstreCWEB.Data.Repository.Characters
         public string Alignment { get; set; }
         [Required]
 
-        public IEquipable EquippedArmor { get; set; }
+        public Item EquippedArmor { get; set; }
         [Required]
-        public IEquipable EquippedWeapon { get; set; }
+        public Item EquippedWeapon { get; set; }
         [Required]
-        public IEquipable EquippedSecondaryWeapon { get; set; }
+        public Item EquippedSecondaryWeapon { get; set; }
 
         public Item[] Inventory { get; set; } 
         public List<CharacterActions> AllAvailableActions { get; set; }

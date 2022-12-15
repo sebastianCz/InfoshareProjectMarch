@@ -15,9 +15,19 @@ namespace OstreCWEB.Services.Test
         {
             for(int i = 0; i < amountToGenerate; i++)
             {
+                var enemyAsText = JsonConvert.SerializeObject(
+                        _db.GetEnemy(),
+                    new JsonSerializerSettings()
+                    {
+                        TypeNameHandling = TypeNameHandling.Auto
+                    });
                  
-              var enemyAsText = JsonConvert.SerializeObject(_db.GetEnemy());
-              var newEnemyInstance = JsonConvert.DeserializeObject<Enemy>(enemyAsText);
+              var newEnemyInstance = JsonConvert.DeserializeObject<Enemy>(
+                  enemyAsText,
+                  new JsonSerializerSettings()
+                  {
+                      TypeNameHandling = TypeNameHandling.Auto
+                  });
               _enemies.Add(newEnemyInstance);
             }
         }

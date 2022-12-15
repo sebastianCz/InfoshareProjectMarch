@@ -1,7 +1,6 @@
 ﻿@model OstreCWEB.Models.ItemsTest
 @using OstreCWEB.Data.Repository.Items;
 @using OstreCWEB.Data.Enums;
-@using OstreCWEB.Data.Interfaces;
 @{
     ViewData["Title"] = "Home Page";
 }
@@ -40,7 +39,7 @@
             <tr>
                 <td>Weapon Damage:</td>
                 @{
-                    var mainWeapon = (Weapon)enemy.EquippedWeapon;
+                    var mainWeapon =enemy.EquippedWeapon;
                                     <td> 
                                     @($" Number of dices:  {mainWeapon.ActionToTrigger.Hit_Dice_Nr} Max:{mainWeapon.ActionToTrigger.Hit_Dmg} Flat bonus:{mainWeapon.ActionToTrigger.Flat_Dmg}")</td>
                  } 
@@ -50,18 +49,20 @@
                 {
                     <tr>
                         <td>Secondary Weapon:</td>
-                        <td>@enemy.EquippedSecondaryWeapon</td>
+                        <td>@enemy.EquippedSecondaryWeapon.Name</td>
                     </tr>
                     <tr>
                         <td>
-                       
-                     @{
-                        var secondaryWeapon = enemy.EquippedSecondaryWeapon as Weapon;
-                        if (secondaryWeapon != null) {
-                                            <td> @($" Number of dices:  {secondaryWeapon.ActionToTrigger.Hit_Dice_Nr} Max:{secondaryWeapon.ActionToTrigger.Hit_Dmg} Flat bonus:{secondaryWeapon.ActionToTrigger.Flat_Dmg}") </td>
-                        }else{
-                         var secondaryShield = enemy.EquippedSecondaryWeapon as Armor;
-                                <td> @($" {secondaryShield.ArmorClass}") </td>
+
+                            @{
+                                var secondaryWeapon = enemy.EquippedSecondaryWeapon;
+                                if (secondaryWeapon != null && secondaryWeapon.ItemType == ItemType.Weapons) {
+                                    <td> @($" Number of dices:  {secondaryWeapon.ActionToTrigger.Hit_Dice_Nr} Max:{secondaryWeapon.ActionToTrigger.Hit_Dmg} Flat bonus:{secondaryWeapon.ActionToTrigger.Flat_Dmg}") </td>
+                                }
+                                if(secondaryWeapon != null && secondaryWeapon.ItemType ==ItemType.Shield){
+                                <td> @($" Armor class: {secondaryWeapon.ArmorClass}") </td>
+                                }
+                                   
                         }
                      }
                          
