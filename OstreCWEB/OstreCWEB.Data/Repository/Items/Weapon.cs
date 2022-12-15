@@ -4,7 +4,7 @@ using OstreCWEB.Data.Repository.Characters;
 
 namespace OstreCWEB.Data.Repository.Items
 {
-    internal class Weapon : Item, IWeapon, IEquipable
+    public class Weapon : Item, IWeapon, IEquipable
     {
         public CharacterActions? ActionToTrigger { get; set; } 
         public ITargetable UseItem(ITargetable itemUser, ITargetable itemTarget)
@@ -16,11 +16,11 @@ namespace OstreCWEB.Data.Repository.Items
         {
             switch(slot){ 
                 case Slot.SecondHand:
-                    equippingTarget.EquippedSecondaryWeapon = (Item)itemToEquip;
+                    equippingTarget.EquippedSecondaryWeapon = itemToEquip;
                     actionResult = $"{itemToEquip.Name}  was equipped successfully";
                     return true; 
                 case Slot.MainHand:
-                    equippingTarget.EquippedWeapon = (Item)itemToEquip;
+                    equippingTarget.EquippedWeapon = (Weapon)itemToEquip;
                     actionResult = $"{itemToEquip.Name}  was equipped successfully";
                     return true;
                 default:
@@ -29,8 +29,6 @@ namespace OstreCWEB.Data.Repository.Items
             }
             return false;
         }
-        
-         
-      
+        public Weapon() { } 
     }
 }

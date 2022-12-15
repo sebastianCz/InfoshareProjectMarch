@@ -1,21 +1,114 @@
-﻿using OstreCWEB.Data.Repository.Items;
+﻿using OstreCWEB.Data.Enums;
+using OstreCWEB.Data.Repository;
 using OstreCWEB.Data.Repository.Characters;
-using OstreCWEB.Data.Enums;
-using System;
+using OstreCWEB.Data.Repository.Items;
+using OstreCWEB.Data.Repository.WebObjects;
 
 namespace OstreCWEB.Data.DataBase
 {
     public class StaticLists
     {
+        private static List<User> Users = new List<User>();
+        private static List<PlayableCharacterClass> PlayableCharacterClasses = new List<PlayableCharacterClass>();
+        private static List<PlayableCharacter> PlayableCharacters = new List<PlayableCharacter>();
+        private static List<PlayableRace> PlayableRaces = new List<PlayableRace>();
         private static List<Enemy> Enemies = new List<Enemy>();
         private static List<Item> Items = new List<Item>();
         private static List<CharacterActions> Actions = new List<CharacterActions>();
+
+
+
         public StaticLists()
         {
         }
 
         public void SeedData()
         {
+
+            PlayableRaces = new List<PlayableRace>
+            {
+                new PlayableRace
+                {
+                    ID = 1,
+                    RaceName = "Human",
+                    DefaultSkillsForClass = new List<Skill>
+                        {
+                            Skill.acrobatics,
+                            Skill.religion
+                        },
+                    AmountOfSkillsToChoose = 1
+                }
+                
+            };
+
+            Users = new List<User>
+            {
+                new User
+                {
+                    Id = 1,
+                    LoggedIn = false,
+                    UserName = "Admin",
+                    Password = "Admin",
+                    Email = "Admin@Admin.com",
+                    Created = DateTime.Now,
+                    //It's set to null but we will hold our active character instance here. 
+                    //It should be chosen each session. 
+                    ActiveCharacter = null,
+                    StoriesCreated = new List<Story>(),
+                    CharactersCreated = new List<PlayableCharacter>(),
+                    StoriesCompletedTotal = 0,
+                    DamageDealt = 0,
+                    DamageReceived = 0 
+                }
+            };
+
+            PlayableCharacterClasses = new List<PlayableCharacterClass>
+            {
+                new PlayableCharacterClass
+                {
+                    ID = 1,
+                    ClassName = "Warrior",
+                    BonusesForEeachStatistic = new Dictionary<Statistics, int>
+                    {
+                        {Statistics.Strenght,1},
+                        {Statistics.Dexterity,1}
+                    }
+                }
+            };
+
+            PlayableCharacters = new List<PlayableCharacter>
+            {
+                new PlayableCharacter
+                {
+                    ID = 1,
+                    CharacterName = "AdminCharacter",
+                    HealthPoints = 10,
+                    Level = 1,
+                    Alignment = "Good",
+                    EquippedArmor = (Armor)Items.First(c=>c.Id==1),
+                    EquippedWeapon = (Weapon)Items.First(c=>c.Id==1),
+                    EquippedSecondaryWeapon = (Armor)Items.First(c =>c.Id ==1),
+                    Inventory = new Item[5],
+                    AllAvailableActions = new List<CharacterActions>(),
+                    Strenght = 16,
+                    ModStrenght =2,
+                    Dexterity = 14,
+                    ModDexterity=1,
+                    Constitution = 10,
+                    ModConstitution=1,
+                    Intelligence = 15,
+                    ModIntelligence =1,
+                    Wisdom = 12,
+                    ModWisdom=1,
+                    Charisma = 2,
+                    ModCharisma= 1,
+                    Race = PlayableRaces.FirstOrDefault(r=>r.ID ==1),
+                    UserId = Users.FirstOrDefault(u=>u.Id == 1).Id,
+                    CharacterClass =PlayableCharacterClasses.FirstOrDefault(c=>c.ID ==1) 
+
+                }
+            };
+
             Actions = new List<CharacterActions>
             {
                  new CharacterActions
@@ -105,8 +198,16 @@ namespace OstreCWEB.Data.DataBase
                     Name="Healing Potion",
                     ItemType = ItemType.Consumable,
                     ActionToTrigger = Actions.FirstOrDefault(a=>a.Id == 4 )
-                }
-
+                },
+                new Armor()
+                {
+                    Id=4,
+                    Name="Small Wooden Shield",
+                    ItemType = ItemType.Shield,
+                    ArmorClass=1,
+                    ArmorType = "basic"
+                    
+                } 
             };
 
             Enemies = new List<Enemy>
@@ -119,8 +220,8 @@ namespace OstreCWEB.Data.DataBase
                     HealthPoints = 10,
                     Level = 1,
                     Alignment = "evil",
-                    EquippedArmor = Items.FirstOrDefault(a => a.Id == 1),
-                    EquippedWeapon = Items.FirstOrDefault(a => a.Id == 2),
+                    EquippedArmor = (Armor)Items.FirstOrDefault(a => a.Id == 1),
+                    EquippedWeapon = (Weapon)Items.FirstOrDefault(a => a.Id == 2),
                     Inventory = new Item[5],
                     Strenght = 10,
                     ModStrenght =0,
@@ -139,14 +240,19 @@ namespace OstreCWEB.Data.DataBase
 
         }
 
-            public List<Item> GetItems()
-            {
+        public Enemy GetEnemy()
+        {
+            return Enemies[0];
+        }
+        public List<Enemy> GetEnemies()
+        {
+            return Enemies;
+        }
+        public List<Item> GetItems()
+         {
                 return Items;
-            }
-            public List<Enemy> GetEnemies()
-            {
-                return Enemies;
-            }
+          }
+           
             public List<CharacterActions> GetActions()
             {
                 return Actions;

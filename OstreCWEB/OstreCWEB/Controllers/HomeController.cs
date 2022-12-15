@@ -18,13 +18,27 @@ namespace OstreCWEB.Controllers
         }
 
         public ActionResult Index()
-        {
+        { 
             var model = new ItemsTest();
+            if (_testService.GetActiveEnemies().Any())
+            {
+                model.Character1 = _testService.GetEnemy(0);
+                model.Character2 = _testService.GetEnemy(1);
+            }  
             model.Items = _testService.GetItems();
-            
+            model.Actions = _testService.GetActions();
+            model.ActiveEnemies = _testService.GetActiveEnemies();
+
             return View(model );
         }
-
+        [HttpGet]
+        public ActionResult GenerateEnemies()
+        {
+            _testService.GenerateEnemies(2);
+            return RedirectToAction("Index");
+        }
+       
+        
         public IActionResult Privacy()
         {
             return View();

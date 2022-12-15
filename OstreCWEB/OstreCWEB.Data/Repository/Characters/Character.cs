@@ -2,6 +2,7 @@
 using OstreCWEB.Data.Repository.Items;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
+using System.Text.Json.Serialization;
 
 namespace OstreCWEB.Data.Repository.Characters
 {
@@ -12,8 +13,6 @@ namespace OstreCWEB.Data.Repository.Characters
         [Required]
         public string CharacterName { get; set; }
         [Required]
-        public string Race { get; set; }
-        [Required]
         public int HealthPoints { get; set; }
         [Required]
         public int Level { get; set; }
@@ -21,13 +20,15 @@ namespace OstreCWEB.Data.Repository.Characters
         public string Alignment { get; set; }
         [Required]
 
-        public Item EquippedArmor { get; set; }
+        public IEquipable EquippedArmor { get; set; }
         [Required]
-        public Item EquippedWeapon { get; set; }
+        public IEquipable EquippedWeapon { get; set; }
         [Required]
-        public Item EquippedSecondaryWeapon { get; set; }
+        public IEquipable EquippedSecondaryWeapon { get; set; }
 
-        public Item[] Inventory { get; set; }
+        public Item[] Inventory { get; set; } 
+        public List<CharacterActions> AllAvailableActions { get; set; }
+
         [Required]
         public int Strenght { get; set; }
         [Required]
@@ -52,34 +53,36 @@ namespace OstreCWEB.Data.Repository.Characters
         public int Charisma { get; set; }
         [Required]
         public int ModCharisma { get; set; }
-        public Character() { }
-        public Character(int id,string characterName,string race,int healtPoints,int level,string alignment,Item equippedArmor,Item equippedWeapon,
-            Item equippedSecondaryWeapon, Item[] items,int strenght,int modStrenght,int dexterity,int modDexterity,int constitution,int modConstitution,
-            int intelligence,int modIntelligence,int wisdom,int modWisdom,int charisma,int modCharisma)
 
-        {
-            ID = id;
-            CharacterName = characterName;
-            Race = race;
-            HealthPoints = healtPoints;
-            Level = level;
-            Alignment = alignment;
-            EquippedArmor = equippedArmor;
-            EquippedWeapon = equippedWeapon;
-            EquippedSecondaryWeapon = equippedSecondaryWeapon;
-            Inventory = items;
-            Strenght = strenght;
-            ModStrenght = modStrenght;
-            Dexterity = dexterity;
-            ModDexterity = modDexterity;
-            Constitution = constitution;
-            ModConstitution = modConstitution; 
-            Intelligence = intelligence;
-            ModIntelligence = modIntelligence;
-            Wisdom = wisdom;
-            ModWisdom = modWisdom;
-            Charisma = charisma;
-            ModCharisma = charisma;
-        }
+        [JsonConstructor]
+        public Character() { }
+        //public Character(int id,string characterName,string race,int healtPoints,int level,string alignment,Item equippedArmor,Item equippedWeapon,
+        //    Item equippedSecondaryWeapon, Item[] items,int strenght,int modStrenght,int dexterity,int modDexterity,int constitution,int modConstitution,
+        //    int intelligence,int modIntelligence,int wisdom,int modWisdom,int charisma,int modCharisma)
+
+        //{
+        //    ID = id;
+        //    CharacterName = characterName;
+        //    Race = race;
+        //    HealthPoints = healtPoints;
+        //    Level = level;
+        //    Alignment = alignment;
+        //    EquippedArmor = (Armor)equippedArmor;
+        //    EquippedWeapon = (Weapon)equippedWeapon;
+        //    EquippedSecondaryWeapon = equippedSecondaryWeapon;
+        //    Inventory = items;
+        //    Strenght = strenght;
+        //    ModStrenght = modStrenght;
+        //    Dexterity = dexterity;
+        //    ModDexterity = modDexterity;
+        //    Constitution = constitution;
+        //    ModConstitution = modConstitution; 
+        //    Intelligence = intelligence;
+        //    ModIntelligence = modIntelligence;
+        //    Wisdom = wisdom;
+        //    ModWisdom = modWisdom;
+        //    Charisma = charisma;
+        //    ModCharisma = charisma;
+        //}
     }
 }

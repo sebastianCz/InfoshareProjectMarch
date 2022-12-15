@@ -14,5 +14,6 @@ namespace OstreCWEB.Data.Repository.Items
             var itemTargetAfterActionWasApplied = itemTarget;
             return itemTarget;
         }
+        public Consumable() { }
     }
 }

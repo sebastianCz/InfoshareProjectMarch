@@ -6,12 +6,9 @@ using System.Threading.Tasks;
 
 namespace OstreCWEB.Data.Enums
 {
-    public enum ItemType
+    public enum Skill
     {
-        Consumable=1,
-        Weapons=2,
-        Armors=3,
-        Usable=4,
-        Shield =5
+        religion=1,
+        acrobatics=2
     }
 }

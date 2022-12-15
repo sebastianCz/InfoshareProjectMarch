@@ -1,6 +1,7 @@
 ﻿@model OstreCWEB.Models.ItemsTest
 @using OstreCWEB.Data.Repository.Items;
 @using OstreCWEB.Data.Enums;
+@using OstreCWEB.Data.Interfaces;
 @{
     ViewData["Title"] = "Home Page";
 }
@@ -11,30 +12,83 @@
         <ol class="breadcrumb">
             <li class="breadcrumb-item"><a asp-area="" asp-controller="Home" asp-action="Index">Home</a></li>
             @*<li class="breadcrumb-item active">Fangehull</li>*@
-            <button asp-controller="Home"asp-action="test">test button</button>
+            
         </ol>
+        <button type="button" id="btnScore" onclick="GenerateEnemies()"> Click me!
+        </button>
     </nav>
 </div><!-- End Page Title -->
 
 <section class="section dashboard">
     <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
 
-    @foreach(var  item in Model.Items){
 
-       <div>@item.Id</div>
-       <div>@item.Name</div>
-       <div>@item.ItemType</div>
-       
-     
-       if(item.ItemType == ItemType.Armors){
-            Armor casted = item as Armor;
-
-            if (casted != null)
-            {
-                <div>@casted.ArmorClass  </div>
-                <div> @casted.ArmorType</div> 
+    @foreach (var enemy in Model.ActiveEnemies)
+    { 
+        <table>
+           
+            <tr>
+                
+                <td>Name:</td>
+                <td>@enemy.CharacterName</td>
+            </tr>
+            <tr>
+                <td>Weapon:</td>
+                 
+                <td>@enemy.EquippedWeapon.Name</td>
+            </tr>
+            <tr>
+                <td>Weapon Damage:</td>
+                @{
+                    var mainWeapon = (Weapon)enemy.EquippedWeapon;
+                                    <td> 
+                                    @($" Number of dices:  {mainWeapon.ActionToTrigger.Hit_Dice_Nr} Max:{mainWeapon.ActionToTrigger.Hit_Dmg} Flat bonus:{mainWeapon.ActionToTrigger.Flat_Dmg}")</td>
+                 } 
+            </tr>
+            @{
+                if (enemy.EquippedSecondaryWeapon != null) 
+                {
+                    <tr>
+                        <td>Secondary Weapon:</td>
+                        <td>@enemy.EquippedSecondaryWeapon</td>
+                    </tr>
+                    <tr>
+                        <td>
+                       
+                     @{
+                        var secondaryWeapon = enemy.EquippedSecondaryWeapon as Weapon;
+                        if (secondaryWeapon != null) {
+                                            <td> @($" Number of dices:  {secondaryWeapon.ActionToTrigger.Hit_Dice_Nr} Max:{secondaryWeapon.ActionToTrigger.Hit_Dmg} Flat bonus:{secondaryWeapon.ActionToTrigger.Flat_Dmg}") </td>
+                        }else{
+                         var secondaryShield = enemy.EquippedSecondaryWeapon as Armor;
+                                <td> @($" {secondaryShield.ArmorClass}") </td>
+                        }
+                     }
+                         
+                        </td>
+                    </tr>
+                }
             }
+        </table>
 
-       }
     }
+  
 </section>
+<script>
+
+     
+    function GenerateEnemies() {
+        $.ajax({
+            type: "GET",
+            url: "Home/GenerateEnemies",
+            async: true,
+            success: function (msg) {
+                
+            },
+            error: function () {
+                return "error";
+            }
+        });
+    }
+
+</script>
