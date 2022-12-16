@@ -9,7 +9,7 @@ namespace OstreCWEB.Services.Test
     {
        private StaticLists _db { get;} = new StaticLists();
         
-       private static List<Enemy> _enemies { get; set; } = new List<Enemy>();
+       private static List<Enemy> _activeEnemies { get; set; } = new List<Enemy>();
 
         public void GenerateEnemies(int amountToGenerate)
         {
@@ -28,12 +28,14 @@ namespace OstreCWEB.Services.Test
                   {
                       TypeNameHandling = TypeNameHandling.Auto
                   });
-              _enemies.Add(newEnemyInstance);
+
+                newEnemyInstance.InitializePossibleActions();
+                _activeEnemies.Add(newEnemyInstance);
             }
         }
         public Enemy GetEnemy(int enemyPositionInList)
         {
-            return _enemies[enemyPositionInList];
+            return _activeEnemies[enemyPositionInList];
         }
         public List<Item> GetItems()
         {
@@ -41,7 +43,7 @@ namespace OstreCWEB.Services.Test
         }
         public List<Enemy> GetActiveEnemies()
         {
-            return _enemies;
+            return _activeEnemies;
         }
         public List<CharacterActions> GetActions()
         {

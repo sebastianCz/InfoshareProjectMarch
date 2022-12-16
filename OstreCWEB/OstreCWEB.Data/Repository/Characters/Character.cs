@@ -28,6 +28,8 @@ namespace OstreCWEB.Data.Repository.Characters
         public Item[] Inventory { get; set; } 
         public List<CharacterActions> AllAvailableActions { get; set; }
 
+        public List<Status> ActiveStatuses { get; set; }  
+
         [Required]
         public int Strenght { get; set; }
         [Required]
