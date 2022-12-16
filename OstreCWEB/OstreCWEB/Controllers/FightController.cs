@@ -9,10 +9,10 @@ namespace OstreCWEB.Controllers
 {
     public class FightController : Controller
     {
-        private FightService _fightService;
+        private IFightService _fightService;
         private static Fight _fight = new Fight();
 
-        public FightController(FightService fightService)
+        public FightController(IFightService fightService)
         {
             _fightService = fightService;
         }
