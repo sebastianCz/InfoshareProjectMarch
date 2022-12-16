@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.CodeAnalysis.VisualBasic.Syntax;
 using OstreCWEB.Data.Repository;
 using OstreCWEB.Services.Fight;
+using OstreCWEB.Services.HardCoding;
 
 namespace OstreCWEB.Controllers
 {
@@ -28,6 +29,19 @@ namespace OstreCWEB.Controllers
             try
             {
                 _fightService.Action(_fight, action, enemyId);
+                return RedirectToAction(nameof(FightView));
+            }
+            catch
+            {
+                return View();
+            }
+        }
+
+        public ActionResult ActionOnHero(Player player,CharacterAction action)
+        {
+            try
+            {
+                _fightService.ActionOnHero(_fight, action);
                 return RedirectToAction(nameof(FightView));
             }
             catch

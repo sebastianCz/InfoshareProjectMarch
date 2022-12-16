@@ -29,6 +29,24 @@ namespace OstreCWEB.Services.Fight
                     fight.Player.Name, 1, fight.Player.HealthPoints));
             }
 
+            //if (action == CharacterAction.HEAL)
+            //{
+            //    fight.Player.HealthPoints++;
+            //    fight.FightHistory.Add(string.Format("Player {0} Healed for {1}, actual hp {2}",
+            //    fight.Player.Name, 1, fight.Player.HealthPoints));
+            //    fight.PlayerActionCounter--;
+            //}
+            //if (fight.PlayerActionCounter <= 0)
+            //{
+            //    fight.Player.HealthPoints--;
+            //    fight.PlayerActionCounter = fight.Player.ActionCounter;
+            //    fight.FightHistory.Add(string.Format("Player {0} lost {1}, actual hp {2}",
+            //        fight.Player.Name, 1, fight.Player.HealthPoints));
+            //}
+        }
+
+        public void ActionOnHero(Fight fight, CharacterAction action)
+        {
             if (action == CharacterAction.HEAL)
             {
                 fight.Player.HealthPoints++;
@@ -41,10 +59,9 @@ namespace OstreCWEB.Services.Fight
                 fight.Player.HealthPoints--;
                 fight.PlayerActionCounter = fight.Player.ActionCounter;
                 fight.FightHistory.Add(string.Format("Player {0} lost {1}, actual hp {2}",
-                    fight.Player.Name, 1, fight.Player.HealthPoints));
+                fight.Player.Name, 1, fight.Player.HealthPoints));
             }
-
-
         }
+
     }
 }

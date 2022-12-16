@@ -5,9 +5,6 @@
 }
 <h1>Fight Fight Fight!</h1>
 
-<p>
-    <a asp-action="Fight">Create New</a>
-</p>
 <p>Avaible Actions: @Model.PlayerActionCounter</p>
 <table class="table">
     <thead>
@@ -41,6 +38,15 @@
                     <td>
                 @Model.Player.ID
                     </td>
+                    <td>
+                    <form class="form-inline my-2 my-lg-0" asp-controller="Fight" asp-action="ActionOnHero" style="padding-right: 25px;">
+                            <select name="action" asp-items="@(new SelectList(Model.Player.ActionsOnHero))">
+                        <option selected="selected" value="">Choose action!</option>
+                        </select>
+                            <input type="hidden" name="Model.Player.ID" value="@Model.Player.ID">
+                                    <button type="submit" class="btn btn-danger"><i class="bi bi-hammer"></i></button>
+                        </form>
+                    </td>
                 </tr>
     </tbody>
 
@@ -70,33 +76,33 @@
     <tbody>
         @foreach (var enemy in Model.Enemies)
         {
-                        <tr>
-                            <td>
+                            <tr>
+                                <td>
                     @enemy.HealthPoints
-                            </td>
-                            <td>
+                                </td>
+                                <td>
                     @enemy.Name
-                            </td>
-                            <td>
+                                </td>
+                                <td>
                     @enemy.Race
-                            </td>
-                            <td>
+                                </td>
+                                <td>
                     @enemy.ID
-                            </td>
-                            <td> 
-                             <form class="form-inline my-2 my-lg-0" asp-controller="Fight" asp-action="Action" style="padding-right: 25px;">
-                            <select name="action" asp-items="@(new SelectList(Model.Player.Actions))">
-                        <option selected="selected" value="">Choose action!</option>
-                        </select>
-                            <input type="hidden" name="enemyId" value="@enemy.ID">
-                                    <button type="submit" class="btn btn-danger"><i class="bi bi-hammer"></i></button>
-                        </form>
-                            </td>
-                        </tr>
+                                </td>
+                                <td> 
+                                 <form class="form-inline my-2 my-lg-0" asp-controller="Fight" asp-action="Action" style="padding-right: 25px;">
+                                <select name="action" asp-items="@(new SelectList(Model.Player.Actions))">
+                            <option selected="selected" value="">Choose action!</option>
+                            </select>
+                                <input type="hidden" name="enemyId" value="@enemy.ID">
+                                        <button type="submit" class="btn btn-danger"><i class="bi bi-hammer"></i></button>
+                            </form>
+                                </td>
+                            </tr>
         }
     </tbody>
 </table>
 @foreach (var note in Model.FightHistory)
 {
-    <p>@note</p>
+        <p>@note</p>
 }

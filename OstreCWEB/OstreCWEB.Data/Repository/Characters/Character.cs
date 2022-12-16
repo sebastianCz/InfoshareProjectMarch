@@ -53,6 +53,7 @@ namespace OstreCWEB.Data.Repository
         public int ModCharisma { get; set; }
 
         public List<CharacterAction> Actions { get; set; } 
+        public List<CharacterAction> ActionsOnHero { get; set; }
     }
 
     public enum CharacterAction

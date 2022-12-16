@@ -16,9 +16,10 @@ namespace OstreCWEB.Services.HardCoding
             Name = "Yolo Swaggins";
             Race = "Human";
             HealthPoints = 10;
+            ActionsOnHero = new List<CharacterAction>();
             Actions = new List<CharacterAction>();
             Actions.Add(CharacterAction.ATTACK);
-            Actions.Add(CharacterAction.HEAL);
+            ActionsOnHero.Add(CharacterAction.HEAL);
 
         }
     }
