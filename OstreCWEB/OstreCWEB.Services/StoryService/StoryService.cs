@@ -210,7 +210,6 @@ namespace OstreCWEB.Services.StoryService
                         }
                     },
                     FirstParagraphId = 1,
-                    UserId = 0,
                 }
             };
 

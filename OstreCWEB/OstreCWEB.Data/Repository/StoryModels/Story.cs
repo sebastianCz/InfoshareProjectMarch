@@ -11,7 +11,7 @@
         public int FirstParagraphId { get; set; }
 
         // DB
-        public int UserId { get; set; }
+        //public int UserId { get; set; }
 
         public int GetAmountOfParagraphs()
         {

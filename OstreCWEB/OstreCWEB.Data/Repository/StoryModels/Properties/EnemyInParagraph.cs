@@ -10,7 +10,7 @@
         public string EnemyName { get; set; }
 
         // Db relations properties
-        public int FightId { get; set; }
-        public FightProp Fight { get; set; }
+        public int FightPropId { get; set; }
+        public FightProp FightProp { get; set; }
     }
 }
