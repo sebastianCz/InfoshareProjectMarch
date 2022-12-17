@@ -44,6 +44,4 @@ app.MapControllerRoute(
     name: "storyBuilder",
     pattern: "{controller=Home}/{action=Index}/{id?}/{paragraphId?}");
 
-app.MapRazorPages();
-
 app.Run();
