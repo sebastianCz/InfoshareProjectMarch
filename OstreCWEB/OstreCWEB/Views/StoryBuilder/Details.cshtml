@@ -1,74 +1,67 @@
 ﻿@model OstreCWEB.ViewModel.StoryBuilder.StoryDetailsView
 
 @{
-    ViewData["Title"] = "Details";
+    ViewData["Title"] = $"Story " + @Model.Name;
 }
 
-<h1>Details</h1>
+<div class="col-xxl-4 col-md-6">
+    <div class="card info-card sales-card">
+        <div class="filter">
+            <a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
+            <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
+                <li><a asp-action="Edit" asp-route-id="@Model.Id">Edit</a></li>
+                <li><a asp-action="Delete" asp-route-id="@Model.Id">Delete</a></li>
+            </ul>
+        </div>
 
-<div>
-    <h4>StoryDetailsView</h4>
-    <hr />
-    <dl class="row">
-        <dt class = "col-sm-2">
-            <label asp-for="Name"></label>
-        </dt>
-        <dd class = "col-sm-10">
-            @Model.Name
-        </dd>
-        <dt class = "col-sm-2">
-            <label asp-for="Description"></label>
-        </dt>
-        <dd class = "col-sm-10">
-            @Model.Description
-        </dd>
-        <dt class = "col-sm-2">
-            <label asp-for="AmountOfParagraphs"></label>
-        </dt>
-        <dd class = "col-sm-10">
-            @Model.AmountOfParagraphs
-        </dd>
-    </dl>
+        <div class="card-body">
+            <h5 class="card-title">@Model.Name  </h5>
+            Description:<br />
+            @Model.Description<br />
+            Amount of Paragraphs: @Model.AmountOfParagraphs
+        </div>
+    </div>
 </div>
-<div>
-    @Html.ActionLink("Edit", "Edit", new { /* id = Model.PrimaryKey */ }) |
-    <a asp-action="Index">Back to List</a>
-</div>
-@*<table class="table">
+
+
+    <div>
+        <a asp-action="Index">Back to List</a>
+    </div>
+    @*<table class="table">
     <thead>
-        <tr>
-            <th>
-                <label asp-for="ParagraphsView.First().ParagraphType"></label>
-            </th>
-            <th>
-                <label asp-for="ParagraphsView.First().StageDescription"></label>
-            </th>
-            <th>
-                <label asp-for="ParagraphsView.First().AmountOfChoices"></label>
-            </th>
-            <th></th>
-        </tr>
+    <tr>
+    <th>
+    <label asp-for="ParagraphsView.First().ParagraphType"></label>
+    </th>
+    <th>
+    <label asp-for="ParagraphsView.First().StageDescription"></label>
+    </th>
+    <th>
+    <label asp-for="ParagraphsView.First().AmountOfChoices"></label>
+    </th>
+    <th></th>
+    </tr>
     </thead>
     <tbody>
-        @foreach (var item in Model.ParagraphsView)
-        {
-            <tr>
-                <td>
-                    @item.ParagraphType
-                </td>
-                <td>
-                    @item.StageDescription
-                </td>
-                <td>
-                    @item.AmountOfChoices
-                </td>
-                <td>
-                    <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                    <a asp-action="ParagraphDetails" asp-route-id="@item.Id">Details</a> |
-                    <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-                </td>
-            </tr>
-        }
+    @foreach (var item in Model.ParagraphsView)
+    {
+    <tr>
+    <td>
+    @item.ParagraphType
+    </td>
+    <td>
+    @item.StageDescription
+    </td>
+    <td>
+    @item.AmountOfChoices
+    </td>
+    <td>
+    <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+    <a asp-action="ParagraphDetails" asp-route-id="@item.Id">Details</a> |
+    <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+    </td>
+    </tr>
+    }
     </tbody>
-</table>*@
+    </table>*@
 
