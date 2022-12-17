@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace OstreCWEB.Data.Repository
 {
-    internal class Story
+    public class Story
     {
     }
 }
