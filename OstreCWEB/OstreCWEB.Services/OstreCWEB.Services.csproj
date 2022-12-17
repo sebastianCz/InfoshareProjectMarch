@@ -7,11 +7,13 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\OstreCWEB.Data\OstreCWEB.Data.csproj" />
+    <Compile Remove="StoryReader\**" />
+    <EmbeddedResource Remove="StoryReader\**" />
+    <None Remove="StoryReader\**" />
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="StoryReader\" />
+    <ProjectReference Include="..\OstreCWEB.Data\OstreCWEB.Data.csproj" />
   </ItemGroup>
 
   <ItemGroup>
