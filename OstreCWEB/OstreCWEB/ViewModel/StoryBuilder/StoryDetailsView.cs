@@ -12,7 +12,7 @@ namespace OstreCWEB.ViewModel.StoryBuilder
         public int AmountOfParagraphs { get; set; }
 
         public List<ParagraphView> PreviousParagraphs { get; set; } = new List<ParagraphView>();
-        public ParagraphView ActuallyParagraphView { get; set; }
+        public ParagraphView CurrentParagraphView { get; set; }
         public List<ParagraphView> NextParagraphs { get; set; } = new List<ParagraphView>();
 
         public int FirstParagraphId { get; set; }

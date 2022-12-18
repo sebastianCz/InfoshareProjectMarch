@@ -234,11 +234,23 @@ namespace OstreCWEB.Services.StoryService
             return _stories.SelectMany(s => s.Paragraphs).FirstOrDefault(s => s.Id == id);
         }
 
-        public List<Paragraph> GetPreviousParagraphsById(int id, int idStory)
+        public List<Paragraph> GetPreviousParagraphsById(int idParagraph, int idStory)
         {
             var story = _stories.FirstOrDefault(p => p.Id == idStory);
-            var paragraphs = story.Paragraphs.Where(s => s.Choices.Any(c => c.NextParagraphId == id)).ToList();
+            var paragraphs = story.Paragraphs.Where(s => s.Choices.Any(c => c.NextParagraphId == idParagraph)).ToList();
             return paragraphs;
+        }
+
+        public List<Paragraph> GetNextParagraphsById(int idParagraph, int idStory)
+        {
+            var story = _stories.FirstOrDefault(p => p.Id == idStory);
+            var paragraph = story.Paragraphs.FirstOrDefault(p => p.Id == idParagraph);
+            List<Paragraph> result = new List<Paragraph>();
+            foreach (var item in paragraph.Choices)
+            {
+                result.Add(story.Paragraphs.FirstOrDefault(p => p.Id == item.NextParagraphId));
+            }
+            return result;
         }
     }
 }

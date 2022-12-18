@@ -1,10 +1,11 @@
 using Microsoft.EntityFrameworkCore;
 using OstreCWEB.Data.DataBase;
+using Serilog;
+using Serilog.Sinks.MSSqlServer;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 builder.Services.AddDbContext<OstreCWebContext>(
     options => options.UseSqlServer(builder.Configuration.GetConnectionString("OstreCWEB")));
 
@@ -13,6 +14,16 @@ builder.Services
     .AddAutoMapper(typeof(Program))
     .AddControllersWithViews()
     .AddRazorRuntimeCompilation();
+
+builder.Host.UseSerilog((hostBuilderContext, loggerConfiguration) =>
+{
+    loggerConfiguration.WriteTo.Console();
+    loggerConfiguration.WriteTo.MSSqlServer(builder.Configuration.GetConnectionString("OstreCWEB"), new MSSqlServerSinkOptions
+    {
+        AutoCreateSqlTable = true,
+        TableName = "OstreCWebLogs"
+    });
+});
 
 var app = builder.Build();
 
