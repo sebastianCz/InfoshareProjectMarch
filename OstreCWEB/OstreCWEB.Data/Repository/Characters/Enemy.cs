@@ -1,15 +1,31 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using OstreCWEB.Data.Repository.Items;
+using System.Text.Json.Serialization;
 
-namespace OstreCWEB.Data.Repository
+namespace OstreCWEB.Data.Repository.Characters
+
 {
     public class Enemy : Character
     {
-        //It's essentially the name of the enemy. I'm assuming enemies will have a different set of methods that's why this class exists. 
-        public string Type { get; set; }
+        public string Race { get; set; }
+
+        [JsonConstructor]
+        public Enemy() { }
+
+        public void InitializePossibleActions()
+        {
+            var weapon = EquippedWeapon;
+            var secondaryWeapon = EquippedSecondaryWeapon;
+            var secondaryWeapon2 = EquippedSecondaryWeapon;
+            var armor = EquippedArmor;
+
+            if (armor.ActionToTrigger != null) { }
+            
+                AllAvailableActions.Add(weapon.ActionToTrigger);
+           
+        }
 
     }
-}
+
+    
+    }
+

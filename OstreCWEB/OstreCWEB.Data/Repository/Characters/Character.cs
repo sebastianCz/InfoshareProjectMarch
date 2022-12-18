@@ -1,17 +1,16 @@
-﻿using OstreCWEB.Data.Interfaces;
-using OstreCWEB.Data.Repository.Items;
+﻿using OstreCWEB.Data.Repository.Items;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
+using System.Text.Json.Serialization;
 
-namespace OstreCWEB.Data.Repository
+namespace OstreCWEB.Data.Repository.Characters
 {
-    public abstract class Character : ITargetable
+    public abstract class Character  
     {
         [Required]
         public int ID { get; set; }
         [Required]
-        public string Name { get; set; }
-        [Required]
-        public string Race { get; set; }
+        public string CharacterName { get; set; }
         [Required]
         public int HealthPoints { get; set; }
         [Required]
@@ -26,7 +25,11 @@ namespace OstreCWEB.Data.Repository
         [Required]
         public Item EquippedSecondaryWeapon { get; set; }
 
-        public Item[] Items { get; set; }
+        public Item[] Inventory { get; set; } 
+        public List<CharacterActions> AllAvailableActions { get; set; }
+
+        public List<Status> ActiveStatuses { get; set; }  
+
         [Required]
         public int Strenght { get; set; }
         [Required]
@@ -63,5 +66,36 @@ namespace OstreCWEB.Data.Repository
         SUPERATTACK,
         SPELL,
         ITEM_USE
+
+        [JsonConstructor]
+        public Character() { }
+        //public Character(int id,string characterName,string race,int healtPoints,int level,string alignment,Item equippedArmor,Item equippedWeapon,
+        //    Item equippedSecondaryWeapon, Item[] items,int strenght,int modStrenght,int dexterity,int modDexterity,int constitution,int modConstitution,
+        //    int intelligence,int modIntelligence,int wisdom,int modWisdom,int charisma,int modCharisma)
+
+        //{
+        //    ID = id;
+        //    CharacterName = characterName;
+        //    Race = race;
+        //    HealthPoints = healtPoints;
+        //    Level = level;
+        //    Alignment = alignment;
+        //    EquippedArmor = (Armor)equippedArmor;
+        //    EquippedWeapon = (Weapon)equippedWeapon;
+        //    EquippedSecondaryWeapon = equippedSecondaryWeapon;
+        //    Inventory = items;
+        //    Strenght = strenght;
+        //    ModStrenght = modStrenght;
+        //    Dexterity = dexterity;
+        //    ModDexterity = modDexterity;
+        //    Constitution = constitution;
+        //    ModConstitution = modConstitution; 
+        //    Intelligence = intelligence;
+        //    ModIntelligence = modIntelligence;
+        //    Wisdom = wisdom;
+        //    ModWisdom = modWisdom;
+        //    Charisma = charisma;
+        //    ModCharisma = charisma;
+        //}
     }
 }

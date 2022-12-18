@@ -6,10 +6,12 @@ using System.Threading.Tasks;
 
 namespace OstreCWEB.Data.Enums
 {
-    internal enum ItemType
+    public enum ItemType
     {
-        Usable=1,
+        Consumable=1,
         Weapons=2,
-        Armors=3
+        Armors=3,
+        Usable=4,
+        Shield =5
     }
 }

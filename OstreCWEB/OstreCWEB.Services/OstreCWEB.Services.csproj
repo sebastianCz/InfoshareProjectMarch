@@ -7,11 +7,18 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="StoryReader\**" />
+    <EmbeddedResource Remove="StoryReader\**" />
+    <None Remove="StoryReader\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\OstreCWEB.Data\OstreCWEB.Data.csproj" />
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="StoryReader\" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.2" />
+    <PackageReference Include="System.Text.Json" Version="7.0.1" />
   </ItemGroup>
 
 </Project>

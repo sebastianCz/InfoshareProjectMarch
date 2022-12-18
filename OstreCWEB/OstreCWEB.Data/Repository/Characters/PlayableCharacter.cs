@@ -1,19 +1,23 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.ComponentModel.DataAnnotations;
 
-namespace OstreCWEB.Data.Repository
+namespace OstreCWEB.Data.Repository.Characters
 {
     internal class PlayableCharacter : Character
     {
+        //public PlayableCharacter(int id, string characterName, string race, int healtPoints, int level, string alignment, Item equippedArmor, Item equippedWeapon, Item equippedSecondaryWeapon, Item[] items, int strenght, int modStrenght, int dexterity, int modDexterity, int constitution, int modConstitution, int intelligence, int modIntelligence, int wisdom, int modWisdom, int charisma, int modCharisma) : base(id, characterName, race, healtPoints, level, alignment, equippedArmor, equippedWeapon, equippedSecondaryWeapon, items, strenght, modStrenght, dexterity, modDexterity, constitution, modConstitution, intelligence, modIntelligence, wisdom, modWisdom, charisma, modCharisma)
+        //{
+        //}
+        public PlayableCharacter()
+        {
+
+        }
+        public PlayableRace Race { get; set; }
         //Id used to "link" the character to a user in db later on. 
         [Required]
-        public string UserId { get; set; }
+        public int UserId { get; set; }
         [Required]
-        public string Class { get; set; }
+        public PlayableCharacterClass CharacterClass { get; set; }
+
         
     }
 }

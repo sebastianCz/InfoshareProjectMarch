@@ -2,20 +2,22 @@
 
 namespace OstreCWEB.Data.Repository.Characters
 {
-    internal class CharacterActions
+    public class CharacterActions
     {
-      //"using" a spell , item  or weapon is an action. 
+        
+
+        //"using" a spell , item  or weapon is an action. 
         public int Id { get; set; }
-        string ActionName { get; set; }
-        string ActionDescription { get; set; }
-        CharacterActionType ActionType { get; set; }
-        bool HitRollRequired { get; set; }
+        public string ActionName { get; set; }
+        public string ActionDescription { get; set; }
+        public CharacterActionType ActionType { get; set; }
+        public bool HitRollRequired { get; set; }
         public int? Hit_Dmg { get; set; }
         public int? Flat_Dmg { get; set; }
         public int? Hit_Dice_Nr { get; set; }
-        string PossibleTargets { get; set; }
-        bool InflictsStatus { get; set; }
-        List<string>? StatusName { get; set; }
-        Statistics StatForTest { get; set; }
+        public string PossibleTargets { get; set; }
+        public bool InflictsStatus { get; set; }
+        public List<string>? StatusName { get; set; }
+        public Statistics StatForTest { get; set; }
     }
 }

@@ -6,10 +6,10 @@ using System.Threading.Tasks;
 
 namespace OstreCWEB.Data.Enums
 {
-    internal enum Slot
+    public enum Slot
     {
-        Armor =1,
+        Armor=1,
         MainHand=2,
-        SecondHand=3,
+        SecondHand=3
     }
 }
