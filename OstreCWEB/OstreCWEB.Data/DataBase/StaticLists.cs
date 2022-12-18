@@ -17,8 +17,10 @@ namespace OstreCWEB.Data.DataBase
         private static List<Item> Items = new List<Item>();
         private static List<CharacterActions> Actions = new List<CharacterActions>();
 
-
-
+        public PlayableCharacter GetPlayableCharacter(int id)
+        {
+            return PlayableCharacters.FirstOrDefault(x => x.ID == id);
+        }
         public StaticLists()
         {
         }
@@ -225,17 +227,12 @@ namespace OstreCWEB.Data.DataBase
                     Inventory = new Item[5],
                     AllAvailableActions = new List<CharacterActions>(),
                     Strenght = 16,
-                    ModStrenght =2,
                     Dexterity = 14,
-                    ModDexterity=1,
                     Constitution = 10,
-                    ModConstitution=1,
                     Intelligence = 15,
-                    ModIntelligence =1,
                     Wisdom = 12,
                     ModWisdom=1,
                     Charisma = 2,
-                    ModCharisma= 1,
                     Race = PlayableRaces.FirstOrDefault(r=>r.ID ==1),
                     UserId = Users.FirstOrDefault(u=>u.Id == 1).Id,
                     CharacterClass =PlayableCharacterClasses.FirstOrDefault(c=>c.ID ==1)

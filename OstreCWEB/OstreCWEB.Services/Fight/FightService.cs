@@ -1,10 +1,4 @@
-﻿using OstreCWEB.Data.Repository;
-using OstreCWEB.Services.HardCoding;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using OstreCWEB.Data.Repository.Characters;
 
 namespace OstreCWEB.Services.Fight
 {
@@ -14,11 +8,11 @@ namespace OstreCWEB.Services.Fight
         {
             if (action == CharacterAction.ATTACK)
             {
-                var enemyToAttack = fight.Enemies.First(e => e.ID == enemyId);
+                var enemyToAttack = fight.GetEnemy(0);
                 var decreaseHpBy = 1;
                 enemyToAttack.HealthPoints -= decreaseHpBy;
                 fight.FightHistory.Add(string.Format("Enemy {0} lost {1}, actual hp {2}",
-                enemyToAttack.Name, decreaseHpBy, enemyToAttack.HealthPoints));
+                enemyToAttack.CharacterName, decreaseHpBy, enemyToAttack.HealthPoints));
                 fight.PlayerActionCounter--;
             }
             if (fight.PlayerActionCounter <= 0)
@@ -26,7 +20,7 @@ namespace OstreCWEB.Services.Fight
                 fight.Player.HealthPoints--;
                 fight.PlayerActionCounter = fight.Player.ActionCounter;
                 fight.FightHistory.Add(string.Format("Player {0} lost {1}, actual hp {2}",
-                    fight.Player.Name, 1, fight.Player.HealthPoints));
+                    fight.Player.CharacterName, 1, fight.Player.HealthPoints));
             }
         }
         public void ActionOnHero(Fight fight, CharacterAction action)
@@ -35,7 +29,7 @@ namespace OstreCWEB.Services.Fight
             {
                 fight.Player.HealthPoints++;
                 fight.FightHistory.Add(string.Format("Player {0} Healed for {1}, actual hp {2}",
-                fight.Player.Name, 1, fight.Player.HealthPoints));
+                fight.Player.CharacterName, 1, fight.Player.HealthPoints));
                 fight.PlayerActionCounter--;
             }
             if (fight.PlayerActionCounter <= 0)
@@ -43,7 +37,7 @@ namespace OstreCWEB.Services.Fight
                 fight.Player.HealthPoints--;
                 fight.PlayerActionCounter = fight.Player.ActionCounter;
                 fight.FightHistory.Add(string.Format("Player {0} lost {1}, actual hp {2}",
-                fight.Player.Name, 1, fight.Player.HealthPoints));
+                fight.Player.CharacterName, 1, fight.Player.HealthPoints));
             }
         }
 

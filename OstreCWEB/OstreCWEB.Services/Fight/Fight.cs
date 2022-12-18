@@ -1,41 +1,78 @@
-﻿using OstreCWEB.Data;
-using OstreCWEB.Data.Repository;
-using OstreCWEB.Services.HardCoding;
-using System.Security.Cryptography.X509Certificates;
+﻿using OstreCWEB.Data.DataBase;
+using OstreCWEB.Data.Repository.Characters;
+using System.Net.Http.Headers;
+using OstreCWEB.Services.Test;
+using Newtonsoft.Json;
+using OstreCWEB.Data.Repository.Items;
 
 namespace OstreCWEB.Services.Fight
 {
     public class Fight
     { 
-
         private int _id = 1;
         public int PlayerActionCounter { get; set; }
         public List<string> FightHistory { get; set; }
-        public List<Enemy> Enemies { get; set; }
-        public Player Player { get; set; }
+        public static List<Enemy> _activeEnemies { get; set; } = new List<Enemy>();
+        public PlayableCharacter Player { get; set; }
+        public StaticLists _db { get; } = new StaticLists();
 
         //public Random Random { get; set; }
         public Fight()
         {
-            Player = new Player();
-            Enemy enemy = new Enemy();
-            enemy.HealthPoints = 20;
-            enemy.Name = "Ganjalf";
-            enemy.ID = 1;
-            Enemy enemy2 = new Enemy();
-            enemy2.HealthPoints = 15;
-            enemy2.Name = "Bulbo";
-            enemy2.ID = 2;
-            Enemies = new List<Enemy>(); 
-            Enemies.Add(enemy);
-            Enemies.Add(enemy2);
+            _db = new StaticLists();
+            Player = _db.GetPlayableCharacter(1);
             PlayerActionCounter = Player.ActionCounter;
             FightHistory = new List<string>();
-            Random random = new Random();
         }
-        
 
-        
+        public void InitializeFight()
+        {
+            _activeEnemies = new List<Enemy>();
+            GenerateEnemies(2);
+            return;
+        }
+
+        public void GenerateEnemies(int amountToGenerate)
+        {
+            for (int i = 0; i < amountToGenerate; i++)
+            {
+                var enemyAsText = JsonConvert.SerializeObject(
+                        _db.GetEnemy(),
+                    new JsonSerializerSettings()
+                    {
+                        TypeNameHandling = TypeNameHandling.Auto
+                    });
+
+                var newEnemyInstance = JsonConvert.DeserializeObject<Enemy>(
+                    enemyAsText,
+                    new JsonSerializerSettings()
+                    {
+                        TypeNameHandling = TypeNameHandling.Auto
+                    });
+
+                newEnemyInstance.InitializePossibleActions();
+                _activeEnemies.Add(newEnemyInstance);
+            }
+        }
+        public Enemy GetEnemy(int enemyPositionInList)
+        {
+            return _activeEnemies[enemyPositionInList];
+        }
+        public List<Item> GetItems()
+        {
+            return _db.GetItems();
+        }
+        public List<Enemy> GetActiveEnemies()
+        {
+            return _activeEnemies;
+        }
+        public List<CharacterActions> GetActions()
+        {
+            return _db.GetActions();
+        }
+
+
+
         //        ProvidePossibleTargets(id ChosenAction)
 
         //foreach var action in Character.Actions

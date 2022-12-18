@@ -1,10 +1,6 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.CodeAnalysis.VisualBasic.Syntax;
-using OstreCWEB.Data.Repository;
+﻿using Microsoft.AspNetCore.Mvc;
+using OstreCWEB.Data.Repository.Characters;
 using OstreCWEB.Services.Fight;
-using OstreCWEB.Services.HardCoding;
-using System;
 
 namespace OstreCWEB.Controllers
 {
@@ -42,7 +38,7 @@ namespace OstreCWEB.Controllers
             }
         }
 
-        public ActionResult ActionOnHero(Player player,CharacterAction action)
+        public ActionResult ActionOnHero(PlayableCharacter player,CharacterAction action)
         {
             try
             {
