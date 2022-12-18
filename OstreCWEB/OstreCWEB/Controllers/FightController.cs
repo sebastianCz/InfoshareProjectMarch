@@ -4,13 +4,18 @@ using Microsoft.CodeAnalysis.VisualBasic.Syntax;
 using OstreCWEB.Data.Repository;
 using OstreCWEB.Services.Fight;
 using OstreCWEB.Services.HardCoding;
+using System;
 
 namespace OstreCWEB.Controllers
 {
     public class FightController : Controller
     {
         private IFightService _fightService;
+
         private static Fight _fight = new Fight();
+
+        //private Random random;
+        
 
         public FightController(IFightService fightService)
         {
@@ -49,5 +54,21 @@ namespace OstreCWEB.Controllers
                 return View();
             }
         }
+
+
+        ////Not working yet
+        ///
+        //public ActionResult EnemyAction(Fight fight, CharacterAction action, Random random)
+        //{
+        //    try
+        //    {
+        //        _fightService.EnemyAction(_fight, action,random);
+        //        return RedirectToAction(nameof(FightView));
+        //    }
+        //    catch
+        //    {
+        //        return View();
+        //    }
+        //}
     }
 }

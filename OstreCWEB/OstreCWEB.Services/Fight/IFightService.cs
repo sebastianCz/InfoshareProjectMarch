@@ -11,5 +11,8 @@ namespace OstreCWEB.Services.Fight
     {
         public void Action(Fight fight, CharacterAction action, int enemyId);
         public void ActionOnHero(Fight fight, CharacterAction action);
+        //public void EnemyAction(Fight fight, CharacterAction action, Random random);
+        
+        //public void EnemyTurn(Fight fight);   
     }
 }

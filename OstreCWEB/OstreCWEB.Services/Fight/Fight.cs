@@ -6,15 +6,18 @@ using System.Security.Cryptography.X509Certificates;
 namespace OstreCWEB.Services.Fight
 {
     public class Fight
-    {
+    { 
+
+
         private int _id = 1;
         public int PlayerActionCounter { get; set; }
-
         public List<string> FightHistory { get; set; }
+        public List<Enemy> Enemies { get; set; }
+        public Player Player { get; set; }
 
+        //public Random Random { get; set; }
         public Fight()
         {
-
             Player = new Player();
             Enemy enemy = new Enemy();
             enemy.HealthPoints = 20;
@@ -29,13 +32,9 @@ namespace OstreCWEB.Services.Fight
             Enemies.Add(enemy2);
             PlayerActionCounter = Player.ActionCounter;
             FightHistory = new List<string>();
-
+            Random random = new Random();
         }
         
-        public List<Enemy> Enemies { get; set; }
-        public Player Player { get; set; }
-
-
 
         
         //        ProvidePossibleTargets(id ChosenAction)
