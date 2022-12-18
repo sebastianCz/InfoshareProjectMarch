@@ -4,10 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace OstreCWEB.Data.Interfaces
+namespace OstreCWEB.Data.Enums
 {
-    internal interface ITargetable
+    public enum Skill
     {
-        public int HealthPoints { get; set; }
+        religion=1,
+        acrobatics=2
     }
 }

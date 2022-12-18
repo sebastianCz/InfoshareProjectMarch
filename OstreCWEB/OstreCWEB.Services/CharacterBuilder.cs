@@ -4,12 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace OstreCWEB.Data.Enums
+namespace OstreCWEB.Services
 {
-    public enum Slot
+    internal class CharacterBuilder
     {
-        Armor=1,
-        MainHand=2,
-        SecondHand=3
+
     }
 }

@@ -28,6 +28,9 @@ builder.Host.UseSerilog((hostBuilderContext, loggerConfiguration) =>
 
 var app = builder.Build();
 
+var test = new StaticLists();
+test.SeedData();
+
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
@@ -51,6 +54,7 @@ app.UseAuthorization();
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
+//app.MapRazorPages();
 
 app.MapControllerRoute(
     name: "storyBuilder",

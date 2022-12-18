@@ -1,11 +1,50 @@
-﻿using OstreCWEB.Data.Enums;
+﻿using OstreCWEB.Data.Enums; 
+using OstreCWEB.Data.Repository.Characters;
 
 namespace OstreCWEB.Data.Repository.Items
 {
-    internal abstract class Item
+    public  class Item
     {
-        int Id { get; set; }
-        string Name { get; set; }
-        ItemType ItemType { get;set; } 
+        public Item() { }
+        public Item(int id, string name, ItemType itemType)
+        {
+            Id = id;
+            Name = name;
+            ItemType = itemType;
+        }
+        //TODO: Replace ItemType variable by IOC. Items will be " equipable " or not depending on type in the first itteration. 
+        public ItemType ItemType { get; set; }
+        public int ArmorClass { get; set; }
+        public string ArmorType { get; set; }
+        public int? Id { get; set; }
+        public string? Name { get; set; }
+        public CharacterActions ActionToTrigger { get; set; }
+
+        public bool EquipItem(Item itemToEquip, Character equippingTarget, Slot slot, out string actionResult)
+        {
+            switch (slot)
+            {
+                case Slot.SecondHand:
+                    equippingTarget.EquippedSecondaryWeapon = itemToEquip;
+                    actionResult = $"{itemToEquip.Name}  was equipped successfully";
+                    return true;
+                case Slot.MainHand:
+                    equippingTarget.EquippedWeapon = itemToEquip;
+                    actionResult = $"{itemToEquip.Name}  was equipped successfully";
+                    return true;
+                default:
+                    actionResult = $"{itemToEquip.Name}  cannot be quipped in this slot";
+                    return false;
+            }
+            return false;
+        }
+
+        public Character UseItem(Character itemUser, Character itemTarget)
+        {
+            //Find action in DB, create "new " action instance based on this, apply to target, return target result. 
+            var itemTargetAfterActionWasApplied = itemTarget;
+            return itemTarget;
+        }
+
     }
 }

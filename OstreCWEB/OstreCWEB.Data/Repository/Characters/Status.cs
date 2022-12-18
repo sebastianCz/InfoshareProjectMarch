@@ -4,12 +4,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace OstreCWEB.Data
+namespace OstreCWEB.Data.Repository.Characters
 {
-    internal class Status
+    public class Status
     {
         public int ID { get; set; }
         public int Name { get; set; }
-        public int Description { get; set; } 
+        public int Description { get; set; }
     }
 }
