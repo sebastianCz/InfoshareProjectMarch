@@ -8,7 +8,6 @@ namespace OstreCWEB.Services.Fight
     public class Fight
     { 
 
-
         private int _id = 1;
         public int PlayerActionCounter { get; set; }
         public List<string> FightHistory { get; set; }
