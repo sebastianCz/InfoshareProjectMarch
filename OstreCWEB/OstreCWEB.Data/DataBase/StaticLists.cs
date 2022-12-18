@@ -195,7 +195,7 @@ namespace OstreCWEB.Data.DataBase
                     Alignment = "evil",
                     EquippedArmor = Items.FirstOrDefault(a => a.Id == 1),
                     EquippedWeapon =Items.FirstOrDefault(a => a.Id == 2),
-                    EquippedSecondaryWeapon = Items.FirstOrDefault(a=>a.Id ==4),
+                    EquippedSecondaryWeapon = Items.FirstOrDefault(a=>a.Id == 4),
                     Inventory = new Item[5],
                     AllAvailableActions = new List<CharacterActions>(),
                     Strenght = 10,
@@ -242,13 +242,9 @@ namespace OstreCWEB.Data.DataBase
                     ActionsOnHero = new List<CharacterAction>()
                 }
             };
-            PlayableCharacters[0].DefaultActions.Add(Actions.FirstOrDefault(x => x.Id == 4));
+            PlayableCharacters[0].DefaultActions.Add(Actions.FirstOrDefault(x => x.Id == 4));  //HardCoding
             PlayableCharacters[0].DefaultActions.Add(Actions.FirstOrDefault(x => x.Id == 3));
 
-            foreach(var enemy in Enemies)
-            {
-                enemy.InitializePossibleActions();
-            }
         }
 
         public Enemy GetEnemy()

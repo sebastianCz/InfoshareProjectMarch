@@ -23,16 +23,19 @@ namespace OstreCWEB.Services.Fight
             _db = new StaticLists();
             FightHistory = new List<string>();
         }
-
+         
         public void InitializeFight()
         {
-
+            var characterList = new List<Character>();
             _activeEnemies = new List<Enemy>();
             Player = _db.GetPlayableCharacter(1);
+            characterList.Add((Character)Player);
+            GenerateEnemies(2);
+            _activeEnemies.ForEach(Any_list => characterList.Add(Any_list));
+            InitializeActions(characterList);
             PlayerActionCounter = Player.ActionCounter;
             Player.Actions.Add(CharacterAction.ATTACK);
             Player.Actions.Add(CharacterAction.HEAL);
-            GenerateEnemies(2);
             return;
         }
 
@@ -43,6 +46,14 @@ namespace OstreCWEB.Services.Fight
                 if (character.EquippedArmor.ActionToTrigger != null){ character.AllAvailableActions.Add(character.EquippedArmor.ActionToTrigger);} 
                 if (character.EquippedWeapon.ActionToTrigger != null) { character.AllAvailableActions.Add(character.EquippedWeapon.ActionToTrigger);}
                 if (character.EquippedSecondaryWeapon.ActionToTrigger != null) { character.AllAvailableActions.Add(character.EquippedSecondaryWeapon.ActionToTrigger); }
+
+                if (character.DefaultActions != null)
+                {
+                    foreach (var actions in character.DefaultActions)
+                    {
+                        character.AllAvailableActions.Add(actions);
+                    }
+                }
             }
             return characterList;
         }
@@ -65,8 +76,6 @@ namespace OstreCWEB.Services.Fight
                     {
                         TypeNameHandling = TypeNameHandling.Auto
                     });
-
-                newEnemyInstance.InitializePossibleActions();
                 _activeEnemies.Add(newEnemyInstance);
             }
         }
