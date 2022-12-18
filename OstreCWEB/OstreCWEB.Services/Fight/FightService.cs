@@ -1,4 +1,5 @@
-﻿using OstreCWEB.Data.Repository.Characters;
+﻿using OstreCWEB.Data.Enums;
+using OstreCWEB.Data.Repository.Characters;
 
 namespace OstreCWEB.Services.Fight
 {

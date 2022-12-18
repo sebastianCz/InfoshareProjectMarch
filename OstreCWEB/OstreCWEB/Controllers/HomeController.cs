@@ -32,10 +32,9 @@ namespace OstreCWEB.Controllers
             return View(model );
         }
         [HttpGet]
-        public ActionResult GenerateEnemies()
+        public ActionResult InitializeFight()
         {
-            _testService.GenerateEnemies(2);
-            return RedirectToAction("Index");
+            return RedirectToAction("Fight", "InitializeFight", new { area = "" });
         }
        
         

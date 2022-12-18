@@ -55,8 +55,6 @@ namespace OstreCWEB.Data.Repository.Characters
         [Required]
         public int ModCharisma { get; set; }
 
-        public List<CharacterAction> Actions { get; set; }
-        public List<CharacterAction> ActionsOnHero { get; set; }
 
         [JsonConstructor]
         public Character()
@@ -64,15 +62,7 @@ namespace OstreCWEB.Data.Repository.Characters
 
         }
     }
-    public enum CharacterAction
-    {
-        ATTACK = 1,
-        HEAL,
-        SUPERATTACK,
-        SPELL,
-        ITEM_USE
-    }
-
+   
     //public Character(int id,string characterName,string race,int healtPoints,int level,string alignment,Item equippedArmor,Item equippedWeapon,
     //    Item equippedSecondaryWeapon, Item[] items,int strenght,int modStrenght,int dexterity,int modDexterity,int constitution,int modConstitution,
     //    int intelligence,int modIntelligence,int wisdom,int modWisdom,int charisma,int modCharisma)

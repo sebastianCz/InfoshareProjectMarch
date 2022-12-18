@@ -235,8 +235,9 @@ namespace OstreCWEB.Data.DataBase
                     Charisma = 2,
                     Race = PlayableRaces.FirstOrDefault(r=>r.ID ==1),
                     UserId = Users.FirstOrDefault(u=>u.Id == 1).Id,
-                    CharacterClass =PlayableCharacterClasses.FirstOrDefault(c=>c.ID ==1)
-
+                    CharacterClass =PlayableCharacterClasses.FirstOrDefault(c=>c.ID ==1),
+                    Actions = new List<CharacterAction>(),
+                    ActionsOnHero = new List<CharacterAction>()
                 }
             };
 

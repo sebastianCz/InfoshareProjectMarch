@@ -1,6 +1,9 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using OstreCWEB.Data.Enums;
 using OstreCWEB.Data.Repository.Characters;
+using OstreCWEB.Models;
 using OstreCWEB.Services.Fight;
+using OstreCWEB.Services.Test;
 
 namespace OstreCWEB.Controllers
 {
@@ -10,7 +13,6 @@ namespace OstreCWEB.Controllers
 
         private static Fight _fight = new Fight();
 
-        //private Random random;
         
 
         public FightController(IFightService fightService)
@@ -19,10 +21,15 @@ namespace OstreCWEB.Controllers
         }
         public ActionResult FightView()
         {
-        return View(_fight);
+            var model = new FightViewModel();
+            model.PlayableCharacter = _fight.Player;
+            model.ActiveEnemies = _fight.GetActiveEnemies();
+            model.PlayerActionCounter = _fight.PlayerActionCounter;
+            model.FightHistory = _fight.FightHistory;
+            return View(model);
         }
 
-        // POST: FightController/Action
+        
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Action(CharacterAction action, int enemyId)
@@ -51,20 +58,12 @@ namespace OstreCWEB.Controllers
             }
         }
 
+        [HttpGet]
+        public ActionResult InitializeFight()
+        {
+            _fight.InitializeFight();
+            return RedirectToAction(nameof(FightView));
+        }
 
-        ////Not working yet
-        ///
-        //public ActionResult EnemyAction(Fight fight, CharacterAction action, Random random)
-        //{
-        //    try
-        //    {
-        //        _fightService.EnemyAction(_fight, action,random);
-        //        return RedirectToAction(nameof(FightView));
-        //    }
-        //    catch
-        //    {
-        //        return View();
-        //    }
-        //}
     }
 }

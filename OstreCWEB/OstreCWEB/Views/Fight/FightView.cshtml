@@ -1,5 +1,4 @@
-﻿@model OstreCWEB.Services.Fight.Fight
-
+﻿@model OstreCWEB.Models.FightViewModel;
 @{
     ViewData["Title"] = "Fight";
 }
@@ -29,23 +28,23 @@
     <tbody>
                 <tr>
                     <td>
-                @Model.Player.HealthPoints
+                @Model.PlayableCharacter.HealthPoints
                     </td>
                     <td>
-                @Model.Player.CharacterName
+                @Model.PlayableCharacter.CharacterName
                     </td>
                     <td>
-                @Model.Player.Race
+                @Model.PlayableCharacter.Race
                     </td>
                     <td>
-                @Model.Player.ID
+                @Model.PlayableCharacter.ID
                     </td>
                     <td>
                     <form class="form-inline my-2 my-lg-0" asp-controller="Fight" asp-action="ActionOnHero" style="padding-right: 25px;">
-                            <select name="action" asp-items="@(new SelectList(Model.Player.ActionsOnHero))">
+                            <select name="action" asp-items="@(new SelectList(Model.PlayableCharacter.ActionsOnHero))">
                         <option selected="selected" value="">Choose action!</option>
                         </select>
-                            <input type="hidden" name="Model.Player.ID" value="@Model.Player.ID">
+                            <input type="hidden" name="Model.Player.ID" value="@Model.PlayableCharacter.ID">
                                     <button type="submit" class="btn btn-success"><i class="bi bi-capsule"></i></button>
                         </form>
                     </td>
@@ -76,7 +75,7 @@
         </tr>
     </thead>
     <tbody>
-        @foreach (var enemy in Model.Enemies)
+        @foreach (var enemy in Model.ActiveEnemies)
         {
                                 <tr>
                                     <td>
@@ -93,13 +92,14 @@
                                     </td>
                                     <td> 
                                      <form class="form-inline my-2 my-lg-0" asp-controller="Fight" asp-action="Action" style="padding-right: 25px;">
-                                    <select name="action" asp-items="@(new SelectList(Model.Player.Actions))">
+                                        <select name="action" asp-items="@(new SelectList(Model.PlayableCharacter.Actions))">
                                 <option selected="selected" value="">Choose action!</option>
                                 </select>
                                     <input type="hidden" name="enemyId" value="@enemy.ID">
                                             <button type="submit" class="btn btn-danger"><i class="bi bi-hammer"></i></button>
                                 </form>
                                     </td>
+                                        
                                 </tr>
         }
     </tbody>
@@ -111,3 +111,19 @@
 {
             <p>@note</p>
 }
+
+<script> 
+    function GenerateEnemies() {
+        $.ajax({
+            type: "GET",
+            url: "Home/GenerateEnemies",
+            async: true,
+            success: function (msg) {
+                
+            },
+            error: function () {
+                return "error";
+            }
+        });
+    }
+</script>   

@@ -20,14 +20,14 @@ namespace OstreCWEB.Services.Fight
         public Fight()
         {
             _db = new StaticLists();
-            Player = _db.GetPlayableCharacter(1);
-            PlayerActionCounter = Player.ActionCounter;
             FightHistory = new List<string>();
         }
 
         public void InitializeFight()
         {
             _activeEnemies = new List<Enemy>();
+            Player = _db.GetPlayableCharacter(1);
+            PlayerActionCounter = Player.ActionCounter;
             GenerateEnemies(2);
             return;
         }
