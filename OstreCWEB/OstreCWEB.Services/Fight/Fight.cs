@@ -4,6 +4,7 @@ using System.Net.Http.Headers;
 using OstreCWEB.Services.Test;
 using Newtonsoft.Json;
 using OstreCWEB.Data.Repository.Items;
+using OstreCWEB.Data.Enums;
 
 namespace OstreCWEB.Services.Fight
 {
@@ -25,12 +26,27 @@ namespace OstreCWEB.Services.Fight
 
         public void InitializeFight()
         {
+
             _activeEnemies = new List<Enemy>();
             Player = _db.GetPlayableCharacter(1);
             PlayerActionCounter = Player.ActionCounter;
+            Player.Actions.Add(CharacterAction.ATTACK);
+            Player.Actions.Add(CharacterAction.HEAL);
             GenerateEnemies(2);
             return;
         }
+
+        public List<Character> InitializeActions(List<Character> characterList)
+        {
+            foreach (var character in characterList)
+            {
+                if (character.EquippedArmor.ActionToTrigger != null){ character.AllAvailableActions.Add(character.EquippedArmor.ActionToTrigger);} 
+                if (character.EquippedWeapon.ActionToTrigger != null) { character.AllAvailableActions.Add(character.EquippedWeapon.ActionToTrigger);}
+                if (character.EquippedSecondaryWeapon.ActionToTrigger != null) { character.AllAvailableActions.Add(character.EquippedSecondaryWeapon.ActionToTrigger); }
+            }
+            return characterList;
+        }
+
 
         public void GenerateEnemies(int amountToGenerate)
         {

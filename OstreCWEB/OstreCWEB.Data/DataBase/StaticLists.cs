@@ -4,6 +4,7 @@ using OstreCWEB.Data.Repository.Characters;
 using OstreCWEB.Data.Repository.Items;
 using OstreCWEB.Data.Repository.WebObjects;
 using OstreCWEB.Data.Repository.StoryModels;
+using System.Security.Cryptography.X509Certificates;
 
 namespace OstreCWEB.Data.DataBase
 {
@@ -226,6 +227,7 @@ namespace OstreCWEB.Data.DataBase
                     EquippedSecondaryWeapon =Items.First(c =>c.Id ==4),
                     Inventory = new Item[5],
                     AllAvailableActions = new List<CharacterActions>(),
+                    DefaultActions = new List<CharacterActions>(),
                     Strenght = 16,
                     Dexterity = 14,
                     Constitution = 10,
@@ -240,6 +242,8 @@ namespace OstreCWEB.Data.DataBase
                     ActionsOnHero = new List<CharacterAction>()
                 }
             };
+            PlayableCharacters[0].DefaultActions.Add(Actions.FirstOrDefault(x => x.Id == 4));
+            PlayableCharacters[0].DefaultActions.Add(Actions.FirstOrDefault(x => x.Id == 3));
 
             foreach(var enemy in Enemies)
             {

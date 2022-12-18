@@ -31,11 +31,10 @@ namespace OstreCWEB.Controllers
 
             return View(model );
         }
-        [HttpGet]
-        public ActionResult InitializeFight()
-        {
-            return RedirectToAction("Fight", "InitializeFight", new { area = "" });
-        }
+        //public ActionResult InitializeFight()
+        //{
+        //    return RedirectToAction(nameof(FightView));
+        //}
        
         
         public IActionResult Privacy()

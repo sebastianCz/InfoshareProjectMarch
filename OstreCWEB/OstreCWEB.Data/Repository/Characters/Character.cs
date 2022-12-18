@@ -27,6 +27,7 @@ namespace OstreCWEB.Data.Repository.Characters
 
         public Item[] Inventory { get; set; }
         public List<CharacterActions> AllAvailableActions { get; set; }
+        public List<CharacterActions> DefaultActions { get; set; }
 
         public List<Status> ActiveStatuses { get; set; }
 
