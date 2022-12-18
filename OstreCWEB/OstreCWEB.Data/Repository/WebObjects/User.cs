@@ -1,4 +1,5 @@
 ﻿using OstreCWEB.Data.Repository.Characters;
+using OstreCWEB.Data.Repository.StoryModels;
 
 namespace OstreCWEB.Data.Repository.WebObjects
 {

@@ -3,6 +3,7 @@ using OstreCWEB.Data.Repository;
 using OstreCWEB.Data.Repository.Characters;
 using OstreCWEB.Data.Repository.Items;
 using OstreCWEB.Data.Repository.WebObjects;
+using OstreCWEB.Data.Repository.StoryModels;
 
 namespace OstreCWEB.Data.DataBase
 {
