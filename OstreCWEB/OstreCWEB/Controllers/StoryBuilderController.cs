@@ -21,7 +21,7 @@ namespace OstreCWEB.Controllers
         // GET: StoryBuilderController
         public ActionResult Index()
         {
-            _logger.LogInformation(this + " Index(24)", DateTime.Now);
+            _logger.LogWarning(this + " Index(24)", DateTime.Now);
             var stories = _storyService.GetAll();
             var model = new List<StoryView>();
             foreach (var item in stories)

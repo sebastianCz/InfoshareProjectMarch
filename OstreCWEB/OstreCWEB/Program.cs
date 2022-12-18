@@ -22,7 +22,8 @@ builder.Host.UseSerilog((hostBuilderContext, loggerConfiguration) =>
     {
         AutoCreateSqlTable = true,
         TableName = "OstreCWebLogs"
-    });
+    },
+    restrictedToMinimumLevel: Serilog.Events.LogEventLevel.Warning);
 });
 
 var app = builder.Build();
