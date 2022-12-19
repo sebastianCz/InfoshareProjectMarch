@@ -6,6 +6,7 @@ using Newtonsoft.Json;
 using OstreCWEB.Data.Repository.Items;
 using OstreCWEB.Data.Enums;
 using System;
+using static System.Collections.Specialized.BitVector32;
 
 namespace OstreCWEB.Services.Fight
 {
@@ -43,31 +44,93 @@ namespace OstreCWEB.Services.Fight
 
         public void ApplyAction(Character target, Character caster, CharacterActions action)
         {
-            if (action.HitRollRequired)
+
+            if (action.SavingThrowPossible)
             {
-                var test = DiceThrow(20);
+                var test = DiceThrow(20); // <--- test do zdania
 
-               
-                //switch (action.StatForTest)
-                //{
-                //    case Statistics.Strenght:
-                //        DiceThrow()
-                //}
-                //DiceThrow(action.Max_Dmg);
-
-                //public static int TestOnDex(int modDexterity, bool player)
-                //{
-                //    return modDexterity + Helpers.ThrowDice(20, player);
-
-                //}
-                //public static int TestOn(int modificator, bool player, int diceNumber)
-                //{
-                //    return modificator + Helpers.ThrowDice(diceNumber, player);
-                //}
-
-                //// Dice throw: 
             }
         }
+
+        public bool SpellSavingThrow(Character target, Character caster, CharacterActions action)
+        {
+            var targetMod = 0;
+            var targetRoll = 0;
+            var casterModifier = 0;
+            switch (action.StatForTest)
+            {
+                case Statistics.Strenght:
+                    targetMod = CalculateModifier(target.Strenght);
+                    targetRoll = DiceThrow(20) + targetMod;
+                    casterModifier = SpellCastingModifier(caster,action.StatForTest);
+                    if (casterModifier > targetRoll) return false;
+                    return true;
+                case Statistics.Intelligence:
+                    targetMod = CalculateModifier(target.Intelligence);
+                    targetRoll = DiceThrow(20) + targetMod;
+                    casterModifier = SpellCastingModifier(caster, action.StatForTest);
+                    if (casterModifier > targetRoll) return false;
+                    return true;
+                case Statistics.Constitution:
+                    targetMod = CalculateModifier(target.Constitution);
+                    targetRoll = DiceThrow(20) + targetMod;
+                    casterModifier = SpellCastingModifier(caster, action.StatForTest);
+                    if (casterModifier > targetRoll) return false;
+                    return true;
+                case Statistics.Wisdom:
+                    targetMod = CalculateModifier(target.Wisdom);
+                    targetRoll = DiceThrow(20) + targetMod;
+                    casterModifier = SpellCastingModifier(caster, action.StatForTest);
+                    if (casterModifier > targetRoll) return false;
+                    return true;
+                case Statistics.Dexterity:
+                    targetMod = CalculateModifier(target.Dexterity);
+                    targetRoll = DiceThrow(20) + targetMod;
+                    casterModifier = SpellCastingModifier(caster, action.StatForTest);
+                    if (casterModifier > targetRoll) return false;
+                    return true;
+                case Statistics.Charisma:
+                    targetMod = CalculateModifier(target.Charisma);
+                    targetRoll = DiceThrow(20) + targetMod;
+                    casterModifier = SpellCastingModifier(caster, action.StatForTest);
+                    if (casterModifier > targetRoll) return false;
+                    return true;
+                default:
+                    return false;
+
+            }        
+        }
+
+        public int SpellCastingModifier(Character caster,Statistics statsForTest)
+        {
+            switch (statsForTest)
+            {
+                case Statistics.Strenght:
+                   return 8 + CalculateModifier(caster.Strenght); // Dopisać premię z biegłości...gdy takowa powstanie.
+                case Statistics.Intelligence:
+                    return 8 + CalculateModifier(caster.Intelligence); // Dopisać premię z biegłości...gdy takowa powstanie.
+                case Statistics.Constitution:
+                    return 8 + CalculateModifier(caster.Constitution); // Dopisać premię z biegłości...gdy takowa powstanie.
+                case Statistics.Wisdom:
+                    return 8 + CalculateModifier(caster.Wisdom); // Dopisać premię z biegłości...gdy takowa powstanie.
+                case Statistics.Dexterity:
+                    return 8 + CalculateModifier(caster.Dexterity); // Dopisać premię z biegłości...gdy takowa powstanie.
+                case Statistics.Charisma:
+                    return 8 + CalculateModifier(caster.Charisma); // Dopisać premię z biegłości...gdy takowa powstanie.
+                default:
+                    return 0;
+            }
+        }
+
+        //public static int TestOnDex(int modDexterity, bool player)
+        //{
+        //    return modDexterity + Helpers.ThrowDice(20, player);
+
+        //}
+        //public static int TestOn(int modificator, bool player, int diceNumber)
+        //{
+        //    return modificator + Helpers.ThrowDice(diceNumber, player);
+        //}
 
         public int CalculateModifier(int value)
         {

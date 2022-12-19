@@ -6,7 +6,7 @@
         Dexterity=2,
         Intelligence=3,
         Wisdom=4,
-        Constituion =5,
+        Constitution =5,
         Charisma=6,
         None=7
     }

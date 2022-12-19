@@ -11,7 +11,7 @@ namespace OstreCWEB.Data.Repository.Characters
         public string ActionName { get; set; }
         public string ActionDescription { get; set; }
         public CharacterActionType ActionType { get; set; }
-        public bool HitRollRequired { get; set; }
+        public bool SavingThrowPossible { get; set; }
         public int? Max_Dmg { get; set; }
         public int? Flat_Dmg { get; set; }
         public int? Hit_Dice_Nr { get; set; }
