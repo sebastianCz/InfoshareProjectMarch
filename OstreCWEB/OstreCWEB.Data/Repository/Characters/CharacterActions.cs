@@ -17,7 +17,7 @@ namespace OstreCWEB.Data.Repository.Characters
         public int? Hit_Dice_Nr { get; set; }
         public string PossibleTargets { get; set; }
         public bool InflictsStatus { get; set; }
-        public List<string>? StatusName { get; set; }
+        public string? StatusName { get; set; }
         public Statistics StatForTest { get; set; }
     }
 }

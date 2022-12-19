@@ -113,6 +113,63 @@
     <p>@note</p>
 }
 
+<!--Playable Character-->
+<div class="bg-dark text-secondary px-4 py-5 text-center">
+    <div class="py-5">
+
+        <div class="d-flex mb-3">
+            <div class="p-2 bg-info">
+
+                 <div class="col">
+                        <div class="card shadow-sm">
+                            <div class="card-body">@Model.PlayableCharacter.CharacterName</div>
+                            <svg class="bd-placeholder-img card-img-top" width="100%" height="225" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: Thumbnail" preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title><rect width="100%" height="100%" fill="#55595c"></rect><text x="50%" y="50%" fill="#eceeef" dy=".3em">Thumbnail</text></svg>
+                            <div class="card-body">@Model.PlayableCharacter.CharacterName</div>
+
+                          
+
+                        </div>
+                    </div>  
+            </div>
+
+            <div class="p-2 bg-warning">
+                <button type="button" class="btn btn-sm btn-outline-secondary">Commit Action</button><br />
+                Chosen action:
+                <br />
+
+                if(@Model.ActiveAction != null){
+                @Model.ActiveAction.ActionName
+                <br />
+                Possible Targets:
+                <br />
+                @Model.ActiveAction.PossibleTargets
+                }else{
+                Choose an action to see possible targets
+                }
+                <br />
+                Chosen target:
+                <br />
+
+                
+            </div>
+
+            <div class="p-2 flex-grow-1 bg-primary">
+                <ul class="list-group list-group-horizontal-xl">
+                    <li class="list-group-item">Cras justo odio</li>
+                    <li class="list-group-item">Dapibus ac facilisis in</li>
+                    <li class="list-group-item">Morbi leo risus</li>
+                </ul>
+
+            </div>
+        </div>
+
+
+       
+                   
+    </div>
+</div>
+
+<!--Enemies cards-->
 <div class="album py-5 bg-light">
     <div class="container">
          <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
@@ -132,16 +189,17 @@
                                 <label asp-for="@Model.ActiveEnemies[i].ActiveStatuses"></label><br>
                            @foreach (var status in @Model.ActiveEnemies[i].ActiveStatuses) 
                            {
-                                @status.Name <br />
-                               
+                                <button type="button" class="btn btn-secondary" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="@status.Name">
+                                    @status.Description
+                                    <button type="button" class="btn btn-sm btn-outline-secondary">Target </button>
+                                </button>
 
                            }
-                                 
+
 
                             <div class="d-flex justify-content-between align-items-center">
                                 <div class="btn-group">
-                                    <button type="button" class="btn btn-sm btn-outline-secondary">Target </button>
-                                    <button type="button" class="btn btn-sm btn-outline-secondary">Edit</button>
+                                    <button type="button" class="btn btn-sm btn-outline-secondary">Target </button> 
                                 </div>
                                 <small class="text-muted">9 mins</small>
                             </div>

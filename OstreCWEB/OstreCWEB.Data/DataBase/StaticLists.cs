@@ -17,6 +17,7 @@ namespace OstreCWEB.Data.DataBase
         private static List<Enemy> Enemies = new List<Enemy>();
         private static List<Item> Items = new List<Item>();
         private static List<CharacterActions> Actions = new List<CharacterActions>();
+        private static List<Status> Statuses = new List<Status>();
 
         public PlayableCharacter GetPlayableCharacter(int id)
         {
@@ -28,6 +29,22 @@ namespace OstreCWEB.Data.DataBase
 
         public void SeedData()
         {
+            Statuses = new List<Status>
+            {
+                new Status
+                {
+                    ID = 1,
+                    Name="Blind",
+                    Description = "Blinds the character making him less accurate"
+
+                },
+                new Status
+                {
+                    ID=2,
+                    Name="Bless",
+                    Description="Character is blessed. It has a bonus 1d4 to every roll"
+                }
+            };
 
             PlayableRaces = new List<PlayableRace>
             {
@@ -80,8 +97,8 @@ namespace OstreCWEB.Data.DataBase
                 }
             };
 
-     
 
+            //Property StatusName is null if none is applied.
             Actions = new List<CharacterActions>
             {
                  new CharacterActions
@@ -96,7 +113,6 @@ namespace OstreCWEB.Data.DataBase
                 Hit_Dice_Nr = 1,
                 PossibleTargets = "enemy",
                 InflictsStatus = false,
-                StatusName = new List<string>(),
                 StatForTest = Statistics.Strenght
             },
                     new CharacterActions
@@ -111,7 +127,6 @@ namespace OstreCWEB.Data.DataBase
                 Hit_Dice_Nr = 1,
                 PossibleTargets = "enemy",
                 InflictsStatus = false,
-                StatusName = new List<string>(),
                 StatForTest = Statistics.Strenght
             },
                     new CharacterActions
@@ -125,9 +140,9 @@ namespace OstreCWEB.Data.DataBase
                 Flat_Dmg = 2,
                 Hit_Dice_Nr = 2,
                 PossibleTargets = "enemy",
-                InflictsStatus = false,
-                StatusName = new List<string>(),
-                StatForTest = Statistics.Strenght
+                InflictsStatus = true,
+                StatusName = Statuses.FirstOrDefault(s=>s.ID == 1).Name,
+                StatForTest = Statistics.Dexterity
             },
                               new CharacterActions
             {
@@ -141,9 +156,23 @@ namespace OstreCWEB.Data.DataBase
                 Hit_Dice_Nr = 1,
                 PossibleTargets = "playableCharacter",
                 InflictsStatus = false,
-                StatusName = new List<string>(),
                 StatForTest = Statistics.None
             },
+                 new CharacterActions
+            {
+                Id = 5,
+                ActionName = "Bless",
+                ActionDescription = "Blesses the target giving him advantage a bonus 1d4 to attack rolls",
+                ActionType = CharacterActionType.Spell,
+                HitRollRequired = false,
+                Hit_Dmg = 0,
+                Flat_Dmg = 0,
+                Hit_Dice_Nr = 0,
+                PossibleTargets = "playableCharacter",
+                InflictsStatus = true,
+                StatusName = Statuses.FirstOrDefault(s=>s.ID==2).Name,
+                StatForTest = Statistics.None
+            }
 
         };
 
