@@ -136,15 +136,15 @@
                 <button type="button" class="btn btn-sm btn-outline-secondary">Commit Action</button><br />
                 Chosen action:
                 <br />
-
-                if(@Model.ActiveAction != null){
-                @Model.ActiveAction.ActionName
+                
+                @if (Model.ActiveAction != null){
+                 
                 <br />
-                Possible Targets:
+                    <p>Possible Targets:</p>
                 <br />
                 @Model.ActiveAction.PossibleTargets
                 }else{
-                Choose an action to see possible targets
+                    <p>Choose an action to see possible targets</p>
                 }
                 <br />
                 Chosen target:
