@@ -44,12 +44,19 @@ namespace OstreCWEB.Services.Fight
 
         public void ApplyAction(Character target, Character caster, CharacterActions action)
         {
-
             if (action.SavingThrowPossible)
             {
-                var test = DiceThrow(20); // <--- test do zdania
+                var savingThrow = SpellSavingThrow(target, caster, action);// <--- test do zdania
+                if (savingThrow == false)
+                {
 
+                }
             }
+        }
+
+        public void ApplyDamage(Character target,CharacterActions actions)
+        {
+
         }
 
         public bool SpellSavingThrow(Character target, Character caster, CharacterActions action)
@@ -122,16 +129,6 @@ namespace OstreCWEB.Services.Fight
             }
         }
 
-        //public static int TestOnDex(int modDexterity, bool player)
-        //{
-        //    return modDexterity + Helpers.ThrowDice(20, player);
-
-        //}
-        //public static int TestOn(int modificator, bool player, int diceNumber)
-        //{
-        //    return modificator + Helpers.ThrowDice(diceNumber, player);
-        //}
-
         public int CalculateModifier(int value)
         {
             List<int> numbers = new List<int>() {
@@ -182,7 +179,6 @@ namespace OstreCWEB.Services.Fight
             return characterList;
         }
 
-
         public void GenerateEnemies(int amountToGenerate)
         {
             for (int i = 0; i < amountToGenerate; i++)
@@ -219,27 +215,5 @@ namespace OstreCWEB.Services.Fight
         {
             return _db.GetActions();
         }
-
-
-
-        //        ProvidePossibleTargets(id ChosenAction)
-
-        //foreach var action in Character.Actions
-
-        //if(action.Id== ChosenAction)
-
-        //return string[] PossibleTargets
-
-
-        //Statuses most likely have to be applied in the form of " IFs" in fight script. 
-        //Each character has a list of statutes applied to him. 
-        //The database (or static list ) should have a list of all possible statutes applicable to characters.
-        //Each spell or item used will have to search through the status list in DB and add a new status to character.Statuses 
-        //If it wants to apply one. 
-
-        //This should allow to " add" new statutes easily by just adding one to DB. Same for spells and anything else really. 
-
-        //Alternatively each "action" can search for a specific " status" and apply it by itself. It's a bit complicated since
-        //We're talking about establishing relationships between instances that don't exist yet. 
     }
 }
