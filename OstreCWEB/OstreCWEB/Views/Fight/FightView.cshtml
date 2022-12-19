@@ -104,13 +104,57 @@
         }
     </tbody>
 </table>
+
 <div class="text-center">
-        <img src="~/img/d&D.jpg" alt="" width="400" height="300" />
+    <img src="~/img/d&D.jpg" alt="" width="400" height="300" />
 </div>
 @foreach (var note in Model.FightHistory)
 {
-            <p>@note</p>
+    <p>@note</p>
 }
+
+<div class="album py-5 bg-light">
+    <div class="container">
+         <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
+
+            @for (var i = 0; i < Model.ActiveEnemies.Count(); i++)
+            {
+                <div class="col">
+                    <div class="card shadow-sm">
+
+                        @{var viewId = i+1;}
+                        <div class="card-body">@Model.ActiveEnemies[i].CharacterName @viewId</div>
+                        <svg class="bd-placeholder-img card-img-top" width="100%" height="225" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: Thumbnail" preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title><rect width="100%" height="100%" fill="#55595c"></rect><text x="50%" y="50%" fill="#eceeef" dy=".3em">Thumbnail</text></svg>
+
+                        <div class="card-body">
+                            <b><label asp-for="@Model.ActiveEnemies[i].HealthPoints"></label></b><br>
+                             @Model.ActiveEnemies[i].HealthPoints<br>
+                                <label asp-for="@Model.ActiveEnemies[i].ActiveStatuses"></label><br>
+                           @foreach (var status in @Model.ActiveEnemies[i].ActiveStatuses) 
+                           {
+                                @status.Name <br />
+                               
+
+                           }
+                                 
+
+                            <div class="d-flex justify-content-between align-items-center">
+                                <div class="btn-group">
+                                    <button type="button" class="btn btn-sm btn-outline-secondary">Target </button>
+                                    <button type="button" class="btn btn-sm btn-outline-secondary">Edit</button>
+                                </div>
+                                <small class="text-muted">9 mins</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</div>
+
+  
+
 
 <script> 
     function GenerateEnemies() {
@@ -126,4 +170,7 @@
             }
         });
     }
+
+    const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
+    const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl))
 </script>   

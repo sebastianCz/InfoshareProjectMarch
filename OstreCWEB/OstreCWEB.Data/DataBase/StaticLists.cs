@@ -198,6 +198,7 @@ namespace OstreCWEB.Data.DataBase
                     EquippedSecondaryWeapon = Items.FirstOrDefault(a=>a.Id == 4),
                     Inventory = new Item[5],
                     AllAvailableActions = new List<CharacterActions>(),
+                    ActiveStatuses = new List<Status>(),
                     Strenght = 10,
                     ModStrenght =0,
                     Dexterity =12,
