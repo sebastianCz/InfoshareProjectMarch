@@ -6,7 +6,7 @@ namespace OstreCWEB.Models
     {
         public PlayableCharacter PlayableCharacter { get; set; }
         public List<Enemy> ActiveEnemies { get; set; }
-        public List<string> FightHistory { get; set; }
+        public List<string> FightHistory { get; set; } = new List<string>();
         public int PlayerActionCounter { get; set; }   
         public CharacterActions ActiveAction { get; set; }
         public Character ActiveTarget { get; set; }

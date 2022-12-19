@@ -25,7 +25,7 @@ namespace OstreCWEB.Controllers
             model.PlayableCharacter = _fight.Player;
             model.ActiveEnemies = _fight.GetActiveEnemies();
             model.PlayerActionCounter = _fight.PlayerActionCounter;
-            model.FightHistory = _fight.FightHistory;
+            model.FightHistory = _fight.ReturnHistory();
             return View(model);
         }
 

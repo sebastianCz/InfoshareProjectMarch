@@ -141,7 +141,7 @@ namespace OstreCWEB.Data.DataBase
                 Hit_Dice_Nr = 2,
                 PossibleTargets = "enemy",
                 InflictsStatus = true,
-                StatusName = Statuses.FirstOrDefault(s=>s.ID == 1).Name,
+                Status = Statuses.FirstOrDefault(s=>s.ID == 1),
                 StatForTest = Statistics.Dexterity
             },
                               new CharacterActions
@@ -170,7 +170,7 @@ namespace OstreCWEB.Data.DataBase
                 Hit_Dice_Nr = 0,
                 PossibleTargets = "playableCharacter",
                 InflictsStatus = true,
-                StatusName = Statuses.FirstOrDefault(s=>s.ID==2).Name,
+                Status = Statuses.FirstOrDefault(s=>s.ID==2),
                 StatForTest = Statistics.None
             }
 

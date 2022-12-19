@@ -7,6 +7,7 @@ using OstreCWEB.Data.Repository.Items;
 using OstreCWEB.Data.Enums;
 using System;
 using static System.Collections.Specialized.BitVector32;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace OstreCWEB.Services.Fight
 {
@@ -24,6 +25,11 @@ namespace OstreCWEB.Services.Fight
         {
             _db = new StaticLists();
             FightHistory = new List<string>();
+        }
+
+        public List<string> ReturnHistory()
+        {
+            return FightHistory;
         }
 
         public Character ChooseTarget(int id)
@@ -46,17 +52,52 @@ namespace OstreCWEB.Services.Fight
         {
             if (action.SavingThrowPossible)
             {
-                var savingThrow = SpellSavingThrow(target, caster, action);// <--- test do zdania
+                var damage = 0;
+                var savingThrow = SpellSavingThrow(target, caster, action);
                 if (savingThrow == false)
                 {
-
+                    damage = ApplyDamage(target, action, savingThrow);
+                    FightHistory = UpdateFightHistory(FightHistory, $" {target.CharacterName} lost {damage} healthpoints, actual healthpoints {target.HealthPoints}, due to {caster.CharacterName} {action.ActionName}");
                 }
+                else
+                {
+                    damage = ApplyDamage(caster, action, savingThrow);
+                    ApplyStatus(target, action.Status);
+                    FightHistory = UpdateFightHistory(FightHistory, $" {target.CharacterName} lost {damage} healthpoints, actual healthpoints {target.HealthPoints}, due to {caster.CharacterName} {action.ActionName}, ");
+                }
+            }
+            else
+            {
+                var damage = 0;
+                var savingThrow = false;
+                ApplyStatus(target, action.Status);
+                damage = ApplyDamage(target, action, savingThrow);
+                    FightHistory = UpdateFightHistory(FightHistory, $" {target.CharacterName} lost {damage} healthpoints, actual healthpoints {target.HealthPoints}, due to {caster.CharacterName} {action.ActionName}");
             }
         }
 
-        public void ApplyDamage(Character target,CharacterActions actions)
+        public void ApplyStatus(Character character,Status status)
         {
+            character.ActiveStatuses.Add(status);
+        }
 
+        public int ApplyDamage(Character target,CharacterActions actions, bool savingThrow)
+        { 
+            var damage = 0;
+
+            for (int i = 0; i < actions.Hit_Dice_Nr; i++)
+            {
+            damage += DiceThrow(actions.Max_Dmg) + actions.Flat_Dmg;
+            }
+            if (savingThrow)
+            {
+                target.HealthPoints = target.HealthPoints - (damage/2);
+            }
+            else
+            { 
+                target.HealthPoints = target.HealthPoints - damage;
+            }
+                return damage;
         }
 
         public bool SpellSavingThrow(Character target, Character caster, CharacterActions action)

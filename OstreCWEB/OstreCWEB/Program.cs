@@ -10,7 +10,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddDbContext<OstreCWebContext>(
     options => options.UseSqlServer(builder.Configuration.GetConnectionString("OstreCWEB")));
 
-builder.Services.AddTransient<IFightService,FightService>();
+builder.Services.AddTransient<IFightService,Fight>();
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 builder.Services
     .AddAutoMapper(typeof(Program))

@@ -12,12 +12,12 @@ namespace OstreCWEB.Data.Repository.Characters
         public string ActionDescription { get; set; }
         public CharacterActionType ActionType { get; set; }
         public bool SavingThrowPossible { get; set; }
-        public int? Max_Dmg { get; set; }
-        public int? Flat_Dmg { get; set; }
-        public int? Hit_Dice_Nr { get; set; }
+        public int Max_Dmg { get; set; }
+        public int Flat_Dmg { get; set; }
+        public int Hit_Dice_Nr { get; set; }
         public string PossibleTargets { get; set; }
         public bool InflictsStatus { get; set; }
-        public string? StatusName { get; set; }
+        public Status Status { get; set; }
         public Statistics StatForTest { get; set; }
     }
 }
