@@ -5,14 +5,15 @@ using OstreCWEB.Services.Test;
 using Newtonsoft.Json;
 using OstreCWEB.Data.Repository.Items;
 using OstreCWEB.Data.Enums;
+using System;
 
 namespace OstreCWEB.Services.Fight
 {
-    public class Fight
-    { 
+    public class Fight : IFightService
+    {
         private int _id = 1;
         public int PlayerActionCounter { get; set; }
-        public List<string> FightHistory { get; set; }
+        public static List<string> FightHistory { get; set; }
         public static List<Enemy> _activeEnemies { get; set; } = new List<Enemy>();
         public PlayableCharacter Player { get; set; }
         public StaticLists _db { get; } = new StaticLists();
@@ -23,7 +24,67 @@ namespace OstreCWEB.Services.Fight
             _db = new StaticLists();
             FightHistory = new List<string>();
         }
-         
+
+        public Character ChooseTarget(int id)
+        {
+            return _activeEnemies.First(a => a.ID == id);
+        }
+
+        public CharacterActions ChooseAction(int id)
+        {
+            return Player.AllAvailableActions.First(a => a.Id == id);
+        }
+
+        public List<string> UpdateFightHistory(List<string> FightHistory, string message)
+        {
+            FightHistory.Add(message);
+            return FightHistory;
+        }
+
+        public void ApplyAction(Character target, Character caster, CharacterActions action)
+        {
+            if (action.HitRollRequired)
+            {
+                var test = DiceThrow(20);
+
+               
+                //switch (action.StatForTest)
+                //{
+                //    case Statistics.Strenght:
+                //        DiceThrow()
+                //}
+                //DiceThrow(action.Max_Dmg);
+
+                //public static int TestOnDex(int modDexterity, bool player)
+                //{
+                //    return modDexterity + Helpers.ThrowDice(20, player);
+
+                //}
+                //public static int TestOn(int modificator, bool player, int diceNumber)
+                //{
+                //    return modificator + Helpers.ThrowDice(diceNumber, player);
+                //}
+
+                //// Dice throw: 
+            }
+        }
+
+        public int CalculateModifier(int value)
+        {
+            List<int> numbers = new List<int>() {
+                   -5,-4,-4,-3,-3,-2,-2,-1,-1, 0,
+                    0, 1, 1, 2, 2, 3, 3, 4, 4, 5,
+                    5, 6, 6, 7, 7, 8, 8, 9, 9, 10 };
+
+            return numbers.First(x => x == numbers[value - 1]);
+        }
+        public int DiceThrow(int maxValue)
+        {
+            Random rand = new Random();
+            var diceThrowResult = rand.Next(1, maxValue + 1);
+            return diceThrowResult;
+        }
+
         public void InitializeFight()
         {
             var characterList = new List<Character>();
@@ -43,8 +104,8 @@ namespace OstreCWEB.Services.Fight
         {
             foreach (var character in characterList)
             {
-                if (character.EquippedArmor.ActionToTrigger != null){ character.AllAvailableActions.Add(character.EquippedArmor.ActionToTrigger);} 
-                if (character.EquippedWeapon.ActionToTrigger != null) { character.AllAvailableActions.Add(character.EquippedWeapon.ActionToTrigger);}
+                if (character.EquippedArmor.ActionToTrigger != null) { character.AllAvailableActions.Add(character.EquippedArmor.ActionToTrigger); }
+                if (character.EquippedWeapon.ActionToTrigger != null) { character.AllAvailableActions.Add(character.EquippedWeapon.ActionToTrigger); }
                 if (character.EquippedSecondaryWeapon.ActionToTrigger != null) { character.AllAvailableActions.Add(character.EquippedSecondaryWeapon.ActionToTrigger); }
 
                 if (character.DefaultActions != null)

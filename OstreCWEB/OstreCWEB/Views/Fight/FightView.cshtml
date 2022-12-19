@@ -155,11 +155,16 @@
 
             <div class="p-2 flex-grow-1 bg-primary">
                 <ul class="list-group list-group-horizontal-xl">
-                    <li class="list-group-item">Cras justo odio</li>
-                    <li class="list-group-item">Dapibus ac facilisis in</li>
-                    <li class="list-group-item">Morbi leo risus</li>
+                    @foreach (var action in @Model.PlayableCharacter.AllAvailableActions)
+                    {
+                    <li class="list-group-item">
+                            <form asp-action="SetActiveAction">
+                            @action.ActionName
+                            <input type="submit" value="Delete" class="btn btn-danger" />
+                            </form>
+                    </li>
+                    }  
                 </ul>
-
             </div>
         </div>
 

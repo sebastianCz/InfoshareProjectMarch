@@ -32,11 +32,11 @@ namespace OstreCWEB.Controllers
         
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Action(CharacterAction action, int enemyId)
+        public ActionResult SetActiveAction( int actionId)
         {
             try
             {
-                _fightService.Action(_fight, action, enemyId);
+                _fightService.ChooseAction(actionId);
                 return RedirectToAction(nameof(FightView));
             }
             catch
@@ -45,11 +45,24 @@ namespace OstreCWEB.Controllers
             }
         }
 
-        public ActionResult ActionOnHero(PlayableCharacter player,CharacterAction action)
+        public ActionResult SetActiveTarget(int targetId)
         {
             try
             {
-                _fightService.ActionOnHero(_fight, action);
+                _fightService.ChooseTarget(targetId);
+                return RedirectToAction(nameof(FightView));
+            }
+            catch
+            {
+                return View();
+            }
+        }
+
+        public ActionResult CommitAction(int targetId,int playerId)
+        {
+            try
+            {
+                _fightService.ChooseTarget(targetId);
                 return RedirectToAction(nameof(FightView));
             }
             catch

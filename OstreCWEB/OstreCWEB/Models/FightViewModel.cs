@@ -9,5 +9,6 @@ namespace OstreCWEB.Models
         public List<string> FightHistory { get; set; }
         public int PlayerActionCounter { get; set; }   
         public CharacterActions ActiveAction { get; set; }
+        public Character ActiveTarget { get; set; }
     }
 }

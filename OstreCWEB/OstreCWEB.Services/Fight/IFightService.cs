@@ -1,6 +1,7 @@
 ﻿using OstreCWEB.Data.Enums;
 using OstreCWEB.Data.Repository;
 using OstreCWEB.Data.Repository.Characters;
+using OstreCWEB.Data.Repository.Items;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,7 +12,15 @@ namespace OstreCWEB.Services.Fight
 {
     public interface IFightService
     {
-        public void Action(Fight fight, CharacterAction action, int enemyId);
-        public void ActionOnHero(Fight fight, CharacterAction action); 
+        public Character ChooseTarget(int id);
+        public CharacterActions ChooseAction(int id);
+        public void InitializeFight();
+        public List<Character> InitializeActions(List<Character> characterList);
+        public void GenerateEnemies(int amountToGenerate);
+        public Enemy GetEnemy(int enemyPositionInList);
+        public List<Item> GetItems();
+        public List<Enemy> GetActiveEnemies();
+        public List<CharacterActions> GetActions();
+
     }
 }
