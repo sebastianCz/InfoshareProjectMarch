@@ -15,48 +15,49 @@
                             <svg class="bd-placeholder-img card-img-top" width="100%" height="225" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: Thumbnail" preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title><rect width="100%" height="100%" fill="#55595c"></rect><text x="50%" y="50%" fill="#eceeef" dy=".3em">Thumbnail</text></svg>
                             <div class="card-body">@Model.ActivePlayer.CharacterName
                                 <br />
-                                @if (Model.ActiveAction != null && Model.ActiveAction.PossibleTargets.Contains("caster"))
-                                {
-                            <div class="d-flex justify-content-between align-items-center">
-                                <div class="btn-group">
-                                    <a class="btn btn-danger" asp-route-id="@Model.ActivePlayer.ID" asp-action="SetActiveTarget" >Target</a>
-                                    </div> 
-                                </div>
-                                }
+                               
+                                     <div class="d-flex justify-content-between align-items-center">
+                                        <div class="btn-group">
+                                         <a class="btn btn-danger" asp-route-id="@Model.ActivePlayer.ID" asp-action="SetActiveTarget" >Target</a>
+                                         </div> 
+                                    </div>
+                                 
+                            </div>
+                        </div>  
+
+                        <div class="p-2 bg-warning">
+                            <button type="button" class="btn btn-sm btn-outline-secondary">Commit Action</button><br />
+                              Chosen action:
+                                <br />
+                                 @Model.ActiveAction.ActionName;
+                                 @if (Model.ActiveAction != null){
+                                       <br />
+                                  <p>Possible Targets:</p>
+                                     <br />
+                                     @Model.ActiveAction.PossibleTargets
+                                     }else{
+                                       <p>Choose an action to see possible targets</p>
+                                         }
+                                        <br />
+                                     Chosen target:
+                                    <br />
+
                         </div>
-                    </div>  
 
-            <div class="p-2 bg-warning">
-                <button type="button" class="btn btn-sm btn-outline-secondary">Commit Action</button><br />
-                Chosen action:
-                <br />
-                @Model.ActiveAction.ActionName;
-                @if (Model.ActiveAction != null){
-                <br />
-                    <p>Possible Targets:</p>
-                <br />
-                    @Model.ActiveAction.PossibleTargets
-                }else{
-                    <p>Choose an action to see possible targets</p>
-                }
-                <br />
-                Chosen target:
-                <br />
+                            <div class="p-2 flex-grow-1 bg-primary">
+                                        <ul class="list-group list-group-horizontal-xl">
+                                         @foreach (var action in @Model.ActivePlayer.AllAvailableActions)
+                                          {
+                                            <li class="list-group-item">   
+                                              <a class="btn btn-danger" asp-route-id="@action.Id" asp-action="SetActiveAction" >@action.ActionName</a>
+                                                </li>
+                                          }  
+                                        </ul>
+                                </div>
 
+                </div>        
             </div>
-
-            <div class="p-2 flex-grow-1 bg-primary">
-                <ul class="list-group list-group-horizontal-xl">
-                    @foreach (var action in @Model.ActivePlayer.AllAvailableActions)
-                    {
-                    <li class="list-group-item">   
-                                <a class="btn btn-danger" asp-route-id="@action.Id" asp-action="SetActiveAction" >@action.ActionName</a>
-                    </li>
-                    }  
-                </ul>
-            </div>
-
-        </div>        
+        </div>
     </div>
 </div>
 
@@ -71,7 +72,7 @@
                     <div class="card shadow-sm">
 
                         @{var viewId = i+1;}
-                        <div class="card-body">@Model.ActiveEnemies[i].CharacterName @viewId</div>
+                        <div class="card-body">@Model.ActiveEnemies[i].CharacterName @viewId @Model.ActiveEnemies[i].ID</div>
                         <svg class="bd-placeholder-img card-img-top" width="100%" height="225" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: Thumbnail" preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title><rect width="100%" height="100%" fill="#55595c"></rect><text x="50%" y="50%" fill="#eceeef" dy=".3em">Thumbnail</text></svg>
 
                         <div class="card-body">

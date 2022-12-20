@@ -46,17 +46,17 @@ namespace OstreCWEB.Controllers
         }
 
         [HttpGet]
-        public ActionResult SetActiveTarget(int targetId)
+        public ActionResult SetActiveTarget(int id)
         {
             try
             {
-                var target = _fightService.ChooseTarget(targetId);
-                _fightService.UpdateActiveTarget(target);
+                var target = _fightService.ChooseTarget(id);
+                _fightService.UpdateActiveTarget(target); 
                 return RedirectToAction(nameof(FightView));
             }
             catch
             {
-                return RedirectToAction(nameof(FightView));
+                return View();
             }
         }
 
