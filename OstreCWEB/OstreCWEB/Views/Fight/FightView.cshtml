@@ -2,112 +2,6 @@
 @{
     ViewData["Title"] = "Fight";
 }
-<h1>Fight Fight Fight!</h1>
-
-<p>Avaible Actions: @Model.PlayerActionCounter</p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                Player Hit Points
-            </th>
-            <th>
-                Player Name
-            </th>
-            <th>
-                Player Race
-            </th>
-            <th>
-                Player Id
-            </th>
-            <th>
-                Action
-            </th>
-        </tr>
-    </thead>
-    <tbody>
-                <tr>
-                    <td>
-                @Model.PlayableCharacter.HealthPoints
-                    </td>
-                    <td>
-                @Model.PlayableCharacter.CharacterName
-                    </td>
-                    <td>
-                @Model.PlayableCharacter.Race
-                    </td>
-                    <td>
-                @Model.PlayableCharacter.ID
-                    </td>
-                    <td>
-                    <form class="form-inline my-2 my-lg-0" asp-controller="Fight" asp-action="ActionOnHero" style="padding-right: 25px;">
-                            <select name="action" asp-items="@(new SelectList(Model.PlayableCharacter.ActionsOnHero))">
-                        <option selected="selected" value="">Choose action!</option>
-                        </select>
-                            <input type="hidden" name="Model.Player.ID" value="@Model.PlayableCharacter.ID">
-                                    <button type="submit" class="btn btn-success"><i class="bi bi-capsule"></i></button>
-                        </form>
-                    </td>
-                </tr>
-    </tbody>
-
-
-</table>
-
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-            Enemy Hit Points
-            </th>
-            <th>
-            Enemy Name
-            </th>
-            <th>
-            Enemy Race
-            </th>
-            <th>
-            Enemy Id
-            </th>
-            <th>
-            Action
-            </th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var enemy in Model.ActiveEnemies)
-        {
-                                <tr>
-                                    <td>
-                    @enemy.HealthPoints
-                                    </td>
-                                    <td>
-                    @enemy.CharacterName
-                                    </td>
-                                    <td>
-                    @enemy.Race
-                                    </td>
-                                    <td>
-                    @enemy.ID
-                                    </td>
-                                    <td> 
-                                     <form class="form-inline my-2 my-lg-0" asp-controller="Fight" asp-action="Action" style="padding-right: 25px;">
-                                        <select name="action" asp-items="@(new SelectList(Model.PlayableCharacter.Actions))">
-                                <option selected="selected" value="">Choose action!</option>
-                                </select>
-                                    <input type="hidden" name="enemyId" value="@enemy.ID">
-                                            <button type="submit" class="btn btn-danger"><i class="bi bi-hammer"></i></button>
-                                </form>
-                                    </td>
-                                        
-                                </tr>
-        }
-    </tbody>
-</table>
-
-<div class="text-center">
-    <img src="~/img/d&D.jpg" alt="" width="400" height="300" />
-</div>
 @foreach (var note in Model.FightHistory)
 {
     <p>@note</p>
@@ -136,13 +30,12 @@
                 <button type="button" class="btn btn-sm btn-outline-secondary">Commit Action</button><br />
                 Chosen action:
                 <br />
-                
+                @Model.ActiveAction.ActionName;
                 @if (Model.ActiveAction != null){
-                 
                 <br />
                     <p>Possible Targets:</p>
                 <br />
-                @Model.ActiveAction.PossibleTargets
+                    @Model.ActiveAction.PossibleTargets
                 }else{
                     <p>Choose an action to see possible targets</p>
                 }
@@ -150,7 +43,6 @@
                 Chosen target:
                 <br />
 
-                
             </div>
 
             <div class="p-2 flex-grow-1 bg-primary">

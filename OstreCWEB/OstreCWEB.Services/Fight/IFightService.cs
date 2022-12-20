@@ -21,6 +21,11 @@ namespace OstreCWEB.Services.Fight
         public List<Item> GetItems();
         public List<Enemy> GetActiveEnemies();
         public List<CharacterActions> GetActions();
+        public void UpdateActiveAction(CharacterActions action);
+        public void UpdateActiveTarget(Character character);
+        public PlayableCharacter GetPlayer();
+        public List<string> ReturnHistory();
+        public CharacterActions GetActiveActions();
 
     }
 }

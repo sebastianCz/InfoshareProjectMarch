@@ -17,14 +17,35 @@ namespace OstreCWEB.Services.Fight
         public int PlayerActionCounter { get; set; }
         public static List<string> FightHistory { get; set; }
         public static List<Enemy> _activeEnemies { get; set; } = new List<Enemy>();
-        public PlayableCharacter Player { get; set; }
+        public static PlayableCharacter ActivePlayer { get; set; }
         public StaticLists _db { get; } = new StaticLists();
+        public static CharacterActions ActiveAction { get; set; }
+        public static Character ActiveTarget { get; set; }
 
-        //public Random Random { get; set; }
         public Fight()
         {
             _db = new StaticLists();
             FightHistory = new List<string>();
+        }
+
+        public CharacterActions GetActiveActions()
+        {
+            return ActiveAction;
+        }
+
+        public void UpdateActiveAction(CharacterActions action)
+        {
+           ActiveAction = action;
+        }
+
+        public void UpdateActiveTarget(Character character)
+        {
+            ActiveTarget = character;
+        }
+
+        public PlayableCharacter GetPlayer()
+        {
+            return ActivePlayer;
         }
 
         public List<string> ReturnHistory()
@@ -39,7 +60,7 @@ namespace OstreCWEB.Services.Fight
 
         public CharacterActions ChooseAction(int id)
         {
-            return Player.AllAvailableActions.First(a => a.Id == id);
+            return ActivePlayer.AllAvailableActions.First(a => a.Id == id);
         }
 
         public List<string> UpdateFightHistory(List<string> FightHistory, string message)
@@ -190,14 +211,14 @@ namespace OstreCWEB.Services.Fight
         {
             var characterList = new List<Character>();
             _activeEnemies = new List<Enemy>();
-            Player = _db.GetPlayableCharacter(1);
-            characterList.Add((Character)Player);
+            ActivePlayer = _db.GetPlayableCharacter(1);
+            characterList.Add((Character)ActivePlayer);
             GenerateEnemies(2);
             _activeEnemies.ForEach(Any_list => characterList.Add(Any_list));
             InitializeActions(characterList);
-            PlayerActionCounter = Player.ActionCounter;
-            Player.Actions.Add(CharacterAction.ATTACK);
-            Player.Actions.Add(CharacterAction.HEAL);
+            PlayerActionCounter = ActivePlayer.ActionCounter;
+            ActivePlayer.Actions.Add(CharacterAction.ATTACK);
+            ActivePlayer.Actions.Add(CharacterAction.HEAL);
             return;
         }
 

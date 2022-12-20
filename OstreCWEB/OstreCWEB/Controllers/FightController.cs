@@ -11,10 +11,6 @@ namespace OstreCWEB.Controllers
     {
         private IFightService _fightService;
 
-        private static Fight _fight = new Fight();
-
-        
-
         public FightController(IFightService fightService)
         {
             _fightService = fightService;
@@ -22,20 +18,25 @@ namespace OstreCWEB.Controllers
         public ActionResult FightView()
         {
             var model = new FightViewModel();
-            model.PlayableCharacter = _fight.Player;
-            model.ActiveEnemies = _fight.GetActiveEnemies();
-            model.PlayerActionCounter = _fight.PlayerActionCounter;
-            model.FightHistory = _fight.ReturnHistory();
+            model.PlayableCharacter = _fightService.GetPlayer();
+            model.ActiveEnemies = _fightService.GetActiveEnemies();
+            //model.PlayerActionCounter = _fight.PlayerActionCounter; <- TODO
+            model.FightHistory = _fightService.ReturnHistory();
+            model.ActiveAction = _fightService.GetActiveActions();
+            if (model.ActiveAction == null)
+            {
+                _fightService.UpdateActiveAction(_fightService.ChooseAction(1));
+                model.ActiveAction = _fightService.GetActiveActions();
+            }
             return View(model);
         }
-  
+
         [HttpGet]
-        [ValidateAntiForgeryToken]
         public ActionResult SetActiveAction(int id)
         {
             try
             {
-                _fightService.ChooseAction(id);
+                _fightService.UpdateActiveAction(_fightService.ChooseAction(id));
                 return RedirectToAction(nameof(FightView));
             }
             catch
@@ -73,7 +74,7 @@ namespace OstreCWEB.Controllers
         [HttpGet]
         public ActionResult InitializeFight()
         {
-            _fight.InitializeFight();
+            _fightService.InitializeFight();
             return RedirectToAction(nameof(FightView));
         }
 
