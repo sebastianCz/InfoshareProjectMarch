@@ -55,6 +55,10 @@ namespace OstreCWEB.Services.Fight
 
         public Character ChooseTarget(int id)
         {
+            if (id == ActivePlayer.ID)
+            {
+                return ActivePlayer;
+            }
             return _activeEnemies.First(a => a.ID == id);
         }
 
@@ -217,8 +221,6 @@ namespace OstreCWEB.Services.Fight
             _activeEnemies.ForEach(Any_list => characterList.Add(Any_list));
             InitializeActions(characterList);
             PlayerActionCounter = ActivePlayer.ActionCounter;
-            ActivePlayer.Actions.Add(CharacterAction.ATTACK);
-            ActivePlayer.Actions.Add(CharacterAction.HEAL);
             return;
         }
 
@@ -226,6 +228,7 @@ namespace OstreCWEB.Services.Fight
         {
             foreach (var character in characterList)
             {
+                character.AllAvailableActions = new List<CharacterActions>();
                 if (character.EquippedArmor.ActionToTrigger != null) { character.AllAvailableActions.Add(character.EquippedArmor.ActionToTrigger); }
                 if (character.EquippedWeapon.ActionToTrigger != null) { character.AllAvailableActions.Add(character.EquippedWeapon.ActionToTrigger); }
                 if (character.EquippedSecondaryWeapon.ActionToTrigger != null) { character.AllAvailableActions.Add(character.EquippedSecondaryWeapon.ActionToTrigger); }

@@ -4,7 +4,7 @@ namespace OstreCWEB.Models
 {
     public class FightViewModel
     {
-        public PlayableCharacter PlayableCharacter { get; set; }
+        public PlayableCharacter ActivePlayer { get; set; }
         public List<Enemy> ActiveEnemies { get; set; }
         public List<string> FightHistory { get; set; } = new List<string>();
         public int PlayerActionCounter { get; set; }   

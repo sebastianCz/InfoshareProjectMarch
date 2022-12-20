@@ -18,7 +18,7 @@ namespace OstreCWEB.Controllers
         public ActionResult FightView()
         {
             var model = new FightViewModel();
-            model.PlayableCharacter = _fightService.GetPlayer();
+            model.ActivePlayer = _fightService.GetPlayer();
             model.ActiveEnemies = _fightService.GetActiveEnemies();
             //model.PlayerActionCounter = _fight.PlayerActionCounter; <- TODO
             model.FightHistory = _fightService.ReturnHistory();
@@ -45,16 +45,18 @@ namespace OstreCWEB.Controllers
             }
         }
 
+        [HttpGet]
         public ActionResult SetActiveTarget(int targetId)
         {
             try
             {
-                _fightService.ChooseTarget(targetId);
+                var target = _fightService.ChooseTarget(targetId);
+                _fightService.UpdateActiveTarget(target);
                 return RedirectToAction(nameof(FightView));
             }
             catch
             {
-                return View();
+                return RedirectToAction(nameof(FightView));
             }
         }
 
