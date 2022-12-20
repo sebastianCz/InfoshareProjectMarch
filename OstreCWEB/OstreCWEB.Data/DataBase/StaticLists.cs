@@ -154,7 +154,7 @@ namespace OstreCWEB.Data.DataBase
                 Max_Dmg = 1,
                 Flat_Dmg = 2,
                 Hit_Dice_Nr = 1,
-                PossibleTargets = "playableCharacter",
+                PossibleTargets = "caster",
                 InflictsStatus = false,
                 StatForTest = Statistics.None
             },
@@ -168,7 +168,7 @@ namespace OstreCWEB.Data.DataBase
                 Max_Dmg = 0,
                 Flat_Dmg = 0,
                 Hit_Dice_Nr = 0,
-                PossibleTargets = "playableCharacter",
+                PossibleTargets = "caster",
                 InflictsStatus = true,
                 Status = Statuses.FirstOrDefault(s=>s.ID==2),
                 StatForTest = Statistics.None
