@@ -28,15 +28,14 @@ namespace OstreCWEB.Controllers
             model.FightHistory = _fight.ReturnHistory();
             return View(model);
         }
-
-        
-        [HttpPost]
+  
+        [HttpGet]
         [ValidateAntiForgeryToken]
-        public ActionResult SetActiveAction( int actionId)
+        public ActionResult SetActiveAction(int id)
         {
             try
             {
-                _fightService.ChooseAction(actionId);
+                _fightService.ChooseAction(id);
                 return RedirectToAction(nameof(FightView));
             }
             catch

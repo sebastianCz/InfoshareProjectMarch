@@ -157,11 +157,8 @@
                 <ul class="list-group list-group-horizontal-xl">
                     @foreach (var action in @Model.PlayableCharacter.AllAvailableActions)
                     {
-                    <li class="list-group-item">
-                            <form asp-action="SetActiveAction">
-                            @action.ActionName
-                            <input type="submit" value="Delete" class="btn btn-danger" />
-                            </form>
+                    <li class="list-group-item">   
+                                <a class="btn btn-danger" asp-route-id="@action.Id" asp-action="SetActiveAction" >@action.ActionName</a>
                     </li>
                     }  
                 </ul>
