@@ -2,6 +2,7 @@ using Microsoft.EntityFrameworkCore;
 using OstreCWEB.Data.DataBase;
 using Serilog;
 using Serilog.Sinks.MSSqlServer;
+using OstreCWEB.Data.InitialData;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -27,6 +28,13 @@ builder.Host.UseSerilog((hostBuilderContext, loggerConfiguration) =>
 });
 
 var app = builder.Build();
+
+using (var scope = app.Services.CreateScope())
+{
+    var services = scope.ServiceProvider;
+
+    SeedData.Initialize(services);
+}
 
 var test = new StaticLists();
 test.SeedData();

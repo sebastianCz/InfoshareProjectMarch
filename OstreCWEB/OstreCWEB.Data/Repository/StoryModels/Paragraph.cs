@@ -18,7 +18,7 @@ namespace OstreCWEB.Data.Repository.StoryModels
         public ShopkeeperProp? ShopkeeperProp { get; set; }
 
         // Choice options
-        public List<NextParagraph> Choices { get; set; } = new List<NextParagraph>();
+        public List<Choice> Choices { get; set; } = new List<Choice>();
 
         // Db relations properties
         public int? FightPropId { get; set; }

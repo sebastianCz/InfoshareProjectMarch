@@ -1,6 +1,6 @@
 ﻿namespace OstreCWEB.Data.Repository.StoryModels.Properties
 {
-    public class NextParagraph
+    public class Choice
     {
         // General
         public int Id { get; set; }

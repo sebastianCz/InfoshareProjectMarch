@@ -11,7 +11,7 @@ namespace OstreCWEB.Data.DataBase
         //Story
         public DbSet<Story> Stories { get; set; }
         public DbSet<Paragraph> Paragraphs { get; set; }
-        public DbSet<NextParagraph> NextParagraphs { get; set; }
+        public DbSet<Choice> Choices { get; set; }
         public DbSet<FightProp> FightProps { get; set; }
         public DbSet<TestProp> TestProps { get; set; }
         public DbSet<DialogProp> DialogProps { get; set; }
@@ -56,6 +56,11 @@ namespace OstreCWEB.Data.DataBase
                     .HasOne(x => x.ShopkeeperProp)
                     .WithOne(x => x.Paragraph)
                     .HasForeignKey<Paragraph>(x => x.ShopkeeperPropId);
+
+                builder.Entity<Paragraph>()
+                    .HasMany(x => x.Choices)
+                    .WithOne(x => x.Paragraph)
+                    .HasForeignKey(x => x.ParagraphId);
             } // Paragraph
 
             { // ParagraphFight
