@@ -22,8 +22,8 @@
         Amount of Paragraphs: @Model.AmountOfParagraphs
     </div>
     <div class="btn-group" role="group" aria-label="Basic mixed styles example">
-        <a asp-action="Edit" asp-route-id="@Model.Id" type="button" class="btn btn-warning">Edit</a>
-        <a asp-action="Delete" asp-route-id="@Model.Id" type="button" class="btn btn-danger">Delete</a>
+        <a asp-action="EditStory" asp-route-id="@Model.Id" type="button" class="btn btn-warning">Edit</a>
+        <a asp-action="DeleteStory" asp-route-id="@Model.Id" type="button" class="btn btn-danger">Delete</a>
         <a asp-route-name="storyBuilder" asp-action="Details" asp-route-id="@Model.Id" asp-route-paragraphId="@Model.FirstParagraphId" type="button" class="btn btn-primary">Show Details</a>
         <a asp-action="Index" type="button" class="btn btn-success">Back to List</a>
     </div>
@@ -50,22 +50,101 @@
             <tbody>
                 @foreach (var item in Model.Paragraphs)
                 {
-                    <tr>
-                        <td>
-                            @item.ParagraphType
-                        </td>
-                        <td>
-                            @item.StageDescription
-                        </td>
-                        <td>
-                            @item.AmountOfChoices
-                        </td>
-                        <td>
-                            @*                        <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |*@
-                            <a asp-route-name="storyBuilder" asp-action="Details" asp-route-id="@Model.Id" asp-route-paragraphId="@item.Id" type="button" class="btn btn-success">Go here!</a>
-                            @*                        <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>*@
-                        </td>
-                    </tr>
+                    @if (item.ParagraphType == OstreCWEB.Data.Repository.StoryModels.Enums.ParagraphType.DescOfStage)
+                    {
+                        <tr>
+                            <td>
+                                @item.ParagraphType
+                            </td>
+                            <td>
+                                @item.StageDescription
+                            </td>
+                            <td>
+                                @item.AmountOfChoices
+                            </td>
+                            <td>
+                                @*                        <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |*@
+                                <a asp-route-name="storyBuilder" asp-action="Details" asp-route-id="@Model.Id" asp-route-paragraphId="@item.Id" type="button" class="btn btn-success">Go here!</a>
+                                @*                        <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>*@
+                            </td>
+                        </tr>
+                    }
+                    @if (item.ParagraphType == OstreCWEB.Data.Repository.StoryModels.Enums.ParagraphType.Fight)
+                    {
+                        <tr class="table-danger">
+                            <td>
+                                @item.ParagraphType
+                            </td>
+                            <td>
+                                @item.StageDescription
+                            </td>
+                            <td>
+                                @item.AmountOfChoices
+                            </td>
+                            <td>
+                                @*                        <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |*@
+                                <a asp-route-name="storyBuilder" asp-action="Details" asp-route-id="@Model.Id" asp-route-paragraphId="@item.Id" type="button" class="btn btn-success">Go here!</a>
+                                @*                        <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>*@
+                            </td>
+                        </tr>
+                    }
+                    @if (item.ParagraphType == OstreCWEB.Data.Repository.StoryModels.Enums.ParagraphType.Test)
+                    {
+                        <tr class="table-warning">
+                            <td>
+                                @item.ParagraphType
+                            </td>
+                            <td>
+                                @item.StageDescription
+                            </td>
+                            <td>
+                                @item.AmountOfChoices
+                            </td>
+                            <td>
+                                @*                        <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |*@
+                                <a asp-route-name="storyBuilder" asp-action="Details" asp-route-id="@Model.Id" asp-route-paragraphId="@item.Id" type="button" class="btn btn-success">Go here!</a>
+                                @*                        <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>*@
+                            </td>
+                        </tr>
+                    }
+                    @if (item.ParagraphType == OstreCWEB.Data.Repository.StoryModels.Enums.ParagraphType.Dialog)
+                    {
+                        <tr class="table-Primary">
+                            <td>
+                                @item.ParagraphType
+                            </td>
+                            <td>
+                                @item.StageDescription
+                            </td>
+                            <td>
+                                @item.AmountOfChoices
+                            </td>
+                            <td>
+                                @*                        <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |*@
+                                <a asp-route-name="storyBuilder" asp-action="Details" asp-route-id="@Model.Id" asp-route-paragraphId="@item.Id" type="button" class="btn btn-success">Go here!</a>
+                                @*                        <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>*@
+                            </td>
+                        </tr>
+                    }
+                    @if (item.ParagraphType == OstreCWEB.Data.Repository.StoryModels.Enums.ParagraphType.Shopkeeper)
+                    {
+                        <tr class="table-success">
+                            <td>
+                                @item.ParagraphType
+                            </td>
+                            <td>
+                                @item.StageDescription
+                            </td>
+                            <td>
+                                @item.AmountOfChoices
+                            </td>
+                            <td>
+                                @*                        <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |*@
+                                <a asp-route-name="storyBuilder" asp-action="Details" asp-route-id="@Model.Id" asp-route-paragraphId="@item.Id" type="button" class="btn btn-success">Go here!</a>
+                                @*                        <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>*@
+                            </td>
+                        </tr>
+                    }
                 }
                 <tr>
                     <td>

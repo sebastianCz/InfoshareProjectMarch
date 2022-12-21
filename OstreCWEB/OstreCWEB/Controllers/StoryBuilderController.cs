@@ -72,7 +72,7 @@ namespace OstreCWEB.Controllers
         }
 
         // GET: StoryBuilderController/Create
-        public ActionResult Create()
+        public ActionResult CreateStory()
         {
             var model = new StoryView();
             return View(model);
@@ -81,7 +81,7 @@ namespace OstreCWEB.Controllers
         // POST: StoryBuilderController/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(StoryView story)
+        public ActionResult CreateStory(StoryView story)
         {
             try
             {
@@ -95,7 +95,7 @@ namespace OstreCWEB.Controllers
         }
 
         // GET: StoryBuilderController/Edit/5
-        public ActionResult Edit(int id)
+        public ActionResult EditStory(int id)
         {
             return View(_mapper.Map<StoryView>(_storyService.GetStoryById(id)));
         }
@@ -103,7 +103,7 @@ namespace OstreCWEB.Controllers
         // POST: StoryBuilderController/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(StoryView model)
+        public ActionResult EditStory(StoryView model)
         {
             try
             {

@@ -22,8 +22,8 @@
         Amount of Paragraphs: @Model.AmountOfParagraphs
     </div>
     <div class="btn-group" role="group" aria-label="Basic mixed styles example">
-        <a asp-action="Edit" asp-route-id="@Model.Id" type="button" class="btn btn-warning">Edit</a>
-        <a asp-action="Delete" asp-route-id="@Model.Id" type="button" class="btn btn-danger">Delete</a>
+        <a asp-action="EditStory" asp-route-id="@Model.Id" type="button" class="btn btn-warning">Edit</a>
+        <a asp-action="DeleteStory" asp-route-id="@Model.Id" type="button" class="btn btn-danger">Delete</a>
         <a asp-action="StoryAllParagraphs" asp-route-id="@Model.Id" type="button" class="btn btn-primary">Show All Paragraphs</a>
         <a asp-action="Index" type="button" class="btn btn-success">Back to List</a>
     </div>
