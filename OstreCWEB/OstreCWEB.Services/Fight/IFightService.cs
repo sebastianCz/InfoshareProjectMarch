@@ -16,7 +16,7 @@ namespace OstreCWEB.Services.Fight
         public CharacterActions ChooseAction(int id);
         public void InitializeFight();
         public List<Character> InitializeActions(List<Character> characterList);
-        public void GenerateEnemies(int amountToGenerate);
+        public List<Enemy> GenerateEnemies(int amountToGenerate);
         public Enemy GetEnemy(int enemyPositionInList);
         public List<Item> GetItems();
         public List<Enemy> GetActiveEnemies();
@@ -26,6 +26,7 @@ namespace OstreCWEB.Services.Fight
         public PlayableCharacter GetPlayer();
         public List<string> ReturnHistory();
         public CharacterActions GetActiveActions();
+        public Character GetActiveTarget();
 
     }
 }
