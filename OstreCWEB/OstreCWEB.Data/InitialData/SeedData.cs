@@ -1,10 +1,10 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using OstreCWEB.Data.DataBase;
+using OstreCWEB.Data.Enums;
+using OstreCWEB.Data.Repository.StoryModels;
 using OstreCWEB.Data.Repository.StoryModels.Enums;
 using OstreCWEB.Data.Repository.StoryModels.Properties;
-using OstreCWEB.Data.Repository.StoryModels;
-using OstreCWEB.Data.Enums;
 
 namespace OstreCWEB.Data.InitialData
 {
@@ -41,7 +41,7 @@ namespace OstreCWEB.Data.InitialData
                 {
                     Name = "Lost Mine Of Phandelver",
                     Description = "Lost Mine of Phandelver is an adventur is set a short distance from the city of Neverwinter in the Sword Coast region of the Forgotten Realms setting.",
-                    FirstParagraphId = 1,
+                    FirstParagraphId = 2,
                 }
             });
             context.SaveChanges();
@@ -130,13 +130,7 @@ namespace OstreCWEB.Data.InitialData
             {
                 ChoiceText = "What's on the cart?",
                 NextParagraphId = 2,
-                ParagraphId = 1
-            },
-            new Choice
-            {
-                ChoiceText = "Next",
-                NextParagraphId = 3,
-                ParagraphId = 1
+                ParagraphId = 2
             },
             new Choice
             {
@@ -146,32 +140,32 @@ namespace OstreCWEB.Data.InitialData
             },
             new Choice
             {
+                ChoiceText = "Next",
+                NextParagraphId = 3,
+                ParagraphId = 3
+            },
+            new Choice
+            {
                 ChoiceText = "Look around",
                 NextParagraphId = 4,
-                ParagraphId = 3
+                ParagraphId = 4
             },
             new Choice
             {
                 ChoiceText = "Come closer",
                 NextParagraphId = 5,
-                ParagraphId = 3
+                ParagraphId = 4
             },
             new Choice
             {
                 ChoiceText = "Failure",
                 NextParagraphId = 5,
-                ParagraphId = 4
+                ParagraphId = 5
             },
             new Choice
             {
                 ChoiceText = "Success",
                 NextParagraphId = 6,
-                ParagraphId = 4
-            },
-            new Choice
-            {
-                ChoiceText = "Get closer to the dead horses",
-                NextParagraphId = 7,
                 ParagraphId = 5
             },
             new Choice
@@ -182,33 +176,39 @@ namespace OstreCWEB.Data.InitialData
             },
             new Choice
             {
-                ChoiceText = "Attack goblins",
-                NextParagraphId = 8,
-                ParagraphId = 6
+                ChoiceText = "Get closer to the dead horses",
+                NextParagraphId = 7,
+                ParagraphId = 7
             },
             new Choice
             {
-                ChoiceText = "Next",
+                ChoiceText = "Attack goblins",
                 NextParagraphId = 8,
                 ParagraphId = 7
             },
             new Choice
             {
-                ChoiceText = "Defeat!",
-                NextParagraphId = 0,
+                ChoiceText = "Next",
+                NextParagraphId = 8,
                 ParagraphId = 8
+            },
+            new Choice
+            {
+                ChoiceText = "Defeat!",
+                NextParagraphId = 1,
+                ParagraphId = 9
             },
             new Choice
             {
                 ChoiceText = "Victory!",
                 NextParagraphId = 9,
-                ParagraphId = 8
+                ParagraphId = 9
             },
             new Choice
             {
                 ChoiceText = "Nothing else, kill your hero!",
-                NextParagraphId = 0,
-                ParagraphId = 9
+                NextParagraphId = 1,
+                ParagraphId = 10
             }
             );
             context.SaveChanges();

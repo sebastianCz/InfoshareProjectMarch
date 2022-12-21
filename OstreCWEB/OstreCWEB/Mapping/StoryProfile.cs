@@ -10,8 +10,10 @@ namespace OstreCWEB.Mapping
     {
         public StoryProfile() 
         {
+            CreateMap<Story, StoryAllParagraphsView>();
+
             CreateMap<Story, StoryView>();
-               
+
             CreateMap<Paragraph, ParagraphView>();
 
             CreateMap<Story, StoryDetailsView>();

@@ -52,6 +52,13 @@ namespace OstreCWEB.Controllers
             return View(model);
         }
 
+        public ActionResult StoryAllParagraphs(int id)
+        {
+            var test = _mapper.Map<StoryAllParagraphsView>(_storyService.GetStoryById(id));
+            return View(test);
+        }
+
+
         // GET: StoryBuilderController/ParagraphDetails/5
         public ActionResult ParagraphDetails(int id)
         {

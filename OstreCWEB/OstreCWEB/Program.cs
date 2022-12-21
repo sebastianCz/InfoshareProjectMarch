@@ -1,9 +1,10 @@
 using Microsoft.EntityFrameworkCore;
 using OstreCWEB.Data.DataBase;
+using OstreCWEB.Data.InitialData;
+using OstreCWEB.Data.ServiceRegistration;
+using OstreCWEB.Services.ServiceRegistration;
 using Serilog;
 using Serilog.Sinks.MSSqlServer;
-using OstreCWEB.Data.InitialData;
-using OstreCWEB.Services.StoryService;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -17,7 +18,11 @@ builder.Services
     .AddControllersWithViews()
     .AddRazorRuntimeCompilation();
 
-builder.Services.AddSingleton<IStoryService, StoryService>();
+builder.Services
+    .AddRepositories();
+
+builder.Services
+    .AddServices();
 
 builder.Host.UseSerilog((hostBuilderContext, loggerConfiguration) =>
 {
