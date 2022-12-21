@@ -59,11 +59,11 @@ namespace OstreCWEB.Services.Fight
 
         public Character ChooseTarget(int id)
         {
-            if (id == ActivePlayer.CombatId)
+            if (id == ActivePlayer.ID)
             {
                 return ActivePlayer;
             }
-            return _activeEnemies.First(a => a.CombatId == id);
+            return _activeEnemies.First(a => a.ID == id);
         }
 
         public CharacterActions ChooseAction(int id)
@@ -224,11 +224,11 @@ namespace OstreCWEB.Services.Fight
             _activeEnemies = GenerateEnemies(2);
 
             //Generates combat ID
-            ActivePlayer.CombatId = 1;
+            ActivePlayer.ID = 1;
             for (int i = 0; i < _activeEnemies.Count; i++)
             {
                 //+2 because we have to start at 0 and player combat id by default is 1. 
-                _activeEnemies[i].CombatId = i+ 2; 
+                _activeEnemies[i].ID = i+ 2; 
             }
 
             //Prepares object for action init
