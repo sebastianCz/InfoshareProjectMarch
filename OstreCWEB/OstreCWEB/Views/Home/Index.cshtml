@@ -10,8 +10,7 @@
     <nav>
         <ol class="breadcrumb">
             <li class="breadcrumb-item"><a asp-area="" asp-controller="Home" asp-action="Index">Home</a></li>
-            <li class="breadcrumb-item"><a asp-area="" asp-controller="StoryBuilder" asp-action="Index">StoryBuilder</a></li>
-            @*<li class="breadcrumb-item active">Fangehull</li>*@
+            <li class="breadcrumb-item active">Fangehull</li>
             
         </ol>
         <button type="button" id="btnScore" onclick="GenerateEnemies()"> Click me!
@@ -20,8 +19,6 @@
 </div><!-- End Page Title -->
 
 <section class="section dashboard">
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-
 
     @foreach (var enemy in Model.ActiveEnemies)
     { 
