@@ -28,6 +28,7 @@ namespace OstreCWEB.Controllers
                 _fightService.UpdateActiveAction(_fightService.ChooseAction(1));
                 model.ActiveAction = _fightService.GetActiveActions();
             }
+            model.ActiveTarget = _fightService.GetActiveTarget(); 
             return View(model);
         }
 

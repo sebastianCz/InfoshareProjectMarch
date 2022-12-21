@@ -16,14 +16,17 @@
 
                  <div class="col">
                         <div class="card shadow-sm">
-                            <div class="card-body">@Model.ActivePlayer.CharacterName @Model.ActivePlayer.ID</div>
+                            <div class="card-body">@Model.ActivePlayer.CharacterName ||Combat ID: @Model.ActivePlayer.CombatId</div>
                             <svg class="bd-placeholder-img card-img-top" width="100%" height="225" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: Thumbnail" preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title><rect width="100%" height="100%" fill="#55595c"></rect><text x="50%" y="50%" fill="#eceeef" dy=".3em">Thumbnail</text></svg>
                             <div class="card-body">@Model.ActivePlayer.CharacterName
                                 <br />
                                
                                      <div class="d-flex justify-content-between align-items-center">
                                         <div class="btn-group">
-                                         <a class="btn btn-danger" asp-route-id="@Model.ActivePlayer.ID" asp-action="SetActiveTarget" >Target</a>
+                                    @if (Model.ActiveAction != null && Model.ActiveAction.PossibleTargets.Contains("caster"))
+                                    {
+                                          <a class="btn btn-danger" asp-route-id="@Model.ActivePlayer.CombatId" asp-action="SetActiveTarget" >Target</a>
+                                    }
                                          </div> 
                                     </div>
                                  
@@ -42,9 +45,15 @@
                                      @Model.ActiveAction.PossibleTargets
                                      }else{
                                        <p>Choose an action to see possible targets</p>
-                                         }
+                                      }
                                         <br />
-                                     Chosen target:
+                                    <p>Chosen Target:</p>
+                                    <br />
+                                    @if(Model.ActiveTarget != null && Model.ActiveTarget.CombatId != null){
+
+                                        <div>@Model.ActiveTarget.CharacterName </div>
+                                        }
+                                     
                                     <br />
 
                         </div>
@@ -72,63 +81,65 @@
          <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
 
             @for (var i = 0; i < Model.ActiveEnemies.Count(); i++)
-            {
-                <div class="col">
-                    <div class="card shadow-sm">
+            { 
+                <div class="col ">
 
-                        @{var viewId = i+1;}
-                        <div class="card-body">@Model.ActiveEnemies[i].CharacterName @viewId @Model.ActiveEnemies[i].ID</div>
-                        <svg class="bd-placeholder-img card-img-top" width="100%" height="225" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: Thumbnail" preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title><rect width="100%" height="100%" fill="#55595c"></rect><text x="50%" y="50%" fill="#eceeef" dy=".3em">Thumbnail</text></svg>
+                    @*<div class=" card  @((Model.ActiveTarget != null && Model.ActiveTarget.CombatId != null && Model.ActiveTarget.CombatId == Model.ActiveEnemies[i].CombatId ? " f" : " .bg-danger"))">*@
+                        <div class=" card">
 
-                        <div class="card-body">
-                            <b><label asp-for="@Model.ActiveEnemies[i].HealthPoints"></label></b><br>
-                             @Model.ActiveEnemies[i].HealthPoints<br>
-                                <label asp-for="@Model.ActiveEnemies[i].ActiveStatuses"></label><br>
-                           @foreach (var status in @Model.ActiveEnemies[i].ActiveStatuses) 
+                                        @{var viewId = i+1;}
+                                        <div class="card-body">@Model.ActiveEnemies[i].CharacterName @viewId ||Combat ID: @Model.ActiveEnemies[i].CombatId </div>
+                                        <svg class="bd-placeholder-img card-img-top" width="100%" height="225" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: Thumbnail" preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title><rect width="100%" height="100%" fill="#55595c"></rect><text x="50%" y="50%" fill="#eceeef" dy=".3em">Thumbnail</text></svg>
+
+                                        <div class="card-body">
+                                            <b><label asp-for="@Model.ActiveEnemies[i].HealthPoints"></label></b><br>
+                                             @Model.ActiveEnemies[i].HealthPoints<br>
+                                                <label asp-for="@Model.ActiveEnemies[i].ActiveStatuses"></label><br>
+                                           @foreach (var status in @Model.ActiveEnemies[i].ActiveStatuses) 
                            {
-                                <button type="button" class="btn btn-secondary" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="@status.Name">
-                                    @status.Description
-                                    <button type="button" class="btn btn-sm btn-outline-secondary">Target </button>
-                                </button>
+                                                <button type="button" class="btn btn-secondary" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="@status.Name">
+                                                    @status.Description
+                                                    <button type="button" class="btn btn-sm btn-outline-secondary">Target </button>
+                                                </button>
 
                            }
-                            <div class="d-flex justify-content-between align-items-center">
-                                        @if (Model.ActiveAction != null && Model.ActiveAction.PossibleTargets.Contains("enemy"))
+                                            <div class="d-flex justify-content-between align-items-center">
+                                                        @if (Model.ActiveAction != null && Model.ActiveAction.PossibleTargets.Contains("enemy"))
                                         {
-                                    <div class="d-flex justify-content-between align-items-center">
-                                        <div class="btn-group">
-                                            <a class="btn btn-danger" asp-route-id="@Model.ActiveEnemies[i].ID" asp-action="SetActiveTarget" >Target</a>
-                                            </div> 
-                                        </div>
+                                                    <div class="d-flex justify-content-between align-items-center">
+                                                        <div class="btn-group">
+                                                            <a class="btn btn-danger" asp-route-id="@Model.ActiveEnemies[i].CombatId" asp-action="SetActiveTarget" >Target</a>
+                                                            </div> 
+                                                        </div>
                                         }
-                                <small class="text-muted">9 mins</small>
-                            </div>
+                                                <small class="text-muted">9 mins</small>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            }
                         </div>
                     </div>
                 </div>
-            }
-        </div>
-    </div>
-</div>
 
   
 
 
-<script> 
-    function GenerateEnemies() {
-        $.ajax({
-            type: "GET",
-            url: "Home/GenerateEnemies",
-            async: true,
-            success: function (msg) {
-                
-            },
-            error: function () {
-                return "error";
-            }
-        });
-    }
+                <script> 
+                    function GenerateEnemies() {
+                        $.ajax({
+                            type: "GET",
+                            url: "Home/GenerateEnemies",
+                            async: true,
+                            success: function (msg) {
+                                
+                            },
+                            error: function () {
+                                return "error";
+                            }
+                        });
+                    }
 
-    const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
-    const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl))
-</script>   
+                    const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
+                    const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl))
+                </script>   

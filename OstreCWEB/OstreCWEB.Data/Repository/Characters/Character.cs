@@ -9,6 +9,10 @@ namespace OstreCWEB.Data.Repository.Characters
     {
         [Required]
         public int ID { get; set; }
+        //This is required because Characters IDs can be the same as enemies...Combat needs to generate it's own IDs
+        //This is not saved to data base.
+        public int CombatId { get; set; }
+
         [Required]
         public string CharacterName { get; set; }
         [Required]
@@ -18,7 +22,6 @@ namespace OstreCWEB.Data.Repository.Characters
         [Required]
         public string Alignment { get; set; }
         [Required]
-
         public Item EquippedArmor { get; set; }
         [Required]
         public Item EquippedWeapon { get; set; }
