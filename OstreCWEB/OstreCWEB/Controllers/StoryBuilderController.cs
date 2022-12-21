@@ -8,13 +8,13 @@ namespace OstreCWEB.Controllers
     public class StoryBuilderController : Controller
     {
         private readonly IMapper _mapper;
-        private readonly StoryService _storyService;
+        private readonly IStoryService _storyService;
         private readonly ILogger<StoryBuilderController> _logger;
 
-        public StoryBuilderController(IMapper mapper, ILogger<StoryBuilderController> logger)
+        public StoryBuilderController(IMapper mapper, ILogger<StoryBuilderController> logger, IEnumerable<IStoryService> storyService)
         {
             _mapper = mapper;
-            _storyService = new StoryService();
+            _storyService = storyService.First();
             _logger = logger;
         }
 
@@ -22,7 +22,7 @@ namespace OstreCWEB.Controllers
         public ActionResult Index()
         {
             _logger.LogWarning(this + " Index(24)", DateTime.Now);
-            var stories = _storyService.GetAll();
+            var stories = _storyService.GetAllStories();
             var model = new List<StoryView>();
             foreach (var item in stories)
             {

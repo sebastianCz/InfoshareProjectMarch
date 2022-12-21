@@ -5,7 +5,7 @@ using OstreCWEB.Data.Repository.StoryModels.Properties;
 
 namespace OstreCWEB.Services.StoryService
 {
-    public class StoryService : IStorySetvices
+    public class StoryService : IStoryService
     {
         private static List<Story> _stories =
             new List<Story>
@@ -213,35 +213,35 @@ namespace OstreCWEB.Services.StoryService
                 }
             };
 
-        public List<Story> GetAll()
+        public IReadOnlyCollection<Story> GetAllStories()
         {
             return _stories;
         }
 
-        public Story GetStoryById(int id)
+        public Story GetStoryById(int idStory)
         {
-            return _stories.FirstOrDefault(s => s.Id == id);
+            return _stories.FirstOrDefault(s => s.Id == idStory);
         }
 
-        public List<Paragraph> GetParagraphsById(int id)
+        public IReadOnlyCollection<Paragraph> GetParagraphsById(int idStory)
         {
-            var story = _stories.FirstOrDefault(s => s.Id == id);
+            var story = _stories.FirstOrDefault(s => s.Id == idStory);
             return story.Paragraphs;
         }
 
-        public Paragraph GetParagraphById(int id)
+        public Paragraph GetParagraphById(int idParagraph)
         {
-            return _stories.SelectMany(s => s.Paragraphs).FirstOrDefault(s => s.Id == id);
+            return _stories.SelectMany(s => s.Paragraphs).FirstOrDefault(s => s.Id == idParagraph);
         }
 
-        public List<Paragraph> GetPreviousParagraphsById(int idParagraph, int idStory)
+        public IReadOnlyCollection<Paragraph> GetPreviousParagraphsById(int idParagraph, int idStory)
         {
             var story = _stories.FirstOrDefault(p => p.Id == idStory);
             var paragraphs = story.Paragraphs.Where(s => s.Choices.Any(c => c.NextParagraphId == idParagraph)).ToList();
             return paragraphs;
         }
 
-        public List<Paragraph> GetNextParagraphsById(int idParagraph, int idStory)
+        public IReadOnlyCollection<Paragraph> GetNextParagraphsById(int idParagraph, int idStory)
         {
             var story = _stories.FirstOrDefault(p => p.Id == idStory);
             var paragraph = story.Paragraphs.FirstOrDefault(p => p.Id == idParagraph);

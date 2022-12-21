@@ -4,45 +4,74 @@
     ViewData["Title"] = "StoryBuilder";
 }
 
-<h1>Story list to edit</h1>
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                <label asp-for="First().Name"></label>
-            </th>
-            <th>
-                <label asp-for="First().Description"></label>
-            </th>
-            <th>
-                <label asp-for="First().AmountOfParagraphs"></label>
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in Model)
-        {
-            <tr>
-                <td>
-                    @item.Name
-                </td>
-                <td>
-                    @item.Description
-                </td>
-                <td>
-                    @item.AmountOfParagraphs
-                </td>
-                <td>
-                    <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                    <a asp-route-name="storyBuilder" asp-action="Details" asp-route-id="@item.Id" asp-route-paragraphId="@item.FirstParagraphId">Details</a> |
-                    <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-                </td>
-            </tr>
-        }
-    </tbody>
-</table>
+
+<div class="pagetitle">
+    <h1>Your stories to edit</h1>
+    <nav>
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a asp-area="" asp-controller="Home" asp-action="Index">Home</a></li>
+            <li class="breadcrumb-item"><a asp-area="" asp-controller="StoryBuilder" asp-action="Index">StoryBuilder</a></li>
+            @*          <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+            <li class="breadcrumb-item">Components</li>
+            <li class="breadcrumb-item active">Accordion</li>*@
+        </ol>
+    </nav>
+</div>
+
+<div>
+    <a asp-action="Create" type="button" class="btn btn-success">Create new Story</a>
+    <p></p>
+</div>
+
+<div class="card">
+    <div class="card-body">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>
+                        <label asp-for="First().Name"></label>
+                    </th>
+                    <th>
+                        <label asp-for="First().Description"></label>
+                    </th>
+                    <th>
+                        <label asp-for="First().AmountOfParagraphs"></label>
+                    </th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>
+                            @item.Name
+                        </td>
+                        <td>
+                            @item.Description
+                        </td>
+                        <td>
+                            @item.AmountOfParagraphs
+                        </td>
+                        <td>
+                            <a asp-route-name="storyBuilder" asp-action="Details" asp-route-id="@item.Id" asp-route-paragraphId="@item.FirstParagraphId" type="button" class="btn btn-primary">Details</a>
+                        </td>
+                    </tr>
+                }
+                <tr>
+                    <td>
+                        <label asp-for="First().Name"></label>
+                    </td>
+                    <td>
+                        <label asp-for="First().Description"></label>
+                    </td>
+                    <td>
+                        <label asp-for="First().AmountOfParagraphs"></label>
+                    </td>
+                    <td><a asp-action="Create" type="button" class="btn btn-success">Create new Story</a></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

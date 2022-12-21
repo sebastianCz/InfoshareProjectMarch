@@ -3,6 +3,7 @@ using OstreCWEB.Data.DataBase;
 using Serilog;
 using Serilog.Sinks.MSSqlServer;
 using OstreCWEB.Data.InitialData;
+using OstreCWEB.Services.StoryService;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -15,6 +16,8 @@ builder.Services
     .AddAutoMapper(typeof(Program))
     .AddControllersWithViews()
     .AddRazorRuntimeCompilation();
+
+builder.Services.AddSingleton<IStoryService, StoryService>();
 
 builder.Host.UseSerilog((hostBuilderContext, loggerConfiguration) =>
 {
@@ -62,7 +65,6 @@ app.UseAuthorization();
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
-//app.MapRazorPages();
 
 app.MapControllerRoute(
     name: "storyBuilder",
