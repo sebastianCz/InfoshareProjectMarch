@@ -26,5 +26,7 @@ namespace OstreCWEB.ViewModel.StoryBuilder
 
         // Choice options
         public List<ChoiceView> Choices { get; set; } = new List<ChoiceView>();
+
+        public int StoryId { get; set; }
     }
 }

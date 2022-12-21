@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
+using OstreCWEB.Data.Repository.StoryModels;
 using OstreCWEB.Services.StoryService;
 using OstreCWEB.ViewModel.StoryBuilder;
 
@@ -37,18 +38,20 @@ namespace OstreCWEB.Controllers
         {
             var story = _storyService.GetStoryById(id);
             var model = _mapper.Map<StoryDetailsView>(story);
-            foreach (var item in _storyService.GetPreviousParagraphsById(paragraphId, id))
+            if (model.AmountOfParagraphs > 0)
             {
-                model.PreviousParagraphs.Add(_mapper.Map<ParagraphView>(item));
+                foreach (var item in _storyService.GetPreviousParagraphsById(paragraphId, id))
+                {
+                    model.PreviousParagraphs.Add(_mapper.Map<ParagraphView>(item));
+                }
+
+                model.CurrentParagraphView = _mapper.Map<ParagraphView>(_storyService.GetParagraphById(paragraphId));
+
+                foreach (var item in _storyService.GetNextParagraphsById(paragraphId, id))
+                {
+                    model.NextParagraphs.Add(_mapper.Map<ParagraphView>(item));
+                }
             }
-
-            model.CurrentParagraphView = _mapper.Map<ParagraphView>(_storyService.GetParagraphById(paragraphId));
-
-            foreach (var item in _storyService.GetNextParagraphsById(paragraphId, id))
-            {
-                model.NextParagraphs.Add(_mapper.Map<ParagraphView>(item));
-            }
-
             return View(model);
         }
 
@@ -71,16 +74,18 @@ namespace OstreCWEB.Controllers
         // GET: StoryBuilderController/Create
         public ActionResult Create()
         {
-            return View();
+            var model = new StoryView();
+            return View(model);
         }
 
         // POST: StoryBuilderController/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(IFormCollection collection)
+        public ActionResult Create(StoryView story)
         {
             try
             {
+                _storyService.AddStory(_mapper.Map<Story>(story));
                 return RedirectToAction(nameof(Index));
             }
             catch
@@ -92,16 +97,17 @@ namespace OstreCWEB.Controllers
         // GET: StoryBuilderController/Edit/5
         public ActionResult Edit(int id)
         {
-            return View();
+            return View(_mapper.Map<StoryView>(_storyService.GetStoryById(id)));
         }
 
         // POST: StoryBuilderController/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, IFormCollection collection)
+        public ActionResult Edit(StoryView model)
         {
             try
             {
+                _storyService.UpdateStory(model.Id, model.Name, model.Description);
                 return RedirectToAction(nameof(Index));
             }
             catch

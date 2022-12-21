@@ -44,5 +44,19 @@ namespace OstreCWEB.Services.StoryService
             }
             return result;
         }
+
+        public async Task AddStory(Story story)
+        {
+            await _storyRepository.Add(story);
+        }
+
+        public async Task UpdateStory(int idStory, string Name, string Description)
+        {
+            var story = _storyRepository.GetStoryById(idStory);
+            story.Name = Name;
+            story.Description = Description;
+
+            await _storyRepository.UpdateStory(story);
+        }
     }
 }

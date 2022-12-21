@@ -9,5 +9,7 @@ namespace OstreCWEB.Services.StoryService
         public Paragraph GetParagraphById(int idParagraph);
         public IReadOnlyCollection<Paragraph> GetPreviousParagraphsById(int idParagraph, int idStory);
         public IReadOnlyCollection<Paragraph> GetNextParagraphsById(int idParagraph, int idStory);
+        Task UpdateStory(int idStory, string Name, string Description);
+        Task AddStory(Story story);
     }
 }

@@ -14,6 +14,8 @@ namespace OstreCWEB.Mapping
 
             CreateMap<Story, StoryView>();
 
+            CreateMap<StoryView, Story>();
+
             CreateMap<Paragraph, ParagraphView>();
 
             CreateMap<Story, StoryDetailsView>();

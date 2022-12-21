@@ -129,67 +129,67 @@ namespace OstreCWEB.Data.InitialData
             new Choice
             {
                 ChoiceText = "What's on the cart?",
-                NextParagraphId = 2,
-                ParagraphId = 2
-            },
-            new Choice
-            {
-                ChoiceText = "Next",
                 NextParagraphId = 3,
                 ParagraphId = 2
             },
             new Choice
             {
                 ChoiceText = "Next",
-                NextParagraphId = 3,
+                NextParagraphId = 4,
+                ParagraphId = 2
+            },
+            new Choice
+            {
+                ChoiceText = "Next",
+                NextParagraphId = 4,
                 ParagraphId = 3
             },
             new Choice
             {
                 ChoiceText = "Look around",
-                NextParagraphId = 4,
+                NextParagraphId = 5,
                 ParagraphId = 4
             },
             new Choice
             {
                 ChoiceText = "Come closer",
-                NextParagraphId = 5,
+                NextParagraphId = 6,
                 ParagraphId = 4
             },
             new Choice
             {
                 ChoiceText = "Failure",
-                NextParagraphId = 5,
-                ParagraphId = 5
-            },
-            new Choice
-            {
-                ChoiceText = "Success",
                 NextParagraphId = 6,
                 ParagraphId = 5
             },
             new Choice
             {
-                ChoiceText = "Get closer to the dead horses",
+                ChoiceText = "Success",
                 NextParagraphId = 7,
+                ParagraphId = 5
+            },
+            new Choice
+            {
+                ChoiceText = "Get closer to the dead horses",
+                NextParagraphId = 8,
                 ParagraphId = 6
             },
             new Choice
             {
                 ChoiceText = "Get closer to the dead horses",
-                NextParagraphId = 7,
+                NextParagraphId = 8,
                 ParagraphId = 7
             },
             new Choice
             {
                 ChoiceText = "Attack goblins",
-                NextParagraphId = 8,
+                NextParagraphId = 9,
                 ParagraphId = 7
             },
             new Choice
             {
                 ChoiceText = "Next",
-                NextParagraphId = 8,
+                NextParagraphId = 9,
                 ParagraphId = 8
             },
             new Choice
@@ -201,7 +201,7 @@ namespace OstreCWEB.Data.InitialData
             new Choice
             {
                 ChoiceText = "Victory!",
-                NextParagraphId = 9,
+                NextParagraphId = 10,
                 ParagraphId = 9
             },
             new Choice

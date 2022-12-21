@@ -33,5 +33,17 @@ namespace OstreCWEB.Data.DataBase
             return _ostreCWebContext.Paragraphs
                 .SingleOrDefault(p => p.Id == idParagraph);
         }
+
+        public async Task Add(Story story)
+        {
+            _ostreCWebContext.Stories.Add(story);
+            await _ostreCWebContext.SaveChangesAsync();
+        }
+
+        public async Task UpdateStory(Story story)
+        {
+            _ostreCWebContext.Stories.Update(story);
+            await _ostreCWebContext.SaveChangesAsync();
+        }
     }
 }

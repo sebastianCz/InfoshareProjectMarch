@@ -7,5 +7,7 @@ namespace OstreCWEB.Data.Interfaces
         public IReadOnlyCollection<Story> GetAllStories();
         public Story GetStoryById(int idStory);
         public Paragraph GetParagraphById(int idParagraph);
+        Task UpdateStory(Story story);
+        Task Add(Story story);
     }
 }
