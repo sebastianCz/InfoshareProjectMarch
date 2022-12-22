@@ -1,11 +1,8 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using OstreCWEB.Data.Repository.Characters;
 using OstreCWEB.Data.Repository.Fight;
 using OstreCWEB.Services.Fight;
 using OstreCWEB.ViewModel.Fight;
-using OstreCWEB.ViewModel.StoryBuilder;
 
 namespace OstreCWEB.Controllers
 {
