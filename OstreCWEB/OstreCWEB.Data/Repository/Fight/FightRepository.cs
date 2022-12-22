@@ -32,12 +32,37 @@ namespace OstreCWEB.Data.Repository.Fight
                 return false;
             }
         }
-        public FightInstance GetById(int userId) => FightInstances.FirstOrDefault(x => x.Key == userId).Value;
+        public FightInstance GetById(int userId)
+        {
+            if (FightInstances.ContainsKey(userId))
+            {
+                  return FightInstances.First(x => x.Key == userId).Value;
+            }
+            else
+            {
+                return new FightInstance();
+            }
+        }
         public bool Delete(int userId, out string operationResult)
         {
             if (FightInstances.ContainsKey(userId))
             {
                 FightInstances.Remove(userId);
+                operationResult = "operation success";
+                return true;
+            }
+            else
+            {
+                operationResult = "There is no user";
+                return false;
+            }
+        }
+
+        public bool Update(int userId, FightInstance fightInstance,out string operationResult)
+        {
+            if (FightInstances.ContainsKey(userId))
+            {
+                FightInstances[userId] = fightInstance;
                 operationResult = "operation success";
                 return true;
             }

@@ -4,6 +4,8 @@ using OstreCWEB.Data.Repository.Characters.CoreClasses;
 using OstreCWEB.Data.Repository.Characters.Enums;
 using OstreCWEB.Data.Repository.Fight;
 using OstreCWEB.Data.Repository.Items;
+using OstreCWEB.Services.Factories;
+using OstreCWEB.Data.Repository.Fight.FightInstance;
 
 namespace OstreCWEB.Services.Fight
 {
@@ -11,6 +13,10 @@ namespace OstreCWEB.Services.Fight
     {
         private IFightRepository _fightRepository;
         public StaticLists _db { get; } = new StaticLists();
+        private FightInstance _activeFightInstance;
+        private IFightFactory _fightFactory;
+
+
         public static List<string> FightHistory { get; set; }
         public static List<Enemy> _activeEnemies { get; set; } = new List<Enemy>();
         public static PlayableCharacter ActivePlayer { get; set; }
@@ -20,16 +26,30 @@ namespace OstreCWEB.Services.Fight
         public static int PlayerActionCounter { get; set; }
         public static bool CombatFinished { get; set; }
         public static bool PlayerWon { get; set; } 
+
         //The property below can be used to introduce a system where enemies will act one by one.
         //We could use combat ID or position in _activeEnemies list for this.
         /*public static int NextActiveEnemyCombatId { get; set; }*/
 
-        public FightService(IFightRepository fightRepository)
+        public FightService(IFightRepository fightRepository, IFightFactory fightFactory)
         {
+            var userId = 1;
             _fightRepository = fightRepository;
             _db = new StaticLists();
-            FightHistory = new List<string>();
+            _activeFightInstance = _fightRepository.GetById(userId);
+            _fightFactory = fightFactory;
         }
+
+        public bool ValidateFightInstanceModel(FightInstance model)
+        {
+            if (model.ActivePlayer != null)
+            {
+                return true;
+            }
+            else
+                return false;
+        }
+
 
         public void CommitAction()
         {
@@ -337,29 +357,9 @@ namespace OstreCWEB.Services.Fight
 
         public void InitializeFight()
         {
-            var characterList = new List<Character>();
-            TurnNumber = 1;
-            _activeEnemies = new List<Enemy>();
-            //Generates instances of each entity
-            var player = _db.GetPlayableCharacter(1); 
-            ActivePlayer = GenerateNewObjectInstance<PlayableCharacter>(player);
-            _activeEnemies = GenerateEnemies(2);
-
-            //Generates combat ID
-            ActivePlayer.CombatId = 1;
-            for (int i = 0; i < _activeEnemies.Count; i++)
-            {
-                //+2 because we have to start at 0 and player combat id by default is 1. 
-                _activeEnemies[i].CombatId = i+ 2; 
-            }
-
-            //Prepares object for action init
-            characterList.Add((Character)ActivePlayer);
-            _activeEnemies.ForEach(enemy => characterList.Add(enemy));
-            InitializeActions(characterList);
-
-            PlayerActionCounter = ActivePlayer.ActionCounter;
-            return;
+            var userId = 1;
+            var fightInstance = _fightFactory.BuildNewFightInstance();
+            _fightRepository.Add(userId, fightInstance,out string operationResult);
         }
 
         public List<Character> InitializeActions(List<Character> characterList)
