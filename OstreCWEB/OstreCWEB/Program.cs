@@ -1,8 +1,9 @@
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using OstreCWEB.Data.DataBase;
+using OstreCWEB.Data.Repository.WebObjects;
 using OstreCWEB.Services.Fight;
-using Serilog;
-using Serilog.Sinks.MSSqlServer;
+
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -10,12 +11,13 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddDbContext<OstreCWebContext>(
     options => options.UseSqlServer(builder.Configuration.GetConnectionString("OstreCWEB")));
 
-builder.Services.AddTransient<IFightService,Fight>();
+builder.Services.AddTransient<IFightService,FightService>();
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 builder.Services
     .AddAutoMapper(typeof(Program))
     .AddControllersWithViews()
-    .AddRazorRuntimeCompilation();
+.AddRazorRuntimeCompilation();
+ 
 
 //builder.Host.UseSerilog((hostBuilderContext, loggerConfiguration) =>
 //{
@@ -61,5 +63,9 @@ app.MapControllerRoute(
 app.MapControllerRoute(
     name: "storyBuilder",
     pattern: "{controller=Home}/{action=Index}/{id?}/{paragraphId?}");
+
+app.MapControllerRoute(
+    name: "fightCommitAction",
+    pattern: "{controller=Home}/{action=CommitPlayerAction}/{targetId?}/{playerId?}/{activeActionId?}");
 
 app.Run();

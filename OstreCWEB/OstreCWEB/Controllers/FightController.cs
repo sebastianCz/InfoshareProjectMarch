@@ -1,25 +1,31 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using OstreCWEB.Data.Enums;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Mvc;
 using OstreCWEB.Data.Repository.Characters;
-using OstreCWEB.Models;
 using OstreCWEB.Services.Fight;
-using OstreCWEB.Services.Test;
+using OstreCWEB.ViewModel.Fight;
+using OstreCWEB.ViewModel.StoryBuilder;
 
 namespace OstreCWEB.Controllers
 {
     public class FightController : Controller
     {
         private IFightService _fightService;
+        private readonly IMapper _mapper;
 
-        public FightController(IFightService fightService)
+        public FightController(IFightService fightService,IMapper mapper)
         {
             _fightService = fightService;
+            _mapper = mapper;
         }
         public ActionResult FightView()
-        {
+        { 
             var model = new FightViewModel();
-            model.ActivePlayer = _fightService.GetPlayer();
-            model.ActiveEnemies = _fightService.GetActiveEnemies();
+            model.ActiveEnemies = new List<CharacterView>();
+            model.ActivePlayer = _mapper.Map<CharacterView>(_fightService.GetPlayer());
+            var activeEnemies = _fightService.GetActiveEnemies(); 
+
+            foreach (var enemy in activeEnemies)  {  model.ActiveEnemies.Add(_mapper.Map<CharacterView>(enemy)); }
+             
             //model.PlayerActionCounter = _fight.PlayerActionCounter; <- TODO
             model.FightHistory = _fightService.ReturnHistory();
             model.ActiveAction = _fightService.GetActiveActions();
@@ -28,8 +34,16 @@ namespace OstreCWEB.Controllers
                 _fightService.UpdateActiveAction(_fightService.ChooseAction(1));
                 model.ActiveAction = _fightService.GetActiveActions();
             }
-            model.ActiveTarget = _fightService.GetActiveTarget(); 
+            model.ActiveTarget = _mapper.Map<CharacterView>(_fightService.GetActiveTarget()); 
             return View(model);
+        }
+         
+
+        [HttpGet]
+        public ActionResult CommitPlayerAction(int targetId,int playerId,int activeActionId)
+        {
+            _fightService.CommitRound();
+            return RedirectToAction(nameof(FightView));
         }
 
         [HttpGet]
@@ -38,6 +52,8 @@ namespace OstreCWEB.Controllers
             try
             {
                 _fightService.UpdateActiveAction(_fightService.ChooseAction(id));
+                //We reset active target since each action can target different types of targets.
+                _fightService.ResetActiveTarget();
                 return RedirectToAction(nameof(FightView));
             }
             catch

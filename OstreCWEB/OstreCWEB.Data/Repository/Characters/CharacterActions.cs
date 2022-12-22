@@ -2,11 +2,11 @@
 
 namespace OstreCWEB.Data.Repository.Characters
 {
+
+    //"using" a spell , item  or weapon is an action. 
     public class CharacterActions
     {
         
-
-        //"using" a spell , item  or weapon is an action. 
         public int Id { get; set; }
         public string ActionName { get; set; }
         public string ActionDescription { get; set; }
@@ -19,5 +19,13 @@ namespace OstreCWEB.Data.Repository.Characters
         public bool InflictsStatus { get; set; }
         public Status Status { get; set; }
         public Statistics StatForTest { get; set; }
+        //Defined for actions reseting with rest.
+        public int UsesMaxBeforeRest { get; set; }
+
+        //Defined after game start and saved to DB in GameSession in the form of serialised object. 
+        public int UsesLeftBeforeRest { get; set; }
+        //Defined for items which have max use before disapearing.
+        public int UsesMax { get; set; }
+        public bool AggressiveAction { get; set; }
     }
 }

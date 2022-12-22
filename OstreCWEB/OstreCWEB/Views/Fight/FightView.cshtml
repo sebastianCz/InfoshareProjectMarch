@@ -1,140 +1,169 @@
-﻿@model OstreCWEB.Models.FightViewModel;
+﻿@model OstreCWEB.ViewModel.Fight.FightViewModel;
 @{
     ViewData["Title"] = "Fight";
 }
 <!--Playable Character-->
-<div class="bg-dark text-secondary px-4 py-5 text-center">
-    <div class="py-5">
 
-        <div class="d-flex mb-3">
-            <div class="p-2 bg-info">
+ 
+            <div class="d-flex flex-row mb-3">
 
-                 <div class="col">
-                        <div class="card shadow-sm">
-                            <div class="card-body">@Model.ActivePlayer.CharacterName ||Combat ID: @Model.ActivePlayer.CombatId</div>
-                            <svg class="bd-placeholder-img card-img-top" width="100%" height="225" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: Thumbnail" preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title><rect width="100%" height="100%" fill="#55595c"></rect><text x="50%" y="50%" fill="#eceeef" dy=".3em">Thumbnail</text></svg>
-                            <div class="card-body">@Model.ActivePlayer.CharacterName
-                                <br />
-                               
-                                     <div class="d-flex justify-content-between align-items-center">
-                                        <div class="btn-group">
+                <!--Playable character info( left column)-->
+                <div class="p-2 bg-info">
+                    <div class="card shadow-sm">
+                        <div class="card-body">@Model.ActivePlayer.CharacterName ||Combat ID: @Model.ActivePlayer.CombatId</div>
+                        <svg class="bd-placeholder-img card-img-top" width="100%" height="225" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: Thumbnail" preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title><rect width="100%" height="100%" fill="#55595c"></rect><text x="50%" y="50%" fill="#eceeef" dy=".3em">Thumbnail</text></svg>
+                        <div class="card-body">
+                            @Model.ActivePlayer.CharacterName
+                            <br />
+
+                            <div class="d-flex justify-content-between align-items-center">
+                                <div class="btn-group">
                                     @if (Model.ActiveAction != null && Model.ActiveAction.PossibleTargets.Contains("caster"))
                                     {
-                                          <a class="btn btn-danger" asp-route-id="@Model.ActivePlayer.CombatId" asp-action="SetActiveTarget" >Target</a>
+                                        <a class="btn btn-danger" asp-route-id="@Model.ActivePlayer.CombatId" asp-action="SetActiveTarget">Target</a>
                                     }
-                                         </div> 
-                                    </div>
-                                 
+                                </div>
                             </div>
-                        </div>  
-
-                        <div class="p-2 bg-warning">
-                            <button type="button" class="btn btn-sm btn-outline-secondary">Commit Action</button><br />
-                              Chosen action:
-                                <br />
-                                 @Model.ActiveAction.ActionName;
-                                 @if (Model.ActiveAction != null){
-                                       <br />
-                                  <p>Possible Targets:</p>
-                                     <br />
-                                     @Model.ActiveAction.PossibleTargets
-                                     }else{
-                                       <p>Choose an action to see possible targets</p>
-                                      }
-                                        <br />
-                                    <p>Chosen Target:</p>
-                                    <br />
-                                    @if(Model.ActiveTarget != null && Model.ActiveTarget.CombatId != null){
-
-                                        <div>@Model.ActiveTarget.CharacterName </div>
-                                        }
-                                     
-                                    <br />
 
                         </div>
+                    </div>
+                </div>
+                <!--Turn state(center)-->
+                <div class="p-2 bg-warning">
+                    Chosen action:
+                    <br />
+                    @Model.ActiveAction.ActionName;
+                    @if (Model.ActiveAction != null)
+                    {
+                        <br />
+                        <p>Possible Targets:</p>
+                        <br />
+                        @Model.ActiveAction.PossibleTargets
+                    }
+                    else
+                    {
+                        <p>Choose an action to see possible targets</p>
+                    }
+                    <br />
+                    <p>Chosen Target:</p>
+                    <br />
+                    @if (Model.ActiveTarget != null && Model.ActiveTarget.CombatId != null)
+                    {
+                        @Model.ActiveTarget.CharacterName
+                    }
+                    <br />
+                    @if (Model.ActiveTarget != null && Model.ActiveTarget.CombatId != null && Model.ActiveTarget.CombatId != 0 && Model.ActiveAction != null)
+                    {
 
-                            <div class="p-2 flex-grow-1 bg-primary">
-                                        <ul class="list-group list-group-horizontal-xl">
-                                         @foreach (var action in @Model.ActivePlayer.AllAvailableActions)
-                                          {
-                                            <li class="list-group-item">   
-                                              <a class="btn btn-danger" asp-route-id="@action.Id" asp-action="SetActiveAction" >@action.ActionName</a>
-                                                </li>
-                                          }  
-                                        </ul>
-                                </div>
+                        <a asp-route-name="fightCommitAction" asp-action="CommitPlayerAction" asp-route-targetId="@Model.ActiveTarget.CombatId" asp-route-playerId="@Model.ActivePlayer.CombatId" asp-route-activeActionId="@Model.ActiveAction.Id">Commit Action</a>
+                    }
 
-                </div>        
+                </div>
+                <!--Available actions(right column)-->
+                <div class="p-2 flex-grow-1 bg-primary">
+                    <ul class="list-group list-group-horizontal-xl">
+                        @foreach (var action in @Model.ActivePlayer.AllAvailableActions)
+                        {
+                            <li class="list-group-item">
+                                <a class="btn btn-danger" asp-route-id="@action.Id" asp-action="SetActiveAction">@action.ActionName</a>
+                            </li>
+                        }
+                    </ul>
+                </div>
+
             </div>
+ 
+
+<!--Fight History-->
+
+
+<div class="d-flex flex-row mb-3">
+
+    <div class="p-2 flex-grow-1">
+        <ul class="nav nav-pills nav-stacked OstreCScroll">
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras urna nulla, molestie sed libero quis, vulputate ultricies tortor. Suspendisse et quam nisl. Curabitur tellus velit, cursus ac tincidunt sit amet, porta sit amet quam. Vivamus quis iaculis tellus. Nulla sit amet suscipit massa, ut venenatis felis. Aliquam nec accumsan urna. Pellentesque et aliquet magna, dictum condimentum massa. Nunc sem odio, sodales tempor justo ut, ultrices lobortis massa. Maecenas hendrerit luctus nunc vitae consectetur. Morbi condimentum, lorem et interdum auctor, turpis neque tempus nisl, sit amet ullamcorper purus dui et turpis. Fusce vel maximus sapien. Pellentesque congue commodo ornare.
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras urna nulla, molestie sed libero quis, vulputate ultricies tortor. Suspendisse et quam nisl. Curabitur tellus velit, cursus ac tincidunt sit amet, porta sit amet quam. Vivamus quis iaculis tellus. Nulla sit amet suscipit massa, ut venenatis felis. Aliquam nec accumsan urna. Pellentesque et aliquet magna, dictum condimentum massa. Nunc sem odio, sodales tempor justo ut, ultrices lobortis massa. Maecenas hendrerit luctus nunc vitae consectetur. Morbi condimentum, lorem et interdum auctor, turpis neque tempus nisl, sit amet ullamcorper purus dui et turpis. Fusce vel maximus sapien. Pellentesque congue commodo ornare.
+
+            Nunc nec nunc ante. Vestibulum mi enim, facilisis vitae tellus eget, aliquet lobortis augue. Donec mi enim, aliquam vitae pellentesque at, finibus a turpis. Donec porta viverra libero, et molestie erat ornare ac. Nam sed vulputate tortor. Maecenas ut fermentum nibh, vitae auctor ante. Etiam ultricies posuere elit. Quisque cursus commodo scelerisque. Morbi quis justo a mi sagittis ultricies quis ac nisi. Morbi accumsan tortor tortor, a condimentum dolor vehicula quis. Suspendisse consectetur augue nisl, vel dignissim purus laoreet in. Aenean quis diam nec lectus convallis mollis. Proin auctor, orci eu porttitor sagittis, erat turpis elementum quam, id fermentum enim tortor eget ante.
+
+            Nunc nec nunc ante. Vestibulum mi enim, facilisis vitae tellus eget, aliquet lobortis augue. Donec mi enim, aliquam vitae pellentesque at, finibus a turpis. Donec porta viverra libero, et molestie erat ornare ac. Nam sed vulputate tortor. Maecenas ut fermentum nibh, vitae auctor ante. Etiam ultricies posuere elit. Quisque cursus commodo scelerisque. Morbi quis justo a mi sagittis ultricies quis ac nisi. Morbi accumsan tortor tortor, a condimentum dolor vehicula quis. Suspendisse consectetur augue nisl, vel dignissim purus laoreet in. Aenean quis diam nec lectus convallis mollis. Proin auctor, orci eu porttitor sagittis, erat turpis elementum quam, id fermentum enim tortor eget ante.
+        </ul>
+
+    </div>
+
+</div> 
+   
+<!--Enemies cards-->
+<div class="album py-5 bg-light">
+    <div class="container">
+        <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
+
+            @for (var i = 0; i < Model.ActiveEnemies.Count(); i++)
+            {
+                <div class="col ">
+
+                    @*<div class=" card  @((Model.ActiveTarget != null && Model.ActiveTarget.CombatId != null && Model.ActiveTarget.CombatId == Model.ActiveEnemies[i].CombatId ? " f" : " .bg-danger"))">*@
+                    <div class=" card">
+
+                        @{
+                            var viewId = i + 1;
+                        }
+                        <div class="card-body">@Model.ActiveEnemies[i].CharacterName @viewId ||Combat ID: @Model.ActiveEnemies[i].CombatId </div>
+                        <svg class="bd-placeholder-img card-img-top" width="100%" height="225" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: Thumbnail" preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title><rect width="100%" height="100%" fill="#55595c"></rect><text x="50%" y="50%" fill="#eceeef" dy=".3em">Thumbnail</text></svg>
+
+                        <div class="card-body">
+                            <b><label asp-for="@Model.ActiveEnemies[i].HealthPoints"></label></b><br>
+                            @Model.ActiveEnemies[i].HealthPoints<br>
+                            <label asp-for="@Model.ActiveEnemies[i].ActiveStatuses"></label><br>
+                            @foreach (var status in @Model.ActiveEnemies[i].ActiveStatuses)
+                            {
+                                <button type="button" class="btn btn-secondary" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="@status.Name">
+                                    @status.Description
+                                    <button type="button" class="btn btn-sm btn-outline-secondary">Target </button>
+                                </button>
+
+                            }
+                            <div class="d-flex justify-content-between align-items-center">
+                                @if (Model.ActiveAction != null && Model.ActiveAction.PossibleTargets.Contains("enemy"))
+                                {
+                                    <div class="d-flex justify-content-between align-items-center">
+                                        <div class="btn-group">
+                                            <a class="btn btn-danger" asp-route-id="@Model.ActiveEnemies[i].CombatId" asp-action="SetActiveTarget">Target</a>
+                                        </div>
+                                    </div>
+                                }
+                                <small class="text-muted">9 mins</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
         </div>
     </div>
 </div>
 
-<!--Enemies cards-->
-<div class="album py-5 bg-light">
-    <div class="container">
-         <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
-
-            @for (var i = 0; i < Model.ActiveEnemies.Count(); i++)
-            { 
-                <div class="col ">
-
-                    @*<div class=" card  @((Model.ActiveTarget != null && Model.ActiveTarget.CombatId != null && Model.ActiveTarget.CombatId == Model.ActiveEnemies[i].CombatId ? " f" : " .bg-danger"))">*@
-                        <div class=" card">
-
-                                        @{var viewId = i+1;}
-                                        <div class="card-body">@Model.ActiveEnemies[i].CharacterName @viewId ||Combat ID: @Model.ActiveEnemies[i].CombatId </div>
-                                        <svg class="bd-placeholder-img card-img-top" width="100%" height="225" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: Thumbnail" preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title><rect width="100%" height="100%" fill="#55595c"></rect><text x="50%" y="50%" fill="#eceeef" dy=".3em">Thumbnail</text></svg>
-
-                                        <div class="card-body">
-                                            <b><label asp-for="@Model.ActiveEnemies[i].HealthPoints"></label></b><br>
-                                             @Model.ActiveEnemies[i].HealthPoints<br>
-                                                <label asp-for="@Model.ActiveEnemies[i].ActiveStatuses"></label><br>
-                                           @foreach (var status in @Model.ActiveEnemies[i].ActiveStatuses) 
-                           {
-                                                <button type="button" class="btn btn-secondary" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="@status.Name">
-                                                    @status.Description
-                                                    <button type="button" class="btn btn-sm btn-outline-secondary">Target </button>
-                                                </button>
-
-                           }
-                                            <div class="d-flex justify-content-between align-items-center">
-                                                        @if (Model.ActiveAction != null && Model.ActiveAction.PossibleTargets.Contains("enemy"))
-                                        {
-                                                    <div class="d-flex justify-content-between align-items-center">
-                                                        <div class="btn-group">
-                                                            <a class="btn btn-danger" asp-route-id="@Model.ActiveEnemies[i].CombatId" asp-action="SetActiveTarget" >Target</a>
-                                                            </div> 
-                                                        </div>
-                                        }
-                                                <small class="text-muted">9 mins</small>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            }
-                        </div>
-                    </div>
-                </div>
-
-  
 
 
-                <script> 
-                    function GenerateEnemies() {
-                        $.ajax({
-                            type: "GET",
-                            url: "Home/GenerateEnemies",
-                            async: true,
-                            success: function (msg) {
-                                
-                            },
-                            error: function () {
-                                return "error";
-                            }
-                        });
-                    }
 
+<script>
+    function GenerateEnemies() {
+        $.ajax({
+            type: "GET",
+            url: "Home/GenerateEnemies",
+            async: true,
+            success: function (msg) {
+
+            },
+            error: function () {
+                return "error";
+            }
+        });
+    }
+    @section Scripts {
+        @{
+            await Html.RenderPartialAsync("_ValidationScriptsPartial");
+        }
+        }
                     const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
-                    const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl))
-                </script>   
+        const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl))
+    </script>   
