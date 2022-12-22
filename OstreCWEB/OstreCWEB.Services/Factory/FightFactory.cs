@@ -2,12 +2,6 @@
 using OstreCWEB.Data.DataBase;
 using OstreCWEB.Data.Repository.Characters.CoreClasses;
 using OstreCWEB.Data.Repository.Fight;
-using OstreCWEB.Services.Fight;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace OstreCWEB.Services.Factories
 {
@@ -85,19 +79,18 @@ namespace OstreCWEB.Services.Factories
             var playableCharacterId = 1;
             var amountToGenerate = 2;
             fightInstance.ActivePlayer = BuildNewPlayerInstance(playableCharacterId);
-            fightInstance._activeEnemies = BuildActiveEnemiesList(amountToGenerate);
+            fightInstance.ActiveEnemies = BuildActiveEnemiesList(amountToGenerate);
             fightInstance.ActivePlayer.CombatId = 1;
-            for (int i = 0; i < fightInstance._activeEnemies.Count; i++)
+            for (int i = 0; i < fightInstance.ActiveEnemies.Count; i++)
             {
                 //+2 because we have to start at 0 and player combat id by default is 1. 
-                fightInstance._activeEnemies[i].CombatId = i + 2;
+                fightInstance.ActiveEnemies[i].CombatId = i + 2;
             }
             characterList.Add((Character)fightInstance.ActivePlayer);
-            fightInstance._activeEnemies.ForEach(enemy => characterList.Add(enemy));
+            fightInstance.ActiveEnemies.ForEach(enemy => characterList.Add(enemy));
             InitializeActions(characterList);
             fightInstance.PlayerActionCounter = 2;
-            fightInstance.FightHistory = new List<string>();
-            _fightRepository.Add(userId, fightInstance, out string operationResult);
+            fightInstance.FightHistory = new List<string>(); 
             return fightInstance;
         }
     }

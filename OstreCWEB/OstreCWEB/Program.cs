@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using OstreCWEB.Data.DataBase;
 using OstreCWEB.Data.Repository.Fight;
 using OstreCWEB.Data.Repository.WebObjects;
+using OstreCWEB.Services.Factories;
 using OstreCWEB.Services.Fight;
 
 
@@ -14,6 +15,7 @@ builder.Services.AddDbContext<OstreCWebContext>(
 
 builder.Services.AddTransient<IFightService,FightService>();
 builder.Services.AddTransient<IFightRepository, FightRepository>();
+builder.Services.AddTransient<IFightFactory, FightFactory>(); 
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 builder.Services
     .AddAutoMapper(typeof(Program))

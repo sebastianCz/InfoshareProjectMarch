@@ -10,7 +10,7 @@ namespace OstreCWEB.Data.Repository.Fight
     public class FightInstance
     {
         public  List<string> FightHistory { get; set; }
-        public  List<Enemy> _activeEnemies { get; set; } = new List<Enemy>();
+        public  List<Enemy> ActiveEnemies { get; set; } 
         public  PlayableCharacter ActivePlayer { get; set; }
         public  CharacterActions ActiveAction { get; set; }
         public  Character ActiveTarget { get; set; }

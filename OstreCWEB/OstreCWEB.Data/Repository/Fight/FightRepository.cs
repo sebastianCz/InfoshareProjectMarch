@@ -9,14 +9,10 @@ using System.Threading.Tasks;
 
 namespace OstreCWEB.Data.Repository.Fight
 {
-    public class FightRepository : IFightRepository
+    public  class FightRepository : IFightRepository
     {
-        private static Dictionary<int, FightInstance> FightInstances { get; set; }
-
-        public FightRepository()
-        {
-            FightInstances = new Dictionary<int, FightInstance>();
-        }
+        private static Dictionary<int, FightInstance> FightInstances { get; set; } = FightInstances = new Dictionary<int, FightInstance>();
+ 
         public bool Add(int userId, FightInstance fightInstance, out string operationResult)
         {
             if (!FightInstances.ContainsKey(userId))

@@ -1,10 +1,8 @@
-﻿using Newtonsoft.Json;
-using OstreCWEB.Data.DataBase;
+﻿using OstreCWEB.Data.DataBase;
 using OstreCWEB.Data.Repository.Characters.CoreClasses;
 using OstreCWEB.Data.Repository.Characters.Enums;
 using OstreCWEB.Data.Repository.Fight;
-using OstreCWEB.Data.Repository.Items;
-using OstreCWEB.Services.Factories; 
+using OstreCWEB.Services.Factories;
 
 namespace OstreCWEB.Services.Fight
 {
@@ -27,6 +25,11 @@ namespace OstreCWEB.Services.Fight
             _activeFightInstance = _fightRepository.GetById(userId);
             _fightFactory = fightFactory;
         }
+        public FightInstance GetActiveFightInstance() {
+            
+            return _activeFightInstance; 
+        
+        } 
 
         public bool ValidateFightInstanceModel(FightInstance model)
         {
@@ -38,12 +41,17 @@ namespace OstreCWEB.Services.Fight
                 return false;
         }
 
-
+        public void InitializeFight()
+        {
+            var userId = 1;
+            var fightInstance = _fightFactory.BuildNewFightInstance();
+            _fightRepository.Add(userId, fightInstance, out string operationResult);
+        }
         public void CommitAction()
         {
             _activeFightInstance.PlayerActionCounter--;
             ApplyAction(_activeFightInstance.ActiveTarget, _activeFightInstance.ActivePlayer, _activeFightInstance.ActiveAction);
-            var combatEnded = IsFightFinished(GetActiveEnemies(), GetActivePlayer());
+            var combatEnded = IsFightFinished(_activeFightInstance.ActiveEnemies, GetActivePlayer());
             var fightWon = IsFightWon(_activeFightInstance.ActivePlayer);
             if (combatEnded) { FinishFight(fightWon); }
             else
@@ -54,14 +62,23 @@ namespace OstreCWEB.Services.Fight
             }
             
         }
-         
+        public List<string> ReturnHistory()
+        {
+            return _activeFightInstance.FightHistory;
+        }
+        public void UpdateActiveTarget(Character character)
+        {
+            _activeFightInstance.ActiveTarget = character;
+        }
+        public CharacterActions ChooseAction(int id) => _activeFightInstance.ActivePlayer.AllAvailableActions.First(a => a.Id == id);
+
         public Character ChooseTarget(int id)
         {
             if (id == _activeFightInstance.ActivePlayer.CombatId)
             {
                 return _activeFightInstance.ActivePlayer;
             }
-            return _activeFightInstance._activeEnemies.First(a => a.CombatId == id);
+            return _activeFightInstance.ActiveEnemies.First(a => a.CombatId == id);
         }
 
         public Character ResetActiveTarget()
@@ -71,7 +88,7 @@ namespace OstreCWEB.Services.Fight
             return _activeFightInstance.ActiveTarget;
         }
 
-        public void StartAiTurn()
+        private void StartAiTurn()
         {
             //Ai needs to determine the actions it wants to use and apply them one by one.
             //The decision making can be random at first but later on we could go for a scripted behaviour depending
@@ -80,35 +97,13 @@ namespace OstreCWEB.Services.Fight
             //(update the view every 2 seconds maybe instead of showing it all at once? 
 
         }
-        private int UpdateTurnNumber(int turnNumber)
-        { 
-            return turnNumber += 1; 
-        }
         
         public FightService GetFightState()
         {
             //We should return a fight state object instead :TODO
             return this;
         }
-        private void FinishFight(bool playerWon)
-        {
-            _activeFightInstance.CombatFinished = true;
-            if (playerWon) { _activeFightInstance.PlayerWon = true ;}
-            _activeFightInstance.PlayerWon = false; 
-        }
-         
-        
-        private bool IsFightFinished(List<Enemy> activeEnemies,PlayableCharacter activePlayer)
-        {
-            if (activeEnemies.Count() == 0 || activePlayer.CurrentHealthPoints == 0) { return true; }
-            return false; 
-        }
-        private bool IsFightWon(PlayableCharacter activePlayer)
-        {
-            if(activePlayer.CurrentHealthPoints > 0) { return true; }
-            else { return false; }
-        }
-
+     
         public Character GetActiveTarget()
         {
             return _activeFightInstance.ActiveTarget;
@@ -122,35 +117,25 @@ namespace OstreCWEB.Services.Fight
         public void UpdateActiveAction(CharacterActions action)
         {
             _activeFightInstance.ActiveAction = action;
-        }
+        } 
 
-
-        public void UpdateActiveTarget(Character character)
-        {
-            _activeFightInstance.ActiveTarget = character;
-        }
-
-        public PlayableCharacter GetActivePlayer()
+        private PlayableCharacter GetActivePlayer()
         {
             return _activeFightInstance.ActivePlayer;
         }
 
-        public List<string> ReturnHistory()
+        private int UpdateTurnNumber(int turnNumber)
         {
-            return _activeFightInstance.FightHistory;
+            return turnNumber += 1;
         }
 
-
-        public CharacterActions ChooseAction(int id) => _activeFightInstance.ActivePlayer.AllAvailableActions.First(a => a.Id == id);
-
-
-        public List<string> UpdateFightHistory(List<string> FightHistory, string message)
+        private List<string> UpdateFightHistory(List<string> FightHistory, string message)
         {
             FightHistory.Add(message);
             return FightHistory;
         }
 
-        public void ApplyAction(Character target, Character caster, CharacterActions action)
+        private void ApplyAction(Character target, Character caster, CharacterActions action)
         {
             //TODO: APPLY STATUS 
             if (action.SavingThrowPossible)
@@ -342,80 +327,25 @@ namespace OstreCWEB.Services.Fight
             var diceThrowResult = rand.Next(1, maxValue + 1);
             return diceThrowResult;
         }
-
-        public void InitializeFight()
+        private void FinishFight(bool playerWon)
         {
-            var userId = 1;
-            var fightInstance = _fightFactory.BuildNewFightInstance();
-            _fightRepository.Add(userId, fightInstance,out string operationResult);
+            _activeFightInstance.CombatFinished = true;
+            if (playerWon) { _activeFightInstance.PlayerWon = true; }
+            _activeFightInstance.PlayerWon = false;
         }
 
-        public List<Character> InitializeActions(List<Character> characterList)
+
+        private bool IsFightFinished(List<Enemy> activeEnemies, PlayableCharacter activePlayer)
         {
-            foreach (var character in characterList)
-            {
-                character.AllAvailableActions = new List<CharacterActions>();
-                if (character.EquippedArmor.ActionToTrigger != null) { character.AllAvailableActions.Add(character.EquippedArmor.ActionToTrigger); }
-                if (character.EquippedWeapon.ActionToTrigger != null) { character.AllAvailableActions.Add(character.EquippedWeapon.ActionToTrigger); }
-                if (character.EquippedSecondaryWeapon.ActionToTrigger != null) { character.AllAvailableActions.Add(character.EquippedSecondaryWeapon.ActionToTrigger); }
-
-                if (character.DefaultActions != null)
-                {
-                    foreach (var actions in character.DefaultActions)
-                    {
-                        character.AllAvailableActions.Add(actions);
-                    }
-                }
-
-            }
-            return characterList;
+            if (activeEnemies.Count() == 0 || activePlayer.CurrentHealthPoints == 0) { return true; }
+            return false;
         }
- 
-
-        internal T GenerateNewObjectInstance<T>(T objectInstance)
+        private bool IsFightWon(PlayableCharacter activePlayer)
         {
-            var objectAsText = JsonConvert.SerializeObject(
-                         objectInstance,
-                     new JsonSerializerSettings()
-                     {
-                         TypeNameHandling = TypeNameHandling.Auto
-                     });
-
-            var newObjectInstance = JsonConvert.DeserializeObject<T>(
-                objectAsText,
-                new JsonSerializerSettings()
-                {
-                    TypeNameHandling = TypeNameHandling.Auto
-                });
-            return newObjectInstance;
-
+            if (activePlayer.CurrentHealthPoints > 0) { return true; }
+            else { return false; }
         }
 
-        private List<Enemy> GenerateEnemies(int amountToGenerate)
-        {
-            var enemyList = new List<Enemy>();
-            for (int i = 0; i < amountToGenerate; i++)
-            { 
-                enemyList.Add(GenerateNewObjectInstance<Enemy>(_db.GetEnemy())); 
-            }
-            return enemyList;
-        }
-        public Enemy GetEnemyByListPosition(int enemyPositionInList)
-        {
-            return _activeFightInstance._activeEnemies[enemyPositionInList];
-        }
-    
-        public List<Item> GetItems()
-        {
-            return _db.GetItems();
-        }
-        public List<Enemy> GetActiveEnemies()
-        {
-            return _activeFightInstance._activeEnemies;
-        }
-        public List<CharacterActions> GetActions()
-        {
-            return _db.GetActions();
-        }
+
     }
 }

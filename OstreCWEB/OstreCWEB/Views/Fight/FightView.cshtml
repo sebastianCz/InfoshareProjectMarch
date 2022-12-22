@@ -32,9 +32,11 @@
                 <div class="p-2 bg-warning">
                     Chosen action:
                     <br />
-                    @Model.ActiveAction.ActionName;
+                    
                     @if (Model.ActiveAction != null)
                     {
+                        @Model.ActiveAction.ActionName;
+        
                         <br />
                         <p>Possible Targets:</p>
                         <br />

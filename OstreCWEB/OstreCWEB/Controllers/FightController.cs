@@ -21,23 +21,25 @@ namespace OstreCWEB.Controllers
         }
         public ActionResult FightView()
         { 
-            var model = new FightViewModel();
-            model.ActiveEnemies = new List<CharacterView>();
-            model.ActivePlayer = _mapper.Map<CharacterView>(_fightService.GetActivePlayer());
-            var activeEnemies = _fightService.GetActiveEnemies(); 
-
-            foreach (var enemy in activeEnemies)  {  model.ActiveEnemies.Add(_mapper.Map<CharacterView>(enemy)); }
-             
-            //model.PlayerActionCounter = _fight.PlayerActionCounter; <- TODO
-            model.FightHistory = _fightService.ReturnHistory();
-            model.ActiveAction = _fightService.GetActiveActions();
-            if (model.ActiveAction == null)
-            {
-                _fightService.UpdateActiveAction(_fightService.ChooseAction(1));
-                model.ActiveAction = _fightService.GetActiveActions();
-            }
-            model.ActiveTarget = _mapper.Map<CharacterView>(_fightService.GetActiveTarget()); 
+            var model = _mapper.Map<FightViewModel>(_fightService.GetActiveFightInstance());
             return View(model);
+
+            //model.ActiveEnemies = new List<CharacterView>();
+            //model.ActivePlayer = _mapper.Map<CharacterView>(_fightService.GetActivePlayer());
+            //var activeEnemies = _fightService.GetActiveEnemies(); 
+
+            //foreach (var enemy in activeEnemies)  {  model.ActiveEnemies.Add(_mapper.Map<CharacterView>(enemy)); }
+
+            ////model.PlayerActionCounter = _fight.PlayerActionCounter; <- TODO
+            //model.FightHistory = _fightService.ReturnHistory();
+            //model.ActiveAction = _fightService.GetActiveActions();
+            //if (model.ActiveAction == null)
+            //{
+            //    _fightService.UpdateActiveAction(_fightService.ChooseAction(1));
+            //    model.ActiveAction = _fightService.GetActiveActions();
+            //}
+            //model.ActiveTarget = _mapper.Map<CharacterView>(_fightService.GetActiveTarget()); 
+
         }
          
 
