@@ -4,8 +4,7 @@ using OstreCWEB.Data.Repository.Characters.CoreClasses;
 using OstreCWEB.Data.Repository.Characters.Enums;
 using OstreCWEB.Data.Repository.Fight;
 using OstreCWEB.Data.Repository.Items;
-using OstreCWEB.Services.Factories;
-using OstreCWEB.Data.Repository.Fight.FightInstance;
+using OstreCWEB.Services.Factories; 
 
 namespace OstreCWEB.Services.Fight
 {
@@ -14,18 +13,7 @@ namespace OstreCWEB.Services.Fight
         private IFightRepository _fightRepository;
         public StaticLists _db { get; } = new StaticLists();
         private FightInstance _activeFightInstance;
-        private IFightFactory _fightFactory;
-
-
-        public static List<string> FightHistory { get; set; }
-        public static List<Enemy> _activeEnemies { get; set; } = new List<Enemy>();
-        public static PlayableCharacter ActivePlayer { get; set; }
-        public static CharacterActions ActiveAction { get; set; }
-        public static Character ActiveTarget { get; set; }
-        public static int TurnNumber { get; set; } 
-        public static int PlayerActionCounter { get; set; }
-        public static bool CombatFinished { get; set; }
-        public static bool PlayerWon { get; set; } 
+        private IFightFactory _fightFactory; 
 
         //The property below can be used to introduce a system where enemies will act one by one.
         //We could use combat ID or position in _activeEnemies list for this.
@@ -53,15 +41,15 @@ namespace OstreCWEB.Services.Fight
 
         public void CommitAction()
         {
-            PlayerActionCounter--;
-            ApplyAction(ActiveTarget,ActivePlayer,ActiveAction);
+            _activeFightInstance.PlayerActionCounter--;
+            ApplyAction(_activeFightInstance.ActiveTarget, _activeFightInstance.ActivePlayer, _activeFightInstance.ActiveAction);
             var combatEnded = IsFightFinished(GetActiveEnemies(), GetActivePlayer());
-            var fightWon = IsFightWon(ActivePlayer);
+            var fightWon = IsFightWon(_activeFightInstance.ActivePlayer);
             if (combatEnded) { FinishFight(fightWon); }
             else
             {
-                TurnNumber = UpdateTurnNumber(TurnNumber);
-                if(PlayerActionCounter == 0) { PlayerActionCounter = 2; StartAiTurn(); }
+                _activeFightInstance.TurnNumber = UpdateTurnNumber(_activeFightInstance.TurnNumber);
+                if(_activeFightInstance.PlayerActionCounter == 0) { _activeFightInstance.PlayerActionCounter = 2; StartAiTurn(); }
                
             }
             
@@ -69,18 +57,18 @@ namespace OstreCWEB.Services.Fight
          
         public Character ChooseTarget(int id)
         {
-            if (id == ActivePlayer.CombatId)
+            if (id == _activeFightInstance.ActivePlayer.CombatId)
             {
-                return ActivePlayer;
+                return _activeFightInstance.ActivePlayer;
             }
-            return _activeEnemies.First(a => a.CombatId == id);
+            return _activeFightInstance._activeEnemies.First(a => a.CombatId == id);
         }
 
         public Character ResetActiveTarget()
         {
             //We  create playable character instance and replace the active target with null values. Character class is abstract.   
-            ActiveTarget = new PlayableCharacter();
-            return ActiveTarget;
+            _activeFightInstance.ActiveTarget = new PlayableCharacter();
+            return _activeFightInstance.ActiveTarget;
         }
 
         public void StartAiTurn()
@@ -104,9 +92,9 @@ namespace OstreCWEB.Services.Fight
         }
         private void FinishFight(bool playerWon)
         {
-            CombatFinished = true;
-            if (playerWon) { PlayerWon = true ;}
-            PlayerWon = false; 
+            _activeFightInstance.CombatFinished = true;
+            if (playerWon) { _activeFightInstance.PlayerWon = true ;}
+            _activeFightInstance.PlayerWon = false; 
         }
          
         
@@ -123,37 +111,37 @@ namespace OstreCWEB.Services.Fight
 
         public Character GetActiveTarget()
         {
-            return ActiveTarget;
+            return _activeFightInstance.ActiveTarget;
         }
 
         public CharacterActions GetActiveActions()
         {
-            return ActiveAction;
+            return _activeFightInstance.ActiveAction;
         }
 
         public void UpdateActiveAction(CharacterActions action)
         {
-           ActiveAction = action;
+            _activeFightInstance.ActiveAction = action;
         }
 
 
         public void UpdateActiveTarget(Character character)
         {
-            ActiveTarget = character;
+            _activeFightInstance.ActiveTarget = character;
         }
 
         public PlayableCharacter GetActivePlayer()
         {
-            return ActivePlayer;
+            return _activeFightInstance.ActivePlayer;
         }
 
         public List<string> ReturnHistory()
         {
-            return FightHistory;
+            return _activeFightInstance.FightHistory;
         }
 
 
-        public CharacterActions ChooseAction(int id) => ActivePlayer.AllAvailableActions.First(a => a.Id == id);
+        public CharacterActions ChooseAction(int id) => _activeFightInstance.ActivePlayer.AllAvailableActions.First(a => a.Id == id);
 
 
         public List<string> UpdateFightHistory(List<string> FightHistory, string message)
@@ -173,7 +161,7 @@ namespace OstreCWEB.Services.Fight
                 {
                     damage = ApplyDamage(target, action, savingThrow);
 
-                    FightHistory = UpdateFightHistory(FightHistory,
+                    _activeFightInstance.FightHistory = UpdateFightHistory(_activeFightInstance.FightHistory,
                         $" {target.CharacterName} lost {damage} healthpoints, current healthpoints {target.MaxHealthPoints}," +
                         $" due to {caster.CharacterName} using {action.ActionName}");
                 }
@@ -182,7 +170,7 @@ namespace OstreCWEB.Services.Fight
                     damage = ApplyDamage(caster, action, savingThrow);
                     ApplyStatus(target, action.Status);
 
-                    FightHistory = UpdateFightHistory(FightHistory,
+                    _activeFightInstance.FightHistory = UpdateFightHistory(_activeFightInstance.FightHistory,
                         $" {target.CharacterName} lost {damage} healthpoints, current healthpoints {target.MaxHealthPoints}, " +
                         $"due to {caster.CharacterName} using {action.ActionName}, ");
                 }
@@ -197,13 +185,13 @@ namespace OstreCWEB.Services.Fight
 
                     if(IsTargetAlive(target))
                     {
-                        FightHistory = UpdateFightHistory(FightHistory,
+                        _activeFightInstance.FightHistory = UpdateFightHistory(_activeFightInstance.FightHistory,
                        $" {target.CharacterName} lost {damage} healthpoints, current healthpoints {target.MaxHealthPoints}," +
                        $" due to {caster.CharacterName}  using {action.ActionName}");
                     }
                     else
                     {
-                        FightHistory = UpdateFightHistory(FightHistory,
+                        _activeFightInstance.FightHistory = UpdateFightHistory(_activeFightInstance.FightHistory,
                        $" {target.CharacterName} lost {damage} healthpoints, current healthpoints {target.MaxHealthPoints}," +
                        $" due to {caster.CharacterName}  using {action.ActionName} and died");
                     }
@@ -211,7 +199,7 @@ namespace OstreCWEB.Services.Fight
                 else
                 {
                     var heal = ApplyHeal(target, action, savingThrow);
-                    FightHistory = UpdateFightHistory(FightHistory,
+                    _activeFightInstance.FightHistory = UpdateFightHistory(_activeFightInstance.FightHistory,
                         $" {target.CharacterName} gained {heal} healthpoints, current healthpoints {target.MaxHealthPoints}," +
                         $" due to {caster.CharacterName}  using {action.ActionName}");
                 } 
@@ -414,7 +402,7 @@ namespace OstreCWEB.Services.Fight
         }
         public Enemy GetEnemyByListPosition(int enemyPositionInList)
         {
-            return _activeEnemies[enemyPositionInList];
+            return _activeFightInstance._activeEnemies[enemyPositionInList];
         }
     
         public List<Item> GetItems()
@@ -423,7 +411,7 @@ namespace OstreCWEB.Services.Fight
         }
         public List<Enemy> GetActiveEnemies()
         {
-            return _activeEnemies;
+            return _activeFightInstance._activeEnemies;
         }
         public List<CharacterActions> GetActions()
         {
