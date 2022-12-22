@@ -4,6 +4,7 @@
     {
         MeleeAttack=1,
         Spell=2,
-        ItemAction=3
+        ItemAction=3,
+        Healing=4
     }
 }

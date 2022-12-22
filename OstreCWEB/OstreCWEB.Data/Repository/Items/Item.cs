@@ -37,14 +37,6 @@ namespace OstreCWEB.Data.Repository.Items
                     return false;
             }
             return false;
-        }
-
-        public Character UseItem(Character itemUser, Character itemTarget)
-        {
-            //Find action in DB, create "new " action instance based on this, apply to target, return target result. 
-            var itemTargetAfterActionWasApplied = itemTarget;
-            return itemTarget;
-        }
-
+        } 
     }
 }

@@ -1,9 +1,11 @@
-﻿using OstreCWEB.Data.Repository.Characters;
+﻿using Microsoft.AspNet.Identity.EntityFramework;
+using Microsoft.EntityFrameworkCore.ChangeTracking.Internal;
+using OstreCWEB.Data.Repository.Characters;
 using OstreCWEB.Data.Repository.StoryModels;
 
 namespace OstreCWEB.Data.Repository.WebObjects
 {
-    internal class User
+    public class User : IdentityUser
     {
         public int Id { get; set; }
         public bool LoggedIn { get; set; }

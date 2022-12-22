@@ -113,7 +113,8 @@ namespace OstreCWEB.Data.DataBase
                 Hit_Dice_Nr = 1,
                 PossibleTargets = "enemy",
                 InflictsStatus = false,
-                StatForTest = Statistics.Strenght
+                StatForTest = Statistics.Strenght,
+                AggressiveAction = true
             },
                     new CharacterActions
             {
@@ -127,7 +128,8 @@ namespace OstreCWEB.Data.DataBase
                 Hit_Dice_Nr = 1,
                 PossibleTargets = "enemy",
                 InflictsStatus = false,
-                StatForTest = Statistics.Strenght
+                StatForTest = Statistics.Strenght,
+                AggressiveAction = true
             },
                     new CharacterActions
             {
@@ -142,7 +144,10 @@ namespace OstreCWEB.Data.DataBase
                 PossibleTargets = "enemy",
                 InflictsStatus = true,
                 Status = Statuses.FirstOrDefault(s=>s.ID == 1),
-                StatForTest = Statistics.Dexterity
+                StatForTest = Statistics.Dexterity,
+                UsesMaxBeforeRest = 2,
+                 AggressiveAction = true
+
             },
                               new CharacterActions
             {
@@ -156,7 +161,9 @@ namespace OstreCWEB.Data.DataBase
                 Hit_Dice_Nr = 1,
                 PossibleTargets = "caster",
                 InflictsStatus = false,
-                StatForTest = Statistics.None
+                StatForTest = Statistics.None,
+                UsesMax = 1,
+                AggressiveAction = false
             },
                  new CharacterActions
             {
@@ -171,7 +178,9 @@ namespace OstreCWEB.Data.DataBase
                 PossibleTargets = "caster",
                 InflictsStatus = true,
                 Status = Statuses.FirstOrDefault(s=>s.ID==2),
-                StatForTest = Statistics.None
+                StatForTest = Statistics.None,
+                UsesMaxBeforeRest = 1,
+                 AggressiveAction = false
             }
 
         };
@@ -270,6 +279,7 @@ namespace OstreCWEB.Data.DataBase
                     CharacterClass =PlayableCharacterClasses.FirstOrDefault(c=>c.ID ==1),
                     Actions = new List<CharacterAction>(),
                     ActionsOnHero = new List<CharacterAction>()
+
                 }
             };
             PlayableCharacters[0].DefaultActions.Add(Actions.FirstOrDefault(x => x.Id == 4));  //HardCoding

@@ -8,10 +8,11 @@ using OstreCWEB.Data.Enums;
 using System;
 using static System.Collections.Specialized.BitVector32;
 using static System.Net.Mime.MediaTypeNames;
+using System.Numerics;
 
 namespace OstreCWEB.Services.Fight
 {
-    public class Fight : IFightService
+    public class FightService : IFightService
     {
         private int _id = 1;
         public int PlayerActionCounter { get; set; }
@@ -22,11 +23,17 @@ namespace OstreCWEB.Services.Fight
         public static CharacterActions ActiveAction { get; set; }
         public static Character ActiveTarget { get; set; }
 
-        public Fight()
+        public FightService()
         {
             _db = new StaticLists();
             FightHistory = new List<string>();
         }
+
+        public void CommitRound()
+        {
+            ApplyAction(ActiveTarget,ActivePlayer,ActiveAction);
+        }
+
         public Character GetActiveTarget()
         {
             return ActiveTarget;
@@ -41,6 +48,7 @@ namespace OstreCWEB.Services.Fight
         {
            ActiveAction = action;
         }
+
 
         public void UpdateActiveTarget(Character character)
         {
@@ -65,6 +73,12 @@ namespace OstreCWEB.Services.Fight
             }
             return _activeEnemies.First(a => a.CombatId == id);
         }
+        public Character ResetActiveTarget() 
+        {
+            //We  create playable character instance and replace the active target with null values. Character class is abstract.   
+            ActiveTarget = new PlayableCharacter();
+            return ActiveTarget;
+        }
 
         public CharacterActions ChooseAction(int id)
         {
@@ -86,48 +100,91 @@ namespace OstreCWEB.Services.Fight
                 if (savingThrow == false)
                 {
                     damage = ApplyDamage(target, action, savingThrow);
-                    FightHistory = UpdateFightHistory(FightHistory, $" {target.CharacterName} lost {damage} healthpoints, actual healthpoints {target.HealthPoints}, due to {caster.CharacterName} {action.ActionName}");
+
+                    FightHistory = UpdateFightHistory(FightHistory,
+                        $" {target.CharacterName} lost {damage} healthpoints, current healthpoints {target.HealthPoints}," +
+                        $" due to {caster.CharacterName} using {action.ActionName}");
                 }
                 else
                 {
                     damage = ApplyDamage(caster, action, savingThrow);
                     ApplyStatus(target, action.Status);
-                    FightHistory = UpdateFightHistory(FightHistory, $" {target.CharacterName} lost {damage} healthpoints, actual healthpoints {target.HealthPoints}, due to {caster.CharacterName} {action.ActionName}, ");
+
+                    FightHistory = UpdateFightHistory(FightHistory,
+                        $" {target.CharacterName} lost {damage} healthpoints, current healthpoints {target.HealthPoints}, " +
+                        $"due to {caster.CharacterName} using {action.ActionName}, ");
                 }
             }
             else
-            {
-                var damage = 0;
+            { 
                 var savingThrow = false;
-                ApplyStatus(target, action.Status);
-                damage = ApplyDamage(target, action, savingThrow);
-                    FightHistory = UpdateFightHistory(FightHistory, $" {target.CharacterName} lost {damage} healthpoints, actual healthpoints {target.HealthPoints}, due to {caster.CharacterName} {action.ActionName}");
+                if (action.Status != null) { ApplyStatus(target, action.Status); }
+
+                if (action.AggressiveAction) {
+                    var damage = ApplyDamage(target, action, savingThrow);
+
+                    FightHistory = UpdateFightHistory(FightHistory,
+                        $" {target.CharacterName} lost {damage} healthpoints, current healthpoints {target.HealthPoints}," +
+                        $" due to {caster.CharacterName}  using {action.ActionName}");
+                }
+                else
+                {
+                    var heal = ApplyHeal(target, action, savingThrow);
+                    FightHistory = UpdateFightHistory(FightHistory,
+                        $" {target.CharacterName} gained {heal} healthpoints, current healthpoints {target.HealthPoints}," +
+                        $" due to {caster.CharacterName}  using {action.ActionName}");
+                }
+                
+               
+                   
             }
         }
 
         public void ApplyStatus(Character character,Status status)
         {
-            character.ActiveStatuses.Add(status);
+            if(status != null)
+            {
+                character.ActiveStatuses.Add(status);
+            } 
         }
 
         public int ApplyDamage(Character target,CharacterActions actions, bool savingThrow)
         { 
-            var damage = 0;
+            var updateValue = 0;
 
             for (int i = 0; i < actions.Hit_Dice_Nr; i++)
             {
-            damage += DiceThrow(actions.Max_Dmg) + actions.Flat_Dmg;
+                updateValue += DiceThrow(actions.Max_Dmg) + actions.Flat_Dmg;
             }
             if (savingThrow)
             {
-                target.HealthPoints = target.HealthPoints - (damage/2);
+                target.HealthPoints = target.HealthPoints - (updateValue / 2);
             }
             else
             { 
-                target.HealthPoints = target.HealthPoints - damage;
+                target.HealthPoints = target.HealthPoints - updateValue;
             }
-                return damage;
+                return updateValue;
         }
+        public int ApplyHeal(Character target, CharacterActions actions, bool savingThrow)
+        {
+            var updateValue = 0;
+
+            for (int i = 0; i < actions.Hit_Dice_Nr; i++)
+            {
+                updateValue += DiceThrow(actions.Max_Dmg) + actions.Flat_Dmg;
+            }
+            if (savingThrow)
+            {
+                target.HealthPoints = target.HealthPoints + (updateValue / 2);
+            }
+            else
+            {
+                target.HealthPoints = target.HealthPoints + updateValue;
+            }
+            return updateValue;
+        }
+
 
         public bool SpellSavingThrow(Character target, Character caster, CharacterActions action)
         {
@@ -220,7 +277,8 @@ namespace OstreCWEB.Services.Fight
             var characterList = new List<Character>();
             _activeEnemies = new List<Enemy>();
             //Generates instances of each entity
-            ActivePlayer = _db.GetPlayableCharacter(1);
+            var player = _db.GetPlayableCharacter(1); 
+            ActivePlayer = GenerateNewObjectInstance<PlayableCharacter>(player);
             _activeEnemies = GenerateEnemies(2);
 
             //Generates combat ID
@@ -256,36 +314,50 @@ namespace OstreCWEB.Services.Fight
                         character.AllAvailableActions.Add(actions);
                     }
                 }
+
             }
             return characterList;
+        }
+ 
+
+        internal T GenerateNewObjectInstance<T>(T objectInstance)
+        {
+            var objectAsText = JsonConvert.SerializeObject(
+                         objectInstance,
+                     new JsonSerializerSettings()
+                     {
+                         TypeNameHandling = TypeNameHandling.Auto
+                     });
+
+            var newObjectInstance = JsonConvert.DeserializeObject<T>(
+                objectAsText,
+                new JsonSerializerSettings()
+                {
+                    TypeNameHandling = TypeNameHandling.Auto
+                });
+            return newObjectInstance;
+
         }
 
         public List<Enemy> GenerateEnemies(int amountToGenerate)
         {
             var enemyList = new List<Enemy>();
             for (int i = 0; i < amountToGenerate; i++)
-            {
-                var enemyAsText = JsonConvert.SerializeObject(
-                        _db.GetEnemy(),
-                    new JsonSerializerSettings()
-                    {
-                        TypeNameHandling = TypeNameHandling.Auto
-                    });
-
-                var newEnemyInstance = JsonConvert.DeserializeObject<Enemy>(
-                    enemyAsText,
-                    new JsonSerializerSettings()
-                    {
-                        TypeNameHandling = TypeNameHandling.Auto
-                    });
-                enemyList.Add(newEnemyInstance); 
+            { 
+                enemyList.Add(GenerateNewObjectInstance<Enemy>(_db.GetEnemy())); 
             }
             return enemyList;
         }
-        public Enemy GetEnemy(int enemyPositionInList)
+        public Enemy GetEnemyByListPosition(int enemyPositionInList)
         {
             return _activeEnemies[enemyPositionInList];
         }
+        /// <summary>
+        /// Determines if target is a player or an enemy
+        /// </summary>
+        /// <param name="combatId"></param>
+        /// <returns>Combat instance of given target as Character</returns>
+
         public List<Item> GetItems()
         {
             return _db.GetItems();
