@@ -15,7 +15,6 @@ namespace OstreCWEB.Services.Fight
         public static List<string> FightHistory { get; set; }
         public static List<Enemy> _activeEnemies { get; set; } = new List<Enemy>();
         public static PlayableCharacter ActivePlayer { get; set; }
-       
         public static CharacterActions ActiveAction { get; set; }
         public static Character ActiveTarget { get; set; }
         public static int TurnNumber { get; set; } 
@@ -134,10 +133,8 @@ namespace OstreCWEB.Services.Fight
         }
 
 
-        public CharacterActions ChooseAction(int id)
-        {
-            return ActivePlayer.AllAvailableActions.First(a => a.Id == id);
-        }
+        public CharacterActions ChooseAction(int id) => ActivePlayer.AllAvailableActions.First(a => a.Id == id);
+
 
         public List<string> UpdateFightHistory(List<string> FightHistory, string message)
         {
@@ -349,11 +346,11 @@ namespace OstreCWEB.Services.Fight
             _activeEnemies = GenerateEnemies(2);
 
             //Generates combat ID
-            ActivePlayer.ID = 1;
+            ActivePlayer.CombatId = 1;
             for (int i = 0; i < _activeEnemies.Count; i++)
             {
                 //+2 because we have to start at 0 and player combat id by default is 1. 
-                _activeEnemies[i].ID = i+ 2; 
+                _activeEnemies[i].CombatId = i+ 2; 
             }
 
             //Prepares object for action init
