@@ -1,4 +1,5 @@
-﻿using System;
+﻿using OstreCWEB.Data.Repository.Characters.CoreClasses;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,5 +9,14 @@ namespace OstreCWEB.Data.Repository.Fight
 {
     public class FightInstance
     {
+        public  List<string> FightHistory { get; set; }
+        public  List<Enemy> _activeEnemies { get; set; } = new List<Enemy>();
+        public  PlayableCharacter ActivePlayer { get; set; }
+        public  CharacterActions ActiveAction { get; set; }
+        public  Character ActiveTarget { get; set; }
+        public  int TurnNumber { get; set; }
+        public  int PlayerActionCounter { get; set; }
+        public  bool CombatFinished { get; set; }
+        public  bool PlayerWon { get; set; }
     }
 }

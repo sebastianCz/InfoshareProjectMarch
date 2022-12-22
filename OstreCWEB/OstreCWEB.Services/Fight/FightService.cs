@@ -2,16 +2,15 @@
 using OstreCWEB.Data.DataBase;
 using OstreCWEB.Data.Repository.Characters.CoreClasses;
 using OstreCWEB.Data.Repository.Characters.Enums;
+using OstreCWEB.Data.Repository.Fight;
 using OstreCWEB.Data.Repository.Items;
 
 namespace OstreCWEB.Services.Fight
 {
     public class FightService : IFightService
-    { 
-       
+    {
+        private IFightRepository _fightRepository;
         public StaticLists _db { get; } = new StaticLists();
-
-        private int _id = 1;
         public static List<string> FightHistory { get; set; }
         public static List<Enemy> _activeEnemies { get; set; } = new List<Enemy>();
         public static PlayableCharacter ActivePlayer { get; set; }
@@ -25,8 +24,9 @@ namespace OstreCWEB.Services.Fight
         //We could use combat ID or position in _activeEnemies list for this.
         /*public static int NextActiveEnemyCombatId { get; set; }*/
 
-        public FightService()
+        public FightService(IFightRepository fightRepository)
         {
+            _fightRepository = fightRepository;
             _db = new StaticLists();
             FightHistory = new List<string>();
         }

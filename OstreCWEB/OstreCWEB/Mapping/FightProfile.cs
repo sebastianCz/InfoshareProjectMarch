@@ -12,9 +12,7 @@ namespace OstreCWEB.Mapping
         {
             CreateMap<PlayableCharacter, CharacterView>();
             CreateMap<Enemy, CharacterView>();
-
         }
-
     }
 }
 
