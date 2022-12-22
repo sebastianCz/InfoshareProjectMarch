@@ -9,9 +9,9 @@ namespace OstreCWEB.ViewModel.Fight
         public List<string> FightHistory { get; set; }
         public CharacterActionView ActiveAction { get; set; }
         public CharacterView ActiveTarget { get; set; }
-        public static int TurnNumber { get; set; }
-        public static int PlayerActionCounter { get; set; }
-        public static bool CombatFinished { get; set; }
-        public static bool PlayerWon { get; set; }
+        public int TurnNumber { get; set; }
+        public int PlayerActionCounter { get; set; }
+        public bool CombatFinished { get; set; }
+        public bool PlayerWon { get; set; }
     }
 }

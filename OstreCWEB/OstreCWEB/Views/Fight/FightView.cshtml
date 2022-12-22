@@ -14,8 +14,13 @@
                         <svg class="bd-placeholder-img card-img-top" width="100%" height="225" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: Thumbnail" preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title><rect width="100%" height="100%" fill="#55595c"></rect><text x="50%" y="50%" fill="#eceeef" dy=".3em">Thumbnail</text></svg>
                         <div class="card-body">
                             @Model.ActivePlayer.CharacterName
+                            <p>Current Hp</p>
+                            @Model.ActivePlayer.CurrentHealthPoints
+                            <p>Max Hp</p>
+                            @Model.ActivePlayer.MaxHealthPoints
+                            <p>Action Counter</p>
+                            @Model.PlayerActionCounter
                             <br />
-
                             <div class="d-flex justify-content-between align-items-center">
                                 <div class="btn-group">
                                     @if (Model.ActiveAction != null && Model.ActiveAction.PossibleTargets.Contains("caster"))
@@ -82,13 +87,11 @@
 <div class="d-flex flex-row mb-3">
 
     <div class="p-2 flex-grow-1">
-        <ul class="nav nav-pills nav-stacked OstreCScroll">
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras urna nulla, molestie sed libero quis, vulputate ultricies tortor. Suspendisse et quam nisl. Curabitur tellus velit, cursus ac tincidunt sit amet, porta sit amet quam. Vivamus quis iaculis tellus. Nulla sit amet suscipit massa, ut venenatis felis. Aliquam nec accumsan urna. Pellentesque et aliquet magna, dictum condimentum massa. Nunc sem odio, sodales tempor justo ut, ultrices lobortis massa. Maecenas hendrerit luctus nunc vitae consectetur. Morbi condimentum, lorem et interdum auctor, turpis neque tempus nisl, sit amet ullamcorper purus dui et turpis. Fusce vel maximus sapien. Pellentesque congue commodo ornare.
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras urna nulla, molestie sed libero quis, vulputate ultricies tortor. Suspendisse et quam nisl. Curabitur tellus velit, cursus ac tincidunt sit amet, porta sit amet quam. Vivamus quis iaculis tellus. Nulla sit amet suscipit massa, ut venenatis felis. Aliquam nec accumsan urna. Pellentesque et aliquet magna, dictum condimentum massa. Nunc sem odio, sodales tempor justo ut, ultrices lobortis massa. Maecenas hendrerit luctus nunc vitae consectetur. Morbi condimentum, lorem et interdum auctor, turpis neque tempus nisl, sit amet ullamcorper purus dui et turpis. Fusce vel maximus sapien. Pellentesque congue commodo ornare.
-
-            Nunc nec nunc ante. Vestibulum mi enim, facilisis vitae tellus eget, aliquet lobortis augue. Donec mi enim, aliquam vitae pellentesque at, finibus a turpis. Donec porta viverra libero, et molestie erat ornare ac. Nam sed vulputate tortor. Maecenas ut fermentum nibh, vitae auctor ante. Etiam ultricies posuere elit. Quisque cursus commodo scelerisque. Morbi quis justo a mi sagittis ultricies quis ac nisi. Morbi accumsan tortor tortor, a condimentum dolor vehicula quis. Suspendisse consectetur augue nisl, vel dignissim purus laoreet in. Aenean quis diam nec lectus convallis mollis. Proin auctor, orci eu porttitor sagittis, erat turpis elementum quam, id fermentum enim tortor eget ante.
-
-            Nunc nec nunc ante. Vestibulum mi enim, facilisis vitae tellus eget, aliquet lobortis augue. Donec mi enim, aliquam vitae pellentesque at, finibus a turpis. Donec porta viverra libero, et molestie erat ornare ac. Nam sed vulputate tortor. Maecenas ut fermentum nibh, vitae auctor ante. Etiam ultricies posuere elit. Quisque cursus commodo scelerisque. Morbi quis justo a mi sagittis ultricies quis ac nisi. Morbi accumsan tortor tortor, a condimentum dolor vehicula quis. Suspendisse consectetur augue nisl, vel dignissim purus laoreet in. Aenean quis diam nec lectus convallis mollis. Proin auctor, orci eu porttitor sagittis, erat turpis elementum quam, id fermentum enim tortor eget ante.
+        <ul class="nav nav-pills nav-stacked OstreCScroll">          
+            @for (int i = Model.FightHistory.Count() -1; i >= 0; i--)
+            {
+                @Model.FightHistory[i] <br /> 
+            }
         </ul>
 
     </div>

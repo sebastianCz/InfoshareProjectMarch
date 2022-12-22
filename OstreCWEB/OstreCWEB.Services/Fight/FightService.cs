@@ -45,7 +45,9 @@ namespace OstreCWEB.Services.Fight
         {
             var userId = 1;
             var fightInstance = _fightFactory.BuildNewFightInstance();
+            fightInstance.FightHistory.Add("Fight initialized");
             _fightRepository.Add(userId, fightInstance, out string operationResult);
+            
         }
         public void CommitAction()
         {
@@ -62,10 +64,8 @@ namespace OstreCWEB.Services.Fight
             }
             
         }
-        public List<string> ReturnHistory()
-        {
-            return _activeFightInstance.FightHistory;
-        }
+        public List<string> ReturnHistory() => _activeFightInstance.FightHistory;
+
         public void UpdateActiveTarget(Character character)
         {
             _activeFightInstance.ActiveTarget = character;
@@ -230,7 +230,7 @@ namespace OstreCWEB.Services.Fight
             {
                 updateValue += DiceThrow(actions.Max_Dmg) + actions.Flat_Dmg;
             }
-            if (savingThrow)
+            if (!savingThrow)
             {
                 target.CurrentHealthPoints = target.CurrentHealthPoints + (updateValue / 2);
             }

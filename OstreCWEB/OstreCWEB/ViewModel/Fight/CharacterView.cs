@@ -16,7 +16,6 @@ namespace OstreCWEB.ViewModel.Fight
         public Item EquippedSecondaryWeapon { get; set; } 
         public List<CharacterActions> AllAvailableActions { get; set; } 
         public List<Status> ActiveStatuses { get; set; }
-
-
+       
     }
 }
