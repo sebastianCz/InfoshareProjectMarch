@@ -1,5 +1,5 @@
-﻿using OstreCWEB.Data.Enums; 
-using OstreCWEB.Data.Repository.Characters;
+﻿using OstreCWEB.Data.Repository.Characters.CoreClasses;
+using OstreCWEB.Data.Repository.Characters.Enums;
 
 namespace OstreCWEB.Data.Repository.Items
 {

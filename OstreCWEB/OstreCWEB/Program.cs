@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using OstreCWEB.Data.DataBase;
+using OstreCWEB.Data.Repository.Fight;
 using OstreCWEB.Data.Repository.WebObjects;
 using OstreCWEB.Services.Fight;
 
@@ -12,13 +13,13 @@ builder.Services.AddDbContext<OstreCWebContext>(
     options => options.UseSqlServer(builder.Configuration.GetConnectionString("OstreCWEB")));
 
 builder.Services.AddTransient<IFightService,FightService>();
+builder.Services.AddTransient<IFightRepository, FightRepository>();
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 builder.Services
     .AddAutoMapper(typeof(Program))
     .AddControllersWithViews()
 .AddRazorRuntimeCompilation();
- 
-
+  
 //builder.Host.UseSerilog((hostBuilderContext, loggerConfiguration) =>
 //{
 //    loggerConfiguration.WriteTo.Console();
@@ -67,5 +68,4 @@ app.MapControllerRoute(
 app.MapControllerRoute(
     name: "fightCommitAction",
     pattern: "{controller=Home}/{action=CommitPlayerAction}/{targetId?}/{playerId?}/{activeActionId?}");
-
 app.Run();

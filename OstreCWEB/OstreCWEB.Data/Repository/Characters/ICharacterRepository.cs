@@ -6,10 +6,7 @@ using System.Threading.Tasks;
 
 namespace OstreCWEB.Data.Repository.Characters
 {
-    public class Status
+    public interface ICharacterRepository
     {
-        public int ID { get; set; }
-        public string Name { get; set; }
-        public string Description { get; set; }
     }
 }

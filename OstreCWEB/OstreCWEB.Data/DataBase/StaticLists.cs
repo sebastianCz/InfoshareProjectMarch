@@ -1,23 +1,21 @@
-﻿using OstreCWEB.Data.Enums;
-using OstreCWEB.Data.Repository;
-using OstreCWEB.Data.Repository.Characters;
+﻿using OstreCWEB.Data.Repository.Characters.CoreClasses;
+using OstreCWEB.Data.Repository.Characters.Enums;
+using OstreCWEB.Data.Repository.Identity;
 using OstreCWEB.Data.Repository.Items;
-using OstreCWEB.Data.Repository.WebObjects;
 using OstreCWEB.Data.Repository.StoryModels;
-using System.Security.Cryptography.X509Certificates;
 
 namespace OstreCWEB.Data.DataBase
 {
     public class StaticLists
     {
-        private static List<User> Users = new List<User>();
-        private static List<PlayableCharacterClass> PlayableCharacterClasses = new List<PlayableCharacterClass>();
-        private static List<PlayableCharacter> PlayableCharacters = new List<PlayableCharacter>();
-        private static List<PlayableRace> PlayableRaces = new List<PlayableRace>();
+        private static List<User> Users = new List<User>(); 
         private static List<Enemy> Enemies = new List<Enemy>();
+        private static List<PlayableCharacter> PlayableCharacters = new List<PlayableCharacter>();
+        private static List<PlayableCharacterClass> PlayableCharacterClasses = new List<PlayableCharacterClass>();
+        private static List<Status> Statuses = new List<Status>();
+        private static List<PlayableRace> PlayableRaces = new List<PlayableRace>(); 
         private static List<Item> Items = new List<Item>();
         private static List<CharacterActions> Actions = new List<CharacterActions>();
-        private static List<Status> Statuses = new List<Status>();
 
         public PlayableCharacter GetPlayableCharacter(int id)
         {
@@ -228,7 +226,8 @@ namespace OstreCWEB.Data.DataBase
                     ID = 1,
                     CharacterName = "Goblin Archer",
                     Race = "Goblin",
-                    HealthPoints = 10,
+                    MaxHealthPoints = 10,
+                    CurrentHealthPoints = 10,
                     Level = 1,
                     Alignment = "evil",
                     EquippedArmor = Items.FirstOrDefault(a => a.Id == 1),
@@ -258,7 +257,8 @@ namespace OstreCWEB.Data.DataBase
                 {
                     ID = 1,
                     CharacterName = "AdminCharacter",
-                    HealthPoints = 10,
+                    MaxHealthPoints = 30,
+                    CurrentHealthPoints = 30,
                     Level = 1,
                     Alignment = "Good",
                     EquippedArmor = Items.First(c=>c.Id==1),

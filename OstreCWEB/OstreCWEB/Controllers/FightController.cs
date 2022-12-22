@@ -1,6 +1,8 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using OstreCWEB.Data.Repository.Characters;
+using OstreCWEB.Data.Repository.Fight;
 using OstreCWEB.Services.Fight;
 using OstreCWEB.ViewModel.Fight;
 using OstreCWEB.ViewModel.StoryBuilder;
@@ -10,10 +12,13 @@ namespace OstreCWEB.Controllers
     public class FightController : Controller
     {
         private IFightService _fightService;
+
+        private IFightRepository _fightRepository;
         private readonly IMapper _mapper;
 
-        public FightController(IFightService fightService,IMapper mapper)
+        public FightController(IFightService fightService,IFightRepository fightRepository,IMapper mapper)
         {
+            _fightRepository = fightRepository;
             _fightService = fightService;
             _mapper = mapper;
         }
@@ -21,7 +26,7 @@ namespace OstreCWEB.Controllers
         { 
             var model = new FightViewModel();
             model.ActiveEnemies = new List<CharacterView>();
-            model.ActivePlayer = _mapper.Map<CharacterView>(_fightService.GetPlayer());
+            model.ActivePlayer = _mapper.Map<CharacterView>(_fightService.GetActivePlayer());
             var activeEnemies = _fightService.GetActiveEnemies(); 
 
             foreach (var enemy in activeEnemies)  {  model.ActiveEnemies.Add(_mapper.Map<CharacterView>(enemy)); }
@@ -42,7 +47,9 @@ namespace OstreCWEB.Controllers
         [HttpGet]
         public ActionResult CommitPlayerAction(int targetId,int playerId,int activeActionId)
         {
-            _fightService.CommitRound();
+            _fightService.CommitAction();
+            var fightState = _fightService.GetFightState();
+            //TODO: ADD WHAT HAPPENS IF FIGHT STATE == FINISHED(REDIRET TO HOMEPAGE I GUESS).
             return RedirectToAction(nameof(FightView));
         }
 
@@ -76,19 +83,7 @@ namespace OstreCWEB.Controllers
                 return View();
             }
         }
-
-        public ActionResult CommitAction(int targetId,int playerId)
-        {
-            try
-            {
-                _fightService.ChooseTarget(targetId);
-                return RedirectToAction(nameof(FightView));
-            }
-            catch
-            {
-                return View();
-            }
-        }
+ 
 
         [HttpGet]
         public ActionResult InitializeFight()

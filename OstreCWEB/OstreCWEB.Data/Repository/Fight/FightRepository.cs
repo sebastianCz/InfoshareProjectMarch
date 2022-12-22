@@ -4,12 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace OstreCWEB.Data.Enums
+namespace OstreCWEB.Data.Repository.Fight
 {
-    public enum Slot
+    public class FightRepository : IFightRepository
     {
-        Armor=1,
-        MainHand=2,
-        SecondHand=3
+       
     }
 }

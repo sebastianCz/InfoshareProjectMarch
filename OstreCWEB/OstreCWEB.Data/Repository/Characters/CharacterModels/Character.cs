@@ -3,7 +3,7 @@ using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Text.Json.Serialization;
 
-namespace OstreCWEB.Data.Repository.Characters
+namespace OstreCWEB.Data.Repository.Characters.CoreClasses
 {
     public abstract class Character
     {
@@ -16,7 +16,8 @@ namespace OstreCWEB.Data.Repository.Characters
         [Required]
         public string CharacterName { get; set; }
         [Required]
-        public int HealthPoints { get; set; }
+        public int MaxHealthPoints { get; set; }
+        public int CurrentHealthPoints { get; set; }
         [Required]
         public int Level { get; set; }
         [Required]
@@ -66,7 +67,7 @@ namespace OstreCWEB.Data.Repository.Characters
 
         }
     }
-   
+
     //public Character(int id,string characterName,string race,int healtPoints,int level,string alignment,Item equippedArmor,Item equippedWeapon,
     //    Item equippedSecondaryWeapon, Item[] items,int strenght,int modStrenght,int dexterity,int modDexterity,int constitution,int modConstitution,
     //    int intelligence,int modIntelligence,int wisdom,int modWisdom,int charisma,int modCharisma)

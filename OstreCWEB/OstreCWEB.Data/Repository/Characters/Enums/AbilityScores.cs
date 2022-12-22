@@ -1,4 +1,4 @@
-﻿namespace OstreCWEB.Data.Enums
+﻿namespace OstreCWEB.Data.Repository.Characters.Enums
 {
     public enum AbilityScores
     {

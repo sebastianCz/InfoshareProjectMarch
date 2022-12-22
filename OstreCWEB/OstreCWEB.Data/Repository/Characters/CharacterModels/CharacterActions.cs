@@ -1,12 +1,12 @@
-﻿using OstreCWEB.Data.Enums;
+﻿using OstreCWEB.Data.Repository.Characters.Enums;
 
-namespace OstreCWEB.Data.Repository.Characters
+namespace OstreCWEB.Data.Repository.Characters.CoreClasses
 {
 
     //"using" a spell , item  or weapon is an action. 
     public class CharacterActions
     {
-        
+
         public int Id { get; set; }
         public string ActionName { get; set; }
         public string ActionDescription { get; set; }

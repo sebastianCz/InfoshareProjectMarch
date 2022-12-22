@@ -21,4 +21,8 @@
     <PackageReference Include="System.Text.Json" Version="7.0.1" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Test\" />
+  </ItemGroup>
+
 </Project>

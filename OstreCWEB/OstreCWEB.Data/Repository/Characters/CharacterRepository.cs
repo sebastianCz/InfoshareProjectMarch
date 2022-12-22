@@ -4,10 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace OstreCWEB.Data.Models
+namespace OstreCWEB.Data.Repository.Characters
 {
-    internal class FightData
+    public class CharacterRepository
     {
-        // tutaj będą same ID - żeby pobrać dane z bazy danych
     }
 }

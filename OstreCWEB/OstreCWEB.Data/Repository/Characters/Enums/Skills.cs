@@ -1,10 +1,10 @@
-﻿namespace OstreCWEB.Data.Enums
+﻿namespace OstreCWEB.Data.Repository.Characters.Enums
 {
     public enum Skills
     {
         //Strength - Athletics
         Athletics = 0,
-        
+
         //Dexterity - Acrobatics - Sleight of Hand - Stealth
         Acrobatics = 1,
         SleightOfHand = 2,

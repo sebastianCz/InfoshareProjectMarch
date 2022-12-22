@@ -1,7 +1,7 @@
-﻿using OstreCWEB.Data.Enums;
+﻿using OstreCWEB.Data.Repository.Characters.Enums;
 using System.ComponentModel.DataAnnotations;
 
-namespace OstreCWEB.Data.Repository.Characters
+namespace OstreCWEB.Data.Repository.Characters.CoreClasses
 {
     public class PlayableCharacter : Character
     {
@@ -24,6 +24,6 @@ namespace OstreCWEB.Data.Repository.Characters
         [Required]
         public PlayableCharacterClass CharacterClass { get; set; }
 
-        
+
     }
 }

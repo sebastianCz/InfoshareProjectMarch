@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace OstreCWEB.Data.Enums
+namespace OstreCWEB.Data.Repository.Characters.Enums
 {
-     public enum CharacterAction
+    public enum CharacterAction
     {
         ATTACK = 1,
         HEAL,

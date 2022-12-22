@@ -1,7 +1,7 @@
 ﻿using OstreCWEB.Data.Repository.Items;
 using System.Text.Json.Serialization;
 
-namespace OstreCWEB.Data.Repository.Characters
+namespace OstreCWEB.Data.Repository.Characters.CoreClasses
 
 {
     public class Enemy : Character
@@ -19,13 +19,13 @@ namespace OstreCWEB.Data.Repository.Characters
             var armor = EquippedArmor;
 
             if (armor.ActionToTrigger != null) { }
-            
-                AllAvailableActions.Add(weapon.ActionToTrigger);
-           
+
+            AllAvailableActions.Add(weapon.ActionToTrigger);
+
         }
 
     }
 
-    
-    }
+
+}
 

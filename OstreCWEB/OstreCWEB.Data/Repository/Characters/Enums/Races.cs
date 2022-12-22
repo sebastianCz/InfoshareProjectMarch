@@ -1,4 +1,4 @@
-﻿namespace TestAPP.Core.Model.CreatureModels.Enums
+﻿namespace OstreCWEB.Data.Repository.Characters.Enums
 {
     public enum Races
     {
