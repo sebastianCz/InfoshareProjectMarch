@@ -11,5 +11,6 @@ namespace OstreCWEB.Services.StoryService
         public IReadOnlyCollection<Paragraph> GetNextParagraphsById(int idParagraph, int idStory);
         Task UpdateStory(int idStory, string Name, string Description);
         Task AddStory(Story story);
+        Task DeleteStory(int idStory);
     }
 }

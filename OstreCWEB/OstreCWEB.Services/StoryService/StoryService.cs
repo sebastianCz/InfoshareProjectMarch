@@ -58,5 +58,12 @@ namespace OstreCWEB.Services.StoryService
 
             await _storyRepository.UpdateStory(story);
         }
+
+        public async Task DeleteStory(int idStory)
+        {
+            var story = _storyRepository.GetStoryById(idStory);
+
+            await _storyRepository.DeleteStory(story);
+        }
     }
 }

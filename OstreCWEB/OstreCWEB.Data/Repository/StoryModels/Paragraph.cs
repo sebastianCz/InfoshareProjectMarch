@@ -21,10 +21,6 @@ namespace OstreCWEB.Data.Repository.StoryModels
         public List<Choice> Choices { get; set; } = new List<Choice>();
 
         // Db relations properties
-        public int? FightPropId { get; set; }
-        public int? DialogPropId { get; set; }
-        public int? TestPropId { get; set; }
-        public int? ShopkeeperPropId { get; set; }
         public int StoryId { get; set; }
         public Story Story { get; set; }
 

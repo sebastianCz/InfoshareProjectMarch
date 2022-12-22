@@ -117,18 +117,19 @@ namespace OstreCWEB.Controllers
         }
 
         // GET: StoryBuilderController/Delete/5
-        public ActionResult Delete(int id)
+        public ActionResult DeleteStory(int id)
         {
-            return View();
+            return View(_mapper.Map<StoryView>(_storyService.GetStoryById(id)));
         }
 
         // POST: StoryBuilderController/Delete/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, IFormCollection collection)
+        public ActionResult DeleteStory(StoryView story)
         {
             try
             {
+                _storyService.DeleteStory(story.Id);
                 return RedirectToAction(nameof(Index));
             }
             catch

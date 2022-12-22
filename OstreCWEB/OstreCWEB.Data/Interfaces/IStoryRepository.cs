@@ -9,5 +9,6 @@ namespace OstreCWEB.Data.Interfaces
         public Paragraph GetParagraphById(int idParagraph);
         Task UpdateStory(Story story);
         Task Add(Story story);
+        Task DeleteStory(Story story);
     }
 }

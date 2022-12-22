@@ -37,25 +37,29 @@ namespace OstreCWEB.Data.DataBase
             } // Story
 
             { // Paragraph
+                //Fight
                 builder.Entity<Paragraph>()
                     .HasOne(x => x.FightProp)
                     .WithOne(x => x.Paragraph)
-                    .HasForeignKey<Paragraph>(x => x.FightPropId);
+                    .HasForeignKey<FightProp>(x => x.ParagraphId);
 
-                builder.Entity<Paragraph>()
-                    .HasOne(x => x.TestProp)
-                    .WithOne(x => x.Paragraph)
-                    .HasForeignKey<Paragraph>(x => x.TestPropId);
-
+                //Dialog
                 builder.Entity<Paragraph>()
                     .HasOne(x => x.DialogProp)
                     .WithOne(x => x.Paragraph)
-                    .HasForeignKey<Paragraph>(x => x.DialogPropId);
+                    .HasForeignKey<DialogProp>(x => x.ParagraphId);
 
+                //Shopkeeper
                 builder.Entity<Paragraph>()
                     .HasOne(x => x.ShopkeeperProp)
                     .WithOne(x => x.Paragraph)
-                    .HasForeignKey<Paragraph>(x => x.ShopkeeperPropId);
+                    .HasForeignKey<ShopkeeperProp>(x => x.ParagraphId);
+
+                //Test
+                builder.Entity<Paragraph>()
+                    .HasOne(x => x.TestProp)
+                    .WithOne(x => x.Paragraph)
+                    .HasForeignKey<TestProp>(x => x.ParagraphId);
 
                 builder.Entity<Paragraph>()
                     .HasMany(x => x.Choices)
@@ -67,7 +71,7 @@ namespace OstreCWEB.Data.DataBase
                 builder.Entity<FightProp>()
                     .HasMany(x => x.ParagraphEnemies)
                     .WithOne(x => x.FightProp)
-                    .HasForeignKey(x => x.FightPropId);                
+                    .HasForeignKey(x => x.FightPropId);
             } // ParagraphFight
         }
     }

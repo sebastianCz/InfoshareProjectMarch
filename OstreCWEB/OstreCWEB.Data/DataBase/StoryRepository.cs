@@ -22,9 +22,18 @@ namespace OstreCWEB.Data.DataBase
 
         public Story GetStoryById(int idStory)
         {
-            return _ostreCWebContext.Stories
+            return _ostreCWebContext.Stories                
                 .Include(s => s.Paragraphs)
                     .ThenInclude(p => p.Choices)
+                .Include(s => s.Paragraphs)
+                    .ThenInclude(p => p.FightProp)
+                        .ThenInclude(f => f.ParagraphEnemies)
+                .Include(s => s.Paragraphs)
+                    .ThenInclude(p => p.DialogProp)
+                .Include(s => s.Paragraphs)
+                    .ThenInclude(p => p.TestProp)
+                .Include(s => s.Paragraphs)
+                    .ThenInclude(p => p.ShopkeeperProp)
                 .SingleOrDefault(s => s.Id == idStory);
         }
 
@@ -43,6 +52,12 @@ namespace OstreCWEB.Data.DataBase
         public async Task UpdateStory(Story story)
         {
             _ostreCWebContext.Stories.Update(story);
+            await _ostreCWebContext.SaveChangesAsync();
+        }
+
+        public async Task DeleteStory(Story story)
+        {            
+            _ostreCWebContext.Stories.Remove(story);
             await _ostreCWebContext.SaveChangesAsync();
         }
     }
