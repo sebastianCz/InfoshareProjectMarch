@@ -1,11 +1,11 @@
-﻿using OstreCWEB.Data.Enums;
+﻿using OstreCWEB.Data.Repository.Characters.Enums;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace OstreCWEB.Data.Repository.Characters
+namespace OstreCWEB.Data.Repository.Characters.CoreClasses
 {
     public class PlayableCharacterClass
     {

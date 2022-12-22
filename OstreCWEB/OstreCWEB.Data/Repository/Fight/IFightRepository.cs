@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace OstreCWEB.Services
+namespace OstreCWEB.Data.Repository.Fight
 {
-    internal class CharacterBuilder
+    public interface IFightRepository
     {
 
     }

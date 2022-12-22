@@ -1,4 +1,4 @@
-﻿using OstreCWEB.Data.Repository.Characters;
+﻿using OstreCWEB.Data.Repository.Characters.CoreClasses;
 using OstreCWEB.Data.Repository.Items;
 
 namespace OstreCWEB.Models

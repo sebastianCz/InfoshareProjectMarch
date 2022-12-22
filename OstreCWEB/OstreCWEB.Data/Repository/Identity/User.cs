@@ -1,9 +1,9 @@
 ﻿using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.EntityFrameworkCore.ChangeTracking.Internal;
-using OstreCWEB.Data.Repository.Characters;
+using OstreCWEB.Data.Repository.Characters.CoreClasses;
 using OstreCWEB.Data.Repository.StoryModels;
 
-namespace OstreCWEB.Data.Repository.WebObjects
+namespace OstreCWEB.Data.Repository.Identity
 {
     public class User : IdentityUser
     {
