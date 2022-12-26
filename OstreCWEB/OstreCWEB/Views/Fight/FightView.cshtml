@@ -24,8 +24,9 @@
                             <div class="d-flex justify-content-between align-items-center">
                                 <div class="btn-group">
                                     @if (Model.ActiveAction != null && Model.ActiveAction.PossibleTargets.Contains("caster"))
-                                    {
-                                        <a class="btn btn-danger" asp-route-id="@Model.ActivePlayer.CombatId" asp-action="SetActiveTarget">Target</a>
+
+                                    { 
+                                        <a  class="btn btn-danger" asp-route-id="@Model.ActivePlayer.CombatId" asp-action="SetActiveTarget">Target</a>
                                     }
                                 </div>
                             </div>
@@ -62,7 +63,7 @@
                     @if (Model.ActiveTarget != null && Model.ActiveTarget.CombatId != null && Model.ActiveTarget.CombatId != 0 && Model.ActiveAction != null)
                     {
 
-                        <a asp-route-name="fightCommitAction" asp-action="CommitPlayerAction" asp-route-targetId="@Model.ActiveTarget.CombatId" asp-route-playerId="@Model.ActivePlayer.CombatId" asp-route-activeActionId="@Model.ActiveAction.Id">Commit Action</a>
+                        <a  asp-action="CommitPlayerAction" >Commit Action</a>
                     }
 
                 </div>

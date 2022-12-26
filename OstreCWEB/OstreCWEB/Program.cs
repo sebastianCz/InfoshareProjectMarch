@@ -66,8 +66,5 @@ app.MapControllerRoute(
 app.MapControllerRoute(
     name: "storyBuilder",
     pattern: "{controller=Home}/{action=Index}/{id?}/{paragraphId?}");
-
-app.MapControllerRoute(
-    name: "fightCommitAction",
-    pattern: "{controller=Home}/{action=CommitPlayerAction}/{targetId?}/{playerId?}/{activeActionId?}");
+ 
 app.Run();

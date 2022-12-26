@@ -16,7 +16,7 @@ namespace OstreCWEB.Services.Fight
         public Character GetActiveTarget();
         public Character ResetActiveTarget(); 
         public void CommitAction();
-        public FightService GetFightState();
+        public FightInstance GetFightState(int userId);
         public FightInstance GetActiveFightInstance();
     }
 }
