@@ -1,7 +1,7 @@
-﻿using OstreCWEB.Data.Repository.Characters.CoreClasses;
+﻿using OstreCWEB.Data.Repository.Characters.CharacterModels;
+using OstreCWEB.Data.Repository.Characters.CoreClasses;
 using OstreCWEB.Data.Repository.Characters.Enums;
 using OstreCWEB.Data.Repository.Identity;
-using OstreCWEB.Data.Repository.Items;
 using OstreCWEB.Data.Repository.StoryModels;
 
 namespace OstreCWEB.Data.DataBase
@@ -15,11 +15,11 @@ namespace OstreCWEB.Data.DataBase
         private static List<Status> Statuses = new List<Status>();
         private static List<PlayableRace> PlayableRaces = new List<PlayableRace>(); 
         private static List<Item> Items = new List<Item>();
-        private static List<CharacterActions> Actions = new List<CharacterActions>();
+        private static List<Repository.Characters.CoreClasses.CharacterAction> Actions = new List<Repository.Characters.CoreClasses.CharacterAction>();
 
         public PlayableCharacter GetPlayableCharacter(int id)
         {
-            return PlayableCharacters.FirstOrDefault(x => x.ID == id);
+            return PlayableCharacters.FirstOrDefault(x => x.CharacterId == id);
         }
         public StaticLists()
         {
@@ -31,14 +31,14 @@ namespace OstreCWEB.Data.DataBase
             {
                 new Status
                 {
-                    ID = 1,
+                    StatusId = 1,
                     Name="Blind",
                     Description = "Blinds the character making him less accurate"
 
                 },
                 new Status
                 {
-                    ID=2,
+                    StatusId=2,
                     Name="Bless",
                     Description="Character is blessed. It has a bonus 1d4 to every roll"
                 }
@@ -48,7 +48,7 @@ namespace OstreCWEB.Data.DataBase
             {
                 new PlayableRace
                 {
-                    ID = 1,
+                    PlayableRaceId = 1,
                     RaceName = "Human",
                     DefaultSkillsForClass = new List<Skill>
                         {
@@ -73,7 +73,7 @@ namespace OstreCWEB.Data.DataBase
                     //It's set to null but we will hold our active character instance here. 
                     //It should be chosen each session. 
                     ActiveCharacter = null,
-                    StoriesCreated = new List<Story>(),
+                    //StoriesCreated = new List<Story>(),
                     CharactersCreated = new List<PlayableCharacter>(),
                     StoriesCompletedTotal = 0,
                     DamageDealt = 0,
@@ -97,11 +97,11 @@ namespace OstreCWEB.Data.DataBase
 
 
             //Property StatusName is null if none is applied.
-            Actions = new List<CharacterActions>
+            Actions = new List<Repository.Characters.CoreClasses.CharacterAction>
             {
-                 new CharacterActions
+                 new Repository.Characters.CoreClasses.CharacterAction
             {
-                Id = 1,
+                CharacterActionId = 1,
                 ActionName = "Short Sword Attack",
                 ActionDescription = "Strikes the chosen character with your weapon",
                 ActionType = CharacterActionType.MeleeAttack,
@@ -114,9 +114,9 @@ namespace OstreCWEB.Data.DataBase
                 StatForTest = Statistics.Strenght,
                 AggressiveAction = true
             },
-                    new CharacterActions
+                    new Repository.Characters.CoreClasses.CharacterAction
             {
-                Id = 2,
+                CharacterActionId = 2,
                 ActionName = "Fist Attack",
                 ActionDescription = "Strikes the chosen character with your bare hands",
                 ActionType = CharacterActionType.MeleeAttack,
@@ -129,9 +129,9 @@ namespace OstreCWEB.Data.DataBase
                 StatForTest = Statistics.Strenght,
                 AggressiveAction = true
             },
-                    new CharacterActions
+                    new Repository.Characters.CoreClasses.CharacterAction
             {
-                Id = 3,
+                CharacterActionId = 3,
                 ActionName = "Magic Missiles",
                 ActionDescription = "Throws magic missiles at the enmy",
                 ActionType = CharacterActionType.MeleeAttack,
@@ -141,15 +141,15 @@ namespace OstreCWEB.Data.DataBase
                 Hit_Dice_Nr = 2,
                 PossibleTargets = "enemy",
                 InflictsStatus = true,
-                Status = Statuses.FirstOrDefault(s=>s.ID == 1),
+                Status = Statuses.FirstOrDefault(s=>s.StatusId == 1),
                 StatForTest = Statistics.Dexterity,
                 UsesMaxBeforeRest = 2,
                  AggressiveAction = true
 
             },
-                              new CharacterActions
+                              new Repository.Characters.CoreClasses.CharacterAction
             {
-                Id = 4,
+                CharacterActionId = 4,
                 ActionName = "Healing Potion",
                 ActionDescription = "Heals the user for 1d6 +2",
                 ActionType = CharacterActionType.ItemAction,
@@ -163,9 +163,9 @@ namespace OstreCWEB.Data.DataBase
                 UsesMax = 1,
                 AggressiveAction = false
             },
-                 new CharacterActions
+                 new Repository.Characters.CoreClasses.CharacterAction
             {
-                Id = 5,
+                CharacterActionId = 5,
                 ActionName = "Bless",
                 ActionDescription = "Blesses the target giving him advantage a bonus 1d4 to attack rolls",
                 ActionType = CharacterActionType.Spell,
@@ -175,7 +175,7 @@ namespace OstreCWEB.Data.DataBase
                 Hit_Dice_Nr = 0,
                 PossibleTargets = "caster",
                 InflictsStatus = true,
-                Status = Statuses.FirstOrDefault(s=>s.ID==2),
+                Status = Statuses.FirstOrDefault(s=>s.StatusId==2),
                 StatForTest = Statistics.None,
                 UsesMaxBeforeRest = 1,
                  AggressiveAction = false
@@ -187,7 +187,7 @@ namespace OstreCWEB.Data.DataBase
             {
                 new Item
                 {
-                    Id=1,
+                    ItemId=1,
                     Name="Light Armor",
                     ItemType = ItemType.Armors,
                     ArmorClass = 1,
@@ -196,21 +196,21 @@ namespace OstreCWEB.Data.DataBase
                 },
                 new Item()
                 {
-                    Id=2,
+                    ItemId=2,
                     Name="Short Sword",
                     ItemType =ItemType.Weapons,
-                    ActionToTrigger = Actions.FirstOrDefault(a=> a.Id == 1)
+                    ActionToTrigger = Actions.FirstOrDefault(a=> a.CharacterActionId == 1)
                 },
                 new Item()
                 {
-                    Id=3,
+                    ItemId=3,
                     Name="Healing Potion",
                     ItemType = ItemType.Consumable,
-                    ActionToTrigger = Actions.FirstOrDefault(a=>a.Id == 4 )
+                    ActionToTrigger = Actions.FirstOrDefault(a=>a.CharacterActionId == 4 )
                 },
                 new Item()
                 {
-                    Id=4,
+                    ItemId=4,
                     Name="Small Wooden Shield",
                     ItemType = ItemType.Shield,
                     ArmorClass=1,
@@ -223,31 +223,25 @@ namespace OstreCWEB.Data.DataBase
             {
                 new Enemy
                 {
-                    ID = 1,
+                    CharacterId = 1,
                     CharacterName = "Goblin Archer",
                     Race = "Goblin",
                     MaxHealthPoints = 10,
                     CurrentHealthPoints = 10,
                     Level = 1,
                     Alignment = "evil",
-                    EquippedArmor = Items.FirstOrDefault(a => a.Id == 1),
-                    EquippedWeapon =Items.FirstOrDefault(a => a.Id == 2),
-                    EquippedSecondaryWeapon = Items.FirstOrDefault(a=>a.Id == 4),
+                    EquippedArmor = Items.FirstOrDefault(a => a.ItemId == 1),
+                    EquippedWeapon =Items.FirstOrDefault(a => a.ItemId == 2),
+                    EquippedSecondaryWeapon = Items.FirstOrDefault(a=>a.ItemId == 4),
                     Inventory = new Item[5],
-                    AllAvailableActions = new List<CharacterActions>(),
+                    AllAvailableActions = new List<Repository.Characters.CoreClasses.CharacterAction>(),
                     ActiveStatuses = new List<Status>(),
-                    Strenght = 10,
-                    ModStrenght =0,
-                    Dexterity =12,
-                    ModDexterity=1,
-                    Constitution=10,
-                    ModConstitution=2,
-                    Intelligence=8,
-                    ModIntelligence=0,
-                    Wisdom = 8,
-                    ModWisdom =0,
-                    Charisma = 6,
-                    ModCharisma = 6
+                    Strenght = 10, 
+                    Dexterity =12, 
+                    Constitution=10, 
+                    Intelligence=8, 
+                    Wisdom = 8, 
+                    Charisma = 6, 
                 }
             };
 
@@ -255,35 +249,33 @@ namespace OstreCWEB.Data.DataBase
             {
                 new PlayableCharacter
                 {
-                    ID = 1,
+                    CharacterId = 1,
                     CharacterName = "AdminCharacter",
                     MaxHealthPoints = 30,
                     CurrentHealthPoints = 30,
                     Level = 1,
                     Alignment = "Good",
-                    EquippedArmor = Items.First(c=>c.Id==1),
-                    EquippedWeapon = Items.First(c=>c.Id==2),
-                    EquippedSecondaryWeapon =Items.First(c =>c.Id ==4),
+                    EquippedArmor = Items.First(c=>c.ItemId==1),
+                    EquippedWeapon = Items.First(c=>c.ItemId==2),
+                    EquippedSecondaryWeapon =Items.First(c =>c.ItemId ==4),
                     Inventory = new Item[5],
-                    AllAvailableActions = new List<CharacterActions>(),
-                    DefaultActions = new List<CharacterActions>(),
+                    AllAvailableActions = new List<Repository.Characters.CoreClasses.CharacterAction>(),
+                    DefaultActions = new List<Repository.Characters.CoreClasses.CharacterAction>(),
                     Strenght = 16,
                     Dexterity = 14,
                     Constitution = 10,
                     Intelligence = 15,
-                    Wisdom = 12,
-                    ModWisdom=1,
+                    Wisdom = 12, 
                     Charisma = 2,
-                    Race = PlayableRaces.FirstOrDefault(r=>r.ID ==1),
+                    Race = PlayableRaces.FirstOrDefault(r=>r.PlayableRaceId ==1),
                     UserId = Users.FirstOrDefault(u=>u.Id == 1).Id,
                     CharacterClass =PlayableCharacterClasses.FirstOrDefault(c=>c.ID ==1),
-                    Actions = new List<CharacterAction>(),
-                    ActionsOnHero = new List<CharacterAction>()
+                   
 
                 }
             };
-            PlayableCharacters[0].DefaultActions.Add(Actions.FirstOrDefault(x => x.Id == 4));  //HardCoding
-            PlayableCharacters[0].DefaultActions.Add(Actions.FirstOrDefault(x => x.Id == 3));
+            PlayableCharacters[0].DefaultActions.Add(Actions.FirstOrDefault(x => x.CharacterActionId == 4));  //HardCoding
+            PlayableCharacters[0].DefaultActions.Add(Actions.FirstOrDefault(x => x.CharacterActionId == 3));
 
         }
 
@@ -300,7 +292,7 @@ namespace OstreCWEB.Data.DataBase
                 return Items;
           }
            
-            public List<CharacterActions> GetActions()
+            public List<Repository.Characters.CoreClasses.CharacterAction> GetActions()
             {
                 return Actions;
             }

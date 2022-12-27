@@ -1,5 +1,5 @@
 ﻿using OstreCWEB.Data.Repository.Characters.CoreClasses;
-using OstreCWEB.Data.Repository.Items;
+using OstreCWEB.Data.Repository.Characters.Enums;
 
 namespace OstreCWEB.ViewModel.Fight
 {
@@ -10,6 +10,6 @@ namespace OstreCWEB.ViewModel.Fight
         public string ArmorType { get; set; }
         public int? Id { get; set; }
         public string? Name { get; set; }
-        public CharacterActions ActionToTrigger { get; set; }
+        public Data.Repository.Characters.CoreClasses.CharacterAction ActionToTrigger { get; set; }
     }
 }

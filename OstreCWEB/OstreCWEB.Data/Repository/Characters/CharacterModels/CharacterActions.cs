@@ -1,13 +1,18 @@
 ﻿using OstreCWEB.Data.Repository.Characters.Enums;
+using System.ComponentModel.DataAnnotations;
 
 namespace OstreCWEB.Data.Repository.Characters.CoreClasses
 {
 
     //"using" a spell , item  or weapon is an action. 
-    public class CharacterActions
+    public class CharacterAction
     {
+        //EF config
+        [Key]
+        public int CharacterActionId { get; set; }
+        public Status Status { get; set; }
+        //
 
-        public int Id { get; set; }
         public string ActionName { get; set; }
         public string ActionDescription { get; set; }
         public CharacterActionType ActionType { get; set; }
@@ -17,7 +22,6 @@ namespace OstreCWEB.Data.Repository.Characters.CoreClasses
         public int Hit_Dice_Nr { get; set; }
         public string PossibleTargets { get; set; }
         public bool InflictsStatus { get; set; }
-        public Status Status { get; set; }
         public Statistics StatForTest { get; set; }
         //Defined for actions reseting with rest.
         public int UsesMaxBeforeRest { get; set; }

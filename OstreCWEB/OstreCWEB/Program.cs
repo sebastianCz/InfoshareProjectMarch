@@ -5,7 +5,7 @@ using OstreCWEB.Data.Repository.Fight;
 using OstreCWEB.Data.Repository.WebObjects;
 using OstreCWEB.Services.Factories;
 using OstreCWEB.Services.Fight;
-
+using OstreCWEB.Services.Test;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -15,13 +15,14 @@ builder.Services.AddDbContext<OstreCWebContext>(
 
 builder.Services.AddTransient<IFightService,FightService>();
 builder.Services.AddTransient<IFightRepository, FightRepository>();
-builder.Services.AddTransient<IFightFactory, FightFactory>(); 
+builder.Services.AddTransient<IFightFactory, FightFactory>();
+builder.Services.AddTransient<ISeeder, DBSeeder>(); 
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 builder.Services
     .AddAutoMapper(typeof(Program))
     .AddControllersWithViews()
 .AddRazorRuntimeCompilation();
-  
+
 //builder.Host.UseSerilog((hostBuilderContext, loggerConfiguration) =>
 //{
 //    loggerConfiguration.WriteTo.Console();
@@ -31,8 +32,9 @@ builder.Services
 //        TableName = "OstreCWebLogs"
 //    },
 //    restrictedToMinimumLevel: Serilog.Events.LogEventLevel.Warning);
-//});
-
+//}); 
+   
+builder.Services.AddSwaggerGen();
 var app = builder.Build();
 
 var test = new StaticLists();
@@ -41,7 +43,9 @@ test.SeedData();
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
-    app.UseMigrationsEndPoint();
+    app.UseSwagger();
+    app.UseSwaggerUI();
+    //app.UseMigrationsEndPoint();
 }
 else
 {
@@ -49,6 +53,8 @@ else
     // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
     app.UseHsts();
 }
+
+
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();

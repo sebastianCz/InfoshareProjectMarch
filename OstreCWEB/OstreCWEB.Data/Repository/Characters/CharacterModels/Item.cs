@@ -1,14 +1,18 @@
 ﻿using OstreCWEB.Data.Repository.Characters.CoreClasses;
 using OstreCWEB.Data.Repository.Characters.Enums;
+using OstreCWEB.Data.Repository.Characters.MetaTags;
+using System.ComponentModel.DataAnnotations;
 
-namespace OstreCWEB.Data.Repository.Items
+namespace OstreCWEB.Data.Repository.Characters.CharacterModels
 {
-    public  class Item
+    public class Item
     {
+        [Key]
+        public int? ItemId { get; set; }
         public Item() { }
         public Item(int id, string name, ItemType itemType)
         {
-            Id = id;
+            ItemId = id;
             Name = name;
             ItemType = itemType;
         }
@@ -16,9 +20,12 @@ namespace OstreCWEB.Data.Repository.Items
         public ItemType ItemType { get; set; }
         public int ArmorClass { get; set; }
         public string ArmorType { get; set; }
-        public int? Id { get; set; }
+    
         public string? Name { get; set; }
-        public CharacterActions ActionToTrigger { get; set; }
+        public CoreClasses.CharacterAction ActionToTrigger { get; set; }
+
+        //EF config 
+        public List<ItemCharacter> ItemCharacter { get; set; }
 
         public bool EquipItem(Item itemToEquip, Character equippingTarget, Slot slot, out string actionResult)
         {
@@ -37,6 +44,6 @@ namespace OstreCWEB.Data.Repository.Items
                     return false;
             }
             return false;
-        } 
+        }
     }
 }

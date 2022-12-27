@@ -14,7 +14,7 @@ namespace OstreCWEB.Mapping
             CreateMap<FightInstance,FightViewModel>();
             CreateMap<PlayableCharacter, CharacterView>();
             CreateMap<Enemy, CharacterView>();
-            CreateMap<CharacterActions, CharacterActionView>();
+            CreateMap<CharacterAction, CharacterActionView>();
         }
     }
 }
