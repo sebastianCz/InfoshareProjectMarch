@@ -54,7 +54,7 @@ namespace OstreCWEB.Services.Factories
         {
             foreach (var character in characterList)
             {
-                character.AllAvailableActions = new List<CharacterActions>();
+                character.AllAvailableActions = new List<CharacterAction>();
                 if (character.EquippedArmor.ActionToTrigger != null) { character.AllAvailableActions.Add(character.EquippedArmor.ActionToTrigger); }
                 if (character.EquippedWeapon.ActionToTrigger != null) { character.AllAvailableActions.Add(character.EquippedWeapon.ActionToTrigger); }
                 if (character.EquippedSecondaryWeapon.ActionToTrigger != null) { character.AllAvailableActions.Add(character.EquippedSecondaryWeapon.ActionToTrigger); }

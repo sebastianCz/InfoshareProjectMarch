@@ -1,5 +1,5 @@
 ﻿@model OstreCWEB.Models.ItemsTest
-@using OstreCWEB.Data.Repository.Items; 
+ 
 
 @{ 
     ViewData["Title"] = "Home Page";
@@ -15,6 +15,9 @@
             
         </ol>
         <button type="button" id="btnScore" onclick="GenerateEnemies()"> Initialize Fight!
+        </button>
+        <button type="button" id="btnScore" onclick="Seed()">
+            SeedData
         </button>
     </nav>
 </div><!-- End Page Title -->
@@ -89,6 +92,22 @@
             async: true,
             success: function (msg) {
                 
+            },
+            error: function () {
+                return "error";
+            }
+        });
+    }
+
+
+
+    function Seed() {
+        $.ajax({
+            type: "GET",
+            url: "Home/Seed",
+            async: true,
+            success: function (msg) {
+
             },
             error: function () {
                 return "error";

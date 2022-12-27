@@ -1,5 +1,4 @@
-﻿using OstreCWEB.Data.Repository.Items;
-using System.Text.Json.Serialization;
+﻿using System.Text.Json.Serialization;
 
 namespace OstreCWEB.Data.Repository.Characters.CoreClasses
 

@@ -1,22 +1,26 @@
 ﻿using OstreCWEB.Data.Repository.Characters.Enums;
+using OstreCWEB.Data.Repository.Identity;
 using System.ComponentModel.DataAnnotations;
 
 namespace OstreCWEB.Data.Repository.Characters.CoreClasses
 {
     public class PlayableCharacter : Character
-    {
-        public List<CharacterAction> Actions { get; set; }
-        public List<CharacterAction> ActionsOnHero { get; set; }
-
+    {  
         public PlayableCharacter()
         {
 
         }
-        public PlayableRace Race { get; set; }
         //Id used to "link" the character to a user in db later on. 
         [Required]
         public int UserId { get; set; }
+        public User User { get; set; }
         [Required]
+
+        public PlayableRace Race { get; set; }
+        public int RaceId { get; set; }
         public PlayableCharacterClass CharacterClass { get; set; }
+        public int PlayableClassId { get; set; }
+
+
     }
 }

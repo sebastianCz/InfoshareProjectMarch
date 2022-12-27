@@ -68,7 +68,7 @@ namespace OstreCWEB.Services.Fight
         {
             _activeFightInstance.ActiveTarget = character;
         }
-        public CharacterActions ChooseAction(int id) => _activeFightInstance.ActivePlayer.AllAvailableActions.First(a => a.Id == id);
+        public Data.Repository.Characters.CoreClasses.CharacterAction ChooseAction(int id) => _activeFightInstance.ActivePlayer.AllAvailableActions.First(a => a.CharacterActionId == id);
         public Character ChooseTarget(int id)
         {
             if (id == _activeFightInstance.ActivePlayer.CombatId)
@@ -101,11 +101,11 @@ namespace OstreCWEB.Services.Fight
         {
             return _activeFightInstance.ActiveTarget;
         } 
-        public CharacterActions GetActiveActions()
+        public Data.Repository.Characters.CoreClasses.CharacterAction GetActiveActions()
         {
             return _activeFightInstance.ActiveAction;
         } 
-        public void UpdateActiveAction(CharacterActions action)
+        public void UpdateActiveAction(Data.Repository.Characters.CoreClasses.CharacterAction action)
         {
             _activeFightInstance.ActiveAction = action;
         }  
@@ -122,7 +122,7 @@ namespace OstreCWEB.Services.Fight
             FightHistory.Add(message);
             return FightHistory;
         } 
-        private void ApplyAction(Character target, Character caster, CharacterActions action)
+        private void ApplyAction(Character target, Character caster, Data.Repository.Characters.CoreClasses.CharacterAction action)
         {
             //TODO: APPLY STATUS 
             if (action.SavingThrowPossible)
@@ -188,7 +188,7 @@ namespace OstreCWEB.Services.Fight
                 character.ActiveStatuses.Add(status);
             } 
         } 
-        private int ApplyDamage(Character target,CharacterActions actions, bool savingThrow)
+        private int ApplyDamage(Character target, Data.Repository.Characters.CoreClasses.CharacterAction actions, bool savingThrow)
         { 
             var updateValue = 0;
 
@@ -206,7 +206,7 @@ namespace OstreCWEB.Services.Fight
             }
                 return updateValue;
         }
-        private int ApplyHeal(Character target, CharacterActions actions, bool savingThrow)
+        private int ApplyHeal(Character target, Data.Repository.Characters.CoreClasses.CharacterAction actions, bool savingThrow)
         {
             var updateValue = 0;
 
@@ -224,7 +224,7 @@ namespace OstreCWEB.Services.Fight
             }
             return updateValue;
         } 
-        private bool SpellSavingThrow(Character target, Character caster, CharacterActions action)
+        private bool SpellSavingThrow(Character target, Character caster, Data.Repository.Characters.CoreClasses.CharacterAction action)
         {
             var targetMod = 0;
             var targetRoll = 0;

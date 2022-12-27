@@ -1,14 +1,15 @@
-﻿using OstreCWEB.Data.Repository.Items;
-using System.ComponentModel;
+﻿using OstreCWEB.Data.Repository.Characters.CharacterModels;
+using OstreCWEB.Data.Repository.Characters.MetaTags;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Text.Json.Serialization;
 
 namespace OstreCWEB.Data.Repository.Characters.CoreClasses
 {
     public abstract class Character
     {
-        [Required]
-        public int ID { get; set; }
+        [Key]
+        public int CharacterId { get; set; }
         //This is required because Characters IDs can be the same as enemies...Combat needs to generate it's own IDs
         //This is not saved to data base.
         public int CombatId { get; set; }
@@ -23,43 +24,33 @@ namespace OstreCWEB.Data.Repository.Characters.CoreClasses
         [Required]
         public string Alignment { get; set; }
         [Required]
-        public Item EquippedArmor { get; set; }
+        [NotMapped]
+        public Item EquippedArmor { get; set; } 
         [Required]
-        public Item EquippedWeapon { get; set; }
+        [NotMapped]
+        public Item EquippedWeapon { get; set; } 
         [Required]
-        public Item EquippedSecondaryWeapon { get; set; }
-
+        [NotMapped]
+        public Item EquippedSecondaryWeapon { get; set; } 
+        [NotMapped]
         public Item[] Inventory { get; set; }
-        public List<CharacterActions> AllAvailableActions { get; set; }
-        public List<CharacterActions> DefaultActions { get; set; }
+        //Actions granted on level 1 based on class+race+ user choices.
+        public List<CharacterAction> DefaultActions { get; set; }
 
+
+        public int Strenght { get; set; }
+        public int Dexterity { get; set; }
+        public int Constitution { get; set; }
+        public int Intelligence { get; set; }
+        public int Wisdom { get; set; }
+        public int Charisma { get; set; }
+
+        [NotMapped]
+        public List<CharacterAction> AllAvailableActions { get; set; }
+        [NotMapped]
         public List<Status> ActiveStatuses { get; set; }
 
-        [Required]
-        public int Strenght { get; set; }
-        [Required]
-        public int ModStrenght { get; set; }
-        [Required]
-        public int Dexterity { get; set; }
-        [Required]
-        public int ModDexterity { get; set; }
-        [Required]
-        public int Constitution { get; set; }
-        [Required]
-        public int ModConstitution { get; set; }
-        [Required]
-        public int Intelligence { get; set; }
-        [Required]
-        public int ModIntelligence { get; set; }
-        [Required]
-        public int Wisdom { get; set; }
-        [Required]
-        public int ModWisdom { get; set; }
-        [Required]
-        public int Charisma { get; set; }
-        [Required]
-        public int ModCharisma { get; set; }
-
+        public List<ItemCharacter> ItemCharacter { get; set; }
 
         [JsonConstructor]
         public Character()
