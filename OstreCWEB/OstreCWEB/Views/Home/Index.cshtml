@@ -1,7 +1,7 @@
 ﻿@model OstreCWEB.Models.ItemsTest
-@using OstreCWEB.Data.Repository.Items;
-@using OstreCWEB.Data.Enums;
-@{
+ 
+
+@{ 
     ViewData["Title"] = "Home Page";
 }
 
@@ -14,7 +14,10 @@
             @*<li class="breadcrumb-item active">Fangehull</li>*@
             
         </ol>
-        <button type="button" id="btnScore" onclick="GenerateEnemies()"> Click me!
+        <button type="button" id="btnScore" onclick="GenerateEnemies()"> Initialize Fight!
+        </button>
+        <button type="button" id="btnScore" onclick="Seed()">
+            SeedData
         </button>
     </nav>
 </div><!-- End Page Title -->
@@ -23,7 +26,7 @@
     <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
 
 
-    @foreach (var enemy in Model.ActiveEnemies)
+   @* @foreach (var enemy in Model.ActiveEnemies)
     { 
         <table>
            
@@ -70,7 +73,7 @@
                         </td>
                     </tr>
                 }
-            }
+            }*@
             <tr>
 
             </tr>
@@ -85,10 +88,26 @@
     function GenerateEnemies() {
         $.ajax({
             type: "GET",
-            url: "Home/GenerateEnemies",
+            url: "Fight/InitializeFight",
             async: true,
             success: function (msg) {
                 
+            },
+            error: function () {
+                return "error";
+            }
+        });
+    }
+
+
+
+    function Seed() {
+        $.ajax({
+            type: "GET",
+            url: "Home/Seed",
+            async: true,
+            success: function (msg) {
+
             },
             error: function () {
                 return "error";

@@ -1,7 +1,11 @@
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using OstreCWEB.Data.DataBase;
-using Serilog;
-using Serilog.Sinks.MSSqlServer;
+using OstreCWEB.Data.Repository.Fight;
+using OstreCWEB.Data.Repository.WebObjects;
+using OstreCWEB.Services.Factories;
+using OstreCWEB.Services.Fight;
+using OstreCWEB.Services.Test;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -9,32 +13,39 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddDbContext<OstreCWebContext>(
     options => options.UseSqlServer(builder.Configuration.GetConnectionString("OstreCWEB")));
 
+builder.Services.AddTransient<IFightService,FightService>();
+builder.Services.AddTransient<IFightRepository, FightRepository>();
+builder.Services.AddTransient<IFightFactory, FightFactory>();
+builder.Services.AddTransient<ISeeder, DBSeeder>(); 
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 builder.Services
     .AddAutoMapper(typeof(Program))
     .AddControllersWithViews()
-    .AddRazorRuntimeCompilation();
+.AddRazorRuntimeCompilation();
 
-builder.Host.UseSerilog((hostBuilderContext, loggerConfiguration) =>
-{
-    loggerConfiguration.WriteTo.Console();
-    loggerConfiguration.WriteTo.MSSqlServer(builder.Configuration.GetConnectionString("OstreCWEB"), new MSSqlServerSinkOptions
-    {
-        AutoCreateSqlTable = true,
-        TableName = "OstreCWebLogs"
-    },
-    restrictedToMinimumLevel: Serilog.Events.LogEventLevel.Warning);
-});
-
+//builder.Host.UseSerilog((hostBuilderContext, loggerConfiguration) =>
+//{
+//    loggerConfiguration.WriteTo.Console();
+//    loggerConfiguration.WriteTo.MSSqlServer(builder.Configuration.GetConnectionString("OstreCWEB"), new MSSqlServerSinkOptions
+//    {
+//        AutoCreateSqlTable = true,
+//        TableName = "OstreCWebLogs"
+//    },
+//    restrictedToMinimumLevel: Serilog.Events.LogEventLevel.Warning);
+//}); 
+   
+builder.Services.AddSwaggerGen();
 var app = builder.Build();
 
-var test = new StaticLists();
-test.SeedData();
+//var test = new StaticLists();
+//test.SeedData(); 
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
-    app.UseMigrationsEndPoint();
+    app.UseSwagger();
+    app.UseSwaggerUI();
+    //app.UseMigrationsEndPoint();
 }
 else
 {
@@ -42,6 +53,8 @@ else
     // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
     app.UseHsts();
 }
+
+
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();
@@ -59,5 +72,5 @@ app.MapControllerRoute(
 app.MapControllerRoute(
     name: "storyBuilder",
     pattern: "{controller=Home}/{action=Index}/{id?}/{paragraphId?}");
-
+ 
 app.Run();
