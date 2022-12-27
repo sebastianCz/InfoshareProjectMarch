@@ -37,8 +37,8 @@ builder.Services
 builder.Services.AddSwaggerGen();
 var app = builder.Build();
 
-var test = new StaticLists();
-test.SeedData();
+//var test = new StaticLists();
+//test.SeedData(); 
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
