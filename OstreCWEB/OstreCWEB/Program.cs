@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using OstreCWEB.Data.DataBase;
+using OstreCWEB.Data.Repository.Characters;
 using OstreCWEB.Data.Repository.Fight;
 using OstreCWEB.Data.Repository.WebObjects;
 using OstreCWEB.Services.Factories;
@@ -10,13 +11,17 @@ using OstreCWEB.Services.Test;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
+//Allows retrying CRUD operations in case of transient failures.
 builder.Services.AddDbContext<OstreCWebContext>(
-    options => options.UseSqlServer(builder.Configuration.GetConnectionString("OstreCWEB")));
+    options => options.UseSqlServer(builder.Configuration.GetConnectionString("OstreCWEB"), builder =>builder.EnableRetryOnFailure(2, TimeSpan.FromSeconds(2), null)));
+ 
 
 builder.Services.AddTransient<IFightService,FightService>();
 builder.Services.AddTransient<IFightRepository, FightRepository>();
 builder.Services.AddTransient<IFightFactory, FightFactory>();
-builder.Services.AddTransient<ISeeder, DBSeeder>(); 
+builder.Services.AddTransient<ISeeder, DBSeeder>();
+builder.Services.AddTransient<ICharacterRepository, CharacterRepository>();
+
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 builder.Services
     .AddAutoMapper(typeof(Program))
@@ -37,8 +42,8 @@ builder.Services
 builder.Services.AddSwaggerGen();
 var app = builder.Build();
 
-//var test = new StaticLists();
-//test.SeedData(); 
+var test = new StaticLists();
+test.SeedData();
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())

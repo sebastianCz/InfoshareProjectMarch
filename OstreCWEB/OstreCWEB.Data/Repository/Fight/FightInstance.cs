@@ -1,4 +1,4 @@
-﻿using OstreCWEB.Data.Repository.Characters.CoreClasses;
+﻿using OstreCWEB.Data.Repository.Characters.CharacterModels; 
 using System;
 using System.Collections.Generic;
 using System.Linq;

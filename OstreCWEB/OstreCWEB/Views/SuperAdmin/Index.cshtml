@@ -1,0 +1,48 @@
+﻿
+@{
+    ViewData["Title"] = "SuperAdminView";
+}
+
+<h1>SuperAdminView</h1>
+
+<button type="button" id="btnScore" onclick="GenerateEnemies()">
+    Initialize Fight!
+</button>
+<button type="button" id="btnScore" onclick="Seed()">
+    SeedData
+</button>
+<script>
+
+    function GenerateEnemies() {
+        $.ajax({
+            type: "GET",
+            url: "Fight/InitializeFight",
+            async: true,
+            success: function (msg) {
+
+            },
+            error: function () {
+                return "error";
+            }
+        });
+    }
+
+
+
+    function Seed() {
+        $.ajax({
+            type: "GET",
+            url: "SuperAdmin/Seed",
+            async: true,
+            success: function (msg) {
+
+            },
+            error: function () {
+                return "error";
+            }
+        });
+    }
+
+
+
+</script>

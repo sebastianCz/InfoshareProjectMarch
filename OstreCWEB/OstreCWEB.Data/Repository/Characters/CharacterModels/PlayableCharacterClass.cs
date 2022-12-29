@@ -6,11 +6,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace OstreCWEB.Data.Repository.Characters.CoreClasses
+namespace OstreCWEB.Data.Repository.Characters.CharacterModels
 {
     public class PlayableCharacterClass
     {
-        public int ID { get; set; }
+        public int PlayableCharacterClassId { get; set; }
         public string ClassName { get; set; }
         [NotMapped]
         public Dictionary<Statistics, int> BonusesForEeachStatistic { get; set; }

@@ -1,12 +1,17 @@
 ﻿using OstreCWEB.Data.Repository.Identity;
+using OstreCWEB.Data.Repository.Characters.CharacterModels;
+using OstreCWEB.Data.Repository.Characters.Enums;
+using OstreCWEB.Data.Repository.Characters.CharacterModels;
+using OstreCWEB.Data.Migrations;
+using System.Linq;
 
 namespace OstreCWEB.Data.DataBase
 {
     public class DBSeeder : ISeeder
-    { 
+    {
         private readonly OstreCWebContext _db;
 
-         public DBSeeder(OstreCWebContext ostreCWebContext)
+        public DBSeeder(OstreCWebContext ostreCWebContext)
         {
             _db = ostreCWebContext;
         }
@@ -18,259 +23,266 @@ namespace OstreCWEB.Data.DataBase
 
         private void Seed()
         {
-            //Statuses = new List<Status>
-            //{
-            //    new Status
-            //    {
-            //        ID = 1,
-            //        Name="Blind",
-            //        Description = "Blinds the character making him less accurate"
 
-            //    },
-            //    new Status
-            //    {
-            //        ID=2,
-            //        Name="Bless",
-            //        Description="Character is blessed. It has a bonus 1d4 to every roll"
-            //    }
-            //};
-
-            //PlayableRaces = new List<PlayableRace>
-            //{
-            //    new PlayableRace
-            //    {
-            //        ID = 1,
-            //        RaceName = "Human",
-            //        DefaultSkillsForClass = new List<Skill>
-            //        {
-            //                Skill.acrobatics,
-            //                Skill.religion
-            //            },
-            //        AmountOfSkillsToChoose = 1
-            //    }
-
-            //};
-
-           
-             
-                _db.Users.AddRange(new List<User>
+            var statuses = new List<Status>
+            {
+                new Status
                 {
-                     
-           
-                new User
-                { 
+
+                    Name="Blind",
+                    Description = "Blinds the character making him less accurate"
+
+                },
+                new Status
+                {
+                    Name="Bless",
+                    Description="Character is blessed. It has a bonus 1d4 to every roll"
+                }
+            };
+
+            var playableRaces = new List<PlayableRace>
+            {
+                new PlayableRace
+                {
+                    RaceName = "Human",
+                    //DefaultSkillsForClass = new List<Skill>
+                    //{
+                    //        Skill.acrobatics,
+                    //        Skill.religion
+                    //    },
+                    AmountOfSkillsToChoose = 1
+                }
+
+            };
+
+            var users = new List<User>();
+            for (var i = 0; i < 5; i++)
+            {
+               var user =  new User
+                {
                     LoggedIn = false,
-                    UserName = "Admin",
+                    UserName = "Admin"+i,
                     Password = "Admin",
                     Email = "Admin@Admin.com",
-                    Created = DateTime.Now, 
+                    Created = DateTime.Now,
                     StoriesCompletedTotal = 0,
                     DamageDealt = 0,
-                    DamageReceived = 0
+                    DamageReceived = 0,
+                    CharactersCreated = new List<PlayableCharacter>()
+
+                };
+                users.Add(user);
+            }
+
+
+
+       
+
+
+
+            var playableCharacterClasses = new List<PlayableCharacterClass>
+                {
+                    new PlayableCharacterClass
+                    {
+                        ClassName = "Warrior",
+                    }
+                };
+
+
+            //Property StatusName is null if none is applied.
+            var actions = new List<CharacterAction>
+                {
+                     new CharacterAction
+                {
+                    ActionName = "Short Sword Attack",
+                    ActionDescription = "Strikes the chosen character with your weapon",
+                    ActionType = CharacterActionType.MeleeAttack,
+                    SavingThrowPossible = true,
+                    Max_Dmg = 6,
+                    Flat_Dmg = 1,
+                    Hit_Dice_Nr = 1,
+                    PossibleTargets = "enemy",
+                    InflictsStatus = false,
+                    StatForTest = Statistics.Strenght,
+                    AggressiveAction = true
+                },
+                        new CharacterAction
+                {
+                    ActionName = "Fist Attack",
+                    ActionDescription = "Strikes the chosen character with your bare hands",
+                    ActionType = CharacterActionType.MeleeAttack,
+                    SavingThrowPossible = true,
+                    Max_Dmg = 2,
+                    Flat_Dmg = 1,
+                    Hit_Dice_Nr = 1,
+                    PossibleTargets = "enemy",
+                    InflictsStatus = false,
+                    StatForTest = Statistics.Strenght,
+                    AggressiveAction = true
+                },
+                        new CharacterAction
+                {
+                    ActionName = "Magic Missiles",
+                    ActionDescription = "Throws magic missiles at the enmy",
+                    ActionType = CharacterActionType.MeleeAttack,
+                            SavingThrowPossible = true,
+                    Max_Dmg = 4,
+                    Flat_Dmg = 2,
+                    Hit_Dice_Nr = 2,
+                    PossibleTargets = "enemy",
+                    InflictsStatus = true,
+                    Status = _db.Statuses.FirstOrDefault(s=>s.StatusId == 1),
+                    StatForTest = Statistics.Dexterity,
+                    UsesMaxBeforeRest = 2,
+                     AggressiveAction = true
+
+                },
+                                  new CharacterAction
+                {
+                    ActionName = "Small Heal",
+                    ActionDescription = "Heals the user for 1d6 +2",
+                    ActionType = CharacterActionType.ItemAction,
+                    SavingThrowPossible = false,
+                    Max_Dmg = 1,
+                    Flat_Dmg = 2,
+                    Hit_Dice_Nr = 1,
+                    PossibleTargets = "caster",
+                    InflictsStatus = false,
+                    StatForTest = Statistics.None,
+                    UsesMax = 1,
+                    AggressiveAction = false
+                },
+                     new CharacterAction
+                {
+                    ActionName = "Bless",
+                    ActionDescription = "Blesses the target giving him advantage a bonus 1d4 to attack rolls",
+                    ActionType = CharacterActionType.Spell,
+                         SavingThrowPossible = false,
+                    Max_Dmg = 0,
+                    Flat_Dmg = 0,
+                    Hit_Dice_Nr = 0,
+                    PossibleTargets = "caster",
+                    InflictsStatus = true,
+                    Status = _db.Statuses.FirstOrDefault(s=>s.StatusId == 2),
+                    StatForTest = Statistics.None,
+                    UsesMaxBeforeRest = 1,
+                     AggressiveAction = false
                 }
-            });
+
+            };
+
+            var items = new List<Item>
+                {
+                    new Item
+                    {
+                        Name="Light Armor",
+                        ItemType = ItemType.Armors,
+                        ArmorClass = 1,
+                        ArmorType="Light"
+
+                    },
+                    new Item()
+                    {
+                        Name="Short Sword",
+                        ItemType =ItemType.Weapons
+                    },
+                    new Item()
+                    {
+                        Name="Healing Potion",
+                        ItemType = ItemType.Consumable
+                    },
+                    new Item()
+                    {
+                        Name="Small Wooden Shield",
+                        ItemType = ItemType.Shield,
+                        ArmorClass=1,
+                        ArmorType = "basic"
+
+                    }
+                };
+
+            var enemies = new List<Enemy>
+                {
+                    new Enemy
+                    {
+                        CharacterName = "Goblin Archer",
+                        Race = "Goblin",
+                        MaxHealthPoints = 10,
+                        CurrentHealthPoints = 10,
+                        Level = 1,  
+                        Strenght = 10,
+                        Dexterity =12,
+                        Constitution=10,
+                        Intelligence=8,
+                        Wisdom = 8,
+                        Charisma = 6
+                    }
+                };
+
+           
+            var playableCharacters = new List<PlayableCharacter>
+                {
+                    new PlayableCharacter
+                    {
+                        CharacterName = "AdminCharacter",
+                        MaxHealthPoints = 30,
+                        CurrentHealthPoints = 30,
+                        Level = 1, 
+                        //Inventory = new Item[5],
+                        AllAvailableActions = new List<CharacterAction>(),
+                        DefaultActions = new List<CharacterAction>(),
+                        Strenght = 16,
+                        Dexterity = 14,
+                        Constitution = 10,
+                        Intelligence = 15,
+                        Wisdom = 12,
+                        Charisma = 2, 
+                        UserId = 1, 
+                    }
+                };
+            //Temporary hardcoding 
 
 
+            _db.CharacterActions.AddRange(actions);
+            _db.Statuses.AddRange(statuses);
+            _db.PlayableCharacterRaces.AddRange(playableRaces);
+            _db.PlayableCharacterClasses.AddRange(playableCharacterClasses);
+            _db.Items.AddRange(items);
+            _db.SaveChanges();
 
-            //    PlayableCharacterClasses = new List<PlayableCharacterClass>
-            //    {
-            //        new PlayableCharacterClass
-            //        {
-            //            ID = 1,
-            //            ClassName = "Warrior",
-            //            //BonusesForEeachStatistic = new Dictionary<Statistics, int>
-            //            //{
-            //            //    {Statistics.Strenght,1},
-            //            //    {Statistics.Dexterity,1}
-            //            //}
-            //        }
-            //    };
+            _db.Items.FirstOrDefault(i => i.Name.Contains("Short Sword")).ActionToTrigger = _db.CharacterActions.FirstOrDefault(a => a.ActionName.Contains("Short Sword Attack"));
+            _db.Items.FirstOrDefault(i => i.Name.Contains("Healing Potion")).ActionToTrigger = _db.CharacterActions.FirstOrDefault(a => a.ActionName.Contains("Small Heal"));
+            _db.CharacterActions.FirstOrDefault(a=>a.ActionName.Contains("Magic Missiles")).Status = _db.Statuses.FirstOrDefault(s=>s.Name.Contains("Blind"));
 
+            enemies[0].EquippedArmor = _db.Items.FirstOrDefault(i => i.Name.Contains("Armor"));
+            enemies[0].EquippedWeapon = _db.Items.FirstOrDefault(i => i.Name.Contains("Short Sword")); 
+            enemies[0].EquippedSecondaryWeapon = _db.Items.FirstOrDefault(i => i.Name.Contains("Small Wooden Shield"));
 
-            //    //Property StatusName is null if none is applied.
-            //    Actions = new List<CharacterActions>
-            //    {
-            //         new CharacterActions
-            //    {
-            //        Id = 1,
-            //        ActionName = "Short Sword Attack",
-            //        ActionDescription = "Strikes the chosen character with your weapon",
-            //        ActionType = CharacterActionType.MeleeAttack,
-            //        SavingThrowPossible = true,
-            //        Max_Dmg = 6,
-            //        Flat_Dmg = 1,
-            //        Hit_Dice_Nr = 1,
-            //        PossibleTargets = "enemy",
-            //        InflictsStatus = false,
-            //        StatForTest = Statistics.Strenght,
-            //        AggressiveAction = true
-            //    },
-            //            new CharacterActions
-            //    {
-            //        Id = 2,
-            //        ActionName = "Fist Attack",
-            //        ActionDescription = "Strikes the chosen character with your bare hands",
-            //        ActionType = CharacterActionType.MeleeAttack,
-            //        SavingThrowPossible = true,
-            //        Max_Dmg = 2,
-            //        Flat_Dmg = 1,
-            //        Hit_Dice_Nr = 1,
-            //        PossibleTargets = "enemy",
-            //        InflictsStatus = false,
-            //        StatForTest = Statistics.Strenght,
-            //        AggressiveAction = true
-            //    },
-            //            new CharacterActions
-            //    {
-            //        Id = 3,
-            //        ActionName = "Magic Missiles",
-            //        ActionDescription = "Throws magic missiles at the enmy",
-            //        ActionType = CharacterActionType.MeleeAttack,
-            //                SavingThrowPossible = true,
-            //        Max_Dmg = 4,
-            //        Flat_Dmg = 2,
-            //        Hit_Dice_Nr = 2,
-            //        PossibleTargets = "enemy",
-            //        InflictsStatus = true,
-            //        Status = Statuses.FirstOrDefault(s=>s.ID == 1),
-            //        StatForTest = Statistics.Dexterity,
-            //        UsesMaxBeforeRest = 2,
-            //         AggressiveAction = true
-
-            //    },
-            //                      new CharacterActions
-            //    {
-            //        Id = 4,
-            //        ActionName = "Healing Potion",
-            //        ActionDescription = "Heals the user for 1d6 +2",
-            //        ActionType = CharacterActionType.ItemAction,
-            //        SavingThrowPossible = false,
-            //        Max_Dmg = 1,
-            //        Flat_Dmg = 2,
-            //        Hit_Dice_Nr = 1,
-            //        PossibleTargets = "caster",
-            //        InflictsStatus = false,
-            //        StatForTest = Statistics.None,
-            //        UsesMax = 1,
-            //        AggressiveAction = false
-            //    },
-            //         new CharacterActions
-            //    {
-            //        Id = 5,
-            //        ActionName = "Bless",
-            //        ActionDescription = "Blesses the target giving him advantage a bonus 1d4 to attack rolls",
-            //        ActionType = CharacterActionType.Spell,
-            //             SavingThrowPossible = false,
-            //        Max_Dmg = 0,
-            //        Flat_Dmg = 0,
-            //        Hit_Dice_Nr = 0,
-            //        PossibleTargets = "caster",
-            //        InflictsStatus = true,
-            //        Status = Statuses.FirstOrDefault(s=>s.ID==2),
-            //        StatForTest = Statistics.None,
-            //        UsesMaxBeforeRest = 1,
-            //         AggressiveAction = false
-            //    }
-
-            //};
-
-            //    Items = new List<Item>
-            //    {
-            //        new Item
-            //        {
-            //            Id=1,
-            //            Name="Light Armor",
-            //            ItemType = ItemType.Armors,
-            //            ArmorClass = 1,
-            //            ArmorType="Light"
-
-            //        },
-            //        new Item()
-            //        {
-            //            Id=2,
-            //            Name="Short Sword",
-            //            ItemType =ItemType.Weapons,
-            //            ActionToTrigger = Actions.FirstOrDefault(a=> a.Id == 1)
-            //        },
-            //        new Item()
-            //        {
-            //            Id=3,
-            //            Name="Healing Potion",
-            //            ItemType = ItemType.Consumable,
-            //            ActionToTrigger = Actions.FirstOrDefault(a=>a.Id == 4 )
-            //        },
-            //        new Item()
-            //        {
-            //            Id=4,
-            //            Name="Small Wooden Shield",
-            //            ItemType = ItemType.Shield,
-            //            ArmorClass=1,
-            //            ArmorType = "basic"
-
-            //        }
-            //    };
-
-            //    Enemies = new List<Enemy>
-            //    {
-            //        new Enemy
-            //        {
-            //            ID = 1,
-            //            CharacterName = "Goblin Archer",
-            //            Race = "Goblin",
-            //            MaxHealthPoints = 10,
-            //            CurrentHealthPoints = 10,
-            //            Level = 1,
-            //            Alignment = "evil",
-            //            //EquippedArmor = Items.FirstOrDefault(a => a.Id == 1),
-            //            //EquippedWeapon =Items.FirstOrDefault(a => a.Id == 2),
-            //            //EquippedSecondaryWeapon = Items.FirstOrDefault(a=>a.Id == 4),
-            //            //Inventory = new Item[5],
-            //            //AllAvailableActions = new List<CharacterActions>(),
-            //            //ActiveStatuses = new List<Status>(),
-            //            Strenght = 10,
-            //            Dexterity =12,
-            //            Constitution=10,
-            //            Intelligence=8,
-            //            Wisdom = 8,
-            //            Charisma = 6
-            //        }
-            //    };
-
-            //    PlayableCharacters = new List<PlayableCharacter>
-            //    {
-            //        new PlayableCharacter
-            //        {
-            //            ID = 1,
-            //            CharacterName = "AdminCharacter",
-            //            MaxHealthPoints = 30,
-            //            CurrentHealthPoints = 30,
-            //            Level = 1,
-            //            Alignment = "Good",
-            //            //EquippedArmor = Items.First(c=>c.Id==1),
-            //            //EquippedWeapon = Items.First(c=>c.Id==2),
-            //            //EquippedSecondaryWeapon =Items.First(c =>c.Id ==4),
-            //            //Inventory = new Item[5],
-            //            //AllAvailableActions = new List<CharacterActions>(),
-            //            //DefaultActions = new List<CharacterActions>(),
-            //            Strenght = 16,
-            //            Dexterity = 14,
-            //            Constitution = 10,
-            //            Intelligence = 15,
-            //            Wisdom = 12,
-            //            Charisma = 2,
-            //            Race = PlayableRaces.FirstOrDefault(r=>r.ID ==1),
-            //            UserId = Users.FirstOrDefault(u=>u.Id == 1).Id,
-            //            CharacterClass =PlayableCharacterClasses.FirstOrDefault(c=>c.ID ==1)
-
-            //        }
-            //    };
-            //    //PlayableCharacters[0].DefaultActions.Add(Actions.FirstOrDefault(x => x.Id == 4));  //HardCoding
-            //    //PlayableCharacters[0].DefaultActions.Add(Actions.FirstOrDefault(x => x.Id == 3));
-
-            //}
-
+            _db.Enemies.AddRange(enemies);
 
             _db.SaveChanges();
+            playableCharacters[0].EquippedArmor = _db.Items.FirstOrDefault(i => i.Name.Contains("Light Armor"));
+            playableCharacters[0].EquippedWeapon = _db.Items.FirstOrDefault(i => i.Name.Contains("Short Sword"));
+            playableCharacters[0].EquippedSecondaryWeapon = _db.Items.FirstOrDefault(i => i.Name.Contains("Small Wooden Shield"));
+            playableCharacters[0].Race = _db.PlayableCharacterRaces.FirstOrDefault(i => i.RaceName.Contains("Human"));
+            playableCharacters[0].CharacterClass = _db.PlayableCharacterClasses.FirstOrDefault(i => i.ClassName.Contains("Warrior"));
+
+            playableCharacters[0].DefaultActions.Add(_db.CharacterActions.FirstOrDefault(x => x.ActionName.Contains("Magic Missiles")));
+            playableCharacters[0].DefaultActions.Add(_db.CharacterActions.FirstOrDefault(x => x.ActionName.Contains("Healing Potion")));
+            
+
+            foreach (var user in users)
+            {
+
+                user.CharactersCreated.Add(playableCharacters[0]);
+            }
+
+            _db.Users.AddRange(users);
+            _db.SaveChanges();
+
         }
+
+
     }
 }
+

@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace OstreCWEB.Data.Repository.Characters.CoreClasses
+namespace OstreCWEB.Data.Repository.Characters.CharacterModels
 {
     internal class Skills
     {

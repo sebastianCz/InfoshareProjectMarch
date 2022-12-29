@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using OstreCWEB.Data.Repository.Fight;
 using OstreCWEB.Services.Fight;
 using OstreCWEB.ViewModel.Fight;
+using OstreCWEB.ViewModel.Characters;
 
 namespace OstreCWEB.Controllers
 {

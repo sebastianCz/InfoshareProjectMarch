@@ -1,20 +1,27 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using OstreCWEB.Data.Repository.Characters.CoreClasses;
+using OstreCWEB.Data.Repository.Characters.CharacterModels;
 using OstreCWEB.Data.Repository.Characters.MetaTags;
 using OstreCWEB.Data.Repository.Identity;
 using OstreCWEB.Data.Repository.StoryModels;
 using OstreCWEB.Data.Repository.StoryModels.Properties;
-using System.Reflection.Emit;
-using System.Security.Cryptography.X509Certificates;
 
 namespace OstreCWEB.Data.DataBase
 {
     public class OstreCWebContext : DbContext
     {
         //User
-        public DbSet<User> Users { get; set; }
-        public DbSet<PlayableCharacter> PlayableCharacters { get; set; }
-        public DbSet<Enemy> Enemies { get; set; }
+        internal DbSet<User> Users { get; set; }
+        //Characters
+        internal DbSet<PlayableCharacter> PlayableCharacters { get; set; }
+        internal DbSet<Enemy> Enemies { get; set; }
+        internal DbSet<PlayableCharacterClass> PlayableCharacterClasses { get; set; }
+        internal DbSet<PlayableRace> PlayableCharacterRaces { get; set; }
+        internal DbSet<Item> Items { get; set; }
+        internal DbSet<CharacterAction> CharacterActions { get; set; } 
+        internal DbSet<Status> Statuses { get; set; }
+        internal DbSet<ItemCharacter> ItemsEquippedByEachCharacter { get; set; }
+
+
 
         //Story
 
@@ -27,9 +34,7 @@ namespace OstreCWEB.Data.DataBase
         //public DbSet<ShopkeeperProp> ShopkeeperProps { get; set; }
         //public DbSet<EnemyInParagraph> EnemyInParagraphs { get; set; }
 
-        //Character
-        //public DbSet<PlayableCharacter> PlayableCharacters { get; set; }
-        //public DbSet<Enemy> Enemies { get; set; }
+         
         //Combat
 
 

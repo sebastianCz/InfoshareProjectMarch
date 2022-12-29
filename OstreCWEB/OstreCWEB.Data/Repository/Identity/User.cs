@@ -1,6 +1,6 @@
 ﻿ 
 using Microsoft.EntityFrameworkCore.ChangeTracking.Internal;
-using OstreCWEB.Data.Repository.Characters.CoreClasses;
+using OstreCWEB.Data.Repository.Characters.CharacterModels;
 using OstreCWEB.Data.Repository.StoryModels;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;

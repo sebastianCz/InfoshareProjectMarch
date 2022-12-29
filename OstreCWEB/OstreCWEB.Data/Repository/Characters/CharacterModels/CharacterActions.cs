@@ -1,7 +1,7 @@
 ﻿using OstreCWEB.Data.Repository.Characters.Enums;
 using System.ComponentModel.DataAnnotations;
 
-namespace OstreCWEB.Data.Repository.Characters.CoreClasses
+namespace OstreCWEB.Data.Repository.Characters.CharacterModels
 {
 
     //"using" a spell , item  or weapon is an action. 
@@ -10,7 +10,11 @@ namespace OstreCWEB.Data.Repository.Characters.CoreClasses
         //EF config
         [Key]
         public int CharacterActionId { get; set; }
-        public Status Status { get; set; }
+        public Status? Status { get; set; }
+        public int? StatusId { get; set; }
+
+        public List<PlayableCharacter> LinkedCharacter {get;set;} 
+        public List<Item> LinkedItems { get; set; }
         //
 
         public string ActionName { get; set; }

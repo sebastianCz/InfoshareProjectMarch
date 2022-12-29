@@ -2,7 +2,7 @@
 using OstreCWEB.Data.Repository.Identity;
 using System.ComponentModel.DataAnnotations;
 
-namespace OstreCWEB.Data.Repository.Characters.CoreClasses
+namespace OstreCWEB.Data.Repository.Characters.CharacterModels
 {
     public class PlayableCharacter : Character
     {  

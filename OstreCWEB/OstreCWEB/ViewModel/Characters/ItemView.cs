@@ -1,7 +1,8 @@
-﻿using OstreCWEB.Data.Repository.Characters.CoreClasses;
+﻿
+using OstreCWEB.Data.Repository.Characters.CharacterModels;
 using OstreCWEB.Data.Repository.Characters.Enums;
 
-namespace OstreCWEB.ViewModel.Fight
+namespace OstreCWEB.ViewModel.Characters
 {
     public class ItemView
     {
@@ -10,6 +11,6 @@ namespace OstreCWEB.ViewModel.Fight
         public string ArmorType { get; set; }
         public int? Id { get; set; }
         public string? Name { get; set; }
-        public Data.Repository.Characters.CoreClasses.CharacterAction ActionToTrigger { get; set; }
+        public  CharacterAction ActionToTrigger { get; set; }
     }
 }

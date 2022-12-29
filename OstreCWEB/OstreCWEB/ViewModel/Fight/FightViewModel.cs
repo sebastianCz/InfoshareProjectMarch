@@ -1,4 +1,4 @@
-﻿using OstreCWEB.Data.Repository.Characters.CoreClasses;
+﻿using OstreCWEB.ViewModel.Characters; 
 
 namespace OstreCWEB.ViewModel.Fight
 {

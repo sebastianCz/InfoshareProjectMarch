@@ -4,10 +4,13 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Text.Json.Serialization;
 
-namespace OstreCWEB.Data.Repository.Characters.CoreClasses
+namespace OstreCWEB.Data.Repository.Characters.CharacterModels
 {
     public abstract class Character
     {
+        //Ef Config
+        public List<ActionCharacter> LinkedActions { get; set; }
+        
         [Key]
         public int CharacterId { get; set; }
         //This is required because Characters IDs can be the same as enemies...Combat needs to generate it's own IDs
@@ -18,11 +21,10 @@ namespace OstreCWEB.Data.Repository.Characters.CoreClasses
         public string CharacterName { get; set; }
         [Required]
         public int MaxHealthPoints { get; set; }
+        [NotMapped]
         public int CurrentHealthPoints { get; set; }
         [Required]
-        public int Level { get; set; }
-        [Required]
-        public string Alignment { get; set; }
+        public int Level { get; set; } 
         [Required]
         [NotMapped]
         public Item EquippedArmor { get; set; } 
@@ -35,7 +37,9 @@ namespace OstreCWEB.Data.Repository.Characters.CoreClasses
         [NotMapped]
         public Item[] Inventory { get; set; }
         //Actions granted on level 1 based on class+race+ user choices.
+        [NotMapped]
         public List<CharacterAction> DefaultActions { get; set; }
+
 
 
         public int Strenght { get; set; }

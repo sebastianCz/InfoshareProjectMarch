@@ -1,6 +1,6 @@
 ﻿using System.Text.Json.Serialization;
 
-namespace OstreCWEB.Data.Repository.Characters.CoreClasses
+namespace OstreCWEB.Data.Repository.Characters.CharacterModels
 
 {
     public class Enemy : Character

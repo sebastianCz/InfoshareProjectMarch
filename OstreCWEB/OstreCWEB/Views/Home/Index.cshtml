@@ -14,11 +14,7 @@
             @*<li class="breadcrumb-item active">Fangehull</li>*@
             
         </ol>
-        <button type="button" id="btnScore" onclick="GenerateEnemies()"> Initialize Fight!
-        </button>
-        <button type="button" id="btnScore" onclick="Seed()">
-            SeedData
-        </button>
+     
     </nav>
 </div><!-- End Page Title -->
 
@@ -82,37 +78,5 @@
     }
   
 </section>
-<script>
-
-     
-    function GenerateEnemies() {
-        $.ajax({
-            type: "GET",
-            url: "Fight/InitializeFight",
-            async: true,
-            success: function (msg) {
-                
-            },
-            error: function () {
-                return "error";
-            }
-        });
-    }
-
-
-
-    function Seed() {
-        $.ajax({
-            type: "GET",
-            url: "Home/Seed",
-            async: true,
-            success: function (msg) {
-
-            },
-            error: function () {
-                return "error";
-            }
-        });
-    }
-
+<script> 
 </script>
