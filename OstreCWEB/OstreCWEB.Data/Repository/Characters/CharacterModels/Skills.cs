@@ -14,5 +14,6 @@ namespace OstreCWEB.Data.Repository.Characters.CharacterModels
         public int SkillsId { get; set; }
         public string SkillName { get; set; }
         public Statistics StatisticForTest { get; set; }
+
     }
 }

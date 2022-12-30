@@ -10,7 +10,7 @@ namespace OstreCWEB.Data.DataBase
         private static List<User> Users = new List<User>(); 
         private static List<Enemy> Enemies = new List<Enemy>();
         private static List<PlayableCharacter> PlayableCharacters = new List<PlayableCharacter>();
-        private static List<PlayableCharacterClass> PlayableCharacterClasses = new List<PlayableCharacterClass>();
+        private static List<PlayableClass> PlayableCharacterClasses = new List<PlayableClass>();
         private static List<Status> Statuses = new List<Status>();
         private static List<PlayableRace> PlayableRaces = new List<PlayableRace>(); 
         private static List<Item> Items = new List<Item>();
@@ -54,7 +54,14 @@ namespace OstreCWEB.Data.DataBase
                             Skill.acrobatics,
                             Skill.religion
                         },
-                    AmountOfSkillsToChoose = 1
+                    AmountOfSkillsToChoose = 1,
+
+                    CharismaBonus=1,
+                    DexterityBonus=1,
+                    ConstitutionBonus=1,
+                    IntelligenceBonus=1,
+                    StrengthBonus=1,
+                    WisdomBonus=1
                 }
                 
             };
@@ -80,17 +87,18 @@ namespace OstreCWEB.Data.DataBase
                 }
             };
 
-            PlayableCharacterClasses = new List<PlayableCharacterClass>
+            PlayableCharacterClasses = new List<PlayableClass>
             {
-                new PlayableCharacterClass
+                new PlayableClass
                 {
-                    PlayableCharacterClassId = 1,
+                    PlayableClassId = 1,
                     ClassName = "Warrior",
-                    BonusesForEeachStatistic = new Dictionary<Statistics, int>
-                    {
-                        {Statistics.Strenght,1},
-                        {Statistics.Dexterity,1}
-                    }
+                    CharismaBonus=0,
+                    DexterityBonus=1,
+                    ConstitutionBonus=1,
+                    IntelligenceBonus=0,
+                    StrengthBonus=1,
+                    WisdomBonus=0
                 }
             };
 
@@ -266,7 +274,7 @@ namespace OstreCWEB.Data.DataBase
                     Charisma = 2,
                     Race = PlayableRaces.FirstOrDefault(r=>r.PlayableRaceId ==1),
                     UserId = Users.FirstOrDefault(u=>u.Id == 1).Id,
-                    CharacterClass =PlayableCharacterClasses.FirstOrDefault(c=>c.PlayableCharacterClassId ==1),
+                    CharacterClass =PlayableCharacterClasses.FirstOrDefault(c=>c.PlayableClassId ==1),
                    
 
                 }

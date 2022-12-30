@@ -1,16 +1,15 @@
-﻿using OstreCWEB.Data.Repository.Characters;
+﻿using OstreCWEB.Data.Repository.Characters.Interfaces;
 
 namespace OstreCWEB.Services.SuperAdmin
 {
     internal class SuperAdminService
     {
-        private ICharacterRepository _characterRepository;
+        private IPlayableCharacterRepository _playableCharacterRepository;
 
-        public SuperAdminService(ICharacterRepository characterRepository)
+        public SuperAdminService(IPlayableCharacterRepository characterRepository)
         {
-            _characterRepository = characterRepository;
+            _playableCharacterRepository = characterRepository;
         }   
-
-        public 
+         
     }
 }

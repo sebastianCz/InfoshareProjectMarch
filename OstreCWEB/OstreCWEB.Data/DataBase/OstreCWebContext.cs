@@ -4,22 +4,27 @@ using OstreCWEB.Data.Repository.Characters.MetaTags;
 using OstreCWEB.Data.Repository.Identity;
 using OstreCWEB.Data.Repository.StoryModels;
 using OstreCWEB.Data.Repository.StoryModels.Properties;
+using System.Reflection.Emit;
 
 namespace OstreCWEB.Data.DataBase
 {
     public class OstreCWebContext : DbContext
     {
+        //Relations many to many
+
+      internal DbSet<ActionCharacter> actionCharactersRelation { get; set; }
+        internal DbSet<ItemCharacter> ItemsCharactersRelation { get; set; }
         //User
         internal DbSet<User> Users { get; set; }
         //Characters
         internal DbSet<PlayableCharacter> PlayableCharacters { get; set; }
         internal DbSet<Enemy> Enemies { get; set; }
-        internal DbSet<PlayableCharacterClass> PlayableCharacterClasses { get; set; }
+        internal DbSet<PlayableClass> PlayableCharacterClasses { get; set; }
         internal DbSet<PlayableRace> PlayableCharacterRaces { get; set; }
         internal DbSet<Item> Items { get; set; }
-        internal DbSet<CharacterAction> CharacterActions { get; set; } 
         internal DbSet<Status> Statuses { get; set; }
-        internal DbSet<ItemCharacter> ItemsEquippedByEachCharacter { get; set; }
+
+        internal DbSet<CharacterAction> CharacterActions { get; set; }
 
 
 
@@ -34,7 +39,7 @@ namespace OstreCWEB.Data.DataBase
         //public DbSet<ShopkeeperProp> ShopkeeperProps { get; set; }
         //public DbSet<EnemyInParagraph> EnemyInParagraphs { get; set; }
 
-         
+
         //Combat
 
 
@@ -47,7 +52,12 @@ namespace OstreCWEB.Data.DataBase
         protected override void OnModelCreating(ModelBuilder builder)
         {
             UserConfiguration(builder);
-            ConfigureCharacters(builder);  
+            ConfigureCharacters(builder);
+            ConfigureActions(builder);
+        }
+        private void ConfigureActions(ModelBuilder builder)
+        {
+            builder.Entity<ActionCharacter>().HasKey(sc => new { sc.CharacterActionId, sc.PlayableCharacterId });
         }
 
         private void UserConfiguration(ModelBuilder builder)

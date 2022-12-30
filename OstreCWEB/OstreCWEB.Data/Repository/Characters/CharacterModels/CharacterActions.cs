@@ -1,4 +1,5 @@
 ﻿using OstreCWEB.Data.Repository.Characters.Enums;
+using OstreCWEB.Data.Repository.Characters.MetaTags;
 using System.ComponentModel.DataAnnotations;
 
 namespace OstreCWEB.Data.Repository.Characters.CharacterModels
@@ -13,7 +14,7 @@ namespace OstreCWEB.Data.Repository.Characters.CharacterModels
         public Status? Status { get; set; }
         public int? StatusId { get; set; }
 
-        public List<PlayableCharacter> LinkedCharacter {get;set;} 
+        public List<ActionCharacter> LinkedCharacter {get;set;} 
         public List<Item> LinkedItems { get; set; }
         //
 

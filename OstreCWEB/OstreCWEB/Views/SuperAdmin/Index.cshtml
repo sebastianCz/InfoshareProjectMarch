@@ -1,5 +1,5 @@
-﻿
-@{
+﻿@model OstreCWEB.ViewModel.SuperAdmin.SuperAdminView
+
     ViewData["Title"] = "SuperAdminView";
 }
 
@@ -11,6 +11,13 @@
 <button type="button" id="btnScore" onclick="Seed()">
     SeedData
 </button>
+
+<button type="button" id="btnScore" onclick="TestController()">
+    TestDb
+</button>
+@*
+ 
+<partial name="_DetailsStatus" model="@Model.Statuses" />*@
 <script>
 
     function GenerateEnemies() {
@@ -41,7 +48,26 @@
                 return "error";
             }
         });
+
     }
+
+
+    function TestController() {
+        $.ajax({
+            type: "GET",
+            url: "SuperAdmin/TestController",
+            async: true,
+            success: function (msg) {
+
+            },
+            error: function () {
+                return "error";
+            }
+        });
+
+    }
+
+    
 
 
 

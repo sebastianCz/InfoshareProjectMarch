@@ -18,7 +18,7 @@ namespace OstreCWEB.Data.Repository.Characters.CharacterModels
 
         public PlayableRace Race { get; set; }
         public int RaceId { get; set; }
-        public PlayableCharacterClass CharacterClass { get; set; }
+        public PlayableClass CharacterClass { get; set; }
         public int PlayableClassId { get; set; }
 
 

@@ -1,8 +1,7 @@
 ﻿using OstreCWEB.Data.Repository.Identity;
 using OstreCWEB.Data.Repository.Characters.CharacterModels;
 using OstreCWEB.Data.Repository.Characters.Enums;
-using OstreCWEB.Data.Repository.Characters.CharacterModels;
-using OstreCWEB.Data.Migrations;
+using OstreCWEB.Data.Repository.Characters.CharacterModels; 
 using System.Linq;
 
 namespace OstreCWEB.Data.DataBase
@@ -80,9 +79,9 @@ namespace OstreCWEB.Data.DataBase
 
 
 
-            var playableCharacterClasses = new List<PlayableCharacterClass>
+            var playableCharacterClasses = new List<PlayableClass>
                 {
-                    new PlayableCharacterClass
+                    new PlayableClass
                     {
                         ClassName = "Warrior",
                     }
