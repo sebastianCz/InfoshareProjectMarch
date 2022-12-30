@@ -9,36 +9,37 @@ namespace OstreCWEB.Data.Repository.Characters.CharacterModels
     public abstract class Character
     {
         //Ef Config
-        public List<ActionCharacter> LinkedActions { get; set; }
-        
         [Key]
         public int CharacterId { get; set; }
+        public List<ActionCharacter>? LinkedActions{get;set;}
+        public List<ItemCharacter>? ItemCharacter { get; set; }
+
         //This is required because Characters IDs can be the same as enemies...Combat needs to generate it's own IDs
         //This is not saved to data base.
-        public int CombatId { get; set; }
+        public List<CharacterAction>? DefaultActions { get; set; }
+        [NotMapped]
+        public List<CharacterAction> AllAvailableActions { get; set; }
+        [NotMapped]
+        public List<Status> ActiveStatuses { get; set; }
 
-        [Required]
-        public string CharacterName { get; set; }
-        [Required]
-        public int MaxHealthPoints { get; set; }
+
         [NotMapped]
-        public int CurrentHealthPoints { get; set; }
-        [Required]
-        public int Level { get; set; } 
-        [Required]
+        public int CombatId { get; set; } 
+        public string CharacterName { get; set; } 
+        public int MaxHealthPoints { get; set; } 
+        public int CurrentHealthPoints { get; set; } 
+        public int Level { get; set; }
         [NotMapped]
-        public Item EquippedArmor { get; set; } 
-        [Required]
+        public Item EquippedArmor { get; set; }
         [NotMapped]
-        public Item EquippedWeapon { get; set; } 
-        [Required]
+        public Item EquippedWeapon { get; set; }
         [NotMapped]
-        public Item EquippedSecondaryWeapon { get; set; } 
-        [NotMapped]
+        public Item EquippedSecondaryWeapon { get; set; }
+        [NotMapped]  
+        
         public Item[] Inventory { get; set; }
         //Actions granted on level 1 based on class+race+ user choices.
-        [NotMapped]
-        public List<CharacterAction> DefaultActions { get; set; }
+
 
 
 
@@ -47,15 +48,7 @@ namespace OstreCWEB.Data.Repository.Characters.CharacterModels
         public int Constitution { get; set; }
         public int Intelligence { get; set; }
         public int Wisdom { get; set; }
-        public int Charisma { get; set; }
-
-        [NotMapped]
-        public List<CharacterAction> AllAvailableActions { get; set; }
-        [NotMapped]
-        public List<Status> ActiveStatuses { get; set; }
-
-        public List<ItemCharacter> ItemCharacter { get; set; }
-
+        public int Charisma { get; set; } 
         [JsonConstructor]
         public Character()
         {

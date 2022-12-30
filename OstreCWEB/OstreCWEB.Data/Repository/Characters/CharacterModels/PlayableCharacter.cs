@@ -10,10 +10,13 @@ namespace OstreCWEB.Data.Repository.Characters.CharacterModels
         {
 
         }
-        //Id used to "link" the character to a user in db later on. 
+        
+        //Ef config
         [Required]
-        public int UserId { get; set; }
+        public int UserId { get; set; }//Id of character owner
         public User User { get; set; }
+        //
+
         [Required]
 
         public PlayableRace Race { get; set; }

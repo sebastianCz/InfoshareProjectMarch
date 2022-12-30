@@ -5,33 +5,10 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace OstreCWEB.Data.Migrations
 {
-    public partial class StatusCharacterActionMigration : Migration
+    public partial class AddedManyToManyForActionsAndCharacters : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.CreateTable(
-                name: "Enemies",
-                columns: table => new
-                {
-                    CharacterId = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Race = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    CombatId = table.Column<int>(type: "int", nullable: false),
-                    CharacterName = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    MaxHealthPoints = table.Column<int>(type: "int", nullable: false),
-                    Level = table.Column<int>(type: "int", nullable: false),
-                    Strenght = table.Column<int>(type: "int", nullable: false),
-                    Dexterity = table.Column<int>(type: "int", nullable: false),
-                    Constitution = table.Column<int>(type: "int", nullable: false),
-                    Intelligence = table.Column<int>(type: "int", nullable: false),
-                    Wisdom = table.Column<int>(type: "int", nullable: false),
-                    Charisma = table.Column<int>(type: "int", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Enemies", x => x.CharacterId);
-                });
-
             migrationBuilder.CreateTable(
                 name: "PlayableCharacterClasses",
                 columns: table => new
@@ -107,6 +84,51 @@ namespace OstreCWEB.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Character",
+                columns: table => new
+                {
+                    CharacterId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    CharacterName = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    MaxHealthPoints = table.Column<int>(type: "int", nullable: false),
+                    CurrentHealthPoints = table.Column<int>(type: "int", nullable: false),
+                    Level = table.Column<int>(type: "int", nullable: false),
+                    Strenght = table.Column<int>(type: "int", nullable: false),
+                    Dexterity = table.Column<int>(type: "int", nullable: false),
+                    Constitution = table.Column<int>(type: "int", nullable: false),
+                    Intelligence = table.Column<int>(type: "int", nullable: false),
+                    Wisdom = table.Column<int>(type: "int", nullable: false),
+                    Charisma = table.Column<int>(type: "int", nullable: false),
+                    Discriminator = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Race = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    UserId = table.Column<int>(type: "int", nullable: true),
+                    RaceId = table.Column<int>(type: "int", nullable: true),
+                    PlayableClassId = table.Column<int>(type: "int", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Character", x => x.CharacterId);
+                    table.ForeignKey(
+                        name: "FK_Character_PlayableCharacterClasses_PlayableClassId",
+                        column: x => x.PlayableClassId,
+                        principalTable: "PlayableCharacterClasses",
+                        principalColumn: "PlayableClassId",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Character_PlayableCharacterRaces_RaceId",
+                        column: x => x.RaceId,
+                        principalTable: "PlayableCharacterRaces",
+                        principalColumn: "PlayableRaceId",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Character_Users_UserId",
+                        column: x => x.UserId,
+                        principalTable: "Users",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "CharacterActions",
                 columns: table => new
                 {
@@ -126,11 +148,17 @@ namespace OstreCWEB.Data.Migrations
                     UsesMaxBeforeRest = table.Column<int>(type: "int", nullable: false),
                     UsesLeftBeforeRest = table.Column<int>(type: "int", nullable: false),
                     UsesMax = table.Column<int>(type: "int", nullable: false),
-                    AggressiveAction = table.Column<bool>(type: "bit", nullable: false)
+                    AggressiveAction = table.Column<bool>(type: "bit", nullable: false),
+                    CharacterId = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_CharacterActions", x => x.CharacterActionId);
+                    table.ForeignKey(
+                        name: "FK_CharacterActions_Character_CharacterId",
+                        column: x => x.CharacterId,
+                        principalTable: "Character",
+                        principalColumn: "CharacterId");
                     table.ForeignKey(
                         name: "FK_CharacterActions_Statuses_StatusId",
                         column: x => x.StatusId,
@@ -139,45 +167,26 @@ namespace OstreCWEB.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "PlayableCharacters",
+                name: "actionCharactersRelation",
                 columns: table => new
                 {
+                    CharacterActionId = table.Column<int>(type: "int", nullable: false),
                     CharacterId = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    UserId = table.Column<int>(type: "int", nullable: false),
-                    RaceId = table.Column<int>(type: "int", nullable: false),
-                    PlayableClassId = table.Column<int>(type: "int", nullable: false),
-                    CombatId = table.Column<int>(type: "int", nullable: false),
-                    CharacterName = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    MaxHealthPoints = table.Column<int>(type: "int", nullable: false),
-                    Level = table.Column<int>(type: "int", nullable: false),
-                    Strenght = table.Column<int>(type: "int", nullable: false),
-                    Dexterity = table.Column<int>(type: "int", nullable: false),
-                    Constitution = table.Column<int>(type: "int", nullable: false),
-                    Intelligence = table.Column<int>(type: "int", nullable: false),
-                    Wisdom = table.Column<int>(type: "int", nullable: false),
-                    Charisma = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_PlayableCharacters", x => x.CharacterId);
+                    table.PrimaryKey("PK_actionCharactersRelation", x => new { x.CharacterId, x.CharacterActionId });
                     table.ForeignKey(
-                        name: "FK_PlayableCharacters_PlayableCharacterClasses_PlayableClassId",
-                        column: x => x.PlayableClassId,
-                        principalTable: "PlayableCharacterClasses",
-                        principalColumn: "PlayableClassId",
+                        name: "FK_actionCharactersRelation_Character_CharacterId",
+                        column: x => x.CharacterId,
+                        principalTable: "Character",
+                        principalColumn: "CharacterId",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_PlayableCharacters_PlayableCharacterRaces_RaceId",
-                        column: x => x.RaceId,
-                        principalTable: "PlayableCharacterRaces",
-                        principalColumn: "PlayableRaceId",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_PlayableCharacters_Users_UserId",
-                        column: x => x.UserId,
-                        principalTable: "Users",
-                        principalColumn: "Id",
+                        name: "FK_actionCharactersRelation_CharacterActions_CharacterActionId",
+                        column: x => x.CharacterActionId,
+                        principalTable: "CharacterActions",
+                        principalColumn: "CharacterActionId",
                         onDelete: ReferentialAction.Cascade);
                 });
 
@@ -204,74 +213,53 @@ namespace OstreCWEB.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "actionCharactersRelation",
-                columns: table => new
-                {
-                    CharacterActionId = table.Column<int>(type: "int", nullable: false),
-                    PlayableCharacterId = table.Column<int>(type: "int", nullable: false),
-                    EnemyCharacterId = table.Column<int>(type: "int", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_actionCharactersRelation", x => new { x.CharacterActionId, x.PlayableCharacterId });
-                    table.ForeignKey(
-                        name: "FK_actionCharactersRelation_CharacterActions_CharacterActionId",
-                        column: x => x.CharacterActionId,
-                        principalTable: "CharacterActions",
-                        principalColumn: "CharacterActionId",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_actionCharactersRelation_Enemies_EnemyCharacterId",
-                        column: x => x.EnemyCharacterId,
-                        principalTable: "Enemies",
-                        principalColumn: "CharacterId");
-                    table.ForeignKey(
-                        name: "FK_actionCharactersRelation_PlayableCharacters_PlayableCharacterId",
-                        column: x => x.PlayableCharacterId,
-                        principalTable: "PlayableCharacters",
-                        principalColumn: "CharacterId",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "ItemsCharactersRelation",
                 columns: table => new
                 {
                     ItemId = table.Column<int>(type: "int", nullable: false),
-                    PlayableCharacterId = table.Column<int>(type: "int", nullable: false),
-                    EnemyCharacterId = table.Column<int>(type: "int", nullable: true)
+                    CharacterId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_ItemsCharactersRelation", x => new { x.ItemId, x.PlayableCharacterId });
+                    table.PrimaryKey("PK_ItemsCharactersRelation", x => new { x.ItemId, x.CharacterId });
                     table.ForeignKey(
-                        name: "FK_ItemsCharactersRelation_Enemies_EnemyCharacterId",
-                        column: x => x.EnemyCharacterId,
-                        principalTable: "Enemies",
-                        principalColumn: "CharacterId");
+                        name: "FK_ItemsCharactersRelation_Character_CharacterId",
+                        column: x => x.CharacterId,
+                        principalTable: "Character",
+                        principalColumn: "CharacterId",
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_ItemsCharactersRelation_Items_ItemId",
                         column: x => x.ItemId,
                         principalTable: "Items",
                         principalColumn: "ItemId",
                         onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_ItemsCharactersRelation_PlayableCharacters_PlayableCharacterId",
-                        column: x => x.PlayableCharacterId,
-                        principalTable: "PlayableCharacters",
-                        principalColumn: "CharacterId",
-                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_actionCharactersRelation_EnemyCharacterId",
+                name: "IX_actionCharactersRelation_CharacterActionId",
                 table: "actionCharactersRelation",
-                column: "EnemyCharacterId");
+                column: "CharacterActionId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_actionCharactersRelation_PlayableCharacterId",
-                table: "actionCharactersRelation",
-                column: "PlayableCharacterId");
+                name: "IX_Character_PlayableClassId",
+                table: "Character",
+                column: "PlayableClassId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Character_RaceId",
+                table: "Character",
+                column: "RaceId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Character_UserId",
+                table: "Character",
+                column: "UserId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_CharacterActions_CharacterId",
+                table: "CharacterActions",
+                column: "CharacterId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_CharacterActions_StatusId",
@@ -284,29 +272,9 @@ namespace OstreCWEB.Data.Migrations
                 column: "ActionToTriggerCharacterActionId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_ItemsCharactersRelation_EnemyCharacterId",
+                name: "IX_ItemsCharactersRelation_CharacterId",
                 table: "ItemsCharactersRelation",
-                column: "EnemyCharacterId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_ItemsCharactersRelation_PlayableCharacterId",
-                table: "ItemsCharactersRelation",
-                column: "PlayableCharacterId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_PlayableCharacters_PlayableClassId",
-                table: "PlayableCharacters",
-                column: "PlayableClassId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_PlayableCharacters_RaceId",
-                table: "PlayableCharacters",
-                column: "RaceId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_PlayableCharacters_UserId",
-                table: "PlayableCharacters",
-                column: "UserId");
+                column: "CharacterId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -318,16 +286,16 @@ namespace OstreCWEB.Data.Migrations
                 name: "ItemsCharactersRelation");
 
             migrationBuilder.DropTable(
-                name: "Enemies");
-
-            migrationBuilder.DropTable(
                 name: "Items");
 
             migrationBuilder.DropTable(
-                name: "PlayableCharacters");
+                name: "CharacterActions");
 
             migrationBuilder.DropTable(
-                name: "CharacterActions");
+                name: "Character");
+
+            migrationBuilder.DropTable(
+                name: "Statuses");
 
             migrationBuilder.DropTable(
                 name: "PlayableCharacterClasses");
@@ -337,9 +305,6 @@ namespace OstreCWEB.Data.Migrations
 
             migrationBuilder.DropTable(
                 name: "Users");
-
-            migrationBuilder.DropTable(
-                name: "Statuses");
         }
     }
 }

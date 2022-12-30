@@ -1,9 +1,6 @@
 ﻿using AutoMapper;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Identity.Client;
-using OstreCWEB.Data.DataBase; 
-using OstreCWEB.Data.Repository.Characters.CharacterModels;
+using OstreCWEB.Data.DataBase;
 using OstreCWEB.Data.Repository.Characters.Interfaces;
 using OstreCWEB.ViewModel.Characters;
 using OstreCWEB.ViewModel.SuperAdmin;
@@ -14,14 +11,16 @@ namespace OstreCWEB.Controllers
     {
         private readonly ISeeder _seeder; 
         private readonly IStatusRepository _statusRepository;
+        private readonly ICharacterActionsRepository _characterActionsRepository;
        
         private readonly IMapper _mapper;
         // GET: SuperAdmin
-        public SuperAdminController(ISeeder seeder,IMapper mapper, IStatusRepository statusRepository)
+        public SuperAdminController(ISeeder seeder,IMapper mapper, IStatusRepository statusRepository,ICharacterActionsRepository characterActionsRepository)
         {
             _seeder = seeder;
             _mapper = mapper; 
             _statusRepository = statusRepository;
+            _characterActionsRepository = characterActionsRepository;
         }
         public async Task<ActionResult> TestController()
         {
@@ -41,18 +40,17 @@ namespace OstreCWEB.Controllers
 
             ////await _statusRepository.Delete(status);
             ////statuses = await _statusRepository.GetAll();
-            ///
-            //var statuses = await _statusRepository.GetAll();
+           
+            var data = await _characterActionsRepository.GetAll();
 
-            // await _statusRepository.Create(status);
-            // statuses = await _statusRepository.GetAll() ;
+            await _characterActionsRepository.Create(data[0]);
+            data = await _characterActionsRepository.GetAll();
+             
+            await _characterActionsRepository.Update(data[0]);
+            data = await _characterActionsRepository.GetAll();
 
-            // status.Description = "Newer description";
-            //await _statusRepository.Update(status);
+            //await _statusRepository.Delete(status);
             //statuses = await _statusRepository.GetAll();
-
-            ////await _statusRepository.Delete(status);
-            ////statuses = await _statusRepository.GetAll();
 
             return RedirectToAction(nameof(Index));
 
@@ -65,10 +63,10 @@ namespace OstreCWEB.Controllers
         public ActionResult Index()
         {
             var model = new SuperAdminView();
-            foreach (var status in _statusRepository.GetAll().Result)
-            {
-                model.Statuses.Add(_mapper.Map<StatusView>(status));
-            }
+            //foreach (var status in _statusRepository.GetAll().Result)
+            //{
+            //    model.Statuses.Add(_mapper.Map<StatusView>(status));
+            //}
             return View(model);
         }
 

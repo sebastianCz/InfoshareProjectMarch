@@ -22,6 +22,56 @@ namespace OstreCWEB.Data.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
 
+            modelBuilder.Entity("OstreCWEB.Data.Repository.Characters.CharacterModels.Character", b =>
+                {
+                    b.Property<int>("CharacterId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("CharacterId"), 1L, 1);
+
+                    b.Property<string>("CharacterName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("Charisma")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Constitution")
+                        .HasColumnType("int");
+
+                    b.Property<int>("CurrentHealthPoints")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Dexterity")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Discriminator")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("Intelligence")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Level")
+                        .HasColumnType("int");
+
+                    b.Property<int>("MaxHealthPoints")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Strenght")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Wisdom")
+                        .HasColumnType("int");
+
+                    b.HasKey("CharacterId");
+
+                    b.ToTable("Character");
+
+                    b.HasDiscriminator<string>("Discriminator").HasValue("Character");
+                });
+
             modelBuilder.Entity("OstreCWEB.Data.Repository.Characters.CharacterModels.CharacterAction", b =>
                 {
                     b.Property<int>("CharacterActionId")
@@ -43,6 +93,9 @@ namespace OstreCWEB.Data.Migrations
 
                     b.Property<bool>("AggressiveAction")
                         .HasColumnType("bit");
+
+                    b.Property<int?>("CharacterId")
+                        .HasColumnType("int");
 
                     b.Property<int>("Flat_Dmg")
                         .HasColumnType("int");
@@ -80,57 +133,11 @@ namespace OstreCWEB.Data.Migrations
 
                     b.HasKey("CharacterActionId");
 
+                    b.HasIndex("CharacterId");
+
                     b.HasIndex("StatusId");
 
                     b.ToTable("CharacterActions");
-                });
-
-            modelBuilder.Entity("OstreCWEB.Data.Repository.Characters.CharacterModels.Enemy", b =>
-                {
-                    b.Property<int>("CharacterId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("CharacterId"), 1L, 1);
-
-                    b.Property<string>("CharacterName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("Charisma")
-                        .HasColumnType("int");
-
-                    b.Property<int>("CombatId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("Constitution")
-                        .HasColumnType("int");
-
-                    b.Property<int>("Dexterity")
-                        .HasColumnType("int");
-
-                    b.Property<int>("Intelligence")
-                        .HasColumnType("int");
-
-                    b.Property<int>("Level")
-                        .HasColumnType("int");
-
-                    b.Property<int>("MaxHealthPoints")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Race")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("Strenght")
-                        .HasColumnType("int");
-
-                    b.Property<int>("Wisdom")
-                        .HasColumnType("int");
-
-                    b.HasKey("CharacterId");
-
-                    b.ToTable("Enemies");
                 });
 
             modelBuilder.Entity("OstreCWEB.Data.Repository.Characters.CharacterModels.Item", b =>
@@ -162,65 +169,6 @@ namespace OstreCWEB.Data.Migrations
                     b.HasIndex("ActionToTriggerCharacterActionId");
 
                     b.ToTable("Items");
-                });
-
-            modelBuilder.Entity("OstreCWEB.Data.Repository.Characters.CharacterModels.PlayableCharacter", b =>
-                {
-                    b.Property<int>("CharacterId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("CharacterId"), 1L, 1);
-
-                    b.Property<string>("CharacterName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("Charisma")
-                        .HasColumnType("int");
-
-                    b.Property<int>("CombatId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("Constitution")
-                        .HasColumnType("int");
-
-                    b.Property<int>("Dexterity")
-                        .HasColumnType("int");
-
-                    b.Property<int>("Intelligence")
-                        .HasColumnType("int");
-
-                    b.Property<int>("Level")
-                        .HasColumnType("int");
-
-                    b.Property<int>("MaxHealthPoints")
-                        .HasColumnType("int");
-
-                    b.Property<int>("PlayableClassId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("RaceId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("Strenght")
-                        .HasColumnType("int");
-
-                    b.Property<int>("UserId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("Wisdom")
-                        .HasColumnType("int");
-
-                    b.HasKey("CharacterId");
-
-                    b.HasIndex("PlayableClassId");
-
-                    b.HasIndex("RaceId");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("PlayableCharacters");
                 });
 
             modelBuilder.Entity("OstreCWEB.Data.Repository.Characters.CharacterModels.PlayableClass", b =>
@@ -319,20 +267,15 @@ namespace OstreCWEB.Data.Migrations
 
             modelBuilder.Entity("OstreCWEB.Data.Repository.Characters.MetaTags.ActionCharacter", b =>
                 {
+                    b.Property<int>("CharacterId")
+                        .HasColumnType("int");
+
                     b.Property<int>("CharacterActionId")
                         .HasColumnType("int");
 
-                    b.Property<int>("PlayableCharacterId")
-                        .HasColumnType("int");
+                    b.HasKey("CharacterId", "CharacterActionId");
 
-                    b.Property<int?>("EnemyCharacterId")
-                        .HasColumnType("int");
-
-                    b.HasKey("CharacterActionId", "PlayableCharacterId");
-
-                    b.HasIndex("EnemyCharacterId");
-
-                    b.HasIndex("PlayableCharacterId");
+                    b.HasIndex("CharacterActionId");
 
                     b.ToTable("actionCharactersRelation");
                 });
@@ -342,17 +285,12 @@ namespace OstreCWEB.Data.Migrations
                     b.Property<int>("ItemId")
                         .HasColumnType("int");
 
-                    b.Property<int>("PlayableCharacterId")
+                    b.Property<int>("CharacterId")
                         .HasColumnType("int");
 
-                    b.Property<int?>("EnemyCharacterId")
-                        .HasColumnType("int");
+                    b.HasKey("ItemId", "CharacterId");
 
-                    b.HasKey("ItemId", "PlayableCharacterId");
-
-                    b.HasIndex("EnemyCharacterId");
-
-                    b.HasIndex("PlayableCharacterId");
+                    b.HasIndex("CharacterId");
 
                     b.ToTable("ItemsCharactersRelation");
                 });
@@ -400,8 +338,45 @@ namespace OstreCWEB.Data.Migrations
                     b.ToTable("Users");
                 });
 
+            modelBuilder.Entity("OstreCWEB.Data.Repository.Characters.CharacterModels.Enemy", b =>
+                {
+                    b.HasBaseType("OstreCWEB.Data.Repository.Characters.CharacterModels.Character");
+
+                    b.Property<string>("Race")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasDiscriminator().HasValue("Enemy");
+                });
+
+            modelBuilder.Entity("OstreCWEB.Data.Repository.Characters.CharacterModels.PlayableCharacter", b =>
+                {
+                    b.HasBaseType("OstreCWEB.Data.Repository.Characters.CharacterModels.Character");
+
+                    b.Property<int>("PlayableClassId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("RaceId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
+                    b.HasIndex("PlayableClassId");
+
+                    b.HasIndex("RaceId");
+
+                    b.HasIndex("UserId");
+
+                    b.HasDiscriminator().HasValue("PlayableCharacter");
+                });
+
             modelBuilder.Entity("OstreCWEB.Data.Repository.Characters.CharacterModels.CharacterAction", b =>
                 {
+                    b.HasOne("OstreCWEB.Data.Repository.Characters.CharacterModels.Character", null)
+                        .WithMany("DefaultActions")
+                        .HasForeignKey("CharacterId");
+
                     b.HasOne("OstreCWEB.Data.Repository.Characters.CharacterModels.Status", "Status")
                         .WithMany("CharacterActions")
                         .HasForeignKey("StatusId");
@@ -416,6 +391,44 @@ namespace OstreCWEB.Data.Migrations
                         .HasForeignKey("ActionToTriggerCharacterActionId");
 
                     b.Navigation("ActionToTrigger");
+                });
+
+            modelBuilder.Entity("OstreCWEB.Data.Repository.Characters.MetaTags.ActionCharacter", b =>
+                {
+                    b.HasOne("OstreCWEB.Data.Repository.Characters.CharacterModels.CharacterAction", "CharacterAction")
+                        .WithMany("LinkedCharacter")
+                        .HasForeignKey("CharacterActionId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("OstreCWEB.Data.Repository.Characters.CharacterModels.Character", "Character")
+                        .WithMany("LinkedActions")
+                        .HasForeignKey("CharacterId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Character");
+
+                    b.Navigation("CharacterAction");
+                });
+
+            modelBuilder.Entity("OstreCWEB.Data.Repository.Characters.MetaTags.ItemCharacter", b =>
+                {
+                    b.HasOne("OstreCWEB.Data.Repository.Characters.CharacterModels.Character", "Character")
+                        .WithMany("ItemCharacter")
+                        .HasForeignKey("CharacterId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("OstreCWEB.Data.Repository.Characters.CharacterModels.Item", "Item")
+                        .WithMany("ItemCharacter")
+                        .HasForeignKey("ItemId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Character");
+
+                    b.Navigation("Item");
                 });
 
             modelBuilder.Entity("OstreCWEB.Data.Repository.Characters.CharacterModels.PlayableCharacter", b =>
@@ -445,50 +458,13 @@ namespace OstreCWEB.Data.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("OstreCWEB.Data.Repository.Characters.MetaTags.ActionCharacter", b =>
+            modelBuilder.Entity("OstreCWEB.Data.Repository.Characters.CharacterModels.Character", b =>
                 {
-                    b.HasOne("OstreCWEB.Data.Repository.Characters.CharacterModels.CharacterAction", "CharacterAction")
-                        .WithMany("LinkedCharacter")
-                        .HasForeignKey("CharacterActionId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                    b.Navigation("DefaultActions");
 
-                    b.HasOne("OstreCWEB.Data.Repository.Characters.CharacterModels.Enemy", null)
-                        .WithMany("LinkedActions")
-                        .HasForeignKey("EnemyCharacterId");
+                    b.Navigation("ItemCharacter");
 
-                    b.HasOne("OstreCWEB.Data.Repository.Characters.CharacterModels.PlayableCharacter", "PlayableCharacter")
-                        .WithMany("LinkedActions")
-                        .HasForeignKey("PlayableCharacterId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("CharacterAction");
-
-                    b.Navigation("PlayableCharacter");
-                });
-
-            modelBuilder.Entity("OstreCWEB.Data.Repository.Characters.MetaTags.ItemCharacter", b =>
-                {
-                    b.HasOne("OstreCWEB.Data.Repository.Characters.CharacterModels.Enemy", null)
-                        .WithMany("ItemCharacter")
-                        .HasForeignKey("EnemyCharacterId");
-
-                    b.HasOne("OstreCWEB.Data.Repository.Characters.CharacterModels.Item", "Item")
-                        .WithMany("ItemCharacter")
-                        .HasForeignKey("ItemId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("OstreCWEB.Data.Repository.Characters.CharacterModels.PlayableCharacter", "PlayableCharacter")
-                        .WithMany("ItemCharacter")
-                        .HasForeignKey("PlayableCharacterId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Item");
-
-                    b.Navigation("PlayableCharacter");
+                    b.Navigation("LinkedActions");
                 });
 
             modelBuilder.Entity("OstreCWEB.Data.Repository.Characters.CharacterModels.CharacterAction", b =>
@@ -498,23 +474,9 @@ namespace OstreCWEB.Data.Migrations
                     b.Navigation("LinkedItems");
                 });
 
-            modelBuilder.Entity("OstreCWEB.Data.Repository.Characters.CharacterModels.Enemy", b =>
-                {
-                    b.Navigation("ItemCharacter");
-
-                    b.Navigation("LinkedActions");
-                });
-
             modelBuilder.Entity("OstreCWEB.Data.Repository.Characters.CharacterModels.Item", b =>
                 {
                     b.Navigation("ItemCharacter");
-                });
-
-            modelBuilder.Entity("OstreCWEB.Data.Repository.Characters.CharacterModels.PlayableCharacter", b =>
-                {
-                    b.Navigation("ItemCharacter");
-
-                    b.Navigation("LinkedActions");
                 });
 
             modelBuilder.Entity("OstreCWEB.Data.Repository.Characters.CharacterModels.PlayableClass", b =>

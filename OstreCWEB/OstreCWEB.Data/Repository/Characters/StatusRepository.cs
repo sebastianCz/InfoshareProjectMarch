@@ -30,13 +30,12 @@ namespace OstreCWEB.Data.Repository.Characters
         public async Task<List<Status>> GetAll()
         {
          
-            return await _db.Statuses.Include(p => p.CharacterActions).ToListAsync(); ;
-        }
- 
+            return await _db.Statuses.Include(p => p.CharacterActions).ToListAsync();  
+        } 
 
         public async Task<Status> GetById(int id)
         {
-            return await _db.Statuses.SingleOrDefaultAsync(s => s.StatusId == id);
+            return await _db.Statuses.Include(s => s.StatusId == id).SingleOrDefaultAsync(s => s.StatusId == id);
         }
 
         public async Task Update(Status status)

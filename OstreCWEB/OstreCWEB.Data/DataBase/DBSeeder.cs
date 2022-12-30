@@ -3,6 +3,9 @@ using OstreCWEB.Data.Repository.Characters.CharacterModels;
 using OstreCWEB.Data.Repository.Characters.Enums;
 using OstreCWEB.Data.Repository.Characters.CharacterModels; 
 using System.Linq;
+using OstreCWEB.Data.Repository.Characters.MetaTags;
+using Microsoft.EntityFrameworkCore;
+using System.Drawing;
 
 namespace OstreCWEB.Data.DataBase
 {
@@ -49,7 +52,8 @@ namespace OstreCWEB.Data.DataBase
                     //        Skill.acrobatics,
                     //        Skill.religion
                     //    },
-                    AmountOfSkillsToChoose = 1
+                    AmountOfSkillsToChoose = 1,
+
                 }
 
             };
@@ -75,7 +79,7 @@ namespace OstreCWEB.Data.DataBase
 
 
 
-       
+
 
 
 
@@ -84,6 +88,8 @@ namespace OstreCWEB.Data.DataBase
                     new PlayableClass
                     {
                         ClassName = "Warrior",
+                        StrengthBonus=1,
+                        ConstitutionBonus=1
                     }
                 };
 
@@ -218,7 +224,7 @@ namespace OstreCWEB.Data.DataBase
                     }
                 };
 
-           
+
             var playableCharacters = new List<PlayableCharacter>
                 {
                     new PlayableCharacter
@@ -229,7 +235,7 @@ namespace OstreCWEB.Data.DataBase
                         Level = 1, 
                         //Inventory = new Item[5],
                         AllAvailableActions = new List<CharacterAction>(),
-                        DefaultActions = new List<CharacterAction>(),
+                        DefaultActions=new List<CharacterAction>(),
                         Strenght = 16,
                         Dexterity = 14,
                         Constitution = 10,
@@ -237,6 +243,7 @@ namespace OstreCWEB.Data.DataBase
                         Wisdom = 12,
                         Charisma = 2, 
                         UserId = 1, 
+
                     }
                 };
             //Temporary hardcoding 
@@ -248,18 +255,20 @@ namespace OstreCWEB.Data.DataBase
             _db.PlayableCharacterClasses.AddRange(playableCharacterClasses);
             _db.Items.AddRange(items);
             _db.SaveChanges();
-
+            
             _db.Items.FirstOrDefault(i => i.Name.Contains("Short Sword")).ActionToTrigger = _db.CharacterActions.FirstOrDefault(a => a.ActionName.Contains("Short Sword Attack"));
             _db.Items.FirstOrDefault(i => i.Name.Contains("Healing Potion")).ActionToTrigger = _db.CharacterActions.FirstOrDefault(a => a.ActionName.Contains("Small Heal"));
-            _db.CharacterActions.FirstOrDefault(a=>a.ActionName.Contains("Magic Missiles")).Status = _db.Statuses.FirstOrDefault(s=>s.Name.Contains("Blind"));
 
+            _db.CharacterActions.FirstOrDefault(a=>a.ActionName.Contains("Magic Missiles")).Status = _db.Statuses.FirstOrDefault(s=>s.Name.Contains("Blind"));
+            _db.CharacterActions.FirstOrDefault(a => a.ActionName.Contains("Bless")).Status = _db.Statuses.FirstOrDefault(s => s.Name.Contains("Bless"));
+             
+            _db.SaveChanges();
+          
             enemies[0].EquippedArmor = _db.Items.FirstOrDefault(i => i.Name.Contains("Armor"));
             enemies[0].EquippedWeapon = _db.Items.FirstOrDefault(i => i.Name.Contains("Short Sword")); 
             enemies[0].EquippedSecondaryWeapon = _db.Items.FirstOrDefault(i => i.Name.Contains("Small Wooden Shield"));
 
-            _db.Enemies.AddRange(enemies);
-
-            _db.SaveChanges();
+             
             playableCharacters[0].EquippedArmor = _db.Items.FirstOrDefault(i => i.Name.Contains("Light Armor"));
             playableCharacters[0].EquippedWeapon = _db.Items.FirstOrDefault(i => i.Name.Contains("Short Sword"));
             playableCharacters[0].EquippedSecondaryWeapon = _db.Items.FirstOrDefault(i => i.Name.Contains("Small Wooden Shield"));
@@ -267,18 +276,56 @@ namespace OstreCWEB.Data.DataBase
             playableCharacters[0].CharacterClass = _db.PlayableCharacterClasses.FirstOrDefault(i => i.ClassName.Contains("Warrior"));
 
             playableCharacters[0].DefaultActions.Add(_db.CharacterActions.FirstOrDefault(x => x.ActionName.Contains("Magic Missiles")));
-            playableCharacters[0].DefaultActions.Add(_db.CharacterActions.FirstOrDefault(x => x.ActionName.Contains("Healing Potion")));
-            
+            playableCharacters[0].DefaultActions.Add(_db.CharacterActions.FirstOrDefault(x => x.ActionName.Contains("Small Heal")));
 
-            foreach (var user in users)
-            {
+            playableCharacters[0].LinkedActions = new List<ActionCharacter>();
 
-                user.CharactersCreated.Add(playableCharacters[0]);
-            }
+            var characters = new List<Character>();
+             characters.Concat(playableCharacters);
+             characters.Concat(enemies); 
 
+            UpdateCharacterActionsRelations(characters);
+
+            _db.Enemies.AddRange(enemies);
+            users[0].CharactersCreated.Add(playableCharacters[0]);
             _db.Users.AddRange(users);
+             
+
             _db.SaveChanges();
 
+
+            var t1 =  _db.Enemies
+                .Include(x=> x.DefaultActions)
+                .ThenInclude(y=>y.Status)
+                .ToList();
+
+            var t2 = _db.PlayableCharacters
+                .Include(x => x.DefaultActions)
+                .ThenInclude(y => y.Status)
+                .ToList();
+
+            _db.SaveChanges();
+
+        }
+
+        public void UpdateCharacterActionsRelations(List<Character> characters)
+        {
+            foreach (var character in characters)
+            {
+                //Deletes all many to many relations
+                character.LinkedActions = new List<ActionCharacter>();
+
+                foreach (var action in character.DefaultActions)
+                {
+                    //Creates a new relation object for each action. 
+                    character.LinkedActions.Add(
+                     new ActionCharacter()
+                    {
+                        Character = character,
+                        CharacterAction = action
+                    });  
+                }
+            };
         }
 
 

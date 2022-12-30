@@ -1,13 +1,10 @@
-using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using OstreCWEB.Data.DataBase;
 using OstreCWEB.Data.Repository.Characters;
 using OstreCWEB.Data.Repository.Characters.Interfaces;
 using OstreCWEB.Data.Repository.Fight;
-using OstreCWEB.Data.Repository.WebObjects;
 using OstreCWEB.Services.Factories;
 using OstreCWEB.Services.Fight;
-using OstreCWEB.Services.Test;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -21,13 +18,16 @@ builder.Services.AddTransient<IFightService,FightService>();
 builder.Services.AddTransient<IFightRepository, FightRepository>();
 builder.Services.AddTransient<IFightFactory, FightFactory>();
 builder.Services.AddTransient<ISeeder, DBSeeder>();
+builder.Services.AddTransient<IStatusRepository, StatusRepository>();
+builder.Services.AddTransient<ICharacterActionsRepository, CharacterActionRepository>();
+
 //builder.Services.AddTransient<IPlayableCharacterRepository,  >();
 //builder.Services.AddTransient<IEnemyRepository,  >();
-//builder.Services.AddTransient< ,  >();
+
 //builder.Services.AddTransient<ICharacterClassRepository,  >();
 //builder.Services.AddTransient<ICharacterRaceRepository,  >();
 //builder.Services.AddTransient<IItemRepository,  >();
-builder.Services.AddTransient<IStatusRepository,StatusRepository >();
+
 
 
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();

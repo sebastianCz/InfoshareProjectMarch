@@ -9,13 +9,13 @@ namespace OstreCWEB.Data.Repository.Characters.CharacterModels
     public class CharacterAction
     {
         //EF config
-        [Key]
+        [Key] 
         public int CharacterActionId { get; set; }
         public Status? Status { get; set; }
         public int? StatusId { get; set; }
 
-        public List<ActionCharacter> LinkedCharacter {get;set;} 
-        public List<Item> LinkedItems { get; set; }
+        public List<ActionCharacter>? LinkedCharacter {get;set;} 
+        public List<Item>? LinkedItems { get; set; }
         //
 
         public string ActionName { get; set; }

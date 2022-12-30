@@ -12,8 +12,10 @@ namespace OstreCWEB.Data.DataBase
     {
         //Relations many to many
 
-      internal DbSet<ActionCharacter> actionCharactersRelation { get; set; }
+       internal DbSet<ActionCharacter> actionCharactersRelation { get; set; }
         internal DbSet<ItemCharacter> ItemsCharactersRelation { get; set; }
+
+
         //User
         internal DbSet<User> Users { get; set; }
         //Characters
@@ -54,10 +56,27 @@ namespace OstreCWEB.Data.DataBase
             UserConfiguration(builder);
             ConfigureCharacters(builder);
             ConfigureActions(builder);
+           
         }
+         
         private void ConfigureActions(ModelBuilder builder)
         {
-            builder.Entity<ActionCharacter>().HasKey(sc => new { sc.CharacterActionId, sc.PlayableCharacterId });
+            //builder.Entity<ActionCharacter>().HasKey(sc => new { sc.CharacterActionId, sc.CharacterId});
+            builder.Entity<ActionCharacter>()
+            .HasKey(x => new { x.CharacterId, x.CharacterActionId });
+
+            builder.Entity<ActionCharacter>()
+       .HasOne(pt => pt.Character)
+       .WithMany(p => p.LinkedActions)
+       .HasForeignKey(pt => pt.CharacterId);
+
+
+            builder.Entity<ActionCharacter>()
+                .HasOne(pt => pt.CharacterAction)
+                .WithMany(t => t.LinkedCharacter)
+                .HasForeignKey(pt => pt.CharacterActionId);
+
+
         }
 
         private void UserConfiguration(ModelBuilder builder)
@@ -81,7 +100,7 @@ namespace OstreCWEB.Data.DataBase
                 .WithMany(p => p.PlayableCharacter);
 
             builder.Entity<ItemCharacter>()
-                .HasKey(x => new { x.ItemId, x.PlayableCharacterId });
+                .HasKey(x => new { x.ItemId, x.CharacterId });
 
             builder.Entity<ItemCharacter>()
                 .HasOne(x => x.Item)
@@ -89,9 +108,9 @@ namespace OstreCWEB.Data.DataBase
                 .HasForeignKey(x => x.ItemId);
 
             builder.Entity<ItemCharacter>()
-              .HasOne(x => x.PlayableCharacter)
+              .HasOne(x => x.Character)
               .WithMany(x => x.ItemCharacter)
-              .HasForeignKey(x => x.PlayableCharacterId);
+              .HasForeignKey(x => x.CharacterId);
 
         }
         private void ConfigureStories( ModelBuilder builder)
