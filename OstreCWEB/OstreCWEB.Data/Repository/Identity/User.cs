@@ -4,15 +4,15 @@ using OstreCWEB.Data.Repository.Characters.CharacterModels;
 using OstreCWEB.Data.Repository.StoryModels;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using Microsoft.AspNetCore.Identity;
 
 namespace OstreCWEB.Data.Repository.Identity
 {
-    public class User
-    {  //EF config
-        [Key]
-        public int Id { get; set; } 
-        public List<PlayableCharacter> CharactersCreated { get; set; }
+    public class User : IdentityUser
+    {  //EF config 
+        public List<PlayableCharacter> CharactersCreated { get; set; } 
         //
+        
         [NotMapped]
         public PlayableCharacter ActiveCharacter { get; set; }
 
@@ -28,23 +28,11 @@ namespace OstreCWEB.Data.Repository.Identity
         public int DamageDealt { get; set; }
         public int DamageReceived { get; set; }
       
-        public User()
+        public User():base()
         {
             //StoriesCreated = new List<Story>();
             //CharactersCreated = new List<PlayableCharacter>();
         }
-        public User(int id, bool loggedIn, string userName, string password, string email, List<Story> storiesCreated, List<PlayableCharacter> charactersCreated, int storiesCompleted, int damageDealt, int damageReceived)
-        {
-            Id = id;
-            LoggedIn = loggedIn;
-            UserName = userName;
-            Password = password;
-            Email = email;
-            //StoriesCreated = storiesCreated;
-            CharactersCreated = charactersCreated;
-            StoriesCompletedTotal = storiesCompleted;
-            DamageDealt = damageDealt;
-            DamageReceived = damageReceived;
-        }
+    
     }
 }

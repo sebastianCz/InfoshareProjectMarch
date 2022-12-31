@@ -13,7 +13,7 @@ namespace OstreCWEB.Data.Repository.Characters.CharacterModels
         
         //Ef config
         [Required]
-        public int UserId { get; set; }//Id of character owner
+        public string UserId { get; set; }//Id of character owner
         public User User { get; set; }
         //
 

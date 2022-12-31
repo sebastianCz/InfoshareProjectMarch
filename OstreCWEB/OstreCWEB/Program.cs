@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using OstreCWEB.Data.DataBase;
 using OstreCWEB.Data.Repository.Characters;
@@ -6,14 +7,16 @@ using OstreCWEB.Data.Repository.Fight;
 using OstreCWEB.Data.Repository.SuperAdmin;
 using OstreCWEB.Services.Factories;
 using OstreCWEB.Services.Fight;
-
+using OstreCWEB.Data.Repository.Identity;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 //Allows retrying CRUD operations in case of transient failures.
 builder.Services.AddDbContext<OstreCWebContext>(
     options => options.UseSqlServer(builder.Configuration.GetConnectionString("OstreCWEB"), builder =>builder.EnableRetryOnFailure(2, TimeSpan.FromSeconds(2), null)));
- 
+
+builder.Services.AddDefaultIdentity<User>(options => options.SignIn.RequireConfirmedAccount = true)
+    .AddEntityFrameworkStores<OstreCWebContext>();
 
 builder.Services.AddTransient<IFightService,FightService>();
 builder.Services.AddSingleton<IFightRepository, FightRepository>();

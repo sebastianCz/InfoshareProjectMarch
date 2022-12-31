@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace OstreCWEB.Data.Repository.Identity
 {
-    internal class dentityRepository  
+    internal class IdentityRepository  
     {
         private OstreCWebContext _context { get; set; }
         
@@ -18,7 +18,7 @@ namespace OstreCWEB.Data.Repository.Identity
         }
         public User GetUser(int id)
         {
-            return _context.Users.FirstOrDefault(u => u.Id == id);
+            return _context.Users.FirstOrDefault(/*u => u.Id == id*/);
         }
     }
 }

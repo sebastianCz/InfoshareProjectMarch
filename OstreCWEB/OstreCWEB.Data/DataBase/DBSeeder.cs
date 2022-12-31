@@ -2,7 +2,6 @@
 using OstreCWEB.Data.Repository.Characters.Enums;
 using OstreCWEB.Data.Repository.Characters.MetaTags;
 using OstreCWEB.Data.Repository.Identity;
-using System.Runtime.CompilerServices;
 
 namespace OstreCWEB.Data.DataBase
 {
@@ -265,8 +264,7 @@ namespace OstreCWEB.Data.DataBase
                         Constitution = 10,
                         Intelligence = 15,
                         Wisdom = 12,
-                        Charisma = 2,
-                        UserId = 2,
+                        Charisma = 2, 
 
                     },
                     new PlayableCharacter
@@ -280,9 +278,7 @@ namespace OstreCWEB.Data.DataBase
                         Constitution = 14,
                         Intelligence = 18,
                         Wisdom = 14,
-                        Charisma = 12,
-                        UserId = 1,
-
+                        Charisma = 12
                     }
                 };
 
@@ -328,15 +324,15 @@ namespace OstreCWEB.Data.DataBase
             playableCharacters[0].Race = _db.PlayableCharacterRaces.First (i => i.RaceName.ToLower().Contains("human"));
             playableCharacters[0].CharacterClass = _db.PlayableCharacterClasses.First (i => i.ClassName.ToLower().Contains("warrior"));
 
-            playableCharacters[0].DefaultActions.Add(_db.CharacterActions.First (x => x.ActionName.ToLower().Contains("action surge")));
+            playableCharacters[0].InnateActions.Add(_db.CharacterActions.First (x => x.ActionName.ToLower().Contains("action surge")));
             //mage
             playableCharacters[1].EquippedItems.Add(_db.Items.First(i => i.Name.ToLower().Contains("mage robe")));
 
             playableCharacters[1].Race = _db.PlayableCharacterRaces.First(i => i.RaceName.ToLower().Contains("human"));
             playableCharacters[1].CharacterClass = _db.PlayableCharacterClasses.First(i => i.ClassName.ToLower().Contains("mage"));
 
-            playableCharacters[1].DefaultActions.Add(_db.CharacterActions.First(x => x.ActionName.ToLower().Contains("magic Missiles")));
-            playableCharacters[1].DefaultActions.Add(_db.CharacterActions.First(x => x.ActionName.ToLower().Contains("small Heal")));
+            playableCharacters[1].InnateActions.Add(_db.CharacterActions.First(x => x.ActionName.ToLower().Contains("magic Missiles")));
+            playableCharacters[1].InnateActions.Add(_db.CharacterActions.First(x => x.ActionName.ToLower().Contains("small Heal")));
              
 
             playableCharacters = UpdatePlayableCharacterActionsRelations(playableCharacters);
@@ -445,7 +441,7 @@ namespace OstreCWEB.Data.DataBase
                 //Deletes all many to many relations
                 character.LinkedActions = new List<ActionCharacter>();
 
-                foreach (var action in character.DefaultActions)
+                foreach (var action in character.InnateActions)
                 {
                     //Creates a new relation object for each action. 
                     character.LinkedActions.Add(
@@ -467,7 +463,7 @@ namespace OstreCWEB.Data.DataBase
                 //Deletes all many to many relations
                 character.LinkedActions = new List<ActionCharacter>();
 
-                foreach (var action in character.DefaultActions)
+                foreach (var action in character.InnateActions)
                 {
                     //Creates a new relation object for each action. 
                     character.LinkedActions.Add(

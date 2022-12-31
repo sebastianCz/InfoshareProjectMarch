@@ -48,14 +48,8 @@ namespace OstreCWEB.Data.DataBase
                 new PlayableRace
                 {
                     PlayableRaceId = 1,
-                    RaceName = "Human",
-                    DefaultSkillsForClass = new List<Skill>
-                        {
-                            Skill.acrobatics,
-                            Skill.religion
-                        },
-                    AmountOfSkillsToChoose = 1,
-
+                    RaceName = "Human", 
+                    AmountOfSkillsToChoose = 1, 
                     CharismaBonus=1,
                     DexterityBonus=1,
                     ConstitutionBonus=1,
@@ -70,7 +64,6 @@ namespace OstreCWEB.Data.DataBase
             {
                 new User
                 {
-                    Id = 1,
                     LoggedIn = false,
                     UserName = "Admin",
                     Password = "Admin",
@@ -267,7 +260,7 @@ namespace OstreCWEB.Data.DataBase
                     EquippedSecondaryWeapon =Items.First(c =>c.ItemId ==4),
                     Inventory = new Item[5],
                     AllAvailableActions = new List<CharacterAction>(),
-                    DefaultActions = new List<CharacterAction>(),
+                    InnateActions = new List<CharacterAction>(),
                     Strenght = 16,
                     Dexterity = 14,
                     Constitution = 10,
@@ -275,14 +268,14 @@ namespace OstreCWEB.Data.DataBase
                     Wisdom = 12, 
                     Charisma = 2,
                     Race = PlayableRaces.FirstOrDefault(r=>r.PlayableRaceId ==1),
-                    UserId = Users.FirstOrDefault(u=>u.Id == 1).Id,
+                    //UserId = Users.FirstOrDefault(u=>u.Id == 1).Id,
                     CharacterClass =PlayableCharacterClasses.FirstOrDefault(c=>c.PlayableClassId ==1),
                    
 
                 }
             };
-            PlayableCharacters[0].DefaultActions.Add(Actions.FirstOrDefault(x => x.CharacterActionId == 4));  //HardCoding
-            PlayableCharacters[0].DefaultActions.Add(Actions.FirstOrDefault(x => x.CharacterActionId == 3));
+            PlayableCharacters[0].InnateActions.Add(Actions.FirstOrDefault(x => x.CharacterActionId == 4));  //HardCoding
+            PlayableCharacters[0].InnateActions.Add(Actions.FirstOrDefault(x => x.CharacterActionId == 3));
 
         }
 

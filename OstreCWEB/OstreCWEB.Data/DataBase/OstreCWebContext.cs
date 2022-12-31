@@ -4,11 +4,13 @@ using OstreCWEB.Data.Repository.Characters.MetaTags;
 using OstreCWEB.Data.Repository.Identity;
 using OstreCWEB.Data.Repository.StoryModels;
 using OstreCWEB.Data.Repository.StoryModels.Properties;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using System.Reflection.Emit;
 
 namespace OstreCWEB.Data.DataBase
 {
-    public class OstreCWebContext : DbContext
+    public class OstreCWebContext : IdentityDbContext<User>
     {
         //Relations many to many
 
@@ -55,6 +57,7 @@ namespace OstreCWEB.Data.DataBase
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
+            base.OnModelCreating(builder);
             UserConfiguration(builder);
             ConfigureCharacters(builder);
             ConfigureActions(builder);
@@ -70,21 +73,17 @@ namespace OstreCWEB.Data.DataBase
             builder.Entity<ItemCharacter>()
              .HasKey(x => new { x.ItemId, x.CharacterId });
 
-           
+
             builder.Entity<ItemCharacter>()
                            .HasOne(x => x.Item)
                            .WithMany(x => x.LinkedCharacters)
                            .HasForeignKey(x => x.ItemId);
- 
+
 
             builder.Entity<ItemCharacter>()
              .HasOne(x => x.Character)
              .WithMany(x => x.LinkedItems)
              .HasForeignKey(x => x.CharacterId);
-
-
-
-
 
         }
         private void ConfigureActions(ModelBuilder builder)
@@ -100,15 +99,11 @@ namespace OstreCWEB.Data.DataBase
                     .WithMany(p => p.LinkedActions)
                     .HasForeignKey(pt => pt.CharacterId);
 
-
             builder.Entity<ActionCharacter>()
                 .HasOne(pt => pt.CharacterAction)
                 .WithMany(t => t.LinkedCharacter)
                 .HasForeignKey(pt => pt.CharacterActionId);
-
-
-        }
-
+        } 
         private void UserConfiguration(ModelBuilder builder)
         {
 
@@ -116,11 +111,13 @@ namespace OstreCWEB.Data.DataBase
                     .HasMany(x => x.CharactersCreated)
                     .WithOne(x => x.User)
                     .HasForeignKey(x => x.UserId);
-
         }
         private void ConfigureCharacters(ModelBuilder builder)
-        {
-
+        { 
+            builder.Entity<PlayableCharacter>().Navigation(e => e.CharacterClass).AutoInclude();
+            builder.Entity<PlayableCharacter>().Navigation(e => e.Race).AutoInclude();
+            builder.Entity<PlayableCharacter>().Navigation(e => e.LinkedActions).AutoInclude();
+            builder.Entity<PlayableCharacter>().Navigation(e => e.LinkedItems).AutoInclude();
 
             builder.Entity<PlayableCharacter>()
                 .HasOne(r => r.Race)
@@ -129,7 +126,6 @@ namespace OstreCWEB.Data.DataBase
             builder.Entity<PlayableCharacter>()
                 .HasOne(c => c.CharacterClass)
                 .WithMany(p => p.PlayableCharacter); 
-
         }
         private void ConfigureStories(ModelBuilder builder)
         {

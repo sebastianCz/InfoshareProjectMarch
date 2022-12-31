@@ -27,8 +27,8 @@ namespace OstreCWEB.Controllers
             _superAdminRepository = superAdminRepository;
 
              
-        }
-        public async Task<ActionResult> Test()
+        } 
+        public  ActionResult Test()
         {
 
             //var status = new Status();
@@ -44,11 +44,11 @@ namespace OstreCWEB.Controllers
             //await _statusRepository.Update(status);
             //statuses = await _statusRepository.GetAll();
 
-            ////await _statusRepository.Delete(status);
-            ////statuses = await _statusRepository.GetAll();
+            //////await _statusRepository.Delete(status);
+            //////statuses = await _statusRepository.GetAll();
 
             _superAdminRepository.Test();
-      
+
 
             return RedirectToAction(nameof(Index));
 
