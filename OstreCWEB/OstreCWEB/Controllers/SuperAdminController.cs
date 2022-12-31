@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using OstreCWEB.Data.DataBase;
 using OstreCWEB.Data.Repository.Characters.Interfaces;
+using OstreCWEB.Data.Repository.SuperAdmin;
 using OstreCWEB.ViewModel.Characters;
 using OstreCWEB.ViewModel.SuperAdmin;
 
@@ -12,17 +13,22 @@ namespace OstreCWEB.Controllers
         private readonly ISeeder _seeder; 
         private readonly IStatusRepository _statusRepository;
         private readonly ICharacterActionsRepository _characterActionsRepository;
-       
+        private readonly IPlayableCharacterRepository _playableCharacterRepository;
+        private readonly ISuperAdminRepository _superAdminRepository; 
         private readonly IMapper _mapper;
         // GET: SuperAdmin
-        public SuperAdminController(ISeeder seeder,IMapper mapper, IStatusRepository statusRepository,ICharacterActionsRepository characterActionsRepository)
+        public SuperAdminController(ISuperAdminRepository superAdminRepository,IPlayableCharacterRepository playableCharacterRepository, ISeeder seeder,IMapper mapper, IStatusRepository statusRepository,ICharacterActionsRepository characterActionsRepository)
         {
             _seeder = seeder;
             _mapper = mapper; 
             _statusRepository = statusRepository;
             _characterActionsRepository = characterActionsRepository;
+            _playableCharacterRepository = playableCharacterRepository;
+            _superAdminRepository = superAdminRepository;
+
+             
         }
-        public async Task<ActionResult> TestController()
+        public async Task<ActionResult> Test()
         {
 
             //var status = new Status();
@@ -40,17 +46,9 @@ namespace OstreCWEB.Controllers
 
             ////await _statusRepository.Delete(status);
             ////statuses = await _statusRepository.GetAll();
-           
-            var data = await _characterActionsRepository.GetAll();
 
-            await _characterActionsRepository.Create(data[0]);
-            data = await _characterActionsRepository.GetAll();
-             
-            await _characterActionsRepository.Update(data[0]);
-            data = await _characterActionsRepository.GetAll();
-
-            //await _statusRepository.Delete(status);
-            //statuses = await _statusRepository.GetAll();
+            _superAdminRepository.Test();
+      
 
             return RedirectToAction(nameof(Index));
 

@@ -12,8 +12,8 @@ using OstreCWEB.Data.DataBase;
 namespace OstreCWEB.Data.Migrations
 {
     [DbContext(typeof(OstreCWebContext))]
-    [Migration("20221230061357_AddedManyToManyForActionsAndCharacters")]
-    partial class AddedManyToManyForActionsAndCharacters
+    [Migration("20221230134607_itemsUpdate")]
+    partial class itemsUpdate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -96,9 +96,6 @@ namespace OstreCWEB.Data.Migrations
                     b.Property<bool>("AggressiveAction")
                         .HasColumnType("bit");
 
-                    b.Property<int?>("CharacterId")
-                        .HasColumnType("int");
-
                     b.Property<int>("Flat_Dmg")
                         .HasColumnType("int");
 
@@ -135,8 +132,6 @@ namespace OstreCWEB.Data.Migrations
 
                     b.HasKey("CharacterActionId");
 
-                    b.HasIndex("CharacterId");
-
                     b.HasIndex("StatusId");
 
                     b.ToTable("CharacterActions");
@@ -156,8 +151,8 @@ namespace OstreCWEB.Data.Migrations
                     b.Property<int?>("ArmorClass")
                         .HasColumnType("int");
 
-                    b.Property<string>("ArmorType")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int?>("ArmorType")
+                        .HasColumnType("int");
 
                     b.Property<int>("ItemType")
                         .HasColumnType("int");
@@ -290,6 +285,9 @@ namespace OstreCWEB.Data.Migrations
                     b.Property<int>("CharacterId")
                         .HasColumnType("int");
 
+                    b.Property<bool>("IsEquipped")
+                        .HasColumnType("bit");
+
                     b.HasKey("ItemId", "CharacterId");
 
                     b.HasIndex("CharacterId");
@@ -344,9 +342,8 @@ namespace OstreCWEB.Data.Migrations
                 {
                     b.HasBaseType("OstreCWEB.Data.Repository.Characters.CharacterModels.Character");
 
-                    b.Property<string>("Race")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("Race")
+                        .HasColumnType("int");
 
                     b.HasDiscriminator().HasValue("Enemy");
                 });
@@ -375,10 +372,6 @@ namespace OstreCWEB.Data.Migrations
 
             modelBuilder.Entity("OstreCWEB.Data.Repository.Characters.CharacterModels.CharacterAction", b =>
                 {
-                    b.HasOne("OstreCWEB.Data.Repository.Characters.CharacterModels.Character", null)
-                        .WithMany("DefaultActions")
-                        .HasForeignKey("CharacterId");
-
                     b.HasOne("OstreCWEB.Data.Repository.Characters.CharacterModels.Status", "Status")
                         .WithMany("CharacterActions")
                         .HasForeignKey("StatusId");
@@ -417,13 +410,13 @@ namespace OstreCWEB.Data.Migrations
             modelBuilder.Entity("OstreCWEB.Data.Repository.Characters.MetaTags.ItemCharacter", b =>
                 {
                     b.HasOne("OstreCWEB.Data.Repository.Characters.CharacterModels.Character", "Character")
-                        .WithMany("ItemCharacter")
+                        .WithMany("LinkedItems")
                         .HasForeignKey("CharacterId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("OstreCWEB.Data.Repository.Characters.CharacterModels.Item", "Item")
-                        .WithMany("ItemCharacter")
+                        .WithMany("LinkedCharacters")
                         .HasForeignKey("ItemId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -462,11 +455,9 @@ namespace OstreCWEB.Data.Migrations
 
             modelBuilder.Entity("OstreCWEB.Data.Repository.Characters.CharacterModels.Character", b =>
                 {
-                    b.Navigation("DefaultActions");
-
-                    b.Navigation("ItemCharacter");
-
                     b.Navigation("LinkedActions");
+
+                    b.Navigation("LinkedItems");
                 });
 
             modelBuilder.Entity("OstreCWEB.Data.Repository.Characters.CharacterModels.CharacterAction", b =>
@@ -478,7 +469,7 @@ namespace OstreCWEB.Data.Migrations
 
             modelBuilder.Entity("OstreCWEB.Data.Repository.Characters.CharacterModels.Item", b =>
                 {
-                    b.Navigation("ItemCharacter");
+                    b.Navigation("LinkedCharacters");
                 });
 
             modelBuilder.Entity("OstreCWEB.Data.Repository.Characters.CharacterModels.PlayableClass", b =>

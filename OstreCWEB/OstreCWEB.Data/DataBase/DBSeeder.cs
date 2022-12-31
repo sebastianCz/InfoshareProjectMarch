@@ -1,11 +1,8 @@
-﻿using OstreCWEB.Data.Repository.Identity;
-using OstreCWEB.Data.Repository.Characters.CharacterModels;
+﻿using OstreCWEB.Data.Repository.Characters.CharacterModels;
 using OstreCWEB.Data.Repository.Characters.Enums;
-using OstreCWEB.Data.Repository.Characters.CharacterModels; 
-using System.Linq;
 using OstreCWEB.Data.Repository.Characters.MetaTags;
-using Microsoft.EntityFrameworkCore;
-using System.Drawing;
+using OstreCWEB.Data.Repository.Identity;
+using System.Runtime.CompilerServices;
 
 namespace OstreCWEB.Data.DataBase
 {
@@ -61,10 +58,10 @@ namespace OstreCWEB.Data.DataBase
             var users = new List<User>();
             for (var i = 0; i < 5; i++)
             {
-               var user =  new User
+                var user = new User
                 {
                     LoggedIn = false,
-                    UserName = "Admin"+i,
+                    UserName = "Admin" + i,
                     Password = "Admin",
                     Email = "Admin@Admin.com",
                     Created = DateTime.Now,
@@ -90,6 +87,12 @@ namespace OstreCWEB.Data.DataBase
                         ClassName = "Warrior",
                         StrengthBonus=1,
                         ConstitutionBonus=1
+                    },
+                     new PlayableClass
+                    {
+                        ClassName = "Mage",
+                        StrengthBonus=0,
+                        IntelligenceBonus=1
                     }
                 };
 
@@ -101,7 +104,7 @@ namespace OstreCWEB.Data.DataBase
                 {
                     ActionName = "Short Sword Attack",
                     ActionDescription = "Strikes the chosen character with your weapon",
-                    ActionType = CharacterActionType.MeleeAttack,
+                    ActionType = CharacterActionType.WeaponAttack,
                     SavingThrowPossible = true,
                     Max_Dmg = 6,
                     Flat_Dmg = 1,
@@ -115,7 +118,7 @@ namespace OstreCWEB.Data.DataBase
                 {
                     ActionName = "Fist Attack",
                     ActionDescription = "Strikes the chosen character with your bare hands",
-                    ActionType = CharacterActionType.MeleeAttack,
+                    ActionType = CharacterActionType.WeaponAttack,
                     SavingThrowPossible = true,
                     Max_Dmg = 2,
                     Flat_Dmg = 1,
@@ -129,7 +132,7 @@ namespace OstreCWEB.Data.DataBase
                 {
                     ActionName = "Magic Missiles",
                     ActionDescription = "Throws magic missiles at the enmy",
-                    ActionType = CharacterActionType.MeleeAttack,
+                    ActionType = CharacterActionType.WeaponAttack,
                             SavingThrowPossible = true,
                     Max_Dmg = 4,
                     Flat_Dmg = 2,
@@ -172,24 +175,32 @@ namespace OstreCWEB.Data.DataBase
                     StatForTest = Statistics.None,
                     UsesMaxBeforeRest = 1,
                      AggressiveAction = false
+                },
+                     
+                     new CharacterAction
+                {
+                    ActionName = "Action Surge",
+                    ActionDescription = "Gives you one more action once per day and once per turn",
+                    ActionType = CharacterActionType.SpecialAction,
+                         SavingThrowPossible = false,
+                    Max_Dmg = 0,
+                    Flat_Dmg = 0,
+                    Hit_Dice_Nr = 0,
+                    PossibleTargets = "caster",
+                    InflictsStatus = false,
+                    StatForTest = Statistics.None,
+                    UsesMaxBeforeRest = 1,
+                     AggressiveAction = false
                 }
 
             };
 
             var items = new List<Item>
                 {
-                    new Item
-                    {
-                        Name="Light Armor",
-                        ItemType = ItemType.Armors,
-                        ArmorClass = 1,
-                        ArmorType="Light"
-
-                    },
                     new Item()
                     {
                         Name="Short Sword",
-                        ItemType =ItemType.Weapons
+                        ItemType =ItemType.TwoHandedWeapon
                     },
                     new Item()
                     {
@@ -200,8 +211,24 @@ namespace OstreCWEB.Data.DataBase
                     {
                         Name="Small Wooden Shield",
                         ItemType = ItemType.Shield,
-                        ArmorClass=1,
-                        ArmorType = "basic"
+                        ArmorClass=2,
+                        ArmorType = ArmorType.Shield
+
+                    },
+                     new Item
+                    {
+                        Name="Heavy Armor",
+                        ItemType = ItemType.Armor,
+                        ArmorClass = 2,
+                        ArmorType = ArmorType.HeaveArmor
+
+                    },
+                    new Item
+                    {
+                        Name="Mage Robe",
+                        ItemType = ItemType.Armor,
+                        ArmorClass = 1,
+                        ArmorType= ArmorType.LightArmor
 
                     }
                 };
@@ -211,10 +238,10 @@ namespace OstreCWEB.Data.DataBase
                     new Enemy
                     {
                         CharacterName = "Goblin Archer",
-                        Race = "Goblin",
+                        NonPlayableRace = Races.Humanoid,
                         MaxHealthPoints = 10,
                         CurrentHealthPoints = 10,
-                        Level = 1,  
+                        Level = 1,
                         Strenght = 10,
                         Dexterity =12,
                         Constitution=10,
@@ -229,86 +256,189 @@ namespace OstreCWEB.Data.DataBase
                 {
                     new PlayableCharacter
                     {
-                        CharacterName = "AdminCharacter",
+                        CharacterName = "AdminCharacterWarrior",
                         MaxHealthPoints = 30,
                         CurrentHealthPoints = 30,
-                        Level = 1, 
-                        //Inventory = new Item[5],
-                        AllAvailableActions = new List<CharacterAction>(),
-                        DefaultActions=new List<CharacterAction>(),
+                        Level = 1,  
                         Strenght = 16,
                         Dexterity = 14,
                         Constitution = 10,
                         Intelligence = 15,
                         Wisdom = 12,
-                        Charisma = 2, 
-                        UserId = 1, 
+                        Charisma = 2,
+                        UserId = 2,
+
+                    },
+                    new PlayableCharacter
+                    {
+                        CharacterName = "AdminCharacterMage",
+                        MaxHealthPoints = 30,
+                        CurrentHealthPoints = 30,
+                        Level = 1,  
+                        Strenght = 10,
+                        Dexterity = 10,
+                        Constitution = 14,
+                        Intelligence = 18,
+                        Wisdom = 14,
+                        Charisma = 12,
+                        UserId = 1,
 
                     }
                 };
-            //Temporary hardcoding 
 
 
+            _db.Users.AddRange(users);
             _db.CharacterActions.AddRange(actions);
             _db.Statuses.AddRange(statuses);
             _db.PlayableCharacterRaces.AddRange(playableRaces);
             _db.PlayableCharacterClasses.AddRange(playableCharacterClasses);
             _db.Items.AddRange(items);
             _db.SaveChanges();
-            
+
+            playableCharacters[0].CharacterClass = _db.PlayableCharacterClasses.First();
+            playableCharacters[1].CharacterClass = _db.PlayableCharacterClasses.First();
+            playableCharacters[0].Race = _db.PlayableCharacterRaces.First();
+            playableCharacters[1].Race = _db.PlayableCharacterRaces.First();
+            //_db.SaveChanges();
+            //ADDING RELATIONS
             _db.Items.FirstOrDefault(i => i.Name.Contains("Short Sword")).ActionToTrigger = _db.CharacterActions.FirstOrDefault(a => a.ActionName.Contains("Short Sword Attack"));
             _db.Items.FirstOrDefault(i => i.Name.Contains("Healing Potion")).ActionToTrigger = _db.CharacterActions.FirstOrDefault(a => a.ActionName.Contains("Small Heal"));
 
-            _db.CharacterActions.FirstOrDefault(a=>a.ActionName.Contains("Magic Missiles")).Status = _db.Statuses.FirstOrDefault(s=>s.Name.Contains("Blind"));
+            _db.CharacterActions.FirstOrDefault(a => a.ActionName.Contains("Magic Missiles")).Status = _db.Statuses.FirstOrDefault(s => s.Name.Contains("Blind"));
             _db.CharacterActions.FirstOrDefault(a => a.ActionName.Contains("Bless")).Status = _db.Statuses.FirstOrDefault(s => s.Name.Contains("Bless"));
-             
+
             _db.SaveChanges();
-          
-            enemies[0].EquippedArmor = _db.Items.FirstOrDefault(i => i.Name.Contains("Armor"));
-            enemies[0].EquippedWeapon = _db.Items.FirstOrDefault(i => i.Name.Contains("Short Sword")); 
-            enemies[0].EquippedSecondaryWeapon = _db.Items.FirstOrDefault(i => i.Name.Contains("Small Wooden Shield"));
+            foreach (var enemy in enemies)
+            {
+                enemy.EquippedItems.Add(_db.Items.First(i => i.Name.ToLower().Contains("armor")));
+                enemy.EquippedItems.Add(_db.Items.First(i => i.Name.ToLower().Contains("short sword")));
+                enemy.EquippedItems.Add(_db.Items.First(i => i.Name.ToLower().Contains("small wooden shield")));
+            }
 
+            //warrior
+            playableCharacters[0].EquippedItems.Add(_db.Items.First(i => i.Name.ToLower().Contains("heavy armor")));
+            playableCharacters[0].EquippedItems.Add(_db.Items.First(i => i.Name.ToLower().Contains("short sword")));
+            playableCharacters[0].EquippedItems.Add(_db.Items.First(i => i.Name.ToLower().Contains("small wooden shield")));
+
+
+            playableCharacters[0].Inventory.ToList().Add(_db.Items.First(i => i.Name.ToLower().Contains("healing potion")));
+            playableCharacters[0].Inventory.ToArray();
+
+
+            playableCharacters[0].Race = _db.PlayableCharacterRaces.First (i => i.RaceName.ToLower().Contains("human"));
+            playableCharacters[0].CharacterClass = _db.PlayableCharacterClasses.First (i => i.ClassName.ToLower().Contains("warrior"));
+
+            playableCharacters[0].DefaultActions.Add(_db.CharacterActions.First (x => x.ActionName.ToLower().Contains("action surge")));
+            //mage
+            playableCharacters[1].EquippedItems.Add(_db.Items.First(i => i.Name.ToLower().Contains("mage robe")));
+
+            playableCharacters[1].Race = _db.PlayableCharacterRaces.First(i => i.RaceName.ToLower().Contains("human"));
+            playableCharacters[1].CharacterClass = _db.PlayableCharacterClasses.First(i => i.ClassName.ToLower().Contains("mage"));
+
+            playableCharacters[1].DefaultActions.Add(_db.CharacterActions.First(x => x.ActionName.ToLower().Contains("magic Missiles")));
+            playableCharacters[1].DefaultActions.Add(_db.CharacterActions.First(x => x.ActionName.ToLower().Contains("small Heal")));
              
-            playableCharacters[0].EquippedArmor = _db.Items.FirstOrDefault(i => i.Name.Contains("Light Armor"));
-            playableCharacters[0].EquippedWeapon = _db.Items.FirstOrDefault(i => i.Name.Contains("Short Sword"));
-            playableCharacters[0].EquippedSecondaryWeapon = _db.Items.FirstOrDefault(i => i.Name.Contains("Small Wooden Shield"));
-            playableCharacters[0].Race = _db.PlayableCharacterRaces.FirstOrDefault(i => i.RaceName.Contains("Human"));
-            playableCharacters[0].CharacterClass = _db.PlayableCharacterClasses.FirstOrDefault(i => i.ClassName.Contains("Warrior"));
 
-            playableCharacters[0].DefaultActions.Add(_db.CharacterActions.FirstOrDefault(x => x.ActionName.Contains("Magic Missiles")));
-            playableCharacters[0].DefaultActions.Add(_db.CharacterActions.FirstOrDefault(x => x.ActionName.Contains("Small Heal")));
-
-            playableCharacters[0].LinkedActions = new List<ActionCharacter>();
-
-            var characters = new List<Character>();
-             characters.Concat(playableCharacters);
-             characters.Concat(enemies); 
-
-            UpdateCharacterActionsRelations(characters);
+            playableCharacters = UpdatePlayableCharacterActionsRelations(playableCharacters);
+            enemies = UpdateEnemyActionsRelations(enemies);
+            playableCharacters = UpdatePlayableCharacterItemsRelations(playableCharacters);
+            enemies = UpdateEnemyItemsRelations(enemies);
 
             _db.Enemies.AddRange(enemies);
+            
             users[0].CharactersCreated.Add(playableCharacters[0]);
-            _db.Users.AddRange(users);
-             
+            users[1].CharactersCreated.Add(playableCharacters[1]);
 
+
+            //_db.SaveChanges();
             _db.SaveChanges();
-
-
-            var t1 =  _db.Enemies
-                .Include(x=> x.DefaultActions)
-                .ThenInclude(y=>y.Status)
-                .ToList();
-
-            var t2 = _db.PlayableCharacters
-                .Include(x => x.DefaultActions)
-                .ThenInclude(y => y.Status)
-                .ToList();
-
-            _db.SaveChanges();
-
+ 
         }
+   
+        public  List<PlayableCharacter> UpdatePlayableCharacterItemsRelations(List<PlayableCharacter> characters)
+        { 
+            foreach (var character in characters)
+            {
+                //Deletes all many to many relations
+                character.LinkedItems = new List<ItemCharacter>();
+                if (character.EquippedItems.Any())
+                {
+                    foreach (var item in character.EquippedItems)
+                    {
+                        //Creates a new relation object for each action. 
+                        character.LinkedItems.Add(
+                         new ItemCharacter()
+                         {
+                             CharacterId = character.CharacterId,
+                             ItemId = item.ItemId,
+                             IsEquipped = true
+                         });  
+                    }
+                }
 
-        public void UpdateCharacterActionsRelations(List<Character> characters)
+                if (character.Inventory.Any())
+                {
+                    
+                    foreach (var item in character.Inventory)
+                    {
+                        if(item != null)
+                        {
+                            character.LinkedItems.Add(
+                                new ItemCharacter()
+                                   {
+                                      CharacterId = character.CharacterId,
+                                       ItemId = item.ItemId,
+                                       IsEquipped = false
+                                      
+                                  });
+                        }
+                        
+                    }
+                }
+            };
+            return characters;
+        }
+        public List<Enemy> UpdateEnemyItemsRelations(List<Enemy> characters)
+        {
+            foreach (var character in characters)
+            {
+                //Deletes all many to many relations
+                character.LinkedItems = new List<ItemCharacter>();
+                if (character.EquippedItems.Any())
+                {
+                    foreach (var item in character.EquippedItems)
+                    {
+                        //Creates a new relation object for each action. 
+                        character.LinkedItems.Add(
+                         new ItemCharacter()
+                         {
+                             CharacterId = character.CharacterId,
+                             ItemId = item.ItemId,
+                             IsEquipped = true
+                             
+                         });
+                    }
+                } 
+                if (character.Inventory.Any())
+                {
+                    foreach (var item in character.Inventory)
+                    {
+                        if(item != null)
+                        {
+                          character.LinkedItems.Add(
+                            new ItemCharacter()
+                            {
+                             CharacterId = character.CharacterId,
+                             ItemId = item.ItemId, 
+                             IsEquipped = true
+                            }); 
+                        } 
+                    }
+                }
+            };
+            return characters;
+        }
+        public List<PlayableCharacter> UpdatePlayableCharacterActionsRelations(List<PlayableCharacter> characters)
         {
             foreach (var character in characters)
             {
@@ -320,12 +450,35 @@ namespace OstreCWEB.Data.DataBase
                     //Creates a new relation object for each action. 
                     character.LinkedActions.Add(
                      new ActionCharacter()
-                    {
-                        Character = character,
-                        CharacterAction = action
-                    });  
+                     {
+                         Character = character,
+                         CharacterAction = action
+                     });
+                }
+
+
+            };
+            return characters;
+        }
+        public List<Enemy> UpdateEnemyActionsRelations(List<Enemy> characters)
+        {
+            foreach (var character in characters)
+            {
+                //Deletes all many to many relations
+                character.LinkedActions = new List<ActionCharacter>();
+
+                foreach (var action in character.DefaultActions)
+                {
+                    //Creates a new relation object for each action. 
+                    character.LinkedActions.Add(
+                     new ActionCharacter()
+                     {
+                         Character = character,
+                         CharacterAction = action
+                     });
                 }
             };
+            return characters;
         }
 
 

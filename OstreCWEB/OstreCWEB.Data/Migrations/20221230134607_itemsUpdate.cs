@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace OstreCWEB.Data.Migrations
 {
-    public partial class AddedManyToManyForActionsAndCharacters : Migration
+    public partial class itemsUpdate : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -84,6 +84,38 @@ namespace OstreCWEB.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "CharacterActions",
+                columns: table => new
+                {
+                    CharacterActionId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    StatusId = table.Column<int>(type: "int", nullable: true),
+                    ActionName = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    ActionDescription = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    ActionType = table.Column<int>(type: "int", nullable: false),
+                    SavingThrowPossible = table.Column<bool>(type: "bit", nullable: false),
+                    Max_Dmg = table.Column<int>(type: "int", nullable: false),
+                    Flat_Dmg = table.Column<int>(type: "int", nullable: false),
+                    Hit_Dice_Nr = table.Column<int>(type: "int", nullable: false),
+                    PossibleTargets = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    InflictsStatus = table.Column<bool>(type: "bit", nullable: false),
+                    StatForTest = table.Column<int>(type: "int", nullable: false),
+                    UsesMaxBeforeRest = table.Column<int>(type: "int", nullable: false),
+                    UsesLeftBeforeRest = table.Column<int>(type: "int", nullable: false),
+                    UsesMax = table.Column<int>(type: "int", nullable: false),
+                    AggressiveAction = table.Column<bool>(type: "bit", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_CharacterActions", x => x.CharacterActionId);
+                    table.ForeignKey(
+                        name: "FK_CharacterActions_Statuses_StatusId",
+                        column: x => x.StatusId,
+                        principalTable: "Statuses",
+                        principalColumn: "StatusId");
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Character",
                 columns: table => new
                 {
@@ -100,7 +132,7 @@ namespace OstreCWEB.Data.Migrations
                     Wisdom = table.Column<int>(type: "int", nullable: false),
                     Charisma = table.Column<int>(type: "int", nullable: false),
                     Discriminator = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Race = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Race = table.Column<int>(type: "int", nullable: true),
                     UserId = table.Column<int>(type: "int", nullable: true),
                     RaceId = table.Column<int>(type: "int", nullable: true),
                     PlayableClassId = table.Column<int>(type: "int", nullable: true)
@@ -129,41 +161,25 @@ namespace OstreCWEB.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "CharacterActions",
+                name: "Items",
                 columns: table => new
                 {
-                    CharacterActionId = table.Column<int>(type: "int", nullable: false)
+                    ItemId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    StatusId = table.Column<int>(type: "int", nullable: true),
-                    ActionName = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    ActionDescription = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    ActionType = table.Column<int>(type: "int", nullable: false),
-                    SavingThrowPossible = table.Column<bool>(type: "bit", nullable: false),
-                    Max_Dmg = table.Column<int>(type: "int", nullable: false),
-                    Flat_Dmg = table.Column<int>(type: "int", nullable: false),
-                    Hit_Dice_Nr = table.Column<int>(type: "int", nullable: false),
-                    PossibleTargets = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    InflictsStatus = table.Column<bool>(type: "bit", nullable: false),
-                    StatForTest = table.Column<int>(type: "int", nullable: false),
-                    UsesMaxBeforeRest = table.Column<int>(type: "int", nullable: false),
-                    UsesLeftBeforeRest = table.Column<int>(type: "int", nullable: false),
-                    UsesMax = table.Column<int>(type: "int", nullable: false),
-                    AggressiveAction = table.Column<bool>(type: "bit", nullable: false),
-                    CharacterId = table.Column<int>(type: "int", nullable: true)
+                    ActionToTriggerCharacterActionId = table.Column<int>(type: "int", nullable: true),
+                    ItemType = table.Column<int>(type: "int", nullable: false),
+                    ArmorClass = table.Column<int>(type: "int", nullable: true),
+                    ArmorType = table.Column<int>(type: "int", nullable: true),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_CharacterActions", x => x.CharacterActionId);
+                    table.PrimaryKey("PK_Items", x => x.ItemId);
                     table.ForeignKey(
-                        name: "FK_CharacterActions_Character_CharacterId",
-                        column: x => x.CharacterId,
-                        principalTable: "Character",
-                        principalColumn: "CharacterId");
-                    table.ForeignKey(
-                        name: "FK_CharacterActions_Statuses_StatusId",
-                        column: x => x.StatusId,
-                        principalTable: "Statuses",
-                        principalColumn: "StatusId");
+                        name: "FK_Items_CharacterActions_ActionToTriggerCharacterActionId",
+                        column: x => x.ActionToTriggerCharacterActionId,
+                        principalTable: "CharacterActions",
+                        principalColumn: "CharacterActionId");
                 });
 
             migrationBuilder.CreateTable(
@@ -191,33 +207,12 @@ namespace OstreCWEB.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Items",
-                columns: table => new
-                {
-                    ItemId = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    ItemType = table.Column<int>(type: "int", nullable: false),
-                    ArmorClass = table.Column<int>(type: "int", nullable: true),
-                    ArmorType = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    ActionToTriggerCharacterActionId = table.Column<int>(type: "int", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Items", x => x.ItemId);
-                    table.ForeignKey(
-                        name: "FK_Items_CharacterActions_ActionToTriggerCharacterActionId",
-                        column: x => x.ActionToTriggerCharacterActionId,
-                        principalTable: "CharacterActions",
-                        principalColumn: "CharacterActionId");
-                });
-
-            migrationBuilder.CreateTable(
                 name: "ItemsCharactersRelation",
                 columns: table => new
                 {
                     ItemId = table.Column<int>(type: "int", nullable: false),
-                    CharacterId = table.Column<int>(type: "int", nullable: false)
+                    CharacterId = table.Column<int>(type: "int", nullable: false),
+                    IsEquipped = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -257,11 +252,6 @@ namespace OstreCWEB.Data.Migrations
                 column: "UserId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_CharacterActions_CharacterId",
-                table: "CharacterActions",
-                column: "CharacterId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_CharacterActions_StatusId",
                 table: "CharacterActions",
                 column: "StatusId");
@@ -286,16 +276,10 @@ namespace OstreCWEB.Data.Migrations
                 name: "ItemsCharactersRelation");
 
             migrationBuilder.DropTable(
-                name: "Items");
-
-            migrationBuilder.DropTable(
-                name: "CharacterActions");
-
-            migrationBuilder.DropTable(
                 name: "Character");
 
             migrationBuilder.DropTable(
-                name: "Statuses");
+                name: "Items");
 
             migrationBuilder.DropTable(
                 name: "PlayableCharacterClasses");
@@ -305,6 +289,12 @@ namespace OstreCWEB.Data.Migrations
 
             migrationBuilder.DropTable(
                 name: "Users");
+
+            migrationBuilder.DropTable(
+                name: "CharacterActions");
+
+            migrationBuilder.DropTable(
+                name: "Statuses");
         }
     }
 }

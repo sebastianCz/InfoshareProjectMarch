@@ -12,7 +12,7 @@ namespace OstreCWEB.Data.DataBase
     {
         //Relations many to many
 
-       internal DbSet<ActionCharacter> actionCharactersRelation { get; set; }
+        internal DbSet<ActionCharacter> actionCharactersRelation { get; set; }
         internal DbSet<ItemCharacter> ItemsCharactersRelation { get; set; }
 
 
@@ -41,12 +41,14 @@ namespace OstreCWEB.Data.DataBase
         //public DbSet<ShopkeeperProp> ShopkeeperProps { get; set; }
         //public DbSet<EnemyInParagraph> EnemyInParagraphs { get; set; }
 
-
+        //GameSessions
+        //internal DbSet<GameInstance> {get;set;}
         //Combat
 
 
-        public OstreCWebContext() { 
-        
+        public OstreCWebContext()
+        {
+
         }
         public OstreCWebContext(DbContextOptions<OstreCWebContext> options) : base(options) { }
 
@@ -56,19 +58,47 @@ namespace OstreCWEB.Data.DataBase
             UserConfiguration(builder);
             ConfigureCharacters(builder);
             ConfigureActions(builder);
-           
+            ConfigureItems(builder);
+
         }
-         
+
+        private void ConfigureItems(ModelBuilder builder)
+        {
+
+            builder.Entity<Item>().Navigation(e => e.ActionToTrigger).AutoInclude();
+
+            builder.Entity<ItemCharacter>()
+             .HasKey(x => new { x.ItemId, x.CharacterId });
+
+           
+            builder.Entity<ItemCharacter>()
+                           .HasOne(x => x.Item)
+                           .WithMany(x => x.LinkedCharacters)
+                           .HasForeignKey(x => x.ItemId);
+ 
+
+            builder.Entity<ItemCharacter>()
+             .HasOne(x => x.Character)
+             .WithMany(x => x.LinkedItems)
+             .HasForeignKey(x => x.CharacterId);
+
+
+
+
+
+        }
         private void ConfigureActions(ModelBuilder builder)
         {
-            //builder.Entity<ActionCharacter>().HasKey(sc => new { sc.CharacterActionId, sc.CharacterId});
+
+            builder.Entity<CharacterAction>().Navigation(e => e.Status).AutoInclude();
+
             builder.Entity<ActionCharacter>()
             .HasKey(x => new { x.CharacterId, x.CharacterActionId });
 
             builder.Entity<ActionCharacter>()
-       .HasOne(pt => pt.Character)
-       .WithMany(p => p.LinkedActions)
-       .HasForeignKey(pt => pt.CharacterId);
+                    .HasOne(pt => pt.Character)
+                    .WithMany(p => p.LinkedActions)
+                    .HasForeignKey(pt => pt.CharacterId);
 
 
             builder.Entity<ActionCharacter>()
@@ -86,34 +116,22 @@ namespace OstreCWEB.Data.DataBase
                     .HasMany(x => x.CharactersCreated)
                     .WithOne(x => x.User)
                     .HasForeignKey(x => x.UserId);
+
         }
         private void ConfigureCharacters(ModelBuilder builder)
         {
-            
+
 
             builder.Entity<PlayableCharacter>()
                 .HasOne(r => r.Race)
                 .WithMany(p => p.PlayableCharacter)
-                .HasForeignKey(x => x.RaceId); 
+                .HasForeignKey(x => x.RaceId);
             builder.Entity<PlayableCharacter>()
                 .HasOne(c => c.CharacterClass)
-                .WithMany(p => p.PlayableCharacter);
-
-            builder.Entity<ItemCharacter>()
-                .HasKey(x => new { x.ItemId, x.CharacterId });
-
-            builder.Entity<ItemCharacter>()
-                .HasOne(x => x.Item)
-                .WithMany(x => x.ItemCharacter)
-                .HasForeignKey(x => x.ItemId);
-
-            builder.Entity<ItemCharacter>()
-              .HasOne(x => x.Character)
-              .WithMany(x => x.ItemCharacter)
-              .HasForeignKey(x => x.CharacterId);
+                .WithMany(p => p.PlayableCharacter); 
 
         }
-        private void ConfigureStories( ModelBuilder builder)
+        private void ConfigureStories(ModelBuilder builder)
         {
             { //Story
                 builder.Entity<Story>()
@@ -151,7 +169,7 @@ namespace OstreCWEB.Data.DataBase
                     .HasForeignKey(x => x.FightPropId);
             } // ParagraphFight
         }
-       
 
-    } 
+
+    }
 }

@@ -111,7 +111,7 @@ namespace OstreCWEB.Data.DataBase
                 CharacterActionId = 1,
                 ActionName = "Short Sword Attack",
                 ActionDescription = "Strikes the chosen character with your weapon",
-                ActionType = CharacterActionType.MeleeAttack,
+                ActionType = CharacterActionType.WeaponAttack,
                 SavingThrowPossible = true,
                 Max_Dmg = 6,
                 Flat_Dmg = 1,
@@ -126,7 +126,7 @@ namespace OstreCWEB.Data.DataBase
                 CharacterActionId = 2,
                 ActionName = "Fist Attack",
                 ActionDescription = "Strikes the chosen character with your bare hands",
-                ActionType = CharacterActionType.MeleeAttack,
+                ActionType = CharacterActionType.WeaponAttack,
                 SavingThrowPossible = true,
                 Max_Dmg = 2,
                 Flat_Dmg = 1,
@@ -141,7 +141,7 @@ namespace OstreCWEB.Data.DataBase
                 CharacterActionId = 3,
                 ActionName = "Magic Missiles",
                 ActionDescription = "Throws magic missiles at the enmy",
-                ActionType = CharacterActionType.MeleeAttack,
+                ActionType = CharacterActionType.WeaponAttack,
                 SavingThrowPossible = true,
                 Max_Dmg = 4,
                 Flat_Dmg = 2,
@@ -191,40 +191,42 @@ namespace OstreCWEB.Data.DataBase
         };
 
             Items = new List<Item>
-            {
-                new Item
-                {
-                    ItemId=1,
-                    Name="Light Armor",
-                    ItemType = ItemType.Armors,
-                    ArmorClass = 1,
-                    ArmorType="Light"
+             {
+                    new Item()
+                    {
+                        Name="Short Sword",
+                        ItemType =ItemType.TwoHandedWeapon
+                    },
+                    new Item()
+                    {
+                        Name="Healing Potion",
+                        ItemType = ItemType.Consumable
+                    },
+                    new Item()
+                    {
+                        Name="Small Wooden Shield",
+                        ItemType = ItemType.Shield,
+                        ArmorClass=2,
+                        ArmorType = ArmorType.Shield
 
-                },
-                new Item()
-                {
-                    ItemId=2,
-                    Name="Short Sword",
-                    ItemType =ItemType.Weapons,
-                    ActionToTrigger = Actions.FirstOrDefault(a=> a.CharacterActionId == 1)
-                },
-                new Item()
-                {
-                    ItemId=3,
-                    Name="Healing Potion",
-                    ItemType = ItemType.Consumable,
-                    ActionToTrigger = Actions.FirstOrDefault(a=>a.CharacterActionId == 4 )
-                },
-                new Item()
-                {
-                    ItemId=4,
-                    Name="Small Wooden Shield",
-                    ItemType = ItemType.Shield,
-                    ArmorClass=1,
-                    ArmorType = "basic"
-                    
-                } 
-            };
+                    },
+                     new Item
+                    {
+                        Name="Heavy Armor",
+                        ItemType = ItemType.Armor,
+                        ArmorClass = 2,
+                        ArmorType = ArmorType.HeaveArmor
+
+                    },
+                    new Item
+                    {
+                        Name="Mage Robe",
+                        ItemType = ItemType.Armor,
+                        ArmorClass = 1,
+                        ArmorType= ArmorType.LightArmor
+
+                    }
+                };
 
             Enemies = new List<Enemy>
             {
@@ -232,7 +234,7 @@ namespace OstreCWEB.Data.DataBase
                 {
                     CharacterId = 1,
                     CharacterName = "Goblin Archer",
-                    Race = "Goblin",
+                    NonPlayableRace = Races.Humanoid,
                     MaxHealthPoints = 10,
                     CurrentHealthPoints = 10,
                     Level = 1, 

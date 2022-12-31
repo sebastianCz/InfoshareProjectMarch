@@ -8,5 +8,8 @@ namespace OstreCWEB.Data.Repository.Characters.MetaTags
         public int ItemId { get; set; } 
         public int CharacterId { get; set; }  
         public Character Character { get; set; }
+
+        //Paremeters for items in the given relationship
+        public bool IsEquipped { get; set; }
     }
 }

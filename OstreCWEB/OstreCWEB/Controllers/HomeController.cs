@@ -18,7 +18,7 @@ namespace OstreCWEB.Controllers
         public ActionResult Index()
         { 
             var model = new ItemsTest();
-
+            
             return View(model );
         }
         //public ActionResult InitializeFight()
