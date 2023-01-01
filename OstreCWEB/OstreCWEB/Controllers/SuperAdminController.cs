@@ -1,9 +1,13 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Authentication; 
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using OstreCWEB.Data.DataBase;
 using OstreCWEB.Data.Repository.Characters.Interfaces;
+using OstreCWEB.Data.Repository.Identity;
 using OstreCWEB.Data.Repository.SuperAdmin;
 using OstreCWEB.ViewModel.Characters; 
+
 
 namespace OstreCWEB.Controllers
 { //It's a temporary controller I'm using for test purposes. It includes pretty much everything and should disapear by end of sprint 2. 
@@ -15,17 +19,23 @@ namespace OstreCWEB.Controllers
         private readonly IPlayableCharacterRepository _playableCharacterRepository;
         private readonly ISuperAdminRepository _superAdminRepository; 
         private readonly IMapper _mapper;
+        private readonly UserManager<User> _userManager;
+        private readonly SignInManager<User> _signInManager;
+
         // GET: SuperAdmin
-        public SuperAdminController(ISuperAdminRepository superAdminRepository,IPlayableCharacterRepository playableCharacterRepository, ISeeder seeder,IMapper mapper, IStatusRepository statusRepository,ICharacterActionsRepository characterActionsRepository)
-        {
+        public SuperAdminController(SignInManager<User> signInManager, UserManager<User>userManager,ISuperAdminRepository superAdminRepository,IPlayableCharacterRepository playableCharacterRepository, ISeeder seeder,IMapper mapper, IStatusRepository statusRepository,ICharacterActionsRepository characterActionsRepository)
+        { 
             _seeder = seeder;
             _mapper = mapper; 
             _statusRepository = statusRepository;
             _characterActionsRepository = characterActionsRepository;
             _playableCharacterRepository = playableCharacterRepository;
             _superAdminRepository = superAdminRepository;
+            _userManager = userManager;
+            _signInManager = signInManager;
 
-             
+
+
         } 
         public  ActionResult Test()
         { 
@@ -37,7 +47,14 @@ namespace OstreCWEB.Controllers
             
             return View();
         }
-
+        public async Task<ActionResult> Login()
+        {
+            var user = _superAdminRepository.GetRandomUser();
+            var userName = user.UserName;
+            var password = user.Password;
+            var result = await _signInManager.PasswordSignInAsync(userName, password, false, lockoutOnFailure: false);  
+            return View();
+        }
         // GET: SuperAdmin/Details/5
         public ActionResult Details(int id)
         {
@@ -107,9 +124,9 @@ namespace OstreCWEB.Controllers
                 return View();
             }
         }
-        public ActionResult Seed()
+        public async Task<ActionResult> Seed()
         {
-            _seeder.SeedDataBase();
+            await _seeder.SeedDataBase();
             return View();
         }
     }

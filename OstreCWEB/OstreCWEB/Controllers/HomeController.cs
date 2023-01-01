@@ -1,14 +1,15 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
 using OstreCWEB.Data.DataBase;
 using OstreCWEB.Models;
 using System.Diagnostics;
+using OstreCWEB.Data.Repository.Identity;
 
 namespace OstreCWEB.Controllers
 {
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
-      
 
         public HomeController(ILogger<HomeController> logger )
         {
@@ -16,8 +17,7 @@ namespace OstreCWEB.Controllers
         }
 
         public ActionResult Index()
-        {  
-            
+        { 
             return View();
         }
         //public ActionResult InitializeFight()

@@ -1,4 +1,5 @@
-﻿using OstreCWEB.Data.Repository.Characters.CharacterModels;
+﻿using Microsoft.AspNetCore.Identity;
+using OstreCWEB.Data.Repository.Characters.CharacterModels;
 using OstreCWEB.Data.Repository.Characters.Enums;
 using OstreCWEB.Data.Repository.Characters.MetaTags;
 using OstreCWEB.Data.Repository.Identity;
@@ -8,16 +9,18 @@ namespace OstreCWEB.Data.DataBase
     public class DBSeeder : ISeeder
     {
         private readonly OstreCWebContext _db;
+        private readonly UserManager<User> _userManager;
 
-        public DBSeeder(OstreCWebContext ostreCWebContext)
+        public DBSeeder(UserManager<User> userManager,OstreCWebContext ostreCWebContext)
         {
             _db = ostreCWebContext;
+            _userManager = userManager;
         } 
-        public void SeedDataBase()
+        public async Task SeedDataBase()
         {
-            Seed();
+            await Seed();
         } 
-        private void Seed()
+        private async Task Seed()
         { 
             var statuses = new List<Status>
             {
@@ -54,14 +57,21 @@ namespace OstreCWEB.Data.DataBase
                 {
                     LoggedIn = false,
                     UserName = "Admin" + i,
-                    Password = "Admin",
+                    Password = "Admin123#",
                     Email = "Admin@Admin.com",
+                    NormalizedEmail = "ADMIN@ADMIN.COM",
+                    NormalizedUserName = "ADMIN" + i,
                     Created = DateTime.Now,
                     StoriesCompletedTotal = 0,
                     DamageDealt = 0,
                     DamageReceived = 0,
-                    CharactersCreated = new List<PlayableCharacter>() 
+                    CharactersCreated = new List<PlayableCharacter>(),
+                    EmailConfirmed = true,
+                    PhoneNumberConfirmed =true,
+                    PhoneNumber = "733570201"
                 };
+
+                
                 users.Add(user);
             } 
             var playableCharacterClasses = new List<PlayableClass>
@@ -256,6 +266,12 @@ namespace OstreCWEB.Data.DataBase
                     }
                 };
              
+
+            foreach(var user in users)
+            {
+                var result = await _userManager.CreateAsync(user, user.Password);
+            }
+
             _db.Users.AddRange(users);
             _db.CharacterActions.AddRange(actions);
             _db.Statuses.AddRange(statuses);

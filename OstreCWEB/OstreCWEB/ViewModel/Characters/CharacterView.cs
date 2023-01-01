@@ -1,4 +1,5 @@
-﻿using OstreCWEB.Data.Repository.Characters.CharacterModels;
+﻿using OstreCWEB.Data.Repository.Characters.CharacterModels; 
+using System.ComponentModel.DataAnnotations;
 
 namespace OstreCWEB.ViewModel.Characters
 {

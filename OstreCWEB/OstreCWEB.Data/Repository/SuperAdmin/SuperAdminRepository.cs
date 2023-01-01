@@ -1,4 +1,5 @@
 ﻿using OstreCWEB.Data.DataBase;
+using OstreCWEB.Data.Repository.Identity;
 
 namespace OstreCWEB.Data.Repository.SuperAdmin
 {
@@ -14,9 +15,13 @@ namespace OstreCWEB.Data.Repository.SuperAdmin
         public void Test()
         {
             var x = _db.PlayableCharacters.ToList();
-               
-            var z = 1 + 2;
-               
+
+
+
+        }
+        public User GetRandomUser()
+        {
+            return _db.Users.First();
         }
     }
 }
