@@ -9,10 +9,7 @@ namespace OstreCWEB.Data.Repository.Characters.CharacterModels
         public Races NonPlayableRace { get; set; }
 
         [JsonConstructor]
-        public Enemy() { }
-         
-    }
-
-
+        public Enemy() { } 
+    } 
 }
 

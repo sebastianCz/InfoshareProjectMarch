@@ -1,6 +1,4 @@
 ﻿using OstreCWEB.Data.Repository.Characters.CharacterModels;
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 namespace OstreCWEB.Data.Repository.Characters.MetaTags
 {
     public class ActionCharacter

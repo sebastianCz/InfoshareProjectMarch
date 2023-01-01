@@ -1,10 +1,6 @@
-﻿ 
-using Microsoft.EntityFrameworkCore.ChangeTracking.Internal;
+﻿using Microsoft.AspNetCore.Identity;
 using OstreCWEB.Data.Repository.Characters.CharacterModels;
-using OstreCWEB.Data.Repository.StoryModels;
-using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using Microsoft.AspNetCore.Identity;
 
 namespace OstreCWEB.Data.Repository.Identity
 {

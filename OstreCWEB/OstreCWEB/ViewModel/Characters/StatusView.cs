@@ -3,7 +3,7 @@
 namespace OstreCWEB.ViewModel.Characters
 {
     public class StatusView
-    {
+    { 
         public int StatusId { get; set; }
         public List<CharacterAction>? CharacterActions { get; set; } 
         public string Name { get; set; }

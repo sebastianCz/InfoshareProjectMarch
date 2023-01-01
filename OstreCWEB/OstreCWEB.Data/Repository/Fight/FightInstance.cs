@@ -1,9 +1,4 @@
-﻿using OstreCWEB.Data.Repository.Characters.CharacterModels; 
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using OstreCWEB.Data.Repository.Characters.CharacterModels;
 
 namespace OstreCWEB.Data.Repository.Fight
 {

@@ -2,7 +2,6 @@
 using OstreCWEB.Data.DataBase;
 using OstreCWEB.Data.Repository.Characters.CharacterModels;
 using OstreCWEB.Data.Repository.Characters.Interfaces;
-using System.Reflection.Metadata.Ecma335;
 
 namespace OstreCWEB.Data.Repository.Characters
 {

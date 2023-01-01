@@ -1,5 +1,4 @@
-﻿using OstreCWEB.Data.Repository.Characters.Enums;
-using OstreCWEB.Data.Repository.Identity;
+﻿using OstreCWEB.Data.Repository.Identity;
 using System.ComponentModel.DataAnnotations;
 
 namespace OstreCWEB.Data.Repository.Characters.CharacterModels

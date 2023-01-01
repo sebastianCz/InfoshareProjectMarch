@@ -1,6 +1,5 @@
 ﻿using OstreCWEB.Data.Repository.Characters.CharacterModels;
 using OstreCWEB.Data.Repository.Characters.Enums;
-using System.ComponentModel.DataAnnotations.Schema; 
 namespace OstreCWEB.ViewModel.Characters
 {
     public class PlayableClassView

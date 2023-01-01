@@ -12,8 +12,8 @@ using OstreCWEB.Data.DataBase;
 namespace OstreCWEB.Data.Migrations
 {
     [DbContext(typeof(OstreCWebContext))]
-    [Migration("20221231135639_identity")]
-    partial class identity
+    [Migration("20230101062603_identityAndCharacters")]
+    partial class identityAndCharacters
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -161,7 +161,57 @@ namespace OstreCWEB.Data.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
-            modelBuilder.Entity("OstreCWEB.Data.Repository.Characters.CharacterModels._Action", b =>
+            modelBuilder.Entity("OstreCWEB.Data.Repository.Characters.CharacterModels.Character", b =>
+                {
+                    b.Property<int>("CharacterId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("CharacterId"), 1L, 1);
+
+                    b.Property<string>("CharacterName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("Charisma")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Constitution")
+                        .HasColumnType("int");
+
+                    b.Property<int>("CurrentHealthPoints")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Dexterity")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Discriminator")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("Intelligence")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Level")
+                        .HasColumnType("int");
+
+                    b.Property<int>("MaxHealthPoints")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Strenght")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Wisdom")
+                        .HasColumnType("int");
+
+                    b.HasKey("CharacterId");
+
+                    b.ToTable("Character");
+
+                    b.HasDiscriminator<string>("Discriminator").HasValue("Character");
+                });
+
+            modelBuilder.Entity("OstreCWEB.Data.Repository.Characters.CharacterModels.CharacterAction", b =>
                 {
                     b.Property<int>("CharacterActionId")
                         .ValueGeneratedOnAdd()
@@ -222,56 +272,6 @@ namespace OstreCWEB.Data.Migrations
                     b.HasIndex("StatusId");
 
                     b.ToTable("CharacterActions");
-                });
-
-            modelBuilder.Entity("OstreCWEB.Data.Repository.Characters.CharacterModels.Character", b =>
-                {
-                    b.Property<int>("CharacterId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("CharacterId"), 1L, 1);
-
-                    b.Property<string>("CharacterName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("Charisma")
-                        .HasColumnType("int");
-
-                    b.Property<int>("Constitution")
-                        .HasColumnType("int");
-
-                    b.Property<int>("CurrentHealthPoints")
-                        .HasColumnType("int");
-
-                    b.Property<int>("Dexterity")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Discriminator")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("Intelligence")
-                        .HasColumnType("int");
-
-                    b.Property<int>("Level")
-                        .HasColumnType("int");
-
-                    b.Property<int>("MaxHealthPoints")
-                        .HasColumnType("int");
-
-                    b.Property<int>("Strenght")
-                        .HasColumnType("int");
-
-                    b.Property<int>("Wisdom")
-                        .HasColumnType("int");
-
-                    b.HasKey("CharacterId");
-
-                    b.ToTable("Character");
-
-                    b.HasDiscriminator<string>("Discriminator").HasValue("Character");
                 });
 
             modelBuilder.Entity("OstreCWEB.Data.Repository.Characters.CharacterModels.Item", b =>
@@ -605,7 +605,7 @@ namespace OstreCWEB.Data.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("OstreCWEB.Data.Repository.Characters.CharacterModels._Action", b =>
+            modelBuilder.Entity("OstreCWEB.Data.Repository.Characters.CharacterModels.CharacterAction", b =>
                 {
                     b.HasOne("OstreCWEB.Data.Repository.Characters.CharacterModels.Status", "Status")
                         .WithMany("CharacterActions")
@@ -616,7 +616,7 @@ namespace OstreCWEB.Data.Migrations
 
             modelBuilder.Entity("OstreCWEB.Data.Repository.Characters.CharacterModels.Item", b =>
                 {
-                    b.HasOne("OstreCWEB.Data.Repository.Characters.CharacterModels._Action", "ActionToTrigger")
+                    b.HasOne("OstreCWEB.Data.Repository.Characters.CharacterModels.CharacterAction", "ActionToTrigger")
                         .WithMany("LinkedItems")
                         .HasForeignKey("ActionToTriggerCharacterActionId");
 
@@ -625,7 +625,7 @@ namespace OstreCWEB.Data.Migrations
 
             modelBuilder.Entity("OstreCWEB.Data.Repository.Characters.MetaTags.ActionCharacter", b =>
                 {
-                    b.HasOne("OstreCWEB.Data.Repository.Characters.CharacterModels._Action", "CharacterAction")
+                    b.HasOne("OstreCWEB.Data.Repository.Characters.CharacterModels.CharacterAction", "CharacterAction")
                         .WithMany("LinkedCharacter")
                         .HasForeignKey("CharacterActionId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -688,16 +688,16 @@ namespace OstreCWEB.Data.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("OstreCWEB.Data.Repository.Characters.CharacterModels._Action", b =>
+            modelBuilder.Entity("OstreCWEB.Data.Repository.Characters.CharacterModels.Character", b =>
                 {
-                    b.Navigation("LinkedCharacter");
+                    b.Navigation("LinkedActions");
 
                     b.Navigation("LinkedItems");
                 });
 
-            modelBuilder.Entity("OstreCWEB.Data.Repository.Characters.CharacterModels.Character", b =>
+            modelBuilder.Entity("OstreCWEB.Data.Repository.Characters.CharacterModels.CharacterAction", b =>
                 {
-                    b.Navigation("LinkedActions");
+                    b.Navigation("LinkedCharacter");
 
                     b.Navigation("LinkedItems");
                 });

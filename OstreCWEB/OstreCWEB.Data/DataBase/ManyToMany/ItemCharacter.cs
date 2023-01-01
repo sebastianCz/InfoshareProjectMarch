@@ -1,4 +1,4 @@
-﻿using OstreCWEB.Data.Repository.Characters.CharacterModels; 
+﻿using OstreCWEB.Data.Repository.Characters.CharacterModels;
 
 namespace OstreCWEB.Data.Repository.Characters.MetaTags
 {

@@ -1,5 +1,4 @@
-﻿using OstreCWEB.Data.Repository.Characters.CharacterModels;
-using OstreCWEB.Data.Repository.Characters.MetaTags;
+﻿using OstreCWEB.Data.Repository.Characters.MetaTags;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Text.Json.Serialization;
@@ -36,28 +35,33 @@ namespace OstreCWEB.Data.Repository.Characters.CharacterModels
         public Item[] Inventory { get; set; }
         [NotMapped]
         //Initialised based on LinkedActions 
-        public List<CharacterAction>? InnateActions { get; set; } 
+        public List<CharacterAction>? InnateActions { get; set; }
 
         [NotMapped]
-        public List<CharacterAction> AllAvailableActions 
+        public List<CharacterAction> AllAvailableActions
         {
             get
             {
                 var allAvailableActions = new List<CharacterAction>();
-                 foreach(var item in EquippedItems) { if (item.ActionToTrigger != null) { allAvailableActions.Add(item.ActionToTrigger); } }
-                 foreach (var action in InnateActions) { if (action != null) { allAvailableActions.Add(action); } }
-                 foreach (var item in Inventory) { if (item != null && item.ActionToTrigger != null) { allAvailableActions.Add(item.ActionToTrigger);
-                    } }
+                foreach (var item in EquippedItems) { if (item.ActionToTrigger != null) { allAvailableActions.Add(item.ActionToTrigger); } }
+                foreach (var action in InnateActions) { if (action != null) { allAvailableActions.Add(action); } }
+                foreach (var item in Inventory)
+                {
+                    if (item != null && item.ActionToTrigger != null)
+                    {
+                        allAvailableActions.Add(item.ActionToTrigger);
+                    }
+                }
                 return allAvailableActions;
             }
-            set 
-            { 
+            set
+            {
                 //Should be removed. For now it will cause compile errors in fight ( it needs the SET )
-            } 
+            }
         }
         //This is required because Characters IDs can be the same as enemies...Combat needs to generate it's own IDs
         //This is not saved to data base. 
-         
+
         [NotMapped]
         public List<Status> ActiveStatuses { get; set; }
 
@@ -69,7 +73,7 @@ namespace OstreCWEB.Data.Repository.Characters.CharacterModels
         [NotMapped]
         public Item EquippedSecondaryWeapon { get; set; }
         [NotMapped]
-        public int CombatId { get; set; } 
+        public int CombatId { get; set; }
 
         [JsonConstructor]
         public Character()

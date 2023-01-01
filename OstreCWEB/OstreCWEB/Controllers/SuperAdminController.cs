@@ -3,11 +3,10 @@ using Microsoft.AspNetCore.Mvc;
 using OstreCWEB.Data.DataBase;
 using OstreCWEB.Data.Repository.Characters.Interfaces;
 using OstreCWEB.Data.Repository.SuperAdmin;
-using OstreCWEB.ViewModel.Characters;
-using OstreCWEB.ViewModel.SuperAdmin;
+using OstreCWEB.ViewModel.Characters; 
 
 namespace OstreCWEB.Controllers
-{
+{ //It's a temporary controller I'm using for test purposes. It includes pretty much everything and should disapear by end of sprint 2. 
     public class SuperAdminController : Controller
     {
         private readonly ISeeder _seeder; 
@@ -29,43 +28,14 @@ namespace OstreCWEB.Controllers
              
         } 
         public  ActionResult Test()
-        {
-
-            //var status = new Status();
-            //status.Description = " new status";
-            //status.Name = "new name";
-
-            //var statuses = await _statusRepository.GetAll();
-
-            // await _statusRepository.Create(status);
-            // statuses = await _statusRepository.GetAll() ;
-
-            // status.Description = "Newer description";
-            //await _statusRepository.Update(status);
-            //statuses = await _statusRepository.GetAll();
-
-            //////await _statusRepository.Delete(status);
-            //////statuses = await _statusRepository.GetAll();
-
-            _superAdminRepository.Test();
-
-
-            return RedirectToAction(nameof(Index));
-
-
-
-
-
-        }
-
+        { 
+            _superAdminRepository.Test(); 
+            return RedirectToAction(nameof(Index));  
+        } 
         public ActionResult Index()
-        {
-            var model = new SuperAdminView();
-            //foreach (var status in _statusRepository.GetAll().Result)
-            //{
-            //    model.Statuses.Add(_mapper.Map<StatusView>(status));
-            //}
-            return View(model);
+        { 
+            
+            return View();
         }
 
         // GET: SuperAdmin/Details/5

@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace OstreCWEB.Data.Migrations
 {
-    public partial class identity : Migration
+    public partial class identityAndCharacters : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {

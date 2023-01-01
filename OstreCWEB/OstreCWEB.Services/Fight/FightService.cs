@@ -1,5 +1,5 @@
 ﻿using OstreCWEB.Data.DataBase;
-using OstreCWEB.Data.Repository.Characters.CharacterModels; 
+using OstreCWEB.Data.Repository.Characters.CharacterModels;
 using OstreCWEB.Data.Repository.Characters.Enums;
 using OstreCWEB.Data.Repository.Fight;
 using OstreCWEB.Services.Factories;
@@ -11,7 +11,7 @@ namespace OstreCWEB.Services.Fight
         private IFightRepository _fightRepository;
         public StaticLists _db { get; } = new StaticLists();
         private FightInstance _activeFightInstance;
-        private IFightFactory _fightFactory; 
+        private IFightFactory _fightFactory;
 
         //The property below can be used to introduce a system where enemies will act one by one.
         //We could use combat ID or position in _activeEnemies list for this.
@@ -26,11 +26,12 @@ namespace OstreCWEB.Services.Fight
             _activeFightInstance = _fightRepository.GetById(userId);
             _fightFactory = fightFactory;
         }
-        public FightInstance GetActiveFightInstance() {
-            
-            return _activeFightInstance; 
-        
-        } 
+        public FightInstance GetActiveFightInstance()
+        {
+
+            return _activeFightInstance;
+
+        }
         public bool ValidateFightInstanceModel(FightInstance model)
         {
             if (model.ActivePlayer != null)
@@ -46,7 +47,7 @@ namespace OstreCWEB.Services.Fight
             var fightInstance = _fightFactory.BuildNewFightInstance();
             fightInstance.FightHistory.Add("Fight initialized");
             _fightRepository.Add(userId, fightInstance, out string operationResult);
-            
+
         }
         public void CommitAction()
         {
@@ -58,17 +59,17 @@ namespace OstreCWEB.Services.Fight
             else
             {
                 _activeFightInstance.TurnNumber = UpdateTurnNumber(_activeFightInstance.TurnNumber);
-                if(_activeFightInstance.PlayerActionCounter == 0) { _activeFightInstance.PlayerActionCounter = 2; StartAiTurn(); }
-               
+                if (_activeFightInstance.PlayerActionCounter == 0) { _activeFightInstance.PlayerActionCounter = 2; StartAiTurn(); }
+
             }
-            
+
         }
         public List<string> ReturnHistory() => _activeFightInstance.FightHistory;
         public void UpdateActiveTarget(Character character)
         {
             _activeFightInstance.ActiveTarget = character;
         }
-        public  CharacterAction ChooseAction(int id) => _activeFightInstance.ActivePlayer.AllAvailableActions.First(a => a.CharacterActionId == id);
+        public CharacterAction ChooseAction(int id) => _activeFightInstance.ActivePlayer.AllAvailableActions.First(a => a.CharacterActionId == id);
         public Character ChooseTarget(int id)
         {
             if (id == _activeFightInstance.ActivePlayer.CombatId)
@@ -76,13 +77,13 @@ namespace OstreCWEB.Services.Fight
                 return _activeFightInstance.ActivePlayer;
             }
             return _activeFightInstance.ActiveEnemies.First(a => a.CombatId == id);
-        } 
+        }
         public Character ResetActiveTarget()
         {
             //We  create playable character instance and replace the active target with null values. Character class is abstract.   
             _activeFightInstance.ActiveTarget = new PlayableCharacter();
             return _activeFightInstance.ActiveTarget;
-        } 
+        }
         private void StartAiTurn()
         {
             //Ai needs to determine the actions it wants to use and apply them one by one.
@@ -91,38 +92,38 @@ namespace OstreCWEB.Services.Fight
             //he will start to use his special actions. 
             //(update the view every 2 seconds maybe instead of showing it all at once? 
 
-        } 
+        }
         public FightInstance GetFightState(int userId)
         {
             //We should return a fight state object instead :TODO 
             return _fightRepository.GetById(userId);
-        } 
+        }
         public Character GetActiveTarget()
         {
             return _activeFightInstance.ActiveTarget;
-        } 
+        }
         public CharacterAction GetActiveActions()
         {
             return _activeFightInstance.ActiveAction;
-        } 
+        }
         public void UpdateActiveAction(CharacterAction action)
         {
             _activeFightInstance.ActiveAction = action;
-        }  
+        }
         private PlayableCharacter GetActivePlayer()
         {
             return _activeFightInstance.ActivePlayer;
-        } 
+        }
         private int UpdateTurnNumber(int turnNumber)
         {
             return turnNumber += 1;
-        } 
+        }
         private List<string> UpdateFightHistory(List<string> FightHistory, string message)
         {
             FightHistory.Add(message);
             return FightHistory;
-        } 
-        private void ApplyAction(Character target, Character caster,  CharacterAction action)
+        }
+        private void ApplyAction(Character target, Character caster, CharacterAction action)
         {
             //TODO: APPLY STATUS 
             if (action.SavingThrowPossible)
@@ -148,14 +149,15 @@ namespace OstreCWEB.Services.Fight
                 }
             }
             else
-            { 
+            {
                 var savingThrow = false;
                 if (action.Status != null) { ApplyStatus(target, action.Status); }
 
-                if (action.AggressiveAction) {
+                if (action.AggressiveAction)
+                {
                     var damage = ApplyDamage(target, action, savingThrow);
 
-                    if(IsTargetAlive(target))
+                    if (IsTargetAlive(target))
                     {
                         _activeFightInstance.FightHistory = UpdateFightHistory(_activeFightInstance.FightHistory,
                        $" {target.CharacterName} lost {damage} healthpoints, current healthpoints {target.MaxHealthPoints}," +
@@ -174,22 +176,23 @@ namespace OstreCWEB.Services.Fight
                     _activeFightInstance.FightHistory = UpdateFightHistory(_activeFightInstance.FightHistory,
                         $" {target.CharacterName} gained {heal} healthpoints, current healthpoints {target.MaxHealthPoints}," +
                         $" due to {caster.CharacterName}  using {action.ActionName}");
-                } 
+                }
             }
         }
-        private bool IsTargetAlive(Character target){
-            if(target.MaxHealthPoints <= 0){ return false;}
-            else { return true; }
-        } 
-        private void ApplyStatus(Character character,Status status)
+        private bool IsTargetAlive(Character target)
         {
-            if(status != null)
+            if (target.MaxHealthPoints <= 0) { return false; }
+            else { return true; }
+        }
+        private void ApplyStatus(Character character, Status status)
+        {
+            if (status != null)
             {
                 character.ActiveStatuses.Add(status);
-            } 
-        } 
+            }
+        }
         private int ApplyDamage(Character target, CharacterAction actions, bool savingThrow)
-        { 
+        {
             var updateValue = 0;
 
             for (int i = 0; i < actions.Hit_Dice_Nr; i++)
@@ -201,10 +204,10 @@ namespace OstreCWEB.Services.Fight
                 target.CurrentHealthPoints = target.CurrentHealthPoints - (updateValue / 2);
             }
             else
-            { 
+            {
                 target.CurrentHealthPoints = target.CurrentHealthPoints - updateValue;
             }
-                return updateValue;
+            return updateValue;
         }
         private int ApplyHeal(Character target, CharacterAction actions, bool savingThrow)
         {
@@ -223,7 +226,7 @@ namespace OstreCWEB.Services.Fight
                 target.CurrentHealthPoints = target.CurrentHealthPoints + updateValue;
             }
             return updateValue;
-        } 
+        }
         private bool SpellSavingThrow(Character target, Character caster, CharacterAction action)
         {
             var targetMod = 0;
@@ -234,7 +237,7 @@ namespace OstreCWEB.Services.Fight
                 case Statistics.Strenght:
                     targetMod = CalculateModifier(target.Strenght);
                     targetRoll = DiceThrow(20) + targetMod;
-                    casterModifier = SpellCastingModifier(caster,action.StatForTest);
+                    casterModifier = SpellCastingModifier(caster, action.StatForTest);
                     if (casterModifier > targetRoll) return false;
                     return true;
                 case Statistics.Intelligence:
@@ -270,14 +273,14 @@ namespace OstreCWEB.Services.Fight
                 default:
                     return false;
 
-            }        
-        } 
-        private int SpellCastingModifier(Character caster,Statistics statsForTest)
+            }
+        }
+        private int SpellCastingModifier(Character caster, Statistics statsForTest)
         {
             switch (statsForTest)
             {
                 case Statistics.Strenght:
-                   return 8 + CalculateModifier(caster.Strenght); // Dopisać premię z biegłości...gdy takowa powstanie.
+                    return 8 + CalculateModifier(caster.Strenght); // Dopisać premię z biegłości...gdy takowa powstanie.
                 case Statistics.Intelligence:
                     return 8 + CalculateModifier(caster.Intelligence); // Dopisać premię z biegłości...gdy takowa powstanie.
                 case Statistics.Constitution:
@@ -291,7 +294,7 @@ namespace OstreCWEB.Services.Fight
                 default:
                     return 0;
             }
-        } 
+        }
         private int CalculateModifier(int value)
         {
             List<int> numbers = new List<int>() {
@@ -312,7 +315,7 @@ namespace OstreCWEB.Services.Fight
             _activeFightInstance.CombatFinished = true;
             if (playerWon) { _activeFightInstance.PlayerWon = true; }
             _activeFightInstance.PlayerWon = false;
-        } 
+        }
         private bool IsFightFinished(List<Enemy> activeEnemies, PlayableCharacter activePlayer)
         {
             if (activeEnemies.Count() == 0 || activePlayer.CurrentHealthPoints == 0) { return true; }

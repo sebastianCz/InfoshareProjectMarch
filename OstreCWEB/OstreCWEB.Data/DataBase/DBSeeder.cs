@@ -12,24 +12,19 @@ namespace OstreCWEB.Data.DataBase
         public DBSeeder(OstreCWebContext ostreCWebContext)
         {
             _db = ostreCWebContext;
-        }
-
+        } 
         public void SeedDataBase()
         {
             Seed();
-        }
-
+        } 
         private void Seed()
-        {
-
+        { 
             var statuses = new List<Status>
             {
                 new Status
-                {
-
+                { 
                     Name="Blind",
-                    Description = "Blinds the character making him less accurate"
-
+                    Description = "Blinds the character making him less accurate" 
                 },
                 new Status
                 {
@@ -48,10 +43,8 @@ namespace OstreCWEB.Data.DataBase
                     //        Skill.acrobatics,
                     //        Skill.religion
                     //    },
-                    AmountOfSkillsToChoose = 1,
-
-                }
-
+                    AmountOfSkillsToChoose = 1, 
+                } 
             };
 
             var users = new List<User>();
@@ -67,18 +60,10 @@ namespace OstreCWEB.Data.DataBase
                     StoriesCompletedTotal = 0,
                     DamageDealt = 0,
                     DamageReceived = 0,
-                    CharactersCreated = new List<PlayableCharacter>()
-
+                    CharactersCreated = new List<PlayableCharacter>() 
                 };
                 users.Add(user);
-            }
-
-
-
-
-
-
-
+            } 
             var playableCharacterClasses = new List<PlayableClass>
                 {
                     new PlayableClass
@@ -93,9 +78,7 @@ namespace OstreCWEB.Data.DataBase
                         StrengthBonus=0,
                         IntelligenceBonus=1
                     }
-                };
-
-
+                }; 
             //Property StatusName is null if none is applied.
             var actions = new List<CharacterAction>
                 {
@@ -190,10 +173,8 @@ namespace OstreCWEB.Data.DataBase
                     StatForTest = Statistics.None,
                     UsesMaxBeforeRest = 1,
                      AggressiveAction = false
-                }
-
-            };
-
+                } 
+            }; 
             var items = new List<Item>
                 {
                     new Item()
@@ -211,27 +192,23 @@ namespace OstreCWEB.Data.DataBase
                         Name="Small Wooden Shield",
                         ItemType = ItemType.Shield,
                         ArmorClass=2,
-                        ArmorType = ArmorType.Shield
-
+                        ArmorType = ArmorType.Shield 
                     },
                      new Item
                     {
                         Name="Heavy Armor",
                         ItemType = ItemType.Armor,
                         ArmorClass = 2,
-                        ArmorType = ArmorType.HeaveArmor
-
+                        ArmorType = ArmorType.HeaveArmor 
                     },
                     new Item
                     {
                         Name="Mage Robe",
                         ItemType = ItemType.Armor,
                         ArmorClass = 1,
-                        ArmorType= ArmorType.LightArmor
-
+                        ArmorType= ArmorType.LightArmor 
                     }
-                };
-
+                }; 
             var enemies = new List<Enemy>
                 {
                     new Enemy
@@ -248,9 +225,7 @@ namespace OstreCWEB.Data.DataBase
                         Wisdom = 8,
                         Charisma = 6
                     }
-                };
-
-
+                }; 
             var playableCharacters = new List<PlayableCharacter>
                 {
                     new PlayableCharacter
@@ -264,8 +239,7 @@ namespace OstreCWEB.Data.DataBase
                         Constitution = 10,
                         Intelligence = 15,
                         Wisdom = 12,
-                        Charisma = 2, 
-
+                        Charisma = 2,  
                     },
                     new PlayableCharacter
                     {
@@ -281,8 +255,7 @@ namespace OstreCWEB.Data.DataBase
                         Charisma = 12
                     }
                 };
-
-
+             
             _db.Users.AddRange(users);
             _db.CharacterActions.AddRange(actions);
             _db.Statuses.AddRange(statuses);
@@ -349,8 +322,7 @@ namespace OstreCWEB.Data.DataBase
             //_db.SaveChanges();
             _db.SaveChanges();
  
-        }
-   
+        } 
         public  List<PlayableCharacter> UpdatePlayableCharacterItemsRelations(List<PlayableCharacter> characters)
         { 
             foreach (var character in characters)
@@ -384,11 +356,9 @@ namespace OstreCWEB.Data.DataBase
                                    {
                                       CharacterId = character.CharacterId,
                                        ItemId = item.ItemId,
-                                       IsEquipped = false
-                                      
+                                       IsEquipped = false 
                                   });
-                        }
-                        
+                        } 
                     }
                 }
             };
@@ -410,8 +380,7 @@ namespace OstreCWEB.Data.DataBase
                          {
                              CharacterId = character.CharacterId,
                              ItemId = item.ItemId,
-                             IsEquipped = true
-                             
+                             IsEquipped = true 
                          });
                     }
                 } 
@@ -450,9 +419,7 @@ namespace OstreCWEB.Data.DataBase
                          Character = character,
                          CharacterAction = action
                      });
-                }
-
-
+                } 
             };
             return characters;
         }
@@ -475,9 +442,7 @@ namespace OstreCWEB.Data.DataBase
                 }
             };
             return characters;
-        }
-
-
+        } 
     }
 }
 
