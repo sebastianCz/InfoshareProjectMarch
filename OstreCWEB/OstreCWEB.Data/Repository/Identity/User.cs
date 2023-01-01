@@ -1,4 +1,5 @@
-﻿ 
+﻿
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore.ChangeTracking.Internal;
 using OstreCWEB.Data.Repository.Characters.CoreClasses;
 using OstreCWEB.Data.Repository.StoryModels;
@@ -7,16 +8,17 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace OstreCWEB.Data.Repository.Identity
 {
-    public class User
+    public class User : IdentityUser
     {  //EF config
         [Key]
         public int Id { get; set; } 
-        public List<PlayableCharacter> CharactersCreated { get; set; }
-        //
-        [NotMapped]
-        public PlayableCharacter ActiveCharacter { get; set; }
+        //public List<PlayableCharacter> CharactersCreated { get; set; }
+        ////
+        //[NotMapped]
+        //public PlayableCharacter ActiveCharacter { get; set; }
 
         public bool LoggedIn { get; set; }
+        public string Name { get; set; }
         public string UserName { get; set; }
         public string Password { get; set; }
         public string Email { get; set; }
@@ -41,7 +43,7 @@ namespace OstreCWEB.Data.Repository.Identity
             Password = password;
             Email = email;
             //StoriesCreated = storiesCreated;
-            CharactersCreated = charactersCreated;
+            //CharactersCreated = charactersCreated;
             StoriesCompletedTotal = storiesCompleted;
             DamageDealt = damageDealt;
             DamageReceived = damageReceived;

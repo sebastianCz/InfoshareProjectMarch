@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using OstreCWEB.Data.DataBase;
 using OstreCWEB.Data.Repository.Fight;
+using OstreCWEB.Data.Repository.Identity;
 using OstreCWEB.Data.Repository.WebObjects;
 using OstreCWEB.Services.Factories;
 using OstreCWEB.Services.Fight;
@@ -12,6 +13,13 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddDbContext<OstreCWebContext>(
     options => options.UseSqlServer(builder.Configuration.GetConnectionString("OstreCWEB")));
+
+// for Identity
+builder.Services.AddIdentity<User, IdentityRole>()
+    .AddEntityFrameworkStores<OstreCWebContext>()
+    .AddDefaultTokenProviders();
+
+builder.Services.ConfigureApplicationCookie(options => options.LoginPath = "/UserAuthentication/Login");
 
 builder.Services.AddTransient<IFightService,FightService>();
 builder.Services.AddTransient<IFightRepository, FightRepository>();

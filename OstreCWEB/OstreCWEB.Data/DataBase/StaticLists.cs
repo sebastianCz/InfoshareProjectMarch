@@ -72,9 +72,9 @@ namespace OstreCWEB.Data.DataBase
                     Created = DateTime.Now,
                     //It's set to null but we will hold our active character instance here. 
                     //It should be chosen each session. 
-                    ActiveCharacter = null,
+                    //ActiveCharacter = null,
                     //StoriesCreated = new List<Story>(),
-                    CharactersCreated = new List<PlayableCharacter>(),
+                    //CharactersCreated = new List<PlayableCharacter>(),
                     StoriesCompletedTotal = 0,
                     DamageDealt = 0,
                     DamageReceived = 0 
