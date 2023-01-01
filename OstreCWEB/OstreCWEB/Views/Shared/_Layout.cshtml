@@ -289,6 +289,26 @@
                     <span>Fight Simulator</span>
                 </a>
             </li><!-- End Fight Nav-->
+            <li class="nav-item">
+                <a class="nav-link collapsed" asp-area="" asp-controller="Login" asp-action="">
+                    <i class="bi bi-hammer"></i>
+                    <span>Login</span>
+                </a>
+            </li><!-- End Login Nav-->
+            <li class="nav-item">
+                <a class="nav-link collapsed" asp-area="" asp-controller="" asp-action="">
+                    <i class="bi bi-hammer"></i>
+                    <span>Registration</span>
+                </a>
+            </li><!-- End Registration Nav-->
+            @if (User.IsInRole("admin"))
+            {
+                <li class="nav-item">
+                    <a class="nav-link collapsed" asp-area="" asp-controller="" asp-action="">
+                    <i class="bi bi-hammer"></i>
+                    <span>Admin Login</span>
+                </a>
+            </li>}<!-- End Admin Nav-->
         </ul>
     </aside><!-- End Sidebar-->
 

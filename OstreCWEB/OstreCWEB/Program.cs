@@ -6,6 +6,7 @@ using OstreCWEB.Data.Repository.Identity;
 using OstreCWEB.Data.Repository.WebObjects;
 using OstreCWEB.Services.Factories;
 using OstreCWEB.Services.Fight;
+using OstreCWEB.Services.Identity;
 using OstreCWEB.Services.Test;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -19,7 +20,9 @@ builder.Services.AddIdentity<User, IdentityRole>()
     .AddEntityFrameworkStores<OstreCWebContext>()
     .AddDefaultTokenProviders();
 
-builder.Services.ConfigureApplicationCookie(options => options.LoginPath = "/UserAuthentication/Login");
+builder.Services.ConfigureApplicationCookie(options => options.LoginPath = "/LoginController/Login");
+
+builder.Services.AddScoped<IUserAuthenticationService, UserAuthenticationService>();
 
 builder.Services.AddTransient<IFightService,FightService>();
 builder.Services.AddTransient<IFightRepository, FightRepository>();
