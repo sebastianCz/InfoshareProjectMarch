@@ -8,6 +8,7 @@ namespace OstreCWEB.Controllers
     {
         public IActionResult Display()
         {
+            var user = User;
             return View();
         }
     }

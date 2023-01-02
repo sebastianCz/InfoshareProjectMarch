@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace OstreCWEB.Data.Migrations
 {
-    public partial class init : Migration
+    public partial class Identity : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -30,15 +30,14 @@ namespace OstreCWEB.Data.Migrations
                     Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     LoggedIn = table.Column<bool>(type: "bit", nullable: false),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    UserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: false),
-                    Password = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Email = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: false),
                     Created = table.Column<DateTime>(type: "datetime2", nullable: false),
                     ActiveStoryId = table.Column<int>(type: "int", nullable: false),
                     StoriesCompletedTotal = table.Column<int>(type: "int", nullable: false),
                     DamageDealt = table.Column<int>(type: "int", nullable: false),
                     DamageReceived = table.Column<int>(type: "int", nullable: false),
+                    UserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
                     NormalizedUserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
+                    Email = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
                     NormalizedEmail = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
                     EmailConfirmed = table.Column<bool>(type: "bit", nullable: false),
                     PasswordHash = table.Column<string>(type: "nvarchar(max)", nullable: true),

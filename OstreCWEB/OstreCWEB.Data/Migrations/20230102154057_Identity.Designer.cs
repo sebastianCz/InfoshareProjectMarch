@@ -12,8 +12,8 @@ using OstreCWEB.Data.DataBase;
 namespace OstreCWEB.Data.Migrations
 {
     [DbContext(typeof(OstreCWebContext))]
-    [Migration("20230101132659_init")]
-    partial class init
+    [Migration("20230102154057_Identity")]
+    partial class Identity
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -182,7 +182,6 @@ namespace OstreCWEB.Data.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("Email")
-                        .IsRequired()
                         .HasMaxLength(256)
                         .HasColumnType("nvarchar(256)");
 
@@ -210,10 +209,6 @@ namespace OstreCWEB.Data.Migrations
                         .HasMaxLength(256)
                         .HasColumnType("nvarchar(256)");
 
-                    b.Property<string>("Password")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<string>("PasswordHash")
                         .HasColumnType("nvarchar(max)");
 
@@ -233,7 +228,6 @@ namespace OstreCWEB.Data.Migrations
                         .HasColumnType("bit");
 
                     b.Property<string>("UserName")
-                        .IsRequired()
                         .HasMaxLength(256)
                         .HasColumnType("nvarchar(256)");
 

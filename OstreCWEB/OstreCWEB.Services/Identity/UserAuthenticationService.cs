@@ -76,10 +76,10 @@ namespace OstreCWEB.Services.Identity
             await signInManager.SignOutAsync();
         }
 
-        public async Task<StatusIdentity> RegistrationAsync(Registration model)
+        public async Task<StatusIdentity> RegisterAsync(Registration model)
         {
             var status = new StatusIdentity();
-            var userExists = await userManager.FindByNameAsync(model.Username);
+            var userExists = await userManager.FindByNameAsync(model.UserName);
             if (userExists != null)
             {
                 status.StatusCode = 0;
@@ -92,8 +92,8 @@ namespace OstreCWEB.Services.Identity
                 SecurityStamp = Guid.NewGuid().ToString(),
                 Name = model.Name,
                 Email = model.Email,
-                UserName = model.Username,
-                EmailConfirmed = true,
+                UserName = model.UserName,
+                EmailConfirmed = true
             };
 
             var result = await userManager.CreateAsync(user, model.Password);
@@ -104,7 +104,6 @@ namespace OstreCWEB.Services.Identity
                 return status;
             }
 
-            //role managment
             if (!await roleManager.RoleExistsAsync(model.Role))
                 await roleManager.CreateAsync(new IdentityRole(model.Role));
 
@@ -114,7 +113,7 @@ namespace OstreCWEB.Services.Identity
             }
 
             status.StatusCode = 1;
-            status.Message = "User has registered successfully";
+            status.Message = "You have registered successfully";
             return status;
 
         }

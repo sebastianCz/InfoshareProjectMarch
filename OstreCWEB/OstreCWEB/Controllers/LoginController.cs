@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using OstreCWEB.Data.Repository.Identity;
@@ -12,7 +13,7 @@ namespace OstreCWEB.Controllers
         private readonly IUserAuthenticationService _service;
         public LoginController(IUserAuthenticationService service)
         {
-            this._service = service;
+            _service = service;
         }
 
         public IActionResult Registration()
@@ -25,7 +26,7 @@ namespace OstreCWEB.Controllers
             if (!ModelState.IsValid)
                 return View(model);
             model.Role = "user";
-            var result = await _service.RegistrationAsync(model);
+            var result = await _service.RegisterAsync(model);
             TempData["msg"] = result.Message;
             return RedirectToAction(nameof(Registration));
 
@@ -38,14 +39,12 @@ namespace OstreCWEB.Controllers
         public async Task<IActionResult> Login(Login model)
         {
             if (!ModelState.IsValid)
-            {
                 return View(model);
-            }
 
             var result = await _service.LoginAsync(model);
             if (result.StatusCode == 1)
             {
-                return RedirectToAction("Display", "Dashboard");
+                return RedirectToAction("Index", "Profile");
             }
             else
             {
@@ -57,7 +56,7 @@ namespace OstreCWEB.Controllers
         public async Task<IActionResult> Logout()
         {
             await _service.LogoutAsync();
-            return RedirectToAction(nameof(Login));
+            return RedirectToAction("Index", "Home");
         }
 
         // Admin account
@@ -71,7 +70,7 @@ namespace OstreCWEB.Controllers
         //        Password = "Admin@1234"
         //    };
         //    model.Role = "admin";
-        //    var result = await _service.RegistrationAsync(model);
+        //    var result = await this._service.RegistrationAsync(model);
         //    return Ok(result);
         //}
     }

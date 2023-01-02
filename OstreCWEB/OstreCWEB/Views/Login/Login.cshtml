@@ -56,16 +56,16 @@
 
         <div class="container">
 
-            <label asp-for="Username">Username</label>
-            <input type="text" asp-for="Username"/>
+            <label asp-for="Username"><b>Username</b></label>
+            <input type="text" asp-for="Username" placeholder="Enter Username">
             <div class="msg">
                 <span class="err" asp-validation-for="Username"></span>
             </div>
 
-            <label asp-for="Password">Paswword</label>
-            <input type="password" asp-for="Password"/>
-            <div class="msg">
-                <span class="err" asp-validation-for="Password"></span>
+            <label asp-for="Password"><b>Password</b></label>
+            <input  type="password" asp-for="Password" placeholder="Enter Password">
+             <div class="msg">
+            <span asp-validation-for="Password" class="err"></span>
             </div>
             
             @if (TempData["msg"] != null)
@@ -76,7 +76,7 @@
             }
 
             <button type="submit">Login</button>
-            <a href="/LoginController/Registration">Not a user! Click here to sign up</a>
+            <a class="text-alert" href="/Login/Registration">Not a user! Click here to sign up</a>
 
         </div>
         </form>
