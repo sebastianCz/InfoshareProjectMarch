@@ -20,7 +20,7 @@ namespace OstreCWEB.Controllers
         private readonly ISuperAdminRepository _superAdminRepository; 
         private readonly IMapper _mapper;
         private readonly UserManager<User> _userManager;
-        private readonly SignInManager<User> _signInManager;
+        private readonly SignInManager<User> _signInManager; 
 
         // GET: SuperAdmin
         public SuperAdminController(SignInManager<User> signInManager, UserManager<User>userManager,ISuperAdminRepository superAdminRepository,IPlayableCharacterRepository playableCharacterRepository, ISeeder seeder,IMapper mapper, IStatusRepository statusRepository,ICharacterActionsRepository characterActionsRepository)
@@ -43,8 +43,10 @@ namespace OstreCWEB.Controllers
             return RedirectToAction(nameof(Index));  
         } 
         public ActionResult Index()
-        { 
-            
+        {
+            var isSignedIn = User.Identity.IsAuthenticated;
+            var test = HttpContext;
+            var claim = User;
             return View();
         }
         public async Task<ActionResult> Login()
@@ -53,6 +55,8 @@ namespace OstreCWEB.Controllers
             var userName = user.UserName;
             var password = user.Password;
             var result = await _signInManager.PasswordSignInAsync(userName, password, false, lockoutOnFailure: false);  
+
+       
             return View();
         }
         // GET: SuperAdmin/Details/5

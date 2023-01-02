@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using OstreCWEB.Data.Repository.Characters.CharacterModels;
 using OstreCWEB.Data.Repository.Characters.Enums;
 using OstreCWEB.Data.Repository.Characters.MetaTags;
@@ -271,6 +272,12 @@ namespace OstreCWEB.Data.DataBase
             {
                 var result = await _userManager.CreateAsync(user, user.Password);
             }
+
+
+            var adminRole = new IdentityRole() { Id = "fab4fac1-c546-41de-aebc-a14da6895711", Name = "Admin", ConcurrencyStamp = "1", NormalizedName = "Admin" };
+
+         
+            //_db.UserRoles.Add(adminRole);
 
             _db.Users.AddRange(users);
             _db.CharacterActions.AddRange(actions);

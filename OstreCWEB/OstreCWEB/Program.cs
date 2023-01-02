@@ -17,6 +17,7 @@ builder.Services.AddDbContext<OstreCWebContext>(
 
 builder.Services.AddDefaultIdentity<User>(options => options.SignIn.RequireConfirmedAccount = true)
     .AddEntityFrameworkStores<OstreCWebContext>();
+     
 
 builder.Services.AddTransient<IFightService,FightService>();
 builder.Services.AddSingleton<IFightRepository, FightRepository>();

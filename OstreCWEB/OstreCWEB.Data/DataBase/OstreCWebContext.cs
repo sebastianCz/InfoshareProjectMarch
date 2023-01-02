@@ -64,7 +64,7 @@ namespace OstreCWEB.Data.DataBase
             ConfigureItems(builder);
 
         }
-
+     
         private void ConfigureItems(ModelBuilder builder)
         {
 
