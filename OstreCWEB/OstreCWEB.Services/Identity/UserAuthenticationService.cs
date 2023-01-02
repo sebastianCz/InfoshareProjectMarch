@@ -1,15 +1,10 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using OstreCWEB.Data.Repository.Identity;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Security.Claims;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace OstreCWEB.Services.Identity
 {
-    
+
     public class UserAuthenticationService : IUserAuthenticationService
     {
         private readonly SignInManager<User> signInManager;
