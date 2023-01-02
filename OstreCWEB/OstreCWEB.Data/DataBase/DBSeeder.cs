@@ -53,22 +53,22 @@ namespace OstreCWEB.Data.DataBase
 
            
              
-                _db.Users.AddRange(new List<User>
-                {
+            //    _db.Users.AddRange(new List<User>
+            //    {
                      
            
-                new User
-                { 
-                    LoggedIn = false,
-                    UserName = "Admin",
-                    Password = "Admin",
-                    Email = "Admin@Admin.com",
-                    Created = DateTime.Now, 
-                    StoriesCompletedTotal = 0,
-                    DamageDealt = 0,
-                    DamageReceived = 0
-                }
-            });
+            //    new User
+            //    { 
+            //        LoggedIn = false,
+            //        UserName = "Admin",
+            //        Password = "Admin",
+            //        Email = "Admin@Admin.com",
+            //        Created = DateTime.Now, 
+            //        StoriesCompletedTotal = 0,
+            //        DamageDealt = 0,
+            //        DamageReceived = 0
+            //    }
+            //});
 
 
 

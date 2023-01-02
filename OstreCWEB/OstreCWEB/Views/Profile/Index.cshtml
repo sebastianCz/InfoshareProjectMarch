@@ -1,9 +1,13 @@
-﻿@{
+﻿@using Microsoft.AspNetCore.Identity
+@using OstreCWEB.Data.Repository.Identity
+@inject SignInManager<User> SignInManager
+@inject UserManager<User> UserManager
+@{
     ViewData["Title"] = "Profile";
 }
 
 <div class="pagetitle">
-    <h1>Profile</h1>
+    <h1>@UserManager.GetUserName(User)</h1>
     <nav>
         <ol class="breadcrumb">
             <li class="breadcrumb-item"><a asp-area="" asp-controller="Home" asp-action="Index">Home</a></li>

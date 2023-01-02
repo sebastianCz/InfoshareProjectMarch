@@ -2,9 +2,11 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using OstreCWEB.Data.DataBase;
 using OstreCWEB.Data.Repository.Fight;
+using OstreCWEB.Data.Repository.Identity;
 using OstreCWEB.Data.Repository.WebObjects;
 using OstreCWEB.Services.Factories;
 using OstreCWEB.Services.Fight;
+using OstreCWEB.Services.Identity;
 using OstreCWEB.Services.Test;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -12,6 +14,15 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddDbContext<OstreCWebContext>(
     options => options.UseSqlServer(builder.Configuration.GetConnectionString("OstreCWEB")));
+
+// for Identity
+builder.Services.AddIdentity<User, IdentityRole>()
+    .AddEntityFrameworkStores<OstreCWebContext>()
+    .AddDefaultTokenProviders();
+
+builder.Services.ConfigureApplicationCookie(options => options.LoginPath = "/LoginController/Login");
+
+builder.Services.AddScoped<IUserAuthenticationService, UserAuthenticationService>();
 
 builder.Services.AddTransient<IFightService,FightService>();
 builder.Services.AddTransient<IFightRepository, FightRepository>();
@@ -37,8 +48,8 @@ builder.Services
 builder.Services.AddSwaggerGen();
 var app = builder.Build();
 
-//var test = new StaticLists();
-//test.SeedData(); 
+var test = new StaticLists();
+test.SeedData(); 
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())

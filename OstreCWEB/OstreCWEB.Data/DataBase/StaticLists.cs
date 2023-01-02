@@ -60,26 +60,26 @@ namespace OstreCWEB.Data.DataBase
                 
             };
 
-            Users = new List<User>
-            {
-                new User
-                {
-                    Id = 1,
-                    LoggedIn = false,
-                    UserName = "Admin",
-                    Password = "Admin",
-                    Email = "Admin@Admin.com",
-                    Created = DateTime.Now,
-                    //It's set to null but we will hold our active character instance here. 
-                    //It should be chosen each session. 
-                    ActiveCharacter = null,
-                    //StoriesCreated = new List<Story>(),
-                    CharactersCreated = new List<PlayableCharacter>(),
-                    StoriesCompletedTotal = 0,
-                    DamageDealt = 0,
-                    DamageReceived = 0 
-                }
-            };
+            //Users = new List<User>
+            //{
+            //    new User
+            //    {
+            //        Id = 1,
+            //        LoggedIn = false,
+            //        UserName = "Admin",
+            //        Password = "Admin",
+            //        Email = "Admin@Admin.com",
+            //        Created = DateTime.Now,
+            //        //It's set to null but we will hold our active character instance here. 
+            //        //It should be chosen each session. 
+            //        //ActiveCharacter = null,
+            //        //StoriesCreated = new List<Story>(),
+            //        //CharactersCreated = new List<PlayableCharacter>(),
+            //        StoriesCompletedTotal = 0,
+            //        DamageDealt = 0,
+            //        DamageReceived = 0 
+            //    }
+            //};
 
             PlayableCharacterClasses = new List<PlayableCharacterClass>
             {
@@ -268,7 +268,7 @@ namespace OstreCWEB.Data.DataBase
                     Wisdom = 12, 
                     Charisma = 2,
                     Race = PlayableRaces.FirstOrDefault(r=>r.PlayableRaceId ==1),
-                    UserId = Users.FirstOrDefault(u=>u.Id == 1).Id,
+                    //UserId = Users.FirstOrDefault(u=>u.Id == 1).Id,
                     CharacterClass =PlayableCharacterClasses.FirstOrDefault(c=>c.ID ==1),
                    
 
