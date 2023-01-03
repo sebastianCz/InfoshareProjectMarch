@@ -1,5 +1,13 @@
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using OstreCWEB.Data.DataBase;
+using OstreCWEB.Data.Repository.Fight;
+using OstreCWEB.Data.Repository.Identity;
+using OstreCWEB.Data.Repository.WebObjects;
+using OstreCWEB.Services.Factories;
+using OstreCWEB.Services.Fight;
+using OstreCWEB.Services.Identity;
+using OstreCWEB.Services.Test;
 using OstreCWEB.Data.InitialData;
 using OstreCWEB.Data.ServiceRegistration;
 using OstreCWEB.Services.ServiceRegistration;
@@ -12,11 +20,24 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddDbContext<OstreCWebContext>(
     options => options.UseSqlServer(builder.Configuration.GetConnectionString("OstreCWEB")));
 
+// for Identity
+builder.Services.AddIdentity<User, IdentityRole>()
+    .AddEntityFrameworkStores<OstreCWebContext>()
+    .AddDefaultTokenProviders();
+
+builder.Services.ConfigureApplicationCookie(options => options.LoginPath = "/LoginController/Login");
+
+builder.Services.AddScoped<IUserAuthenticationService, UserAuthenticationService>();
+
+builder.Services.AddTransient<IFightService,FightService>();
+builder.Services.AddTransient<IFightRepository, FightRepository>();
+builder.Services.AddTransient<IFightFactory, FightFactory>();
+builder.Services.AddTransient<ISeeder, DBSeeder>(); 
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 builder.Services
     .AddAutoMapper(typeof(Program))
     .AddControllersWithViews()
-    .AddRazorRuntimeCompilation();
+.AddRazorRuntimeCompilation();
 
 builder.Services
     .AddRepositories();
@@ -35,6 +56,7 @@ builder.Host.UseSerilog((hostBuilderContext, loggerConfiguration) =>
     restrictedToMinimumLevel: Serilog.Events.LogEventLevel.Warning);
 });
 
+builder.Services.AddSwaggerGen();
 var app = builder.Build();
 
 using (var scope = app.Services.CreateScope())
@@ -45,12 +67,14 @@ using (var scope = app.Services.CreateScope())
 }
 
 var test = new StaticLists();
-test.SeedData();
+test.SeedData(); 
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
-    app.UseMigrationsEndPoint();
+    app.UseSwagger();
+    app.UseSwaggerUI();
+    //app.UseMigrationsEndPoint();
 }
 else
 {
@@ -74,5 +98,5 @@ app.MapControllerRoute(
 app.MapControllerRoute(
     name: "storyBuilder",
     pattern: "{controller=Home}/{action=Index}/{id?}/{paragraphId?}");
-
+ 
 app.Run();
