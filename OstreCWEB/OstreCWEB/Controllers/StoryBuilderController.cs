@@ -20,10 +20,10 @@ namespace OstreCWEB.Controllers
         }
 
         // GET: StoryBuilderController
-        public ActionResult Index()
+        public async Task<ActionResult> Index()
         {
             _logger.LogWarning(this + " Index(24)", DateTime.Now);
-            var stories = _storyService.GetAllStories();
+            var stories = await _storyService.GetAllStories();
             var model = new List<StoryView>();
             foreach (var item in stories)
             {
@@ -34,20 +34,20 @@ namespace OstreCWEB.Controllers
         }
 
         // GET: StoryBuilderController/Details/5/1
-        public ActionResult Details(int id, int paragraphId)
+        public async Task<ActionResult> Details(int id, int paragraphId)
         {
-            var story = _storyService.GetStoryById(id);
+            var story = await _storyService.GetStoryById(id);
             var model = _mapper.Map<StoryDetailsView>(story);
             if (model.AmountOfParagraphs > 0)
             {
-                foreach (var item in _storyService.GetPreviousParagraphsById(paragraphId, id))
+                foreach (var item in await _storyService.GetPreviousParagraphsById(paragraphId, id))
                 {
                     model.PreviousParagraphs.Add(_mapper.Map<ParagraphView>(item));
                 }
 
-                model.CurrentParagraphView = _mapper.Map<ParagraphView>(_storyService.GetParagraphById(paragraphId));
+                model.CurrentParagraphView = _mapper.Map<ParagraphView>(await _storyService.GetParagraphById(paragraphId));
 
-                foreach (var item in _storyService.GetNextParagraphsById(paragraphId, id))
+                foreach (var item in await _storyService.GetNextParagraphsById(paragraphId, id))
                 {
                     model.NextParagraphs.Add(_mapper.Map<ParagraphView>(item));
                 }
@@ -55,24 +55,24 @@ namespace OstreCWEB.Controllers
             return View(model);
         }
 
-        public ActionResult StoryAllParagraphs(int id)
+        public async Task<ActionResult> StoryAllParagraphs(int id)
         {
-            var test = _mapper.Map<StoryAllParagraphsView>(_storyService.GetStoryById(id));
+            var test = _mapper.Map<StoryAllParagraphsView>(await _storyService.GetStoryById(id));
             return View(test);
         }
 
 
         // GET: StoryBuilderController/ParagraphDetails/5
-        public ActionResult ParagraphDetails(int id)
+        public async Task<ActionResult> ParagraphDetails(int id)
         {
-            var paragraph = _storyService.GetParagraphById(id);
+            var paragraph = await _storyService.GetParagraphById(id);
             var model = _mapper.Map<ParagraphView>(paragraph);
 
             return View(model);
         }
 
         // GET: StoryBuilderController/Create
-        public ActionResult CreateStory()
+        public async Task<ActionResult> CreateStory()
         {
             var model = new StoryView();
             return View(model);
@@ -81,11 +81,11 @@ namespace OstreCWEB.Controllers
         // POST: StoryBuilderController/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult CreateStory(StoryView story)
+        public async Task<ActionResult> CreateStory(StoryView story)
         {
             try
             {
-                _storyService.AddStory(_mapper.Map<Story>(story));
+                await _storyService.AddStory(_mapper.Map<Story>(story));
                 return RedirectToAction(nameof(Index));
             }
             catch
@@ -95,19 +95,19 @@ namespace OstreCWEB.Controllers
         }
 
         // GET: StoryBuilderController/Edit/5
-        public ActionResult EditStory(int id)
+        public async Task<ActionResult> EditStory(int id)
         {
-            return View(_mapper.Map<StoryView>(_storyService.GetStoryById(id)));
+            return View(_mapper.Map<StoryView>(await _storyService.GetStoryById(id)));
         }
 
         // POST: StoryBuilderController/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult EditStory(StoryView model)
+        public async Task<ActionResult> EditStory(StoryView model)
         {
             try
             {
-                _storyService.UpdateStory(model.Id, model.Name, model.Description);
+                await _storyService.UpdateStory(model.Id, model.Name, model.Description);
                 return RedirectToAction(nameof(Index));
             }
             catch
@@ -117,19 +117,44 @@ namespace OstreCWEB.Controllers
         }
 
         // GET: StoryBuilderController/Delete/5
-        public ActionResult DeleteStory(int id)
+        public async Task<ActionResult> DeleteStory(int id)
         {
-            return View(_mapper.Map<StoryView>(_storyService.GetStoryById(id)));
+            return View(_mapper.Map<StoryView>(await _storyService.GetStoryById(id)));
         }
 
         // POST: StoryBuilderController/Delete/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult DeleteStory(StoryView story)
+        public async Task<ActionResult> DeleteStory(StoryView story)
         {
             try
             {
-                _storyService.DeleteStory(story.Id);
+                await _storyService.DeleteStory(story.Id);
+                return RedirectToAction(nameof(Index));
+            }
+            catch
+            {
+                return View();
+            }
+        }
+
+
+        // GET: StoryBuilderController/Create
+        public async Task<ActionResult> CreateParagraph(int id)
+        {
+            var model = new ParagraphCreateView();
+            model.StoryId = id;
+            return View(model);
+        }
+
+        // POST: StoryBuilderController/Create
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> CreateParagraph(ParagraphCreateView paragraph)
+        {
+            try
+            {
+                await _storyService.AddParagraph(_mapper.Map<Paragraph>(paragraph));
                 return RedirectToAction(nameof(Index));
             }
             catch

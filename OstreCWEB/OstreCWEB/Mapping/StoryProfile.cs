@@ -27,6 +27,10 @@ namespace OstreCWEB.Mapping
             CreateMap<EnemyInParagraph, EnemyInParagraphView>();
 
             CreateMap<Choice, ChoiceView>();
+
+            CreateMap<ParagraphCreateView, Paragraph>();
+
+            CreateMap<Paragraph, ParagraphCreateView>();
         }
     }
 }

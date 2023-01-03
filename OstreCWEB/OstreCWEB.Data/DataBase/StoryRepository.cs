@@ -13,14 +13,14 @@ namespace OstreCWEB.Data.DataBase
             _ostreCWebContext = ostreCWebContext;
         }
 
-        public IReadOnlyCollection<Story> GetAllStories()
+        public async Task<IReadOnlyCollection<Story>> GetAllStories()
         {
             return _ostreCWebContext.Stories
                 .Include(s => s.Paragraphs)
                 .ToList();
         }
 
-        public Story GetStoryById(int idStory)
+        public async Task<Story> GetStoryById(int idStory)
         {
             return _ostreCWebContext.Stories                
                 .Include(s => s.Paragraphs)
@@ -37,13 +37,13 @@ namespace OstreCWEB.Data.DataBase
                 .SingleOrDefault(s => s.Id == idStory);
         }
 
-        public Paragraph GetParagraphById(int idParagraph)
+        public async Task<Paragraph> GetParagraphById(int idParagraph)
         {
             return _ostreCWebContext.Paragraphs
                 .SingleOrDefault(p => p.Id == idParagraph);
         }
 
-        public async Task Add(Story story)
+        public async Task AddStory(Story story)
         {
             _ostreCWebContext.Stories.Add(story);
             await _ostreCWebContext.SaveChangesAsync();
@@ -58,6 +58,13 @@ namespace OstreCWEB.Data.DataBase
         public async Task DeleteStory(Story story)
         {            
             _ostreCWebContext.Stories.Remove(story);
+            await _ostreCWebContext.SaveChangesAsync();
+        }
+
+        public async Task AddParagraph(Paragraph paragraph)
+        {
+            _ostreCWebContext.Paragraphs.Add(paragraph);
+            Thread.Sleep(3000);
             await _ostreCWebContext.SaveChangesAsync();
         }
     }
