@@ -1,5 +1,6 @@
 ﻿using OstreCWEB.Data.Repository.StoryModels.Enums;
 using OstreCWEB.Data.Repository.StoryModels.Properties;
+using OstreCWEB.Data.DataBase.ManyToMany;
 
 namespace OstreCWEB.Data.Repository.StoryModels
 {
@@ -18,13 +19,10 @@ namespace OstreCWEB.Data.Repository.StoryModels
         public ShopkeeperProp? ShopkeeperProp { get; set; }
 
         // Choice options
-        public List<NextParagraph> Choices { get; set; } = new List<NextParagraph>();
+        public List<Choice> Choices { get; set; } = new List<Choice>();
 
         // Db relations properties
-        public int? FightPropId { get; set; }
-        public int? DialogPropId { get; set; }
-        public int? TestPropId { get; set; }
-        public int? ShopkeeperPropId { get; set; }
+        public List<UserParagraph> UserParagraphs { get; set; }
         public int StoryId { get; set; }
         public Story Story { get; set; }
 

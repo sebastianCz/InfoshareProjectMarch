@@ -10,8 +10,12 @@ namespace OstreCWEB.Mapping
     {
         public StoryProfile() 
         {
+            CreateMap<Story, StoryAllParagraphsView>();
+
             CreateMap<Story, StoryView>();
-               
+
+            CreateMap<StoryView, Story>();
+
             CreateMap<Paragraph, ParagraphView>();
 
             CreateMap<Story, StoryDetailsView>();
@@ -21,6 +25,12 @@ namespace OstreCWEB.Mapping
             CreateMap<FightProp, FightPropView>();
 
             CreateMap<EnemyInParagraph, EnemyInParagraphView>();
+
+            CreateMap<Choice, ChoiceView>();
+
+            CreateMap<ParagraphCreateView, Paragraph>();
+
+            CreateMap<Paragraph, ParagraphCreateView>();
         }
     }
 }

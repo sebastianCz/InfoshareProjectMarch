@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using OstreCWEB.Data.Repository.Fight;
 using OstreCWEB.Services.Fight;
 using OstreCWEB.ViewModel.Fight;
+using OstreCWEB.ViewModel.Characters;
 
 namespace OstreCWEB.Controllers
 {
@@ -19,17 +20,18 @@ namespace OstreCWEB.Controllers
             _fightService = fightService;
             _mapper = mapper;
         }
+        public ActionResult FightView()
+        {
+            var model = _mapper.Map<FightViewModel>(_fightService.GetActiveFightInstance());
+            return View(model);
+        }
         [HttpGet]
         public ActionResult InitializeFight()
         {
             _fightService.InitializeFight();
             return RedirectToAction(nameof(FightView));
         }
-        public ActionResult FightView()
-        { 
-            var model = _mapper.Map<FightViewModel>(_fightService.GetActiveFightInstance());
-            return View(model);
-        }
+     
         [HttpGet]
         public ActionResult SetActiveAction(int id)
         { 

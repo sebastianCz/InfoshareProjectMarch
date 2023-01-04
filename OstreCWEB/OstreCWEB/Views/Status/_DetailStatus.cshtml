@@ -1,0 +1,76 @@
+﻿@model ICollection<OstreCWEB.ViewModel.Characters.StatusView>
+
+    ViewData["Title"] = "SuperAdminView";
+} 
+
+<section class="section">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Statuses</h5>
+                    <div class="dataTable-wrapper dataTable-loading no-footer sortable searchable fixed-columns">
+                        <div class="dataTable-top">
+                            <div class="dataTable-dropdown">
+                                <label>
+                                   @* <select class="dataTable-selector">
+                                        <option value="5">5</option>
+                                        <option value="10" selected="">10</option>
+                                        <option value="15">15</option>
+                                        <option value="20">20</option>
+                                        <option value="25">25</option>
+                                    </select> entries per page*@
+                                </label>
+                            </div>
+                           @* <div class="dataTable-search">
+                                <input class="dataTable-input" placeholder="" type="text">
+                            </div>*@
+                        </div>
+                        <div class="dataTable-container">
+                            <table class="table datatable dataTable-table">
+                                <a asp-action="Create" >Add new</a>
+                                <thead>
+                                    <tr>
+                                        <th scope="col" data-sortable="" class=""><label asp-for="FirstOrDefault().StatusId"></label></th>
+                                        <th scope="col" data-sortable="" class=""><label asp-for="FirstOrDefault().Name"></label></th>
+                                        <th scope="col" data-sortable="" class=""><label asp-for="FirstOrDefault().Description"></label></th>
+                                    </tr>
+                                </thead>
+
+
+                                <tbody>
+
+                                    @if (Model != null && Model.Any())
+                                    {
+                                        @foreach (var status in Model)
+                                        {
+                                            <tr>
+                                                <td>@status.StatusId</td>
+                                                <td>@status.Name</td>
+                                                <td>@status.Description</td>
+                                                <td>
+                                                    <a asp-action="Update" asp-route-id="@status.StatusId">Update</a> |
+                                                    <a asp-action="Delete" asp-route-id="@status.StatusId">Delete</a>
+                                                </td>
+                                            </tr>
+                                           
+
+                                        }
+                                    }
+                                   
+                                    
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="dataTable-bottom">
+                            @*<div class="dataTable-info">Showing 1 to 5 of 5 entries</div>
+                            <nav class="dataTable-pagination">
+                                <ul class="dataTable-pagination-list"></ul>
+                            </nav>*@
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

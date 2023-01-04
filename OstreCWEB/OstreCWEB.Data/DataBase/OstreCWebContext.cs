@@ -1,129 +1,187 @@
 ﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
-using OstreCWEB.Data.Repository.Characters.CoreClasses;
+using OstreCWEB.Data.DataBase.ManyToMany;
+using OstreCWEB.Data.Repository.Characters.CharacterModels;
 using OstreCWEB.Data.Repository.Characters.MetaTags;
 using OstreCWEB.Data.Repository.Identity;
 using OstreCWEB.Data.Repository.StoryModels;
 using OstreCWEB.Data.Repository.StoryModels.Properties;
-using System.Reflection.Emit;
-using System.Security.Cryptography.X509Certificates;
 
 namespace OstreCWEB.Data.DataBase
 {
     public class OstreCWebContext : IdentityDbContext<User>
     {
+        //Relations many to many
+        public DbSet<ActionCharacter> ActionCharactersRelation { get; set; }
+        public DbSet<ItemCharacter> ItemsCharactersRelation { get; set; }
+        public DbSet<UserParagraph> UserParagraphs { get; set; }
+
         //User
         public DbSet<User> Users { get; set; }
-        //public DbSet<PlayableCharacter> PlayableCharacters { get; set; }
-        //public DbSet<Enemy> Enemies { get; set; }
+
+        //Characters
+        public DbSet<PlayableCharacter> PlayableCharacters { get; set; }
+        public DbSet<Enemy> Enemies { get; set; }
+        public DbSet<PlayableClass> PlayableCharacterClasses { get; set; }
+        public DbSet<PlayableRace> PlayableCharacterRaces { get; set; }
+        public DbSet<Item> Items { get; set; }
+        public DbSet<Status> Statuses { get; set; }
+        public DbSet<CharacterAction> CharacterActions { get; set; } // Action is a keyword..
 
         //Story
+        public DbSet<Story> Stories { get; set; }
+        public DbSet<Paragraph> Paragraphs { get; set; }
+        public DbSet<Choice> Choices { get; set; }
+        public DbSet<FightProp> FightProps { get; set; }
+        public DbSet<TestProp> TestProps { get; set; }
+        public DbSet<DialogProp> DialogProps { get; set; }
+        public DbSet<ShopkeeperProp> ShopkeeperProps { get; set; }
+        public DbSet<EnemyInParagraph> EnemyInParagraphs { get; set; }
 
-        //public DbSet<Story> Stories { get; set; }
-        //public DbSet<Paragraph> Paragraphs { get; set; }
-        //public DbSet<NextParagraph> NextParagraphs { get; set; }
-        //public DbSet<FightProp> FightProps { get; set; }
-        //public DbSet<TestProp> TestProps { get; set; }
-        //public DbSet<DialogProp> DialogProps { get; set; }
-        //public DbSet<ShopkeeperProp> ShopkeeperProps { get; set; }
-        //public DbSet<EnemyInParagraph> EnemyInParagraphs { get; set; }
-
-        //Character
-        //public DbSet<PlayableCharacter> PlayableCharacters { get; set; }
-        //public DbSet<Enemy> Enemies { get; set; }
         //Combat
 
-
-        public OstreCWebContext() { 
-        
+        public OstreCWebContext()
+        {
         }
+
         public OstreCWebContext(DbContextOptions<OstreCWebContext> options) : base(options) { }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
+            UserConfiguration(builder);
+            ConfigureCharacters(builder);
+            ConfigureActions(builder);
+            ConfigureItems(builder);
+            ConfigureStories(builder);
+            ConfigureUsersParagraphs(builder);
+        }
 
+        private void ConfigureItems(ModelBuilder builder)
+        {
+            builder.Entity<Item>().Navigation(e => e.ActionToTrigger).AutoInclude();
+
+            builder.Entity<ItemCharacter>()
+             .HasKey(x => new { x.ItemId, x.CharacterId });
+
+            builder.Entity<ItemCharacter>()
+                .HasOne(x => x.Item)
+                .WithMany(x => x.LinkedCharacters)
+                .HasForeignKey(x => x.ItemId);
+
+            builder.Entity<ItemCharacter>()
+                .HasOne(x => x.Character)
+                .WithMany(x => x.LinkedItems)
+                .HasForeignKey(x => x.CharacterId);
+        }
+
+        private void ConfigureActions(ModelBuilder builder)
+        {
+            builder.Entity<CharacterAction>().Navigation(e => e.Status).AutoInclude();
+
+            builder.Entity<ActionCharacter>()
+                .HasKey(x => new { x.CharacterId, x.CharacterActionId });
+
+            builder.Entity<ActionCharacter>()
+                .HasOne(pt => pt.Character)
+                .WithMany(p => p.LinkedActions)
+                .HasForeignKey(pt => pt.CharacterId);
+
+            builder.Entity<ActionCharacter>()
+                .HasOne(pt => pt.CharacterAction)
+                .WithMany(t => t.LinkedCharacter)
+                .HasForeignKey(pt => pt.CharacterActionId);
+        }
+
+        private void UserConfiguration(ModelBuilder builder)
+        {
 
         }
-        //protected override void OnModelCreating(ModelBuilder builder)
-        //{
-        //    UserConfiguration(builder);
-        //    ConfigureCharacters(builder);  
-        //}
 
-        //private void UserConfiguration(ModelBuilder builder)
-        //{
+        private void ConfigureCharacters(ModelBuilder builder)
+        {
+            builder.Entity<PlayableCharacter>().Navigation(e => e.CharacterClass).AutoInclude();
+            builder.Entity<PlayableCharacter>().Navigation(e => e.Race).AutoInclude();
+            builder.Entity<PlayableCharacter>().Navigation(e => e.LinkedActions).AutoInclude();
+            builder.Entity<PlayableCharacter>().Navigation(e => e.LinkedItems).AutoInclude();
 
-        //    builder.Entity<User>()
-        //            .HasMany(x => x.CharactersCreated)
-        //            .WithOne(x => x.User)
-        //            .HasForeignKey(x => x.UserId);
-        //}
-        //private void ConfigureCharacters(ModelBuilder builder)
-        //{
-            
+            builder.Entity<PlayableCharacter>()
+                .HasOne(r => r.Race)
+                .WithMany(p => p.PlayableCharacter)
+                .HasForeignKey(x => x.RaceId);
 
-        //    builder.Entity<PlayableCharacter>()
-        //        .HasOne(r => r.Race)
-        //        .WithMany(p => p.PlayableCharacter)
-        //        .HasForeignKey(x => x.RaceId); 
-        //    builder.Entity<PlayableCharacter>()
-        //        .HasOne(c => c.CharacterClass)
-        //        .WithMany(p => p.PlayableCharacter);
+            builder.Entity<PlayableCharacter>()
+                .HasOne(c => c.CharacterClass)
+                .WithMany(p => p.PlayableCharacter);
+        }
 
-        //    //builder.Entity<ItemCharacter>()
-        //    //    .HasKey(x => new { x.ItemId, x.PlayableCharacterId });
+        private void ConfigureStories(ModelBuilder builder)
+        {
+            { //Story
+                builder.Entity<Story>()
+                    .HasMany(x => x.Paragraphs)
+                    .WithOne(x => x.Story)
+                    .HasForeignKey(x => x.StoryId);
+            } // Story
 
-        //    builder.Entity<ItemCharacter>()
-        //        .HasOne(x => x.Item)
-        //        .WithMany(x => x.ItemCharacter)
-        //        .HasForeignKey(x => x.ItemId);
+            { // Paragraph
+                //Fight
+                builder.Entity<Paragraph>()
+                    .HasOne(x => x.FightProp)
+                    .WithOne(x => x.Paragraph)
+                    .HasForeignKey<FightProp>(x => x.ParagraphId);
 
-        //    builder.Entity<ItemCharacter>()
-        //      .HasOne(x => x.PlayableCharacter)
-        //      .WithMany(x => x.ItemCharacter)
-        //      .HasForeignKey(x => x.PlayableCharacterId);
+                //Dialog
+                builder.Entity<Paragraph>()
+                    .HasOne(x => x.DialogProp)
+                    .WithOne(x => x.Paragraph)
+                    .HasForeignKey<DialogProp>(x => x.ParagraphId);
 
-        //}
-        //private void ConfigureStories( ModelBuilder builder)
-        //{
-        //    { //Story
-        //        builder.Entity<Story>()
-        //            .HasMany(x => x.Paragraphs)
-        //            .WithOne(x => x.Story)
-        //            .HasForeignKey(x => x.StoryId);
-        //    } // Story
+                //Shopkeeper
+                builder.Entity<Paragraph>()
+                    .HasOne(x => x.ShopkeeperProp)
+                    .WithOne(x => x.Paragraph)
+                    .HasForeignKey<ShopkeeperProp>(x => x.ParagraphId);
 
-        //    { // Paragraph
-        //        builder.Entity<Paragraph>()
-        //            .HasOne(x => x.FightProp)
-        //            .WithOne(x => x.Paragraph)
-        //            .HasForeignKey<Paragraph>(x => x.FightPropId);
+                //Test
+                builder.Entity<Paragraph>()
+                    .HasOne(x => x.TestProp)
+                    .WithOne(x => x.Paragraph)
+                    .HasForeignKey<TestProp>(x => x.ParagraphId);
 
-        //        builder.Entity<Paragraph>()
-        //            .HasOne(x => x.TestProp)
-        //            .WithOne(x => x.Paragraph)
-        //            .HasForeignKey<Paragraph>(x => x.TestPropId);
+                builder.Entity<Paragraph>()
+                    .HasMany(x => x.Choices)
+                    .WithOne(x => x.Paragraph)
+                    .HasForeignKey(x => x.ParagraphId);
+            } // Paragraph
 
-        //        builder.Entity<Paragraph>()
-        //            .HasOne(x => x.DialogProp)
-        //            .WithOne(x => x.Paragraph)
-        //            .HasForeignKey<Paragraph>(x => x.DialogPropId);
+            { // ParagraphFight
+                builder.Entity<FightProp>()
+                    .HasMany(x => x.ParagraphEnemies)
+                    .WithOne(x => x.FightProp)
+                    .HasForeignKey(x => x.FightPropId);
+            } // ParagraphFight
+        }
 
-        //        builder.Entity<Paragraph>()
-        //            .HasOne(x => x.ShopkeeperProp)
-        //            .WithOne(x => x.Paragraph)
-        //            .HasForeignKey<Paragraph>(x => x.ShopkeeperPropId);
-        //    } // Paragraph
+        private void ConfigureUsersParagraphs(ModelBuilder builder)
+        {
+            //builder.Entity<UserParagraph>()
+            //    .HasKey(x => new { x.CharacterId, x.ParagraphId });
 
-        //    { // ParagraphFight
-        //        builder.Entity<FightProp>()
-        //            .HasMany(x => x.ParagraphEnemies)
-        //            .WithOne(x => x.FightProp)
-        //            .HasForeignKey(x => x.FightPropId);
-        //    } // ParagraphFight
-        //}
-       
+            builder.Entity<UserParagraph>()
+                .HasOne(x => x.User)
+                .WithMany(x => x.UserParagraphs)
+                .HasForeignKey(x => x.UserId);
 
+            builder.Entity<UserParagraph>()
+                .HasOne(x => x.Paragraph)
+                .WithMany(x => x.UserParagraphs)
+                .HasForeignKey(x => x.ParagraphId);
+
+            //builder.Entity<UserParagraph>()
+            //    .HasOne(x => x.Character)
+            //    .WithOne(x => x.UserParagraph)
+            //    .HasForeignKey<UserParagraph>(x => x.PlayableCharacterId);
+        }
     } 
-}
+}     

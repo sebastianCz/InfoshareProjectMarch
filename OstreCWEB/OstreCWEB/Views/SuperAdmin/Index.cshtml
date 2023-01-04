@@ -1,0 +1,89 @@
+﻿@model string;
+    ViewData["Title"] = "SuperAdminView";
+
+
+<h1>SuperAdminView</h1>
+
+<button type="button" id="btnScore" onclick="GenerateEnemies()">
+    Initialize Fight!
+</button>
+<button type="button" id="btnScore" onclick="Seed()">
+    SeedData
+</button>
+
+<button type="button" id="btnScore" onclick="TestController()">
+    TestDb
+</button>
+<button type="button" id="btnScore" onclick="Login()">
+    Login
+</button>
+@Model
+@*
+ 
+<partial name="_DetailsStatus" model="@Model.Statuses" />*@
+<script>
+
+    function GenerateEnemies() {
+        $.ajax({
+            type: "GET",
+            url: "Fight/InitializeFight",
+            async: true,
+            success: function (msg) {
+
+            },
+            error: function () {
+                return "error";
+            }
+        });
+    }
+   
+    function Login() {
+        $.ajax({
+            type: "GET",
+            url: "SuperAdmin/Login",
+            async: true,
+            success: function (msg) {
+
+            },
+            error: function () {
+                return "error";
+            }
+        });
+    }
+
+    function Seed() {
+        $.ajax({
+            type: "GET",
+            url: "SuperAdmin/Seed",
+            async: true,
+            success: function (msg) {
+
+            },
+            error: function () {
+                return "error";
+            }
+        });
+
+    }
+
+
+    function TestController() {
+        $.ajax({
+            type: "GET",
+            url: "SuperAdmin/Test",
+            async: true,
+            success: function (msg) {
+
+            },
+            error: function () {
+                return "error";
+            }
+        });
+
+    }
+
+    
+
+
+
+</script>

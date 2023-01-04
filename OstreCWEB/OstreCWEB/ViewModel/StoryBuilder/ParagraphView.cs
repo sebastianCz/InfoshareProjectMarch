@@ -1,5 +1,6 @@
 ﻿using OstreCWEB.Data.Repository.StoryModels.Enums;
 using OstreCWEB.Data.Repository.StoryModels.Properties;
+using OstreCWEB.ViewModel.StoryBuilder.Properties;
 using System.ComponentModel.DataAnnotations;
 
 namespace OstreCWEB.ViewModel.StoryBuilder
@@ -24,6 +25,8 @@ namespace OstreCWEB.ViewModel.StoryBuilder
         public ShopkeeperProp? ShopkeeperProp { get; set; }
 
         // Choice options
-        public List<NextParagraph> Choices { get; set; } = new List<NextParagraph>();
+        public List<ChoiceView> Choices { get; set; } = new List<ChoiceView>();
+
+        public int StoryId { get; set; }
     }
 }
