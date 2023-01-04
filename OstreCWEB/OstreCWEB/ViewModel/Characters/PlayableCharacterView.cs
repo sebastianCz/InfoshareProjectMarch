@@ -3,7 +3,7 @@ using OstreCWEB.Data.Repository.Characters.MetaTags;
 
 namespace OstreCWEB.ViewModel.Characters
 {
-    public class PlayableCharacterDetailsView
+    public class PlayableCharacterView
     { 
         public int CharacterId { get; set; }
         public List<ActionCharacter>? LinkedActions { get; set; }

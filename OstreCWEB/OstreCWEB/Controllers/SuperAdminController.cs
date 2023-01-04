@@ -47,16 +47,7 @@ namespace OstreCWEB.Controllers
             var claim = User;
             return View();
         }
-        public async Task<ActionResult> Login()
-        {
-            var user = _superAdminRepository.GetRandomUser();
-            var userName = user.UserName;
-            var password = user.Password;
-            var result = await _signInManager.PasswordSignInAsync(userName, password, false, lockoutOnFailure: false);  
-
        
-            return View();
-        }
         // GET: SuperAdmin/Details/5
         public ActionResult Details(int id)
         {

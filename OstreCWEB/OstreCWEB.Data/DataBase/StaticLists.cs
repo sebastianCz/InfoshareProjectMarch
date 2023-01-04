@@ -1,7 +1,7 @@
 ﻿using OstreCWEB.Data.Repository.Characters.CharacterModels; 
 using OstreCWEB.Data.Repository.Characters.Enums;
 using OstreCWEB.Data.Repository.Identity;
-using OstreCWEB.Data.Repository.StoryModels;
+using OstreCWEB.Data.Repository.StoryModels; 
 
 namespace OstreCWEB.Data.DataBase
 {
@@ -64,18 +64,15 @@ namespace OstreCWEB.Data.DataBase
             {
                 new User
                 {
-                    LoggedIn = false,
-                    UserName = "Admin",
-                    Password = "Admin",
+                     
+                    UserName = "Admin", 
                     Email = "Admin@Admin.com",
                     Created = DateTime.Now,
                     //It's set to null but we will hold our active character instance here. 
                     //It should be chosen each session.  
                     //StoriesCreated = new List<Story>(),
                     CharactersCreated = new List<PlayableCharacter>(),
-                    StoriesCompletedTotal = 0,
-                    DamageDealt = 0,
-                    DamageReceived = 0 
+                     
                 }
             };
 

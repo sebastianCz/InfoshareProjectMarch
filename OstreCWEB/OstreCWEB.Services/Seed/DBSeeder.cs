@@ -1,21 +1,26 @@
 ﻿using Microsoft.AspNetCore.Identity;
+using Newtonsoft.Json;
 using OstreCWEB.Data.Repository.Characters.CharacterModels;
 using OstreCWEB.Data.Repository.Characters.Enums;
 using OstreCWEB.Data.Repository.Characters.MetaTags;
 using OstreCWEB.Data.Repository.Identity;
+using OstreCWEB.Services.Identity;
 
+ 
 namespace OstreCWEB.Data.DataBase
 {
     public class DBSeeder : ISeeder
     {
         private readonly OstreCWebContext _db;
         private readonly UserManager<User> _userManager;
-        private readonly IUserAuthentificationService _auth;
-
-        public DBSeeder(UserManager<User> userManager,OstreCWebContext ostreCWebContext)
+        private readonly IUserAuthenticationService _auth;
+        private readonly IIdentityRepository _identity; 
+        public DBSeeder(UserManager<User> userManager,OstreCWebContext ostreCWebContext,IUserAuthenticationService auth,IIdentityRepository identity)
         {
             _db = ostreCWebContext;
-            _userManager = userManager;
+            _userManager = userManager; 
+            _auth = auth;
+            _identity = identity;
         } 
         public async Task SeedDataBase()
         {
@@ -51,10 +56,7 @@ namespace OstreCWEB.Data.DataBase
                 } 
             };
 
-            for(var i = 0; i < 10; i++)
-            {
-                await _service.RegisterAsync(model);
-            }
+            
 
             var playableCharacterClasses = new List<PlayableClass>
                 {
@@ -247,20 +249,43 @@ namespace OstreCWEB.Data.DataBase
                         Charisma = 12
                     }
                 };
-             
 
-            foreach(var user in users)
+            var register = new Registration();
+            var password = "";
+
+            for (var i = 1; i < 10; i++)
             {
-                var result = await _userManager.CreateAsync(user, user.Password);
+                  password = "NewPassword@" + i;
+                  register = new Registration
+                {
+                    Name = "NewUser" + i,
+                    Email = $"Test{i}@test.com",
+                    UserName = "NewUserName" + i,
+                    Password = password,
+                    PasswordConfirm = password,
+                    Role = "user"
+
+                };
+                await _auth.RegisterAsync(register);
             }
+             password = "Admin123#";
+            register = new Registration
+            {
+               
+                Name = "Admin",
+                Email = $"Test@test.com",
+                UserName = "AdminUser",
+                Password = password,
+                PasswordConfirm = password,
+                Role = "admin"
+
+            };
+            await _auth.RegisterAsync(register); 
 
 
-            var adminRole = new IdentityRole() { Id = "fab4fac1-c546-41de-aebc-a14da6895711", Name = "Admin", ConcurrencyStamp = "1", NormalizedName = "Admin" };
-
-         
             //_db.UserRoles.Add(adminRole);
 
-            _db.Users.AddRange(users);
+            var users = await _identity.GetAll();
             _db.CharacterActions.AddRange(actions);
             _db.Statuses.AddRange(statuses);
             _db.PlayableCharacterRaces.AddRange(playableRaces);
@@ -326,7 +351,8 @@ namespace OstreCWEB.Data.DataBase
             //_db.SaveChanges();
             _db.SaveChanges();
  
-        } 
+        }
+ 
         public  List<PlayableCharacter> UpdatePlayableCharacterItemsRelations(List<PlayableCharacter> characters)
         { 
             foreach (var character in characters)

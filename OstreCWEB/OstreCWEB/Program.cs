@@ -14,7 +14,7 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 //Allows retrying CRUD operations in case of transient failures.
 builder.Services.AddDbContext<OstreCWebContext>(
-    options => options.UseSqlServer(builder.Configuration.GetConnectionString("OstreCWEB"), builder =>builder.EnableRetryOnFailure(2, TimeSpan.FromSeconds(2), null)));
+    options => options.UseSqlServer(builder.Configuration.GetConnectionString("OstreCWEB")));
 
 // for Identity
 builder.Services.AddIdentity<User, IdentityRole>()
@@ -33,6 +33,7 @@ builder.Services.AddTransient<IStatusRepository, StatusRepository>();
 builder.Services.AddTransient<ICharacterActionsRepository, CharacterActionRepository>();
 builder.Services.AddTransient<IPlayableCharacterRepository, PlayableCharacterRepository >();
 builder.Services.AddTransient<ISuperAdminRepository, SuperAdminRepository>();
+builder.Services.AddTransient<IIdentityRepository, IdentityRepository>();
 
 //builder.Services.AddTransient<IEnemyRepository,  >();
 

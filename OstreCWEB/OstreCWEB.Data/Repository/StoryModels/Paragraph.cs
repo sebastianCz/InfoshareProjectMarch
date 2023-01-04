@@ -1,5 +1,6 @@
 ﻿using OstreCWEB.Data.Repository.StoryModels.Enums;
 using OstreCWEB.Data.Repository.StoryModels.Properties;
+using OstreCWEB.Data.Repository.WebObjects;
 
 namespace OstreCWEB.Data.Repository.StoryModels
 {
@@ -21,6 +22,7 @@ namespace OstreCWEB.Data.Repository.StoryModels
         public List<NextParagraph> Choices { get; set; } = new List<NextParagraph>();
 
         // Db relations properties
+        public List<GameInstance> GameSessions { get; set; }
         public int? FightPropId { get; set; }
         public int? DialogPropId { get; set; }
         public int? TestPropId { get; set; }

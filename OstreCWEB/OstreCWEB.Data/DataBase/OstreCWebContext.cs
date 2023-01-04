@@ -4,6 +4,7 @@ using OstreCWEB.Data.Repository.Characters.CharacterModels;
 using OstreCWEB.Data.Repository.Characters.MetaTags;
 using OstreCWEB.Data.Repository.Identity;
 using OstreCWEB.Data.Repository.StoryModels;
+using OstreCWEB.Data.Repository.StoryModels.Properties;
 
 namespace OstreCWEB.Data.DataBase
 {
@@ -11,37 +12,32 @@ namespace OstreCWEB.Data.DataBase
     {
         //Relations many to many
 
-        internal DbSet<ActionCharacter> actionCharactersRelation { get; set; }
-        internal DbSet<ItemCharacter> ItemsCharactersRelation { get; set; }
+        public DbSet<ActionCharacter> actionCharactersRelation { get; set; }
+        public DbSet<ItemCharacter> ItemsCharactersRelation { get; set; }
 
 
         //User
-        internal DbSet<User> Users { get; set; }
+        public DbSet<User> Users { get; set; }
         //Characters
-        internal DbSet<PlayableCharacter> PlayableCharacters { get; set; }
-        internal DbSet<Enemy> Enemies { get; set; }
-        internal DbSet<PlayableClass> PlayableCharacterClasses { get; set; }
-        internal DbSet<PlayableRace> PlayableCharacterRaces { get; set; }
-        internal DbSet<Item> Items { get; set; }
-        internal DbSet<Status> Statuses { get; set; }
-
-        internal DbSet<CharacterAction> CharacterActions { get; set; }
-
-
-
-        //Story
-
-        //public DbSet<Story> Stories { get; set; }
-        //public DbSet<Paragraph> Paragraphs { get; set; }
-        //public DbSet<NextParagraph> NextParagraphs { get; set; }
-        //public DbSet<FightProp> FightProps { get; set; }
-        //public DbSet<TestProp> TestProps { get; set; }
-        //public DbSet<DialogProp> DialogProps { get; set; }
-        //public DbSet<ShopkeeperProp> ShopkeeperProps { get; set; }
-        //public DbSet<EnemyInParagraph> EnemyInParagraphs { get; set; }
+        public DbSet<PlayableCharacter> PlayableCharacters { get; set; }
+        public DbSet<Enemy> Enemies { get; set; }
+        public DbSet<PlayableClass> PlayableCharacterClasses { get; set; }
+        public DbSet<PlayableRace> PlayableCharacterRaces { get; set; }
+        public DbSet<Item> Items { get; set; }
+        public DbSet<Status> Statuses { get; set; }
+        public DbSet<CharacterAction> CharacterActions { get; set; } // Action is a keyword..
+        //Story 
+        public DbSet<Story> Stories { get; set; }
+        public DbSet<Paragraph> Paragraphs { get; set; }
+        public DbSet<NextParagraph> NextParagraphs { get; set; }
+        public DbSet<FightProp> FightProps { get; set; }
+        public DbSet<TestProp> TestProps { get; set; }
+        public DbSet<DialogProp> DialogProps { get; set; }
+        public DbSet<ShopkeeperProp> ShopkeeperProps { get; set; }
+        public DbSet<EnemyInParagraph> EnemyInParagraphs { get; set; }
 
         //GameSessions
-        //internal DbSet<GameInstance> {get;set;}
+
         //Combat
 
 
@@ -58,7 +54,6 @@ namespace OstreCWEB.Data.DataBase
             ConfigureCharacters(builder);
             ConfigureActions(builder);
             ConfigureItems(builder);
-
         }
 
         private void ConfigureItems(ModelBuilder builder)
@@ -128,37 +123,37 @@ namespace OstreCWEB.Data.DataBase
                     .HasForeignKey(x => x.StoryId);
             } // Story
 
-            //    { // Paragraph
-            //        builder.Entity<Paragraph>()
-            //            .HasOne(x => x.FightProp)
-            //            .WithOne(x => x.Paragraph)
-            //            .HasForeignKey<Paragraph>(x => x.FightPropId);
+            { // Paragraph
+                builder.Entity<Paragraph>()
+                    .HasOne(x => x.FightProp)
+                    .WithOne(x => x.Paragraph)
+                    .HasForeignKey<Paragraph>(x => x.FightPropId);
 
-            //        builder.Entity<Paragraph>()
-            //            .HasOne(x => x.TestProp)
-            //            .WithOne(x => x.Paragraph)
-            //            .HasForeignKey<Paragraph>(x => x.TestPropId);
+                builder.Entity<Paragraph>()
+                    .HasOne(x => x.TestProp)
+                    .WithOne(x => x.Paragraph)
+                    .HasForeignKey<Paragraph>(x => x.TestPropId);
 
-            //        builder.Entity<Paragraph>()
-            //            .HasOne(x => x.DialogProp)
-            //            .WithOne(x => x.Paragraph)
-            //            .HasForeignKey<Paragraph>(x => x.DialogPropId);
+                builder.Entity<Paragraph>()
+                    .HasOne(x => x.DialogProp)
+                    .WithOne(x => x.Paragraph)
+                    .HasForeignKey<Paragraph>(x => x.DialogPropId);
 
-            //        builder.Entity<Paragraph>()
-            //            .HasOne(x => x.ShopkeeperProp)
-            //            .WithOne(x => x.Paragraph)
-            //            .HasForeignKey<Paragraph>(x => x.ShopkeeperPropId);
-            //    } // Paragraph
+                builder.Entity<Paragraph>()
+                    .HasOne(x => x.ShopkeeperProp)
+                    .WithOne(x => x.Paragraph)
+                    .HasForeignKey<Paragraph>(x => x.ShopkeeperPropId);
+            } // Paragraph
 
-            //    { // ParagraphFight
-            //        builder.Entity<FightProp>()
-            //            .HasMany(x => x.ParagraphEnemies)
-            //            .WithOne(x => x.FightProp)
-            //            .HasForeignKey(x => x.FightPropId);
-            //    } // ParagraphFight
-            //}
-
-
+            { // ParagraphFight
+                builder.Entity<FightProp>()
+                    .HasMany(x => x.ParagraphEnemies)
+                    .WithOne(x => x.FightProp)
+                    .HasForeignKey(x => x.FightPropId);
+            } // ParagraphFight
         }
+
+
     }
 }
+
