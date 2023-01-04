@@ -70,8 +70,7 @@ namespace OstreCWEB.Data.DataBase
                     Email = "Admin@Admin.com",
                     Created = DateTime.Now,
                     //It's set to null but we will hold our active character instance here. 
-                    //It should be chosen each session. 
-                    ActiveCharacter = null,
+                    //It should be chosen each session.  
                     //StoriesCreated = new List<Story>(),
                     CharactersCreated = new List<PlayableCharacter>(),
                     StoriesCompletedTotal = 0,

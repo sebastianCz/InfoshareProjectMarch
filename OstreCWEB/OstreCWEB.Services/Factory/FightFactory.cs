@@ -1,6 +1,6 @@
 ﻿using Newtonsoft.Json;
 using OstreCWEB.Data.DataBase;
-using OstreCWEB.Data.Repository.Characters.CharacterModels; 
+using OstreCWEB.Data.Repository.Characters.CharacterModels;
 using OstreCWEB.Data.Repository.Fight;
 
 namespace OstreCWEB.Services.Factories

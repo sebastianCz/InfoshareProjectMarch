@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using OstreCWEB.Data.DataBase;
 
@@ -11,9 +12,10 @@ using OstreCWEB.Data.DataBase;
 namespace OstreCWEB.Data.Migrations
 {
     [DbContext(typeof(OstreCWebContext))]
-    partial class OstreCWebContextModelSnapshot : ModelSnapshot
+    [Migration("20230102154057_Identity")]
+    partial class Identity
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -219,18 +221,6 @@ namespace OstreCWEB.Data.Migrations
                     b.Property<string>("SecurityStamp")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("PasswordHash")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("PhoneNumber")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool>("PhoneNumberConfirmed")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("SecurityStamp")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<int>("StoriesCompletedTotal")
                         .HasColumnType("int");
 
@@ -261,19 +251,6 @@ namespace OstreCWEB.Data.Migrations
                         .HasForeignKey("RoleId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.Navigation("ActionToTrigger");
-                });
-
-            modelBuilder.Entity("OstreCWEB.Data.Repository.Characters.CoreClasses.CharacterAction", b =>
-                {
-                    b.HasOne("OstreCWEB.Data.Repository.Characters.CoreClasses.Enemy", null)
-                        .WithMany("DefaultActions")
-                        .HasForeignKey("EnemyCharacterId");
-
-                    b.HasOne("OstreCWEB.Data.Repository.Characters.CoreClasses.PlayableCharacter", null)
-                        .WithMany("DefaultActions")
-                        .HasForeignKey("PlayableCharacterCharacterId");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
@@ -283,12 +260,6 @@ namespace OstreCWEB.Data.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.Navigation("CharacterClass");
-
-                    b.Navigation("Race");
-
-                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
@@ -298,8 +269,6 @@ namespace OstreCWEB.Data.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.Navigation("CharacterActions");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<string>", b =>
@@ -315,15 +284,6 @@ namespace OstreCWEB.Data.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.Navigation("Item");
-
-                    b.Navigation("PlayableCharacter");
-                });
-
-            modelBuilder.Entity("OstreCWEB.Data.Repository.Characters.CharacterModels.Item", b =>
-                {
-                    b.Navigation("ItemCharacter");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
@@ -333,35 +293,6 @@ namespace OstreCWEB.Data.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-                });
-
-            modelBuilder.Entity("OstreCWEB.Data.Repository.Characters.CoreClasses.Enemy", b =>
-                {
-                    b.Navigation("DefaultActions");
-
-                    b.Navigation("ItemCharacter");
-                });
-
-            modelBuilder.Entity("OstreCWEB.Data.Repository.Characters.CoreClasses.PlayableCharacter", b =>
-                {
-                    b.Navigation("DefaultActions");
-
-                    b.Navigation("ItemCharacter");
-                });
-
-            modelBuilder.Entity("OstreCWEB.Data.Repository.Characters.CoreClasses.PlayableCharacterClass", b =>
-                {
-                    b.Navigation("PlayableCharacter");
-                });
-
-            modelBuilder.Entity("OstreCWEB.Data.Repository.Characters.CoreClasses.PlayableRace", b =>
-                {
-                    b.Navigation("PlayableCharacter");
-                });
-
-            modelBuilder.Entity("OstreCWEB.Data.Repository.Identity.User", b =>
-                {
-                    b.Navigation("CharactersCreated");
                 });
 #pragma warning restore 612, 618
         }

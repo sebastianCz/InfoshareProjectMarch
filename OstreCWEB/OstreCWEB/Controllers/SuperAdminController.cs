@@ -1,12 +1,10 @@
 ﻿using AutoMapper;
-using Microsoft.AspNetCore.Authentication; 
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using OstreCWEB.Data.DataBase;
 using OstreCWEB.Data.Repository.Characters.Interfaces;
 using OstreCWEB.Data.Repository.Identity;
 using OstreCWEB.Data.Repository.SuperAdmin;
-using OstreCWEB.ViewModel.Characters; 
 
 
 namespace OstreCWEB.Controllers
