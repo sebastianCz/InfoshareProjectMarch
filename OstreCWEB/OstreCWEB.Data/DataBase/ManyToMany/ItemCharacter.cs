@@ -1,5 +1,4 @@
 ﻿using OstreCWEB.Data.Repository.Characters.CharacterModels;
-using OstreCWEB.Data.Repository.Characters.CoreClasses;
 
 namespace OstreCWEB.Data.Repository.Characters.MetaTags
 {
@@ -7,7 +6,10 @@ namespace OstreCWEB.Data.Repository.Characters.MetaTags
     {
         public Item Item { get; set; }
         public int ItemId { get; set; } 
-        public int PlayableCharacterId { get; set; }  
-        public PlayableCharacter PlayableCharacter { get; set; }
+        public int CharacterId { get; set; }  
+        public Character Character { get; set; }
+
+        //Paremeters for items in the given relationship
+        public bool IsEquipped { get; set; }
     }
 }

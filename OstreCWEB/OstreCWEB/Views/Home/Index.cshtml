@@ -1,6 +1,4 @@
-﻿@model OstreCWEB.Models.ItemsTest
- 
-
+﻿
 @{ 
     ViewData["Title"] = "Home Page";
 }
@@ -13,103 +11,13 @@
             <li class="breadcrumb-item active">Fangehull</li>
             
         </ol>
-        <button type="button" id="btnScore" onclick="GenerateEnemies()"> Initialize Fight!
-        </button>
-        <button type="button" id="btnScore" onclick="Seed()">
-            SeedData
-        </button>
+     
     </nav>
 </div><!-- End Page Title -->
 
 <section class="section dashboard">
-
-   @* @foreach (var enemy in Model.ActiveEnemies)
-    { 
-        <table>
-           
-            <tr>
-                
-                <td>Name:</td>
-                <td>@enemy.CharacterName</td>
-            </tr>
-            <tr>
-                <td>Weapon:</td>
-                 
-                <td>@enemy.EquippedWeapon.Name</td>
-            </tr>
-            <tr>
-                <td>Weapon Damage:</td>
-                @{
-                    var mainWeapon =enemy.EquippedWeapon;
-                                    <td> 
-                                    @($" Number of dices:  {mainWeapon.ActionToTrigger.Hit_Dice_Nr} Max:{mainWeapon.ActionToTrigger.Hit_Dmg} Flat bonus:{mainWeapon.ActionToTrigger.Flat_Dmg}")</td>
-                 } 
-            </tr>
-            @{
-                if (enemy.EquippedSecondaryWeapon != null) 
-                {
-                    <tr>
-                        <td>Secondary Weapon:</td>
-                        <td>@enemy.EquippedSecondaryWeapon.Name</td>
-                    </tr>
-                    <tr>
-                        <td>
-
-                            @{
-                                var secondaryWeapon = enemy.EquippedSecondaryWeapon;
-                                if (secondaryWeapon != null && secondaryWeapon.ItemType == ItemType.Weapons) {
-                                    <td> @($" Number of dices:  {secondaryWeapon.ActionToTrigger.Hit_Dice_Nr} Max:{secondaryWeapon.ActionToTrigger.Hit_Dmg} Flat bonus:{secondaryWeapon.ActionToTrigger.Flat_Dmg}") </td>
-                                }
-                                if(secondaryWeapon != null && secondaryWeapon.ItemType ==ItemType.Shield){
-                                <td> @($" Armor class: {secondaryWeapon.ArmorClass}") </td>
-                                }
-                                   
-                            }
-                      
-                         
-                        </td>
-                    </tr>
-                }
-            }*@
-            <tr>
-
-            </tr>
-        </table>
-
-    }
+    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+  
   
 </section>
-<script>
-
-     
-    function GenerateEnemies() {
-        $.ajax({
-            type: "GET",
-            url: "Fight/InitializeFight",
-            async: true,
-            success: function (msg) {
-                
-            },
-            error: function () {
-                return "error";
-            }
-        });
-    }
-
-
-
-    function Seed() {
-        $.ajax({
-            type: "GET",
-            url: "Home/Seed",
-            async: true,
-            success: function (msg) {
-
-            },
-            error: function () {
-                return "error";
-            }
-        });
-    }
-
-</script>
+ 

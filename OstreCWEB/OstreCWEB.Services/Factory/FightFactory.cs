@@ -1,6 +1,6 @@
 ﻿using Newtonsoft.Json;
 using OstreCWEB.Data.DataBase;
-using OstreCWEB.Data.Repository.Characters.CoreClasses;
+using OstreCWEB.Data.Repository.Characters.CharacterModels;
 using OstreCWEB.Data.Repository.Fight;
 
 namespace OstreCWEB.Services.Factories
@@ -59,9 +59,9 @@ namespace OstreCWEB.Services.Factories
                 if (character.EquippedWeapon.ActionToTrigger != null) { character.AllAvailableActions.Add(character.EquippedWeapon.ActionToTrigger); }
                 if (character.EquippedSecondaryWeapon.ActionToTrigger != null) { character.AllAvailableActions.Add(character.EquippedSecondaryWeapon.ActionToTrigger); }
 
-                if (character.DefaultActions != null)
+                if (character.InnateActions != null)
                 {
-                    foreach (var actions in character.DefaultActions)
+                    foreach (var actions in character.InnateActions)
                     {
                         character.AllAvailableActions.Add(actions);
                     }

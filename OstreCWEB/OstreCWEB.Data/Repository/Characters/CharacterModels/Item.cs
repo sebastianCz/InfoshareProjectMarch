@@ -1,5 +1,4 @@
-﻿using OstreCWEB.Data.Repository.Characters.CoreClasses;
-using OstreCWEB.Data.Repository.Characters.Enums;
+﻿using OstreCWEB.Data.Repository.Characters.Enums;
 using OstreCWEB.Data.Repository.Characters.MetaTags;
 using System.ComponentModel.DataAnnotations;
 
@@ -7,8 +6,19 @@ namespace OstreCWEB.Data.Repository.Characters.CharacterModels
 {
     public class Item
     {
+        //Ef Config
         [Key]
-        public int? ItemId { get; set; }
+        public int ItemId { get; set; }
+        public List<ItemCharacter> LinkedCharacters { get; set; }
+        public CharacterAction? ActionToTrigger { get; set; }
+        //
+        
+        public ItemType ItemType { get; set; } 
+
+        public int? ArmorClass { get; set; }
+        public ArmorType? ArmorType { get; set; }
+    
+        public string Name { get; set; }
         public Item() { }
         public Item(int id, string name, ItemType itemType)
         {
@@ -16,16 +26,6 @@ namespace OstreCWEB.Data.Repository.Characters.CharacterModels
             Name = name;
             ItemType = itemType;
         }
-        //TODO: Replace ItemType variable by IOC. Items will be " equipable " or not depending on type in the first itteration. 
-        public ItemType ItemType { get; set; }
-        public int ArmorClass { get; set; }
-        public string ArmorType { get; set; }
-    
-        public string? Name { get; set; }
-        public CoreClasses.CharacterAction ActionToTrigger { get; set; }
-
-        //EF config 
-        public List<ItemCharacter> ItemCharacter { get; set; }
 
         public bool EquipItem(Item itemToEquip, Character equippingTarget, Slot slot, out string actionResult)
         {

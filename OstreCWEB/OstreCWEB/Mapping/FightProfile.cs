@@ -1,20 +1,14 @@
 ﻿using AutoMapper;
-using OstreCWEB.Data.Repository.Characters.CoreClasses;
-using OstreCWEB.Data.Repository.Fight;
-using OstreCWEB.Data.Repository.StoryModels;
-using OstreCWEB.ViewModel.Fight;
-using OstreCWEB.ViewModel.StoryBuilder;
+using OstreCWEB.Data.Repository.Identity;
+using OstreCWEB.ViewModel.Identity;
 
 namespace OstreCWEB.Mapping
 {
-    public class FightProfile : Profile
+    public class IdentityProfile : Profile
     {
-        public FightProfile()
+        public IdentityProfile()
         {
-            CreateMap<FightInstance,FightViewModel>();
-            CreateMap<PlayableCharacter, CharacterView>();
-            CreateMap<Enemy, CharacterView>();
-            CreateMap<CharacterAction, CharacterActionView>();
+            CreateMap<User,UserView>(); 
         }
     }
 }

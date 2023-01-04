@@ -1,11 +1,12 @@
-﻿using OstreCWEB.Data.Repository.Characters.CoreClasses;
+﻿
+using OstreCWEB.Data.Repository.Characters.CharacterModels;
 using OstreCWEB.Data.Repository.Characters.Enums;
 
-namespace OstreCWEB.ViewModel.Fight
+namespace OstreCWEB.ViewModel.Characters
 {
     public class CharacterActionView
     {
-        public int Id { get; set; }
+        public int CharacterActionId { get; set; }
         public string ActionName { get; set; }
         public string ActionDescription { get; set; }
         public CharacterActionType ActionType { get; set; }

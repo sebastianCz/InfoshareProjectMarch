@@ -1,8 +1,7 @@
-﻿using OstreCWEB.Data.Repository.Characters.CharacterModels;
-using OstreCWEB.Data.Repository.Characters.CoreClasses;
+﻿using OstreCWEB.Data.Repository.Characters.CharacterModels; 
 using System.ComponentModel.DataAnnotations;
 
-namespace OstreCWEB.ViewModel.Fight
+namespace OstreCWEB.ViewModel.Characters
 {
     public class CharacterView
     {
@@ -14,8 +13,8 @@ namespace OstreCWEB.ViewModel.Fight
         public Item EquippedArmor { get; set; } 
         public Item EquippedWeapon { get; set; } 
         public Item EquippedSecondaryWeapon { get; set; } 
-        public List<CharacterAction> AllAvailableActions { get; set; } 
-        public List<Status> ActiveStatuses { get; set; }
+        public List<CharacterActionView> AllAvailableActions { get; set; } 
+        public List<StatusView> ActiveStatuses { get; set; }
 
 
     }

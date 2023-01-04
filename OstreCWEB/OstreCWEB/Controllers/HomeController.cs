@@ -1,27 +1,24 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
 using OstreCWEB.Data.DataBase;
 using OstreCWEB.Models;
 using System.Diagnostics;
+using OstreCWEB.Data.Repository.Identity;
 
 namespace OstreCWEB.Controllers
 {
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
-        private readonly ISeeder _seeder;
 
-        public HomeController(ILogger<HomeController> logger, ISeeder seeder)
+        public HomeController(ILogger<HomeController> logger )
         {
-            _logger = logger;
-            _seeder = seeder;
+            _logger = logger; 
         }
 
         public ActionResult Index()
-        {
-            var user = User;
-            var model = new ItemsTest();
-
-            return View(model);
+        { 
+            return View();
         }
         //public ActionResult InitializeFight()
         //{
@@ -39,10 +36,6 @@ namespace OstreCWEB.Controllers
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
-        public ActionResult Seed()
-        {
-            _seeder.SeedDataBase();
-            return View();
-        }
+
     }
 }

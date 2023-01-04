@@ -2,9 +2,9 @@
 {
     public enum CharacterActionType
     {
-        MeleeAttack = 1,
+        WeaponAttack = 1,
         Spell = 2,
-        ItemAction = 3,
-        Healing = 4
+        ItemAction = 3, 
+        SpecialAction =4
     }
 }

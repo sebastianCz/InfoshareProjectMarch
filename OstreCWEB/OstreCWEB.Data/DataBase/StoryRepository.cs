@@ -64,7 +64,6 @@ namespace OstreCWEB.Data.DataBase
         public async Task AddParagraph(Paragraph paragraph)
         {
             _ostreCWebContext.Paragraphs.Add(paragraph);
-            Thread.Sleep(3000);
             await _ostreCWebContext.SaveChangesAsync();
         }
     }

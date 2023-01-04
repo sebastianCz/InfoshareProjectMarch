@@ -1,26 +1,24 @@
-﻿using OstreCWEB.Data.Repository.Characters.Enums;
+﻿using OstreCWEB.Data.DataBase.ManyToMany;
 using OstreCWEB.Data.Repository.Identity;
 using System.ComponentModel.DataAnnotations;
 
-namespace OstreCWEB.Data.Repository.Characters.CoreClasses
+namespace OstreCWEB.Data.Repository.Characters.CharacterModels
 {
     public class PlayableCharacter : Character
-    {  
-        public PlayableCharacter()
-        {
-
-        }
-        //Id used to "link" the character to a user in db later on. 
+    { 
+        //Ef config
         [Required]
-        public int UserId { get; set; }
+        public string UserId { get; set; }//Id of character owner
         public User User { get; set; }
-        [Required]
+        //
 
+        [Required] 
         public PlayableRace Race { get; set; }
         public int RaceId { get; set; }
-        public PlayableCharacterClass CharacterClass { get; set; }
-        public int PlayableClassId { get; set; }
-
-
+        public PlayableClass CharacterClass { get; set; } 
+        public int PlayableClassId { get; set; } 
+        public PlayableCharacter()
+        {
+        }
     }
 }
