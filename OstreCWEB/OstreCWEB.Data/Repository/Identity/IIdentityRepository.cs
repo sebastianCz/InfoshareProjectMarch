@@ -9,8 +9,8 @@ namespace OstreCWEB.Data.Repository.Identity
 {
     public interface IIdentityRepository
     {
-        public void AddUser(User user);
-        public User GetUser(int id);
+        public Task AddUser(User user);
+        public Task<User> GetUser(string id);
         public  Task<List<User>> GetAll();
     }
 }

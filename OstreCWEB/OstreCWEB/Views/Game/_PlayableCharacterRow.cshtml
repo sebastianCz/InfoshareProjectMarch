@@ -12,16 +12,18 @@
             <thead>
                 <tr> 
                     <th scope="col"> <Label asp-for="FirstOrDefault().CharacterName"></Label></th>
-                    <th scope="col"> <Label asp-for="FirstOrDefault().CharacterClass.ClassName"></Label></th>  
+                    <th scope="col"> <Label asp-for="FirstOrDefault().CharacterClass.ClassName"></Label></th>
+                    <th scope="col"> <Label asp-for="FirstOrDefault().Race.RaceName"></Label></th>
                 </tr>
             </thead>
             <tbody>
-                <tr>
-                    @foreach(var character in Model){
+                 @foreach(var character in Model){
+                <tr> 
                         <th scope="row">@character.CharacterName</th>
-                        <td>@character.CharacterClass.ClassName</td> 
-                    } 
+                        <td>@character.CharacterClass.ClassName</td>
+                        <td>@character.Race.RaceName</td> 
                 </tr> 
+                }
             </tbody>
         </table>
         <!-- End Default Table Example -->

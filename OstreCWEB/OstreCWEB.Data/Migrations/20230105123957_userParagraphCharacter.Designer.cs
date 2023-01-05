@@ -12,8 +12,8 @@ using OstreCWEB.Data.DataBase;
 namespace OstreCWEB.Data.Migrations
 {
     [DbContext(typeof(OstreCWebContext))]
-    [Migration("20230104231230_Initial")]
-    partial class Initial
+    [Migration("20230105123957_userParagraphCharacter")]
+    partial class userParagraphCharacter
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -159,14 +159,17 @@ namespace OstreCWEB.Data.Migrations
 
             modelBuilder.Entity("OstreCWEB.Data.DataBase.ManyToMany.UserParagraph", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int>("UserParagraphId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("UserParagraphId"), 1L, 1);
 
                     b.Property<bool>("ActiveGame")
                         .HasColumnType("bit");
+
+                    b.Property<int?>("CharacterId")
+                        .HasColumnType("int");
 
                     b.Property<int>("ParagraphId")
                         .HasColumnType("int");
@@ -175,7 +178,9 @@ namespace OstreCWEB.Data.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
-                    b.HasKey("Id");
+                    b.HasKey("UserParagraphId");
+
+                    b.HasIndex("CharacterId");
 
                     b.HasIndex("ParagraphId");
 
@@ -749,11 +754,19 @@ namespace OstreCWEB.Data.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
+                    b.Property<string>("UserParagraphId")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int?>("UserParagraphId1")
+                        .HasColumnType("int");
+
                     b.HasIndex("PlayableClassId");
 
                     b.HasIndex("RaceId");
 
                     b.HasIndex("UserId");
+
+                    b.HasIndex("UserParagraphId1");
 
                     b.HasDiscriminator().HasValue("PlayableCharacter");
                 });
@@ -811,6 +824,10 @@ namespace OstreCWEB.Data.Migrations
 
             modelBuilder.Entity("OstreCWEB.Data.DataBase.ManyToMany.UserParagraph", b =>
                 {
+                    b.HasOne("OstreCWEB.Data.Repository.Characters.CharacterModels.Character", "Character")
+                        .WithMany()
+                        .HasForeignKey("CharacterId");
+
                     b.HasOne("OstreCWEB.Data.Repository.StoryModels.Paragraph", "Paragraph")
                         .WithMany("UserParagraphs")
                         .HasForeignKey("ParagraphId")
@@ -822,6 +839,8 @@ namespace OstreCWEB.Data.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("Character");
 
                     b.Navigation("Paragraph");
 
@@ -988,11 +1007,17 @@ namespace OstreCWEB.Data.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("OstreCWEB.Data.DataBase.ManyToMany.UserParagraph", "UserParagraph")
+                        .WithMany()
+                        .HasForeignKey("UserParagraphId1");
+
                     b.Navigation("CharacterClass");
 
                     b.Navigation("Race");
 
                     b.Navigation("User");
+
+                    b.Navigation("UserParagraph");
                 });
 
             modelBuilder.Entity("OstreCWEB.Data.Repository.Characters.CharacterModels.Character", b =>

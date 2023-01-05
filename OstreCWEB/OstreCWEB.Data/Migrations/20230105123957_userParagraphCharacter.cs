@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace OstreCWEB.Data.Migrations
 {
-    public partial class Initial : Migration
+    public partial class userParagraphCharacter : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -234,51 +234,6 @@ namespace OstreCWEB.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Character",
-                columns: table => new
-                {
-                    CharacterId = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    CharacterName = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    MaxHealthPoints = table.Column<int>(type: "int", nullable: false),
-                    CurrentHealthPoints = table.Column<int>(type: "int", nullable: false),
-                    Level = table.Column<int>(type: "int", nullable: false),
-                    Strenght = table.Column<int>(type: "int", nullable: false),
-                    Dexterity = table.Column<int>(type: "int", nullable: false),
-                    Constitution = table.Column<int>(type: "int", nullable: false),
-                    Intelligence = table.Column<int>(type: "int", nullable: false),
-                    Wisdom = table.Column<int>(type: "int", nullable: false),
-                    Charisma = table.Column<int>(type: "int", nullable: false),
-                    Discriminator = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    NonPlayableRace = table.Column<int>(type: "int", nullable: true),
-                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: true),
-                    RaceId = table.Column<int>(type: "int", nullable: true),
-                    PlayableClassId = table.Column<int>(type: "int", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Character", x => x.CharacterId);
-                    table.ForeignKey(
-                        name: "FK_Character_AspNetUsers_UserId",
-                        column: x => x.UserId,
-                        principalTable: "AspNetUsers",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_Character_PlayableCharacterClasses_PlayableClassId",
-                        column: x => x.PlayableClassId,
-                        principalTable: "PlayableCharacterClasses",
-                        principalColumn: "PlayableClassId",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_Character_PlayableCharacterRaces_RaceId",
-                        column: x => x.RaceId,
-                        principalTable: "PlayableCharacterRaces",
-                        principalColumn: "PlayableRaceId",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "CharacterActions",
                 columns: table => new
                 {
@@ -328,30 +283,6 @@ namespace OstreCWEB.Data.Migrations
                         column: x => x.StoryId,
                         principalTable: "Stories",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "ActionCharactersRelation",
-                columns: table => new
-                {
-                    CharacterActionId = table.Column<int>(type: "int", nullable: false),
-                    CharacterId = table.Column<int>(type: "int", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_ActionCharactersRelation", x => new { x.CharacterId, x.CharacterActionId });
-                    table.ForeignKey(
-                        name: "FK_ActionCharactersRelation_Character_CharacterId",
-                        column: x => x.CharacterId,
-                        principalTable: "Character",
-                        principalColumn: "CharacterId",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_ActionCharactersRelation_CharacterActions_CharacterActionId",
-                        column: x => x.CharacterActionId,
-                        principalTable: "CharacterActions",
-                        principalColumn: "CharacterActionId",
                         onDelete: ReferentialAction.Cascade);
                 });
 
@@ -477,29 +408,89 @@ namespace OstreCWEB.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "UserParagraphs",
+                name: "EnemyInParagraphs",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    ParagraphId = table.Column<int>(type: "int", nullable: false),
-                    ActiveGame = table.Column<bool>(type: "bit", nullable: false)
+                    AmountOfEnemy = table.Column<int>(type: "int", nullable: false),
+                    EnemyId = table.Column<int>(type: "int", nullable: false),
+                    EnemyName = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    FightPropId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_UserParagraphs", x => x.Id);
+                    table.PrimaryKey("PK_EnemyInParagraphs", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_UserParagraphs_AspNetUsers_UserId",
+                        name: "FK_EnemyInParagraphs_FightProps_FightPropId",
+                        column: x => x.FightPropId,
+                        principalTable: "FightProps",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "ActionCharactersRelation",
+                columns: table => new
+                {
+                    CharacterActionId = table.Column<int>(type: "int", nullable: false),
+                    CharacterId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ActionCharactersRelation", x => new { x.CharacterId, x.CharacterActionId });
+                    table.ForeignKey(
+                        name: "FK_ActionCharactersRelation_CharacterActions_CharacterActionId",
+                        column: x => x.CharacterActionId,
+                        principalTable: "CharacterActions",
+                        principalColumn: "CharacterActionId",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Character",
+                columns: table => new
+                {
+                    CharacterId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    CharacterName = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    MaxHealthPoints = table.Column<int>(type: "int", nullable: false),
+                    CurrentHealthPoints = table.Column<int>(type: "int", nullable: false),
+                    Level = table.Column<int>(type: "int", nullable: false),
+                    Strenght = table.Column<int>(type: "int", nullable: false),
+                    Dexterity = table.Column<int>(type: "int", nullable: false),
+                    Constitution = table.Column<int>(type: "int", nullable: false),
+                    Intelligence = table.Column<int>(type: "int", nullable: false),
+                    Wisdom = table.Column<int>(type: "int", nullable: false),
+                    Charisma = table.Column<int>(type: "int", nullable: false),
+                    Discriminator = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    NonPlayableRace = table.Column<int>(type: "int", nullable: true),
+                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: true),
+                    UserParagraphId = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    UserParagraphId1 = table.Column<int>(type: "int", nullable: true),
+                    RaceId = table.Column<int>(type: "int", nullable: true),
+                    PlayableClassId = table.Column<int>(type: "int", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Character", x => x.CharacterId);
+                    table.ForeignKey(
+                        name: "FK_Character_AspNetUsers_UserId",
                         column: x => x.UserId,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_UserParagraphs_Paragraphs_ParagraphId",
-                        column: x => x.ParagraphId,
-                        principalTable: "Paragraphs",
-                        principalColumn: "Id",
+                        name: "FK_Character_PlayableCharacterClasses_PlayableClassId",
+                        column: x => x.PlayableClassId,
+                        principalTable: "PlayableCharacterClasses",
+                        principalColumn: "PlayableClassId",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Character_PlayableCharacterRaces_RaceId",
+                        column: x => x.RaceId,
+                        principalTable: "PlayableCharacterRaces",
+                        principalColumn: "PlayableRaceId",
                         onDelete: ReferentialAction.Cascade);
                 });
 
@@ -529,23 +520,34 @@ namespace OstreCWEB.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "EnemyInParagraphs",
+                name: "UserParagraphs",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
+                    UserParagraphId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    AmountOfEnemy = table.Column<int>(type: "int", nullable: false),
-                    EnemyId = table.Column<int>(type: "int", nullable: false),
-                    EnemyName = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    FightPropId = table.Column<int>(type: "int", nullable: false)
+                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    ParagraphId = table.Column<int>(type: "int", nullable: false),
+                    CharacterId = table.Column<int>(type: "int", nullable: true),
+                    ActiveGame = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_EnemyInParagraphs", x => x.Id);
+                    table.PrimaryKey("PK_UserParagraphs", x => x.UserParagraphId);
                     table.ForeignKey(
-                        name: "FK_EnemyInParagraphs_FightProps_FightPropId",
-                        column: x => x.FightPropId,
-                        principalTable: "FightProps",
+                        name: "FK_UserParagraphs_AspNetUsers_UserId",
+                        column: x => x.UserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_UserParagraphs_Character_CharacterId",
+                        column: x => x.CharacterId,
+                        principalTable: "Character",
+                        principalColumn: "CharacterId");
+                    table.ForeignKey(
+                        name: "FK_UserParagraphs_Paragraphs_ParagraphId",
+                        column: x => x.ParagraphId,
+                        principalTable: "Paragraphs",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -610,6 +612,11 @@ namespace OstreCWEB.Data.Migrations
                 column: "UserId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Character_UserParagraphId1",
+                table: "Character",
+                column: "UserParagraphId1");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_CharacterActions_StatusId",
                 table: "CharacterActions",
                 column: "StatusId");
@@ -669,6 +676,11 @@ namespace OstreCWEB.Data.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
+                name: "IX_UserParagraphs_CharacterId",
+                table: "UserParagraphs",
+                column: "CharacterId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_UserParagraphs_ParagraphId",
                 table: "UserParagraphs",
                 column: "ParagraphId");
@@ -677,10 +689,29 @@ namespace OstreCWEB.Data.Migrations
                 name: "IX_UserParagraphs_UserId",
                 table: "UserParagraphs",
                 column: "UserId");
+
+            migrationBuilder.AddForeignKey(
+                name: "FK_ActionCharactersRelation_Character_CharacterId",
+                table: "ActionCharactersRelation",
+                column: "CharacterId",
+                principalTable: "Character",
+                principalColumn: "CharacterId",
+                onDelete: ReferentialAction.Cascade);
+
+            migrationBuilder.AddForeignKey(
+                name: "FK_Character_UserParagraphs_UserParagraphId1",
+                table: "Character",
+                column: "UserParagraphId1",
+                principalTable: "UserParagraphs",
+                principalColumn: "UserParagraphId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.DropForeignKey(
+                name: "FK_UserParagraphs_Character_CharacterId",
+                table: "UserParagraphs");
+
             migrationBuilder.DropTable(
                 name: "ActionCharactersRelation");
 
@@ -718,22 +749,22 @@ namespace OstreCWEB.Data.Migrations
                 name: "TestProps");
 
             migrationBuilder.DropTable(
-                name: "UserParagraphs");
-
-            migrationBuilder.DropTable(
                 name: "AspNetRoles");
 
             migrationBuilder.DropTable(
                 name: "FightProps");
 
             migrationBuilder.DropTable(
-                name: "Character");
-
-            migrationBuilder.DropTable(
                 name: "Items");
 
             migrationBuilder.DropTable(
-                name: "Paragraphs");
+                name: "CharacterActions");
+
+            migrationBuilder.DropTable(
+                name: "Statuses");
+
+            migrationBuilder.DropTable(
+                name: "Character");
 
             migrationBuilder.DropTable(
                 name: "PlayableCharacterClasses");
@@ -742,13 +773,13 @@ namespace OstreCWEB.Data.Migrations
                 name: "PlayableCharacterRaces");
 
             migrationBuilder.DropTable(
-                name: "CharacterActions");
+                name: "UserParagraphs");
+
+            migrationBuilder.DropTable(
+                name: "Paragraphs");
 
             migrationBuilder.DropTable(
                 name: "Stories");
-
-            migrationBuilder.DropTable(
-                name: "Statuses");
 
             migrationBuilder.DropTable(
                 name: "AspNetUsers");

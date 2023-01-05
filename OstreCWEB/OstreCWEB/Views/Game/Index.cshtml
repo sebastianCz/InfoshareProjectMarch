@@ -9,8 +9,8 @@
         <div class="col-lg-6"> 
 
 
-            <label asp-for="User.SavedGameSessions"></label> 
-            if(@Model.User.SavedGameSessions != null && @Model.User.SavedGameSessions.Any()){
+            <label asp-for="User.SavedGameSessions"></label>                                
+            @if(Model.User.SavedGameSessions != null && Model.User.SavedGameSessions.Any()){
             <partial name="_GameSessionView" model="@Model.User.SavedGameSessions" />
             }else{
                 <div>You don't have any saved game sessions! '</div>
@@ -18,23 +18,23 @@
              
             
             <label asp-for="User.CharactersCreated"></label>
-            if(@Model.User.CharactersCreated != null && @Model.User.CharactersCreated.Any()){
-            <partial name="_PlayableCharacterView" model="@Model.User.CharactersCreated" />
+            @if(Model.User.CharactersCreated != null && Model.User.CharactersCreated.Any()){
+            <partial name="_PlayableCharacterRow" model="@Model.User.CharactersCreated" />
             }else{
                 <div>You didn't create any character yet!'</div>
             }
             <label asp-for="User.StoriesCreated"></label>
-            if(@Model.OtherUsersStories != null && @Model.OtherUsersStories.Any()){
-            <partial name="_StorySummary" model="@Model.OtherUsersStories" />
+            @if(Model.OtherUsersStories != null && Model.OtherUsersStories.Any()){
+                <partial name="_StoryRow" model="@Model.OtherUsersStories" />
             }else{
                 <div>Other users didn't create any stories !</div>
             }
             <label asp-for="OtherUsersCharacters"></label>
-            if(@Model.OtherUsersCharacters != null && @Model.OtherUsersCharacters.Any()){
-                <partial name="_PlayableCharacterView" model="@Model.OtherUsersCharacters" />  
+            @if(Model.OtherUsersCharacters != null && Model.OtherUsersCharacters.Any()){
+                <partial name="_PlayableCharacterRow" model="@Model.OtherUsersCharacters" />
             } 
             <label asp-for="OtherUsersStories"></label>
-            <partial name="_StorySummary" model="@Model.OtherUsersStories"/> 
+            <partial name="_StoryRow" model="@Model.OtherUsersStories"/> 
 
 
             <!--Fight History-->

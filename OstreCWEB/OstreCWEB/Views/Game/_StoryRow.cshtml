@@ -17,13 +17,15 @@
                 </tr>
             </thead>
             <tbody>
+                   @foreach(var story in Model){
                 <tr>
-                    @foreach(var character in Model){
-                        <th scope="row">@character.Name</th>
-                        <td>@character.Description</td>
-                        <td>@character.AmountOfParagraphs</td>
-                    } 
+                 
+                        <th scope="row">@story.Name</th>
+                        <td>@story.Description</td>
+                        <td>@story.AmountOfParagraphs</td>
+                     
                 </tr> 
+                }
             </tbody>
         </table>
         <!-- End Default Table Example -->

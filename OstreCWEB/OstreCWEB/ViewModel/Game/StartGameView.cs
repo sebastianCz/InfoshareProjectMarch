@@ -8,7 +8,13 @@ namespace OstreCWEB.ViewModel.Game
     {
         //This class will be merged with story reader next week. 
        public UserView User { get; set; } 
-       public List<PlayableCharacterView> OtherUsersCharacters { get; set; }
-       public List<StoryDetailsView> OtherUsersStories { get; set; }
+       public List<PlayableCharacterRow> OtherUsersCharacters { get; set; }
+       public List<StoryView> OtherUsersStories { get; set; }
+       public StartGameView( )
+        {
+            User = new UserView();
+            OtherUsersCharacters = new List<PlayableCharacterRow>();
+            OtherUsersStories = new List<StoryView>();
+        }
     }
 }

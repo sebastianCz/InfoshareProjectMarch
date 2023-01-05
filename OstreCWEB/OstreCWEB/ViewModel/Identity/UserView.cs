@@ -7,9 +7,9 @@ namespace OstreCWEB.ViewModel.Identity
 {
     public class UserView
     {
-        public List<PlayableCharacterView> CharactersCreated { get; set; }
+        public List<PlayableCharacterRow> CharactersCreated { get; set; }
         public List<StoryDetailsView> StoriesCreated { get; set; }
-        public List<GameInstanceView> SavedGameSessions { get; set; }
+        public List<UserParagraphView> SavedGameSessions { get; set; }
         // 
         public UserParagraph ActiveGameSession { get; set; }
         public string Name { get; set; }

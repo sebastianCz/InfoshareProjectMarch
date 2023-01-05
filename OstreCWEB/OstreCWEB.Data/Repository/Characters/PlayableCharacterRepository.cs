@@ -2,7 +2,9 @@
 using OstreCWEB.Data.DataBase;
 using OstreCWEB.Data.Repository.Characters.CharacterModels;
 using OstreCWEB.Data.Repository.Characters.Interfaces;
-
+using System;
+using System.Collections.Generic;
+using System.Linq;
 namespace OstreCWEB.Data.Repository.Characters
 {
     public class PlayableCharacterRepository : IPlayableCharacterRepository
@@ -25,9 +27,18 @@ namespace OstreCWEB.Data.Repository.Characters
             await _db.SaveChangesAsync();
         }
 
-        public async Task<List<PlayableCharacter>> GetAll(int id)
+        public async Task<List<PlayableCharacter>> GetAll()
         {
              return await _db.PlayableCharacters.ToListAsync();
+        }
+        /// <summary>
+        /// Gets all playable characters except those belonging to a given user.
+        /// </summary>
+        /// <param name="userCharacters"></param>
+        /// <returns></returns>
+        public async Task<List<PlayableCharacter>> GetAll(string userId)
+        {
+            return await _db.PlayableCharacters.Where(c => c.UserId != userId).ToListAsync();
         }
 
         public async Task<PlayableCharacter> GetById(int id)

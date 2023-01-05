@@ -4,10 +4,13 @@ namespace OstreCWEB.ViewModel.Characters
 {
     public class PlayableClassView
     {
-        public int PlayableCharacterClassId { get; set; }
-        public string ClassName { get; set; } 
-        public Dictionary<Statistics, int> BonusesForEeachStatistic { get; set; } 
-        public List<PlayableCharacter> PlayableCharacter { get; set; }
-        public int PlayableCharacterId { get; set; }
+        public int PlayableClassId { get; set; }
+        public string ClassName { get; set; }
+        public int IntelligenceBonus { get; set; }
+        public int StrengthBonus { get; set; }
+        public int WisdomBonus { get; set; }
+        public int DexterityBonus { get; set; }
+        public int ConstitutionBonus { get; set; }
+        public int CharismaBonus { get; set; }
     }
 }

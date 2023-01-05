@@ -16,14 +16,14 @@ namespace OstreCWEB.Data.Repository.Identity
             _context = context;
         }
         
-        public void AddUser(User user)
-        {
-
+        public Task AddUser(User user)
+        { 
             _context.Add(user);
+            return Task.CompletedTask;
         }
-        public User GetUser(int id)
+        public async Task<User> GetUser(string id)
         {
-            return _context.Users.FirstOrDefault(/*u => u.Id == id*/);
+            return await _context.Users.SingleOrDefaultAsync(u=>u.Id == id);
         }
         public async Task<List<User>> GetAll()
         {

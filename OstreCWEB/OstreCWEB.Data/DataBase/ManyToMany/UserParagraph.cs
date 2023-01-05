@@ -9,17 +9,15 @@ namespace OstreCWEB.Data.DataBase.ManyToMany
     public class UserParagraph
     {
         [Key]
-        public int Id { get; set; }
-
+        public int UserParagraphId { get; set; } 
+        //Many to many
         public string UserId { get; set; }
         public User User { get; set; }
         public int ParagraphId { get; set; }
         public Paragraph Paragraph { get; set; }
-        //public int CharacterId { get; set; }
-        //public Character Character { get; set; }
-
-
-
+        //One to one 
+        public int? CharacterId { get; set; } 
+        public Character? Character { get; set; }
         public bool ActiveGame { get; set; }
     }
 }

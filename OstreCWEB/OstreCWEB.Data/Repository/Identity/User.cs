@@ -23,6 +23,7 @@ namespace OstreCWEB.Data.Repository.Identity
         {
           CharactersCreated = new List<PlayableCharacter>();
           StoriesCreated = new List<Story>();
+          UserParagraphs = new List<UserParagraph>();
         }    
     }
 }

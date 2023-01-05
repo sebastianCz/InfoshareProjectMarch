@@ -1,6 +1,6 @@
 ﻿namespace OstreCWEB.ViewModel.Game
 {
-    public class GameInstanceView
+    public class UserParagraphView
     {
         public int Id { get; }
         public string UserId { get; set; }

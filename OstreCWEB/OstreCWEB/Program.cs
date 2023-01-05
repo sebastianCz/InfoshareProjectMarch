@@ -8,10 +8,12 @@ using OstreCWEB.Data.Repository.Fight;
 using OstreCWEB.Data.Repository.Identity;
 using OstreCWEB.Data.Repository.SuperAdmin;
 using OstreCWEB.Data.ServiceRegistration;
+using OstreCWEB.Services.Characters;
 using OstreCWEB.Services.Factories;
 using OstreCWEB.Services.Fight;
 using OstreCWEB.Services.Identity;
 using OstreCWEB.Services.ServiceRegistration;
+using OstreCWEB.Services.Characters;
 using Serilog;
 using Serilog.Sinks.MSSqlServer;
 
@@ -38,8 +40,10 @@ builder.Services.AddTransient<ISeeder, DBSeeder>();
 builder.Services.AddTransient<IStatusRepository, StatusRepository>();
 builder.Services.AddTransient<ICharacterActionsRepository, CharacterActionRepository>();
 builder.Services.AddTransient<IPlayableCharacterRepository, PlayableCharacterRepository >();
+builder.Services.AddTransient<IPlayableCharacterService, PlayableCharacterService>();
 builder.Services.AddTransient<ISuperAdminRepository, SuperAdminRepository>();
 builder.Services.AddTransient<IIdentityRepository, IdentityRepository>();
+builder.Services.AddTransient<IUserService, UserService>();
 
 //builder.Services.AddTransient<IEnemyRepository,  >();
 
