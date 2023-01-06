@@ -6,67 +6,82 @@
 
 <section class="section">
     <div class="row">
-        <div class="col-lg-6">  
+        <div class="col-lg-6">
 
+            <!-- Default Table -->
 
             <div class="card">
                 <div class="card-body">
-                    <h5 class="card-title">Default Table</h5>
 
-                    <!-- Default Table -->
-                    <table class="table">
-                        <thead>
-                            <tr>
-                                <th scope="col"> <Label asp-for="@Model.OtherUsersStories.FirstOrDefault().Name"></Label></th>
-                                <th scope="col"> <Label asp-for="@Model.OtherUsersStories.FirstOrDefault().Description"></Label></th>
-                                <th scope="col"> <Label asp-for="@Model.OtherUsersStories.FirstOrDefault().AmountOfParagraphs"></Label></th>
-                            </tr>
-                        </thead>
-                        <tbody> 
-                                @foreach (var story in Model.OtherUsersStories)
-                                {
-                                <tr>
-                                    <th scope="row">@story.Name</th>
-                                    <td>@story.Description</td>
-                                    <td>@story.AmountOfParagraphs</td>
-                                    <td><a  asp-action="SetActiveStory" asp-route-id="@story.Id" type="button" class="btn btn-primary">Choose this story</a></td>
-                                </tr>
-                                } 
-                        </tbody>
-                    </table>
-                    <!-- End Default Table Example -->
+                    <div>
+                        <div><button asp-controller="Game" asp-action="StartGame">Start game</button></div> 
+                    </div>
+
+                    <h5 class="card-title">Default Table</h5>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-body">
+                        @if(Model.ActiveStory != null ){
+                        <div>@Model.ActiveStory.Name<br />cookie found</div>
+                    }else{
+
+                        <div>  Choose a story to play</div>
+                    }
+                  
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-body">
+                    @if (Model.ActiveCharacter != null)
+                    {
+                        <div>@Model.ActiveCharacter.CharacterName<br />cookie found</div>
+                    }
+                    else
+                    {
+                        <div>Choose a character to play with!</div>
+                    }
+                     
+                    
                 </div>
             </div>
 
-            <div>
-                <div><button asp-action="StartGame">Start game</button></div>
-              
-            </div>
 
-            <label asp-for="User.SavedGameSessions"></label>                                
-            @if(Model.User.SavedGameSessions != null && Model.User.SavedGameSessions.Any()){
-            <partial name="_GameSessionView" model="@Model.User.SavedGameSessions" />
-            }else{
+
+            <label asp-for="User.SavedGameSessions"></label>
+            @if (Model.User.SavedGameSessions != null && Model.User.SavedGameSessions.Any())
+            {
+                <partial name="_GameSessionView" model="@Model.User.SavedGameSessions" />
+            }
+            else
+            {
                 <div>You don't have any saved game sessions! '</div>
-            } 
+            }
             <label asp-for="User.CharactersCreated"></label>
-            @if(Model.User.CharactersCreated != null && Model.User.CharactersCreated.Any()){
-            <partial name="_PlayableCharacterRow" model="@Model.User.CharactersCreated" />
-            }else{
+            @if (Model.User.CharactersCreated != null && Model.User.CharactersCreated.Any())
+            {
+                <partial name="_PlayableCharacterRow" model="@Model.User.CharactersCreated" />
+            }
+            else
+            {
                 <div>You didn't create any character yet!'</div>
             }
             <label asp-for="User.StoriesCreated"></label>
-            @if(Model.OtherUsersStories != null && Model.OtherUsersStories.Any()){
+            @if (Model.OtherUsersStories != null && Model.OtherUsersStories.Any())
+            {
                 <partial name="_StoryRow" model="@Model.OtherUsersStories" />
-            }else{
+            }
+            else
+            {
                 <div>Other users didn't create any stories !</div>
             }
             <label asp-for="OtherUsersCharacters"></label>
-            @if(Model.OtherUsersCharacters != null && Model.OtherUsersCharacters.Any()){
+            @if (Model.OtherUsersCharacters != null && Model.OtherUsersCharacters.Any())
+            {
                 <partial name="_PlayableCharacterRow" model="@Model.OtherUsersCharacters" />
-            } 
+            }
             <label asp-for="OtherUsersStories"></label>
-            <partial name="_StoryRow" model="@Model.OtherUsersStories"/>  
+            <partial name="_StoryRow" model="@Model.OtherUsersStories" />
             <!--Fight History-->
         </div>
     </div>
@@ -77,12 +92,12 @@
     <div class="p-2 flex-grow-1">
     </div>
 
-</div> 
-    @section Scripts {
-        @{
-            await Html.RenderPartialAsync("_ValidationScriptsPartial");
+</div>
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
         }
-        }
-                            const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
-        const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl))
-    </script>   
+                                    const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
+                const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl))
+            </script>   

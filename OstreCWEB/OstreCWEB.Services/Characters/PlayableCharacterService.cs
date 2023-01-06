@@ -32,9 +32,9 @@ namespace OstreCWEB.Services.Characters
             return await _playableCharacterRepository.GetAll(userId);
         }
 
-        public Task<PlayableCharacter> GetById(int id)
+        public async Task<PlayableCharacter> GetById(int id)
         {
-            throw new NotImplementedException();
+            return await _playableCharacterRepository.GetById(id);
         }
 
         public Task Remove(Character charater)

@@ -35,12 +35,39 @@ namespace OstreCWEB.Controllers
         [HttpPost]
         public async Task<ActionResult> StartGame(StartGameView model)
         {
-            //Redirets to story reader with character + story chosen by user.
-            return RedirectToAction("Index","StoryReader");
+            var activeCharacterCookie = Request.Cookies["ActiveCharacter"];
+            var activeStoryCookie = Request.Cookies["ActiveStory"];
+            if(activeCharacterCookie != null && activeStoryCookie != null)
+            {
+                return RedirectToAction("Index", "StoryReader");
+            }
+            else
+            {
+                return RedirectToAction(nameof(Index));
+            }
+            //Redirets to story reader with character + story chosen by user. 
         }
         public async Task<ActionResult> Index()
-        { 
+        {
             var model = new StartGameView(); 
+
+            if (_httpContextAccessor.HttpContext.Request.Cookies.Any())
+            {
+               var activeCharacterCookies = _httpContextAccessor.HttpContext.Request.Cookies.Where(c => c.Key == "ActiveCharacter");
+               var activeStoryCookies = _httpContextAccessor.HttpContext.Request.Cookies.Where(c => c.Key == "ActiveStory");
+
+                if (activeCharacterCookies.Any())
+                {
+                    model.ActiveCharacter = _mapper.Map<PlayableCharacterView>(await _playableCharacterService.GetById(Convert.ToInt32(activeCharacterCookies.ToList().FirstOrDefault().Value)));
+                    
+                }
+                if (activeStoryCookies.Any())
+                {
+                    model.ActiveStory = _mapper.Map<StoryView>(await _storyService.GetStoryById(Convert.ToInt32(activeStoryCookies.ToList().FirstOrDefault().Value)));
+                } 
+            };
+           
+            
 
             model.User =  _mapper.Map<UserView>(await _userService.GetUserById(_userService.GetUserId(User))); 
             
@@ -54,7 +81,10 @@ namespace OstreCWEB.Controllers
             {
                 var mappedCharacter = _mapper.Map<PlayableCharacterRow>(character);
                 model.OtherUsersCharacters.Add(mappedCharacter);
-            } 
+            }
+
+          
+
             return View(model);
         }
         [HttpGet]
@@ -74,14 +104,12 @@ namespace OstreCWEB.Controllers
         public ActionResult SetActiveCharacter(int id)
         {
             CookieOptions options = new CookieOptions();
-            options.Expires = DateTime.Now.AddSeconds(10);
+            options.Expires = DateTime.Now.AddMinutes(10);
             options.Path = "/";
             //Bypasses consent policy checks.
             options.IsEssential = true;
-            _httpContextAccessor.HttpContext.Response.Cookies.Append("ActiveCharacter", $"{id}", options);
-
-            return RedirectToAction(nameof(Index));
-
+            _httpContextAccessor.HttpContext.Response.Cookies.Append("ActiveCharacter", $"{id}", options); 
+            return RedirectToAction(nameof(Index)); 
         }
         // GET: GameController/Details/5
 
