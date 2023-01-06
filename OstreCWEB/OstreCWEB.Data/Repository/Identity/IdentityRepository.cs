@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using OstreCWEB.Data.DataBase;
 using OstreCWEB.Data.DataBase.ManyToMany;
+using OstreCWEB.Data.Repository.Characters.Interfaces;
 using OstreCWEB.Services.Factory;
 using System;
 using System.Collections.Generic;
@@ -14,13 +15,14 @@ namespace OstreCWEB.Data.Repository.Identity
     public class IdentityRepository  : IIdentityRepository
     {
         private readonly IPlayableCharacterFactory _playableCharacterFactory;
+        private readonly IPlayableCharacterRepository _playableCharacterRepository;
         private OstreCWebContext _context { get; }
-        public IdentityRepository(IPlayableCharacterFactory playableCharacterFactory, OstreCWebContext context)
+        public IdentityRepository(OstreCWebContext context ,IPlayableCharacterRepository playableCharacterRepository, IPlayableCharacterFactory playableCharacterFactory )
         {
             _playableCharacterFactory = playableCharacterFactory;
-            _context = context;
+            _playableCharacterRepository = playableCharacterRepository;
+            _context = context; 
         }
-
         public Task AddUser(User user)
         { 
             _context.Add(user);
@@ -46,16 +48,19 @@ namespace OstreCWEB.Data.Repository.Identity
             var user = await GetUser(userId);
 
             var newGameInstance = new UserParagraph();
+
             newGameInstance.UserId = userId;
-            newGameInstance.ParagraphId = _context.Stories.Where(s=>s.Id == storyId).FirstOrDefault().FirstParagraphId; 
-            newGameInstance.Character = await _playableCharacterFactory.CreatePlayableCharacterInstance(charachterTemplateId);
+            newGameInstance.ParagraphId = _context.Stories.Where(s=>s.Id == storyId).FirstOrDefault().FirstParagraphId;
+
+            var newCharacterInstance = _playableCharacterRepository.CreateNewInstance(charachterTemplateId).Result;
+
+            newGameInstance.CharacterId = newCharacterInstance.CharacterId; 
             newGameInstance.ActiveGame = true; 
 
             user.UserParagraphs.Add(newGameInstance); 
-            Update(user);
-            _context.SaveChanges();
-
+            await Update(user); 
             return newGameInstance;
         }
+
     }
 }

@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace OstreCWEB.Data.Migrations
 {
-    public partial class charactersMigration : Migration
+    public partial class newInstances : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -251,7 +251,6 @@ namespace OstreCWEB.Data.Migrations
                     InflictsStatus = table.Column<bool>(type: "bit", nullable: false),
                     StatForTest = table.Column<int>(type: "int", nullable: false),
                     UsesMaxBeforeRest = table.Column<int>(type: "int", nullable: false),
-                    UsesLeftBeforeRest = table.Column<int>(type: "int", nullable: false),
                     UsesMax = table.Column<int>(type: "int", nullable: false),
                     AggressiveAction = table.Column<bool>(type: "bit", nullable: false)
                 },
@@ -434,7 +433,8 @@ namespace OstreCWEB.Data.Migrations
                 columns: table => new
                 {
                     CharacterActionId = table.Column<int>(type: "int", nullable: false),
-                    CharacterId = table.Column<int>(type: "int", nullable: false)
+                    CharacterId = table.Column<int>(type: "int", nullable: false),
+                    UsesLeftBeforeRest = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -467,8 +467,7 @@ namespace OstreCWEB.Data.Migrations
                     Discriminator = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     NonPlayableRace = table.Column<int>(type: "int", nullable: true),
                     UserId = table.Column<string>(type: "nvarchar(450)", nullable: true),
-                    UserParagraphId = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    UserParagraphId1 = table.Column<int>(type: "int", nullable: true),
+                    UserParagraphId = table.Column<int>(type: "int", nullable: true),
                     RaceId = table.Column<int>(type: "int", nullable: true),
                     PlayableClassId = table.Column<int>(type: "int", nullable: true)
                 },
@@ -613,9 +612,9 @@ namespace OstreCWEB.Data.Migrations
                 column: "UserId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Character_UserParagraphId1",
+                name: "IX_Character_UserParagraphId",
                 table: "Character",
-                column: "UserParagraphId1");
+                column: "UserParagraphId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_CharacterActions_StatusId",
@@ -700,9 +699,9 @@ namespace OstreCWEB.Data.Migrations
                 onDelete: ReferentialAction.Cascade);
 
             migrationBuilder.AddForeignKey(
-                name: "FK_Character_UserParagraphs_UserParagraphId1",
+                name: "FK_Character_UserParagraphs_UserParagraphId",
                 table: "Character",
-                column: "UserParagraphId1",
+                column: "UserParagraphId",
                 principalTable: "UserParagraphs",
                 principalColumn: "UserParagraphId");
         }

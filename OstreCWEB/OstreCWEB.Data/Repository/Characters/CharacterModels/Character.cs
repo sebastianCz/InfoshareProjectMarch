@@ -85,6 +85,7 @@ namespace OstreCWEB.Data.Repository.Characters.CharacterModels
             AllAvailableActions = new List<CharacterAction>();
             ActiveStatuses = new List<Status>();
             LinkedItems = new List<ItemCharacter>();
+            LinkedActions = new List<ActionCharacter>();
 
         }
     }

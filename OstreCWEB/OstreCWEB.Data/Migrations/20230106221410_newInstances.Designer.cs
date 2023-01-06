@@ -12,8 +12,8 @@ using OstreCWEB.Data.DataBase;
 namespace OstreCWEB.Data.Migrations
 {
     [DbContext(typeof(OstreCWebContext))]
-    [Migration("20230106135340_removeddoubleid")]
-    partial class removeddoubleid
+    [Migration("20230106221410_newInstances")]
+    partial class newInstances
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -289,9 +289,6 @@ namespace OstreCWEB.Data.Migrations
                     b.Property<int?>("StatusId")
                         .HasColumnType("int");
 
-                    b.Property<int>("UsesLeftBeforeRest")
-                        .HasColumnType("int");
-
                     b.Property<int>("UsesMax")
                         .HasColumnType("int");
 
@@ -436,6 +433,9 @@ namespace OstreCWEB.Data.Migrations
                         .HasColumnType("int");
 
                     b.Property<int>("CharacterActionId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("UsesLeftBeforeRest")
                         .HasColumnType("int");
 
                     b.HasKey("CharacterId", "CharacterActionId");

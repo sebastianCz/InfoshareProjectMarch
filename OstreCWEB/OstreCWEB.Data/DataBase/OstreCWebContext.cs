@@ -55,8 +55,19 @@ namespace OstreCWEB.Data.DataBase
             ConfigureItems(builder);
             ConfigureStories(builder);
             ConfigureUsersParagraphs(builder);
+            ConfigureManyToMany(builder);
         }
+        private void ConfigureManyToMany(ModelBuilder builder)
+        {
+            builder.Entity<ItemCharacter>().Navigation(e => e.Item).AutoInclude();
+            builder.Entity<ItemCharacter>().Navigation(e => e.Character).AutoInclude();
 
+            builder.Entity<ActionCharacter>().Navigation(e => e.CharacterAction).AutoInclude();
+            builder.Entity<ActionCharacter>().Navigation(e => e.Character).AutoInclude();
+
+            builder.Entity<UserParagraph>().Navigation(e => e.Paragraph).AutoInclude();
+            builder.Entity<UserParagraph>().Navigation(e => e.Character).AutoInclude();
+        }
         private void ConfigureItems(ModelBuilder builder)
         {
             builder.Entity<Item>().Navigation(e => e.ActionToTrigger).AutoInclude();

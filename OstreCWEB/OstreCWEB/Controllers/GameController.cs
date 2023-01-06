@@ -35,6 +35,9 @@ namespace OstreCWEB.Controllers
         [HttpGet]
         public async Task<ActionResult> StartGame()
         {
+             
+            _userService.GetUserId(User);
+
             var activeCharacterCookies = _httpContextAccessor.HttpContext.Request.Cookies.Where(c => c.Key == "ActiveCharacter");
             var activeStoryCookies = _httpContextAccessor.HttpContext.Request.Cookies.Where(c => c.Key == "ActiveStory");
             

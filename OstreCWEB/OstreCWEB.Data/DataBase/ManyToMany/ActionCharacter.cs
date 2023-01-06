@@ -11,5 +11,7 @@ namespace OstreCWEB.Data.Repository.Characters.MetaTags
 
         public Character Character { get; set; }
         public int CharacterId { get; set; }
+        //Amount of uses before action is not available 
+        public int UsesLeftBeforeRest { get; set; }
     }
 }

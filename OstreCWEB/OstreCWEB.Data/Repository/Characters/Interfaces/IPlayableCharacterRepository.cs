@@ -11,7 +11,7 @@ namespace OstreCWEB.Data.Repository.Characters.Interfaces
     {
         public Task<PlayableCharacter> GetById(int id);
         public Task<List<PlayableCharacter>> GetAll();
-        public Task<PlayableCharacter> GetByIdNoTracking(int id);
+        public Task<PlayableCharacter> CreateNewInstance(int id);
         public Task<List<PlayableCharacter>> GetAll(string id);
         public Task Update(PlayableCharacter playableCharacter);
         public Task<PlayableCharacter> Create(PlayableCharacter playableCharacter);

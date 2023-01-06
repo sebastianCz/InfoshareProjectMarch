@@ -9,6 +9,6 @@ namespace OstreCWEB.Services.Factory
 {
     public interface IPlayableCharacterFactory
     {
-        public Task<PlayableCharacter> CreatePlayableCharacterInstance(int playableCharacterTemplateId);
+        public Task<PlayableCharacter> CreatePlayableCharacterInstance(PlayableCharacter playableCharacter);
     }
 }

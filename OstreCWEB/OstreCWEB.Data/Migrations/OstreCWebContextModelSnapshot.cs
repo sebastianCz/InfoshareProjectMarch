@@ -287,9 +287,6 @@ namespace OstreCWEB.Data.Migrations
                     b.Property<int?>("StatusId")
                         .HasColumnType("int");
 
-                    b.Property<int>("UsesLeftBeforeRest")
-                        .HasColumnType("int");
-
                     b.Property<int>("UsesMax")
                         .HasColumnType("int");
 
@@ -434,6 +431,9 @@ namespace OstreCWEB.Data.Migrations
                         .HasColumnType("int");
 
                     b.Property<int>("CharacterActionId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("UsesLeftBeforeRest")
                         .HasColumnType("int");
 
                     b.HasKey("CharacterId", "CharacterActionId");
