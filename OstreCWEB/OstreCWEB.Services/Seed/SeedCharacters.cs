@@ -219,9 +219,10 @@ public class SeedCharacters : ISeeder
                     Constitution=10,
                     Intelligence=8,
                     Wisdom = 8,
-                    Charisma = 6
+                    Charisma = 6,
+                     IsTemplate= true
                 }
-            }; 
+            };
         var playableCharacters = new List<PlayableCharacter>
             {
                 new PlayableCharacter
@@ -229,26 +230,28 @@ public class SeedCharacters : ISeeder
                     CharacterName = "AdminCharacterWarrior",
                     MaxHealthPoints = 30,
                     CurrentHealthPoints = 30,
-                    Level = 1,  
+                    Level = 1,
                     Strenght = 16,
                     Dexterity = 14,
                     Constitution = 10,
                     Intelligence = 15,
                     Wisdom = 12,
-                    Charisma = 2,  
+                    Charisma = 2,
+                    IsTemplate= true
                 },
                 new PlayableCharacter
                 {
                     CharacterName = "AdminCharacterMage",
                     MaxHealthPoints = 30,
                     CurrentHealthPoints = 30,
-                    Level = 1,  
+                    Level = 1,
                     Strenght = 10,
                     Dexterity = 10,
                     Constitution = 14,
                     Intelligence = 18,
                     Wisdom = 14,
-                    Charisma = 12
+                    Charisma = 12,
+                    IsTemplate = true
                 }
             };
 

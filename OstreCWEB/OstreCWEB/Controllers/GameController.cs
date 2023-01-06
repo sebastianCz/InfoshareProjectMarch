@@ -20,7 +20,7 @@ namespace OstreCWEB.Controllers
         private readonly IMapper _mapper;
         private readonly IStoryService _storyService;
         private readonly IPlayableCharacterService _playableCharacterService;
-        private readonly IHttpContextAccessor _httpContextAccessor;
+        private readonly IHttpContextAccessor _httpContextAccessor; 
 
         public GameController(IHttpContextAccessor httpContextAccessor,IUserService userService, IMapper mapper, IStoryService storyService, IPlayableCharacterService playableCharacterService)
         {
@@ -32,13 +32,16 @@ namespace OstreCWEB.Controllers
         }
 
         // GET: GameController
-        [HttpPost]
-        public async Task<ActionResult> StartGame(StartGameView model)
+        [HttpGet]
+        public async Task<ActionResult> StartGame()
         {
-            var activeCharacterCookie = Request.Cookies["ActiveCharacter"];
-            var activeStoryCookie = Request.Cookies["ActiveStory"];
-            if(activeCharacterCookie != null && activeStoryCookie != null)
+            var activeCharacterCookies = _httpContextAccessor.HttpContext.Request.Cookies.Where(c => c.Key == "ActiveCharacter");
+            var activeStoryCookies = _httpContextAccessor.HttpContext.Request.Cookies.Where(c => c.Key == "ActiveStory");
+            
+            if (activeCharacterCookies != null && activeStoryCookies != null)
             {
+                var gameInstance = await _userService.CreateNewGameInstance(_userService.GetUserId(User), Convert.ToInt32(activeCharacterCookies.FirstOrDefault().Value), Convert.ToInt32(activeStoryCookies.FirstOrDefault().Value));
+
                 return RedirectToAction("Index", "StoryReader");
             }
             else
@@ -91,7 +94,8 @@ namespace OstreCWEB.Controllers
         public ActionResult SetActiveStory(int id)
         { 
             CookieOptions options = new CookieOptions();
-            options.Expires = DateTime.Now.AddSeconds(10);
+            //This cookie will expire on session end.
+            options.Expires = default(DateTime?);
             options.Path = "/"; 
             //Bypasses consent policy checks.
             options.IsEssential=true;   
@@ -104,8 +108,9 @@ namespace OstreCWEB.Controllers
         public ActionResult SetActiveCharacter(int id)
         {
             CookieOptions options = new CookieOptions();
-            options.Expires = DateTime.Now.AddMinutes(10);
-            options.Path = "/";
+            //This cookie will expire on session end.
+            options.Expires = default(DateTime?);
+            options.Path = "/"; 
             //Bypasses consent policy checks.
             options.IsEssential = true;
             _httpContextAccessor.HttpContext.Response.Cookies.Append("ActiveCharacter", $"{id}", options); 

@@ -1,4 +1,5 @@
-﻿using OstreCWEB.Data.Repository.Identity;
+﻿using OstreCWEB.Data.DataBase.ManyToMany;
+using OstreCWEB.Data.Repository.Identity;
 using System.Security.Claims;
 
 namespace OstreCWEB.Services.Identity
@@ -30,6 +31,12 @@ namespace OstreCWEB.Services.Identity
                 if (userId == null)  { return ""; } 
 
                 return userId.Value; 
+        }
+
+        public async Task<UserParagraph> CreateNewGameInstance(string userId,int playableCharacterTemplate,int storyId)
+        { 
+            var newGameInstance = await _identityRepository.CreateGameInstance(userId, playableCharacterTemplate, storyId);
+            return newGameInstance;
         }
     }
 }

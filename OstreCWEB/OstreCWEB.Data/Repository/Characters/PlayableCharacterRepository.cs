@@ -15,10 +15,11 @@ namespace OstreCWEB.Data.Repository.Characters
             _db = db;
         }
     
-        public async Task Create(PlayableCharacter playableCharacter)
+        public async Task<PlayableCharacter> Create(PlayableCharacter playableCharacter)
         {
             _db.PlayableCharacters.Add(playableCharacter);
-            await _db.SaveChangesAsync(); 
+            await _db.SaveChangesAsync();
+            return playableCharacter;
         }
 
         public async Task Delete(PlayableCharacter playableCharacter)
@@ -50,6 +51,12 @@ namespace OstreCWEB.Data.Repository.Characters
         {
             _db.PlayableCharacters.Update(playableCharacter);
             await _db.SaveChangesAsync();
+        }
+        public async Task<PlayableCharacter> GetByIdNoTracking(int id )
+        {
+            return await _db.PlayableCharacters
+                   .AsNoTracking()
+                   .SingleOrDefaultAsync(x => x.CharacterId == id); 
         }
     }
 }

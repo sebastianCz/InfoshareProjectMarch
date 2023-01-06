@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using OstreCWEB.Data.DataBase.ManyToMany;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,5 +13,6 @@ namespace OstreCWEB.Data.Repository.Identity
         public Task AddUser(User user);
         public Task<User> GetUser(string id);
         public  Task<List<User>> GetAll();
+        public   Task<UserParagraph> CreateGameInstance(string userId,int charachterTemplateId,int storyId);
     }
 }
