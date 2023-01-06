@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace OstreCWEB.Data.Migrations
 {
-    public partial class userParagraphCharacter : Migration
+    public partial class charactersMigration : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -453,6 +453,7 @@ namespace OstreCWEB.Data.Migrations
                 {
                     CharacterId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
+                    IsTemplate = table.Column<bool>(type: "bit", nullable: false),
                     CharacterName = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     MaxHealthPoints = table.Column<int>(type: "int", nullable: false),
                     CurrentHealthPoints = table.Column<int>(type: "int", nullable: false),

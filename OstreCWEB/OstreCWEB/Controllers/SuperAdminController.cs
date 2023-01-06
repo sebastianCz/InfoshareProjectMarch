@@ -5,6 +5,7 @@ using OstreCWEB.Data.DataBase;
 using OstreCWEB.Data.Repository.Characters.Interfaces;
 using OstreCWEB.Data.Repository.Identity;
 using OstreCWEB.Data.Repository.SuperAdmin;
+using OstreCWEB.Services.Seed;
 
 
 namespace OstreCWEB.Controllers
@@ -107,7 +108,7 @@ namespace OstreCWEB.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Delete(int id, IFormCollection collection)
-        {
+        { 
             try
             {
                 return RedirectToAction(nameof(Index));
@@ -119,7 +120,7 @@ namespace OstreCWEB.Controllers
         }
         public async Task<ActionResult> Seed()
         {
-            await _seeder.SeedDataBase();
+            await _seeder.SeedCharactersDb();
             return View();
         }
     }

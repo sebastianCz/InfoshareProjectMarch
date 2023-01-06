@@ -12,8 +12,8 @@ using OstreCWEB.Data.DataBase;
 namespace OstreCWEB.Data.Migrations
 {
     [DbContext(typeof(OstreCWebContext))]
-    [Migration("20230105123957_userParagraphCharacter")]
-    partial class userParagraphCharacter
+    [Migration("20230105215610_charactersMigration")]
+    partial class charactersMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -219,6 +219,9 @@ namespace OstreCWEB.Data.Migrations
 
                     b.Property<int>("Intelligence")
                         .HasColumnType("int");
+
+                    b.Property<bool>("IsTemplate")
+                        .HasColumnType("bit");
 
                     b.Property<int>("Level")
                         .HasColumnType("int");

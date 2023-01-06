@@ -15,6 +15,7 @@ namespace OstreCWEB.Data.Repository.Characters.CharacterModels
         public List<ActionCharacter>? LinkedActions { get; set; }
         //All items ( equipped+ in inventory)
         public List<ItemCharacter>? LinkedItems { get; set; }
+        public bool IsTemplate { get; set; }
         //=============================================================//
         public string CharacterName { get; set; }
         public int MaxHealthPoints { get; set; }

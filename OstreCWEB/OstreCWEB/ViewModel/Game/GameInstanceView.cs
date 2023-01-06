@@ -4,9 +4,6 @@
     {
         public int Id { get; }
         public string UserId { get; set; }
-        public int ActiveParagraphId { get; set; }
-
-
-
+        public int ActiveParagraphId { get; set; }  
     }
 } 

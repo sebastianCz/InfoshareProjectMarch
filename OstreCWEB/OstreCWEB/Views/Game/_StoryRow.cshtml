@@ -3,32 +3,5 @@
     ViewData["Title"] = "_PlayableCharacterTable";
 }
 
-<div class="card">
-    <div class="card-body">
-        <h5 class="card-title">Default Table</h5>
 
-        <!-- Default Table -->
-        <table class="table">
-            <thead>
-                <tr> 
-                    <th scope="col"> <Label asp-for="FirstOrDefault().Name"></Label></th>
-                    <th scope="col"> <Label asp-for="FirstOrDefault().Description"></Label></th>  
-                    <th scope="col"> <Label asp-for="FirstOrDefault().AmountOfParagraphs"></Label></th>  
-                </tr>
-            </thead>
-            <tbody>
-                   @foreach(var story in Model){
-                <tr>
-                 
-                        <th scope="row">@story.Name</th>
-                        <td>@story.Description</td>
-                        <td>@story.AmountOfParagraphs</td>
-                     
-                </tr> 
-                }
-            </tbody>
-        </table>
-        <!-- End Default Table Example -->
-    </div>
-</div>
 

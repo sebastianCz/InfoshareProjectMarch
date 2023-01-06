@@ -14,6 +14,7 @@ using OstreCWEB.Services.Fight;
 using OstreCWEB.Services.Identity;
 using OstreCWEB.Services.ServiceRegistration;
 using OstreCWEB.Services.Characters;
+using OstreCWEB.Services.Seed;
 using Serilog;
 using Serilog.Sinks.MSSqlServer;
 
@@ -35,8 +36,7 @@ builder.Services.AddScoped<IUserAuthenticationService, UserAuthenticationService
 
 builder.Services.AddTransient<IFightService,FightService>();
 builder.Services.AddSingleton<IFightRepository, FightRepository>();
-builder.Services.AddTransient<IFightFactory, FightFactory>();
-builder.Services.AddTransient<ISeeder, DBSeeder>();
+builder.Services.AddTransient<IFightFactory, FightFactory>(); 
 builder.Services.AddTransient<IStatusRepository, StatusRepository>();
 builder.Services.AddTransient<ICharacterActionsRepository, CharacterActionRepository>();
 builder.Services.AddTransient<IPlayableCharacterRepository, PlayableCharacterRepository >();
@@ -44,6 +44,7 @@ builder.Services.AddTransient<IPlayableCharacterService, PlayableCharacterServic
 builder.Services.AddTransient<ISuperAdminRepository, SuperAdminRepository>();
 builder.Services.AddTransient<IIdentityRepository, IdentityRepository>();
 builder.Services.AddTransient<IUserService, UserService>();
+builder.Services.AddTransient<ISeeder, SeedCharacters>();
 
 //builder.Services.AddTransient<IEnemyRepository,  >();
 
@@ -77,11 +78,12 @@ builder.Host.UseSerilog((hostBuilderContext, loggerConfiguration) =>
 builder.Services.AddSwaggerGen();
 var app = builder.Build();
 
-using (var scope = app.Services.CreateScope())
-{
-    var services = scope.ServiceProvider;
+ 
 
-    SeedData.Initialize(services);
+using (var scope = app.Services.CreateScope())
+{ 
+    var services = scope.ServiceProvider; 
+     SeedStories.Initialize(services); 
 }
 //var test = new StaticLists();
 //test.SeedData();

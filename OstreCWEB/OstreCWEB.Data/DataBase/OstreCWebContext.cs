@@ -95,7 +95,8 @@ namespace OstreCWEB.Data.DataBase
 
         private void UserConfiguration(ModelBuilder builder)
         {
-
+            builder.Entity<User>().Navigation(e => e.StoriesCreated).AutoInclude();
+            builder.Entity<User>().Navigation(e => e.CharactersCreated).AutoInclude();
         }
 
         private void ConfigureCharacters(ModelBuilder builder)

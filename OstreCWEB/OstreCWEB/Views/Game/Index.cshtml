@@ -6,17 +6,49 @@
 
 <section class="section">
     <div class="row">
-        <div class="col-lg-6"> 
+        <div class="col-lg-6">  
 
+
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Default Table</h5>
+
+                    <!-- Default Table -->
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th scope="col"> <Label asp-for="@Model.OtherUsersStories.FirstOrDefault().Name"></Label></th>
+                                <th scope="col"> <Label asp-for="@Model.OtherUsersStories.FirstOrDefault().Description"></Label></th>
+                                <th scope="col"> <Label asp-for="@Model.OtherUsersStories.FirstOrDefault().AmountOfParagraphs"></Label></th>
+                            </tr>
+                        </thead>
+                        <tbody> 
+                                @foreach (var story in Model.OtherUsersStories)
+                                {
+                                <tr>
+                                    <th scope="row">@story.Name</th>
+                                    <td>@story.Description</td>
+                                    <td>@story.AmountOfParagraphs</td>
+                                    <td><a  asp-action="SetActiveStory" asp-route-id="@story.Id" type="button" class="btn btn-primary">Choose this story</a></td>
+                                </tr>
+                                } 
+                        </tbody>
+                    </table>
+                    <!-- End Default Table Example -->
+                </div>
+            </div>
+
+            <div>
+                <div><button asp-action="StartGame">Start game</button></div>
+              
+            </div>
 
             <label asp-for="User.SavedGameSessions"></label>                                
             @if(Model.User.SavedGameSessions != null && Model.User.SavedGameSessions.Any()){
             <partial name="_GameSessionView" model="@Model.User.SavedGameSessions" />
             }else{
                 <div>You don't have any saved game sessions! '</div>
-            }
-             
-            
+            } 
             <label asp-for="User.CharactersCreated"></label>
             @if(Model.User.CharactersCreated != null && Model.User.CharactersCreated.Any()){
             <partial name="_PlayableCharacterRow" model="@Model.User.CharactersCreated" />
@@ -34,9 +66,7 @@
                 <partial name="_PlayableCharacterRow" model="@Model.OtherUsersCharacters" />
             } 
             <label asp-for="OtherUsersStories"></label>
-            <partial name="_StoryRow" model="@Model.OtherUsersStories"/> 
-
-
+            <partial name="_StoryRow" model="@Model.OtherUsersStories"/>  
             <!--Fight History-->
         </div>
     </div>
@@ -47,11 +77,7 @@
     <div class="p-2 flex-grow-1">
     </div>
 
-</div>
-
-
-<script>
-
+</div> 
     @section Scripts {
         @{
             await Html.RenderPartialAsync("_ValidationScriptsPartial");

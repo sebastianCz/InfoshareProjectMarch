@@ -10,6 +10,8 @@ namespace OstreCWEB.ViewModel.Game
        public UserView User { get; set; } 
        public List<PlayableCharacterRow> OtherUsersCharacters { get; set; }
        public List<StoryView> OtherUsersStories { get; set; }
+       public UserParagraphView UserParagraph { get; set; }
+        public StoryView SelectedFormOption { get; set; } 
        public StartGameView( )
         {
             User = new UserView();
