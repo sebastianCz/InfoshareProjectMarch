@@ -49,6 +49,8 @@ namespace OstreCWEB.Services.StoryService
             return result;
         }
 
+        //Story
+
         public async Task AddStory(Story story)
         {
             await _storyRepository.AddStory(story);
@@ -70,6 +72,7 @@ namespace OstreCWEB.Services.StoryService
             await _storyRepository.DeleteStory(story);
         }
 
+        //Paragraph
         public async Task AddParagraph(Paragraph paragraph)
         {
             await _storyRepository.AddParagraph(paragraph);
@@ -79,6 +82,12 @@ namespace OstreCWEB.Services.StoryService
                 story.FirstParagraphId = story.Paragraphs[0].Id;
                 await _storyRepository.UpdateStory(story);
             }          
+        }
+
+        //Game
+        public Task CommitNextParagraph(int id)
+        {
+            throw new NotImplementedException();
         }
     }
 }

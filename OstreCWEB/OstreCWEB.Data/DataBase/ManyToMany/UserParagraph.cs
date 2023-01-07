@@ -18,8 +18,6 @@ namespace OstreCWEB.Data.DataBase.ManyToMany
         //public int CharacterId { get; set; }
         //public Character Character { get; set; }
 
-
-
         public bool ActiveGame { get; set; }
     }
 }
