@@ -8,7 +8,9 @@ namespace OstreCWEB.Mapping
     {
         public GameProfile()
         {
-            CreateMap<UserParagraph, UserParagraphView>(); 
+            CreateMap<UserParagraph, UserParagraphView>()
+                .ForMember(destinationMember => destinationMember.UserParagraphId,
+                method => method.MapFrom(source => source.UserParagraphId)); 
         }
     }
 }

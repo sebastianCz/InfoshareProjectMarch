@@ -7,10 +7,11 @@ namespace OstreCWEB.ViewModel.Identity
 {
     public class UserParagraphView
     {
-        public int Id { get; }
+        public int UserParagraphId { get; set; }
         public UserView User { get; set; }
-        public StoryView Story { get; set; }
         public ParagraphView Paragraph { get; set; }
-        public PlayableCharacterView ActiveCharacter { get; set; }
+        public PlayableCharacterView ActiveCharacter { get; set; } 
+        public StoryView Story { get; set; } 
+        public bool ActiveGame { get; set; }
     }
 }

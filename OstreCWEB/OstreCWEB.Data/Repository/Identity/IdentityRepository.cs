@@ -30,7 +30,8 @@ namespace OstreCWEB.Data.Repository.Identity
         }
         public async Task<User> GetUser(string id)
         {
-            return await _context.Users.SingleOrDefaultAsync(u=>u.Id == id);
+            var user = await _context.Users.SingleOrDefaultAsync(u=>u.Id == id); 
+            return user;
         }
         public async Task<List<User>> GetAll()
         {
@@ -42,5 +43,6 @@ namespace OstreCWEB.Data.Repository.Identity
              _context.Update(user);
              await _context.SaveChangesAsync();
         }  
+
     }
 }

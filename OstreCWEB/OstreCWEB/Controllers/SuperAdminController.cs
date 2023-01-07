@@ -43,9 +43,7 @@ namespace OstreCWEB.Controllers
         } 
         public ActionResult Index()
         {
-            var isSignedIn = User.Identity.IsAuthenticated;
-            var test = HttpContext;
-            var claim = User;
+            
             return View();
         }
        

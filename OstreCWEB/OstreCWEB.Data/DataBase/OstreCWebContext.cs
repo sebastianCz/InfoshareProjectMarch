@@ -56,6 +56,11 @@ namespace OstreCWEB.Data.DataBase
             ConfigureStories(builder);
             ConfigureUsersParagraphs(builder);
             ConfigureManyToMany(builder);
+            ConfigureUser(builder);
+        }
+        private void ConfigureUser(ModelBuilder builder)
+        {
+            builder.Entity<User>().Navigation(e => e.UserParagraphs).AutoInclude();
         }
         private void ConfigureManyToMany(ModelBuilder builder)
         {
@@ -66,7 +71,7 @@ namespace OstreCWEB.Data.DataBase
             builder.Entity<ActionCharacter>().Navigation(e => e.Character).AutoInclude();
 
             builder.Entity<UserParagraph>().Navigation(e => e.Paragraph).AutoInclude();
-            builder.Entity<UserParagraph>().Navigation(e => e.Character).AutoInclude();
+            builder.Entity<UserParagraph>().Navigation(e => e.ActiveCharacter).AutoInclude();
         }
         private void ConfigureItems(ModelBuilder builder)
         {
@@ -177,24 +182,14 @@ namespace OstreCWEB.Data.DataBase
         }
 
         private void ConfigureUsersParagraphs(ModelBuilder builder)
-        {
-            //builder.Entity<UserParagraph>()
-            //    .HasKey(x => new { x.CharacterId, x.ParagraphId });
-
+        { 
             builder.Entity<UserParagraph>()
                 .HasOne(x => x.User)
-                .WithMany(x => x.UserParagraphs)
-                .HasForeignKey(x => x.UserId);
+                .WithMany(x => x.UserParagraphs); 
 
             builder.Entity<UserParagraph>()
                 .HasOne(x => x.Paragraph)
-                .WithMany(x => x.UserParagraphs)
-                .HasForeignKey(x => x.ParagraphId);
-
-            //builder.Entity<UserParagraph>()
-            //    .HasOne(x => x.Character)
-            //    .WithOne(x => x.UserParagraph)
-            //    .HasForeignKey<UserParagraph>(x => x.PlayableCharacterId);
+                .WithMany(x => x.UserParagraphs);  
         }
     } 
 }     

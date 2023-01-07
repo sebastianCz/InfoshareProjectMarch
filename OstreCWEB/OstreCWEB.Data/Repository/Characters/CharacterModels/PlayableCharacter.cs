@@ -11,6 +11,7 @@ namespace OstreCWEB.Data.Repository.Characters.CharacterModels
         public string UserId { get; set; }//Id of character owner
         public User User { get; set; } 
         public UserParagraph? UserParagraph { get; set; }
+        public int? UserParagraphId { get; set; }
         //
 
         [Required] 
