@@ -8,7 +8,6 @@ namespace OstreCWEB.Services.Identity
     {
         public string GetUserId(ClaimsPrincipal user);
         public Task<User> GetUserById(string id); 
-        public Task<List<User>> GetAllUsers();
-        public Task<UserParagraph> CreateNewGameInstance(string userId, int playableCharacterTemplate, int storyId);
+        public Task<List<User>> GetAllUsers(); 
     }
 }

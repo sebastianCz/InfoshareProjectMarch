@@ -12,7 +12,7 @@ namespace OstreCWEB.Data.Repository.Identity
     {
         public Task AddUser(User user);
         public Task<User> GetUser(string id);
-        public  Task<List<User>> GetAll();
-        public   Task<UserParagraph> CreateGameInstance(string userId,int charachterTemplateId,int storyId);
+        public  Task<List<User>> GetAll(); 
+        public Task Update(User user);
     }
 }

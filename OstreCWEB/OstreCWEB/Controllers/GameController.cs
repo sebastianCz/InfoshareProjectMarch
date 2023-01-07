@@ -1,16 +1,13 @@
 ﻿using AutoMapper;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Options;
-using OstreCWEB.Data.Interfaces;
 using OstreCWEB.Services.Characters;
+using OstreCWEB.Services.Game;
 using OstreCWEB.Services.Identity;
 using OstreCWEB.Services.StoryService;
 using OstreCWEB.ViewModel.Characters;
 using OstreCWEB.ViewModel.Game;
 using OstreCWEB.ViewModel.Identity;
 using OstreCWEB.ViewModel.StoryBuilder;
-using System.Net;
 
 namespace OstreCWEB.Controllers
 {
@@ -20,15 +17,17 @@ namespace OstreCWEB.Controllers
         private readonly IMapper _mapper;
         private readonly IStoryService _storyService;
         private readonly IPlayableCharacterService _playableCharacterService;
-        private readonly IHttpContextAccessor _httpContextAccessor; 
+        private readonly IHttpContextAccessor _httpContextAccessor;
+        private readonly IGameService _gameService;
 
-        public GameController(IHttpContextAccessor httpContextAccessor,IUserService userService, IMapper mapper, IStoryService storyService, IPlayableCharacterService playableCharacterService)
+        public GameController(IGameService gameService,IHttpContextAccessor httpContextAccessor,IUserService userService, IMapper mapper, IStoryService storyService, IPlayableCharacterService playableCharacterService)
         {
             _userService = userService;
             _mapper = mapper;
             _storyService = storyService;
             _playableCharacterService = playableCharacterService;
             _httpContextAccessor = httpContextAccessor;
+            _gameService = gameService;
         }
 
         // GET: GameController
@@ -43,7 +42,7 @@ namespace OstreCWEB.Controllers
             
             if (activeCharacterCookies != null && activeStoryCookies != null)
             {
-                var gameInstance = await _userService.CreateNewGameInstance(_userService.GetUserId(User), Convert.ToInt32(activeCharacterCookies.FirstOrDefault().Value), Convert.ToInt32(activeStoryCookies.FirstOrDefault().Value));
+                var gameInstance = await _gameService.CreateNewGameInstance(_userService.GetUserId(User), Convert.ToInt32(activeCharacterCookies.FirstOrDefault().Value), Convert.ToInt32(activeStoryCookies.FirstOrDefault().Value));
 
                 return RedirectToAction("Index", "StoryReader");
             }

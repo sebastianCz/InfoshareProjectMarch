@@ -56,16 +56,14 @@ namespace OstreCWEB.Data.Repository.Characters
             _db.PlayableCharacters.Update(playableCharacter);
             await _db.SaveChangesAsync();
         }
-        public Task<PlayableCharacter> CreateNewInstance(int id)
+        public Task<PlayableCharacter> CreateNewInstance(int templateId)
         {
             var notTrackedCharacter = _db.PlayableCharacters
                   .AsNoTracking()
-                  .SingleOrDefault(x => x.CharacterId == id);
+                  .SingleOrDefault(x => x.CharacterId == templateId);
             var newInstance = _playableCharacterFactory.CreatePlayableCharacterInstance(notTrackedCharacter).Result;
              
             return Task.FromResult(newInstance);
-        }
-
-
+        } 
     }
 }

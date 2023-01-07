@@ -41,26 +41,6 @@ namespace OstreCWEB.Data.Repository.Identity
         {
              _context.Update(user);
              await _context.SaveChangesAsync();
-        }
-
-        public async Task<UserParagraph> CreateGameInstance(string userId, int charachterTemplateId, int storyId)
-        {
-            var user = await GetUser(userId);
-
-            var newGameInstance = new UserParagraph();
-
-            newGameInstance.UserId = userId;
-            newGameInstance.ParagraphId = _context.Stories.Where(s=>s.Id == storyId).FirstOrDefault().FirstParagraphId;
-
-            var newCharacterInstance = _playableCharacterRepository.CreateNewInstance(charachterTemplateId).Result;
-
-            newGameInstance.CharacterId = newCharacterInstance.CharacterId; 
-            newGameInstance.ActiveGame = true; 
-
-            user.UserParagraphs.Add(newGameInstance); 
-            await Update(user); 
-            return newGameInstance;
-        }
-
+        }  
     }
 }

@@ -6,17 +6,18 @@ using OstreCWEB.Data.Repository.Characters;
 using OstreCWEB.Data.Repository.Characters.Interfaces;
 using OstreCWEB.Data.Repository.Fight;
 using OstreCWEB.Data.Repository.Identity;
+using OstreCWEB.Data.Repository.ManyToMany;
 using OstreCWEB.Data.Repository.SuperAdmin;
 using OstreCWEB.Data.ServiceRegistration;
 using OstreCWEB.Services.Characters;
 using OstreCWEB.Services.Factory;
 using OstreCWEB.Services.Fight;
+using OstreCWEB.Services.Game;
 using OstreCWEB.Services.Identity;
-using OstreCWEB.Services.ServiceRegistration;
-using OstreCWEB.Services.Characters;
 using OstreCWEB.Services.Seed;
+using OstreCWEB.Services.ServiceRegistration;
 using Serilog;
-using Serilog.Sinks.MSSqlServer; 
+using Serilog.Sinks.MSSqlServer;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -46,6 +47,10 @@ builder.Services.AddTransient<IIdentityRepository, IdentityRepository>();
 builder.Services.AddTransient<IUserService, UserService>();
 builder.Services.AddTransient<ISeeder, SeedCharacters>(); 
 builder.Services.AddTransient<IPlayableCharacterFactory, PlayableCharacterFactory>(); 
+builder.Services.AddTransient<IUserParagraphRepository, UserParagraphRepository>();
+builder.Services.AddTransient<IItemCharacterRepository, ItemCharacterRepository>();
+builder.Services.AddTransient<IActionCharacterRepository, ActionCharacterRepository>();
+builder.Services.AddTransient<IGameService, GameService>();
 
 
 //builder.Services.AddTransient<IEnemyRepository,  >();
