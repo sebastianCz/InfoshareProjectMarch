@@ -60,8 +60,7 @@ namespace OstreCWEB.Data.Repository.Characters.CharacterModels
                 //Should be removed. For now it will cause compile errors in fight ( it needs the SET )
             }
         }
-        //This is required because Characters IDs can be the same as enemies...Combat needs to generate it's own IDs
-        //This is not saved to data base. 
+       
 
         [NotMapped]
         public List<Status> ActiveStatuses { get; set; }
