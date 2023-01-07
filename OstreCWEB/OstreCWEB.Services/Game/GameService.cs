@@ -19,6 +19,6 @@ namespace OstreCWEB.Services.Game
         {
             var userParagraph = await _userParagraphRepository.Create(userId, characterTemplateId, storyId);
             return userParagraph;
-        }
+        } 
     }
 }

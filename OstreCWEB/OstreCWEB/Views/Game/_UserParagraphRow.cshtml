@@ -15,19 +15,23 @@
                 <tr>
                     <th scope="col"> <Label asp-for=" FirstOrDefault().Story.Name"></Label></th> 
                     <th scope="col"> <Label asp-for=" FirstOrDefault().Story.AmountOfParagraphs"></Label></th>
-                    <th scope="col"> <Label asp-for=" FirstOrDefault().Story.Description"></Label></th>
-
-                    <th scope="col"> <Label asp-for=" FirstOrDefault().Story.Description"></Label></th>
+                    <th scope="col"> <Label asp-for=" FirstOrDefault().Story.Description"></Label></th> 
+                    <th scope="col"> <Label asp-for=" FirstOrDefault().ActiveCharacter.CharacterName"></Label></th> 
+                    <th scope="col"> <Label asp-for=" FirstOrDefault().ActiveCharacter.CharacterClass.ClassName"></Label></th> 
+                    <th scope="col"> <Label asp-for=" FirstOrDefault().Paragraph.StageDescription"></Label></th>
                 </tr>
             </thead>
             <tbody>
-                @foreach (var story in Model)
+                @foreach (var gameSession in Model)
                 {
                     <tr>
-                        <th scope="row">@story.Name</th>
-                        <td>@story.Description</td>
-                        <td>@story.AmountOfParagraphs</td>
-                        <td><a asp-controller="Game" asp-action="SetActiveStory" asp-route-id="@story.Id" type="button" class="btn btn-primary">Choose this story</a></td>
+                        <th scope="row">@gameSession.Story.Name</th>
+                        <td>@gameSession.Story.AmountOfParagraphs</td> 
+                        <td>@gameSession.Story.Description</td>
+                        <td>@gameSession.ActiveCharacter.CharacterName</td>
+                        <td>@gameSession.ActiveCharacter.CharacterClass.ClassName</td>
+                        <td>@gameSession.Paragraph.StageDescription</td> 
+                        <td><a asp-controller="Game" asp-action="LoadGame" asp-route-id="@gameSession.Id" type="button" class="btn btn-primary">Load game</a></td>
                     </tr>
                 }
             </tbody>

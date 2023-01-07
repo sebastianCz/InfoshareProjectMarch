@@ -37,7 +37,7 @@ namespace OstreCWEB.Controllers
         {
             var activeCharacterCookies = _httpContextAccessor.HttpContext.Request.Cookies.Where(c => c.Key == "ActiveCharacter");
             var activeStoryCookies = _httpContextAccessor.HttpContext.Request.Cookies.Where(c => c.Key == "ActiveStory");
-            if (activeCharacterCookies != null && activeStoryCookies != null)
+            if (activeCharacterCookies != null && activeCharacterCookies.FirstOrDefault().Key != null && activeStoryCookies != null && activeStoryCookies.FirstOrDefault().Key != null)
             {
                 try
                 { 
@@ -75,9 +75,12 @@ namespace OstreCWEB.Controllers
                 {
                     model.ActiveStory = _mapper.Map<StoryView>(await _storyService.GetStoryById(Convert.ToInt32(activeStoryCookies.ToList().FirstOrDefault().Value)));
                 }
-            };
-
-            model.User = _mapper.Map<UserView>(await _userService.GetUserById(_userService.GetUserId(User)));
+            }; 
+            model.User = _mapper.Map<UserView>(await _userService.GetUserById(_userService.GetUserId(User))); 
+                foreach(var gameSessionView in model.User.UserParagraphs)
+                {
+                    gameSessionView.Story = _mapper.Map<StoryView>(await _storyService.GetStoryById(gameSessionView.Paragraph.StoryId));
+                } 
 
             foreach (var story in await _storyService.GetAllStories())
             {
@@ -89,7 +92,8 @@ namespace OstreCWEB.Controllers
             {
                 var mappedCharacter = _mapper.Map<PlayableCharacterRow>(character);
                 model.OtherUsersCharacters.Add(mappedCharacter);
-            } 
+            }  
+
 
             return View(model);
         }
