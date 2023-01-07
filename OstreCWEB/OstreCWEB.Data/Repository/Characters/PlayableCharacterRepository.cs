@@ -32,7 +32,7 @@ namespace OstreCWEB.Data.Repository.Characters
             await _db.SaveChangesAsync();
         }
 
-        public async Task<List<PlayableCharacter>> GetAll()
+        public async Task<List<PlayableCharacter>> GetAllTemplates()
         {
             return await _db.PlayableCharacters.ToListAsync();
         }
@@ -41,9 +41,9 @@ namespace OstreCWEB.Data.Repository.Characters
         /// </summary>
         /// <param name="userCharacters"></param>
         /// <returns></returns>
-        public async Task<List<PlayableCharacter>> GetAll(string userId)
+        public async Task<List<PlayableCharacter>> GetAllTemplates(string userId)
         {
-            return await _db.PlayableCharacters.Where(c => c.UserId != userId).ToListAsync();
+            return await _db.PlayableCharacters.Where(c => c.UserId != userId && c.IsTemplate == true).ToListAsync();
         }
 
         public async Task<PlayableCharacter> GetById(int id)

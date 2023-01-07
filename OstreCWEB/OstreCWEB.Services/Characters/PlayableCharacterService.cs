@@ -20,16 +20,16 @@ namespace OstreCWEB.Services.Characters
 
         public Task<List<PlayableCharacter>> GetAll()
         {
-            return _playableCharacterRepository.GetAll();
+            return _playableCharacterRepository.GetAllTemplates();
         }
         /// <summary>
         /// Gets all playable characters except those belonging to a given  user
         /// </summary>
         /// <param name="userCharacters"></param>
         /// <returns></returns>
-        public async Task<List<PlayableCharacter>> GetAll(string userId)
+        public async Task<List<PlayableCharacter>> GetAllTemplates(string userId)
         {
-            return await _playableCharacterRepository.GetAll(userId);
+            return await _playableCharacterRepository.GetAllTemplates(userId);
         }
 
         public async Task<PlayableCharacter> GetById(int id)

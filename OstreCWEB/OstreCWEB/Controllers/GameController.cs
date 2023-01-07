@@ -70,9 +70,7 @@ namespace OstreCWEB.Controllers
                 {
                     model.ActiveStory = _mapper.Map<StoryView>(await _storyService.GetStoryById(Convert.ToInt32(activeStoryCookies.ToList().FirstOrDefault().Value)));
                 } 
-            };
-           
-            
+            }; 
 
             model.User =  _mapper.Map<UserView>(await _userService.GetUserById(_userService.GetUserId(User))); 
             
@@ -82,13 +80,11 @@ namespace OstreCWEB.Controllers
                 model.OtherUsersStories.Add(mappedStory);
             }
 
-            foreach (var character in await _playableCharacterService.GetAll(_userService.GetUserId(User)))
+            foreach (var character in await _playableCharacterService.GetAllTemplates(_userService.GetUserId(User)))
             {
                 var mappedCharacter = _mapper.Map<PlayableCharacterRow>(character);
                 model.OtherUsersCharacters.Add(mappedCharacter);
-            }
-
-          
+            } 
 
             return View(model);
         }
