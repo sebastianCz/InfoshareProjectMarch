@@ -10,8 +10,7 @@ namespace OstreCWEB.Data.Repository.Characters.Interfaces
     public interface IPlayableCharacterRepository
     {
         public Task<PlayableCharacter> GetById(int id);
-        public Task<List<PlayableCharacter>> GetAllTemplates();
-        public Task<PlayableCharacter> CreateNewInstance(int templateId);
+        public Task<List<PlayableCharacter>> GetAllTemplates(); 
         public Task<List<PlayableCharacter>> GetAllTemplates(string id);
         public Task Update(PlayableCharacter playableCharacter);
         public Task<PlayableCharacter> Create(PlayableCharacter playableCharacter);

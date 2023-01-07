@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 using OstreCWEB.Data.DataBase.ManyToMany;
-using OstreCWEB.ViewModel.Game;
+using OstreCWEB.ViewModel.Identity;
 
 namespace OstreCWEB.Mapping
 {

@@ -13,6 +13,7 @@ namespace OstreCWEB.Data.Repository.Identity
         public List<Story> StoriesCreated { get; set; }
         public List<UserParagraph> UserParagraphs { get; set; }
         // 
+        
         public string Name { get; set; }
         public DateTime Created { get; set; } 
         public int StoriesCompletedTotal { get; set; }

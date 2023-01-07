@@ -108,6 +108,7 @@ namespace OstreCWEB.Data.DataBase
         {
             builder.Entity<User>().Navigation(e => e.StoriesCreated).AutoInclude();
             builder.Entity<User>().Navigation(e => e.CharactersCreated).AutoInclude();
+            builder.Entity<User>().Navigation(e => e.UserParagraphs).AutoInclude();
         }
 
         private void ConfigureCharacters(ModelBuilder builder)
