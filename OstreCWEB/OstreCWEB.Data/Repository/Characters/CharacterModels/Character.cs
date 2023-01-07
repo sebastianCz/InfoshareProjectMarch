@@ -15,10 +15,11 @@ namespace OstreCWEB.Data.Repository.Characters.CharacterModels
         public List<ActionCharacter>? LinkedActions { get; set; }
         //All items ( equipped+ in inventory)
         public List<ItemCharacter>? LinkedItems { get; set; }
+        public bool IsTemplate { get; set; }
         //=============================================================//
         public string CharacterName { get; set; }
         public int MaxHealthPoints { get; set; }
-        public int CurrentHealthPoints { get; set; }
+        public int CurrentHealthPoints { get; set; }  
         public int Level { get; set; }
         public int Strenght { get; set; }
         public int Dexterity { get; set; }
@@ -59,8 +60,7 @@ namespace OstreCWEB.Data.Repository.Characters.CharacterModels
                 //Should be removed. For now it will cause compile errors in fight ( it needs the SET )
             }
         }
-        //This is required because Characters IDs can be the same as enemies...Combat needs to generate it's own IDs
-        //This is not saved to data base. 
+       
 
         [NotMapped]
         public List<Status> ActiveStatuses { get; set; }
@@ -84,6 +84,7 @@ namespace OstreCWEB.Data.Repository.Characters.CharacterModels
             AllAvailableActions = new List<CharacterAction>();
             ActiveStatuses = new List<Status>();
             LinkedItems = new List<ItemCharacter>();
+            LinkedActions = new List<ActionCharacter>();
 
         }
     }

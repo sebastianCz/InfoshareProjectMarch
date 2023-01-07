@@ -2,7 +2,7 @@
 using OstreCWEB.Data.Repository.Characters.CharacterModels;
 using OstreCWEB.Data.Repository.Characters.Enums;
 using OstreCWEB.Data.Repository.Fight;
-using OstreCWEB.Services.Factories;
+using OstreCWEB.Services.Factory;
 
 namespace OstreCWEB.Services.Fight
 {

@@ -9,7 +9,9 @@ namespace OstreCWEB.Data.Repository.Characters.CharacterModels
         //Ef config
         [Required]
         public string UserId { get; set; }//Id of character owner
-        public User User { get; set; }
+        public User User { get; set; } 
+        public UserParagraph? UserParagraph { get; set; }
+        public int? UserParagraphId { get; set; }
         //
 
         [Required] 
@@ -17,8 +19,9 @@ namespace OstreCWEB.Data.Repository.Characters.CharacterModels
         public int RaceId { get; set; }
         public PlayableClass CharacterClass { get; set; } 
         public int PlayableClassId { get; set; } 
-        public PlayableCharacter()
+        public PlayableCharacter():base()
         {
+
         }
     }
 }

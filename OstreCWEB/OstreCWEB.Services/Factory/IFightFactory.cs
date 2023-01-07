@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace OstreCWEB.Services.Factories
+namespace OstreCWEB.Services.Factory
 {
     public interface IFightFactory
     {
