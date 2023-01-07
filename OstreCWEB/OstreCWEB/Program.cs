@@ -2,7 +2,6 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using OstreCWEB.Data.DataBase;
 using OstreCWEB.Data.InitialData;
-using OstreCWEB.Data.Interfaces;
 using OstreCWEB.Data.Repository.Characters;
 using OstreCWEB.Data.Repository.Characters.Interfaces;
 using OstreCWEB.Data.Repository.Fight;
@@ -14,7 +13,6 @@ using OstreCWEB.Services.Characters;
 using OstreCWEB.Services.Factory;
 using OstreCWEB.Services.Fight;
 using OstreCWEB.Services.Game;
-using OstreCWEB.Services.GameService;
 using OstreCWEB.Services.Identity;
 using OstreCWEB.Services.Seed;
 using OstreCWEB.Services.ServiceRegistration;
@@ -53,10 +51,6 @@ builder.Services.AddTransient<IUserParagraphRepository, UserParagraphRepository>
 builder.Services.AddTransient<IItemCharacterRepository, ItemCharacterRepository>();
 builder.Services.AddTransient<IActionCharacterRepository, ActionCharacterRepository>();
 builder.Services.AddTransient<IGameService, GameService>();
-
-
-builder.Services.AddTransient<IGameService, GameService>();
-builder.Services.AddTransient<IUserParagraphRepostiory, UserParagraphRepostiory>();
 
 //builder.Services.AddTransient<IEnemyRepository,  >();
 
