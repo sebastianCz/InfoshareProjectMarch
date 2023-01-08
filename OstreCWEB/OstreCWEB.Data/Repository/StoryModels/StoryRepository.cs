@@ -1,8 +1,9 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using OstreCWEB.Data.Interfaces;
-using OstreCWEB.Data.Repository.StoryModels;
+using OstreCWEB.Data.DataBase;
 
-namespace OstreCWEB.Data.DataBase
+#nullable disable
+
+namespace OstreCWEB.Data.Repository.StoryModels
 {
     public class StoryRepository : IStoryRepository
     {
@@ -22,7 +23,7 @@ namespace OstreCWEB.Data.DataBase
 
         public async Task<Story> GetStoryById(int idStory)
         {
-            return _ostreCWebContext.Stories                
+            return _ostreCWebContext.Stories
                 .Include(s => s.Paragraphs)
                     .ThenInclude(p => p.Choices)
                 .Include(s => s.Paragraphs)
@@ -56,7 +57,7 @@ namespace OstreCWEB.Data.DataBase
         }
 
         public async Task DeleteStory(Story story)
-        {            
+        {
             _ostreCWebContext.Stories.Remove(story);
             await _ostreCWebContext.SaveChangesAsync();
         }
