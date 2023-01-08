@@ -1,6 +1,4 @@
-﻿using OstreCWEB.Data.Repository.StoryModels;
-
-namespace OstreCWEB.Data.Interfaces
+﻿namespace OstreCWEB.Data.Repository.StoryModels
 {
     public interface IStoryRepository
     {
@@ -11,7 +9,7 @@ namespace OstreCWEB.Data.Interfaces
         Task UpdateStory(Story story);
         Task AddStory(Story story);
         Task DeleteStory(Story story);
-        
+
         Task AddParagraph(Paragraph paragraph);
     }
 }

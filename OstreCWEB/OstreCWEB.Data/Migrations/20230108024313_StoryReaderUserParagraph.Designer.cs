@@ -12,8 +12,8 @@ using OstreCWEB.Data.DataBase;
 namespace OstreCWEB.Data.Migrations
 {
     [DbContext(typeof(OstreCWebContext))]
-    [Migration("20230108010702_UserParagraphCRD")]
-    partial class UserParagraphCRD
+    [Migration("20230108024313_StoryReaderUserParagraph")]
+    partial class StoryReaderUserParagraph
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {

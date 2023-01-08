@@ -5,6 +5,8 @@ using OstreCWEB.Data.Repository.Characters.Interfaces;
 using OstreCWEB.Data.Repository.Identity;
 using OstreCWEB.Services.Factory;
 
+#nullable disable
+
 namespace OstreCWEB.Data.Repository.ManyToMany
 {
     public class UserParagraphRepository : IUserParagraphRepository
@@ -64,11 +66,10 @@ namespace OstreCWEB.Data.Repository.ManyToMany
         {
             return await _context.UserParagraphs.SingleOrDefaultAsync(c=>c.UserParagraphId == id);
         }
-        public async Task<UserParagraph> Update(UserParagraph gameSession)
+        public async Task Update(UserParagraph gameSession)
         {
             _context.UserParagraphs.Update(gameSession);
             await _context.SaveChangesAsync();
-            return gameSession;
         } 
        
         public async Task<UserParagraph> GetByUserParagraphIdAsync(int userParagraphId)
@@ -76,5 +77,13 @@ namespace OstreCWEB.Data.Repository.ManyToMany
             return await _context.UserParagraphs.SingleOrDefaultAsync(u=>u.UserParagraphId == userParagraphId);
 
         } 
+
+        public async Task<UserParagraph> GetActiveByUserId(string userId)
+        {
+            return _context.UserParagraphs
+                .Include(x => x.Paragraph)
+                    .ThenInclude(p => p.Choices)
+                .SingleOrDefault(s => s.User.Id == userId && s.ActiveGame);
+        }
     }
 }

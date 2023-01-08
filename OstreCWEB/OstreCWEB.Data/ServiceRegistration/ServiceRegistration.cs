@@ -1,6 +1,5 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
-using OstreCWEB.Data.DataBase;
-using OstreCWEB.Data.Interfaces;
+using OstreCWEB.Data.Repository.StoryModels;
 
 namespace OstreCWEB.Data.ServiceRegistration
 {
