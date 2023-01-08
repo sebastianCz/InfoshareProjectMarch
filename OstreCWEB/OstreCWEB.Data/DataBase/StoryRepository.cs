@@ -2,6 +2,8 @@
 using OstreCWEB.Data.Interfaces;
 using OstreCWEB.Data.Repository.StoryModels;
 
+#nullable disable
+
 namespace OstreCWEB.Data.DataBase
 {
     public class StoryRepository : IStoryRepository
