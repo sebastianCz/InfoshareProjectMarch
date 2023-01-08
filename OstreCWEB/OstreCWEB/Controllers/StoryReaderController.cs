@@ -42,7 +42,8 @@ namespace OstreCWEB.Controllers
 
             var userParagraph = await _userParagraphRepository.GetActiveByUserId(_userService.GetUserId(User));
             model.CurrentParagraph = _mapper.Map<CurrentParagraphView>(userParagraph.Paragraph);
-            
+            model.CurrentCharacter = _mapper.Map<CurrentCharacterView>(userParagraph.ActiveCharacter);
+    
             return View(model);
 
             //return RedirectToAction("Index", "Home");

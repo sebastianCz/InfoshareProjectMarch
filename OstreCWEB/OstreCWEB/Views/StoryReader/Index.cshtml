@@ -1,7 +1,23 @@
 ﻿@model OstreCWEB.ViewModel.StoryReader.GameStageView
 
-<div class="card">
-    <div class="card-body">
-        <partial name="_CurrentParagraph" model="@Model.CurrentParagraph" />
+<section class="section dashboard">
+    <div class="row">
+        <!-- Left side columns -->
+        <div class="col-lg-8">
+            <div class="row">
+                <!-- Paragraph Card -->
+                <div class="col-12">
+                    <partial name="_CurrentParagraph" model="@Model.CurrentParagraph" />
+                </div><!-- End Paragraph Card -->
+            </div>
+        </div>
+        <!-- End Left side columns -->
+        <!-- Right side columns -->
+        <div class="col-lg-4">
+            <!-- Budget Report -->
+                    <partial name="_CurrentCharacter" model="@Model.CurrentCharacter" />
+            <!-- End Budget Report -->
+        </div>
+        <!-- End Right side columns -->
     </div>
-</div>
+</section>
