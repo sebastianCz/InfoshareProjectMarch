@@ -18,7 +18,7 @@ namespace OstreCWEB.Services.Game
 
         public GameService(IUserParagraphRepository userParagraphRepository, IIdentityRepository identityRepository, IStoryRepository storyRepository)
         {
-            _userParagraphRepository = userParagraphRepository; 
+            _userParagraphRepository = userParagraphRepository;
             _identityRepository = identityRepository;
             _storyReposiotry = storyRepository;
         }
@@ -30,9 +30,9 @@ namespace OstreCWEB.Services.Game
 
         public async Task NextParagraph(string userId, int choiceId)
         {
-            var userparagraph = await _userParagraphRepository.GetActiveByUserId(userId);
-            userparagraph.Paragraph = await _storyReposiotry.GetParagraphById(userparagraph.Paragraph.Choices[choiceId].NextParagraphId);
-            await _userParagraphRepository.Update(userparagraph);
+            var userParagraph = await _userParagraphRepository.GetActiveByUserId(userId);
+            userParagraph.Paragraph = await _storyReposiotry.GetParagraphById(userParagraph.Paragraph.Choices[choiceId].NextParagraphId);
+            await _userParagraphRepository.Update(userParagraph);
         }
 
         public async Task DeleteGameInstance(int userParagrahId)
@@ -41,12 +41,22 @@ namespace OstreCWEB.Services.Game
             await _userParagraphRepository.Delete(userParagraph);
         }
 
-        public async Task SetActiveGameInstance(int userParagraphId,string userId)
-        { 
-           var user = await _identityRepository.GetUser(userId); 
-            user.UserParagraphs.ForEach(s => {  if (s.UserParagraphId == userParagraphId) { s.ActiveGame = true; }
-                else { s.ActiveGame = false; }});  
+        public async Task SetActiveGameInstance(int userParagraphId, string userId)
+        {
+            var user = await _identityRepository.GetUser(userId);
+            user.UserParagraphs.ForEach(s =>
+            {
+                if (s.UserParagraphId == userParagraphId) { s.ActiveGame = true; }
+                else { s.ActiveGame = false; }
+            });
             _identityRepository.Update(user);
+        }
+
+        public async Task HealCharacter(string userId)
+        {
+            var userParagraph = await _userParagraphRepository.GetActiveByUserId(userId);
+            userParagraph.ActiveCharacter.CurrentHealthPoints = userParagraph.ActiveCharacter.MaxHealthPoints;
+            await _userParagraphRepository.Update(userParagraph);
         }
     }
 }

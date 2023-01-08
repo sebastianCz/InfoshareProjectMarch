@@ -17,7 +17,7 @@
 
         public int CalculateCurrentHealthPercentage()
         {
-            return (CurrentHealthPoints/MaxHealthPoints)*100;
+            return (CurrentHealthPoints*100)/ MaxHealthPoints;
         }
     }
 }

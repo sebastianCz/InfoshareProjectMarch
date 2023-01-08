@@ -54,5 +54,11 @@ namespace OstreCWEB.Controllers
             await _gameService.NextParagraph(_userService.GetUserId(User), id);
             return RedirectToAction("Index");
         }
+
+        public async Task<ActionResult> HealCharacter()
+        {
+            await _gameService.HealCharacter(_userService.GetUserId(User));
+            return RedirectToAction("Index");
+        }
     }
 }
