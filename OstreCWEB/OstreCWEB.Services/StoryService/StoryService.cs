@@ -1,5 +1,4 @@
-﻿using OstreCWEB.Data.Interfaces;
-using OstreCWEB.Data.Repository.StoryModels;
+﻿using OstreCWEB.Data.Repository.StoryModels;
 using System.Runtime.CompilerServices;
 
 namespace OstreCWEB.Services.StoryService

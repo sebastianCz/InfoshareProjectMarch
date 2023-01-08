@@ -1,6 +1,5 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using OstreCWEB.Services.Characters;
 using OstreCWEB.Services.Game;
 using OstreCWEB.Services.Identity;
@@ -57,6 +56,18 @@ namespace OstreCWEB.Controllers
                 return RedirectToAction(nameof(Index));
             } 
         }
+
+        public async Task<ActionResult> DeleteGame(int id)
+        { 
+            await _gameService.DeleteGameInstance(id);
+            return RedirectToAction(nameof(Index));
+        }
+
+        public async Task<ActionResult> LoadGame(int id)
+        { 
+            await _gameService.SetActiveGameInstance( id, _userService.GetUserId(User));
+            return RedirectToAction("Index", "StoryReader");
+        }
         public async Task<ActionResult> Index()
         { 
             var model = new StartGameView();
@@ -75,26 +86,24 @@ namespace OstreCWEB.Controllers
                 {
                     model.ActiveStory = _mapper.Map<StoryView>(await _storyService.GetStoryById(Convert.ToInt32(activeStoryCookies.ToList().FirstOrDefault().Value)));
                 }
-            }; 
-            model.User = _mapper.Map<UserView>(await _userService.GetUserById(_userService.GetUserId(User))); 
-                foreach(var gameSessionView in model.User.UserParagraphs)
-                {
-                    gameSessionView.Story = _mapper.Map<StoryView>(await _storyService.GetStoryById(gameSessionView.Paragraph.StoryId));
-                } 
+            };
+            var x = await _userService.GetUserById(_userService.GetUserId(User));
 
+            model.User = _mapper.Map<UserView>(x);
+                foreach(var gameSessionView in model.User.UserParagraphs)
+                { 
+                    gameSessionView.Story = _mapper.Map<StoryView>(await _storyService.GetStoryById(gameSessionView.Paragraph.StoryId));  
+                }  
             foreach (var story in await _storyService.GetAllStories())
             {
                 var mappedStory = _mapper.Map<StoryView>(story);
                 model.OtherUsersStories.Add(mappedStory);
-            }
-
+            } 
             foreach (var character in await _playableCharacterService.GetAllTemplates(_userService.GetUserId(User)))
             {
                 var mappedCharacter = _mapper.Map<PlayableCharacterRow>(character);
                 model.OtherUsersCharacters.Add(mappedCharacter);
-            }  
-
-
+            }   
             return View(model);
         }
         [HttpGet]
@@ -108,8 +117,7 @@ namespace OstreCWEB.Controllers
             options.IsEssential = true;
             _httpContextAccessor.HttpContext.Response.Cookies.Append("ActiveStory", $"{id}", options);
 
-            return RedirectToAction(nameof(Index));
-
+            return RedirectToAction(nameof(Index)); 
         }
         [HttpGet]
         public ActionResult SetActiveCharacter(int id)
@@ -122,75 +130,6 @@ namespace OstreCWEB.Controllers
             options.IsEssential = true;
             _httpContextAccessor.HttpContext.Response.Cookies.Append("ActiveCharacter", $"{id}", options);
             return RedirectToAction(nameof(Index));
-        }
-        // GET: GameController/Details/5
-
-        public ActionResult Details(int id)
-        {
-            return View();
-        }
-
-        // GET: GameController/Create
-        public ActionResult Create()
-        {
-            return View();
-        }
-
-        // POST: GameController/Create
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Create(IFormCollection collection)
-        {
-            try
-            {
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
-        }
-
-        // GET: GameController/Edit/5
-        public ActionResult Edit(int id)
-        {
-            return View();
-        }
-
-        // POST: GameController/Edit/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, IFormCollection collection)
-        {
-            try
-            {
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
-        }
-
-        // GET: GameController/Delete/5
-        public ActionResult Delete(int id)
-        {
-            return View();
-        }
-
-        // POST: GameController/Delete/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, IFormCollection collection)
-        {
-            try
-            {
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
-        }
+        } 
     }
 }

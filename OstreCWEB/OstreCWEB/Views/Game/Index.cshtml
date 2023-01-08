@@ -82,8 +82,7 @@
                                 </button>
                             </h2>
                             <div id="flush-collapseThree" class="accordion-collapse collapse" aria-labelledby="flush-headingThree" data-bs-parent="#accordionFlushExample">
-                                <div class="accordion-body">
-                                    >
+                                <div class="accordion-body"> 
                                     @if (Model.User.StoriesCreated != null && Model.User.StoriesCreated.Any())
                                     {
                                         <partial name="_StoryRow" model="@Model.User.StoriesCreated" />

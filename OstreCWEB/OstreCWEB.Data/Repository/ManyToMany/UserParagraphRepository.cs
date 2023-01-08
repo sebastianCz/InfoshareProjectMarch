@@ -71,9 +71,11 @@ namespace OstreCWEB.Data.Repository.ManyToMany
             _context.UserParagraphs.Update(gameSession);
             await _context.SaveChangesAsync();
         } 
-        public Task<UserParagraph> GetByUserId(string userId, int characterTemplateId, int storyId)
+       
+        public async Task<UserParagraph> GetByUserParagraphIdAsync(int userParagraphId)
         {
-            throw new NotImplementedException();
+            return await _context.UserParagraphs.SingleOrDefaultAsync(u=>u.UserParagraphId == userParagraphId);
+
         } 
 
         public async Task<UserParagraph> GetActiveByUserId(string userId)
