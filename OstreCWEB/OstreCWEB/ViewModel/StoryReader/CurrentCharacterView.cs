@@ -12,7 +12,7 @@
         public int Intelligence { get; set; }
         public int Wisdom { get; set; }
         public int Charisma { get; set; }
-        public int Discriminator { get; set; }
+
         public int CurrentHealthPercentage { get { return CalculateCurrentHealthPercentage(); } }
 
         public int CalculateCurrentHealthPercentage()
