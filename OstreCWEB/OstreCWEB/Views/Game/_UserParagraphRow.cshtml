@@ -1,46 +1,46 @@
 ﻿@model IEnumerable<OstreCWEB.ViewModel.Identity.UserParagraphView>
-@{
-    ViewData["Title"] = "_PlayableCharacterTable";
-}
+    @{
+        ViewData["Title"] = "_PlayableCharacterTable";
+    }
 
 
 
 
-<div class="card">
-    <div class="card-body">
-        <h5 class="card-title">Default Table</h5>
+    <div class="card">
+        <div class="card-body">
+            <h5 class="card-title">Default Table</h5>
 
-        <table class="table">
-            <thead>
-                <tr>
-                    <th scope="col"> <Label asp-for=" FirstOrDefault().Story.Name"></Label></th> 
-                    <th scope="col"> <Label asp-for=" FirstOrDefault().Story.AmountOfParagraphs"></Label></th>
-                    <th scope="col"> <Label asp-for=" FirstOrDefault().Story.Description"></Label></th> 
-                    <th scope="col"> <Label asp-for=" FirstOrDefault().ActiveCharacter.CharacterName"></Label></th> 
-                    <th scope="col"> <Label asp-for=" FirstOrDefault().ActiveCharacter.CharacterClass.ClassName"></Label></th> 
-                    <th scope="col"> <Label asp-for=" FirstOrDefault().Paragraph.StageDescription"></Label></th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach (var gameSession in Model)
-                {
+            <table class="table">
+                <thead>
                     <tr>
-                        <th scope="row">@gameSession.Story.Name</th>
-                        <td>@gameSession.Story.AmountOfParagraphs</td> 
-                        <td>@gameSession.Story.Description</td>
-                        <td>@gameSession.ActiveCharacter.CharacterName</td>
-                        <td>@gameSession.ActiveCharacter.CharacterClass.ClassName</td>
-                        <td>@gameSession.Paragraph.StageDescription</td> 
-                        <td>
-                            <a asp-controller="Game" asp-action="LoadGame" asp-route-id="@gameSession.UserParagraphId" type="button" class="btn btn-primary">Load Save</a>
-                            <a asp-controller="Game" asp-action="DeleteGame" asp-route-id="@gameSession.UserParagraphId" type="button" class="btn btn-Danger">Delete Save</a>
-                        </td>
+                        <th scope="col"> <Label asp-for=" FirstOrDefault().Story.Name"></Label></th>
+                        <th scope="col"> <Label asp-for=" FirstOrDefault().Story.AmountOfParagraphs"></Label></th>
+                        <th scope="col"> <Label asp-for=" FirstOrDefault().Story.Description"></Label></th>
+                        <th scope="col"> <Label asp-for=" FirstOrDefault().ActiveCharacter.CharacterName"></Label></th>
+                        <th scope="col"> <Label asp-for=" FirstOrDefault().ActiveCharacter.CharacterClass.ClassName"></Label></th>
+                        <th scope="col"> <Label asp-for=" FirstOrDefault().Paragraph.StageDescription"></Label></th>
                     </tr>
-                }
-            </tbody>
-        </table>
-        <!-- End Default Table Example -->
+                </thead>
+                <tbody>
+                    @foreach (var gameSession in Model)
+                    {
+                        <tr>
+                            <th scope="row">@gameSession.Story.Name</th>
+                            <td>@gameSession.Story.AmountOfParagraphs</td>
+                            <td>@gameSession.Story.Description</td>
+                            <td>@gameSession.ActiveCharacter.CharacterName</td>
+                            <td>@gameSession.ActiveCharacter.CharacterClass.ClassName</td>
+                            <td>@gameSession.Paragraph.StageDescription</td>
+                            <td>
+                                <a asp-controller="Game" asp-action="LoadGame" asp-route-id="@gameSession.UserParagraphId" type="button" class="btn btn-primary">Load Save</a>
+                                <a asp-controller="Game" asp-action="DeleteGame" asp-route-id="@gameSession.UserParagraphId" type="button" class="btn btn-Danger">Delete Save</a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+            <!-- End Default Table Example -->
+        </div>
     </div>
-</div>
 
 

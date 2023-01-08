@@ -70,12 +70,7 @@ namespace OstreCWEB.Data.Repository.ManyToMany
             await _context.SaveChangesAsync();
             return gameSession;
         } 
-        public async Task<UserParagraph> GetByUserId(string userId, int characterTemplateId, int storyId)
-        {
-            _context.UserParagraphs.Update(gameSession);
-            await _context.SaveChangesAsync();
-            return gameSession;
-        } 
+       
         public async Task<UserParagraph> GetByUserParagraphIdAsync(int userParagraphId)
         {
             return await _context.UserParagraphs.SingleOrDefaultAsync(u=>u.UserParagraphId == userParagraphId);
