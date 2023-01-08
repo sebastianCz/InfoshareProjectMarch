@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using OstreCWEB.Data.DataBase.ManyToMany;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,8 +10,9 @@ namespace OstreCWEB.Data.Repository.Identity
 {
     public interface IIdentityRepository
     {
-        public void AddUser(User user);
-        public User GetUser(int id);
-        public  Task<List<User>> GetAll();
+        public Task AddUser(User user);
+        public Task<User> GetUser(string id);
+        public  Task<List<User>> GetAll(); 
+        public Task Update(User user);
     }
 }

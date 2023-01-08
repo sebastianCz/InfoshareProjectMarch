@@ -14,7 +14,9 @@ namespace OstreCWEB.Data.Repository.SuperAdmin
 
         public void Test()
         {
-            var x = _db.PlayableCharacters.ToList();
+            var x =_db.Paragraphs.Where(s => s.Id == 2).FirstOrDefault();
+            _db.Paragraphs.Remove(x);
+            _db.SaveChanges();
 
 
 

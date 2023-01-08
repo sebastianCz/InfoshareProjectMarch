@@ -194,15 +194,23 @@
                 </li><!-- End Messages Nav -->
 
                 <li class="nav-item dropdown pe-3">
-
-                    <a class="nav-link nav-profile d-flex align-items-center pe-0" href="#" data-bs-toggle="dropdown">
-                        <img src="~/img/profile-img.jpg" alt="Profile" class="rounded-circle">
-                        <span class="d-none d-md-block dropdown-toggle ps-2">K. Anderson</span>
-                    </a><!-- End Profile Iamge Icon -->
-
-                    <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow profile">
-                        @if (SignInManager.IsSignedIn(User))
+                     @if (SignInManager.IsSignedIn(User))
                         {
+                    <a class="nav-link nav-profile d-flex align-items-center pe-0" href="#" data-bs-toggle="dropdown"> 
+                             <img src="~/img/profile-img.jpg" alt="Profile" class="rounded-circle"> 
+                            <span class="d-none d-md-block dropdown-toggle ps-2">@UserManager.GetUserName(User)</span> 
+                    </a><!-- End Profile Iamge Icon -->
+                    }
+                    else
+                    {
+                       <a asp-controller="Login" asp-action="Login" > 
+                             Login
+                    </a><!-- End Profile Iamge Icon -->
+                    }
+                    @if (SignInManager.IsSignedIn(User))
+                        {   
+                    <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow profile">
+                        
                         <li class="dropdown-header">
 
                             <h6>@UserManager.GetUserName(User)</h6>
@@ -211,45 +219,18 @@
 
                                 <li>
                                     <hr class="dropdown-divider">
-                                </li>
+                                </li> 
 
                                 <li>
-                                    <a class="dropdown-item d-flex align-items-center" asp-area="" asp-controller="Profile" asp-action="Index">
-                                        <i class="bi bi-person"></i>
-                                        <span>My Profile</span>
-                                    </a>
-                                </li>
-                                <li>
-                                    <hr class="dropdown-divider">
-                                </li>
-
-                                <li>
-                                    <a class="dropdown-item d-flex align-items-center" asp-area="" asp-controller="FAQ" asp-action="Index">
-                                        <i class="bi bi-question-circle"></i>
-                                        <span>Need Help?</span>
-                                    </a>
-                                </li>
-                                <li>
-                                    <hr class="dropdown-divider">
-                                </li>
-                                <li>
-                                    <a class="dropdown-item d-flex align-items-center" asp-area="" asp-controller="Fight" asp-action="FightView">
-                                        <i class="bi bi-person"></i>
-                                        <span>My Profile</span>
-                                    </a>
-                                </li>
-                                <li>
-                                    <hr class="dropdown-divider">
-                                </li>
-
-                                <li>
-                                    <a class="dropdown-item d-flex align-items-center" href="pages-login.html">
+                                    <a asp-controller="Login" asp-action="Logout" class="dropdown-item d-flex align-items-center" >
                                         <i class="bi bi-box-arrow-right"></i>
                                         <span>Sign Out</span>
                                     </a>
-                                </li>
-                        }
+                                </li> 
+                             
+                       
                     </ul><!-- End Profile Dropdown Items -->
+                    }
                 </li><!-- End Profile Nav -->
 
             </ul>
@@ -275,83 +256,29 @@
                 </a>
             </li><!-- End Create Character Page Nav -->
 
-            <li class="nav-heading">Pages</li>
-
-            <li class="nav-item">
-                <a class="nav-link collapsed" asp-area="" asp-controller="Profile" asp-action="Index">
-                    <i class="bi bi-person"></i>
-                    <span>Profile</span>
-                </a>
-            </li><!-- End Profile Page Nav -->
-
-            <li class="nav-item">
-                <a class="nav-link collapsed" asp-area="" asp-controller="FAQ" asp-action="Index">
-                    <i class="bi bi-question-circle"></i>
-                    <span>F.A.Q</span>
-                </a>
-            </li><!-- End F.A.Q Page Nav -->
-
-            <li class="nav-item">
-                <a class="nav-link collapsed" asp-area="" asp-controller="Contact" asp-action="Index">
-                    <i class="bi bi-envelope"></i>
-                    <span>Contact</span>
-                </a>
-            </li><!-- End Contact Page Nav -->
+            <li class="nav-heading">Pages</li> 
 
              <li class="nav-item">
                 <a class="nav-link collapsed" asp-area="" asp-controller="Fight" asp-action="FightView">
                     <i class="bi bi-hammer"></i>
                     <span>Fight Simulator</span>
                 </a>
-            </li><!-- End Fight Nav-->
-            @if (!SignInManager.IsSignedIn(User))
-            {
-            <li class="nav-item">
-                <a class="nav-link collapsed" asp-area="" asp-controller="Login" asp-action="Login">
-                    <i class="bi bi-hammer"></i>
-                    <span>Login</span>
-                </a>
-            </li><!-- End Login Nav-->
-
-            
-                <li class="nav-item">
-                    <a class="nav-link collapsed" asp-area="" asp-controller="Login" asp-action="Registration">
-                    <i class="bi bi-hammer"></i>
-                    <span>Registration</span>
-                </a>
-            </li>}
-            @if (SignInManager.IsSignedIn(User))
-            {
-            <li class="nav-item">
-                <a class="nav-link collapsed" asp-area="" asp-controller="Login" asp-action="Logout">
-                    <i class="bi bi-hammer"></i>
-                    <span>Logout</span>
-                </a>
-            </li>}
-            <!-- End Registration Nav-->
-
-
-            @if (User.IsInRole("admin"))
-            {
-                <li class="nav-item">
-                    <a class="nav-link collapsed" asp-area="" asp-controller="Admin" asp-action="">
-                    <i class="bi bi-hammer"></i>
-                    <span>Admin Login</span>
-                </a>
-            </li>}<!-- End Admin Nav-->
-
+            </li><!-- End Fight Nav-->  
             <li class="nav-item">
                 <a class="nav-link collapsed" asp-area="" asp-controller="SuperAdmin" asp-action="Index">
                     <i class="bi bi-hammer"></i>
-                    <span>Super admin</span>
+                    <span>Seeding/Debug panel</span>
                 </a>
             </li><!-- End SuperAdmin Nav-->
+             @if (SignInManager.IsSignedIn(User))
+                        {   
               <li class="nav-item">
                 <a class="nav-link collapsed" asp-area="" asp-controller="Game" asp-action="Index">
                     <i class="bi bi-hammer"></i>
                     <span>Play</span>
-                </a>
+                </a> 
             </li><!-- End Play Nav-->
+            }
         </ul>
     </aside><!-- End Sidebar-->
 

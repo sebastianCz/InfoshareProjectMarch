@@ -12,8 +12,8 @@ using OstreCWEB.Data.DataBase;
 namespace OstreCWEB.Data.Migrations
 {
     [DbContext(typeof(OstreCWebContext))]
-    [Migration("20230104231230_Initial")]
-    partial class Initial
+    [Migration("20230108010702_UserParagraphCRD")]
+    partial class UserParagraphCRD
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -159,11 +159,11 @@ namespace OstreCWEB.Data.Migrations
 
             modelBuilder.Entity("OstreCWEB.Data.DataBase.ManyToMany.UserParagraph", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int>("UserParagraphId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("UserParagraphId"), 1L, 1);
 
                     b.Property<bool>("ActiveGame")
                         .HasColumnType("bit");
@@ -175,7 +175,7 @@ namespace OstreCWEB.Data.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
-                    b.HasKey("Id");
+                    b.HasKey("UserParagraphId");
 
                     b.HasIndex("ParagraphId");
 
@@ -214,6 +214,9 @@ namespace OstreCWEB.Data.Migrations
 
                     b.Property<int>("Intelligence")
                         .HasColumnType("int");
+
+                    b.Property<bool>("IsTemplate")
+                        .HasColumnType("bit");
 
                     b.Property<int>("Level")
                         .HasColumnType("int");
@@ -279,9 +282,6 @@ namespace OstreCWEB.Data.Migrations
                         .HasColumnType("int");
 
                     b.Property<int?>("StatusId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("UsesLeftBeforeRest")
                         .HasColumnType("int");
 
                     b.Property<int>("UsesMax")
@@ -428,6 +428,9 @@ namespace OstreCWEB.Data.Migrations
                         .HasColumnType("int");
 
                     b.Property<int>("CharacterActionId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("UsesLeftBeforeRest")
                         .HasColumnType("int");
 
                     b.HasKey("CharacterId", "CharacterActionId");
@@ -749,11 +752,18 @@ namespace OstreCWEB.Data.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
+                    b.Property<int?>("UserParagraphId")
+                        .HasColumnType("int");
+
                     b.HasIndex("PlayableClassId");
 
                     b.HasIndex("RaceId");
 
                     b.HasIndex("UserId");
+
+                    b.HasIndex("UserParagraphId")
+                        .IsUnique()
+                        .HasFilter("[UserParagraphId] IS NOT NULL");
 
                     b.HasDiscriminator().HasValue("PlayableCharacter");
                 });
@@ -988,11 +998,22 @@ namespace OstreCWEB.Data.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("OstreCWEB.Data.DataBase.ManyToMany.UserParagraph", "UserParagraph")
+                        .WithOne("ActiveCharacter")
+                        .HasForeignKey("OstreCWEB.Data.Repository.Characters.CharacterModels.PlayableCharacter", "UserParagraphId");
+
                     b.Navigation("CharacterClass");
 
                     b.Navigation("Race");
 
                     b.Navigation("User");
+
+                    b.Navigation("UserParagraph");
+                });
+
+            modelBuilder.Entity("OstreCWEB.Data.DataBase.ManyToMany.UserParagraph", b =>
+                {
+                    b.Navigation("ActiveCharacter");
                 });
 
             modelBuilder.Entity("OstreCWEB.Data.Repository.Characters.CharacterModels.Character", b =>

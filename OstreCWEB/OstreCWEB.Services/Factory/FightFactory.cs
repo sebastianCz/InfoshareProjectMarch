@@ -2,8 +2,9 @@
 using OstreCWEB.Data.DataBase;
 using OstreCWEB.Data.Repository.Characters.CharacterModels;
 using OstreCWEB.Data.Repository.Fight;
+using OstreCWEB.Services.Factory;
 
-namespace OstreCWEB.Services.Factories
+namespace OstreCWEB.Services.Factory
 {
     public class FightFactory : IFightFactory
     {
@@ -15,13 +16,14 @@ namespace OstreCWEB.Services.Factories
             _fightRepository = fightRepository;
             _db = new StaticLists();
         }
+        //I leave it here for now but this method should be deleted. The instance will be created in a different context. 
         private PlayableCharacter BuildNewPlayerInstance(int characterId)
         {
-            return GenerateNewObjectInstance<PlayableCharacter>(_db.GetPlayableCharacter(characterId));
+            return FactoryHelper.GenerateNewObjectInstance<PlayableCharacter>(_db.GetPlayableCharacter(characterId));
         }
         private Enemy BuildNewEnemiesInstance()
         {
-            return GenerateNewObjectInstance<Enemy>(_db.GetEnemy());
+            return FactoryHelper.GenerateNewObjectInstance<Enemy>(_db.GetEnemy());
         }
         private List<Enemy> BuildActiveEnemiesList(int amountToGenerate)
         {
@@ -32,24 +34,7 @@ namespace OstreCWEB.Services.Factories
             }
             return enemyList;
         }
-        internal T GenerateNewObjectInstance<T>(T objectInstance)
-        {
-            var objectAsText = JsonConvert.SerializeObject(
-                         objectInstance,
-                     new JsonSerializerSettings()
-                     {
-                         TypeNameHandling = TypeNameHandling.Auto
-                     });
-
-            var newObjectInstance = JsonConvert.DeserializeObject<T>(
-                objectAsText,
-                new JsonSerializerSettings()
-                {
-                    TypeNameHandling = TypeNameHandling.Auto
-                });
-            return newObjectInstance;
-
-        }
+       
         public List<Character> InitializeActions(List<Character> characterList)
         {
             foreach (var character in characterList)

@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 using OstreCWEB.Data.DataBase.ManyToMany;
-using OstreCWEB.ViewModel.Game;
+using OstreCWEB.ViewModel.Identity;
 
 namespace OstreCWEB.Mapping
 {
@@ -8,7 +8,9 @@ namespace OstreCWEB.Mapping
     {
         public GameProfile()
         {
-            CreateMap<UserParagraph, GameInstanceView>(); 
+            CreateMap<UserParagraph, UserParagraphView>()
+                .ForMember(destinationMember => destinationMember.UserParagraphId,
+                method => method.MapFrom(source => source.UserParagraphId)); 
         }
     }
 }

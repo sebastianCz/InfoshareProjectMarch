@@ -7,7 +7,7 @@ using OstreCWEB.Data.Repository.StoryModels.Properties;
 
 namespace OstreCWEB.Data.InitialData
 {
-    public static class SeedData
+    public static class SeedStories
     {
         public static void Initialize(IServiceProvider serviceProvider)
         {
@@ -15,8 +15,7 @@ namespace OstreCWEB.Data.InitialData
                 serviceProvider.GetRequiredService<
                     DbContextOptions<OstreCWebContext>>()))
             {
-                InitializeStories(context);
-
+                InitializeStories(context); 
                 context.SaveChanges();
             }
         }

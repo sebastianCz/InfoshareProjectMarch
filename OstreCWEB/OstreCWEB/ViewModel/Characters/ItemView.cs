@@ -11,6 +11,6 @@ namespace OstreCWEB.ViewModel.Characters
         public string ArmorType { get; set; }
         public int? Id { get; set; }
         public string? Name { get; set; }
-        public  CharacterAction ActionToTrigger { get; set; }
+        public  CharacterActionView ActionToTrigger { get; set; }
     }
 }
