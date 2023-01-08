@@ -42,7 +42,8 @@ namespace OstreCWEB.Controllers
 
             var userParagraph = await _userParagraphRepository.GetActiveByUserId(_userService.GetUserId(User));
             model.CurrentParagraph = _mapper.Map<CurrentParagraphView>(userParagraph.Paragraph);
-            
+            model.CurrentCharacter = _mapper.Map<CurrentCharacterView>(userParagraph.ActiveCharacter);
+    
             return View(model);
 
             //return RedirectToAction("Index", "Home");
@@ -51,6 +52,12 @@ namespace OstreCWEB.Controllers
         public async Task<ActionResult> CommitNextParagraph(int id)
         {
             await _gameService.NextParagraph(_userService.GetUserId(User), id);
+            return RedirectToAction("Index");
+        }
+
+        public async Task<ActionResult> HealCharacter()
+        {
+            await _gameService.HealCharacter(_userService.GetUserId(User));
             return RedirectToAction("Index");
         }
     }
