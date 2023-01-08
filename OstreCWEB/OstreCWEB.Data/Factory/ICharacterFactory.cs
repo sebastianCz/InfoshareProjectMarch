@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace OstreCWEB.Services.Factory
 {
-    public interface IPlayableCharacterFactory
+    public interface ICharacterFactory
     {
         public Task<PlayableCharacter> CreatePlayableCharacterInstance(PlayableCharacter playableCharacter);
     }

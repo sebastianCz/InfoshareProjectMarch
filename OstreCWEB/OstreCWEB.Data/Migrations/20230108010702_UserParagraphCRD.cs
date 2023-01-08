@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace OstreCWEB.Data.Migrations
 {
-    public partial class UserParagraphView : Migration
+    public partial class UserParagraphCRD : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {

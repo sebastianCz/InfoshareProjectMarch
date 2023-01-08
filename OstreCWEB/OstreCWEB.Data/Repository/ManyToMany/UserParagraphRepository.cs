@@ -12,8 +12,8 @@ namespace OstreCWEB.Data.Repository.ManyToMany
         private OstreCWebContext _context;
         private readonly IIdentityRepository _identityRepository;
         private readonly IPlayableCharacterRepository _playableCharacterRepository;
-        private readonly IPlayableCharacterFactory _playableCharacterFactory;
-        public UserParagraphRepository(IPlayableCharacterFactory playableCharacterFactory, OstreCWebContext context, IIdentityRepository indentityRepository, IPlayableCharacterRepository playableCharacterRepository)
+        private readonly CharacterFactory _playableCharacterFactory;
+        public UserParagraphRepository(CharacterFactory playableCharacterFactory, OstreCWebContext context, IIdentityRepository indentityRepository, IPlayableCharacterRepository playableCharacterRepository)
         {
             _context = context;
             _identityRepository = indentityRepository;

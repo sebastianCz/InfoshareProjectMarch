@@ -46,7 +46,7 @@ builder.Services.AddTransient<ISuperAdminRepository, SuperAdminRepository>();
 builder.Services.AddTransient<IIdentityRepository, IdentityRepository>();
 builder.Services.AddTransient<IUserService, UserService>();
 builder.Services.AddTransient<ISeeder, SeedCharacters>(); 
-builder.Services.AddTransient<IPlayableCharacterFactory, PlayableCharacterFactory>(); 
+builder.Services.AddTransient<CharacterFactory, CharacterFactory>(); 
 builder.Services.AddTransient<IUserParagraphRepository, UserParagraphRepository>();
 builder.Services.AddTransient<IItemCharacterRepository, ItemCharacterRepository>();
 builder.Services.AddTransient<IActionCharacterRepository, ActionCharacterRepository>();

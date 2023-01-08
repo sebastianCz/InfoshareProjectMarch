@@ -12,8 +12,8 @@ namespace OstreCWEB.Data.Repository.Characters
     public class PlayableCharacterRepository : IPlayableCharacterRepository
     {
         private OstreCWebContext _db;
-        private readonly IPlayableCharacterFactory _playableCharacterFactory;
-        public PlayableCharacterRepository(OstreCWebContext db,IPlayableCharacterFactory playableCharacterFactory)
+        private readonly CharacterFactory _playableCharacterFactory;
+        public PlayableCharacterRepository(OstreCWebContext db,CharacterFactory playableCharacterFactory)
         {
             _db = db;
             _playableCharacterFactory = playableCharacterFactory;

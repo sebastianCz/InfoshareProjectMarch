@@ -14,10 +14,10 @@ namespace OstreCWEB.Data.Repository.Identity
     
     public class IdentityRepository  : IIdentityRepository
     {
-        private readonly IPlayableCharacterFactory _playableCharacterFactory;
+        private readonly CharacterFactory _playableCharacterFactory;
         private readonly IPlayableCharacterRepository _playableCharacterRepository;
         private OstreCWebContext _context { get; }
-        public IdentityRepository(OstreCWebContext context ,IPlayableCharacterRepository playableCharacterRepository, IPlayableCharacterFactory playableCharacterFactory )
+        public IdentityRepository(OstreCWebContext context ,IPlayableCharacterRepository playableCharacterRepository, CharacterFactory playableCharacterFactory )
         {
             _playableCharacterFactory = playableCharacterFactory;
             _playableCharacterRepository = playableCharacterRepository;

@@ -4,10 +4,10 @@ using OstreCWEB.Data.Repository.Characters.MetaTags;
 
 namespace OstreCWEB.Services.Factory
 {
-    public class PlayableCharacterFactory : IPlayableCharacterFactory
+    public class CharacterFactory : ICharacterFactory
     {
         private OstreCWebContext _ostreCWebContext;
-        public PlayableCharacterFactory(OstreCWebContext ostreCWebContext)
+        public CharacterFactory(OstreCWebContext ostreCWebContext)
         {
             _ostreCWebContext = ostreCWebContext;
         }
