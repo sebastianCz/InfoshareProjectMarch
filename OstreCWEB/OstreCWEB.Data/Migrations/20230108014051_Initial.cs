@@ -5,15 +5,11 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace OstreCWEB.Data.Migrations
 {
-<<<<<<< HEAD:OstreCWEB/OstreCWEB.Data/Migrations/20230108023018_StoryReader.cs
-    public partial class StoryReader : Migration
-=======
 <<<<<<<< HEAD:OstreCWEB/OstreCWEB.Data/Migrations/20230108010702_UserParagraphCRD.cs
     public partial class UserParagraphCRD : Migration
 ========
     public partial class Initial : Migration
 >>>>>>>> view-game:OstreCWEB/OstreCWEB.Data/Migrations/20230108014051_Initial.cs
->>>>>>> 2358db5e24fd4fa668d3e23629333fd31c780686:OstreCWEB/OstreCWEB.Data/Migrations/20230108010702_UserParagraphCRD.cs
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {

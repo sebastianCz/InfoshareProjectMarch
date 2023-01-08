@@ -12,10 +12,6 @@ using OstreCWEB.Data.DataBase;
 namespace OstreCWEB.Data.Migrations
 {
     [DbContext(typeof(OstreCWebContext))]
-<<<<<<< HEAD:OstreCWEB/OstreCWEB.Data/Migrations/20230108023018_StoryReader.Designer.cs
-    [Migration("20230108023018_StoryReader")]
-    partial class StoryReader
-=======
 <<<<<<<< HEAD:OstreCWEB/OstreCWEB.Data/Migrations/20230108010702_UserParagraphCRD.Designer.cs
     [Migration("20230108010702_UserParagraphCRD")]
     partial class UserParagraphCRD
@@ -23,7 +19,6 @@ namespace OstreCWEB.Data.Migrations
     [Migration("20230108014051_Initial")]
     partial class Initial
 >>>>>>>> view-game:OstreCWEB/OstreCWEB.Data/Migrations/20230108014051_Initial.Designer.cs
->>>>>>> 2358db5e24fd4fa668d3e23629333fd31c780686:OstreCWEB/OstreCWEB.Data/Migrations/20230108010702_UserParagraphCRD.Designer.cs
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
