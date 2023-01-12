@@ -39,27 +39,7 @@ namespace OstreCWEB.Data.Repository.Characters.CharacterModels
         public List<CharacterAction>? InnateActions { get; set; }
 
         [NotMapped]
-        public List<CharacterAction> AllAvailableActions
-        {
-            get
-            {
-                var allAvailableActions = new List<CharacterAction>();
-                foreach (var item in EquippedItems) { if (item.ActionToTrigger != null) { allAvailableActions.Add(item.ActionToTrigger); } }
-                foreach (var action in InnateActions) { if (action != null) { allAvailableActions.Add(action); } }
-                foreach (var item in Inventory)
-                {
-                    if (item != null && item.ActionToTrigger != null)
-                    {
-                        allAvailableActions.Add(item.ActionToTrigger);
-                    }
-                }
-                return allAvailableActions;
-            }
-            set
-            {
-                //Should be removed. For now it will cause compile errors in fight ( it needs the SET )
-            }
-        }
+        public List<CharacterAction> AllAvailableActions { get; set; }
        
 
         [NotMapped]

@@ -4,6 +4,7 @@ using OstreCWEB.Data.Repository.Fight;
 using OstreCWEB.Services.Fight;
 using OstreCWEB.ViewModel.Fight;
 using OstreCWEB.ViewModel.Characters;
+using OstreCWEB.Data.DataBase;
 
 namespace OstreCWEB.Controllers
 {
@@ -28,6 +29,7 @@ namespace OstreCWEB.Controllers
         [HttpGet]
         public ActionResult InitializeFight()
         {
+            
             _fightService.InitializeFight();
             return RedirectToAction(nameof(FightView));
         }

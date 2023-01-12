@@ -91,8 +91,8 @@ using (var scope = app.Services.CreateScope())
     var services = scope.ServiceProvider; 
      SeedStories.Initialize(services); 
 }
-//var test = new StaticLists();
-//test.SeedData();
+var test = new StaticLists();
+test.SeedData();
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())

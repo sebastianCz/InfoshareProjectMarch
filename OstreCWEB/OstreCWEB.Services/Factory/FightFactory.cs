@@ -1,8 +1,6 @@
-﻿using Newtonsoft.Json;
-using OstreCWEB.Data.DataBase;
+﻿using OstreCWEB.Data.DataBase;
 using OstreCWEB.Data.Repository.Characters.CharacterModels;
 using OstreCWEB.Data.Repository.Fight;
-using OstreCWEB.Services.Factory;
 
 namespace OstreCWEB.Services.Factory
 {
@@ -39,10 +37,17 @@ namespace OstreCWEB.Services.Factory
         {
             foreach (var character in characterList)
             {
+
                 character.AllAvailableActions = new List<CharacterAction>();
-                if (character.EquippedArmor.ActionToTrigger != null) { character.AllAvailableActions.Add(character.EquippedArmor.ActionToTrigger); }
-                if (character.EquippedWeapon.ActionToTrigger != null) { character.AllAvailableActions.Add(character.EquippedWeapon.ActionToTrigger); }
-                if (character.EquippedSecondaryWeapon.ActionToTrigger != null) { character.AllAvailableActions.Add(character.EquippedSecondaryWeapon.ActionToTrigger); }
+                if (character.EquippedArmor.ActionToTrigger != null) { 
+                    character.AllAvailableActions.Add(character.EquippedArmor.ActionToTrigger); 
+                }
+                if (character.EquippedWeapon.ActionToTrigger != null) {
+                    character.AllAvailableActions.Add(character.EquippedWeapon.ActionToTrigger); 
+                }
+                if (character.EquippedSecondaryWeapon.ActionToTrigger != null) { 
+                    character.AllAvailableActions.Add(character.EquippedSecondaryWeapon.ActionToTrigger); 
+                }
 
                 if (character.InnateActions != null)
                 {

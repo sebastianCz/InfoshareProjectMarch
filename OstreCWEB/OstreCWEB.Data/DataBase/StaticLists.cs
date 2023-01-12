@@ -184,12 +184,14 @@ namespace OstreCWEB.Data.DataBase
                     new Item()
                     {
                         Name="Short Sword",
-                        ItemType =ItemType.TwoHandedWeapon
+                        ItemType =ItemType.TwoHandedWeapon,
+                        ActionToTrigger = Actions.FirstOrDefault(x => x.CharacterActionId == 1)
                     },
                     new Item()
                     {
                         Name="Healing Potion",
-                        ItemType = ItemType.Consumable
+                        ItemType = ItemType.Consumable,
+                        ActionToTrigger = Actions.FirstOrDefault(x => x.CharacterActionId == 4)
                     },
                     new Item()
                     {
@@ -227,9 +229,9 @@ namespace OstreCWEB.Data.DataBase
                     MaxHealthPoints = 10,
                     CurrentHealthPoints = 10,
                     Level = 1, 
-                    EquippedArmor = Items.FirstOrDefault(a => a.ItemId == 1),
-                    EquippedWeapon =Items.FirstOrDefault(a => a.ItemId == 2),
-                    EquippedSecondaryWeapon = Items.FirstOrDefault(a=>a.ItemId == 4),
+                    EquippedArmor = Items.FirstOrDefault(c=>c.Name == "Heavy Armor" ),
+                    EquippedWeapon =Items.FirstOrDefault(c=>c.Name == "Short Sword"),
+                    EquippedSecondaryWeapon = Items.FirstOrDefault(c=>c.Name =="Healing Potion"),
                     Inventory = new Item[5],
                     AllAvailableActions = new List<CharacterAction>(),
                     ActiveStatuses = new List<Status>(),
@@ -251,9 +253,9 @@ namespace OstreCWEB.Data.DataBase
                     MaxHealthPoints = 30,
                     CurrentHealthPoints = 30,
                     Level = 1, 
-                    EquippedArmor = Items.First(c=>c.ItemId==1),
-                    EquippedWeapon = Items.First(c=>c.ItemId==2),
-                    EquippedSecondaryWeapon =Items.First(c =>c.ItemId ==4),
+                    EquippedArmor = Items.First(c=>c.Name == "Heavy Armor" ),
+                    EquippedWeapon = Items.First(c=>c.Name == "Short Sword"),
+                    EquippedSecondaryWeapon =Items.First(c=>c.Name =="Healing Potion"),
                     Inventory = new Item[5],
                     AllAvailableActions = new List<CharacterAction>(),
                     InnateActions = new List<CharacterAction>(),
@@ -270,8 +272,8 @@ namespace OstreCWEB.Data.DataBase
 
                 }
             };
-            PlayableCharacters[0].InnateActions.Add(Actions.FirstOrDefault(x => x.CharacterActionId == 4));  //HardCoding
-            PlayableCharacters[0].InnateActions.Add(Actions.FirstOrDefault(x => x.CharacterActionId == 3));
+            //PlayableCharacters[0].InnateActions.Add(Actions.FirstOrDefault(x => x.CharacterActionId == 4));  //HardCoding
+            //PlayableCharacters[0].InnateActions.Add(Actions.FirstOrDefault(x => x.CharacterActionId == 3));
 
         }
 

@@ -86,6 +86,15 @@ namespace OstreCWEB.Services.Fight
         }
         private void StartAiTurn()
         {
+            var random = new Random();
+            
+            foreach (var enemy in _activeFightInstance.ActiveEnemies)
+            {
+                var result = random.Next(0, enemy.AllAvailableActions.Count());
+                var enemyAction = enemy.AllAvailableActions[result];
+                ApplyAction(_activeFightInstance.ActivePlayer, enemy, enemyAction);
+            }
+             
             //Ai needs to determine the actions it wants to use and apply them one by one.
             //The decision making can be random at first but later on we could go for a scripted behaviour depending
             //on current hp AND / OR the amount of dead enemies. For instance if the enemy is the last remainign enemy 
@@ -135,7 +144,7 @@ namespace OstreCWEB.Services.Fight
                     damage = ApplyDamage(target, action, savingThrow);
 
                     _activeFightInstance.FightHistory = UpdateFightHistory(_activeFightInstance.FightHistory,
-                        $" {target.CharacterName} lost {damage} healthpoints, current healthpoints {target.MaxHealthPoints}," +
+                        $" {target.CharacterName} lost {damage} healthpoints, current healthpoints {target.CurrentHealthPoints}," +
                         $" due to {caster.CharacterName} using {action.ActionName}");
                 }
                 else
@@ -144,7 +153,7 @@ namespace OstreCWEB.Services.Fight
                     ApplyStatus(target, action.Status);
 
                     _activeFightInstance.FightHistory = UpdateFightHistory(_activeFightInstance.FightHistory,
-                        $" {target.CharacterName} lost {damage} healthpoints, current healthpoints {target.MaxHealthPoints}, " +
+                        $" {target.CharacterName} lost {damage} healthpoints, current healthpoints {target.CurrentHealthPoints}, " +
                         $"due to {caster.CharacterName} using {action.ActionName}, ");
                 }
             }
@@ -160,13 +169,13 @@ namespace OstreCWEB.Services.Fight
                     if (IsTargetAlive(target))
                     {
                         _activeFightInstance.FightHistory = UpdateFightHistory(_activeFightInstance.FightHistory,
-                       $" {target.CharacterName} lost {damage} healthpoints, current healthpoints {target.MaxHealthPoints}," +
+                       $" {target.CharacterName} lost {damage} healthpoints, current healthpoints {target.CurrentHealthPoints}," +
                        $" due to {caster.CharacterName}  using {action.ActionName}");
                     }
                     else
                     {
                         _activeFightInstance.FightHistory = UpdateFightHistory(_activeFightInstance.FightHistory,
-                       $" {target.CharacterName} lost {damage} healthpoints, current healthpoints {target.MaxHealthPoints}," +
+                       $" {target.CharacterName} lost {damage} healthpoints, current healthpoints {target.CurrentHealthPoints}," +
                        $" due to {caster.CharacterName}  using {action.ActionName} and died");
                     }
                 }
@@ -215,16 +224,16 @@ namespace OstreCWEB.Services.Fight
 
             for (int i = 0; i < actions.Hit_Dice_Nr; i++)
             {
-                updateValue += DiceThrow(actions.Max_Dmg) + actions.Flat_Dmg;
+                updateValue += DiceThrow(actions.Max_Dmg);
             }
-            if (!savingThrow)
+            updateValue += actions.Flat_Dmg;
+            if (actions.SavingThrowPossible && !savingThrow)
             {
-                target.CurrentHealthPoints = target.CurrentHealthPoints + (updateValue / 2);
+                updateValue = updateValue/ 2;
             }
-            else
-            {
-                target.CurrentHealthPoints = target.CurrentHealthPoints + updateValue;
-            }
+
+            target.CurrentHealthPoints = target.CurrentHealthPoints + updateValue;
+
             return updateValue;
         }
         private bool SpellSavingThrow(Character target, Character caster, CharacterAction action)
