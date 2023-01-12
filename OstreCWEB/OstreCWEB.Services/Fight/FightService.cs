@@ -59,7 +59,20 @@ namespace OstreCWEB.Services.Fight
             else
             {
                 _activeFightInstance.TurnNumber = UpdateTurnNumber(_activeFightInstance.TurnNumber);
-                if (_activeFightInstance.PlayerActionCounter == 0) { _activeFightInstance.PlayerActionCounter = 2; StartAiTurn(); }
+                if (_activeFightInstance.PlayerActionCounter == 0)
+                {
+                    _activeFightInstance.PlayerActionCounter = 2;
+                    StartAiTurn();
+                }
+
+            }
+            if (_activeFightInstance.ActiveTarget.CombatId != 1)
+            {
+                if (_activeFightInstance.ActiveTarget.CurrentHealthPoints <= 0)
+                {
+                    _activeFightInstance.ActiveEnemies.Remove((Enemy)GetActiveTarget());
+                    _activeFightInstance.ActiveTarget = null;
+                }
 
             }
 
@@ -87,14 +100,14 @@ namespace OstreCWEB.Services.Fight
         private void StartAiTurn()
         {
             var random = new Random();
-            
+
             foreach (var enemy in _activeFightInstance.ActiveEnemies)
             {
                 var result = random.Next(0, enemy.AllAvailableActions.Count());
                 var enemyAction = enemy.AllAvailableActions[result];
                 ApplyAction(_activeFightInstance.ActivePlayer, enemy, enemyAction);
             }
-             
+
             //Ai needs to determine the actions it wants to use and apply them one by one.
             //The decision making can be random at first but later on we could go for a scripted behaviour depending
             //on current hp AND / OR the amount of dead enemies. For instance if the enemy is the last remainign enemy 
@@ -139,23 +152,15 @@ namespace OstreCWEB.Services.Fight
             {
                 var damage = 0;
                 var savingThrow = SpellSavingThrow(target, caster, action);
-                if (savingThrow == false)
+                damage = ApplyDamage(target, action, savingThrow);
+                if (!savingThrow)
                 {
-                    damage = ApplyDamage(target, action, savingThrow);
-
-                    _activeFightInstance.FightHistory = UpdateFightHistory(_activeFightInstance.FightHistory,
-                        $" {target.CharacterName} lost {damage} healthpoints, current healthpoints {target.CurrentHealthPoints}," +
-                        $" due to {caster.CharacterName} using {action.ActionName}");
-                }
-                else
-                {
-                    damage = ApplyDamage(target, action, savingThrow);
                     ApplyStatus(target, action.Status);
-
-                    _activeFightInstance.FightHistory = UpdateFightHistory(_activeFightInstance.FightHistory,
-                        $" {target.CharacterName} lost {damage} healthpoints, current healthpoints {target.CurrentHealthPoints}, " +
-                        $"due to {caster.CharacterName} using {action.ActionName}, ");
                 }
+                _activeFightInstance.FightHistory = UpdateFightHistory(_activeFightInstance.FightHistory,
+                       $" {target.CharacterName} lost {damage} healthpoints, current healthpoints {target.CurrentHealthPoints}," +
+                       $" due to {caster.CharacterName} using {action.ActionName}" +
+                       $" saving throw was {(savingThrow ? "successful" : "failed")}");
             }
             else
             {
@@ -206,16 +211,15 @@ namespace OstreCWEB.Services.Fight
 
             for (int i = 0; i < actions.Hit_Dice_Nr; i++)
             {
-                updateValue += DiceThrow(actions.Max_Dmg) + actions.Flat_Dmg;
+                updateValue += DiceThrow(actions.Max_Dmg);
             }
-            if (savingThrow)
+            updateValue += actions.Flat_Dmg;
+            if (actions.SavingThrowPossible && savingThrow)
             {
-                target.CurrentHealthPoints = target.CurrentHealthPoints - (updateValue / 2);
+                updateValue = updateValue / 2;
             }
-            else
-            {
-                target.CurrentHealthPoints = target.CurrentHealthPoints - updateValue;
-            }
+            target.CurrentHealthPoints = target.CurrentHealthPoints - updateValue;
+
             return updateValue;
         }
         private int ApplyHeal(Character target, CharacterAction actions, bool savingThrow)
@@ -229,7 +233,7 @@ namespace OstreCWEB.Services.Fight
             updateValue += actions.Flat_Dmg;
             if (actions.SavingThrowPossible && !savingThrow)
             {
-                updateValue = updateValue/ 2;
+                updateValue = updateValue / 2;
             }
 
             target.CurrentHealthPoints = target.CurrentHealthPoints + updateValue;

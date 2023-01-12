@@ -150,7 +150,7 @@ namespace OstreCWEB.Data.DataBase
                 ActionDescription = "Heals the user for 1d6 +2",
                 ActionType = CharacterActionType.ItemAction,
                 SavingThrowPossible = false,
-                Max_Dmg = 1,
+                Max_Dmg = 6,
                 Flat_Dmg = 2,
                 Hit_Dice_Nr = 1,
                 PossibleTargets = "caster",
