@@ -31,6 +31,9 @@ builder.Services.AddIdentity<User, IdentityRole>()
     .AddEntityFrameworkStores<OstreCWebContext>()
     .AddDefaultTokenProviders();
 
+builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddSwaggerGen();
+
 builder.Services.ConfigureApplicationCookie(options => options.LoginPath = "/LoginController/Login");
 
 builder.Services.AddScoped<IUserAuthenticationService, UserAuthenticationService>();
@@ -81,7 +84,7 @@ builder.Host.UseSerilog((hostBuilderContext, loggerConfiguration) =>
     restrictedToMinimumLevel: Serilog.Events.LogEventLevel.Warning);
 });
 
-builder.Services.AddSwaggerGen();
+ 
 var app = builder.Build();
 
  
@@ -115,10 +118,11 @@ app.UseRouting();
 
 app.UseAuthentication();
 app.UseAuthorization();
+app.MapControllers();
 
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=Home}/{action=Index}/{id?}");
+    pattern: "{controller=Swagger}/{action=Index}/{id?}");
 
 app.MapControllerRoute(
     name: "storyBuilder",
