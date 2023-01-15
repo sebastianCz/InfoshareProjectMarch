@@ -140,6 +140,11 @@ namespace OstreCWEB.Data.DataBase
                     .HasMany(x => x.Paragraphs)
                     .WithOne(x => x.Story)
                     .HasForeignKey(x => x.StoryId);
+
+                builder.Entity<Story>()
+                    .HasOne(x => x.User)
+                    .WithMany(x => x.StoriesCreated)
+                    .HasForeignKey(x => x.UserId);
             } // Story
 
             { // Paragraph

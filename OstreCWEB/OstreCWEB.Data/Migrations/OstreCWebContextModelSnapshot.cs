@@ -617,7 +617,7 @@ namespace OstreCWEB.Data.Migrations
                     b.Property<int>("AmountOfEnemy")
                         .HasColumnType("int");
 
-                    b.Property<int?>("EnemyId")
+                    b.Property<int>("EnemyId")
                         .HasColumnType("int");
 
                     b.Property<int>("FightPropId")
@@ -927,7 +927,9 @@ namespace OstreCWEB.Data.Migrations
                 {
                     b.HasOne("OstreCWEB.Data.Repository.Characters.CharacterModels.Enemy", "Enemy")
                         .WithMany("EnemyInParagraphs")
-                        .HasForeignKey("EnemyId");
+                        .HasForeignKey("EnemyId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("OstreCWEB.Data.Repository.StoryModels.Properties.FightProp", "FightProp")
                         .WithMany("ParagraphEnemies")
@@ -975,9 +977,11 @@ namespace OstreCWEB.Data.Migrations
 
             modelBuilder.Entity("OstreCWEB.Data.Repository.StoryModels.Story", b =>
                 {
-                    b.HasOne("OstreCWEB.Data.Repository.Identity.User", null)
+                    b.HasOne("OstreCWEB.Data.Repository.Identity.User", "User")
                         .WithMany("StoriesCreated")
                         .HasForeignKey("UserId");
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("OstreCWEB.Data.Repository.Characters.CharacterModels.PlayableCharacter", b =>

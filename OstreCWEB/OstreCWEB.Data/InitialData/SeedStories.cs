@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using OstreCWEB.Data.DataBase;
+using OstreCWEB.Data.Repository.Identity;
 using OstreCWEB.Data.Repository.StoryModels;
 using OstreCWEB.Data.Repository.StoryModels.Enums;
 using OstreCWEB.Data.Repository.StoryModels.Properties;
@@ -9,18 +10,7 @@ namespace OstreCWEB.Data.InitialData
 {
     public static class SeedStories
     {
-        public static void Initialize(IServiceProvider serviceProvider)
-        {
-            using (var context = new OstreCWebContext(
-                serviceProvider.GetRequiredService<
-                    DbContextOptions<OstreCWebContext>>()))
-            {
-                InitializeStories(context); 
-                context.SaveChanges();
-            }
-        }
-
-        private static void InitializeStories(OstreCWebContext context)
+        public static void Initialize(OstreCWebContext context, User user)
         {
             if (context.Stories.Any())
             {
@@ -30,6 +20,7 @@ namespace OstreCWEB.Data.InitialData
             context.Stories.Add(
                 new Story
                 {
+                    User = user,
                     Name = "Lost Mine Of Phandelver",
                     Description = "Lost Mine of Phandelver is an adventur is set a short distance from the city of Neverwinter in the Sword Coast region of the Forgotten Realms setting.",
                     Paragraphs = new List<Paragraph>
@@ -166,7 +157,7 @@ namespace OstreCWEB.Data.InitialData
                                     new EnemyInParagraph
                                     {
                                         AmountOfEnemy = 2,
-                                        //EnemyId = 1,
+                                        EnemyId = 1
                                         //EnemyName = "Goblin"
                                     }
                                 }
@@ -200,7 +191,7 @@ namespace OstreCWEB.Data.InitialData
                         }
                     },
                     FirstParagraphId = 2,
-                });
+                });;
             context.SaveChanges();
         }
     }

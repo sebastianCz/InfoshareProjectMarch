@@ -12,8 +12,8 @@ using OstreCWEB.Data.DataBase;
 namespace OstreCWEB.Data.Migrations
 {
     [DbContext(typeof(OstreCWebContext))]
-    [Migration("20230114120447_initial")]
-    partial class initial
+    [Migration("20230115133216_Initial")]
+    partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -622,14 +622,12 @@ namespace OstreCWEB.Data.Migrations
                     b.Property<int>("EnemyId")
                         .HasColumnType("int");
 
-                    b.Property<string>("EnemyName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<int>("FightPropId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("EnemyId");
 
                     b.HasIndex("FightPropId");
 
@@ -929,11 +927,19 @@ namespace OstreCWEB.Data.Migrations
 
             modelBuilder.Entity("OstreCWEB.Data.Repository.StoryModels.Properties.EnemyInParagraph", b =>
                 {
+                    b.HasOne("OstreCWEB.Data.Repository.Characters.CharacterModels.Enemy", "Enemy")
+                        .WithMany("EnemyInParagraphs")
+                        .HasForeignKey("EnemyId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("OstreCWEB.Data.Repository.StoryModels.Properties.FightProp", "FightProp")
                         .WithMany("ParagraphEnemies")
                         .HasForeignKey("FightPropId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("Enemy");
 
                     b.Navigation("FightProp");
                 });
@@ -973,9 +979,11 @@ namespace OstreCWEB.Data.Migrations
 
             modelBuilder.Entity("OstreCWEB.Data.Repository.StoryModels.Story", b =>
                 {
-                    b.HasOne("OstreCWEB.Data.Repository.Identity.User", null)
+                    b.HasOne("OstreCWEB.Data.Repository.Identity.User", "User")
                         .WithMany("StoriesCreated")
                         .HasForeignKey("UserId");
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("OstreCWEB.Data.Repository.Characters.CharacterModels.PlayableCharacter", b =>
@@ -1082,6 +1090,11 @@ namespace OstreCWEB.Data.Migrations
             modelBuilder.Entity("OstreCWEB.Data.Repository.StoryModels.Story", b =>
                 {
                     b.Navigation("Paragraphs");
+                });
+
+            modelBuilder.Entity("OstreCWEB.Data.Repository.Characters.CharacterModels.Enemy", b =>
+                {
+                    b.Navigation("EnemyInParagraphs");
                 });
 #pragma warning restore 612, 618
         }

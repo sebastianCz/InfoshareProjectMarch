@@ -13,7 +13,7 @@ namespace OstreCWEB.Data.Repository.StoryModels.Properties
         public int FightPropId { get; set; }
         public FightProp FightProp { get; set; }
 
-        public int? EnemyId { get; set; }
-        public Enemy? Enemy { get; set; }
+        public int EnemyId { get; set; }
+        public Enemy Enemy { get; set; }
     }
 }
