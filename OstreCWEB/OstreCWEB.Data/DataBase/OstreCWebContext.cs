@@ -140,6 +140,11 @@ namespace OstreCWEB.Data.DataBase
                     .HasMany(x => x.Paragraphs)
                     .WithOne(x => x.Story)
                     .HasForeignKey(x => x.StoryId);
+
+                builder.Entity<Story>()
+                    .HasOne(x => x.User)
+                    .WithMany(x => x.StoriesCreated)
+                    .HasForeignKey(x => x.UserId);
             } // Story
 
             { // Paragraph
@@ -178,6 +183,11 @@ namespace OstreCWEB.Data.DataBase
                     .HasMany(x => x.ParagraphEnemies)
                     .WithOne(x => x.FightProp)
                     .HasForeignKey(x => x.FightPropId);
+
+                builder.Entity<EnemyInParagraph>()
+                    .HasOne(x => x.Enemy)
+                    .WithMany(x => x.EnemyInParagraphs)
+                    .HasForeignKey(x => x.EnemyId);
             } // ParagraphFight
         }
 

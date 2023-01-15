@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace OstreCWEB.Data.Migrations
 {
-    public partial class initial : Migration
+    public partial class Initial : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -434,28 +434,6 @@ namespace OstreCWEB.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "EnemyInParagraphs",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    AmountOfEnemy = table.Column<int>(type: "int", nullable: false),
-                    EnemyId = table.Column<int>(type: "int", nullable: false),
-                    EnemyName = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    FightPropId = table.Column<int>(type: "int", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_EnemyInParagraphs", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_EnemyInParagraphs_FightProps_FightPropId",
-                        column: x => x.FightPropId,
-                        principalTable: "FightProps",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "Character",
                 columns: table => new
                 {
@@ -529,6 +507,33 @@ namespace OstreCWEB.Data.Migrations
                         column: x => x.CharacterActionId,
                         principalTable: "CharacterActions",
                         principalColumn: "CharacterActionId",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "EnemyInParagraphs",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    AmountOfEnemy = table.Column<int>(type: "int", nullable: false),
+                    FightPropId = table.Column<int>(type: "int", nullable: false),
+                    EnemyId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_EnemyInParagraphs", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_EnemyInParagraphs_Character_EnemyId",
+                        column: x => x.EnemyId,
+                        principalTable: "Character",
+                        principalColumn: "CharacterId",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_EnemyInParagraphs_FightProps_FightPropId",
+                        column: x => x.FightPropId,
+                        principalTable: "FightProps",
+                        principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
@@ -638,6 +643,11 @@ namespace OstreCWEB.Data.Migrations
                 table: "DialogProps",
                 column: "ParagraphId",
                 unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_EnemyInParagraphs_EnemyId",
+                table: "EnemyInParagraphs",
+                column: "EnemyId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_EnemyInParagraphs_FightPropId",

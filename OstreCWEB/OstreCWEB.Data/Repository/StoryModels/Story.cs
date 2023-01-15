@@ -1,4 +1,6 @@
-﻿namespace OstreCWEB.Data.Repository.StoryModels
+﻿using OstreCWEB.Data.Repository.Identity;
+
+namespace OstreCWEB.Data.Repository.StoryModels
 {
     public class Story
     {
@@ -11,7 +13,8 @@
         public int FirstParagraphId { get; set; }
 
         // DB
-        //public int UserId { get; set; }
+        public string? UserId { get; set; }
+        public User? User { get; set; }
 
         public int GetAmountOfParagraphs()
         {

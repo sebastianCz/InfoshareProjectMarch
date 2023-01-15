@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Newtonsoft.Json;
 using OstreCWEB.Data.DataBase;
+using OstreCWEB.Data.InitialData;
 using OstreCWEB.Data.Repository.Characters.CharacterModels;
 using OstreCWEB.Data.Repository.Characters.Enums;
 using OstreCWEB.Data.Repository.Characters.MetaTags;
@@ -355,7 +356,7 @@ public class SeedCharacters : ISeeder
 
         //_db.SaveChanges();
         _db.SaveChanges();
-
+        SeedStories.Initialize(_db, users.First(u => u.UserName == "AdminUser"));
     }
 
     public  List<PlayableCharacter> UpdatePlayableCharacterItemsRelations(List<PlayableCharacter> characters)

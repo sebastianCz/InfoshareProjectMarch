@@ -27,7 +27,8 @@ namespace OstreCWEB.Mapping
 
             CreateMap<FightProp, FightPropView>();
 
-            CreateMap<EnemyInParagraph, EnemyInParagraphView>();
+            CreateMap<EnemyInParagraph, EnemyInParagraphView>()
+                .ForMember(dest => dest.EnemyName, opt => opt.Ignore());
 
             CreateMap<Choice, ChoiceView>();
 
