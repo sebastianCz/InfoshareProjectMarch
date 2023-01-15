@@ -5,7 +5,7 @@ using OstreCWEB.Data.Repository.Characters.Interfaces;
 
 namespace OstreCWEB.Data.Repository.Characters
 {
-    public class CharacterActionRepository : ICharacterActionsRepository
+    internal class CharacterActionRepository : ICharacterActionsRepository
     {
         private OstreCWebContext _db;
         public CharacterActionRepository(OstreCWebContext db)

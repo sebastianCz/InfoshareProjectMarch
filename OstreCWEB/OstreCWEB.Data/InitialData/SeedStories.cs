@@ -1,6 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.DependencyInjection;
-using OstreCWEB.Data.DataBase;
+﻿using OstreCWEB.Data.DataBase;
+using OstreCWEB.Data.Repository.Characters.Enums;
 using OstreCWEB.Data.Repository.Identity;
 using OstreCWEB.Data.Repository.StoryModels;
 using OstreCWEB.Data.Repository.StoryModels.Enums;
@@ -85,7 +84,7 @@ namespace OstreCWEB.Data.InitialData
                             StageDescription = "Perception test to see goblins",
                             TestProp = new TestProp
                             {
-                                //Skill = Skills.Perception,
+                                Skill = Skills.Perception,
                                 TestDifficulty = TestDifficulty.Easy
                             },
                             Choices = new List<Choice>

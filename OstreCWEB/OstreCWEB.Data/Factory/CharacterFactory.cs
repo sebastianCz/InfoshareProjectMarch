@@ -2,9 +2,9 @@
 using OstreCWEB.Data.Repository.Characters.CharacterModels;
 using OstreCWEB.Data.Repository.Characters.MetaTags;
 
-namespace OstreCWEB.Services.Factory
+namespace OstreCWEB.Data.Factory
 {
-    public class CharacterFactory : ICharacterFactory
+    internal class CharacterFactory : ICharacterFactory
     {
         private OstreCWebContext _ostreCWebContext;
         public CharacterFactory(OstreCWebContext ostreCWebContext)

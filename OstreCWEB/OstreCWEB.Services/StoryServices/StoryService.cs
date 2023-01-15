@@ -1,9 +1,8 @@
 ﻿using OstreCWEB.Data.Repository.StoryModels;
-using System.Runtime.CompilerServices;
 
-namespace OstreCWEB.Services.StoryService
+namespace OstreCWEB.Services.StoryServices
 {
-    public class StoryService : IStoryService
+    internal class StoryService : IStoryService
     {
         private readonly IStoryRepository _storyRepository;
 
@@ -81,12 +80,6 @@ namespace OstreCWEB.Services.StoryService
                 story.FirstParagraphId = story.Paragraphs[0].Id;
                 await _storyRepository.UpdateStory(story);
             }          
-        }
-
-        //Game
-        public Task CommitNextParagraph(int id)
-        {
-            throw new NotImplementedException();
         }
     }
 }

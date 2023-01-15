@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using OstreCWEB.Data.Repository.StoryModels;
-using OstreCWEB.Services.StoryService;
+using OstreCWEB.Services.StoryServices;
 using OstreCWEB.ViewModel.StoryBuilder;
 
 namespace OstreCWEB.Controllers

@@ -1,25 +1,51 @@
-﻿@model OstreCWEB.ViewModel.StoryReader.GameStageView
+﻿@using OstreCWEB.Data.Repository.StoryModels.Enums
+@model OstreCWEB.ViewModel.StoryReader.GameStageView
 
 <section class="section dashboard">
     <div class="row">
         <!-- Left side columns -->
-        <div class="col-lg-8">
-            <div class="row">
-                <!-- Heal button -->
-                <div class="col-12">
-                    <div class="card">
-                        <div class="btn-group" role="group" aria-label="Basic mixed styles example">
-                            <a asp-route-name="StoryReader" asp-action="HealCharacter" type="button" class="btn btn-success">Heal your Hero</a>
+        @if (Model.CurrentParagraph.ParagraphType == ParagraphType.DescOfStage)
+        {
+            <div class="col-lg-8">
+                <div class="row">
+                    <!-- Heal button -->
+                    <div class="col-12">
+                        <div class="card">
+                            <div class="btn-group" role="group" aria-label="Basic mixed styles example">
+                                <a asp-route-name="StoryReader" asp-action="HealCharacter" type="button" class="btn btn-success">Heal your Hero</a>
+                            </div>
                         </div>
                     </div>
+                    <!-- Heal button -->
+                    <!-- Paragraph Card -->
+                    <div class="col-12">
+                        <partial name="_CurrentParagraph" model="@Model.CurrentParagraph" />
+                    </div><!-- End Paragraph Card -->
                 </div>
-                <!-- Heal button -->
-                <!-- Paragraph Card -->
-                <div class="col-12">
-                    <partial name="_CurrentParagraph" model="@Model.CurrentParagraph" />
-                </div><!-- End Paragraph Card -->
             </div>
-        </div>
+        }
+        @if (Model.CurrentParagraph.ParagraphType == ParagraphType.Test)
+        {
+            <div class="col-lg-8">
+                <div class="row">
+                    <!-- Paragraph Card -->
+                    <div class="col-12">
+                        <partial name="_TestParagraph" model="@Model.TestParagraphView" />
+                    </div><!-- End Paragraph Card -->
+                </div>
+            </div>
+        }
+        @if (Model.CurrentParagraph.ParagraphType == ParagraphType.Fight)
+        {
+                <div class="col-lg-8">
+                    <div class="row">
+                        <!-- Paragraph Card -->
+                        <div class="col-12">
+                            <partial name="_FightParagraph" />
+                        </div><!-- End Paragraph Card -->
+                    </div>
+                </div>
+        }
         <!-- End Left side columns -->
         <!-- Right side columns -->
         <div class="col-lg-4">

@@ -6,7 +6,7 @@ using OstreCWEB.Services.Factory;
 
 namespace OstreCWEB.Services.Fight
 {
-    public class FightService : IFightService
+    internal class FightService : IFightService
     {
         private IFightRepository _fightRepository;
         public StaticLists _db { get; } = new StaticLists();

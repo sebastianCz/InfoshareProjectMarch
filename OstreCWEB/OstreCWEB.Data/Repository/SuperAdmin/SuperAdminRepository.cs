@@ -4,7 +4,7 @@ using OstreCWEB.Data.Repository.Identity;
 namespace OstreCWEB.Data.Repository.SuperAdmin
 {
 
-    public class SuperAdminRepository : ISuperAdminRepository
+    internal class SuperAdminRepository : ISuperAdminRepository
     {
         public OstreCWebContext _db;
         public SuperAdminRepository(OstreCWebContext db)

@@ -1,5 +1,4 @@
 ﻿using Microsoft.AspNetCore.Identity;
-using Newtonsoft.Json;
 using OstreCWEB.Data.DataBase;
 using OstreCWEB.Data.InitialData;
 using OstreCWEB.Data.Repository.Characters.CharacterModels;
@@ -8,10 +7,10 @@ using OstreCWEB.Data.Repository.Characters.MetaTags;
 using OstreCWEB.Data.Repository.Identity;
 using OstreCWEB.Services.Identity;
 
- 
+
 namespace OstreCWEB.Services.Seed;
 
-public class SeedCharacters : ISeeder
+internal class SeedCharacters : ISeeder
 {
     private readonly OstreCWebContext _db;
     private readonly UserManager<User> _userManager;

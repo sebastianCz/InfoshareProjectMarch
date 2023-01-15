@@ -1,12 +1,10 @@
-﻿using Newtonsoft.Json;
-using OstreCWEB.Data.DataBase;
+﻿using OstreCWEB.Data.DataBase;
 using OstreCWEB.Data.Repository.Characters.CharacterModels;
 using OstreCWEB.Data.Repository.Fight;
-using OstreCWEB.Services.Factory;
 
 namespace OstreCWEB.Services.Factory
 {
-    public class FightFactory : IFightFactory
+    internal class FightFactory : IFightFactory
     {
         private IFightRepository _fightRepository;
         private StaticLists _db;

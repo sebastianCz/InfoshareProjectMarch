@@ -1,16 +1,12 @@
 ﻿using OstreCWEB.Data.DataBase.ManyToMany;
-using OstreCWEB.Data.Repository.ManyToMany;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using OstreCWEB.Data.Repository.Identity;
+using OstreCWEB.Data.Repository.ManyToMany;
 using OstreCWEB.Data.Repository.StoryModels;
+using OstreCWEB.Data.Repository.StoryModels.Enums;
 
 namespace OstreCWEB.Services.Game
 {
-    public class GameService : IGameService
+    internal class GameService : IGameService
     {
         private readonly IUserParagraphRepository _userParagraphRepository;
         private readonly IIdentityRepository _identityRepository;
@@ -57,6 +53,43 @@ namespace OstreCWEB.Services.Game
             var userParagraph = await _userParagraphRepository.GetActiveByUserId(userId);
             userParagraph.ActiveCharacter.CurrentHealthPoints = userParagraph.ActiveCharacter.MaxHealthPoints;
             await _userParagraphRepository.Update(userParagraph);
+        }
+
+        public async Task<int> TestThrow(string userId, int rollValue)
+        {
+            var userParagraph = await _userParagraphRepository.GetActiveByUserId(userId);
+
+            int testDifficulty = GetTestDifficulty(userParagraph.Paragraph.TestProp.TestDifficulty);
+            int modifire = GetModifire();
+            int result = rollValue + modifire;
+
+            return result < testDifficulty ? 0 : 1; // 0 - Failure, 1 - Success
+        }
+
+        public int ThrowDice(int maxValue)
+        {
+            Random rnd = new Random();
+            return rnd.Next(1, maxValue+1);
+        }
+
+        //Private
+        private int GetTestDifficulty(TestDifficulty testDifficulty)
+        {
+            switch (testDifficulty)
+            {
+                case TestDifficulty.VeryEasy: return 5;
+                case TestDifficulty.Easy: return 10;
+                case TestDifficulty.Medium: return 15;
+                case TestDifficulty.Hard: return 20;
+                case TestDifficulty.VeryHard: return 25;
+                case TestDifficulty.NearlyImpossible: return 30;
+                default: throw new ArgumentOutOfRangeException();
+            }
+        }
+
+        private int GetModifire()
+        {
+            return 0;
         }
     }
 }

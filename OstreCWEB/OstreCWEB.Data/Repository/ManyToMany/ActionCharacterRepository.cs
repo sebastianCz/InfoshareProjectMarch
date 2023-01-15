@@ -1,14 +1,8 @@
-﻿using OstreCWEB.Data.DataBase.ManyToMany;
-using OstreCWEB.Data.Repository.Characters.MetaTags;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using OstreCWEB.Data.Repository.Characters.MetaTags;
 
 namespace OstreCWEB.Data.Repository.ManyToMany
 {
-    public class ActionCharacterRepository : IActionCharacterRepository
+    internal class ActionCharacterRepository : IActionCharacterRepository
     {
         public Task<ActionCharacter> Create()
         {
