@@ -83,6 +83,8 @@ namespace OstreCWEB.Data.Repository.ManyToMany
             return _context.UserParagraphs
                 .Include(x => x.Paragraph)
                     .ThenInclude(p => p.Choices)
+                .Include(x => x.Paragraph)
+                    .ThenInclude(x => x.TestProp)
                 .Include(x => x.ActiveCharacter)
                 .SingleOrDefault(s => s.User.Id == userId && s.ActiveGame);
         }

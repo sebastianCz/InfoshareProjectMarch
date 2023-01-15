@@ -82,11 +82,5 @@ namespace OstreCWEB.Services.StoryService
                 await _storyRepository.UpdateStory(story);
             }          
         }
-
-        //Game
-        public Task CommitNextParagraph(int id)
-        {
-            throw new NotImplementedException();
-        }
     }
 }

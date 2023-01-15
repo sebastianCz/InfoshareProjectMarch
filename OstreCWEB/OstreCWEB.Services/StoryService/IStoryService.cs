@@ -18,8 +18,5 @@ namespace OstreCWEB.Services.StoryService
 
         //Paragraph
         Task AddParagraph(Paragraph paragraph);
-
-        //Game
-        Task CommitNextParagraph(int id);
     }
 }

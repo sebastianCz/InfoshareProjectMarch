@@ -2,7 +2,6 @@ using AutoMapper;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using OstreCWEB.Data.DataBase;
-using OstreCWEB.Data.InitialData;
 using OstreCWEB.Data.Repository.Characters;
 using OstreCWEB.Data.Repository.Characters.Interfaces;
 using OstreCWEB.Data.Repository.Fight;
