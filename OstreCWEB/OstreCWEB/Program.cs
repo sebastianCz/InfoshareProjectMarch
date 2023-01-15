@@ -1,3 +1,4 @@
+using AutoMapper;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using OstreCWEB.Data.DataBase;
@@ -87,7 +88,7 @@ builder.Host.UseSerilog((hostBuilderContext, loggerConfiguration) =>
  
 var app = builder.Build();
 
- 
+app.Services.GetRequiredService<IMapper>().ConfigurationProvider.AssertConfigurationIsValid();
 
 using (var scope = app.Services.CreateScope())
 { 
@@ -127,5 +128,5 @@ app.MapControllerRoute(
 app.MapControllerRoute(
     name: "storyBuilder",
     pattern: "{controller=Home}/{action=Index}/{id?}/{paragraphId?}");
- 
+
 app.Run();

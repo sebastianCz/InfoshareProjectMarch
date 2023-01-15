@@ -1,19 +1,14 @@
 ﻿using AutoMapper;
-using OstreCWEB.Data.Repository.Identity;
-using OstreCWEB.ViewModel.Identity;
+using OstreCWEB.Data.Repository.Fight;
+using OstreCWEB.ViewModel.Fight;
 
 namespace OstreCWEB.Mapping
 {
-    public class IdentityProfile : Profile
+    public class FightProfile : Profile
     {
-        public IdentityProfile()
+        public FightProfile()
         {
-            CreateMap<User,UserView>(); 
+            //CreateMap<FightInstance, FightViewModel>();
         }
     }
 }
-
-
-
-
- 
