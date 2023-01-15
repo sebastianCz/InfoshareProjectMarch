@@ -8,7 +8,7 @@ namespace OstreCWEB.Mapping
     {
         public FightProfile()
         {
-            CreateMap<FightInstance, FightViewModel>();
+            //CreateMap<FightInstance, FightViewModel>();
         }
     }
 }
