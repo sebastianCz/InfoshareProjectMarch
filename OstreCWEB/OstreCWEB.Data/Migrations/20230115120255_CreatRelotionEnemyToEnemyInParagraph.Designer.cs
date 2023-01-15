@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using OstreCWEB.Data.DataBase;
 
@@ -11,9 +12,10 @@ using OstreCWEB.Data.DataBase;
 namespace OstreCWEB.Data.Migrations
 {
     [DbContext(typeof(OstreCWebContext))]
-    partial class OstreCWebContextModelSnapshot : ModelSnapshot
+    [Migration("20230115120255_CreatRelotionEnemyToEnemyInParagraph")]
+    partial class CreatRelotionEnemyToEnemyInParagraph
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -617,7 +619,7 @@ namespace OstreCWEB.Data.Migrations
                     b.Property<int>("AmountOfEnemy")
                         .HasColumnType("int");
 
-                    b.Property<int?>("EnemyId")
+                    b.Property<int>("EnemyId")
                         .HasColumnType("int");
 
                     b.Property<int>("FightPropId")
@@ -927,7 +929,9 @@ namespace OstreCWEB.Data.Migrations
                 {
                     b.HasOne("OstreCWEB.Data.Repository.Characters.CharacterModels.Enemy", "Enemy")
                         .WithMany("EnemyInParagraphs")
-                        .HasForeignKey("EnemyId");
+                        .HasForeignKey("EnemyId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("OstreCWEB.Data.Repository.StoryModels.Properties.FightProp", "FightProp")
                         .WithMany("ParagraphEnemies")

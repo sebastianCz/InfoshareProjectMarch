@@ -166,8 +166,8 @@ namespace OstreCWEB.Data.InitialData
                                     new EnemyInParagraph
                                     {
                                         AmountOfEnemy = 2,
-                                        EnemyId = 1,
-                                        EnemyName = "Goblin"
+                                        //EnemyId = 1,
+                                        //EnemyName = "Goblin"
                                     }
                                 }
                             },

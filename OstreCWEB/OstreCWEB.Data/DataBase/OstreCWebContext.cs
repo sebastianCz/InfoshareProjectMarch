@@ -178,6 +178,11 @@ namespace OstreCWEB.Data.DataBase
                     .HasMany(x => x.ParagraphEnemies)
                     .WithOne(x => x.FightProp)
                     .HasForeignKey(x => x.FightPropId);
+
+                builder.Entity<EnemyInParagraph>()
+                    .HasOne(x => x.Enemy)
+                    .WithMany(x => x.EnemyInParagraphs)
+                    .HasForeignKey(x => x.EnemyId);
             } // ParagraphFight
         }
 
