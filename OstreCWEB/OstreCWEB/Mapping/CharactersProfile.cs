@@ -15,7 +15,6 @@ namespace OstreCWEB.Mapping
             CreateMap<CharacterAction, CharacterActionView>();
             CreateMap<Item, ItemView>();
             CreateMap<Status, StatusView>();
-            CreateMap<CharacterAction, CharacterActionView>();
             CreateMap<PlayableRace, PlayableRaceView>();
             CreateMap<PlayableClass, PlayableClassView>();
         } 
