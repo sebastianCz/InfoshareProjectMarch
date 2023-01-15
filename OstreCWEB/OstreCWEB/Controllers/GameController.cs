@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using OstreCWEB.Services.Characters;
 using OstreCWEB.Services.Game;
 using OstreCWEB.Services.Identity;
-using OstreCWEB.Services.StoryService;
+using OstreCWEB.Services.StoryServices;
 using OstreCWEB.ViewModel.Characters;
 using OstreCWEB.ViewModel.Game;
 using OstreCWEB.ViewModel.Identity;

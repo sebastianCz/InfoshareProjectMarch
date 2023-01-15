@@ -2,7 +2,7 @@
 
 namespace OstreCWEB.Data.Repository.Fight
 {
-    public  class FightRepository : IFightRepository
+    internal  class FightRepository : IFightRepository
     {
         private static Dictionary<int, FightInstance> FightInstances { get; set; } = FightInstances = new Dictionary<int, FightInstance>();
  

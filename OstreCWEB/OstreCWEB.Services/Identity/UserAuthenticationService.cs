@@ -5,7 +5,7 @@ using System.Security.Claims;
 namespace OstreCWEB.Services.Identity
 {
 
-    public class UserAuthenticationService : IUserAuthenticationService
+    internal class UserAuthenticationService : IUserAuthenticationService
     {
         private readonly SignInManager<User> signInManager;
         private readonly UserManager<User> userManager;

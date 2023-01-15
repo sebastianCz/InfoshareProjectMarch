@@ -6,7 +6,7 @@ using OstreCWEB.Data.Repository.StoryModels.Enums;
 
 namespace OstreCWEB.Services.Game
 {
-    public class GameService : IGameService
+    internal class GameService : IGameService
     {
         private readonly IUserParagraphRepository _userParagraphRepository;
         private readonly IIdentityRepository _identityRepository;

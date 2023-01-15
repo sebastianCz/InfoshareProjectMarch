@@ -5,7 +5,7 @@ using OstreCWEB.Data.Repository.Characters.Interfaces;
 
 namespace OstreCWEB.Services.Characters
 {
-    public class PlayableCharacterService : IPlayableCharacterService 
+    internal class PlayableCharacterService : IPlayableCharacterService 
     {
         private readonly IPlayableCharacterRepository _playableCharacterRepository;
         public PlayableCharacterService(IPlayableCharacterRepository characterRepository)

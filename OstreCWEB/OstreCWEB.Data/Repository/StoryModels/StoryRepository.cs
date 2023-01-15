@@ -5,7 +5,7 @@ using OstreCWEB.Data.DataBase;
 
 namespace OstreCWEB.Data.Repository.StoryModels
 {
-    public class StoryRepository : IStoryRepository
+    internal class StoryRepository : IStoryRepository
     {
         private readonly OstreCWebContext _ostreCWebContext;
 

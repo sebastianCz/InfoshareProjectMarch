@@ -5,7 +5,7 @@ using OstreCWEB.Data.Repository.Characters.Interfaces;
 
 namespace OstreCWEB.Data.Repository.Characters
 {
-    public class StatusRepository : IStatusRepository
+    internal class StatusRepository : IStatusRepository
     {
         private readonly OstreCWebContext _db;
         public StatusRepository(OstreCWebContext db)

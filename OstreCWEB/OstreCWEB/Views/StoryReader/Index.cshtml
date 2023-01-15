@@ -35,6 +35,17 @@
                 </div>
             </div>
         }
+        @if (Model.CurrentParagraph.ParagraphType == ParagraphType.Fight)
+        {
+                <div class="col-lg-8">
+                    <div class="row">
+                        <!-- Paragraph Card -->
+                        <div class="col-12">
+                            <partial name="_FightParagraph" />
+                        </div><!-- End Paragraph Card -->
+                    </div>
+                </div>
+        }
         <!-- End Left side columns -->
         <!-- Right side columns -->
         <div class="col-lg-4">

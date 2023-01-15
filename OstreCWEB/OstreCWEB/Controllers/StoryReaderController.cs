@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using OstreCWEB.Data.Repository.ManyToMany;
 using OstreCWEB.Services.Game;
 using OstreCWEB.Services.Identity;
-using OstreCWEB.Services.StoryService;
+using OstreCWEB.Services.StoryServices;
 using OstreCWEB.ViewModel.StoryReader;
 using OstreCWEB.Data.Repository.StoryModels.Enums;
 

@@ -1,19 +1,15 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using OstreCWEB.Data.DataBase;
+using OstreCWEB.Data.Factory;
 using OstreCWEB.Data.Repository.Characters.CharacterModels;
 using OstreCWEB.Data.Repository.Characters.Interfaces;
-using OstreCWEB.Data.Repository.Characters.MetaTags;
-using OstreCWEB.Services.Factory;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 namespace OstreCWEB.Data.Repository.Characters
 {
-    public class PlayableCharacterRepository : IPlayableCharacterRepository
+    internal class PlayableCharacterRepository : IPlayableCharacterRepository
     {
         private OstreCWebContext _db;
-        private readonly CharacterFactory _playableCharacterFactory;
-        public PlayableCharacterRepository(OstreCWebContext db,CharacterFactory playableCharacterFactory)
+        private readonly ICharacterFactory _playableCharacterFactory;
+        public PlayableCharacterRepository(OstreCWebContext db,ICharacterFactory playableCharacterFactory)
         {
             _db = db;
             _playableCharacterFactory = playableCharacterFactory;

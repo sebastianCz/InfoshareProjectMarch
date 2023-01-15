@@ -3,19 +3,19 @@ using OstreCWEB.Data.DataBase;
 using OstreCWEB.Data.DataBase.ManyToMany;
 using OstreCWEB.Data.Repository.Characters.Interfaces;
 using OstreCWEB.Data.Repository.Identity;
-using OstreCWEB.Services.Factory;
+using OstreCWEB.Data.Factory;
 
 #nullable disable
 
 namespace OstreCWEB.Data.Repository.ManyToMany
 {
-    public class UserParagraphRepository : IUserParagraphRepository
+    internal class UserParagraphRepository : IUserParagraphRepository
     {
         private OstreCWebContext _context;
         private readonly IIdentityRepository _identityRepository;
         private readonly IPlayableCharacterRepository _playableCharacterRepository;
-        private readonly CharacterFactory _playableCharacterFactory;
-        public UserParagraphRepository(CharacterFactory playableCharacterFactory, OstreCWebContext context, IIdentityRepository indentityRepository, IPlayableCharacterRepository playableCharacterRepository)
+        private readonly ICharacterFactory _playableCharacterFactory;
+        public UserParagraphRepository(ICharacterFactory playableCharacterFactory, OstreCWebContext context, IIdentityRepository indentityRepository, IPlayableCharacterRepository playableCharacterRepository)
         {
             _context = context;
             _identityRepository = indentityRepository;

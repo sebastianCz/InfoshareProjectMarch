@@ -1,6 +1,6 @@
 ﻿using OstreCWEB.Data.Repository.StoryModels;
 
-namespace OstreCWEB.Services.StoryService
+namespace OstreCWEB.Services.StoryServices
 {
     public interface IStoryService
     {

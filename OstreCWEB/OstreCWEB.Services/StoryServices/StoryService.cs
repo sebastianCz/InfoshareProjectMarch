@@ -1,9 +1,8 @@
 ﻿using OstreCWEB.Data.Repository.StoryModels;
-using System.Runtime.CompilerServices;
 
-namespace OstreCWEB.Services.StoryService
+namespace OstreCWEB.Services.StoryServices
 {
-    public class StoryService : IStoryService
+    internal class StoryService : IStoryService
     {
         private readonly IStoryRepository _storyRepository;
 
