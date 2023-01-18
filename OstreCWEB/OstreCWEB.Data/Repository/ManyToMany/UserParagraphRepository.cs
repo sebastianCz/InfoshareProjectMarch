@@ -3,7 +3,8 @@ using OstreCWEB.Data.DataBase;
 using OstreCWEB.Data.DataBase.ManyToMany;
 using OstreCWEB.Data.Factory;
 using OstreCWEB.Data.Repository.Characters.Interfaces;
-using OstreCWEB.Data.Repository.Identity; 
+using OstreCWEB.Data.Repository.Identity;
+using System.Security.Cryptography.X509Certificates;
 
 #nullable disable
 
@@ -58,11 +59,14 @@ namespace OstreCWEB.Data.Repository.ManyToMany
 
         public async Task<UserParagraph> GetActiveByUserId(string userId)
         {
-            return _context.UserParagraphs
+            return _context.UserParagraphs 
                 .Include(x => x.Paragraph)
                     .ThenInclude(p => p.Choices)
                 .Include(x => x.Paragraph)
-                    .ThenInclude(x => x.TestProp)
+                    .ThenInclude(x => x.TestProp) 
+                .Include(x => x.Paragraph)
+                    .ThenInclude(x => x.FightProp)
+                    .ThenInclude(y => y.ParagraphEnemies)
                 .Include(x => x.ActiveCharacter)
                 .SingleOrDefault(s => s.User.Id == userId && s.ActiveGame);
         }

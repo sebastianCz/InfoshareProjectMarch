@@ -11,6 +11,7 @@ namespace OstreCWEB.Data.Repository.Characters.Interfaces
     {
         public Task<Enemy> GetByIdAsync(int id);
         public Task<List<Enemy>> GetAllTemplatesAsync();
+        public Task<Enemy> GetByIdNoTrackingAsync(int id);
         public Task UpdateAsync(Enemy item);
         public Task CreateAsync(Enemy item);
         public Task DeleteAsync(Enemy item);

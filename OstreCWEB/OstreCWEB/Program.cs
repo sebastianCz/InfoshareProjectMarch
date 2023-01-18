@@ -15,8 +15,7 @@ var builder = WebApplication.CreateBuilder(args);
 //Allows retrying CRUD operations in case of transient failures.
 builder.Services.AddDbContext<OstreCWebContext>(
     options => options.UseSqlServer(builder.Configuration.GetConnectionString("OstreCWEB")));
-
-
+ 
 
 // for Identity
 builder.Services.AddIdentity<User, IdentityRole>()

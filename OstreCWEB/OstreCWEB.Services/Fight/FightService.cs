@@ -1,37 +1,46 @@
-﻿using OstreCWEB.Data.DataBase;
+﻿using Microsoft.AspNetCore.Mvc;
+using OstreCWEB.Data.DataBase;
+using OstreCWEB.Data.DataBase.ManyToMany;
+using OstreCWEB.Data.Factory;
 using OstreCWEB.Data.Repository.Characters.CharacterModels;
 using OstreCWEB.Data.Repository.Characters.Enums;
 using OstreCWEB.Data.Repository.Fight;
+using OstreCWEB.Data.Repository.Identity;
+using OstreCWEB.Data.Repository.ManyToMany;
 using OstreCWEB.Services.Factory;
-
+using System.Security.Principal;
 namespace OstreCWEB.Services.Fight
 {
     internal class FightService : IFightService
     {
-        private IFightRepository _fightRepository;
-        public StaticLists _db { get; } = new StaticLists();
+        private IFightRepository _fightRepository; 
         private FightInstance _activeFightInstance;
         private IFightFactory _fightFactory;
+        private IUserParagraphRepository _userParagraphRepository;
+        private ICharacterFactory _characterFactory;
 
         //The property below can be used to introduce a system where enemies will act one by one.
         //We could use combat ID or position in _activeEnemies list for this.
         /*public static int NextActiveEnemyCombatId { get; set; }*/
 
-        public FightService(IFightRepository fightRepository, IFightFactory fightFactory)
-        {
-            //UserId is hardcoded to one for now. _fightRepository.GetById(currentUser) should be here instead.
-            var userId = 1;
-            _fightRepository = fightRepository;
-            _db = new StaticLists();
-            _activeFightInstance = _fightRepository.GetById(userId);
+        public FightService(
+            IFightRepository fightRepository,
+            IFightFactory fightFactory,
+            IUserParagraphRepository userParagraphRepository,
+            ICharacterFactory characterFactory
+            )
+        {  
+            _fightRepository = fightRepository;   
             _fightFactory = fightFactory;
+            _userParagraphRepository = userParagraphRepository;
+            _characterFactory = characterFactory;   
         }
-        public FightInstance GetActiveFightInstance()
+        public FightInstance GetActiveFightInstance(string userId)
         {
-
+            _activeFightInstance = _fightRepository.GetById(userId);
             return _activeFightInstance;
-
         }
+        
         public bool ValidateFightInstanceModel(FightInstance model)
         {
             if (model.ActivePlayer != null)
@@ -41,13 +50,21 @@ namespace OstreCWEB.Services.Fight
             else
                 return false;
         }
-        public void InitializeFight()
-        {
-            var userId = 1;
-            var fightInstance = _fightFactory.BuildNewFightInstance();
-            fightInstance.FightHistory.Add("Fight initialized");
-            _fightRepository.Add(userId, fightInstance, out string operationResult);
+        public async Task InitializeFightAsync(string userId,UserParagraph gameInstance)
+        {  
+            if(_activeFightInstance != null) { throw new Exception("Fight already initialized");}   
 
+            if(gameInstance != null && gameInstance.Paragraph.FightProp != null)
+            {
+                var fightInstance = _fightFactory.BuildNewFightInstance(gameInstance, _characterFactory.CreateEnemiesInstances(gameInstance.Paragraph.FightProp.ParagraphEnemies).Result);
+                fightInstance.FightHistory.Add("Fight initialized"); 
+                _fightRepository.Add(userId, fightInstance, out string operationResult);
+            }
+            else
+            {
+                throw new Exception("Fight initialization failed. Game instance doesn't exist or active paragraph is not a fight");
+            }
+           
         }
         public void CommitAction()
         {
@@ -93,7 +110,7 @@ namespace OstreCWEB.Services.Fight
             //(update the view every 2 seconds maybe instead of showing it all at once? 
 
         }
-        public FightInstance GetFightState(int userId)
+        public FightInstance GetFightState(string userId)
         {
             //We should return a fight state object instead :TODO 
             return _fightRepository.GetById(userId);

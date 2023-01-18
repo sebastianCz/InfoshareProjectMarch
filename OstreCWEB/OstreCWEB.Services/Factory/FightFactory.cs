@@ -1,37 +1,21 @@
 ﻿using OstreCWEB.Data.DataBase;
+using OstreCWEB.Data.DataBase.ManyToMany;
 using OstreCWEB.Data.Repository.Characters.CharacterModels;
 using OstreCWEB.Data.Repository.Fight;
+using OstreCWEB.Data.Repository.Identity;
 
 namespace OstreCWEB.Services.Factory
 {
     internal class FightFactory : IFightFactory
     {
-        private IFightRepository _fightRepository;
-        private StaticLists _db;
+        private IFightRepository _fightRepository; 
 
         public FightFactory(IFightRepository fightRepository)
         {
-            _fightRepository = fightRepository;
-            _db = new StaticLists();
+            _fightRepository = fightRepository; 
         }
         //I leave it here for now but this method should be deleted. The instance will be created in a different context. 
-        private PlayableCharacter BuildNewPlayerInstance(int characterId)
-        {
-            return FactoryHelper.GenerateNewObjectInstance<PlayableCharacter>(_db.GetPlayableCharacter(characterId));
-        }
-        private Enemy BuildNewEnemiesInstance()
-        {
-            return FactoryHelper.GenerateNewObjectInstance<Enemy>(_db.GetEnemy());
-        }
-        private List<Enemy> BuildActiveEnemiesList(int amountToGenerate)
-        {
-            var enemyList = new List<Enemy>();
-            for (int i = 0; i < amountToGenerate; i++)
-            {
-                enemyList.Add(BuildNewEnemiesInstance());
-            }
-            return enemyList;
-        }
+      
        
         public List<Character> InitializeActions(List<Character> characterList)
         {
@@ -53,16 +37,13 @@ namespace OstreCWEB.Services.Factory
             }
             return characterList;
         }
-        public FightInstance BuildNewFightInstance()
+        public FightInstance BuildNewFightInstance(UserParagraph gameInstance,List<Enemy> enemiesList)
         {
             var characterList = new List<Character>();
             var fightInstance = new FightInstance();
-            fightInstance.TurnNumber = 1;
-            var userId = 1;
-            var playableCharacterId = 1;
-            var amountToGenerate = 2;
-            fightInstance.ActivePlayer = BuildNewPlayerInstance(playableCharacterId);
-            fightInstance.ActiveEnemies = BuildActiveEnemiesList(amountToGenerate);
+            fightInstance.TurnNumber = 1;  
+            fightInstance.ActivePlayer = gameInstance.ActiveCharacter;
+            fightInstance.ActiveEnemies = enemiesList;
             fightInstance.ActivePlayer.CombatId = 1;
             for (int i = 0; i < fightInstance.ActiveEnemies.Count; i++)
             {

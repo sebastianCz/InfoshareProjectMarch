@@ -1,6 +1,8 @@
 ﻿using OstreCWEB.Data.DataBase;
 using OstreCWEB.Data.Repository.Characters.CharacterModels;
 using OstreCWEB.Data.Repository.Characters.MetaTags;
+using OstreCWEB.Data.Repository.StoryModels.Properties;
+using OstreCWEB.Services.Factory;
 
 namespace OstreCWEB.Data.Factory
 {
@@ -22,10 +24,20 @@ namespace OstreCWEB.Data.Factory
 
             ConfigureNewInstanceAction(template, newInstance);
             ConfigureNewInstanceItems(template, newInstance);
-            _ostreCWebContext.SaveChanges();
-
-            //ConfigureNewInstanceItems(template,newInstance); 
+            _ostreCWebContext.SaveChanges(); 
             return Task.FromResult(newInstance);
+        }
+        public Task<List<Enemy>> CreateEnemiesInstances(List<EnemyInParagraph> enemiesInParagraphs)
+        {
+            var generatedEnemies = new List<Enemy>();
+            foreach(var creationInstructions in enemiesInParagraphs)
+            {
+                for(var i =0; i < creationInstructions.AmountOfEnemy;i++)
+                {
+                    generatedEnemies.Add(FactoryHelper.GenerateNewObjectInstance<Enemy>(creationInstructions.Enemy));
+                }
+            }
+            return Task.FromResult(generatedEnemies);
         }
         private  Task<PlayableCharacter> ConfigureNewInstanceProperties(PlayableCharacter template, PlayableCharacter newInstance)
         { 

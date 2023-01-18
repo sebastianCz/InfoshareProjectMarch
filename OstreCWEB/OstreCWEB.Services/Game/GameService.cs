@@ -1,11 +1,12 @@
-﻿using Microsoft.EntityFrameworkCore;
-using OstreCWEB.Data.DataBase.ManyToMany;
+﻿using OstreCWEB.Data.DataBase.ManyToMany;
+using OstreCWEB.Data.Factory;
+using OstreCWEB.Data.Repository.Characters.CharacterModels;
 using OstreCWEB.Data.Repository.Characters.Interfaces;
 using OstreCWEB.Data.Repository.Identity;
 using OstreCWEB.Data.Repository.ManyToMany;
 using OstreCWEB.Data.Repository.StoryModels;
 using OstreCWEB.Data.Repository.StoryModels.Enums;
-using OstreCWEB.Data.Factory;
+using OstreCWEB.Data.Repository.StoryModels.Properties;
 
 namespace OstreCWEB.Services.Game
 {
@@ -31,7 +32,7 @@ namespace OstreCWEB.Services.Game
             _playableCharacterRepository = playableCharacter;
             _characterFactory = characterFactory;
         }
-        public async Task<UserParagraph> CreateNewGameInstance(string userId, int characterTemplateId, int storyId)
+        public async Task<UserParagraph> CreateNewGameInstanceAsync(string userId, int characterTemplateId, int storyId)
         {
             var user = await _identityRepository.GetUser(userId);
             if (user.UserParagraphs.Count >= 5) { throw new Exception(); } 
@@ -54,20 +55,26 @@ namespace OstreCWEB.Services.Game
             return newGameInstance;
         }
 
-        public async Task NextParagraph(string userId, int choiceId)
+
+        public  Task<List<Enemy>> GenerateEnemies(List<EnemyInParagraph> enemiesToGenerate)
+        { 
+            return _characterFactory.CreateEnemiesInstances(enemiesToGenerate); 
+        }
+
+        public async Task NextParagraphAsync(string userId, int choiceId)
         {
             var userParagraph = await _userParagraphRepository.GetActiveByUserId(userId);
             userParagraph.Paragraph = await _storyRepository.GetParagraphById(userParagraph.Paragraph.Choices[choiceId].NextParagraphId);
             await _userParagraphRepository.Update(userParagraph);
         }
 
-        public async Task DeleteGameInstance(int userParagrahId)
+        public async Task DeleteGameInstanceAsync(int userParagrahId)
         {
             var userParagraph = await _userParagraphRepository.GetByUserParagraphIdAsync(userParagrahId);
             await _userParagraphRepository.Delete(userParagraph);
         }
 
-        public async Task SetActiveGameInstance(int userParagraphId, string userId)
+        public async Task SetActiveGameInstanceAsync(int userParagraphId, string userId)
         {
             var user = await _identityRepository.GetUser(userId);
             user.UserParagraphs.ForEach(s =>
@@ -78,14 +85,15 @@ namespace OstreCWEB.Services.Game
             _identityRepository.Update(user);
         }
 
-        public async Task HealCharacter(string userId)
+
+        public async Task HealCharacterAsync(string userId)
         {
             var userParagraph = await _userParagraphRepository.GetActiveByUserId(userId);
             userParagraph.ActiveCharacter.CurrentHealthPoints = userParagraph.ActiveCharacter.MaxHealthPoints;
             await _userParagraphRepository.Update(userParagraph);
         }
 
-        public async Task<int> TestThrow(string userId, int rollValue)
+        public async Task<int> TestThrowAsync(string userId, int rollValue)
         {
             var userParagraph = await _userParagraphRepository.GetActiveByUserId(userId);
 
