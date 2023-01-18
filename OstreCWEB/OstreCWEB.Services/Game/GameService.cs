@@ -1,8 +1,11 @@
-﻿using OstreCWEB.Data.DataBase.ManyToMany;
+﻿using Microsoft.EntityFrameworkCore;
+using OstreCWEB.Data.DataBase.ManyToMany;
+using OstreCWEB.Data.Repository.Characters.Interfaces;
 using OstreCWEB.Data.Repository.Identity;
 using OstreCWEB.Data.Repository.ManyToMany;
 using OstreCWEB.Data.Repository.StoryModels;
 using OstreCWEB.Data.Repository.StoryModels.Enums;
+using OstreCWEB.Data.Factory;
 
 namespace OstreCWEB.Services.Game
 {
@@ -10,24 +13,51 @@ namespace OstreCWEB.Services.Game
     {
         private readonly IUserParagraphRepository _userParagraphRepository;
         private readonly IIdentityRepository _identityRepository;
-        private readonly IStoryRepository _storyReposiotry;
+        private readonly IStoryRepository _storyRepository;
+        private readonly IPlayableCharacterRepository _playableCharacterRepository;
+        private readonly ICharacterFactory _characterFactory;
 
-        public GameService(IUserParagraphRepository userParagraphRepository, IIdentityRepository identityRepository, IStoryRepository storyRepository)
+        public GameService(
+            IUserParagraphRepository userParagraphRepository,
+            IIdentityRepository identityRepository,
+            IStoryRepository storyRepository,
+            IPlayableCharacterRepository playableCharacter,
+            ICharacterFactory characterFactory
+            )
         {
             _userParagraphRepository = userParagraphRepository;
             _identityRepository = identityRepository;
-            _storyReposiotry = storyRepository;
+            _storyRepository = storyRepository;
+            _playableCharacterRepository = playableCharacter;
+            _characterFactory = characterFactory;
         }
         public async Task<UserParagraph> CreateNewGameInstance(string userId, int characterTemplateId, int storyId)
         {
-            var userParagraph = await _userParagraphRepository.Create(userId, characterTemplateId, storyId);
-            return userParagraph;
+            var user = await _identityRepository.GetUser(userId);
+            if (user.UserParagraphs.Count >= 5) { throw new Exception(); } 
+            var newGameInstance = new UserParagraph(); 
+
+            var story = await  _storyRepository.GetStoryNoIncludesAsync(storyId); 
+
+            newGameInstance.User = user;
+            newGameInstance.Paragraph = await _storyRepository.GetParagraphById(story.FirstParagraphId);
+
+            var notTrackedCharacter = await _playableCharacterRepository.GetByIdNoTrackingAsync(characterTemplateId); 
+            var newCharacterInstance = _characterFactory.CreatePlayableCharacterInstance(notTrackedCharacter).Result;
+
+            newGameInstance.ActiveCharacter = newCharacterInstance;
+            newGameInstance.ActiveGame = true;
+
+            user.UserParagraphs.ForEach(c => c.ActiveGame = false);
+            user.UserParagraphs.Add(newGameInstance);
+            await _identityRepository.Update(user);  
+            return newGameInstance;
         }
 
         public async Task NextParagraph(string userId, int choiceId)
         {
             var userParagraph = await _userParagraphRepository.GetActiveByUserId(userId);
-            userParagraph.Paragraph = await _storyReposiotry.GetParagraphById(userParagraph.Paragraph.Choices[choiceId].NextParagraphId);
+            userParagraph.Paragraph = await _storyRepository.GetParagraphById(userParagraph.Paragraph.Choices[choiceId].NextParagraphId);
             await _userParagraphRepository.Update(userParagraph);
         }
 

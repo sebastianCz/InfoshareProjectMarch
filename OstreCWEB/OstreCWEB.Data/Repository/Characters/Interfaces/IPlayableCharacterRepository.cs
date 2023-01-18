@@ -9,11 +9,12 @@ namespace OstreCWEB.Data.Repository.Characters.Interfaces
 {
     public interface IPlayableCharacterRepository
     {
-        public Task<PlayableCharacter> GetById(int id);
-        public Task<List<PlayableCharacter>> GetAllTemplates(); 
-        public Task<List<PlayableCharacter>> GetAllTemplates(string id);
-        public Task Update(PlayableCharacter playableCharacter);
+        public Task<PlayableCharacter> GetByIdAsync(int id);
+        public Task<List<PlayableCharacter>> GetAllTemplatesAsync(); 
+        public Task<List<PlayableCharacter>> GetAllTemplatesExceptAsync(string id);
+        public Task UpdateAsync(PlayableCharacter playableCharacter);
         public Task<PlayableCharacter> Create(PlayableCharacter playableCharacter);
-        public Task Delete(PlayableCharacter playableCharacter);
+        public Task DeleteAsync(PlayableCharacter playableCharacter);
+        public Task<PlayableCharacter> GetByIdNoTrackingAsync(int characterTemplateId);
     }
 }

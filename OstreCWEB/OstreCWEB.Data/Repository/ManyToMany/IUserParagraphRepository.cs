@@ -6,7 +6,7 @@ namespace OstreCWEB.Data.Repository.ManyToMany
     {
         public Task<UserParagraph> Add(); 
         public Task<List<UserParagraph>> GetAll();
-        public Task<UserParagraph> Create(string userId, int characterTemplateId, int storyId);
+        public Task Create(UserParagraph newGameSession);
         public Task Update(UserParagraph gameSession);
         public Task Delete(UserParagraph gameSession);
         public Task<UserParagraph> GetActiveByUserId(string userId);

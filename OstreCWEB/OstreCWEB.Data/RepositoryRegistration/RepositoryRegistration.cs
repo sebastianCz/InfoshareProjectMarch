@@ -5,7 +5,7 @@ using OstreCWEB.Data.Repository.Fight;
 using OstreCWEB.Data.Repository.Identity;
 using OstreCWEB.Data.Repository.ManyToMany;
 using OstreCWEB.Data.Repository.StoryModels;
-using OstreCWEB.Data.Repository.SuperAdmin;
+using OstreCWEB.Data.Repository.SuperAdmin;  
 using OstreCWEB.Data.Factory;
 
 namespace OstreCWEB.Data.RepositoryRegistration
@@ -25,6 +25,7 @@ namespace OstreCWEB.Data.RepositoryRegistration
             services.AddTransient<IItemCharacterRepository, ItemCharacterRepository>();
             services.AddTransient<IActionCharacterRepository, ActionCharacterRepository>();
             services.AddTransient<ICharacterFactory, CharacterFactory>();
+            services.AddTransient<IEnemyRepository, EnemyRepository>();
         }
     }
 }

@@ -5,7 +5,7 @@ using OstreCWEB.Data.Repository.Characters.Interfaces;
 
 namespace OstreCWEB.Services.Characters
 {
-    internal class PlayableCharacterService : IPlayableCharacterService 
+    public class PlayableCharacterService : IPlayableCharacterService 
     {
         private readonly IPlayableCharacterRepository _playableCharacterRepository;
         public PlayableCharacterService(IPlayableCharacterRepository characterRepository)
@@ -20,7 +20,7 @@ namespace OstreCWEB.Services.Characters
 
         public Task<List<PlayableCharacter>> GetAll()
         {
-            return _playableCharacterRepository.GetAllTemplates();
+            return _playableCharacterRepository.GetAllTemplatesAsync();
         }
         /// <summary>
         /// Gets all playable characters except those belonging to a given  user
@@ -29,12 +29,12 @@ namespace OstreCWEB.Services.Characters
         /// <returns></returns>
         public async Task<List<PlayableCharacter>> GetAllTemplates(string userId)
         {
-            return await _playableCharacterRepository.GetAllTemplates(userId);
+            return await _playableCharacterRepository.GetAllTemplatesExceptAsync(userId);
         }
 
         public async Task<PlayableCharacter> GetById(int id)
         {
-            return await _playableCharacterRepository.GetById(id);
+            return await _playableCharacterRepository.GetByIdAsync(id);
         }
 
         public Task Remove(Character charater)

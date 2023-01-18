@@ -37,6 +37,10 @@ namespace OstreCWEB.Data.Repository.StoryModels
                     .ThenInclude(p => p.ShopkeeperProp)
                 .SingleOrDefault(s => s.Id == idStory);
         }
+        public async Task<Story> GetStoryNoIncludesAsync(int storyId)
+        {
+            return await _ostreCWebContext.Stories.SingleOrDefaultAsync(s => s.Id == storyId);
+        }
 
         public async Task<Paragraph> GetParagraphById(int idParagraph)
         {

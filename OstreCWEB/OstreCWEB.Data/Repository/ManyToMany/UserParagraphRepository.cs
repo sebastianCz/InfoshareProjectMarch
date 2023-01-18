@@ -1,9 +1,9 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using OstreCWEB.Data.DataBase;
 using OstreCWEB.Data.DataBase.ManyToMany;
-using OstreCWEB.Data.Repository.Characters.Interfaces;
-using OstreCWEB.Data.Repository.Identity;
 using OstreCWEB.Data.Factory;
+using OstreCWEB.Data.Repository.Characters.Interfaces;
+using OstreCWEB.Data.Repository.Identity; 
 
 #nullable disable
 
@@ -13,44 +13,22 @@ namespace OstreCWEB.Data.Repository.ManyToMany
     {
         private OstreCWebContext _context;
         private readonly IIdentityRepository _identityRepository;
-        private readonly IPlayableCharacterRepository _playableCharacterRepository;
-        private readonly ICharacterFactory _playableCharacterFactory;
-        public UserParagraphRepository(ICharacterFactory playableCharacterFactory, OstreCWebContext context, IIdentityRepository indentityRepository, IPlayableCharacterRepository playableCharacterRepository)
+        private readonly IPlayableCharacterRepository _playableCharacterRepository; 
+        public UserParagraphRepository(OstreCWebContext context, IIdentityRepository indentityRepository, IPlayableCharacterRepository playableCharacterRepository)
         {
             _context = context;
             _identityRepository = indentityRepository;
-            _playableCharacterRepository = playableCharacterRepository;
-            _playableCharacterFactory = playableCharacterFactory;
+            _playableCharacterRepository = playableCharacterRepository; 
         }
 
         public Task<UserParagraph> Add()
         {
             throw new NotImplementedException();
         }
-        public async Task<UserParagraph> Create(string userId, int characterTemplateId, int storyId)
+        public async Task Create(UserParagraph newGameSession)
         {
-            var user = await _identityRepository.GetUser(userId);
-            if (user.UserParagraphs.Count >= 5) { throw new Exception(); }
-
-            var newGameInstance = new UserParagraph();
-
-            newGameInstance.User = user;
-            var storyFirstParaId = _context.Stories.Where(s => s.Id == storyId).FirstOrDefault().FirstParagraphId;
-
-            newGameInstance.Paragraph = _context.Paragraphs.Where(s => s.Id == storyFirstParaId).FirstOrDefault();
-
-            var notTrackedCharacter = _context.PlayableCharacters
-                 .AsNoTracking()
-                 .SingleOrDefault(x => x.CharacterId == characterTemplateId);
-            var newCharacterInstance = _playableCharacterFactory.CreatePlayableCharacterInstance(notTrackedCharacter).Result;
-
-            newGameInstance.ActiveCharacter = newCharacterInstance;
-            newGameInstance.ActiveGame = true;
-
-            user.UserParagraphs.ForEach(c => c.ActiveGame = false);
-            user.UserParagraphs.Add(newGameInstance);
-            await _identityRepository.Update(user);
-            return newGameInstance;
+            _context.UserParagraphs.AddAsync(newGameSession);
+            await _context.SaveChangesAsync();
         }
         public async Task Delete(UserParagraph gameSession) 
         {

@@ -9,10 +9,10 @@ namespace OstreCWEB.Data.Repository.Characters.Interfaces
 {
     public interface ICharacterActionsRepository
     {
-        public Task<CharacterAction> GetById(int id);
-        public Task<List<CharacterAction>> GetAll();
-        public Task Update(CharacterAction item);
-        public Task Create(CharacterAction item);
-        public Task Delete(CharacterAction item);
+        public Task<CharacterAction> GetByIdAsync(int id);
+        public Task<List<CharacterAction>> GetAllAsync();
+        public Task UpdateAsync(CharacterAction item);
+        public Task CreateAsync(CharacterAction item);
+        public Task DeleteAsync(CharacterAction item);
     }
 }
