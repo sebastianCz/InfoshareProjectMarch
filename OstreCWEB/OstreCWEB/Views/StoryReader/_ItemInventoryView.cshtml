@@ -1,0 +1,42 @@
+﻿@model OstreCWEB.ViewModel.Characters.ItemView
+
+<div class="card">
+    <div class="card-body"> 
+        <h2 class="card-title">@Model.Name</h2>
+            
+        @if(Model.IsActionShowable)
+        { 
+        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#largeModal"> <b>Grants action:</b> @Model.ActionToTrigger.ActionName</button>
+            <div class="modal fade" id="largeModal" tabindex="-1" style="display: none;" aria-hidden="true">
+            <div class="modal-dialog modal-xl">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">@Model.ActionToTrigger.ActionName</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        @Model.ActionToTrigger.ActionDescription
+                        @if(Model.ActionToTrigger.AggressiveAction){
+                                <div><label asp-for="@Model.ActionToTrigger.SavingThrowPossible"></label>@Model.ActionToTrigger.SavingThrowPossible</div>
+                                <div><label asp-for="@Model.ActionToTrigger.StatForTest"></label>@Model.ActionToTrigger.StatForTest.ToString()</div>
+                                <div><label asp-for="@Model.ActionToTrigger.Max_Dmg"></label>@Model.ActionToTrigger.Max_Dmg</div>
+                                <div><label asp-for="@Model.ActionToTrigger.Hit_Dice_Nr"></label>@Model.ActionToTrigger.Hit_Dice_Nr</div>
+                                <div><label asp-for="@Model.ActionToTrigger.Flat_Dmg"></label>@Model.ActionToTrigger.Flat_Dmg</div>
+                                <div><label asp-for="@Model.ActionToTrigger.PossibleTargets"></label>@Model.ActionToTrigger.PossibleTargets</div>
+                        }
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-primary">Save changes</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        //Partial view with action to trigger. 
+        }
+        @if(Model.isArmor){
+            <div><label asp-for="@Model.ArmorType"></label>@Model.ArmorType</div>
+            <div><label asp-for="@Model.ArmorClass"></label>@Model.ArmorClass</div> 
+        }
+    </div>
+</div>

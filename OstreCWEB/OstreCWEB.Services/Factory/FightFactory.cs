@@ -17,8 +17,7 @@ namespace OstreCWEB.Services.Factory
         public List<Character> InitializeActions(List<Character> characterList)
         {
             foreach (var character in characterList)
-            {
-                character.AllAvailableActions = new List<CharacterAction>();
+            { 
                foreach(var linkedAction in character.LinkedActions)
                 {
                     character.InnateActions.Add(linkedAction.CharacterAction);

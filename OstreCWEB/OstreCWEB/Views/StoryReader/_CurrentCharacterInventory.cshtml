@@ -1,0 +1,14 @@
+﻿@model OstreCWEB.ViewModel.StoryReader.CurrentCharacterView
+
+<div class="card">
+    <div class="card-body"> 
+        <h2 class="card-title">Equipped items</h2>
+        @foreach(var item in Model.LinkedItems){
+            if(item.IsEquipped){
+                <partial name="_ItemInventoryView" model="@item.Item"></partial>
+            }
+        }
+        <h2 class="card-title">Other items</h2>
+        <h2 class="card-title">Known spells and special actions</h2>
+    </div>
+</div>

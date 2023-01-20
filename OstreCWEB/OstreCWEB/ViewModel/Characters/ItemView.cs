@@ -1,6 +1,4 @@
-﻿
-using OstreCWEB.Data.Repository.Characters.CharacterModels;
-using OstreCWEB.Data.Repository.Characters.Enums;
+﻿using OstreCWEB.Data.Repository.Characters.Enums;
 
 namespace OstreCWEB.ViewModel.Characters
 {
@@ -13,5 +11,33 @@ namespace OstreCWEB.ViewModel.Characters
         public string ArmorType { get; set; }
         public string? Name { get; set; }
         public  CharacterActionView ActionToTrigger { get; set; }
+        public bool IsActionShowable 
+        {
+            get
+            {
+                if (this.ItemType == ItemType.Consumable || this.ItemType == ItemType.SpecialItem)
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }  
+        }
+        public bool isArmor
+        {
+            get
+            {
+                if (this.ItemType == ItemType.Armor || this.ItemType == ItemType.Shield)
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+        }
     }
 }

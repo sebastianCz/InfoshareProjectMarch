@@ -8,10 +8,7 @@ namespace OstreCWEB.ViewModel.Characters
         public string CharacterName { get; set; }
         public int CurrentHealthPoints { get; set; }
         public int MaxHealthPoints { get; set; }
-        public int Level { get; set; } 
-        public Item EquippedArmor { get; set; } 
-        public Item EquippedWeapon { get; set; } 
-        public Item EquippedSecondaryWeapon { get; set; } 
+        public int Level { get; set; }  
         public List<ItemView> EquippedItems { get; set; }
         public List<ItemView> Inventory { get; set; }
         public List<CharacterActionView>? InnateActions { get; set; }

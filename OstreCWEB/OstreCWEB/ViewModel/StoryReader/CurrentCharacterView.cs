@@ -1,4 +1,6 @@
-﻿namespace OstreCWEB.ViewModel.StoryReader
+﻿using OstreCWEB.ViewModel.Characters;
+
+namespace OstreCWEB.ViewModel.StoryReader
 {
     public class CurrentCharacterView
     {
@@ -12,6 +14,10 @@
         public int Intelligence { get; set; }
         public int Wisdom { get; set; }
         public int Charisma { get; set; }
+        public PlayableRaceView Race { get; set; }
+        public PlayableClassView CharacterClass { get; set; }
+        public List<ItemCharacterView> LinkedItems { get; set; }
+        public List<ActionCharacterView> LinkedActions { get; set; }
 
         public int CurrentHealthPercentage { get { return CalculateCurrentHealthPercentage(); } }
 
