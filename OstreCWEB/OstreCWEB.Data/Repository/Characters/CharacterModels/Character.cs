@@ -33,7 +33,7 @@ namespace OstreCWEB.Data.Repository.Characters.CharacterModels
         [NotMapped]
         public List<Item> EquippedItems { get; set; }
         [NotMapped]
-        public Item[] Inventory { get; set; }
+        public List<Item> Inventory { get; set; }
         [NotMapped]
         //Initialised based on LinkedActions 
         public List<CharacterAction>? InnateActions { get; set; }
@@ -78,7 +78,7 @@ namespace OstreCWEB.Data.Repository.Characters.CharacterModels
         [JsonConstructor]
         public Character()
         {
-            Inventory = new Item[10];
+            Inventory = new List<Item>();
             EquippedItems = new List<Item>();
             InnateActions = new List<CharacterAction>();
             AllAvailableActions = new List<CharacterAction>();
