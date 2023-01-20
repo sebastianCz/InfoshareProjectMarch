@@ -61,15 +61,16 @@ namespace OstreCWEB.Controllers
             return RedirectToAction(nameof(FightView));
 
         } 
-        public ActionResult FightView()
+        public async Task<ActionResult> FightView()
         {
             var activeFightInstance = _fightService.GetActiveFightInstance(_userService.GetUserId(User));
-            var model = new FightViewModel();
-           if (activeFightInstance != null)
+            var activeGameInstance = await _userParagraphRepository.GetActiveByUserId(_userService.GetUserId(User));
+            var model = new FightViewModel(); 
+            //Each game instance character id is unique. We make sure each figh instance is unique too.Players can have multiple saves per story.
+           if (activeFightInstance != null && activeFightInstance.ActivePlayer.CharacterId == activeGameInstance.ActiveCharacter.CharacterId)
             {
                model = _mapper.Map<FightViewModel>(activeFightInstance);
-               return View(model);
-
+               return View(model); 
             }
             else
             {
