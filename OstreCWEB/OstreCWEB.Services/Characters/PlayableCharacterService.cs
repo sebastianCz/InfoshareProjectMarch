@@ -11,13 +11,11 @@ namespace OstreCWEB.Services.Characters
         public PlayableCharacterService(IPlayableCharacterRepository characterRepository)
         {
             _playableCharacterRepository = characterRepository;
-        }
-
+        } 
         public Task Add(Character charater)
         {
             throw new NotImplementedException();
-        }
-
+        } 
         public Task<List<PlayableCharacter>> GetAll()
         {
             return _playableCharacterRepository.GetAllTemplatesAsync();
@@ -30,18 +28,15 @@ namespace OstreCWEB.Services.Characters
         public async Task<List<PlayableCharacter>> GetAllTemplates(string userId)
         {
             return await _playableCharacterRepository.GetAllTemplatesExceptAsync(userId);
-        }
-
+        } 
         public async Task<PlayableCharacter> GetById(int id)
         {
             return await _playableCharacterRepository.GetByIdAsync(id);
-        }
-
+        } 
         public Task Remove(Character charater)
         {
             throw new NotImplementedException();
-        }
-
+        } 
         public Task Update(Character charater)
         {
             throw new NotImplementedException();

@@ -36,4 +36,8 @@
     <ProjectReference Include="..\OstreCWEB.Services\OstreCWEB.Services.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Views\Characters\" />
+  </ItemGroup>
+
 </Project>
