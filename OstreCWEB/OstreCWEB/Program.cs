@@ -28,11 +28,12 @@ builder.Services.AddSwaggerGen();
 builder.Services.ConfigureApplicationCookie(options => options.LoginPath = "/LoginController/Login");
 
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
-builder.Services
-    .AddAutoMapper(typeof(Program))
+builder.Services 
+    .AddAutoMapper(typeof(Program)) 
     .AddControllersWithViews()
-    .AddJsonOptions(option => option.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles)
-    .AddRazorRuntimeCompilation();
+    .AddJsonOptions(option => option.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles) 
+    .AddRazorRuntimeCompilation(); 
+
 
 builder.Services
     .AddRepositories();

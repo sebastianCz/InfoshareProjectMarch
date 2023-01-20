@@ -17,6 +17,7 @@ namespace OstreCWEB.Mapping
             CreateMap<Status, StatusView>();
             CreateMap<PlayableRace, PlayableRaceView>();
             CreateMap<PlayableClass, PlayableClassView>();
+            CreateMap<Character, CharacterView>();
         } 
     }
 }

@@ -8,12 +8,10 @@ namespace OstreCWEB.Data.Repository.Characters
 {
     internal class PlayableCharacterRepository : IPlayableCharacterRepository
     {
-        private OstreCWebContext _db;
-        private readonly ICharacterFactory _playableCharacterFactory;
-        public PlayableCharacterRepository(OstreCWebContext db,ICharacterFactory playableCharacterFactory)
+        private OstreCWebContext _db; 
+        public PlayableCharacterRepository(OstreCWebContext db)
         {
-            _db = db;
-            _playableCharacterFactory = playableCharacterFactory;
+            _db = db; 
         }
 
         public Task<PlayableCharacter> Create(PlayableCharacter playableCharacter)

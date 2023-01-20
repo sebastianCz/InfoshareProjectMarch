@@ -76,8 +76,7 @@ namespace OstreCWEB.Services.Fight
             else
             {
                 _activeFightInstance.TurnNumber = UpdateTurnNumber(_activeFightInstance.TurnNumber);
-                if (_activeFightInstance.PlayerActionCounter == 0) { _activeFightInstance.PlayerActionCounter = 2; StartAiTurn(); }
-
+                if (_activeFightInstance.PlayerActionCounter == 0) { _activeFightInstance.PlayerActionCounter = 2; StartAiTurn(); } 
             }
 
         }

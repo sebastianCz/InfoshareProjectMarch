@@ -69,6 +69,7 @@ namespace OstreCWEB.Controllers
             {
                model = _mapper.Map<FightViewModel>(activeFightInstance);
                return View(model);
+
             }
             else
             {
@@ -79,22 +80,25 @@ namespace OstreCWEB.Controllers
         }  
         [HttpGet]
         public ActionResult SetActiveAction(int id)
-        { 
-                _fightService.UpdateActiveAction(_fightService.ChooseAction(id));
+        {
+            var activeFightInstance = _fightService.GetActiveFightInstance(_userService.GetUserId(User));
+            _fightService.UpdateActiveAction(_fightService.ChooseAction(id));
                 //We reset active target since each action can target different types of targets.
                 _fightService.ResetActiveTarget();
                 return RedirectToAction(nameof(FightView)); 
         }
         [HttpGet]
         public ActionResult SetActiveTarget(int id)
-        { 
-                var target = _fightService.ChooseTarget(id);
+        {
+            var activeFightInstance = _fightService.GetActiveFightInstance(_userService.GetUserId(User));
+            var target = _fightService.ChooseTarget(id);
                 _fightService.UpdateActiveTarget(target); 
                 return RedirectToAction(nameof(FightView)); 
         }
         [HttpGet]
         public ActionResult CommitPlayerAction()
         {
+            var activeFightInstance = _fightService.GetActiveFightInstance(_userService.GetUserId(User));
             _fightService.CommitAction();
             //We provide a hardcoded user ID for now to retrieve the fight instance linked to player.
             var fightState = _fightService.GetFightState(_userService.GetUserId(User));

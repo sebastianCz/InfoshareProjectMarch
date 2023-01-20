@@ -14,26 +14,20 @@ namespace OstreCWEB.Services.Factory
         {
             _fightRepository = fightRepository; 
         }
-        //I leave it here for now but this method should be deleted. The instance will be created in a different context. 
-      
-       
         public List<Character> InitializeActions(List<Character> characterList)
         {
             foreach (var character in characterList)
             {
                 character.AllAvailableActions = new List<CharacterAction>();
-                if (character.EquippedArmor.ActionToTrigger != null) { character.AllAvailableActions.Add(character.EquippedArmor.ActionToTrigger); }
-                if (character.EquippedWeapon.ActionToTrigger != null) { character.AllAvailableActions.Add(character.EquippedWeapon.ActionToTrigger); }
-                if (character.EquippedSecondaryWeapon.ActionToTrigger != null) { character.AllAvailableActions.Add(character.EquippedSecondaryWeapon.ActionToTrigger); }
-
-                if (character.InnateActions != null)
+               foreach(var linkedAction in character.LinkedActions)
                 {
-                    foreach (var actions in character.InnateActions)
-                    {
-                        character.AllAvailableActions.Add(actions);
-                    }
+                    character.InnateActions.Add(linkedAction.CharacterAction);
                 }
-
+                foreach (var linkedItems in character.LinkedItems) 
+                {
+                    if (linkedItems.IsEquipped) { character.EquippedItems.Add(linkedItems.Item); }
+                    else { character.Inventory.Add(linkedItems.Item); }
+                } 
             }
             return characterList;
         }
