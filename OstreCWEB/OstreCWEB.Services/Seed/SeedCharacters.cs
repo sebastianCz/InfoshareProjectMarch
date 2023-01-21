@@ -128,6 +128,7 @@ internal class SeedCharacters : ISeeder
                 ActionName = "Small Heal",
                 ActionDescription = "Heals the user for 1d6 +2", 
                 SavingThrowPossible = false,
+                ActionType = CharacterActionType.Spell,
                 Max_Dmg = 1,
                 Flat_Dmg = 2,
                 Hit_Dice_Nr = 1,
