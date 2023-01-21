@@ -2,7 +2,7 @@
 @model OstreCWEB.ViewModel.Characters.CharacterActionView
 
 <h1>@Model.ActionName</h1> 
-    <label asp-for="@Model.PossibleTargets"></label>@Model.PossibleTargets 
+    <label asp-for="@Model.PossibleTarget"></label>@Model.PossibleTarget.ToString()
     <label asp-for="@Model.ActionDescription"></label>@Model.ActionDescription 
     @if (Model.AggressiveAction)
     {

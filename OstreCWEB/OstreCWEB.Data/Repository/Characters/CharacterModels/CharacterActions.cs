@@ -25,7 +25,7 @@ namespace OstreCWEB.Data.Repository.Characters.CharacterModels
         public int Max_Dmg { get; set; }
         public int Flat_Dmg { get; set; }
         public int Hit_Dice_Nr { get; set; }
-        public string PossibleTargets { get; set; }
+        public TargetType PossibleTarget { get; set; }
         public bool InflictsStatus { get; set; }
         public Statistics StatForTest { get; set; }
         //Defined for actions reseting with rest.

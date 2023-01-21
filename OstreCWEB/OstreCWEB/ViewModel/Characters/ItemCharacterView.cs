@@ -9,5 +9,6 @@ namespace OstreCWEB.ViewModel.Characters
 
         //Paremeters for items in the given relationship
         public bool IsEquipped { get; set; }
+
     }
 }

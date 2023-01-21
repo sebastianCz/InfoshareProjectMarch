@@ -1,4 +1,5 @@
-﻿@model OstreCWEB.ViewModel.Fight.FightViewModel;
+﻿@using OstreCWEB.Data.Repository.Characters.Enums
+@model OstreCWEB.ViewModel.Fight.FightViewModel;
 @{
     ViewData["Title"] = "Fight";
 }
@@ -23,7 +24,7 @@
                             <br />
                             <div class="d-flex justify-content-between align-items-center">
                                 <div class="btn-group">
-                                    @if (Model.ActiveAction != null && Model.ActiveAction.PossibleTargets.Contains("caster"))
+                        @if (Model.ActiveAction != null && Model.ActiveAction.PossibleTarget == TargetType.Caster)
 
                                     { 
                                         <a  class="btn btn-danger" asp-route-id="@Model.ActivePlayer.CombatId" asp-action="SetActiveTarget">Target</a>
@@ -46,7 +47,7 @@
                         <br />
                         <p>Possible Targets:</p>
                         <br />
-                        @Model.ActiveAction.PossibleTargets
+                        @Model.ActiveAction.PossibleTarget
                     }
                     else
                     {
@@ -70,12 +71,18 @@
                 <!--Available actions(right column)-->
                 <div class="p-2 flex-grow-1 bg-primary">
                     <ul class="list-group list-group-horizontal-xl">
-                        @foreach (var action in @Model.ActivePlayer.AllAvailableActions)
+                        @foreach (var action in @Model.ActivePlayer.LinkedActions)
                         {
                             <li class="list-group-item">
-                    <a class="btn btn-danger" asp-route-id="@action.CharacterActionId" asp-action="SetActiveAction">@action.ActionName</a>
+                        <a class="btn btn-danger" asp-route-id="@action.CharacterAction.CharacterActionId" asp-action="SetActiveAction">@action.CharacterAction.ActionName</a>
                             </li>
-                        }
+                        } 
+                        @foreach (var item in @Model.ActivePlayer.ItemCharacterWithAction)
+                        {
+                            <li class="list-group-item">
+                        <a class="btn btn-danger" asp-route-id="@item.Id" asp-action="SetActiveActionFromItem">@item.Item.ActionToTrigger.ActionName</a>
+                            </li>
+                        } 
                     </ul>
                 </div>
 
@@ -130,7 +137,7 @@
 
                             }
                             <div class="d-flex justify-content-between align-items-center">
-                                @if (Model.ActiveAction != null && Model.ActiveAction.PossibleTargets.Contains("enemy"))
+                                @if (Model.ActiveAction != null && Model.ActiveAction.PossibleTarget == TargetType.Target)
                                 {
                                     <div class="d-flex justify-content-between align-items-center">
                                         <div class="btn-group">

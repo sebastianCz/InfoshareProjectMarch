@@ -1,4 +1,7 @@
-﻿using System.Diagnostics;
+﻿using OstreCWEB.Data.Repository.Characters.CharacterModels;
+using OstreCWEB.Data.Repository.Identity;
+using System.Collections.Generic;
+using System.Diagnostics;
 
 namespace OstreCWEB.Data.Repository.Fight
 {
@@ -30,6 +33,15 @@ namespace OstreCWEB.Data.Repository.Fight
             {
                 return null;
             }
+        }
+
+        public async Task DeleteLinkedItemAsync(FightInstance fightInstance,int itemToDelete)
+        {
+                fightInstance.ActivePlayer.LinkedItems
+                .Remove
+                (
+                fightInstance.ActivePlayer.LinkedItems.First(i => i.Id == itemToDelete)
+                );
         }
         public bool Delete(string userId, out string operationResult)
         {

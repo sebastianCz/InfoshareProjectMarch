@@ -12,7 +12,7 @@ using OstreCWEB.Data.DataBase;
 namespace OstreCWEB.Data.Migrations
 {
     [DbContext(typeof(OstreCWebContext))]
-    [Migration("20230121105552_initial")]
+    [Migration("20230121115926_initial.")]
     partial class initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -271,9 +271,8 @@ namespace OstreCWEB.Data.Migrations
                     b.Property<int>("Max_Dmg")
                         .HasColumnType("int");
 
-                    b.Property<string>("PossibleTargets")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("PossibleTarget")
+                        .HasColumnType("int");
 
                     b.Property<bool>("SavingThrowPossible")
                         .HasColumnType("bit");

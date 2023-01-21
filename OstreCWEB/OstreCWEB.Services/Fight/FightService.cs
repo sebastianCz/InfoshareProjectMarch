@@ -70,6 +70,19 @@ namespace OstreCWEB.Services.Fight
         {
             _activeFightInstance.PlayerActionCounter--;
             ApplyAction(_activeFightInstance.ActiveTarget, _activeFightInstance.ActivePlayer, _activeFightInstance.ActiveAction);
+            if (_activeFightInstance.ActiveTarget.CombatId != 1)
+            {
+                if (_activeFightInstance.ActiveTarget.CurrentHealthPoints <= 0)
+                {
+                    _activeFightInstance.ActiveEnemies.Remove((Enemy)GetActiveTarget());
+                    _activeFightInstance.ActiveTarget = null;
+                }
+
+            }
+            if (_activeFightInstance.IsItemToDelete)
+            {
+            _fightRepository.DeleteLinkedItemAsync(_activeFightInstance, _activeFightInstance.ItemToDeleteId);
+            }
             var combatEnded = IsFightFinished(_activeFightInstance.ActiveEnemies, GetActivePlayer());
             var fightWon = IsFightWon(_activeFightInstance.ActivePlayer);
             if (combatEnded) { FinishFight(fightWon); }
@@ -83,6 +96,15 @@ namespace OstreCWEB.Services.Fight
                 }
 
             }
+           
+            
+
+        }
+
+        public void CommitActionFromItem()
+        {
+            _activeFightInstance.PlayerActionCounter--;
+            ApplyAction(_activeFightInstance.ActiveTarget, _activeFightInstance.ActivePlayer, _activeFightInstance.ActiveAction);
             if (_activeFightInstance.ActiveTarget.CombatId != 1)
             {
                 if (_activeFightInstance.ActiveTarget.CurrentHealthPoints <= 0)
@@ -92,8 +114,22 @@ namespace OstreCWEB.Services.Fight
                 }
 
             }
+            var combatEnded = IsFightFinished(_activeFightInstance.ActiveEnemies, GetActivePlayer());
+            var fightWon = IsFightWon(_activeFightInstance.ActivePlayer);
+            if (combatEnded) { FinishFight(fightWon); }
+            else
+            {
+                _activeFightInstance.TurnNumber = UpdateTurnNumber(_activeFightInstance.TurnNumber);
+                if (_activeFightInstance.PlayerActionCounter == 0)
+                {
+                    _activeFightInstance.PlayerActionCounter = 2;
+                    StartAiTurn();
+                }
+
+            }
 
         }
+
         public List<string> ReturnHistory() => _activeFightInstance.FightHistory;
         public void UpdateActiveTarget(Character character)
         {
@@ -348,13 +384,24 @@ namespace OstreCWEB.Services.Fight
         }
         private bool IsFightFinished(List<Enemy> activeEnemies, PlayableCharacter activePlayer)
         {
-            if (activeEnemies.Count() == 0 || activePlayer.CurrentHealthPoints == 0) { return true; }
+            if (activeEnemies.Count() == 0 || activePlayer.CurrentHealthPoints <= 0) { return true; }
             return false;
         }
         private bool IsFightWon(PlayableCharacter activePlayer)
         {
             if (activePlayer.CurrentHealthPoints > 0) { return true; }
             else { return false; }
+        }
+
+        public async Task RemoveItem()
+        {
+            var itemToDelete = _activeFightInstance.ItemToDeleteId;   
+            await _fightRepository.DeleteLinkedItemAsync(_activeFightInstance, itemToDelete);
+        }
+
+        public async Task UpdateItemToRemove(int id)
+        {
+            _activeFightInstance.ItemToDeleteId = id;
         }
     }
 }

@@ -87,10 +87,11 @@ internal class SeedCharacters : ISeeder
                 Max_Dmg = 6,
                 Flat_Dmg = 1,
                 Hit_Dice_Nr = 1,
-                PossibleTargets = "enemy",
+                PossibleTarget = TargetType.Target,
                 InflictsStatus = false,
                 StatForTest = Statistics.Strenght,
                 AggressiveAction = true
+                
             },
                     new CharacterAction
             {
@@ -101,7 +102,7 @@ internal class SeedCharacters : ISeeder
                 Max_Dmg = 2,
                 Flat_Dmg = 1,
                 Hit_Dice_Nr = 1,
-                PossibleTargets = "enemy",
+                PossibleTarget = TargetType.Target,
                 InflictsStatus = false,
                 StatForTest = Statistics.Strenght,
                 AggressiveAction = true
@@ -115,7 +116,7 @@ internal class SeedCharacters : ISeeder
                 Max_Dmg = 4,
                 Flat_Dmg = 2,
                 Hit_Dice_Nr = 2,
-                PossibleTargets = "enemy",
+                PossibleTarget = TargetType.Target,
                 InflictsStatus = true,
                 Status = _db.Statuses.FirstOrDefault(s=>s.StatusId == 1),
                 StatForTest = Statistics.Dexterity,
@@ -132,7 +133,7 @@ internal class SeedCharacters : ISeeder
                 Max_Dmg = 1,
                 Flat_Dmg = 2,
                 Hit_Dice_Nr = 1,
-                PossibleTargets = "caster",
+                PossibleTarget = TargetType.Caster,
                 InflictsStatus = false,
                 StatForTest = Statistics.None,
                 UsesMaxBeforeRest = 2,
@@ -147,7 +148,7 @@ internal class SeedCharacters : ISeeder
                 Max_Dmg = 0,
                 Flat_Dmg = 0,
                 Hit_Dice_Nr = 0,
-                PossibleTargets = "caster",
+                PossibleTarget = TargetType.Caster,
                 InflictsStatus = true,
                 Status = _db.Statuses.FirstOrDefault(s=>s.StatusId == 2),
                 StatForTest = Statistics.None,
@@ -164,7 +165,7 @@ internal class SeedCharacters : ISeeder
                 Max_Dmg = 0,
                 Flat_Dmg = 0,
                 Hit_Dice_Nr = 0,
-                PossibleTargets = "caster",
+                PossibleTarget = TargetType.Caster,
                 InflictsStatus = false,
                 StatForTest = Statistics.None,
                 UsesMaxBeforeRest = 1,
@@ -330,9 +331,8 @@ internal class SeedCharacters : ISeeder
         playableCharacters[0].EquippedItems.Add(_db.Items.First(i => i.Name.ToLower().Contains("small wooden shield")));
 
 
-        playableCharacters[0].Inventory.ToList().Add(_db.Items.First(i => i.Name.ToLower().Contains("healing potion")));
-        playableCharacters[0].Inventory.ToArray();
-
+        playableCharacters[0].Inventory.Add(_db.Items.First(i => i.Name.ToLower().Contains("healing potion")));
+        
 
         playableCharacters[0].Race = _db.PlayableCharacterRaces.First (i => i.RaceName.ToLower().Contains("human"));
         playableCharacters[0].CharacterClass = _db.PlayableCharacterClasses.First (i => i.ClassName.ToLower().Contains("warrior"));

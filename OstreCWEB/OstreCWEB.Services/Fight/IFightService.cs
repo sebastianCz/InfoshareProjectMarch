@@ -19,5 +19,6 @@ namespace OstreCWEB.Services.Fight
         public void CommitAction();
         public FightInstance GetFightState(string userId);
         public FightInstance GetActiveFightInstance(string userId);
+        public Task UpdateItemToRemove(int id);
     }
 }

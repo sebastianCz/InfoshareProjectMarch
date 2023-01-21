@@ -1,4 +1,6 @@
-﻿using OstreCWEB.ViewModel.Characters;
+﻿using OstreCWEB.Data.Repository.Characters.MetaTags;
+using OstreCWEB.ViewModel.Characters;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace OstreCWEB.ViewModel.StoryReader
 {
@@ -18,6 +20,9 @@ namespace OstreCWEB.ViewModel.StoryReader
         public PlayableClassView CharacterClass { get; set; }
         public List<ItemCharacterView> LinkedItems { get; set; }
         public List<ActionCharacterView> LinkedActions { get; set; }
+        
+        public IEnumerable<ItemCharacterView> ItemCharacterWithAction { get { return LinkedItems.Where(l => l.Item.ActionToTrigger != null);  } }
+        public int CombatId { get; set; }
         public int NotEquippedItemsCount  
         { 
             get
@@ -31,5 +36,7 @@ namespace OstreCWEB.ViewModel.StoryReader
         {
             return (CurrentHealthPoints*100)/ MaxHealthPoints;
         }
+
+           
     }
 }

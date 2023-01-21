@@ -247,7 +247,7 @@ namespace OstreCWEB.Data.Migrations
                     Max_Dmg = table.Column<int>(type: "int", nullable: false),
                     Flat_Dmg = table.Column<int>(type: "int", nullable: false),
                     Hit_Dice_Nr = table.Column<int>(type: "int", nullable: false),
-                    PossibleTargets = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    PossibleTarget = table.Column<int>(type: "int", nullable: false),
                     InflictsStatus = table.Column<bool>(type: "bit", nullable: false),
                     StatForTest = table.Column<int>(type: "int", nullable: false),
                     UsesMaxBeforeRest = table.Column<int>(type: "int", nullable: false),

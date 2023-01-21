@@ -112,5 +112,27 @@ namespace OstreCWEB.Controllers
             return RedirectToAction(nameof(FightView));
         }
 
+        public ActionResult SetActiveActionFromItem(int id)
+        {
+            var activeFightInstance = _fightService.GetActiveFightInstance(_userService.GetUserId(User));
+            var chosenItem = activeFightInstance.ActivePlayer.LinkedItems
+                .First(i => i.Id == id);
+            activeFightInstance.IsItemToDelete = false;
+            if(chosenItem.Item.DeleteOnUse)
+            {              
+                _fightService.UpdateItemToRemove(id);
+                activeFightInstance.IsItemToDelete = true;
+            }
+
+            _fightService.UpdateActiveAction(_fightService.ChooseAction(chosenItem.Item.ActionToTrigger.CharacterActionId));
+            _fightService.ResetActiveTarget();
+
+
+            return RedirectToAction("FightView");
+
+            
+
+        }
+
     }
 }
