@@ -53,8 +53,7 @@ namespace OstreCWEB.Data.Repository.ManyToMany
        
         public async Task<UserParagraph> GetByUserParagraphIdAsync(int userParagraphId)
         {
-            return await _context.UserParagraphs.SingleOrDefaultAsync(u=>u.UserParagraphId == userParagraphId);
-
+            return await _context.UserParagraphs.SingleOrDefaultAsync(u=>u.UserParagraphId == userParagraphId); 
         } 
 
         public async Task<UserParagraph> GetActiveByUserId(string userId)

@@ -35,9 +35,9 @@ namespace OstreCWEB.Services.Fight
             _userParagraphRepository = userParagraphRepository;
             _characterFactory = characterFactory;   
         }
-        public FightInstance GetActiveFightInstance(string userId)
+        public FightInstance GetActiveFightInstance(string userId,int characterId)
         {
-            _activeFightInstance = _fightRepository.GetById(userId);
+            _activeFightInstance = _fightRepository.GetById(userId, characterId);
             return _activeFightInstance;
         }
         
@@ -70,6 +70,7 @@ namespace OstreCWEB.Services.Fight
         {
             _activeFightInstance.PlayerActionCounter--;
             ApplyAction(_activeFightInstance.ActiveTarget, _activeFightInstance.ActivePlayer, _activeFightInstance.ActiveAction);
+            
             if (_activeFightInstance.ActiveTarget.CombatId != 1)
             {
                 if (_activeFightInstance.ActiveTarget.CurrentHealthPoints <= 0)
@@ -83,36 +84,9 @@ namespace OstreCWEB.Services.Fight
             {
             _fightRepository.DeleteLinkedItemAsync(_activeFightInstance, _activeFightInstance.ItemToDeleteId);
             }
-            var combatEnded = IsFightFinished(_activeFightInstance.ActiveEnemies, GetActivePlayer());
-            var fightWon = IsFightWon(_activeFightInstance.ActivePlayer);
-            if (combatEnded) { FinishFight(fightWon); }
-            else
+            if (!_activeFightInstance.ActionGrantedByItem)
             {
-                _activeFightInstance.TurnNumber = UpdateTurnNumber(_activeFightInstance.TurnNumber);
-                if (_activeFightInstance.PlayerActionCounter == 0)
-                {
-                    _activeFightInstance.PlayerActionCounter = 2;
-                    StartAiTurn();
-                }
-
-            }
-           
-            
-
-        }
-
-        public void CommitActionFromItem()
-        {
-            _activeFightInstance.PlayerActionCounter--;
-            ApplyAction(_activeFightInstance.ActiveTarget, _activeFightInstance.ActivePlayer, _activeFightInstance.ActiveAction);
-            if (_activeFightInstance.ActiveTarget.CombatId != 1)
-            {
-                if (_activeFightInstance.ActiveTarget.CurrentHealthPoints <= 0)
-                {
-                    _activeFightInstance.ActiveEnemies.Remove((Enemy)GetActiveTarget());
-                    _activeFightInstance.ActiveTarget = null;
-                }
-
+                _activeFightInstance.ActivePlayer.LinkedActions.First(a => a.CharacterAction.CharacterActionId == _activeFightInstance.ActiveAction.CharacterActionId).UsesLeftBeforeRest--; 
             }
             var combatEnded = IsFightFinished(_activeFightInstance.ActiveEnemies, GetActivePlayer());
             var fightWon = IsFightWon(_activeFightInstance.ActivePlayer);
@@ -124,12 +98,9 @@ namespace OstreCWEB.Services.Fight
                 {
                     _activeFightInstance.PlayerActionCounter = 2;
                     StartAiTurn();
-                }
-
-            }
-
-        }
-
+                } 
+            } 
+        } 
         public List<string> ReturnHistory() => _activeFightInstance.FightHistory;
         public void UpdateActiveTarget(Character character)
         {
@@ -150,6 +121,12 @@ namespace OstreCWEB.Services.Fight
             _activeFightInstance.ActiveTarget = new PlayableCharacter();
             return _activeFightInstance.ActiveTarget;
         }
+        public CharacterAction ResetActiveAction()
+        {
+            //We  create playable character instance and replace the active target with null values. Character class is abstract.   
+            _activeFightInstance.ActiveAction = new CharacterAction();
+            return _activeFightInstance.ActiveAction;
+        }
         private void StartAiTurn()
         {
             var random = new Random();
@@ -159,19 +136,12 @@ namespace OstreCWEB.Services.Fight
                 var result = random.Next(0, enemy.AllAvailableActions.Count());
                 var enemyAction = enemy.AllAvailableActions[result];
                 ApplyAction(_activeFightInstance.ActivePlayer, enemy, enemyAction);
-            }
-
-            //Ai needs to determine the actions it wants to use and apply them one by one.
-            //The decision making can be random at first but later on we could go for a scripted behaviour depending
-            //on current hp AND / OR the amount of dead enemies. For instance if the enemy is the last remainign enemy 
-            //he will start to use his special actions. 
-            //(update the view every 2 seconds maybe instead of showing it all at once? 
-
+            }  
         }
-        public FightInstance GetFightState(string userId)
+        public FightInstance GetFightState(string userId,int characterId)
         {
             //We should return a fight state object instead :TODO 
-            return _fightRepository.GetById(userId);
+            return _fightRepository.GetById(userId, characterId);
         }
         public Character GetActiveTarget()
         {
@@ -379,7 +349,7 @@ namespace OstreCWEB.Services.Fight
         private void FinishFight(bool playerWon)
         {
             _activeFightInstance.CombatFinished = true;
-            if (playerWon) { _activeFightInstance.PlayerWon = true; }
+            if (playerWon) { _activeFightInstance.PlayerWon = true; return; }
             _activeFightInstance.PlayerWon = false;
         }
         private bool IsFightFinished(List<Enemy> activeEnemies, PlayableCharacter activePlayer)

@@ -7,13 +7,14 @@ namespace OstreCWEB.Data.Repository.Fight
 {
     internal  class FightRepository : IFightRepository
     {
-        private static Dictionary<string, FightInstance> FightInstances { get; set; } = FightInstances = new Dictionary<string, FightInstance>();
+        private static List<KeyValuePair<string, FightInstance>> FightInstances { get; set; } = new List<KeyValuePair<string, FightInstance>>();
+
  
         public bool Add(string userId, FightInstance fightInstance, out string operationResult)
         {
-            if (!FightInstances.ContainsKey(userId))
+            if (FightInstances.Where(x=>x.Key==userId).Count()<5)
             {
-                FightInstances.Add(userId, fightInstance);
+                FightInstances.Add(new KeyValuePair<string,FightInstance>(userId, fightInstance));
                 operationResult = "operation success";
                 return true;
             }
@@ -23,16 +24,17 @@ namespace OstreCWEB.Data.Repository.Fight
                 return false;
             }
         }
-        public FightInstance GetById(string userId)
+        public FightInstance? GetById(string userId,int characterId)
         {
-            if (FightInstances.ContainsKey(userId))
+            foreach(var fightInstanceDictionary in FightInstances)
             {
-                  return FightInstances.First(x => x.Key == userId).Value;
+                if(fightInstanceDictionary.Key == userId && fightInstanceDictionary.Value.ActivePlayer.CharacterId == characterId) 
+                { 
+                    return fightInstanceDictionary.Value;
+                }
+                
             }
-            else
-            {
-                return null;
-            }
+            return null;
         }
 
         public async Task DeleteLinkedItemAsync(FightInstance fightInstance,int itemToDelete)
@@ -43,37 +45,31 @@ namespace OstreCWEB.Data.Repository.Fight
                 fightInstance.ActivePlayer.LinkedItems.First(i => i.Id == itemToDelete)
                 );
         }
-        public bool Delete(string userId, out string operationResult)
+        public bool Delete(string userId,int characterId, out string operationResult)
         {
-            if (FightInstances.ContainsKey(userId))
+            foreach(KeyValuePair<string,FightInstance> kvp in FightInstances)
             {
-                FightInstances.Remove(userId);
-                operationResult = "operation success";
-                return true;
+                if(kvp.Key == userId && kvp.Value.ActivePlayer.CharacterId == characterId)
+                {
+                    FightInstances.Remove(kvp);
+                    operationResult = "operation success";
+                    return true;
+                }
+                else
+                {
+                    operationResult = "FightInstance not found";
+                    return false;
+                }
             }
-            else
-            {
-                operationResult = "There is no user";
-                return false;
-            }
-        }
+            operationResult = "Fight instance not found";
+            return false;
+                
+         } 
 
-        public bool Update(string userId, FightInstance fightInstance,out string operationResult)
-        {
-            if (FightInstances.ContainsKey(userId))
-            {
-                FightInstances[userId] = fightInstance;
-                operationResult = "operation success";
-                return true;
-            }
-            else
-            {
-                operationResult = "There is no user";
-                return false;
-            }
-        }
+       
     }
 }
+
 
 
 

@@ -15,5 +15,6 @@ namespace OstreCWEB.Data.Repository.Fight
         public int ItemToDeleteId { get;set; }
         public  CharacterAction ActiveAction { get; set; }
         public bool IsItemToDelete { get; set; }
+        public bool ActionGrantedByItem { get; set; }
     }
 }
