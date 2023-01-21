@@ -3,8 +3,7 @@
     public enum CharacterActionType
     {
         WeaponAttack = 1,
-        Spell = 2,
-        ItemAction = 3, 
+        Spell = 2, 
         SpecialAction =4
     }
 }

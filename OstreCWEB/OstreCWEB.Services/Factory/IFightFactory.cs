@@ -1,15 +1,12 @@
-﻿ 
+﻿
+using OstreCWEB.Data.DataBase.ManyToMany;
+using OstreCWEB.Data.Repository.Characters.CharacterModels;
 using OstreCWEB.Data.Repository.Fight;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace OstreCWEB.Services.Factory
 {
     public interface IFightFactory
     {
-        public FightInstance BuildNewFightInstance();
+        public FightInstance BuildNewFightInstance(UserParagraph userParagraph,List<Enemy> enemies);
     }
 }

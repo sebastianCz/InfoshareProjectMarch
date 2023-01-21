@@ -1,29 +1,14 @@
-﻿using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
+﻿using System.Text.Json; 
 namespace OstreCWEB.Services.Factory
 {
     public static class FactoryHelper
     {
         public static T GenerateNewObjectInstance<T>(T objectInstance)
         {
-            var objectAsText = JsonConvert.SerializeObject(
-                         objectInstance,
-                     new JsonSerializerSettings()
-                     {
-                         TypeNameHandling = TypeNameHandling.Auto
-                     });
+            
+            var objectAsText = JsonSerializer.Serialize(objectInstance);
 
-            var newObjectInstance = JsonConvert.DeserializeObject<T>(
-                objectAsText,
-                new JsonSerializerSettings()
-                {
-                    TypeNameHandling = TypeNameHandling.Auto
-                });
+            var newObjectInstance = JsonSerializer.Deserialize<T>(objectAsText);
             return newObjectInstance; 
         }
     }

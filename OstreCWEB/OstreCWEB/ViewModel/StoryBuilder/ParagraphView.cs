@@ -18,14 +18,8 @@ namespace OstreCWEB.ViewModel.StoryBuilder
         [Display(Name = "Amount Of Choices")]
         public int AmountOfChoices { get; set; }
 
-        // Paragraph type properties
-        public FightProp? FightProp { get; set; }
-        public DialogProp? DialogProp { get; set; }
-        public TestProp? TestProp { get; set; }
-        public ShopkeeperProp? ShopkeeperProp { get; set; }
-
         // Choice options
-        public List<ChoiceView> Choices { get; set; } = new List<ChoiceView>();
+        public List<ChoiceView> Choices { get; set; }
 
         public int StoryId { get; set; }
     }

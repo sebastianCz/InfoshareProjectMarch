@@ -1,0 +1,24 @@
+﻿@model OstreCWEB.ViewModel.StoryReader.TestParagraphView
+
+<div class="card">
+    <div class="card-body">
+        <h5 class="card-title">@Model.Description</h5>
+
+        @if (Model.Throw == 0)
+        {
+            <div class="list-group">
+                <a asp-route-name="StoryReader" asp-action="RollTheDice" type="button" class="list-group-item list-group-item-action">Throw your dice</a>
+            </div>
+        }
+        @if (Model.Throw != 0)
+        {
+            <div>
+                <h6>You roll the dice for @Model.Throw</h6>
+                <p>Your roll value plus modifier (@Model.ThrowModifier) is @(Model.Throw + Model.ThrowModifier)</p>
+            </div>
+            <div class="list-group">
+                <a asp-route-name="StoryReader" asp-action="TestThrow" asp-route-id="@Model.Throw" type="button" class="list-group-item list-group-item-action">Test your throw</a>
+            </div>
+        }
+    </div>
+</div>

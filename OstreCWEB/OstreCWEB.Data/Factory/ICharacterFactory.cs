@@ -1,14 +1,11 @@
 ﻿using OstreCWEB.Data.Repository.Characters.CharacterModels;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using OstreCWEB.Data.Repository.StoryModels.Properties;
 
-namespace OstreCWEB.Services.Factory
+namespace OstreCWEB.Data.Factory
 {
     public interface ICharacterFactory
     {
         public Task<PlayableCharacter> CreatePlayableCharacterInstance(PlayableCharacter playableCharacter);
+        public Task <List<Enemy>> CreateEnemiesInstances(List<EnemyInParagraph> enemiesInParagraphs);
     }
 }

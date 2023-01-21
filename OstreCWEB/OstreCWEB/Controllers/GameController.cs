@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using OstreCWEB.Services.Characters;
 using OstreCWEB.Services.Game;
 using OstreCWEB.Services.Identity;
-using OstreCWEB.Services.StoryService;
+using OstreCWEB.Services.StoryServices;
 using OstreCWEB.ViewModel.Characters;
 using OstreCWEB.ViewModel.Game;
 using OstreCWEB.ViewModel.Identity;
@@ -40,7 +40,7 @@ namespace OstreCWEB.Controllers
             {
                 try
                 { 
-                    var gameInstance = await _gameService.CreateNewGameInstance(
+                    var gameInstance = await _gameService.CreateNewGameInstanceAsync(
                         _userService.GetUserId(User),
                         Convert.ToInt32(activeCharacterCookies.FirstOrDefault().Value),
                         Convert.ToInt32(activeStoryCookies.FirstOrDefault().Value));
@@ -59,13 +59,13 @@ namespace OstreCWEB.Controllers
 
         public async Task<ActionResult> DeleteGame(int id)
         { 
-            await _gameService.DeleteGameInstance(id);
+            await _gameService.DeleteGameInstanceAsync(id);
             return RedirectToAction(nameof(Index));
         }
 
         public async Task<ActionResult> LoadGame(int id)
         { 
-            await _gameService.SetActiveGameInstance( id, _userService.GetUserId(User));
+            await _gameService.SetActiveGameInstanceAsync( id, _userService.GetUserId(User));
             return RedirectToAction("Index", "StoryReader");
         }
         public async Task<ActionResult> Index()
@@ -87,23 +87,17 @@ namespace OstreCWEB.Controllers
                     model.ActiveStory = _mapper.Map<StoryView>(await _storyService.GetStoryById(Convert.ToInt32(activeStoryCookies.ToList().FirstOrDefault().Value)));
                 }
             };
+
             var x = await _userService.GetUserById(_userService.GetUserId(User));
 
             model.User = _mapper.Map<UserView>(x);
                 foreach(var gameSessionView in model.User.UserParagraphs)
                 { 
                     gameSessionView.Story = _mapper.Map<StoryView>(await _storyService.GetStoryById(gameSessionView.Paragraph.StoryId));  
-                }  
-            foreach (var story in await _storyService.GetAllStories())
-            {
-                var mappedStory = _mapper.Map<StoryView>(story);
-                model.OtherUsersStories.Add(mappedStory);
-            } 
-            foreach (var character in await _playableCharacterService.GetAllTemplates(_userService.GetUserId(User)))
-            {
-                var mappedCharacter = _mapper.Map<PlayableCharacterRow>(character);
-                model.OtherUsersCharacters.Add(mappedCharacter);
-            }   
+                }   
+                model.OtherUsersStories = _mapper.Map<List<StoryView>>(await _storyService.GetAllStories());   
+                model.OtherUsersCharacters = _mapper.Map<List<PlayableCharacterRow>>(await _playableCharacterService.GetAllTemplates(_userService.GetUserId(User)));
+   
             return View(model);
         }
         [HttpGet]

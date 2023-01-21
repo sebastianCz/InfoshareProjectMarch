@@ -1,16 +1,16 @@
 ﻿using Microsoft.AspNetCore.Identity;
-using Newtonsoft.Json;
 using OstreCWEB.Data.DataBase;
+using OstreCWEB.Data.InitialData;
 using OstreCWEB.Data.Repository.Characters.CharacterModels;
 using OstreCWEB.Data.Repository.Characters.Enums;
 using OstreCWEB.Data.Repository.Characters.MetaTags;
 using OstreCWEB.Data.Repository.Identity;
 using OstreCWEB.Services.Identity;
 
- 
+
 namespace OstreCWEB.Services.Seed;
 
-public class SeedCharacters : ISeeder
+internal class SeedCharacters : ISeeder
 {
     private readonly OstreCWebContext _db;
     private readonly UserManager<User> _userManager;
@@ -126,16 +126,16 @@ public class SeedCharacters : ISeeder
                               new CharacterAction
             {
                 ActionName = "Small Heal",
-                ActionDescription = "Heals the user for 1d6 +2",
-                ActionType = CharacterActionType.ItemAction,
+                ActionDescription = "Heals the user for 1d6 +2", 
                 SavingThrowPossible = false,
+                ActionType = CharacterActionType.Spell,
                 Max_Dmg = 1,
                 Flat_Dmg = 2,
                 Hit_Dice_Nr = 1,
                 PossibleTargets = "caster",
                 InflictsStatus = false,
                 StatForTest = Statistics.None,
-                UsesMax = 1,
+                UsesMaxBeforeRest = 2,
                 AggressiveAction = false
             },
                  new CharacterAction
@@ -176,33 +176,39 @@ public class SeedCharacters : ISeeder
                 new Item()
                 {
                     Name="Short Sword",
-                    ItemType =ItemType.TwoHandedWeapon
+                    ItemType =ItemType.TwoHandedWeapon,
+                    DeleteOnUse = false
                 },
                 new Item()
                 {
                     Name="Healing Potion",
-                    ItemType = ItemType.Consumable
+                    ItemType = ItemType.Consumable,
+                    DeleteOnUse = true
+                    
                 },
                 new Item()
                 {
                     Name="Small Wooden Shield",
                     ItemType = ItemType.Shield,
                     ArmorClass=2,
-                    ArmorType = ArmorType.Shield 
+                    ArmorType = ArmorType.Shield ,
+                    DeleteOnUse = false
                 },
                  new Item
                 {
                     Name="Heavy Armor",
                     ItemType = ItemType.Armor,
                     ArmorClass = 2,
-                    ArmorType = ArmorType.HeaveArmor 
+                    ArmorType = ArmorType.HeaveArmor, 
+                    DeleteOnUse=false
                 },
                 new Item
                 {
                     Name="Mage Robe",
                     ItemType = ItemType.Armor,
                     ArmorClass = 1,
-                    ArmorType= ArmorType.LightArmor 
+                    ArmorType= ArmorType.LightArmor,
+                    DeleteOnUse = false
                 }
             }; 
         var enemies = new List<Enemy>
@@ -350,12 +356,12 @@ public class SeedCharacters : ISeeder
         _db.Enemies.AddRange(enemies);
         
         users.First(u=>u.UserName =="AdminUser").CharactersCreated.Add(playableCharacters[0]);
-        users[0].CharactersCreated.Add(playableCharacters[1]);
+        users[1].CharactersCreated.Add(playableCharacters[1]);
 
 
         //_db.SaveChanges();
         _db.SaveChanges();
-
+        SeedStories.Initialize(_db, users.First(u => u.UserName == "AdminUser"));
     }
 
     public  List<PlayableCharacter> UpdatePlayableCharacterItemsRelations(List<PlayableCharacter> characters)

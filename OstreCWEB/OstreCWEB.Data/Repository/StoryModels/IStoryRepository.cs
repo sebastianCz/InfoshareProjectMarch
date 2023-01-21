@@ -2,14 +2,14 @@
 {
     public interface IStoryRepository
     {
-        Task<IReadOnlyCollection<Story>> GetAllStories();
-        Task<Story> GetStoryById(int idStory);
-        Task<Paragraph> GetParagraphById(int idParagraph);
-
-        Task UpdateStory(Story story);
-        Task AddStory(Story story);
-        Task DeleteStory(Story story);
-
-        Task AddParagraph(Paragraph paragraph);
+        public Task<IReadOnlyCollection<Story>> GetAllStories();
+        public Task<Story> GetStoryById(int idStory);
+        public Task<Paragraph> GetParagraphById(int idParagraph); 
+        public Task<Paragraph> GetCombatParagraphById(int idParagraph);
+        public Task<Story> GetStoryNoIncludesAsync(int storyId);
+        public Task UpdateStory(Story story);
+        public Task AddStory(Story story);
+        public Task DeleteStory(Story story); 
+        public Task AddParagraph(Paragraph paragraph);
     }
 }

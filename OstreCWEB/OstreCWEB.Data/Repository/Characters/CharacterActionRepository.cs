@@ -5,7 +5,7 @@ using OstreCWEB.Data.Repository.Characters.Interfaces;
 
 namespace OstreCWEB.Data.Repository.Characters
 {
-    public class CharacterActionRepository : ICharacterActionsRepository
+    internal class CharacterActionRepository : ICharacterActionsRepository
     {
         private OstreCWebContext _db;
         public CharacterActionRepository(OstreCWebContext db)
@@ -13,19 +13,19 @@ namespace OstreCWEB.Data.Repository.Characters
             _db = db;
         }
 
-        public async Task Create(CharacterAction characterAction)
+        public async Task CreateAsync(CharacterAction characterAction)
         {
            _db.CharacterActions.Add(characterAction);
             await _db.SaveChangesAsync();
         }
 
-        public async Task Delete(CharacterAction characterAction)
+        public async Task DeleteAsync(CharacterAction characterAction)
         {
             _db.CharacterActions.Remove(characterAction);
              await _db.SaveChangesAsync();
         }
 
-        public async Task<List<CharacterAction>> GetAll()
+        public async Task<List<CharacterAction>> GetAllAsync()
         {
             return await _db.CharacterActions
                 .Include(s => s.Status)
@@ -33,7 +33,7 @@ namespace OstreCWEB.Data.Repository.Characters
                 .ToListAsync();
         }
 
-        public async Task<CharacterAction> GetById(int id)
+        public async Task<CharacterAction> GetByIdAsync(int id)
         {
             return await _db.CharacterActions
                 .Include(s=>s.Status)
@@ -41,7 +41,7 @@ namespace OstreCWEB.Data.Repository.Characters
                 .SingleOrDefaultAsync(s => s.CharacterActionId == id);
         }
 
-        public async Task Update(CharacterAction characterAction)
+        public async Task UpdateAsync(CharacterAction characterAction)
         {
             _db.CharacterActions.Update(characterAction);
            await _db.SaveChangesAsync();

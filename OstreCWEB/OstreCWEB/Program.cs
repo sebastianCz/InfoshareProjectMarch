@@ -1,23 +1,13 @@
+using AutoMapper;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using OstreCWEB.Data.DataBase;
-using OstreCWEB.Data.InitialData;
-using OstreCWEB.Data.Repository.Characters;
-using OstreCWEB.Data.Repository.Characters.Interfaces;
-using OstreCWEB.Data.Repository.Fight;
 using OstreCWEB.Data.Repository.Identity;
-using OstreCWEB.Data.Repository.ManyToMany;
-using OstreCWEB.Data.Repository.SuperAdmin;
-using OstreCWEB.Data.ServiceRegistration;
-using OstreCWEB.Services.Characters;
-using OstreCWEB.Services.Factory;
-using OstreCWEB.Services.Fight;
-using OstreCWEB.Services.Game;
-using OstreCWEB.Services.Identity;
-using OstreCWEB.Services.Seed;
+using OstreCWEB.Data.RepositoryRegistration;
 using OstreCWEB.Services.ServiceRegistration;
 using Serilog;
 using Serilog.Sinks.MSSqlServer;
+using System.Text.Json.Serialization;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -25,44 +15,25 @@ var builder = WebApplication.CreateBuilder(args);
 //Allows retrying CRUD operations in case of transient failures.
 builder.Services.AddDbContext<OstreCWebContext>(
     options => options.UseSqlServer(builder.Configuration.GetConnectionString("OstreCWEB")));
+ 
 
 // for Identity
 builder.Services.AddIdentity<User, IdentityRole>()
     .AddEntityFrameworkStores<OstreCWebContext>()
     .AddDefaultTokenProviders();
 
+builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddSwaggerGen();
+
 builder.Services.ConfigureApplicationCookie(options => options.LoginPath = "/LoginController/Login");
 
-builder.Services.AddScoped<IUserAuthenticationService, UserAuthenticationService>();
-
-builder.Services.AddTransient<IFightService,FightService>();
-builder.Services.AddSingleton<IFightRepository, FightRepository>();
-builder.Services.AddTransient<IFightFactory, FightFactory>(); 
-builder.Services.AddTransient<IStatusRepository, StatusRepository>();
-builder.Services.AddTransient<ICharacterActionsRepository, CharacterActionRepository>();
-builder.Services.AddTransient<IPlayableCharacterRepository, PlayableCharacterRepository >();
-builder.Services.AddTransient<IPlayableCharacterService, PlayableCharacterService>();
-builder.Services.AddTransient<ISuperAdminRepository, SuperAdminRepository>();
-builder.Services.AddTransient<IIdentityRepository, IdentityRepository>();
-builder.Services.AddTransient<IUserService, UserService>();
-builder.Services.AddTransient<ISeeder, SeedCharacters>(); 
-builder.Services.AddTransient<CharacterFactory, CharacterFactory>(); 
-builder.Services.AddTransient<IUserParagraphRepository, UserParagraphRepository>();
-builder.Services.AddTransient<IItemCharacterRepository, ItemCharacterRepository>();
-builder.Services.AddTransient<IActionCharacterRepository, ActionCharacterRepository>();
-builder.Services.AddTransient<IGameService, GameService>();
-
-//builder.Services.AddTransient<IEnemyRepository,  >();
-
-//builder.Services.AddTransient<ICharacterClassRepository,  >();
-//builder.Services.AddTransient<ICharacterRaceRepository,  >();
-//builder.Services.AddTransient<IItemRepository,  >();
-
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
-builder.Services
-    .AddAutoMapper(typeof(Program))
+builder.Services 
+    .AddAutoMapper(typeof(Program)) 
     .AddControllersWithViews()
-.AddRazorRuntimeCompilation();
+    .AddJsonOptions(option => option.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles) 
+    .AddRazorRuntimeCompilation(); 
+
 
 builder.Services
     .AddRepositories();
@@ -81,18 +52,10 @@ builder.Host.UseSerilog((hostBuilderContext, loggerConfiguration) =>
     restrictedToMinimumLevel: Serilog.Events.LogEventLevel.Warning);
 });
 
-builder.Services.AddSwaggerGen();
+ 
 var app = builder.Build();
 
- 
-
-using (var scope = app.Services.CreateScope())
-{ 
-    var services = scope.ServiceProvider; 
-     SeedStories.Initialize(services); 
-}
-var test = new StaticLists();
-test.SeedData();
+app.Services.GetRequiredService<IMapper>().ConfigurationProvider.AssertConfigurationIsValid();
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
@@ -115,13 +78,14 @@ app.UseRouting();
 
 app.UseAuthentication();
 app.UseAuthorization();
+app.MapControllers();
 
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=Home}/{action=Index}/{id?}");
+    pattern: "{controller=Swagger}/{action=Index}/{id?}");
 
 app.MapControllerRoute(
     name: "storyBuilder",
     pattern: "{controller=Home}/{action=Index}/{id?}/{paragraphId?}");
- 
+
 app.Run();

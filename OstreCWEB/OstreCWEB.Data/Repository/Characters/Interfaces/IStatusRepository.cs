@@ -9,10 +9,10 @@ namespace OstreCWEB.Data.Repository.Characters.Interfaces
 {
     public interface IStatusRepository
     {
-        public Task<Status> GetById(int id);
-        public Task<List<Status>> GetAll();
-        public Task Update(Status Status);
-        public Task Create(Status Status);
-        public Task Delete(Status Status);
+        public Task<Status> GetByIdAsync(int id);
+        public Task<List<Status>> GetAllAsync();
+        public Task UpdateAsync(Status Status);
+        public Task CreateAsync(Status Status);
+        public Task DeleteAsync(Status Status);
     }
 }

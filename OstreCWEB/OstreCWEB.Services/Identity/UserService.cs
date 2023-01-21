@@ -1,10 +1,9 @@
-﻿using OstreCWEB.Data.DataBase.ManyToMany;
-using OstreCWEB.Data.Repository.Identity;
+﻿using OstreCWEB.Data.Repository.Identity;
 using System.Security.Claims;
 
 namespace OstreCWEB.Services.Identity
 {
-    public class UserService : IUserService
+    internal class UserService : IUserService
     {
         private readonly IIdentityRepository _identityRepository;
         public UserService(IIdentityRepository identityRepository)

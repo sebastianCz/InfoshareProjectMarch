@@ -12,25 +12,36 @@ namespace OstreCWEB.Mapping
         {
             CreateMap<Story, StoryAllParagraphsView>();
 
-            CreateMap<Story, StoryView>();
-
-            CreateMap<StoryView, Story>();
+            CreateMap<Story, StoryView>()
+                .ReverseMap()
+                    .ForMember(dest => dest.Paragraphs, opt => opt.Ignore());
 
             CreateMap<Paragraph, ParagraphView>();
 
-            CreateMap<Story, StoryDetailsView>();
+            CreateMap<Story, StoryDetailsView>()
+                .ForMember(dest => dest.PreviousParagraphs, opt => opt.Ignore())
+                .ForMember(dest => dest.CurrentParagraphView, opt => opt.Ignore())
+                .ForMember(dest => dest.NextParagraphs, opt => opt.Ignore());
 
             CreateMap<TestProp, TestPropView>();
 
             CreateMap<FightProp, FightPropView>();
 
-            CreateMap<EnemyInParagraph, EnemyInParagraphView>();
+            CreateMap<EnemyInParagraph, EnemyInParagraphView>()
+                .ForMember(dest => dest.EnemyName, opt => opt.Ignore());
 
             CreateMap<Choice, ChoiceView>();
 
-            CreateMap<ParagraphCreateView, Paragraph>();
-
-            CreateMap<Paragraph, ParagraphCreateView>();
+            CreateMap<Paragraph, ParagraphCreateView>()
+                .ReverseMap()
+                    .ForMember(dest => dest.Id, opt => opt.Ignore())
+                    .ForMember(dest => dest.FightProp, opt => opt.Ignore())
+                    .ForMember(dest => dest.DialogProp, opt => opt.Ignore())
+                    .ForMember(dest => dest.TestProp, opt => opt.Ignore())
+                    .ForMember(dest => dest.ShopkeeperProp, opt => opt.Ignore())
+                    .ForMember(dest => dest.Choices, opt => opt.Ignore())
+                    .ForMember(dest => dest.UserParagraphs, opt => opt.Ignore())
+                    .ForMember(dest => dest.Story, opt => opt.Ignore());           
         }
     }
 }

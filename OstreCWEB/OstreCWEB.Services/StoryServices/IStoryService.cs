@@ -1,6 +1,6 @@
 ﻿using OstreCWEB.Data.Repository.StoryModels;
 
-namespace OstreCWEB.Services.StoryService
+namespace OstreCWEB.Services.StoryServices
 {
     public interface IStoryService
     {
@@ -18,8 +18,5 @@ namespace OstreCWEB.Services.StoryService
 
         //Paragraph
         Task AddParagraph(Paragraph paragraph);
-
-        //Game
-        Task CommitNextParagraph(int id);
     }
 }

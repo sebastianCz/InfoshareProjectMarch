@@ -2,11 +2,11 @@
 
 namespace OstreCWEB.Data.Repository.Fight
 {
-    public  class FightRepository : IFightRepository
+    internal  class FightRepository : IFightRepository
     {
-        private static Dictionary<int, FightInstance> FightInstances { get; set; } = FightInstances = new Dictionary<int, FightInstance>();
+        private static Dictionary<string, FightInstance> FightInstances { get; set; } = FightInstances = new Dictionary<string, FightInstance>();
  
-        public bool Add(int userId, FightInstance fightInstance, out string operationResult)
+        public bool Add(string userId, FightInstance fightInstance, out string operationResult)
         {
             if (!FightInstances.ContainsKey(userId))
             {
@@ -16,12 +16,11 @@ namespace OstreCWEB.Data.Repository.Fight
             }
             else
             {
-                operationResult = "operation failed";
-                Debug.WriteLine(operationResult);
+                operationResult = "operation failed"; 
                 return false;
             }
         }
-        public FightInstance GetById(int userId)
+        public FightInstance GetById(string userId)
         {
             if (FightInstances.ContainsKey(userId))
             {
@@ -29,10 +28,10 @@ namespace OstreCWEB.Data.Repository.Fight
             }
             else
             {
-                return new FightInstance();
+                return null;
             }
         }
-        public bool Delete(int userId, out string operationResult)
+        public bool Delete(string userId, out string operationResult)
         {
             if (FightInstances.ContainsKey(userId))
             {
@@ -47,7 +46,7 @@ namespace OstreCWEB.Data.Repository.Fight
             }
         }
 
-        public bool Update(int userId, FightInstance fightInstance,out string operationResult)
+        public bool Update(string userId, FightInstance fightInstance,out string operationResult)
         {
             if (FightInstances.ContainsKey(userId))
             {

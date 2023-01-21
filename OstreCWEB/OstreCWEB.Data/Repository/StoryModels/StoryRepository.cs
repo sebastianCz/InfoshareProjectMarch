@@ -1,11 +1,12 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using OstreCWEB.Data.DataBase;
+using OstreCWEB.Data.Repository.StoryModels.Enums;
 
 #nullable disable
 
 namespace OstreCWEB.Data.Repository.StoryModels
 {
-    public class StoryRepository : IStoryRepository
+    internal class StoryRepository : IStoryRepository
     {
         private readonly OstreCWebContext _ostreCWebContext;
 
@@ -37,13 +38,22 @@ namespace OstreCWEB.Data.Repository.StoryModels
                     .ThenInclude(p => p.ShopkeeperProp)
                 .SingleOrDefault(s => s.Id == idStory);
         }
+        public async Task<Story> GetStoryNoIncludesAsync(int storyId)
+        {
+            return await _ostreCWebContext.Stories.SingleOrDefaultAsync(s => s.Id == storyId);
+        }
 
         public async Task<Paragraph> GetParagraphById(int idParagraph)
-        {
+        { 
             return _ostreCWebContext.Paragraphs
                 .SingleOrDefault(p => p.Id == idParagraph);
         }
-
+        public async Task<Paragraph> GetCombatParagraphById(int idParagraph)
+        {
+            return await _ostreCWebContext.Paragraphs
+                            .Include(p => p.FightProp)
+                            .SingleOrDefaultAsync();
+        }
         public async Task AddStory(Story story)
         {
             _ostreCWebContext.Stories.Add(story);
