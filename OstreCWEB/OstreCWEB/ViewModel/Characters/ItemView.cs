@@ -15,14 +15,11 @@ namespace OstreCWEB.ViewModel.Characters
         {
             get
             {
-                if (this.ItemType == ItemType.Consumable || this.ItemType == ItemType.SpecialItem)
+                if(this.ActionToTrigger != null)
                 {
                     return true;
                 }
-                else
-                {
-                    return false;
-                }
+                return false;
             }  
         }
         public bool isArmor

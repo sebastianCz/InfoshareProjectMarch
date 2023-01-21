@@ -9,5 +9,7 @@ namespace OstreCWEB.Services.Game
         public   Task SetActiveGameInstanceAsync(int userParagraphId,string userId);
         public Task NextParagraphAsync(string userId, int choiceId);
         public Task HealCharacterAsync(string userId);
+        public Task<int> TestThrowAsync(string userId, int rollValue);
+        public int ThrowDice(int maxValue);
     }
 }

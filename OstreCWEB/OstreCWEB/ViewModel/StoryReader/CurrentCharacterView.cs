@@ -18,7 +18,13 @@ namespace OstreCWEB.ViewModel.StoryReader
         public PlayableClassView CharacterClass { get; set; }
         public List<ItemCharacterView> LinkedItems { get; set; }
         public List<ActionCharacterView> LinkedActions { get; set; }
-
+        public int ActionAndItemsCount 
+        { 
+            get
+            {
+                return LinkedItems.Count() + LinkedActions.Count();
+            } 
+        }
         public int CurrentHealthPercentage { get { return CalculateCurrentHealthPercentage(); } }
 
         public int CalculateCurrentHealthPercentage()

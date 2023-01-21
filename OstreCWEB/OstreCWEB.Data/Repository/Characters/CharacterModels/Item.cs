@@ -19,6 +19,7 @@ namespace OstreCWEB.Data.Repository.Characters.CharacterModels
         public ArmorType? ArmorType { get; set; }
     
         public string Name { get; set; }
+        public bool DeleteOnUse { get; set; }
         public Item() { } 
     }
 }

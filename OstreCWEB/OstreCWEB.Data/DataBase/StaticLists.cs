@@ -138,8 +138,7 @@ namespace OstreCWEB.Data.DataBase
                 PossibleTargets = "enemy",
                 InflictsStatus = true,
                 Status = Statuses.FirstOrDefault(s=>s.StatusId == 1),
-                StatForTest = Statistics.Dexterity,
-                UsesMaxBeforeRest = 2,
+                StatForTest = Statistics.Dexterity, 
                  AggressiveAction = true
 
             },
@@ -147,16 +146,14 @@ namespace OstreCWEB.Data.DataBase
             {
                 CharacterActionId = 4,
                 ActionName = "Healing Potion",
-                ActionDescription = "Heals the user for 1d6 +2",
-                ActionType = CharacterActionType.ItemAction,
+                ActionDescription = "Heals the user for 1d6 +2", 
                 SavingThrowPossible = false,
                 Max_Dmg = 1,
                 Flat_Dmg = 2,
                 Hit_Dice_Nr = 1,
                 PossibleTargets = "caster",
                 InflictsStatus = false,
-                StatForTest = Statistics.None,
-                UsesMax = 1,
+                StatForTest = Statistics.None, 
                 AggressiveAction = false
             },
                  new  CharacterAction

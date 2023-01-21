@@ -2,13 +2,30 @@
 
 <div class="card">
     <div class="card-body"> 
+        <!--Equipped items start-->
         <h2 class="card-title">Equipped items</h2>
         @foreach(var item in Model.LinkedItems){
             if(item.IsEquipped){
                 <partial name="_ItemInventoryView" model="@item.Item"></partial>
             }
         }
-        <h2 class="card-title">Other items</h2>
+        <!--Equipped items end-->
+        <!--Inventory items start-->
+        <h2 class="card-title">Inventory</h2>
+        @foreach (var item in Model.LinkedItems)
+        {
+            if (!item.IsEquipped)
+            {
+                <partial name="_ItemInventoryView" model="@item.Item"></partial>
+            }
+        }
+        <!--Inventory items end-->
+        <!--Actions start-->
         <h2 class="card-title">Known spells and special actions</h2>
+        @foreach (var linkedAction in Model.LinkedActions)
+        {
+            <partial name="_CharacterAction" model="@linkedAction.CharacterAction"></partial>
+        }
+        <!--Actions end-->
     </div>
 </div>
