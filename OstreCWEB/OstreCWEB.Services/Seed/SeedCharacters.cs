@@ -355,7 +355,7 @@ internal class SeedCharacters : ISeeder
         _db.Enemies.AddRange(enemies);
         
         users.First(u=>u.UserName =="AdminUser").CharactersCreated.Add(playableCharacters[0]);
-        users[0].CharactersCreated.Add(playableCharacters[1]);
+        users[1].CharactersCreated.Add(playableCharacters[1]);
 
 
         //_db.SaveChanges();

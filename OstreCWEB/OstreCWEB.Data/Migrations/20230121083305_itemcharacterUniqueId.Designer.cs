@@ -12,8 +12,8 @@ using OstreCWEB.Data.DataBase;
 namespace OstreCWEB.Data.Migrations
 {
     [DbContext(typeof(OstreCWebContext))]
-    [Migration("20230115133216_Initial")]
-    partial class Initial
+    [Migration("20230121083305_itemcharacterUniqueId")]
+    partial class itemcharacterUniqueId
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -284,9 +284,6 @@ namespace OstreCWEB.Data.Migrations
                     b.Property<int?>("StatusId")
                         .HasColumnType("int");
 
-                    b.Property<int>("UsesMax")
-                        .HasColumnType("int");
-
                     b.Property<int>("UsesMaxBeforeRest")
                         .HasColumnType("int");
 
@@ -313,6 +310,9 @@ namespace OstreCWEB.Data.Migrations
 
                     b.Property<int?>("ArmorType")
                         .HasColumnType("int");
+
+                    b.Property<bool>("DeleteOnUse")
+                        .HasColumnType("bit");
 
                     b.Property<int>("ItemType")
                         .HasColumnType("int");
@@ -442,8 +442,11 @@ namespace OstreCWEB.Data.Migrations
 
             modelBuilder.Entity("OstreCWEB.Data.Repository.Characters.MetaTags.ItemCharacter", b =>
                 {
-                    b.Property<int>("ItemId")
+                    b.Property<int>("ItemCharacterId")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ItemCharacterId"), 1L, 1);
 
                     b.Property<int>("CharacterId")
                         .HasColumnType("int");
@@ -451,9 +454,14 @@ namespace OstreCWEB.Data.Migrations
                     b.Property<bool>("IsEquipped")
                         .HasColumnType("bit");
 
-                    b.HasKey("ItemId", "CharacterId");
+                    b.Property<int>("ItemId")
+                        .HasColumnType("int");
+
+                    b.HasKey("ItemCharacterId");
 
                     b.HasIndex("CharacterId");
+
+                    b.HasIndex("ItemId");
 
                     b.ToTable("ItemsCharactersRelation");
                 });

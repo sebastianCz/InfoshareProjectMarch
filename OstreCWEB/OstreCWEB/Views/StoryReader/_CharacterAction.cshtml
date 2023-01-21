@@ -1,22 +1,23 @@
 ﻿@using OstreCWEB.Data.Repository.Characters.Enums
 @model OstreCWEB.ViewModel.Characters.CharacterActionView
 
-<h1>@Model.ActionName</h1>
-<div>
-    <label asp-for="@Model.PossibleTargets"></label>@Model.PossibleTargets</div>
-    <label asp-for="@Model.ActionDescription"></label>@Model.ActionDescription</div>
+<h1>@Model.ActionName</h1> 
+    <label asp-for="@Model.PossibleTargets"></label>@Model.PossibleTargets 
+    <label asp-for="@Model.ActionDescription"></label>@Model.ActionDescription 
     @if (Model.AggressiveAction)
     {
         <div><label asp-for="@Model.SavingThrowPossible"></label>@Model.SavingThrowPossible</div>
         <div><label asp-for="@Model.StatForTest"></label>@Model.StatForTest.ToString()</div> 
     }
- 
-<div><label>Max Roll</label>@Model.Max_Dmg</div>
-<div><label>Dice number</label>@Model.Hit_Dice_Nr</div>
-<div><label>Flat bonus</label>@Model.Flat_Dmg</div>  
+ @if(Model.ActionType != CharacterActionType.SpecialAction){
+    <div><label>Max Roll</label>@Model.Max_Dmg</div>
+    <div><label>Dice number</label>@Model.Hit_Dice_Nr</div>
+    <div><label>Flat bonus</label>@Model.Flat_Dmg</div> 
+ }
+  
 @if(Model.InflictsStatus){
     <partial name="_Status" model="@Model.Status"/>
 }
- 
- <div><label asp-for="@Model.UsesMaxBeforeRest"></label>@Model.StatForTest.ToString()</div>
-       
+ @if(@Model.UsesMaxBeforeRest>0){
+    <div><label asp-for="@Model.UsesMaxBeforeRest"></label>@Model.UsesMaxBeforeRest</div> 
+ }

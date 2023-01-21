@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace OstreCWEB.Data.Migrations
 {
-    public partial class Initial : Migration
+    public partial class itemcharacterUniqueId : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -251,7 +251,6 @@ namespace OstreCWEB.Data.Migrations
                     InflictsStatus = table.Column<bool>(type: "bit", nullable: false),
                     StatForTest = table.Column<int>(type: "int", nullable: false),
                     UsesMaxBeforeRest = table.Column<int>(type: "int", nullable: false),
-                    UsesMax = table.Column<int>(type: "int", nullable: false),
                     AggressiveAction = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
@@ -295,7 +294,8 @@ namespace OstreCWEB.Data.Migrations
                     ItemType = table.Column<int>(type: "int", nullable: false),
                     ArmorClass = table.Column<int>(type: "int", nullable: true),
                     ArmorType = table.Column<int>(type: "int", nullable: true),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    DeleteOnUse = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -541,13 +541,15 @@ namespace OstreCWEB.Data.Migrations
                 name: "ItemsCharactersRelation",
                 columns: table => new
                 {
+                    ItemCharacterId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     ItemId = table.Column<int>(type: "int", nullable: false),
                     CharacterId = table.Column<int>(type: "int", nullable: false),
                     IsEquipped = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_ItemsCharactersRelation", x => new { x.ItemId, x.CharacterId });
+                    table.PrimaryKey("PK_ItemsCharactersRelation", x => x.ItemCharacterId);
                     table.ForeignKey(
                         name: "FK_ItemsCharactersRelation_Character_CharacterId",
                         column: x => x.CharacterId,
@@ -669,6 +671,11 @@ namespace OstreCWEB.Data.Migrations
                 name: "IX_ItemsCharactersRelation_CharacterId",
                 table: "ItemsCharactersRelation",
                 column: "CharacterId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ItemsCharactersRelation_ItemId",
+                table: "ItemsCharactersRelation",
+                column: "ItemId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Paragraphs_StoryId",

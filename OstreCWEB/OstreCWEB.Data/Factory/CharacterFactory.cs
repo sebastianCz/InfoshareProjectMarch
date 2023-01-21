@@ -84,7 +84,7 @@ namespace OstreCWEB.Data.Factory
 
             return Task.FromResult(newInstance);
         }  
-        private Character ConfigureNewInstanceAction(Character template,Character newInstance)
+        private PlayableCharacter ConfigureNewInstanceAction(PlayableCharacter template, PlayableCharacter newInstance)
         {
             if(template.LinkedActions != null)
             {
@@ -93,17 +93,15 @@ namespace OstreCWEB.Data.Factory
                     newInstance.LinkedActions.Add(
                          new ActionCharacter()
                          {
-                             CharacterId = newInstance.CharacterId,
-                             Character =newInstance,
-                             CharacterAction = linkedAction.CharacterAction,
-                             CharacterActionId = linkedAction.CharacterActionId,
+                             CharacterId = newInstance.CharacterId,  
+                             CharacterActionId = linkedAction.CharacterActionId, 
                              UsesLeftBeforeRest = linkedAction.UsesLeftBeforeRest
                          });
                 }
             } 
             return newInstance;
         } 
-        private Character ConfigureNewInstanceItems(Character template, Character newInstance)
+        private PlayableCharacter ConfigureNewInstanceItems(PlayableCharacter template, PlayableCharacter newInstance)
         { 
            if(template.LinkedActions != null)
             {
@@ -112,15 +110,51 @@ namespace OstreCWEB.Data.Factory
                     newInstance.LinkedItems.Add(
                         new ItemCharacter()
                         {
-                            CharacterId = template.CharacterId,
-                            Character = template,
-                            Item = linkedItem.Item,
+                            CharacterId = newInstance.CharacterId,  
                             ItemId = linkedItem.ItemId,
                             IsEquipped = linkedItem.IsEquipped
                         });
                 } 
             } 
             return newInstance; 
+        }
+        private Enemy ConfigureNewInstanceItems(Enemy template, Enemy newInstance)
+        {
+            if (template.LinkedActions != null)
+            {
+                foreach (var linkedItem in template.LinkedItems)
+                {
+                    newInstance.LinkedItems.Add(
+                        new ItemCharacter()
+                        {
+                            CharacterId = newInstance.CharacterId,
+                            Character = newInstance,
+                            ItemId = linkedItem.ItemId,
+                            Item = linkedItem.Item,
+                            IsEquipped = linkedItem.IsEquipped
+                        });
+                }
+            }
+            return newInstance;
+        }
+        private Enemy ConfigureNewInstanceAction(Enemy template, Enemy newInstance)
+        {
+            if (template.LinkedActions != null)
+            {
+                foreach (var linkedAction in template.LinkedActions)
+                {
+                    newInstance.LinkedActions.Add(
+                         new ActionCharacter()
+                         {
+                             CharacterId = newInstance.CharacterId,
+                             Character = newInstance,
+                             CharacterActionId = linkedAction.CharacterActionId,
+                             CharacterAction = linkedAction.CharacterAction,
+                             UsesLeftBeforeRest = linkedAction.UsesLeftBeforeRest
+                         });
+                }
+            }
+            return newInstance;
         }
     }
 }

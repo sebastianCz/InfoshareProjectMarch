@@ -6,9 +6,8 @@
         
         @if(Model.IsActionShowable)
         {
-            <button type="button" class="btn btn-secondary" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-original-title="Grants Action:@Model.ActionToTrigger.ActionName">
-                <partial name ="_CharacterAction" model="@Model.ActionToTrigger"/>
-            </button>
+          <p>Grants action:</p>
+          <partial name ="_CharacterAction" model="@Model.ActionToTrigger"/> 
         //Partial view with action to trigger. 
         }
         @if(Model.isArmor){

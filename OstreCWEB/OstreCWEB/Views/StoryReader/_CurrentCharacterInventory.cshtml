@@ -1,30 +1,72 @@
 ﻿@model OstreCWEB.ViewModel.StoryReader.CurrentCharacterView
 
 <div class="card">
-    <div class="card-body"> 
+    <div class="card-body">  
+        @foreach(var linkedItem in Model.LinkedItems){ 
+            <div class="modal fade" id="item-@linkedItem.Id" tabindex="-1" aria-hidden="true" style="display: none;">
+                <div class="modal-dialog modal-lg">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title">Large Modal</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+
+                        <div class="modal-body"> <partial name="_ItemInventory" model="@linkedItem.Item"></partial></div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        }
+        @foreach (var linkedAction in Model.LinkedActions)
+        {
+            <div class="modal fade" id="action-@linkedAction.CharacterAction.CharacterActionId" tabindex="-1" aria-hidden="true" style="display: none;">
+                <div class="modal-dialog modal-lg">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title">Large Modal</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div> 
+                        <div class="modal-body"> <partial name="_CharacterAction" model="@linkedAction.CharacterAction"></partial></div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        </div>
+                    </div>
+                </div>
+            </div> 
+        }
+       
         <!--Equipped items start-->
         <h2 class="card-title">Equipped items</h2>
-        @foreach(var item in Model.LinkedItems){
-            if(item.IsEquipped){
-                <partial name="_ItemInventoryView" model="@item.Item"></partial>
+        @if(@Model.LinkedItems.Count() == 0 ) {<div>You have no equipped items!</div>}
+        @foreach(var linkedItem in @Model.LinkedItems){
+            @if(linkedItem.IsEquipped){
+                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#item-@linkedItem.Id"> @linkedItem.Item.Name</button>
             }
         }
         <!--Equipped items end-->
         <!--Inventory items start-->
         <h2 class="card-title">Inventory</h2>
-        @foreach (var item in Model.LinkedItems)
+        @if(@Model.NotEquippedItemsCount == 0 ) {<div>You have no items in your inventory!</div>}
+        @foreach (var linkedItem in @Model.LinkedItems)
         {
-            if (!item.IsEquipped)
+            @if (!linkedItem.IsEquipped)
             {
-                <partial name="_ItemInventoryView" model="@item.Item"></partial>
+                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#item-@linkedItem.Id"> @linkedItem.Item.Name </button>
             }
+            
         }
         <!--Inventory items end-->
         <!--Actions start-->
         <h2 class="card-title">Known spells and special actions</h2>
-        @foreach (var linkedAction in Model.LinkedActions)
+        @if(@Model.LinkedActions.Count() == 0 ) {<div>You don't know any spells or special actions!</div>}
+        @foreach (var linkedAction in @Model.LinkedActions)
         {
-            <partial name="_CharacterAction" model="@linkedAction.CharacterAction"></partial>
+
+            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#action-@linkedAction.CharacterAction.CharacterActionId"> @linkedAction.CharacterAction.ActionName </button>
+           
         }
         <!--Actions end-->
     </div>
