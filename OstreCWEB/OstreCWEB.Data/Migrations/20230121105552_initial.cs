@@ -5,11 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace OstreCWEB.Data.Migrations
 {
-<<<<<<<< HEAD:OstreCWEB/OstreCWEB.Data/Migrations/20230112163658_initialMigration.cs
-    public partial class initialMigration : Migration
-========
-    public partial class itemcharacterUniqueId : Migration
->>>>>>>> Develop:OstreCWEB/OstreCWEB.Data/Migrations/20230121083305_itemcharacterUniqueId.cs
+    public partial class initial : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -545,7 +541,7 @@ namespace OstreCWEB.Data.Migrations
                 name: "ItemsCharactersRelation",
                 columns: table => new
                 {
-                    ItemCharacterId = table.Column<int>(type: "int", nullable: false)
+                    Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     ItemId = table.Column<int>(type: "int", nullable: false),
                     CharacterId = table.Column<int>(type: "int", nullable: false),
@@ -553,7 +549,7 @@ namespace OstreCWEB.Data.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_ItemsCharactersRelation", x => x.ItemCharacterId);
+                    table.PrimaryKey("PK_ItemsCharactersRelation", x => x.Id);
                     table.ForeignKey(
                         name: "FK_ItemsCharactersRelation_Character_CharacterId",
                         column: x => x.CharacterId,
