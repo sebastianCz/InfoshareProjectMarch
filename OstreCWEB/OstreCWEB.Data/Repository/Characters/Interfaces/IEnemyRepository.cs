@@ -9,10 +9,11 @@ namespace OstreCWEB.Data.Repository.Characters.Interfaces
 {
     public interface IEnemyRepository
     {
-        public Task<Enemy> GetById(int id);
-        public Task<List<Enemy>> GetAll();
-        public Task Update(Enemy item);
-        public Task Create(Enemy item);
-        public Task Delete(Enemy item);
+        public Task<Enemy> GetByIdAsync(int id);
+        public Task<List<Enemy>> GetAllTemplatesAsync();
+        public Task<Enemy> GetByIdNoTrackingAsync(int id);
+        public Task UpdateAsync(Enemy item);
+        public Task CreateAsync(Enemy item);
+        public Task DeleteAsync(Enemy item);
     }
 }

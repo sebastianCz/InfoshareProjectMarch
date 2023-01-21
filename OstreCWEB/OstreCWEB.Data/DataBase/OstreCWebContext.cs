@@ -77,8 +77,8 @@ namespace OstreCWEB.Data.DataBase
         {
             builder.Entity<Item>().Navigation(e => e.ActionToTrigger).AutoInclude();
 
-            builder.Entity<ItemCharacter>()
-             .HasKey(x => new { x.ItemId, x.CharacterId });
+            //builder.Entity<ItemCharacter>()
+            // .HasKey(x => new { x.ItemId, x.CharacterId });
 
             builder.Entity<ItemCharacter>()
                 .HasOne(x => x.Item)

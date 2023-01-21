@@ -4,12 +4,12 @@ namespace OstreCWEB.Services.Game
 {
     public interface IGameService
     {
-        public Task<UserParagraph> CreateNewGameInstance(string userId, int characterTemplateId, int storyId);
-        public Task DeleteGameInstance(int userParagrahId);
-        public Task SetActiveGameInstance(int userParagraphId,string userId);
-        public Task NextParagraph(string userId, int choiceId);
-        public Task HealCharacter(string userId);
-        public Task<int> TestThrow(string userId, int rollValue);
+        public Task<UserParagraph> CreateNewGameInstanceAsync(string userId, int characterTemplateId, int storyId);
+        public Task DeleteGameInstanceAsync(int userParagrahId);
+        public   Task SetActiveGameInstanceAsync(int userParagraphId,string userId);
+        public Task NextParagraphAsync(string userId, int choiceId);
+        public Task HealCharacterAsync(string userId);
+        public Task<int> TestThrowAsync(string userId, int rollValue);
         public int ThrowDice(int maxValue);
     }
 }

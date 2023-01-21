@@ -2,6 +2,8 @@
 using OstreCWEB.Data.Repository.Characters.CharacterModels;
 using OstreCWEB.ViewModel.Fight;
 using OstreCWEB.ViewModel.Characters;
+using OstreCWEB.Data.Repository.Characters.MetaTags;
+
 namespace OstreCWEB.Mapping
 {
     public class CharactersProfile : Profile
@@ -17,6 +19,9 @@ namespace OstreCWEB.Mapping
             CreateMap<Status, StatusView>();
             CreateMap<PlayableRace, PlayableRaceView>();
             CreateMap<PlayableClass, PlayableClassView>();
+            CreateMap<Character, CharacterView>();
+            CreateMap<ItemCharacter, ItemCharacterView>();
+            CreateMap<ActionCharacter, ActionCharacterView>();
         } 
     }
 }

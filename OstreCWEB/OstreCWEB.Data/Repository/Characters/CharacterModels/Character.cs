@@ -33,7 +33,7 @@ namespace OstreCWEB.Data.Repository.Characters.CharacterModels
         [NotMapped]
         public List<Item> EquippedItems { get; set; }
         [NotMapped]
-        public Item[] Inventory { get; set; }
+        public List<Item> Inventory { get; set; }
         [NotMapped]
         //Initialised based on LinkedActions 
         public List<CharacterAction>? InnateActions { get; set; }
@@ -54,34 +54,19 @@ namespace OstreCWEB.Data.Repository.Characters.CharacterModels
                     }
                 }
                 return allAvailableActions;
-            }
-            set
-            {
-                //Should be removed. For now it will cause compile errors in fight ( it needs the SET )
-            }
-        }
-       
-
+            } 
+        } 
         [NotMapped]
-        public List<Status> ActiveStatuses { get; set; }
-
-        //Can be removed since we can have  an equipped items list.
-        [NotMapped]
-        public Item EquippedArmor { get; set; }
-        [NotMapped]
-        public Item EquippedWeapon { get; set; }
-        [NotMapped]
-        public Item EquippedSecondaryWeapon { get; set; }
+        public List<Status> ActiveStatuses { get; set; } 
         [NotMapped]
         public int CombatId { get; set; }
 
         [JsonConstructor]
         public Character()
         {
-            Inventory = new Item[10];
+            Inventory = new List<Item>();
             EquippedItems = new List<Item>();
-            InnateActions = new List<CharacterAction>();
-            AllAvailableActions = new List<CharacterAction>();
+            InnateActions = new List<CharacterAction>(); 
             ActiveStatuses = new List<Status>();
             LinkedItems = new List<ItemCharacter>();
             LinkedActions = new List<ActionCharacter>();

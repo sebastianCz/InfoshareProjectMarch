@@ -7,6 +7,7 @@ using OstreCWEB.Data.RepositoryRegistration;
 using OstreCWEB.Services.ServiceRegistration;
 using Serilog;
 using Serilog.Sinks.MSSqlServer;
+using System.Text.Json.Serialization;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -14,6 +15,7 @@ var builder = WebApplication.CreateBuilder(args);
 //Allows retrying CRUD operations in case of transient failures.
 builder.Services.AddDbContext<OstreCWebContext>(
     options => options.UseSqlServer(builder.Configuration.GetConnectionString("OstreCWEB")));
+ 
 
 // for Identity
 builder.Services.AddIdentity<User, IdentityRole>()
@@ -26,10 +28,12 @@ builder.Services.AddSwaggerGen();
 builder.Services.ConfigureApplicationCookie(options => options.LoginPath = "/LoginController/Login");
 
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
-builder.Services
-    .AddAutoMapper(typeof(Program))
+builder.Services 
+    .AddAutoMapper(typeof(Program)) 
     .AddControllersWithViews()
-    .AddRazorRuntimeCompilation();
+    .AddJsonOptions(option => option.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles) 
+    .AddRazorRuntimeCompilation(); 
+
 
 builder.Services
     .AddRepositories();

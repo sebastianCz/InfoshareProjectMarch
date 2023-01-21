@@ -1,0 +1,18 @@
+﻿@model OstreCWEB.ViewModel.Characters.ItemView
+
+<div class="card">
+    <div class="card-body"> 
+        <h2 class="card-title">@Model.Name</h2>
+        
+        @if(Model.IsActionShowable)
+        {
+          <p>Grants action:</p>
+          <partial name ="_CharacterAction" model="@Model.ActionToTrigger"/> 
+        //Partial view with action to trigger. 
+        }
+        @if(Model.isArmor){
+            <div><label asp-for="@Model.ArmorType"></label>@Model.ArmorType</div>
+            <div><label asp-for="@Model.ArmorClass"></label>@Model.ArmorClass</div> 
+        }
+    </div>
+</div>

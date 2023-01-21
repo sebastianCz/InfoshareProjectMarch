@@ -2,11 +2,11 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using OstreCWEB.Data.Repository.ManyToMany;
+using OstreCWEB.Data.Repository.StoryModels.Enums;
 using OstreCWEB.Services.Game;
-using OstreCWEB.Services.Identity;
+using OstreCWEB.Services.Identity; 
 using OstreCWEB.Services.StoryServices;
 using OstreCWEB.ViewModel.StoryReader;
-using OstreCWEB.Data.Repository.StoryModels.Enums;
 
 namespace OstreCWEB.Controllers
 {
@@ -28,7 +28,8 @@ namespace OstreCWEB.Controllers
             IUserParagraphRepository userParagraphRepository, 
             IStoryService storyService,
             IUserService userService,
-            IHttpContextAccessor httpContextAccessor)
+            IHttpContextAccessor httpContextAccessor
+            )
         {
             _mapper = mapper;
             _logger = logger;
@@ -43,12 +44,11 @@ namespace OstreCWEB.Controllers
         public async Task<ActionResult> Index()
         {
             var model = new GameStageView();
-                        
+
             var userParagraph = await _userParagraphRepository.GetActiveByUserId(_userService.GetUserId(User));
             model.CurrentParagraph = _mapper.Map<CurrentParagraphView>(userParagraph.Paragraph);
             model.CurrentCharacter = _mapper.Map<CurrentCharacterView>(userParagraph.ActiveCharacter);
-    
-            if(model.CurrentParagraph.ParagraphType == ParagraphType.Test)
+            if (model.CurrentParagraph.ParagraphType == ParagraphType.Test)
             {
                 model.TestParagraphView = new TestParagraphView();
                 model.TestParagraphView.Description = $"Roll the dice for {userParagraph.Paragraph.TestProp.Skill}";
@@ -60,7 +60,7 @@ namespace OstreCWEB.Controllers
                     {
                         model.TestParagraphView.Throw = throwResult;
                     }
-                }        
+                }
             }
             else
             {
@@ -72,22 +72,16 @@ namespace OstreCWEB.Controllers
                 options.IsEssential = true;
                 _httpContextAccessor.HttpContext.Response.Cookies.Append("Throw", $"{0}", options);
             }
-
             return View(model);
+
+            //return RedirectToAction("Index", "Home");
         }
 
         public async Task<ActionResult> CommitNextParagraph(int id)
         {
-            await _gameService.NextParagraph(_userService.GetUserId(User), id);
+            await _gameService.NextParagraphAsync(_userService.GetUserId(User), id);
             return RedirectToAction("Index");
         }
-
-        public async Task<ActionResult> HealCharacter()
-        {
-            await _gameService.HealCharacter(_userService.GetUserId(User));
-            return RedirectToAction("Index");
-        }
-
         public async Task<ActionResult> RollTheDice()
         {
             CookieOptions options = new CookieOptions();
@@ -103,8 +97,14 @@ namespace OstreCWEB.Controllers
 
         public async Task<ActionResult> TestThrow(int id)
         {
-            int resultOfThrow = await _gameService.TestThrow(_userService.GetUserId(User), id);
-            await _gameService.NextParagraph(_userService.GetUserId(User), resultOfThrow);
+            int resultOfThrow = await _gameService.TestThrowAsync(_userService.GetUserId(User), id);
+            await _gameService.NextParagraphAsync(_userService.GetUserId(User), resultOfThrow);
+            await _gameService.HealCharacterAsync(_userService.GetUserId(User));
+            return RedirectToAction("Index");
+        }
+        public async Task<ActionResult> HealCharacter()
+        {
+            await _gameService.HealCharacterAsync(_userService.GetUserId(User));
             return RedirectToAction("Index");
         }
     }

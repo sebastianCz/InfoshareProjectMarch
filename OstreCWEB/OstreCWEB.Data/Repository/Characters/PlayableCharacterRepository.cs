@@ -2,17 +2,16 @@
 using OstreCWEB.Data.DataBase;
 using OstreCWEB.Data.Factory;
 using OstreCWEB.Data.Repository.Characters.CharacterModels;
-using OstreCWEB.Data.Repository.Characters.Interfaces;
+using OstreCWEB.Data.Repository.Characters.Interfaces; 
+
 namespace OstreCWEB.Data.Repository.Characters
 {
     internal class PlayableCharacterRepository : IPlayableCharacterRepository
     {
-        private OstreCWebContext _db;
-        private readonly ICharacterFactory _playableCharacterFactory;
-        public PlayableCharacterRepository(OstreCWebContext db,ICharacterFactory playableCharacterFactory)
+        private OstreCWebContext _db; 
+        public PlayableCharacterRepository(OstreCWebContext db)
         {
-            _db = db;
-            _playableCharacterFactory = playableCharacterFactory;
+            _db = db; 
         }
 
         public Task<PlayableCharacter> Create(PlayableCharacter playableCharacter)
@@ -22,13 +21,13 @@ namespace OstreCWEB.Data.Repository.Characters
             return Task.FromResult(playableCharacter);
         }
 
-        public async Task Delete(PlayableCharacter playableCharacter)
+        public async Task DeleteAsync(PlayableCharacter playableCharacter)
         {
             _db.PlayableCharacters.Remove(playableCharacter);
             await _db.SaveChangesAsync();
         }
 
-        public async Task<List<PlayableCharacter>> GetAllTemplates()
+        public async Task<List<PlayableCharacter>> GetAllTemplatesAsync()
         {
             return await _db.PlayableCharacters.ToListAsync();
         }
@@ -37,21 +36,27 @@ namespace OstreCWEB.Data.Repository.Characters
         /// </summary>
         /// <param name="userCharacters"></param>
         /// <returns></returns>
-        public async Task<List<PlayableCharacter>> GetAllTemplates(string userId)
+        public async Task<List<PlayableCharacter>> GetAllTemplatesExceptAsync(string userId)
         {
             return await _db.PlayableCharacters.Where(c => c.UserId != userId && c.IsTemplate == true).ToListAsync();
         }
 
-        public async Task<PlayableCharacter> GetById(int id)
+        public async Task<PlayableCharacter> GetByIdAsync(int id)
         {
             return await _db.PlayableCharacters.FirstAsync(c => c.CharacterId == id);
         }
 
-        public async Task Update(PlayableCharacter playableCharacter)
+        public async Task UpdateAsync(PlayableCharacter playableCharacter)
         {
             _db.PlayableCharacters.Update(playableCharacter);
             await _db.SaveChangesAsync();
         }
        
+        public async Task<PlayableCharacter> GetByIdNoTrackingAsync(int characterTemplateId)
+        { 
+            return await _db.PlayableCharacters
+                 .AsNoTracking()
+                 .SingleOrDefaultAsync(x => x.CharacterId == characterTemplateId);
+        }
     }
 }

@@ -8,6 +8,6 @@
         TwoHandedWeapon = 4,
         SingleHandedWeapon = 5,
         FinesseWeapon=6,
-        SpeacialWeapon=7 
+        SpecialItem=7 
     }
 }

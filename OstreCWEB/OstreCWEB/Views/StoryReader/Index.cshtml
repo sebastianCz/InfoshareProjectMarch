@@ -48,11 +48,13 @@
         }
         <!-- End Left side columns -->
         <!-- Right side columns -->
-        <div class="col-lg-4">
-            <!-- Budget Report -->
-            <partial name="_CurrentCharacter" model="@Model.CurrentCharacter" />
-            <!-- End Budget Report -->
+        <div class="col-lg-4"> 
+            <partial name="_CurrentCharacter" model="@Model.CurrentCharacter" /> 
         </div>
         <!-- End Right side columns -->
     </div>
+    <div class="row">
+        <partial name="_CurrentCharacterInventory" model ="@Model.CurrentCharacter"/>
+    </div>
+    
 </section>

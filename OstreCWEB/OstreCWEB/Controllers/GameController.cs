@@ -40,7 +40,7 @@ namespace OstreCWEB.Controllers
             {
                 try
                 { 
-                    var gameInstance = await _gameService.CreateNewGameInstance(
+                    var gameInstance = await _gameService.CreateNewGameInstanceAsync(
                         _userService.GetUserId(User),
                         Convert.ToInt32(activeCharacterCookies.FirstOrDefault().Value),
                         Convert.ToInt32(activeStoryCookies.FirstOrDefault().Value));
@@ -59,13 +59,13 @@ namespace OstreCWEB.Controllers
 
         public async Task<ActionResult> DeleteGame(int id)
         { 
-            await _gameService.DeleteGameInstance(id);
+            await _gameService.DeleteGameInstanceAsync(id);
             return RedirectToAction(nameof(Index));
         }
 
         public async Task<ActionResult> LoadGame(int id)
         { 
-            await _gameService.SetActiveGameInstance( id, _userService.GetUserId(User));
+            await _gameService.SetActiveGameInstanceAsync( id, _userService.GetUserId(User));
             return RedirectToAction("Index", "StoryReader");
         }
         public async Task<ActionResult> Index()
