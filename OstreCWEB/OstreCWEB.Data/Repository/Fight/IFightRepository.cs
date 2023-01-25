@@ -6,6 +6,7 @@
         public FightInstance GetById(string userId,int characterId);
         //public bool Delete(string userId, out string operationResult);
         //public bool Update(string userId, FightInstance fightInstance, out string operationResult); 
-        public Task DeleteLinkedItemAsync(FightInstance fightInstance, int itemToDelete);
+        public void DeleteLinkedItem(FightInstance fightInstance, int itemToDelete);
+        public bool Delete(string userId, int characterId, out string operationResult);
     }
 }

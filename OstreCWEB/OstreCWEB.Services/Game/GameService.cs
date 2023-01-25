@@ -63,11 +63,15 @@ namespace OstreCWEB.Services.Game
 
         public async Task NextParagraphAsync(string userId, int choiceId)
         {
-            var userParagraph = await _userParagraphRepository.GetActiveByUserId(userId);
+            var userParagraph = await _userParagraphRepository.GetActiveByUserIdAsync(userId);
             userParagraph.Paragraph = await _storyRepository.GetParagraphById(userParagraph.Paragraph.Choices[choiceId].NextParagraphId);
-            await _userParagraphRepository.Update(userParagraph);
+            await _userParagraphRepository.UpdateAsync(userParagraph);
         }
-
+        public async Task NextParagraphAfterFightAsync(UserParagraph gameInstance,int choiceId)
+        {
+            gameInstance.Paragraph = await _storyRepository.GetParagraphById(gameInstance.Paragraph.Choices[choiceId].NextParagraphId);
+            await _userParagraphRepository.UpdateAsync(gameInstance);
+        }
         public async Task DeleteGameInstanceAsync(int userParagrahId)
         {
             var userParagraph = await _userParagraphRepository.GetByUserParagraphIdAsync(userParagrahId);
@@ -88,14 +92,14 @@ namespace OstreCWEB.Services.Game
 
         public async Task HealCharacterAsync(string userId)
         {
-            var userParagraph = await _userParagraphRepository.GetActiveByUserId(userId);
+            var userParagraph = await _userParagraphRepository.GetActiveByUserIdAsync(userId);
             userParagraph.ActiveCharacter.CurrentHealthPoints = userParagraph.ActiveCharacter.MaxHealthPoints;
-            await _userParagraphRepository.Update(userParagraph);
+            await _userParagraphRepository.UpdateAsync(userParagraph);
         }
 
         public async Task<int> TestThrowAsync(string userId, int rollValue)
         {
-            var userParagraph = await _userParagraphRepository.GetActiveByUserId(userId);
+            var userParagraph = await _userParagraphRepository.GetActiveByUserIdAsync(userId);
 
             int testDifficulty = GetTestDifficulty(userParagraph.Paragraph.TestProp.TestDifficulty);
             int modifire = GetModifire();

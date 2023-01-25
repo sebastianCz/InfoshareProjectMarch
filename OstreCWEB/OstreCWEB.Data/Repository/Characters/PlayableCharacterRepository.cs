@@ -47,16 +47,21 @@ namespace OstreCWEB.Data.Repository.Characters
         }
 
         public async Task UpdateAsync(PlayableCharacter playableCharacter)
-        {
+        {   
             _db.PlayableCharacters.Update(playableCharacter);
-            await _db.SaveChangesAsync();
+             await _db.SaveChangesAsync();
         }
-       
+        public async Task UpdateAlreadyTrackedAsync(PlayableCharacter playableCharacter)
+        { 
+            var tracked = await _db.PlayableCharacters.FindAsync(playableCharacter.CharacterId);
+            tracked = playableCharacter; 
+        }
+
         public async Task<PlayableCharacter> GetByIdNoTrackingAsync(int characterTemplateId)
         { 
             return await _db.PlayableCharacters
                  .AsNoTracking()
-                 .SingleOrDefaultAsync(x => x.CharacterId == characterTemplateId);
+                 .SingleOrDefaultAsync(x => x.CharacterId == characterTemplateId); 
         }
     }
 }

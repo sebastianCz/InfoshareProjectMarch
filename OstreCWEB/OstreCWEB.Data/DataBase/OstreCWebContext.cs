@@ -48,6 +48,7 @@ namespace OstreCWEB.Data.DataBase
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
+           
             base.OnModelCreating(builder);
             UserConfiguration(builder);
             ConfigureCharacters(builder);
@@ -60,7 +61,7 @@ namespace OstreCWEB.Data.DataBase
         }
         private void ConfigureUser(ModelBuilder builder)
         {
-            builder.Entity<User>().Navigation(e => e.UserParagraphs).AutoInclude();
+            builder.Entity<User>().Navigation(e => e.UserParagraphs).AutoInclude(); 
         }
         private void ConfigureManyToMany(ModelBuilder builder)
         {
@@ -72,6 +73,7 @@ namespace OstreCWEB.Data.DataBase
 
             builder.Entity<UserParagraph>().Navigation(e => e.Paragraph).AutoInclude();
             builder.Entity<UserParagraph>().Navigation(e => e.ActiveCharacter).AutoInclude();
+            builder.Entity<UserParagraph>().Navigation(e => e.User).AutoInclude();
         }
         private void ConfigureItems(ModelBuilder builder)
         {
@@ -122,7 +124,7 @@ namespace OstreCWEB.Data.DataBase
             builder.Entity<PlayableCharacter>().Navigation(e => e.Race).AutoInclude();
             builder.Entity<PlayableCharacter>().Navigation(e => e.LinkedActions).AutoInclude();
             builder.Entity<PlayableCharacter>().Navigation(e => e.LinkedItems).AutoInclude();
-
+            builder.Entity<Character>().HasKey(entity => entity.CharacterId);
             builder.Entity<PlayableCharacter>()
                 .HasOne(r => r.Race)
                 .WithMany(p => p.PlayableCharacter)

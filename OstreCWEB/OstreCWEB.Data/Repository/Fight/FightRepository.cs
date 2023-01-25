@@ -37,7 +37,7 @@ namespace OstreCWEB.Data.Repository.Fight
             return null;
         }
 
-        public async Task DeleteLinkedItemAsync(FightInstance fightInstance,int itemToDelete)
+        public void DeleteLinkedItem(FightInstance fightInstance,int itemToDelete)
         {
                 fightInstance.ActivePlayer.LinkedItems
                 .Remove
@@ -62,11 +62,8 @@ namespace OstreCWEB.Data.Repository.Fight
                 }
             }
             operationResult = "Fight instance not found";
-            return false;
-                
-         } 
-
-       
+            return false;    
+         }  
     }
 }
 

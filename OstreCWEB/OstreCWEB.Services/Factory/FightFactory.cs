@@ -50,6 +50,7 @@ namespace OstreCWEB.Services.Factory
             InitializeActions(characterList);
             fightInstance.PlayerActionCounter = 2;
             fightInstance.FightHistory = new List<string>(); 
+            fightInstance.UserParagraphId = gameInstance.UserParagraphId;
             return fightInstance;
         }
     }

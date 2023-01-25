@@ -1,4 +1,5 @@
 ﻿using OstreCWEB.Data.Repository.Characters.CharacterModels;
+using System.Reflection;
 
 namespace OstreCWEB.Data.Repository.Fight
 {
@@ -16,5 +17,6 @@ namespace OstreCWEB.Data.Repository.Fight
         public  CharacterAction ActiveAction { get; set; }
         public bool IsItemToDelete { get; set; }
         public bool ActionGrantedByItem { get; set; }
+        public int UserParagraphId { get; set; }
     }
 }

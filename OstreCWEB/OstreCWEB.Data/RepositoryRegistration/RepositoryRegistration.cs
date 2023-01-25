@@ -15,7 +15,7 @@ namespace OstreCWEB.Data.RepositoryRegistration
         public static void AddRepositories(this IServiceCollection services)
         {
             services.AddTransient<IStoryRepository, StoryRepository>();
-            services.AddSingleton<IFightRepository, FightRepository>();
+            services.AddTransient<IFightRepository, FightRepository>();
             services.AddTransient<IStatusRepository, StatusRepository>();
             services.AddTransient<ICharacterActionsRepository, CharacterActionRepository>();
             services.AddTransient<IPlayableCharacterRepository, PlayableCharacterRepository>();

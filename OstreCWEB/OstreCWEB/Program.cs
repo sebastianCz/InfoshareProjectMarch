@@ -13,12 +13,15 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 //Allows retrying CRUD operations in case of transient failures.
-builder.Services.AddDbContext<OstreCWebContext>(
-    options => options.UseSqlServer(builder.Configuration.GetConnectionString("OstreCWEB")));
- 
+//builder.Services.AddDbContext<OstreCWebContext>(
+//    options => options.UseSqlServer(builder.Configuration.GetConnectionString("OstreCWEB")));
+ builder.Services.AddDbContext<OstreCWebContext>(options => { 
+     options.UseSqlServer(builder.Configuration.GetConnectionString("OstreCWEB"));
+     options.EnableSensitiveDataLogging();
+ });
 
-// for Identity
-builder.Services.AddIdentity<User, IdentityRole>()
+    // for Identity
+    builder.Services.AddIdentity<User, IdentityRole>()
     .AddEntityFrameworkStores<OstreCWebContext>()
     .AddDefaultTokenProviders();
 

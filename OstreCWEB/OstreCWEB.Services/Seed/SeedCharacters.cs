@@ -93,6 +93,23 @@ internal class SeedCharacters : ISeeder
                 AggressiveAction = true
                 
             },
+                      new CharacterAction
+            {
+                ActionName = "Fireball",
+                ActionDescription = "Throws a fireball",
+                ActionType = CharacterActionType.Cantrip,
+                SavingThrowPossible = true,
+                Max_Dmg = 8,
+                Flat_Dmg = 2,
+                Hit_Dice_Nr = 4,
+                PossibleTarget = TargetType.Target,
+                InflictsStatus = false,
+                StatForTest = Statistics.Intelligence,
+                AggressiveAction = true,
+                 UsesMaxBeforeRest = 0
+
+            },
+
                     new CharacterAction
             {
                 ActionName = "Fist Attack",
@@ -346,8 +363,7 @@ internal class SeedCharacters : ISeeder
 
         playableCharacters[1].InnateActions.Add(_db.CharacterActions.First(x => x.ActionName.ToLower().Contains("magic Missiles")));
         playableCharacters[1].InnateActions.Add(_db.CharacterActions.First(x => x.ActionName.ToLower().Contains("small Heal")));
-         
-
+        playableCharacters[1].InnateActions.Add(_db.CharacterActions.First(x => x.ActionName.ToLower().Contains("fireball")));
         playableCharacters = UpdatePlayableCharacterActionsRelations(playableCharacters);
         enemies = UpdateEnemyActionsRelations(enemies);
         playableCharacters = UpdatePlayableCharacterItemsRelations(playableCharacters);
@@ -458,7 +474,8 @@ internal class SeedCharacters : ISeeder
                  new ActionCharacter()
                  {
                      Character = character,
-                     CharacterAction = action
+                     CharacterAction = action,
+                     UsesLeftBeforeRest = action.UsesMaxBeforeRest 
                  });
             } 
         };
@@ -478,7 +495,8 @@ internal class SeedCharacters : ISeeder
                  new ActionCharacter()
                  {
                      Character = character,
-                     CharacterAction = action
+                     CharacterAction = action,
+                     UsesLeftBeforeRest = action.UsesMaxBeforeRest
                  });
             }
         };

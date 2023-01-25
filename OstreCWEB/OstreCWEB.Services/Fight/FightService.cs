@@ -4,6 +4,7 @@ using OstreCWEB.Data.DataBase.ManyToMany;
 using OstreCWEB.Data.Factory;
 using OstreCWEB.Data.Repository.Characters.CharacterModels;
 using OstreCWEB.Data.Repository.Characters.Enums;
+using OstreCWEB.Data.Repository.Characters.Interfaces;
 using OstreCWEB.Data.Repository.Fight;
 using OstreCWEB.Data.Repository.Identity;
 using OstreCWEB.Data.Repository.ManyToMany;
@@ -18,22 +19,20 @@ namespace OstreCWEB.Services.Fight
         private IFightFactory _fightFactory;
         private IUserParagraphRepository _userParagraphRepository;
         private ICharacterFactory _characterFactory;
-
-        //The property below can be used to introduce a system where enemies will act one by one.
-        //We could use combat ID or position in _activeEnemies list for this.
-        /*public static int NextActiveEnemyCombatId { get; set; }*/
-
+        private readonly IPlayableCharacterRepository _playableCharacterRepository; 
         public FightService(
             IFightRepository fightRepository,
             IFightFactory fightFactory,
             IUserParagraphRepository userParagraphRepository,
-            ICharacterFactory characterFactory
+            ICharacterFactory characterFactory,
+            IPlayableCharacterRepository playableCharacterRepository
             )
         {  
             _fightRepository = fightRepository;   
             _fightFactory = fightFactory;
             _userParagraphRepository = userParagraphRepository;
-            _characterFactory = characterFactory;   
+            _characterFactory = characterFactory;
+            _playableCharacterRepository = playableCharacterRepository;
         }
         public FightInstance GetActiveFightInstance(string userId,int characterId)
         {
@@ -50,6 +49,8 @@ namespace OstreCWEB.Services.Fight
             else
                 return false;
         }
+
+
         public async Task InitializeFightAsync(string userId,UserParagraph gameInstance)
         {  
             if(_activeFightInstance != null) { throw new Exception("Fight already initialized");}   
@@ -63,10 +64,9 @@ namespace OstreCWEB.Services.Fight
             else
             {
                 throw new Exception("Fight initialization failed. Game instance doesn't exist or active paragraph is not a fight");
-            }
-           
+            } 
         }
-        public void CommitAction()
+        public async Task CommitAction(string userId)
         {
             _activeFightInstance.PlayerActionCounter--;
             ApplyAction(_activeFightInstance.ActiveTarget, _activeFightInstance.ActivePlayer, _activeFightInstance.ActiveAction);
@@ -82,15 +82,19 @@ namespace OstreCWEB.Services.Fight
             }
             if (_activeFightInstance.IsItemToDelete)
             {
-            _fightRepository.DeleteLinkedItemAsync(_activeFightInstance, _activeFightInstance.ItemToDeleteId);
+            _fightRepository.DeleteLinkedItem(_activeFightInstance, _activeFightInstance.ItemToDeleteId);
             }
-            if (!_activeFightInstance.ActionGrantedByItem)
+            if (!_activeFightInstance.ActionGrantedByItem && _activeFightInstance.ActiveAction.ActionType != CharacterActionType.Cantrip && _activeFightInstance.ActiveAction.ActionType != CharacterActionType.SpecialAction)
             {
                 _activeFightInstance.ActivePlayer.LinkedActions.First(a => a.CharacterAction.CharacterActionId == _activeFightInstance.ActiveAction.CharacterActionId).UsesLeftBeforeRest--; 
             }
-            var combatEnded = IsFightFinished(_activeFightInstance.ActiveEnemies, GetActivePlayer());
-            var fightWon = IsFightWon(_activeFightInstance.ActivePlayer);
-            if (combatEnded) { FinishFight(fightWon); }
+            var combatEnded = IsFightFinished(_activeFightInstance.ActiveEnemies, GetActivePlayer()); 
+            if (combatEnded) {
+                var fightWon = IsFightWon(_activeFightInstance.ActivePlayer);
+                FinishFight(fightWon);
+     
+               
+            }
             else
             {
                 _activeFightInstance.TurnNumber = UpdateTurnNumber(_activeFightInstance.TurnNumber);
@@ -366,12 +370,16 @@ namespace OstreCWEB.Services.Fight
         public async Task RemoveItem()
         {
             var itemToDelete = _activeFightInstance.ItemToDeleteId;   
-            await _fightRepository.DeleteLinkedItemAsync(_activeFightInstance, itemToDelete);
+            _fightRepository.DeleteLinkedItem(_activeFightInstance, itemToDelete);
         }
 
         public async Task UpdateItemToRemove(int id)
         {
             _activeFightInstance.ItemToDeleteId = id;
+        }
+        public async Task DeleteFightInstanceAsync(string userId)
+        { 
+            _fightRepository.Delete(userId, _activeFightInstance.ActivePlayer.CharacterId, out string operationResult);
         }
     }
 }

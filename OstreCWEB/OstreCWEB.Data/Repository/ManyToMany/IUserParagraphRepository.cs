@@ -7,9 +7,11 @@ namespace OstreCWEB.Data.Repository.ManyToMany
         public Task<UserParagraph> Add(); 
         public Task<List<UserParagraph>> GetAll();
         public Task Create(UserParagraph newGameSession);
-        public Task Update(UserParagraph gameSession);
+        public Task UpdateAsync(UserParagraph gameSession);
         public Task Delete(UserParagraph gameSession);
-        public Task<UserParagraph> GetActiveByUserId(string userId);
+        public Task<UserParagraph> GetActiveByUserIdAsync(string userId);
         public Task<UserParagraph> GetByUserParagraphIdAsync(int userParagraphId);
+        public Task<UserParagraph> GetActiveByUserIdNoTrackingAsync(string userId);
+        public UserParagraph GetActiveByUserIdNoTracking(string userId);
     }
 }

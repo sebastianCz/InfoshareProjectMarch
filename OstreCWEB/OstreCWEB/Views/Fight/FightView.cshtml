@@ -65,27 +65,37 @@
                     {
 
                         <a  asp-action="CommitPlayerAction" >Commit Action</a>
-                    }
-
+                    } 
                 </div>
                 <!--Available actions(right column)-->
                 <div class="p-2 flex-grow-1 bg-primary">
-                    <ul class="list-group list-group-horizontal-xl">
-                        @foreach (var action in @Model.ActivePlayer.LinkedActions)
+                   
+                   
+                    <ul class="list-group list-group-horizontal-xl"> 
+                      @if(Model.ActivePlayer.HasShowableActions)
+                      {
+                       <h5>Your abilities</h5>
+                            @foreach (var action in @Model.ActivePlayer.LinkedActions)
                         {
+                            if(action.IsShowable)
+                            {
                             <li class="list-group-item">
-                        <a class="btn btn-danger" asp-route-id="@action.CharacterAction.CharacterActionId" asp-action="SetActiveAction">@action.CharacterAction.ActionName</a>
+                            <a class="btn btn-danger" asp-route-id="@action.CharacterAction.CharacterActionId" asp-action="SetActiveAction">@action.CharacterAction.ActionName <br />Uses left: @action.UsesLeftBeforeRest</a>
                             </li>
-                        } 
+                            } 
+                        }
+                      }
+                     </ul>   
+                        <h5>Actions from items</h5>
+                     <ul class="list-group list-group-horizontal-xl">
                         @foreach (var item in @Model.ActivePlayer.ItemCharacterWithAction)
                         {
                             <li class="list-group-item">
-                        <a class="btn btn-danger" asp-route-id="@item.Id" asp-action="SetActiveActionFromItem">@item.Item.ActionToTrigger.ActionName</a>
+                        <a class="btn btn-danger" asp-route-id="@item.Id" asp-action="SetActiveActionFromItem">@item.Item.ActionToTrigger.ActionName @if(item.Item.DeleteOnUse){<br /><div>Disapears on use</div>}</a>
                             </li>
                         } 
-                    </ul>
-                </div>
-
+                        </ul> 
+                </div> 
             </div>
  
 
@@ -144,8 +154,7 @@
                                             <a class="btn btn-danger" asp-route-id="@Model.ActiveEnemies[i].CombatId" asp-action="SetActiveTarget">Target</a>
                                         </div>
                                     </div>
-                                }
-                                <small class="text-muted">9 mins</small>
+                                } 
                             </div>
                         </div>
                     </div>
