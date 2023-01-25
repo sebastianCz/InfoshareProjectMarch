@@ -100,20 +100,28 @@ namespace OstreCWEB.Controllers
         public async Task<ActionResult> CommitPlayerAction()
         {
             var userId = _userService.GetUserId(User);
-            var activeGameInstance = await _userParagraphRepository.GetActiveByUserIdNoTrackingAsync(_userService.GetUserId(User));
+            var activeGameInstance = await _userParagraphRepository.GetActiveByUserIdAsync(_userService.GetUserId(User));
             var activeFightInstance = _fightService.GetActiveFightInstance(userId, activeGameInstance.ActiveCharacter.CharacterId);
             await _fightService.CommitAction(userId);
             var fightState = _fightService.GetFightState(_userService.GetUserId(User),activeGameInstance.ActiveCharacter.CharacterId);
             activeFightInstance.ActionGrantedByItem = false;
             _fightService.ResetActiveTarget();
-            _fightService.ResetActiveAction();
-
-            
+            _fightService.ResetActiveAction(); 
             if (fightState.CombatFinished)
-            { 
+            {  
+                //We apply changes from player from static list to player in db. They get saved during game session update in gameservice.  
+                activeGameInstance.ActiveCharacter.CurrentHealthPoints = activeFightInstance.ActivePlayer.CurrentHealthPoints;
+                activeGameInstance.ActiveCharacter.LinkedActions.ForEach(x => x.UsesLeftBeforeRest = activeFightInstance.ActivePlayer.LinkedActions.FirstOrDefault(y => y.CharacterActionId == x.CharacterActionId).UsesLeftBeforeRest);
+                for (var i = activeGameInstance.ActiveCharacter.LinkedItems.Count - 1; i >= 0; i--)
+                {
+                    var contains = true;
+                    var item = activeGameInstance.ActiveCharacter.LinkedItems[i];
+                    activeFightInstance.ActivePlayer.LinkedItems.ForEach(x => { if (x.ItemId == item.Id) { contains = false; } });
+                    if (!contains) { activeGameInstance.ActiveCharacter.LinkedItems.RemoveAt(i); }
+                }
                 if (fightState.PlayerWon) 
                 {
-                    activeGameInstance.ActiveCharacter = activeFightInstance.ActivePlayer;
+                   
                     await _fightService.DeleteFightInstanceAsync(userId); 
                     await _gameService.NextParagraphAfterFightAsync(activeGameInstance, 1); 
                 }
