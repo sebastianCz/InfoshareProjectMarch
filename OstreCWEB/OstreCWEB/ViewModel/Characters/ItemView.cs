@@ -11,6 +11,7 @@ namespace OstreCWEB.ViewModel.Characters
         public string ArmorType { get; set; }
         public string? Name { get; set; }
         public  CharacterActionView ActionToTrigger { get; set; }
+        public bool DeleteOnUse { get; set; }
         public bool IsActionShowable 
         {
             get
@@ -36,5 +37,7 @@ namespace OstreCWEB.ViewModel.Characters
                 }
             }
         }
+     
+     
     }
 }

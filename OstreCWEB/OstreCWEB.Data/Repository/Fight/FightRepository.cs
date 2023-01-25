@@ -1,16 +1,20 @@
-﻿using System.Diagnostics;
+﻿using OstreCWEB.Data.Repository.Characters.CharacterModels;
+using OstreCWEB.Data.Repository.Identity;
+using System.Collections.Generic;
+using System.Diagnostics;
 
 namespace OstreCWEB.Data.Repository.Fight
 {
     internal  class FightRepository : IFightRepository
     {
-        private static Dictionary<string, FightInstance> FightInstances { get; set; } = FightInstances = new Dictionary<string, FightInstance>();
+        private static List<KeyValuePair<string, FightInstance>> FightInstances { get; set; } = new List<KeyValuePair<string, FightInstance>>();
+
  
         public bool Add(string userId, FightInstance fightInstance, out string operationResult)
         {
-            if (!FightInstances.ContainsKey(userId))
+            if (FightInstances.Where(x=>x.Key==userId).Count()<5)
             {
-                FightInstances.Add(userId, fightInstance);
+                FightInstances.Add(new KeyValuePair<string,FightInstance>(userId, fightInstance));
                 operationResult = "operation success";
                 return true;
             }
@@ -20,48 +24,49 @@ namespace OstreCWEB.Data.Repository.Fight
                 return false;
             }
         }
-        public FightInstance GetById(string userId)
+        public FightInstance? GetById(string userId,int characterId)
         {
-            if (FightInstances.ContainsKey(userId))
+            foreach(var fightInstanceDictionary in FightInstances)
             {
-                  return FightInstances.First(x => x.Key == userId).Value;
+                if(fightInstanceDictionary.Key == userId && fightInstanceDictionary.Value.ActivePlayer.CharacterId == characterId) 
+                { 
+                    return fightInstanceDictionary.Value;
+                }
+                
             }
-            else
-            {
-                return null;
-            }
-        }
-        public bool Delete(string userId, out string operationResult)
-        {
-            if (FightInstances.ContainsKey(userId))
-            {
-                FightInstances.Remove(userId);
-                operationResult = "operation success";
-                return true;
-            }
-            else
-            {
-                operationResult = "There is no user";
-                return false;
-            }
+            return null;
         }
 
-        public bool Update(string userId, FightInstance fightInstance,out string operationResult)
+        public void DeleteLinkedItem(FightInstance fightInstance,int itemToDelete)
         {
-            if (FightInstances.ContainsKey(userId))
-            {
-                FightInstances[userId] = fightInstance;
-                operationResult = "operation success";
-                return true;
-            }
-            else
-            {
-                operationResult = "There is no user";
-                return false;
-            }
+                fightInstance.ActivePlayer.LinkedItems
+                .Remove
+                (
+                fightInstance.ActivePlayer.LinkedItems.First(i => i.Id == itemToDelete)
+                );
         }
+        public bool Delete(string userId,int characterId, out string operationResult)
+        {
+            foreach(KeyValuePair<string,FightInstance> kvp in FightInstances)
+            {
+                if(kvp.Key == userId && kvp.Value.ActivePlayer.CharacterId == characterId)
+                {
+                    FightInstances.Remove(kvp);
+                    operationResult = "operation success";
+                    return true;
+                }
+                else
+                {
+                    operationResult = "FightInstance not found";
+                    return false;
+                }
+            }
+            operationResult = "Fight instance not found";
+            return false;    
+         }  
     }
 }
+
 
 
 

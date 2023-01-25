@@ -16,7 +16,8 @@ namespace OstreCWEB.Mapping
                 .ForMember(dest => dest.Story, options => options.Ignore());
             CreateMap<Paragraph, CurrentParagraphView>();
             CreateMap<Choice, CurrentChoicesView>();
-            CreateMap<PlayableCharacter, CurrentCharacterView>();
+            CreateMap<PlayableCharacter, CurrentCharacterView>().
+                ForMember(dest => dest.ItemCharacterWithAction, options => options.Ignore()); ;
         }
     }
 }

@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace OstreCWEB.Data.Migrations
 {
-    public partial class itemcharacterUniqueId : Migration
+    public partial class initial : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -247,7 +247,7 @@ namespace OstreCWEB.Data.Migrations
                     Max_Dmg = table.Column<int>(type: "int", nullable: false),
                     Flat_Dmg = table.Column<int>(type: "int", nullable: false),
                     Hit_Dice_Nr = table.Column<int>(type: "int", nullable: false),
-                    PossibleTargets = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    PossibleTarget = table.Column<int>(type: "int", nullable: false),
                     InflictsStatus = table.Column<bool>(type: "bit", nullable: false),
                     StatForTest = table.Column<int>(type: "int", nullable: false),
                     UsesMaxBeforeRest = table.Column<int>(type: "int", nullable: false),
@@ -541,7 +541,7 @@ namespace OstreCWEB.Data.Migrations
                 name: "ItemsCharactersRelation",
                 columns: table => new
                 {
-                    ItemCharacterId = table.Column<int>(type: "int", nullable: false)
+                    Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     ItemId = table.Column<int>(type: "int", nullable: false),
                     CharacterId = table.Column<int>(type: "int", nullable: false),
@@ -549,7 +549,7 @@ namespace OstreCWEB.Data.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_ItemsCharactersRelation", x => x.ItemCharacterId);
+                    table.PrimaryKey("PK_ItemsCharactersRelation", x => x.Id);
                     table.ForeignKey(
                         name: "FK_ItemsCharactersRelation_Character_CharacterId",
                         column: x => x.CharacterId,

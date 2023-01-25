@@ -34,6 +34,8 @@ namespace OstreCWEB.Services.Factory
         {
             var characterList = new List<Character>();
             var fightInstance = new FightInstance();
+            fightInstance.IsItemToDelete = false;
+            fightInstance.ActionGrantedByItem = false;
             fightInstance.TurnNumber = 1;  
             fightInstance.ActivePlayer = gameInstance.ActiveCharacter;
             fightInstance.ActiveEnemies = enemiesList;
@@ -48,6 +50,7 @@ namespace OstreCWEB.Services.Factory
             InitializeActions(characterList);
             fightInstance.PlayerActionCounter = 2;
             fightInstance.FightHistory = new List<string>(); 
+            fightInstance.UserParagraphId = gameInstance.UserParagraphId;
             return fightInstance;
         }
     }

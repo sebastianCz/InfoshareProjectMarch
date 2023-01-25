@@ -45,7 +45,7 @@ namespace OstreCWEB.Controllers
         {
             var model = new GameStageView();
 
-            var userParagraph = await _userParagraphRepository.GetActiveByUserId(_userService.GetUserId(User));
+            var userParagraph = await _userParagraphRepository.GetActiveByUserIdAsync(_userService.GetUserId(User));
             model.CurrentParagraph = _mapper.Map<CurrentParagraphView>(userParagraph.Paragraph);
             model.CurrentCharacter = _mapper.Map<CurrentCharacterView>(userParagraph.ActiveCharacter);
             if (model.CurrentParagraph.ParagraphType == ParagraphType.Test)

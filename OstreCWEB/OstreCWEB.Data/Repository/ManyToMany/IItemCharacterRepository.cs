@@ -9,10 +9,10 @@ namespace OstreCWEB.Data.Repository.ManyToMany
 {
     public interface IItemCharacterRepository
     {
-        public Task<ActionCharacter> GetByCharacterId();
-        public Task<ActionCharacter> GetAll();
-        public Task<ActionCharacter> Create();
-        public Task<ActionCharacter> Update();
-        public Task<ActionCharacter> Delete();
+        public Task<ItemCharacter> GetByCharacterId();
+        public Task<ItemCharacter> GetAll();
+        public Task<ItemCharacter> Create();
+        public Task<ItemCharacter> Update();
+        public Task<ItemCharacter> Delete();
     }
 }

@@ -1,10 +1,11 @@
-﻿using OstreCWEB.ViewModel.Characters; 
+﻿using OstreCWEB.ViewModel.Characters;
+using OstreCWEB.ViewModel.StoryReader;
 
 namespace OstreCWEB.ViewModel.Fight
 {
     public class FightViewModel
     {
-        public CharacterView ActivePlayer { get; set; }
+        public CurrentCharacterView ActivePlayer { get; set; }
         public List<CharacterView> ActiveEnemies { get; set; }
         public List<string> FightHistory { get; set; }
         public CharacterActionView ActiveAction { get; set; }

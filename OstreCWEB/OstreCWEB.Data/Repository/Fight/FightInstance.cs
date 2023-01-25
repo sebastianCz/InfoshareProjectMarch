@@ -1,4 +1,5 @@
 ﻿using OstreCWEB.Data.Repository.Characters.CharacterModels;
+using System.Reflection;
 
 namespace OstreCWEB.Data.Repository.Fight
 {
@@ -7,11 +8,15 @@ namespace OstreCWEB.Data.Repository.Fight
         public  List<string> FightHistory { get; set; }
         public  List<Enemy> ActiveEnemies { get; set; } 
         public  PlayableCharacter ActivePlayer { get; set; }
-        public  CharacterAction ActiveAction { get; set; }
         public  Character ActiveTarget { get; set; }
         public  int TurnNumber { get; set; }
         public  int PlayerActionCounter { get; set; }
         public  bool CombatFinished { get; set; }
         public  bool PlayerWon { get; set; }
+        public int ItemToDeleteId { get;set; }
+        public  CharacterAction ActiveAction { get; set; }
+        public bool IsItemToDelete { get; set; }
+        public bool ActionGrantedByItem { get; set; }
+        public int UserParagraphId { get; set; }
     }
 }

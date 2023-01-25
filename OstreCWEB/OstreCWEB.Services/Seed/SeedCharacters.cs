@@ -87,11 +87,29 @@ internal class SeedCharacters : ISeeder
                 Max_Dmg = 6,
                 Flat_Dmg = 1,
                 Hit_Dice_Nr = 1,
-                PossibleTargets = "enemy",
+                PossibleTarget = TargetType.Target,
                 InflictsStatus = false,
                 StatForTest = Statistics.Strenght,
                 AggressiveAction = true
+                
             },
+                      new CharacterAction
+            {
+                ActionName = "Fireball",
+                ActionDescription = "Throws a fireball",
+                ActionType = CharacterActionType.Cantrip,
+                SavingThrowPossible = true,
+                Max_Dmg = 8,
+                Flat_Dmg = 2,
+                Hit_Dice_Nr = 4,
+                PossibleTarget = TargetType.Target,
+                InflictsStatus = false,
+                StatForTest = Statistics.Intelligence,
+                AggressiveAction = true,
+                 UsesMaxBeforeRest = 0
+
+            },
+
                     new CharacterAction
             {
                 ActionName = "Fist Attack",
@@ -101,7 +119,7 @@ internal class SeedCharacters : ISeeder
                 Max_Dmg = 2,
                 Flat_Dmg = 1,
                 Hit_Dice_Nr = 1,
-                PossibleTargets = "enemy",
+                PossibleTarget = TargetType.Target,
                 InflictsStatus = false,
                 StatForTest = Statistics.Strenght,
                 AggressiveAction = true
@@ -115,7 +133,7 @@ internal class SeedCharacters : ISeeder
                 Max_Dmg = 4,
                 Flat_Dmg = 2,
                 Hit_Dice_Nr = 2,
-                PossibleTargets = "enemy",
+                PossibleTarget = TargetType.Target,
                 InflictsStatus = true,
                 Status = _db.Statuses.FirstOrDefault(s=>s.StatusId == 1),
                 StatForTest = Statistics.Dexterity,
@@ -132,7 +150,7 @@ internal class SeedCharacters : ISeeder
                 Max_Dmg = 1,
                 Flat_Dmg = 2,
                 Hit_Dice_Nr = 1,
-                PossibleTargets = "caster",
+                PossibleTarget = TargetType.Caster,
                 InflictsStatus = false,
                 StatForTest = Statistics.None,
                 UsesMaxBeforeRest = 2,
@@ -147,7 +165,7 @@ internal class SeedCharacters : ISeeder
                 Max_Dmg = 0,
                 Flat_Dmg = 0,
                 Hit_Dice_Nr = 0,
-                PossibleTargets = "caster",
+                PossibleTarget = TargetType.Caster,
                 InflictsStatus = true,
                 Status = _db.Statuses.FirstOrDefault(s=>s.StatusId == 2),
                 StatForTest = Statistics.None,
@@ -164,7 +182,7 @@ internal class SeedCharacters : ISeeder
                 Max_Dmg = 0,
                 Flat_Dmg = 0,
                 Hit_Dice_Nr = 0,
-                PossibleTargets = "caster",
+                PossibleTarget = TargetType.Caster,
                 InflictsStatus = false,
                 StatForTest = Statistics.None,
                 UsesMaxBeforeRest = 1,
@@ -330,9 +348,8 @@ internal class SeedCharacters : ISeeder
         playableCharacters[0].EquippedItems.Add(_db.Items.First(i => i.Name.ToLower().Contains("small wooden shield")));
 
 
-        playableCharacters[0].Inventory.ToList().Add(_db.Items.First(i => i.Name.ToLower().Contains("healing potion")));
-        playableCharacters[0].Inventory.ToArray();
-
+        playableCharacters[0].Inventory.Add(_db.Items.First(i => i.Name.ToLower().Contains("healing potion")));
+        
 
         playableCharacters[0].Race = _db.PlayableCharacterRaces.First (i => i.RaceName.ToLower().Contains("human"));
         playableCharacters[0].CharacterClass = _db.PlayableCharacterClasses.First (i => i.ClassName.ToLower().Contains("warrior"));
@@ -346,8 +363,7 @@ internal class SeedCharacters : ISeeder
 
         playableCharacters[1].InnateActions.Add(_db.CharacterActions.First(x => x.ActionName.ToLower().Contains("magic Missiles")));
         playableCharacters[1].InnateActions.Add(_db.CharacterActions.First(x => x.ActionName.ToLower().Contains("small Heal")));
-         
-
+        playableCharacters[1].InnateActions.Add(_db.CharacterActions.First(x => x.ActionName.ToLower().Contains("fireball")));
         playableCharacters = UpdatePlayableCharacterActionsRelations(playableCharacters);
         enemies = UpdateEnemyActionsRelations(enemies);
         playableCharacters = UpdatePlayableCharacterItemsRelations(playableCharacters);
@@ -458,7 +474,8 @@ internal class SeedCharacters : ISeeder
                  new ActionCharacter()
                  {
                      Character = character,
-                     CharacterAction = action
+                     CharacterAction = action,
+                     UsesLeftBeforeRest = action.UsesMaxBeforeRest 
                  });
             } 
         };
@@ -478,7 +495,8 @@ internal class SeedCharacters : ISeeder
                  new ActionCharacter()
                  {
                      Character = character,
-                     CharacterAction = action
+                     CharacterAction = action,
+                     UsesLeftBeforeRest = action.UsesMaxBeforeRest
                  });
             }
         };
