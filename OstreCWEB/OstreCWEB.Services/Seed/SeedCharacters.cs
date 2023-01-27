@@ -52,11 +52,11 @@ internal class SeedCharacters : ISeeder
             },
             new PlayableRace
             {
-                RaceName = "Human",
+                RaceName = "Dwarf",
             },
             new PlayableRace
             {
-                RaceName = "Human",
+                RaceName = "Elf",
             }
         };
 
@@ -337,10 +337,7 @@ internal class SeedCharacters : ISeeder
         _db.Items.AddRange(items);
         _db.SaveChanges();
 
-        playableCharacters[0].CharacterClass = _db.PlayableCharacterClasses.First();
-        playableCharacters[1].CharacterClass = _db.PlayableCharacterClasses.First();
-        playableCharacters[0].Race = _db.PlayableCharacterRaces.First();
-        playableCharacters[1].Race = _db.PlayableCharacterRaces.First();
+
         //_db.SaveChanges();
         //ADDING RELATIONS
         _db.Items.FirstOrDefault(i => i.Name.Contains("Short Sword")).ActionToTrigger = _db.CharacterActions.FirstOrDefault(a => a.ActionName.Contains("Short Sword Attack"));
@@ -352,33 +349,33 @@ internal class SeedCharacters : ISeeder
         _db.SaveChanges();
         foreach (var enemy in enemies)
         {
-            enemy.EquippedItems.Add(_db.Items.First(i => i.Name.ToLower().Contains("armor")));
-            enemy.EquippedItems.Add(_db.Items.First(i => i.Name.ToLower().Contains("short sword")));
-            enemy.EquippedItems.Add(_db.Items.First(i => i.Name.ToLower().Contains("small wooden shield")));
+            enemy.EquippedItems.Add(_db.Items.FirstOrDefault(i => i.Name.ToLower().Contains("armor")));
+            enemy.EquippedItems.Add(_db.Items.FirstOrDefault(i => i.Name.ToLower().Contains("short sword")));
+            enemy.EquippedItems.Add(_db.Items.FirstOrDefault(i => i.Name.ToLower().Contains("small wooden shield")));
         }
 
         //warrior
-        playableCharacters[0].EquippedItems.Add(_db.Items.First(i => i.Name.ToLower().Contains("heavy armor")));
-        playableCharacters[0].EquippedItems.Add(_db.Items.First(i => i.Name.ToLower().Contains("short sword")));
-        playableCharacters[0].EquippedItems.Add(_db.Items.First(i => i.Name.ToLower().Contains("small wooden shield")));
+        playableCharacters[0].EquippedItems.Add(_db.Items.FirstOrDefault(i => i.Name.ToLower().Contains("heavy armor")));
+        playableCharacters[0].EquippedItems.Add(_db.Items.FirstOrDefault(i => i.Name.ToLower().Contains("short sword")));
+        playableCharacters[0].EquippedItems.Add(_db.Items.FirstOrDefault(i => i.Name.ToLower().Contains("small wooden shield")));
 
 
-        playableCharacters[0].Inventory.Add(_db.Items.First(i => i.Name.ToLower().Contains("healing potion")));
+        playableCharacters[0].Inventory.Add(_db.Items.FirstOrDefault(i => i.Name.ToLower().Contains("healing potion")));
         
 
-        playableCharacters[0].Race = _db.PlayableCharacterRaces.First (i => i.RaceName.ToLower().Contains("human"));
-        playableCharacters[0].CharacterClass = _db.PlayableCharacterClasses.First (i => i.ClassName.ToLower().Contains("warrior"));
+        playableCharacters[0].Race = _db.PlayableCharacterRaces.FirstOrDefault (i => i.RaceName.ToLower().Contains("human"));
+        playableCharacters[0].CharacterClass = _db.PlayableCharacterClasses.FirstOrDefault(i => i.ClassName.ToLower().Contains("fighter"));
 
-        playableCharacters[0].InnateActions.Add(_db.CharacterActions.First (x => x.ActionName.ToLower().Contains("action surge")));
+        playableCharacters[0].InnateActions.Add(_db.CharacterActions.FirstOrDefault(x => x.ActionName.ToLower().Contains("action surge")));
         //mage
-        playableCharacters[1].EquippedItems.Add(_db.Items.First(i => i.Name.ToLower().Contains("mage robe")));
+        playableCharacters[1].EquippedItems.Add(_db.Items.FirstOrDefault(i => i.Name.ToLower().Contains("mage robe")));
 
-        playableCharacters[1].Race = _db.PlayableCharacterRaces.First(i => i.RaceName.ToLower().Contains("human"));
-        playableCharacters[1].CharacterClass = _db.PlayableCharacterClasses.First(i => i.ClassName.ToLower().Contains("mage"));
+        playableCharacters[1].Race = _db.PlayableCharacterRaces.FirstOrDefault(i => i.RaceName.ToLower().Contains("human"));
+        playableCharacters[1].CharacterClass = _db.PlayableCharacterClasses.FirstOrDefault(i => i.ClassName.ToLower().Contains("wizard"));
 
-        playableCharacters[1].InnateActions.Add(_db.CharacterActions.First(x => x.ActionName.ToLower().Contains("magic Missiles")));
-        playableCharacters[1].InnateActions.Add(_db.CharacterActions.First(x => x.ActionName.ToLower().Contains("small Heal")));
-        playableCharacters[1].InnateActions.Add(_db.CharacterActions.First(x => x.ActionName.ToLower().Contains("fireball")));
+        playableCharacters[1].InnateActions.Add(_db.CharacterActions.FirstOrDefault(x => x.ActionName.ToLower().Contains("magic Missiles")));
+        playableCharacters[1].InnateActions.Add(_db.CharacterActions.FirstOrDefault(x => x.ActionName.ToLower().Contains("small Heal")));
+        playableCharacters[1].InnateActions.Add(_db.CharacterActions.FirstOrDefault(x => x.ActionName.ToLower().Contains("fireball")));
         playableCharacters = UpdatePlayableCharacterActionsRelations(playableCharacters);
         enemies = UpdateEnemyActionsRelations(enemies);
         playableCharacters = UpdatePlayableCharacterItemsRelations(playableCharacters);
@@ -386,13 +383,13 @@ internal class SeedCharacters : ISeeder
 
         _db.Enemies.AddRange(enemies);
         
-        users.First(u=>u.UserName =="AdminUser").CharactersCreated.Add(playableCharacters[0]);
+        users.FirstOrDefault(u=>u.UserName =="AdminUser").CharactersCreated.Add(playableCharacters[0]);
         users[1].CharactersCreated.Add(playableCharacters[1]);
 
 
         //_db.SaveChanges();
         _db.SaveChanges();
-        SeedStories.Initialize(_db, users.First(u => u.UserName == "AdminUser"));
+        SeedStories.Initialize(_db, users.FirstOrDefault(u => u.UserName == "AdminUser"));
     }
 
     public  List<PlayableCharacter> UpdatePlayableCharacterItemsRelations(List<PlayableCharacter> characters)

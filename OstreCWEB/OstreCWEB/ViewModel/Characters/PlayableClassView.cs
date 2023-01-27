@@ -6,6 +6,7 @@ namespace OstreCWEB.ViewModel.Characters
     {
         public int PlayableClassId { get; set; }
         public string ClassName { get; set; }
+        public int BaseHP { get; set; }
         public int IntelligenceBonus { get; set; }
         public int StrengthBonus { get; set; }
         public int WisdomBonus { get; set; }

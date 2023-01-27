@@ -52,6 +52,7 @@ namespace OstreCWEB.Controllers
             //model.CharacterRaces = racesDictionary;
             //model.CharacterClasses = classesDictionary;
             //return View(model);
+            return View();
         }
         // POST: CharacterCreatorController/Create
         [HttpPost]

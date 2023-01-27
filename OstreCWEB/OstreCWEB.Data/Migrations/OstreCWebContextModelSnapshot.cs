@@ -330,6 +330,9 @@ namespace OstreCWEB.Data.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("PlayableClassId"), 1L, 1);
 
+                    b.Property<int>("BaseHP")
+                        .HasColumnType("int");
+
                     b.Property<int>("CharismaBonus")
                         .HasColumnType("int");
 
@@ -364,9 +367,6 @@ namespace OstreCWEB.Data.Migrations
                         .HasColumnType("int");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("PlayableRaceId"), 1L, 1);
-
-                    b.Property<int>("AmountOfSkillsToChoose")
-                        .HasColumnType("int");
 
                     b.Property<int>("CharismaBonus")
                         .HasColumnType("int");

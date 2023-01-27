@@ -65,7 +65,8 @@ namespace OstreCWEB.Data.Migrations
                     WisdomBonus = table.Column<int>(type: "int", nullable: false),
                     DexterityBonus = table.Column<int>(type: "int", nullable: false),
                     ConstitutionBonus = table.Column<int>(type: "int", nullable: false),
-                    CharismaBonus = table.Column<int>(type: "int", nullable: false)
+                    CharismaBonus = table.Column<int>(type: "int", nullable: false),
+                    BaseHP = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -79,7 +80,6 @@ namespace OstreCWEB.Data.Migrations
                     PlayableRaceId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     RaceName = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    AmountOfSkillsToChoose = table.Column<int>(type: "int", nullable: false),
                     IntelligenceBonus = table.Column<int>(type: "int", nullable: false),
                     StrengthBonus = table.Column<int>(type: "int", nullable: false),
                     WisdomBonus = table.Column<int>(type: "int", nullable: false),
