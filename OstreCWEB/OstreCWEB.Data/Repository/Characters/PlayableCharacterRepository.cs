@@ -63,5 +63,12 @@ namespace OstreCWEB.Data.Repository.Characters
                  .AsNoTracking()
                  .SingleOrDefaultAsync(x => x.CharacterId == characterTemplateId); 
         }
+        #region
+        public void CreateNew(PlayableCharacter model)
+        {
+            _db.PlayableCharacters.Add(model);
+            _db.SaveChanges();
+        }
+        #endregion
     }
 }

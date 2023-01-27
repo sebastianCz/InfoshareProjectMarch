@@ -41,5 +41,11 @@ namespace OstreCWEB.Services.Characters
         {
             throw new NotImplementedException();
         }
+        #region
+        public void CreateNew(PlayableCharacter model)
+        {
+            _playableCharacterRepository.CreateNew(model);
+        }
+        #endregion
     }
 }
