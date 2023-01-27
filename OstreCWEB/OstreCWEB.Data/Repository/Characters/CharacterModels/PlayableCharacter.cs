@@ -23,5 +23,11 @@ namespace OstreCWEB.Data.Repository.Characters.CharacterModels
         {
 
         }
+
+        public int MaxHP()
+        {
+            return this.CharacterClass.BaseHP;
+
+        }
     }
 }

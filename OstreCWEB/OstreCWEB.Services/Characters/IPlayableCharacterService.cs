@@ -10,7 +10,8 @@ namespace OstreCWEB.Services.Characters
 {
     public interface IPlayableCharacterService
     {
-        public Task<PlayableCharacter> GetById(int id); 
+        public Task<PlayableCharacter> GetById(int id);
+        public Task Create(PlayableCharacter playableCharacter);
         public Task<List<PlayableCharacter>> GetAll(); 
         public Task<List<PlayableCharacter>> GetAllTemplates(string id);
         public Task Add(Character charater);
@@ -18,6 +19,7 @@ namespace OstreCWEB.Services.Characters
         public Task Remove(Character charater);
         #region
         public void CreateNew(PlayableCharacter model);
+        public List<PlayableRace> GetAllRaces();
         #endregion
     }
 }

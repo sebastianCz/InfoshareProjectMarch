@@ -55,8 +55,7 @@ namespace OstreCWEB.Data.Factory
             newInstance.IsTemplate = false;
             newInstance.CharacterName = template.CharacterName;
             newInstance.MaxHealthPoints = template.MaxHealthPoints;
-            newInstance.CurrentHealthPoints = template.CurrentHealthPoints;
-            newInstance.Level = template.Level;
+            newInstance.CurrentHealthPoints = template.CurrentHealthPoints;           
             newInstance.Strenght = template.Strenght;
             newInstance.Dexterity = template.Dexterity;
             newInstance.Constitution = template.Constitution;
@@ -72,7 +71,6 @@ namespace OstreCWEB.Data.Factory
             newInstance.CharacterName = template.CharacterName;
             newInstance.MaxHealthPoints = template.MaxHealthPoints;
             newInstance.CurrentHealthPoints = template.CurrentHealthPoints;
-            newInstance.Level = template.Level;
             newInstance.Strenght = template.Strenght;
             newInstance.Dexterity = template.Dexterity;
             newInstance.Constitution = template.Constitution;

@@ -1,4 +1,4 @@
-﻿@model OstreCWEB.Data.Repository.Characters.CharacterModels.PlayableCharacter
+﻿@model OstreCWEB.ViewModel.Characters.PlayableCharacterCreateView
 
 @{
     ViewData["Title"] = "Create";
@@ -9,21 +9,48 @@
 <h4>PlayableCharacter</h4>
 <hr />
 
+
+
+
 <div class="row">
     <div class="col-md-4">
         @*<partial name ="_SetClass" model="@Model"/>*@
         <form asp-action="Create">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="RaceId" class="control-label"></label>
+                    @Html.DropDownListFor(m => m.RaceId, new SelectList(Model.CharacterRaces,"Key","Value"),
+                "-Please select owner-",
+                new {
+                    @class = "form-control"
+                })
+                <span asp-validation-for="RaceId" class="text-danger"></span>
+            </div>
             <div class="form-group" >
                 <label asp-for="PlayableClassId" class="control-label"></label>
                 <input asp-for="PlayableClassId" class="form-control" value="@ViewBag.classId"/>
                 <span asp-validation-for="PlayableClassId" class="text-danger"></span>
             </div>
-            <div class="form-group" >
+@*            <div class="form-group" >
                 <label asp-for="RaceId" class="control-label"></label>
                 <input asp-for="RaceId" class="form-control" value="@ViewBag.raceId" />
                 <span asp-validation-for="RaceId" class="text-danger"></span>
-            </div>
+            </div>*@
+@*            <div class="form-group" >
+                <label asp-for="UserParagraphId" class="control-label"></label>
+                <input asp-for="UserParagraphId" class="form-control" value="1" />
+                <span asp-validation-for="UserParagraphId" class="text-danger"></span>
+            </div>*@
+@*            <div class="form-group" >
+                <label asp-for="IsTemplate" class="control-label"></label>
+                <input asp-for="IsTemplate" class="form-control" value="False" />
+                <span asp-validation-for="IsTemplate" class="text-danger"></span>
+            </div>*@
+@*            <div class="form-group" >
+                <label asp-for="Level" class="control-label"></label>
+                <input asp-for="Level" class="form-control" value="1" />
+                <span asp-validation-for="Level" class="text-danger"></span>
+            </div>*@
 @*            <div class="form-group">
                 <label asp-for="Id" class="control-label"></label>
                 <input asp-for="Id" class="form-control" />

@@ -1,15 +1,27 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using OstreCWEB.Data.Repository.Characters.CharacterModels;
 using OstreCWEB.Services.Characters;
+using OstreCWEB.Services.Identity;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using OstreCWEB.ViewModel.Characters;
+using AutoMapper;
+using Microsoft.AspNetCore.Mvc.TagHelpers;
 
 namespace OstreCWEB.Controllers
 {
+    [Authorize]
     public class PlayableCharacterController : Controller
     {
         private readonly IPlayableCharacterService _playableCharacterService;
-        public PlayableCharacterController(IPlayableCharacterService playableCharacterService)
+        private readonly IUserService _userService;
+        private readonly IMapper _mapper;
+
+        public PlayableCharacterController(IPlayableCharacterService playableCharacterService, IUserService userService, IMapper mapper)
         {
             _playableCharacterService = playableCharacterService;
+            _userService = userService;
+            _mapper = mapper;
         }
         public IActionResult Index()
         {
@@ -19,24 +31,59 @@ namespace OstreCWEB.Controllers
         public ActionResult Create()
         {
             Random rnd = new Random();
-            ViewBag.raceId = rnd.Next(1, 6);
-            ViewBag.classId = rnd.Next(1, 6);
-            return View();
+
+            ViewBag.classId = rnd.Next(1, 2);
+
+            //var racesDictionary = new Dictionary<int, string>();
+            //var classesDictionary = new Dictionary<int, string>();
+
+            //var modelCharacterList = _playableCharacterService.GetAllRaces();
+            //var modelCharacterList = _playableCharacterService.GetAllClasses();
+
+            //foreach (var race in modelCharacterList)
+            //{
+            //    racesDictionary.Add(character.PlayableRaceId, character.RaceName);
+            //}
+            //foreach (var item in collection)
+            //{
+
+            //}
+            //var model = new PlayableCharacterCreateView();
+            //model.CharacterRaces = racesDictionary;
+            //model.CharacterClasses = classesDictionary;
+            //return View(model);
         }
         // POST: CharacterCreatorController/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(PlayableCharacter model)
+        public ActionResult Create(PlayableCharacterCreateView model)
         {
             try
             {
-                _playableCharacterService.CreateNew(model);
-                return RedirectToAction(nameof(Index));
+
             }
             catch
             {
                 return View();
             }
+            
+            var playableCharacter = _mapper.Map<PlayableCharacter>(model);
+            playableCharacter.UserId = _userService.GetUserId(User); 
+            _playableCharacterService.Create(playableCharacter);
+            return RedirectToAction(nameof(Index));
+        }
+
+        public ActionResult SetRace()
+        {
+            return View();
+        }
+        public ActionResult SetClass()
+        {
+            return View();
+        }
+        public ActionResult Summary()
+        {
+            return View();
         }
 
 

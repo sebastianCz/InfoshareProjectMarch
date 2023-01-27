@@ -69,6 +69,10 @@ namespace OstreCWEB.Data.Repository.Characters
             _db.PlayableCharacters.Add(model);
             _db.SaveChanges();
         }
+        public List<PlayableRace> GetAllRaces()
+        {
+            return _db.PlayableCharacterRaces.ToList();
+        }
         #endregion
     }
 }

@@ -21,6 +21,7 @@ namespace OstreCWEB.Data.Repository.Characters.Interfaces
         #region
 
         public void CreateNew(PlayableCharacter model);
+        public List<PlayableRace> GetAllRaces();
 
         #endregion
     }

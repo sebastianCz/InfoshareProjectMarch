@@ -15,7 +15,15 @@ namespace OstreCWEB.Services.Characters
         public Task Add(Character charater)
         {
             throw new NotImplementedException();
-        } 
+        }
+        public Task Create(PlayableCharacter playableCharacter)
+        {
+            playableCharacter.CurrentHealthPoints = playableCharacter.MaxHP();
+            playableCharacter.MaxHealthPoints = playableCharacter.MaxHP();
+            playableCharacter.IsTemplate = true;
+
+            return _playableCharacterRepository.Create(playableCharacter);
+        }
         public Task<List<PlayableCharacter>> GetAll()
         {
             return _playableCharacterRepository.GetAllTemplatesAsync();
@@ -45,6 +53,10 @@ namespace OstreCWEB.Services.Characters
         public void CreateNew(PlayableCharacter model)
         {
             _playableCharacterRepository.CreateNew(model);
+        }
+        public List<PlayableRace> GetAllRaces()
+        {
+            return _playableCharacterRepository.GetAllRaces();
         }
         #endregion
     }

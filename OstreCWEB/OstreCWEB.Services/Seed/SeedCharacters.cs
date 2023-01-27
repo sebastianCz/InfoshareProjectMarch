@@ -49,13 +49,15 @@ internal class SeedCharacters : ISeeder
             new PlayableRace
             {
                 RaceName = "Human",
-                //DefaultSkillsForClass = new List<Skill>
-                //{
-                //        Skill.acrobatics,
-                //        Skill.religion
-                //    },
-                AmountOfSkillsToChoose = 1, 
-            } 
+            },
+            new PlayableRace
+            {
+                RaceName = "Human",
+            },
+            new PlayableRace
+            {
+                RaceName = "Human",
+            }
         };
 
         
@@ -64,15 +66,31 @@ internal class SeedCharacters : ISeeder
             {
                 new PlayableClass
                 {
-                    ClassName = "Warrior",
+                    ClassName = "Barbarian",
                     StrengthBonus=1,
-                    ConstitutionBonus=1
+                    ConstitutionBonus=1,
+                    BaseHP = 12
                 },
                  new PlayableClass
                 {
-                    ClassName = "Mage",
+                    ClassName = "Fighter",
                     StrengthBonus=0,
-                    IntelligenceBonus=1
+                    IntelligenceBonus=1,
+                    BaseHP = 10
+                },
+                 new PlayableClass
+                {
+                    ClassName = "Cleric",
+                    StrengthBonus=0,
+                    IntelligenceBonus=1,
+                    BaseHP = 8
+                },
+                new PlayableClass
+                {
+                    ClassName = "Wizard",
+                    StrengthBonus=0,
+                    IntelligenceBonus=1,
+                    BaseHP = 6
                 }
             }; 
         //Property StatusName is null if none is applied.
@@ -237,7 +255,6 @@ internal class SeedCharacters : ISeeder
                     NonPlayableRace = Races.Humanoid,
                     MaxHealthPoints = 10,
                     CurrentHealthPoints = 10,
-                    Level = 1,
                     Strenght = 10,
                     Dexterity =12,
                     Constitution=10,
@@ -254,7 +271,6 @@ internal class SeedCharacters : ISeeder
                     CharacterName = "AdminCharacterWarrior",
                     MaxHealthPoints = 30,
                     CurrentHealthPoints = 30,
-                    Level = 1,
                     Strenght = 16,
                     Dexterity = 14,
                     Constitution = 10,
@@ -268,7 +284,6 @@ internal class SeedCharacters : ISeeder
                     CharacterName = "AdminCharacterMage",
                     MaxHealthPoints = 30,
                     CurrentHealthPoints = 30,
-                    Level = 1,
                     Strenght = 10,
                     Dexterity = 10,
                     Constitution = 14,

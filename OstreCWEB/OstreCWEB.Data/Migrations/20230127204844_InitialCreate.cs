@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace OstreCWEB.Data.Migrations
 {
-    public partial class initial : Migration
+    public partial class InitialCreate : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -443,7 +443,6 @@ namespace OstreCWEB.Data.Migrations
                     CharacterName = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     MaxHealthPoints = table.Column<int>(type: "int", nullable: false),
                     CurrentHealthPoints = table.Column<int>(type: "int", nullable: false),
-                    Level = table.Column<int>(type: "int", nullable: false),
                     Strenght = table.Column<int>(type: "int", nullable: false),
                     Dexterity = table.Column<int>(type: "int", nullable: false),
                     Constitution = table.Column<int>(type: "int", nullable: false),

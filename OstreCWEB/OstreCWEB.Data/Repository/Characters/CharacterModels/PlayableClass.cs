@@ -11,6 +11,8 @@
         public int ConstitutionBonus { get; set; }
         public int CharismaBonus { get; set; }
 
+        public int BaseHP { get; set; }
+
 
         //Ef config
         public List<PlayableCharacter> PlayableCharacter { get; set; } 

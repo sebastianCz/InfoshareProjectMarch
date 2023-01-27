@@ -216,9 +216,6 @@ namespace OstreCWEB.Data.Migrations
                     b.Property<bool>("IsTemplate")
                         .HasColumnType("bit");
 
-                    b.Property<int>("Level")
-                        .HasColumnType("int");
-
                     b.Property<int>("MaxHealthPoints")
                         .HasColumnType("int");
 

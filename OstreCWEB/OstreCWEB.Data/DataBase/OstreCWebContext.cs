@@ -21,6 +21,7 @@ namespace OstreCWEB.Data.DataBase
 
         //Characters
         public DbSet<PlayableCharacter> PlayableCharacters { get; set; }
+
         public DbSet<Enemy> Enemies { get; set; }
         public DbSet<PlayableClass> PlayableCharacterClasses { get; set; }
         public DbSet<PlayableRace> PlayableCharacterRaces { get; set; }
