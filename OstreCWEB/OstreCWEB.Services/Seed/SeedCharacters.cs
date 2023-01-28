@@ -74,8 +74,8 @@ internal class SeedCharacters : ISeeder
                  new PlayableClass
                 {
                     ClassName = "Fighter",
-                    StrengthBonus=0,
-                    IntelligenceBonus=1,
+                    StrengthBonus=1,
+                    ConstitutionBonus=1,
                     BaseHP = 10
                 },
                  new PlayableClass

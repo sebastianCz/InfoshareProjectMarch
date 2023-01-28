@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using OstreCWEB.ViewModel.Characters;
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc.TagHelpers;
+using OstreCWEB.Data.Repository.Characters.Enums;
 
 namespace OstreCWEB.Controllers
 {
@@ -33,27 +34,35 @@ namespace OstreCWEB.Controllers
             Random rnd = new Random();
 
             ViewBag.classId = rnd.Next(1, 2);
+            ViewBag.Str = _playableCharacterService.RollDice();
+            ViewBag.Dex = _playableCharacterService.RollDice();
+            ViewBag.Con = _playableCharacterService.RollDice();
+            ViewBag.Int = _playableCharacterService.RollDice();
+            ViewBag.Wis = _playableCharacterService.RollDice();
+            ViewBag.Cha = _playableCharacterService.RollDice();
+            ViewBag.Sum = ViewBag.Str + ViewBag.Dex + ViewBag.Con + ViewBag.Int + ViewBag.Wis + ViewBag.Cha;
 
-            //var racesDictionary = new Dictionary<int, string>();
-            //var classesDictionary = new Dictionary<int, string>();
 
-            //var modelCharacterList = _playableCharacterService.GetAllRaces();
+            var racesDictionary = new Dictionary<int, string>();
+            var classesDictionary = new Dictionary<int, string>();
+
+            var modelCharacterList = _playableCharacterService.GetAllRaces();
             //var modelCharacterList = _playableCharacterService.GetAllClasses();
 
-            //foreach (var race in modelCharacterList)
-            //{
-            //    racesDictionary.Add(character.PlayableRaceId, character.RaceName);
-            //}
+            foreach (var race in modelCharacterList)
+            {
+                racesDictionary.Add(race.PlayableRaceId, race.RaceName);
+            }
             //foreach (var item in collection)
             //{
 
             //}
-            //var model = new PlayableCharacterCreateView();
-            //model.CharacterRaces = racesDictionary;
-            //model.CharacterClasses = classesDictionary;
-            //return View(model);
-            return View();
-        }
+            var model = new PlayableCharacterCreateView();
+            model.CharacterRaces = racesDictionary;
+            model.CharacterClasses = classesDictionary;
+            return View(model);
+        }        
+
         // POST: CharacterCreatorController/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -86,6 +95,20 @@ namespace OstreCWEB.Controllers
         {
             return View();
         }
+        //public ActionResult ChangeValue(PlayableCharacter characterModel, string operation, AbilityScores attribute)
+        //{
+        //    var model = _playableCharacterService.GetAll();
+        //    _playableCharacterService.UpdateAttribute(characterModel, operation, attribute);
+        //    return RedirectToAction(nameof(Create));
+        //}
+
+        public ActionResult RollAttributePoints(PlayableCharacter model)
+        {
+            //var model = _playableCharacterService.GetAll();
+            _playableCharacterService.RollAttributes(model);
+            return RedirectToAction(nameof(Create));
+        }
+
 
 
     }

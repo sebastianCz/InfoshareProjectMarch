@@ -2,16 +2,17 @@
 using OstreCWEB.Data.DataBase;
 using OstreCWEB.Data.Factory;
 using OstreCWEB.Data.Repository.Characters.CharacterModels;
-using OstreCWEB.Data.Repository.Characters.Interfaces; 
+using OstreCWEB.Data.Repository.Characters.Enums;
+using OstreCWEB.Data.Repository.Characters.Interfaces;
 
 namespace OstreCWEB.Data.Repository.Characters
 {
     internal class PlayableCharacterRepository : IPlayableCharacterRepository
     {
-        private OstreCWebContext _db; 
+        private OstreCWebContext _db;
         public PlayableCharacterRepository(OstreCWebContext db)
         {
-            _db = db; 
+            _db = db;
         }
 
         public Task<PlayableCharacter> Create(PlayableCharacter playableCharacter)
@@ -47,21 +48,21 @@ namespace OstreCWEB.Data.Repository.Characters
         }
 
         public async Task UpdateAsync(PlayableCharacter playableCharacter)
-        {   
+        {
             _db.PlayableCharacters.Update(playableCharacter);
-             await _db.SaveChangesAsync();
+            await _db.SaveChangesAsync();
         }
         public async Task UpdateAlreadyTrackedAsync(PlayableCharacter playableCharacter)
-        { 
+        {
             var tracked = await _db.PlayableCharacters.FindAsync(playableCharacter.CharacterId);
-            tracked = playableCharacter; 
+            tracked = playableCharacter;
         }
 
         public async Task<PlayableCharacter> GetByIdNoTrackingAsync(int characterTemplateId)
-        { 
+        {
             return await _db.PlayableCharacters
                  .AsNoTracking()
-                 .SingleOrDefaultAsync(x => x.CharacterId == characterTemplateId); 
+                 .SingleOrDefaultAsync(x => x.CharacterId == characterTemplateId);
         }
         #region
         public void CreateNew(PlayableCharacter model)
@@ -73,6 +74,37 @@ namespace OstreCWEB.Data.Repository.Characters
         {
             return _db.PlayableCharacterRaces.ToList();
         }
+
+        public void Update(PlayableCharacter model, string operation, AbilityScores attribute)
+        {
+
+        }
+        public void RollAttributes(PlayableCharacter model)
+        {
+            var calc = model;
+            calc.Strenght = RollDice();
+            calc.Dexterity = RollDice();
+            calc.Constitution = RollDice();
+            calc.Intelligence = RollDice();
+            calc.Wisdom = RollDice();
+            calc.Charisma = RollDice();
+        }
+        private int RollDice(int maxValue = 7)
+        {
+            int[] rolls = new int[4];
+
+            Random rng = new Random();
+            for (int i = 0; i < rolls.Length; i++)
+            {
+                rolls[i] = rng.Next(1, maxValue);
+            }
+            Array.Sort(rolls);
+            Array.Reverse(rolls);
+
+            int sum = rolls.Take(3).Sum();
+            return sum;
+        }
         #endregion
+
     }
 }

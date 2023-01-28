@@ -18,8 +18,8 @@ namespace OstreCWEB.Services.Characters
         }
         public Task Create(PlayableCharacter playableCharacter)
         {
-            playableCharacter.CurrentHealthPoints = playableCharacter.MaxHP();
-            playableCharacter.MaxHealthPoints = playableCharacter.MaxHP();
+            playableCharacter.CurrentHealthPoints = 10;
+            playableCharacter.MaxHealthPoints = 10;
             playableCharacter.IsTemplate = true;
 
             return _playableCharacterRepository.Create(playableCharacter);
@@ -58,6 +58,30 @@ namespace OstreCWEB.Services.Characters
         {
             return _playableCharacterRepository.GetAllRaces();
         }
+        public void RollAttributes(PlayableCharacter model)
+        {
+            _playableCharacterRepository.RollAttributes(model);
+        }
+
+        #endregion
+        #region quickAutisticMethod
+        public int RollDice(int maxValue = 7)
+        {
+            int[] rolls = new int[4];
+
+            Random rng = new Random();
+            for (int i = 0; i < rolls.Length; i++)
+            {
+                rolls[i] = rng.Next(1, maxValue);
+            }
+            Array.Sort(rolls);
+            Array.Reverse(rolls);
+
+            int sum = rolls.Take(3).Sum();
+            return sum;
+        }
+        private List<int> attributeList = new List<int>();
+
         #endregion
     }
 }

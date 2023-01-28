@@ -20,6 +20,10 @@ namespace OstreCWEB.Services.Characters
         #region
         public void CreateNew(PlayableCharacter model);
         public List<PlayableRace> GetAllRaces();
+        public void RollAttributes(PlayableCharacter model);
+
+
         #endregion
+        public int RollDice(int maxValue = 7);
     }
 }
