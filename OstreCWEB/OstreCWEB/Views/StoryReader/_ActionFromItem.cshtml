@@ -1,0 +1,43 @@
+﻿@using OstreCWEB.Data.Repository.Characters.Enums
+@model OstreCWEB.ViewModel.Characters.ItemCharacterView
+ 
+<dl class="row">
+    <dt class="col-sm-2 border-bottom">
+        <label asp-for="@Model.Item.ActionToTrigger.PossibleTarget"></label>
+    </dt>
+    <dd class="col-sm-10">
+        @(Model.Item.ActionToTrigger.PossibleTarget==TargetType.Target?"Enemy":"Yourself")
+    </dd>
+    <dt class="col-sm-2 border-bottom">
+        <label asp-for="@Model.Item.ActionToTrigger.ActionDescription"></label>
+    </dt>
+    <dd class="col-sm-10">
+        @Model.Item.ActionToTrigger.ActionDescription
+    </dd>
+    @if (@Model.Item.ActionToTrigger.AggressiveAction)
+    {
+        <dt class="col-sm-2 border-bottom"><label asp-for="@Model.Item.ActionToTrigger.SavingThrowPossible"></label></dt>
+        <dd class="col-sm-10">@(Model.Item.ActionToTrigger.SavingThrowPossible? "Possible":"Not Possible")</dd>
+
+        <dt class="col-sm-2 border-bottom"><label asp-for="@Model.Item.ActionToTrigger.StatForTest"></label></dt>
+        <dd class="col-sm-10">@Model.Item.ActionToTrigger.StatForTest.ToString()</dd>
+    }
+    @if (@Model.Item.ActionToTrigger.ActionType != CharacterActionType.SpecialAction)
+    {
+        <dt class="col-sm-2 border-bottom"><label asp-for="@Model.Item.ActionToTrigger.Max_Dmg"></label></dt>
+        <dd class="col-sm-10">@Model.Item.ActionToTrigger.Max_Dmg</dd>
+        <dt class="col-sm-2 border-bottom"><label asp-for="@Model.Item.ActionToTrigger.Hit_Dice_Nr"></label> </dt>
+        <dd class="col-sm-10">@Model.Item.ActionToTrigger.Hit_Dice_Nr</dd>
+        <dt class="col-sm-2 border-bottom"><label asp-for="@Model.Item.ActionToTrigger.Flat_Dmg"></label> </dt>
+        <dd class="col-sm-10">@Model.Item.ActionToTrigger.Flat_Dmg </dd>
+    }
+    @if (@Model.Item.ActionToTrigger.InflictsStatus)
+    {
+        <partial name="_Status" model="@Model.Item.ActionToTrigger.Status" />
+    }
+</dl>
+ 
+
+
+
+

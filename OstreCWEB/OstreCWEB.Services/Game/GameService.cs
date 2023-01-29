@@ -148,8 +148,7 @@ namespace OstreCWEB.Services.Game
                 case TestDifficulty.NearlyImpossible: return 30;
                 default: throw new ArgumentOutOfRangeException();
             }
-        }
-
+        } 
         private int GetModifire()
         {
             return 0;
@@ -175,5 +174,18 @@ namespace OstreCWEB.Services.Game
             }
             await _itemCharacterRepository.AddRange(items);
         }
+        public async Task UnequipItemAsync(int itemRelationId, string userId)
+        {
+           var gameInstance = await _userParagraphRepository.GetActiveByUserIdAsync(userId);
+            gameInstance.ActiveCharacter.LinkedItems.SingleOrDefault(x => x.Id == itemRelationId).IsEquipped = false;
+            await _userParagraphRepository.SaveChangesAsync();
+        } 
+        public async Task EquipItemAsync(int itemRelationId, string userId)
+        {
+            var gameInstance = await _userParagraphRepository.GetActiveByUserIdAsync(userId);
+            //Add spaghetti code to find out if given item can be equipped! 
+            gameInstance.ActiveCharacter.LinkedItems.SingleOrDefault(x => x.Id == itemRelationId).IsEquipped = true;
+            await _userParagraphRepository.SaveChangesAsync();
+        } 
     }
 }

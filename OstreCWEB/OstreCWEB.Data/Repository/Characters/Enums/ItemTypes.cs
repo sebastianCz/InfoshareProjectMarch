@@ -2,7 +2,6 @@
 {
     public enum ItemType
     {
-        Consumable = 1,
         Armor = 2, 
         Shield = 3, 
         TwoHandedWeapon = 4,

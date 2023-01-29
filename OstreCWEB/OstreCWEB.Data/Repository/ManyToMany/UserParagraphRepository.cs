@@ -111,5 +111,9 @@ namespace OstreCWEB.Data.Repository.ManyToMany
             var test = _context.ChangeTracker;
             return result;
         }
+        public async Task SaveChangesAsync()
+        {
+            await _context.SaveChangesAsync();
+        }
     }
 }

@@ -124,6 +124,6 @@ namespace OstreCWEB.Controllers
             options.IsEssential = true;
             _httpContextAccessor.HttpContext.Response.Cookies.Append("ActiveCharacter", $"{id}", options);
             return RedirectToAction(nameof(Index));
-        } 
+        }  
     }
 }

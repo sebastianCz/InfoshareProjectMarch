@@ -111,5 +111,15 @@ namespace OstreCWEB.Controllers
             await _gameService.HealCharacterAsync(_userService.GetUserId(User));
             return RedirectToAction("Index");
         }
+        public async Task<ActionResult> UnequipItem(int id)
+        {
+            await _gameService.UnequipItemAsync(id, _userService.GetUserId(User));
+            return RedirectToAction(nameof(Index));
+        }
+        public async Task<ActionResult> Equipitem(int id)
+        {
+            await _gameService.EquipItemAsync(id, _userService.GetUserId(User));
+            return RedirectToAction(nameof(Index));
+        }
     }
 }
