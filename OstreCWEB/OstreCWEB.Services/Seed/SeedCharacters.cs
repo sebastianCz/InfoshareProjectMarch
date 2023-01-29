@@ -128,7 +128,7 @@ internal class SeedCharacters : ISeeder
             {
                 ActionName = "Magic Missiles",
                 ActionDescription = "Throws magic missiles at the enmy",
-                ActionType = CharacterActionType.WeaponAttack,
+                ActionType = CharacterActionType.Spell,
                         SavingThrowPossible = true,
                 Max_Dmg = 4,
                 Flat_Dmg = 2,
@@ -147,7 +147,7 @@ internal class SeedCharacters : ISeeder
                 ActionDescription = "Heals the user for 1d6 +2", 
                 SavingThrowPossible = false,
                 ActionType = CharacterActionType.Spell,
-                Max_Dmg = 1,
+                Max_Dmg = 6,
                 Flat_Dmg = 2,
                 Hit_Dice_Nr = 1,
                 PossibleTarget = TargetType.Caster,
@@ -200,7 +200,7 @@ internal class SeedCharacters : ISeeder
                 new Item()
                 {
                     Name="Healing Potion",
-                    ItemType = ItemType.Consumable,
+                    ItemType = ItemType.SpecialItem,
                     DeleteOnUse = true
                     
                 },

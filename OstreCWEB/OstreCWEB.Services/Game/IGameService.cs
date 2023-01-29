@@ -12,7 +12,8 @@ namespace OstreCWEB.Services.Game
         public Task<int> TestThrowAsync(string userId, int rollValue);
         public int ThrowDice(int maxValue); 
         public Task NextParagraphAfterFightAsync(UserParagraph gameInstance, int choiceId);
-
+        public Task UnequipItemAsync(int itemId,string userId);
+        public Task EquipItemAsync(int itemId, string userId);
 
     }
 }

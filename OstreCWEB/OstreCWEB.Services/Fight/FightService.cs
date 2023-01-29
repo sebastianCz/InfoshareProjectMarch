@@ -91,9 +91,7 @@ namespace OstreCWEB.Services.Fight
             var combatEnded = IsFightFinished(_activeFightInstance.ActiveEnemies, GetActivePlayer()); 
             if (combatEnded) {
                 var fightWon = IsFightWon(_activeFightInstance.ActivePlayer);
-                FinishFight(fightWon);
-     
-               
+                FinishFight(fightWon);  
             }
             else
             {
