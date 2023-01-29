@@ -8,15 +8,18 @@
         {
             <div class="col-lg-8">
                 <div class="row">
-                    <!-- Heal button -->
-                    <div class="col-12">
-                        <div class="card">
-                            <div class="btn-group" role="group" aria-label="Basic mixed styles example">
-                                <a asp-route-name="StoryReader" asp-action="HealCharacter" type="button" class="btn btn-success">Heal your Hero</a>
+                    @if (Model.Rest)
+                    {
+                        <!-- Heal button -->
+                        <div class="col-12">
+                            <div class="card">
+                                <div class="btn-group" role="group" aria-label="Basic mixed styles example">
+                                    <a asp-route-name="StoryReader" asp-action="HealCharacter" type="button" class="btn btn-success">Rest</a>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    <!-- Heal button -->
+                        <!-- Heal button -->
+                    }
                     <!-- Paragraph Card -->
                     <div class="col-12">
                         <partial name="_CurrentParagraph" model="@Model.CurrentParagraph" />

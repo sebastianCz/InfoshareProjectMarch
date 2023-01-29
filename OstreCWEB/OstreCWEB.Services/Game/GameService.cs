@@ -65,11 +65,17 @@ namespace OstreCWEB.Services.Game
         {
             var userParagraph = await _userParagraphRepository.GetActiveByUserIdAsync(userId);
             userParagraph.Paragraph = await _storyRepository.GetParagraphById(userParagraph.Paragraph.Choices[choiceId].NextParagraphId);
+
+            userParagraph.Rest = userParagraph.Paragraph.RestoreRest;
+
             await _userParagraphRepository.UpdateAsync(userParagraph);
         }
         public async Task NextParagraphAfterFightAsync(UserParagraph gameInstance,int choiceId)
         {
             gameInstance.Paragraph = await _storyRepository.GetParagraphById(gameInstance.Paragraph.Choices[choiceId].NextParagraphId);
+
+            gameInstance.Rest = gameInstance.Paragraph.RestoreRest;
+
             await _userParagraphRepository.UpdateAsync(gameInstance);
         }
         public async Task DeleteGameInstanceAsync(int userParagrahId)
@@ -94,6 +100,10 @@ namespace OstreCWEB.Services.Game
         {
             var userParagraph = await _userParagraphRepository.GetActiveByUserIdAsync(userId);
             userParagraph.ActiveCharacter.CurrentHealthPoints = userParagraph.ActiveCharacter.MaxHealthPoints;
+            userParagraph.ActiveCharacter.LinkedActions.ForEach(x => x.UsesLeftBeforeRest = x.CharacterAction.UsesMaxBeforeRest);
+
+            userParagraph.Rest = false;
+
             await _userParagraphRepository.UpdateAsync(userParagraph);
         }
 

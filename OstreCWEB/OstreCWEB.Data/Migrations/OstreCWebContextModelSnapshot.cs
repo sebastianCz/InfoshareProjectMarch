@@ -169,6 +169,9 @@ namespace OstreCWEB.Data.Migrations
                     b.Property<int>("ParagraphId")
                         .HasColumnType("int");
 
+                    b.Property<bool>("Rest")
+                        .HasColumnType("bit");
+
                     b.Property<string>("UserId")
                         .IsRequired()
                         .HasColumnType("nvarchar(450)");
@@ -554,6 +557,9 @@ namespace OstreCWEB.Data.Migrations
 
                     b.Property<int>("ParagraphType")
                         .HasColumnType("int");
+
+                    b.Property<bool>("RestoreRest")
+                        .HasColumnType("bit");
 
                     b.Property<string>("StageDescription")
                         .IsRequired()

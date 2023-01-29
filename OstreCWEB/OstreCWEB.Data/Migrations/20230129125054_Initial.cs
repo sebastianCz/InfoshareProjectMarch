@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace OstreCWEB.Data.Migrations
 {
-    public partial class initial : Migration
+    public partial class Initial : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -271,6 +271,7 @@ namespace OstreCWEB.Data.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     ParagraphType = table.Column<int>(type: "int", nullable: false),
                     StageDescription = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    RestoreRest = table.Column<bool>(type: "bit", nullable: false),
                     StoryId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
@@ -414,7 +415,8 @@ namespace OstreCWEB.Data.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     UserId = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     ParagraphId = table.Column<int>(type: "int", nullable: false),
-                    ActiveGame = table.Column<bool>(type: "bit", nullable: false)
+                    ActiveGame = table.Column<bool>(type: "bit", nullable: false),
+                    Rest = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
                 {
