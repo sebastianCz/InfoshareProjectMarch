@@ -26,6 +26,7 @@ namespace OstreCWEB.Controllers
         }
         public IActionResult Index()
         {
+            ViewBag.UserId = _userService.GetUserById(User);
             //var model = _playableCharacterService.GetAll();
             return View();
         }
