@@ -1,7 +1,7 @@
 ﻿
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.CodeAnalysis.CSharp.Syntax;
+using Microsoft.AspNetCore.Mvc.Diagnostics;
 using OstreCWEB.Data.Repository.Identity;
 using OstreCWEB.Services.Identity;
 
@@ -57,6 +57,24 @@ namespace OstreCWEB.Controllers
         {
             await _service.LogoutAsync();
             return RedirectToAction("Index", "Home");
+        }
+
+        [Authorize]
+        public IActionResult ChangePassword()
+        {
+            return View();
+        }
+        [Authorize]
+        [HttpPost]
+        public async Task<IActionResult>ChangePassword(ChangePassword model)
+        {
+            if(!ModelState.IsValid)
+            {
+                return View(model);
+                var result = await _service.ChangePasswordAsync(model, User.Identity.Name);
+                TempData["msg"] = result.Message;
+                return RedirectToAction(nameof(ChangePassword));
+            }
         }
 
         // Admin account
