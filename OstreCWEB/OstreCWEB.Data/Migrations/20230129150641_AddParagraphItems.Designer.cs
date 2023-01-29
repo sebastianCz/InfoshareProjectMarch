@@ -12,8 +12,8 @@ using OstreCWEB.Data.DataBase;
 namespace OstreCWEB.Data.Migrations
 {
     [DbContext(typeof(OstreCWebContext))]
-    [Migration("20230121115926_initial.")]
-    partial class initial
+    [Migration("20230129150641_AddParagraphItems")]
+    partial class AddParagraphItems
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -157,6 +157,24 @@ namespace OstreCWEB.Data.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
+            modelBuilder.Entity("OstreCWEB.Data.DataBase.ManyToMany.ParagraphItem", b =>
+                {
+                    b.Property<int>("ItemId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("ParagraphId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("AmountOfItems")
+                        .HasColumnType("int");
+
+                    b.HasKey("ItemId", "ParagraphId");
+
+                    b.HasIndex("ParagraphId");
+
+                    b.ToTable("ParagraphItems");
+                });
+
             modelBuilder.Entity("OstreCWEB.Data.DataBase.ManyToMany.UserParagraph", b =>
                 {
                     b.Property<int>("UserParagraphId")
@@ -170,6 +188,9 @@ namespace OstreCWEB.Data.Migrations
 
                     b.Property<int>("ParagraphId")
                         .HasColumnType("int");
+
+                    b.Property<bool>("Rest")
+                        .HasColumnType("bit");
 
                     b.Property<string>("UserId")
                         .IsRequired()
@@ -557,6 +578,9 @@ namespace OstreCWEB.Data.Migrations
                     b.Property<int>("ParagraphType")
                         .HasColumnType("int");
 
+                    b.Property<bool>("RestoreRest")
+                        .HasColumnType("bit");
+
                     b.Property<string>("StageDescription")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -824,6 +848,25 @@ namespace OstreCWEB.Data.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("OstreCWEB.Data.DataBase.ManyToMany.ParagraphItem", b =>
+                {
+                    b.HasOne("OstreCWEB.Data.Repository.Characters.CharacterModels.Item", "Item")
+                        .WithMany("ParagraphItems")
+                        .HasForeignKey("ItemId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("OstreCWEB.Data.Repository.StoryModels.Paragraph", "Paragraph")
+                        .WithMany("paragraphItems")
+                        .HasForeignKey("ParagraphId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Item");
+
+                    b.Navigation("Paragraph");
+                });
+
             modelBuilder.Entity("OstreCWEB.Data.DataBase.ManyToMany.UserParagraph", b =>
                 {
                     b.HasOne("OstreCWEB.Data.Repository.StoryModels.Paragraph", "Paragraph")
@@ -1048,6 +1091,8 @@ namespace OstreCWEB.Data.Migrations
             modelBuilder.Entity("OstreCWEB.Data.Repository.Characters.CharacterModels.Item", b =>
                 {
                     b.Navigation("LinkedCharacters");
+
+                    b.Navigation("ParagraphItems");
                 });
 
             modelBuilder.Entity("OstreCWEB.Data.Repository.Characters.CharacterModels.PlayableClass", b =>
@@ -1087,6 +1132,8 @@ namespace OstreCWEB.Data.Migrations
                     b.Navigation("TestProp");
 
                     b.Navigation("UserParagraphs");
+
+                    b.Navigation("paragraphItems");
                 });
 
             modelBuilder.Entity("OstreCWEB.Data.Repository.StoryModels.Properties.FightProp", b =>

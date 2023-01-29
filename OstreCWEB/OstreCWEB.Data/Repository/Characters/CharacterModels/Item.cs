@@ -1,4 +1,5 @@
-﻿using OstreCWEB.Data.Repository.Characters.Enums;
+﻿using OstreCWEB.Data.DataBase.ManyToMany;
+using OstreCWEB.Data.Repository.Characters.Enums;
 using OstreCWEB.Data.Repository.Characters.MetaTags;
 using System.ComponentModel.DataAnnotations;
 
@@ -10,6 +11,7 @@ namespace OstreCWEB.Data.Repository.Characters.CharacterModels
         [Key]
         public int ItemId { get; set; }
         public List<ItemCharacter> LinkedCharacters { get; set; }
+        public List<ParagraphItem> ParagraphItems { get; set; }
         public CharacterAction? ActionToTrigger { get; set; }
         //
         
