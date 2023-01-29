@@ -2,6 +2,7 @@
 using OstreCWEB.Data.Factory;
 using OstreCWEB.Data.Repository.Characters.CharacterModels;
 using OstreCWEB.Data.Repository.Characters.Interfaces;
+using OstreCWEB.Data.Repository.Characters.MetaTags;
 using OstreCWEB.Data.Repository.Identity;
 using OstreCWEB.Data.Repository.ManyToMany;
 using OstreCWEB.Data.Repository.StoryModels;
@@ -17,33 +18,35 @@ namespace OstreCWEB.Services.Game
         private readonly IStoryRepository _storyRepository;
         private readonly IPlayableCharacterRepository _playableCharacterRepository;
         private readonly ICharacterFactory _characterFactory;
+        private readonly IItemCharacterRepository _itemCharacterRepository;
 
         public GameService(
             IUserParagraphRepository userParagraphRepository,
             IIdentityRepository identityRepository,
             IStoryRepository storyRepository,
             IPlayableCharacterRepository playableCharacter,
-            ICharacterFactory characterFactory
-            )
+            ICharacterFactory characterFactory,
+            IItemCharacterRepository itemCharacterRepository)
         {
             _userParagraphRepository = userParagraphRepository;
             _identityRepository = identityRepository;
             _storyRepository = storyRepository;
             _playableCharacterRepository = playableCharacter;
             _characterFactory = characterFactory;
+            _itemCharacterRepository = itemCharacterRepository;
         }
         public async Task<UserParagraph> CreateNewGameInstanceAsync(string userId, int characterTemplateId, int storyId)
         {
             var user = await _identityRepository.GetUser(userId);
-            if (user.UserParagraphs.Count >= 5) { throw new Exception(); } 
-            var newGameInstance = new UserParagraph(); 
+            if (user.UserParagraphs.Count >= 5) { throw new Exception(); }
+            var newGameInstance = new UserParagraph();
 
-            var story = await  _storyRepository.GetStoryNoIncludesAsync(storyId); 
+            var story = await _storyRepository.GetStoryNoIncludesAsync(storyId);
 
             newGameInstance.User = user;
             newGameInstance.Paragraph = await _storyRepository.GetParagraphById(story.FirstParagraphId);
 
-            var notTrackedCharacter = await _playableCharacterRepository.GetByIdNoTrackingAsync(characterTemplateId); 
+            var notTrackedCharacter = await _playableCharacterRepository.GetByIdNoTrackingAsync(characterTemplateId);
             var newCharacterInstance = _characterFactory.CreatePlayableCharacterInstance(notTrackedCharacter).Result;
 
             newGameInstance.ActiveCharacter = newCharacterInstance;
@@ -51,14 +54,14 @@ namespace OstreCWEB.Services.Game
 
             user.UserParagraphs.ForEach(c => c.ActiveGame = false);
             user.UserParagraphs.Add(newGameInstance);
-            await _identityRepository.Update(user);  
+            await _identityRepository.Update(user);
             return newGameInstance;
         }
 
 
-        public  Task<List<Enemy>> GenerateEnemies(List<EnemyInParagraph> enemiesToGenerate)
-        { 
-            return _characterFactory.CreateEnemiesInstances(enemiesToGenerate); 
+        public Task<List<Enemy>> GenerateEnemies(List<EnemyInParagraph> enemiesToGenerate)
+        {
+            return _characterFactory.CreateEnemiesInstances(enemiesToGenerate);
         }
 
         public async Task NextParagraphAsync(string userId, int choiceId)
@@ -66,14 +69,22 @@ namespace OstreCWEB.Services.Game
             var userParagraph = await _userParagraphRepository.GetActiveByUserIdAsync(userId);
             userParagraph.Paragraph = await _storyRepository.GetParagraphById(userParagraph.Paragraph.Choices[choiceId].NextParagraphId);
 
+            if (userParagraph.Paragraph.paragraphItems.Count > 0)
+            {
+                await AddItem(userParagraph.ActiveCharacter, userParagraph.Paragraph.paragraphItems);
+            }
             userParagraph.Rest = userParagraph.Paragraph.RestoreRest;
 
             await _userParagraphRepository.UpdateAsync(userParagraph);
         }
-        public async Task NextParagraphAfterFightAsync(UserParagraph gameInstance,int choiceId)
+        public async Task NextParagraphAfterFightAsync(UserParagraph gameInstance, int choiceId)
         {
             gameInstance.Paragraph = await _storyRepository.GetParagraphById(gameInstance.Paragraph.Choices[choiceId].NextParagraphId);
 
+            if (gameInstance.Paragraph.paragraphItems.Count > 0)
+            {
+                await AddItem(gameInstance.ActiveCharacter, gameInstance.Paragraph.paragraphItems);
+            }
             gameInstance.Rest = gameInstance.Paragraph.RestoreRest;
 
             await _userParagraphRepository.UpdateAsync(gameInstance);
@@ -121,7 +132,7 @@ namespace OstreCWEB.Services.Game
         public int ThrowDice(int maxValue)
         {
             Random rnd = new Random();
-            return rnd.Next(1, maxValue+1);
+            return rnd.Next(1, maxValue + 1);
         }
 
         //Private
@@ -142,6 +153,24 @@ namespace OstreCWEB.Services.Game
         private int GetModifire()
         {
             return 0;
+        }
+
+        private async Task AddItem(PlayableCharacter activeCharacter, List<ParagraphItem> paragraphItems)
+        {
+            foreach (var item in paragraphItems)
+            {
+                for (int i = 0; i < item.AmountOfItems; i++)
+                {
+
+                    await _itemCharacterRepository.Add(
+                        new ItemCharacter
+                        {
+                            CharacterId = activeCharacter.CharacterId,
+                            ItemId = item.ItemId,
+                            IsEquipped = false
+                        });
+                }
+            }
         }
     }
 }

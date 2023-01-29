@@ -11,7 +11,7 @@ namespace OstreCWEB.Data.Repository.ManyToMany
     {
         public Task<ItemCharacter> GetByCharacterId();
         public Task<ItemCharacter> GetAll();
-        public Task<ItemCharacter> Create();
+        public Task Add(ItemCharacter itemCharacter);
         public Task<ItemCharacter> Update();
         public Task<ItemCharacter> Delete();
     }
