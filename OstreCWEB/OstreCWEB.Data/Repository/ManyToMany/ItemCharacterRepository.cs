@@ -13,9 +13,9 @@ namespace OstreCWEB.Data.Repository.ManyToMany
             _context = context;
         }
 
-        public async Task Add(ItemCharacter itemCharacter)
+        public async Task AddRange(List<ItemCharacter> itemsCharacter)
         {
-            _context.ItemsCharactersRelation.Add(itemCharacter);
+            _context.ItemsCharactersRelation.AddRange(itemsCharacter);
             await _context.SaveChangesAsync();
         }
 

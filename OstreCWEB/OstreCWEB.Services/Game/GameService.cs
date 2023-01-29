@@ -157,12 +157,14 @@ namespace OstreCWEB.Services.Game
 
         private async Task AddItem(PlayableCharacter activeCharacter, List<ParagraphItem> paragraphItems)
         {
+            List<ItemCharacter> items = new List<ItemCharacter>();
+
             foreach (var item in paragraphItems)
             {
                 for (int i = 0; i < item.AmountOfItems; i++)
                 {
 
-                    await _itemCharacterRepository.Add(
+                    items.Add(
                         new ItemCharacter
                         {
                             CharacterId = activeCharacter.CharacterId,
@@ -171,6 +173,7 @@ namespace OstreCWEB.Services.Game
                         });
                 }
             }
+            await _itemCharacterRepository.AddRange(items);
         }
     }
 }

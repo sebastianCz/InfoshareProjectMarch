@@ -4,6 +4,17 @@
 <section class="section dashboard">
     <div class="row">
         <!-- Left side columns -->
+        @if (Model.CurrentParagraph.ParagraphItems.Count() > 0)
+        {
+            <div class="alert alert-success alert-dismissible fade show" role="alert">
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                Congratulations! You found items:
+                @foreach (var item in Model.CurrentParagraph.ParagraphItems)
+                {
+                      <div>@item.AmountOfItems x @item.ItemName</div>
+                }                                
+            </div>
+        }
         @if (Model.CurrentParagraph.ParagraphType == ParagraphType.DescOfStage)
         {
             <div class="col-lg-8">
@@ -40,24 +51,24 @@
         }
         @if (Model.CurrentParagraph.ParagraphType == ParagraphType.Fight)
         {
-                <div class="col-lg-8">
-                    <div class="row">
-                        <!-- Paragraph Card -->
-                        <div class="col-12">
-                            <partial name="_FightParagraph" />
-                        </div><!-- End Paragraph Card -->
-                    </div>
+            <div class="col-lg-8">
+                <div class="row">
+                    <!-- Paragraph Card -->
+                    <div class="col-12">
+                        <partial name="_FightParagraph" />
+                    </div><!-- End Paragraph Card -->
                 </div>
+            </div>
         }
         <!-- End Left side columns -->
         <!-- Right side columns -->
-        <div class="col-lg-4"> 
-            <partial name="_CurrentCharacter" model="@Model.CurrentCharacter" /> 
+        <div class="col-lg-4">
+            <partial name="_CurrentCharacter" model="@Model.CurrentCharacter" />
         </div>
         <!-- End Right side columns -->
     </div>
     <div class="row">
-        <partial name="_CurrentCharacterInventory" model ="@Model.CurrentCharacter"/>
+        <partial name="_CurrentCharacterInventory" model="@Model.CurrentCharacter" />
     </div>
-    
+
 </section>
