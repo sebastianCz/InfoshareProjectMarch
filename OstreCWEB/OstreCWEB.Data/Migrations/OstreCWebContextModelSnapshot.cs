@@ -709,10 +709,10 @@ namespace OstreCWEB.Data.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
-                    b.Property<int>("ParagraphId")
+                    b.Property<int>("AbilityScores")
                         .HasColumnType("int");
 
-                    b.Property<int>("Skill")
+                    b.Property<int>("ParagraphId")
                         .HasColumnType("int");
 
                     b.Property<int>("TestDifficulty")

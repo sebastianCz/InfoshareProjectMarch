@@ -392,7 +392,7 @@ namespace OstreCWEB.Data.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Skill = table.Column<int>(type: "int", nullable: false),
+                    AbilityScores = table.Column<int>(type: "int", nullable: false),
                     TestDifficulty = table.Column<int>(type: "int", nullable: false),
                     ParagraphId = table.Column<int>(type: "int", nullable: false)
                 },
@@ -429,6 +429,31 @@ namespace OstreCWEB.Data.Migrations
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_UserParagraphs_Paragraphs_ParagraphId",
+                        column: x => x.ParagraphId,
+                        principalTable: "Paragraphs",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "ParagraphItems",
+                columns: table => new
+                {
+                    ItemId = table.Column<int>(type: "int", nullable: false),
+                    ParagraphId = table.Column<int>(type: "int", nullable: false),
+                    AmountOfItems = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ParagraphItems", x => new { x.ItemId, x.ParagraphId });
+                    table.ForeignKey(
+                        name: "FK_ParagraphItems_Items_ItemId",
+                        column: x => x.ItemId,
+                        principalTable: "Items",
+                        principalColumn: "ItemId",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_ParagraphItems_Paragraphs_ParagraphId",
                         column: x => x.ParagraphId,
                         principalTable: "Paragraphs",
                         principalColumn: "Id",
@@ -680,6 +705,11 @@ namespace OstreCWEB.Data.Migrations
                 column: "ItemId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_ParagraphItems_ParagraphId",
+                table: "ParagraphItems",
+                column: "ParagraphId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Paragraphs_StoryId",
                 table: "Paragraphs",
                 column: "StoryId");
@@ -743,6 +773,9 @@ namespace OstreCWEB.Data.Migrations
 
             migrationBuilder.DropTable(
                 name: "ItemsCharactersRelation");
+
+            migrationBuilder.DropTable(
+                name: "ParagraphItems");
 
             migrationBuilder.DropTable(
                 name: "ShopkeeperProps");
