@@ -10,6 +10,8 @@ using OstreCWEB.Data.Repository.Identity;
 using OstreCWEB.Data.Repository.ManyToMany;
 using OstreCWEB.Services.Factory;
 using System.Security.Principal;
+using static System.Net.Mime.MediaTypeNames;
+
 namespace OstreCWEB.Services.Fight
 {
     internal class FightService : IFightService
@@ -80,11 +82,11 @@ namespace OstreCWEB.Services.Fight
                 }
 
             }
-            if (_activeFightInstance.IsItemToDelete)
+            if (_activeFightInstance.ActionGrantedByItem && _activeFightInstance.IsItemToDelete)
             {
             _fightRepository.DeleteLinkedItem(_activeFightInstance, _activeFightInstance.ItemToDeleteId);
             }
-            if (!_activeFightInstance.ActionGrantedByItem && _activeFightInstance.ActiveAction.ActionType != CharacterActionType.Cantrip && _activeFightInstance.ActiveAction.ActionType != CharacterActionType.SpecialAction)
+            if (!_activeFightInstance.ActionGrantedByItem && _activeFightInstance.ActiveAction.ActionType != CharacterActionType.Cantrip )
             {
                 _activeFightInstance.ActivePlayer.LinkedActions.First(a => a.CharacterAction.CharacterActionId == _activeFightInstance.ActiveAction.CharacterActionId).UsesLeftBeforeRest--; 
             }
@@ -142,31 +144,17 @@ namespace OstreCWEB.Services.Fight
                 ApplyAction(_activeFightInstance.ActivePlayer, enemy, enemyAction);
             }  
         }
-        public FightInstance GetFightState(string userId,int characterId)
-        {
-            //We should return a fight state object instead :TODO 
-            return _fightRepository.GetById(userId, characterId);
-        }
-        public Character GetActiveTarget()
-        {
-            return _activeFightInstance.ActiveTarget;
-        }
-        public CharacterAction GetActiveActions()
-        {
-            return _activeFightInstance.ActiveAction;
-        }
+        public FightInstance GetFightState(string userId,int characterId) => _fightRepository.GetById(userId, characterId);
+
+        public Character GetActiveTarget() => _activeFightInstance.ActiveTarget;
+        public CharacterAction GetActiveActions() => _activeFightInstance.ActiveAction;
         public void UpdateActiveAction(CharacterAction action)
         {
             _activeFightInstance.ActiveAction = action;
         }
-        private PlayableCharacter GetActivePlayer()
-        {
-            return _activeFightInstance.ActivePlayer;
-        }
-        private int UpdateTurnNumber(int turnNumber)
-        {
-            return turnNumber += 1;
-        }
+        private PlayableCharacter GetActivePlayer() =>  _activeFightInstance.ActivePlayer;
+        private int UpdateTurnNumber(int turnNumber) => turnNumber += 1;
+
         private List<string> UpdateFightHistory(List<string> FightHistory, string message)
         {
             FightHistory.Add(message);
@@ -263,7 +251,15 @@ namespace OstreCWEB.Services.Fight
                 updateValue = updateValue / 2;
             }
 
-            target.CurrentHealthPoints = target.CurrentHealthPoints + updateValue;
+            if (target.CurrentHealthPoints < target.MaxHealthPoints)
+            {
+                target.CurrentHealthPoints = target.CurrentHealthPoints + updateValue;
+                if (target.CurrentHealthPoints > target.MaxHealthPoints)
+                {
+                    target.CurrentHealthPoints = target.MaxHealthPoints;
+                }
+            }
+     
 
             return updateValue;
         }

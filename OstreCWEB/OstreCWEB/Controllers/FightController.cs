@@ -82,6 +82,7 @@ namespace OstreCWEB.Controllers
         {
             var activeGameInstance = await _userParagraphRepository.GetActiveByUserIdNoTrackingAsync(_userService.GetUserId(User));
             var activeFightInstance = _fightService.GetActiveFightInstance(_userService.GetUserId(User), activeGameInstance.ActiveCharacter.CharacterId);
+            activeFightInstance.ActionGrantedByItem = false;
             _fightService.UpdateActiveAction(_fightService.ChooseAction(id));
                 //We reset active target since each action can target different types of targets.
                 _fightService.ResetActiveTarget();
