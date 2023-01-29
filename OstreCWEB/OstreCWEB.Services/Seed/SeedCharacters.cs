@@ -4,6 +4,7 @@ using OstreCWEB.Data.InitialData;
 using OstreCWEB.Data.Repository.Characters.CharacterModels;
 using OstreCWEB.Data.Repository.Characters.Enums;
 using OstreCWEB.Data.Repository.Characters.MetaTags;
+using OstreCWEB.Data.Repository.Fight.Enums;
 using OstreCWEB.Data.Repository.Identity;
 using OstreCWEB.Services.Identity;
 
@@ -29,16 +30,18 @@ internal class SeedCharacters : ISeeder
          await Seed();
     } 
     private async Task Seed()
-    { 
+    {
         var statuses = new List<Status>
         {
             new Status
-            { 
+            {
+                StatusType = StatusType.Blind,
                 Name="Blind",
                 Description = "Blinds the character making him less accurate" 
             },
             new Status
             {
+                StatusType = StatusType.Bless,
                 Name="Bless",
                 Description="Character is blessed. It has a bonus 1d4 to every roll"
             }
@@ -126,7 +129,7 @@ internal class SeedCharacters : ISeeder
             },
                     new CharacterAction
             {
-                ActionName = "Magic Missiles",
+                ActionName = " s",
                 ActionDescription = "Throws magic missiles at the enmy",
                 ActionType = CharacterActionType.Spell,
                         SavingThrowPossible = true,

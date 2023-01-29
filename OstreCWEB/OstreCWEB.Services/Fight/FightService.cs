@@ -1,24 +1,21 @@
 ﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using OstreCWEB.Data.DataBase;
 using OstreCWEB.Data.DataBase.ManyToMany;
 using OstreCWEB.Data.Factory;
 using OstreCWEB.Data.Repository.Characters.CharacterModels;
 using OstreCWEB.Data.Repository.Characters.Enums;
 using OstreCWEB.Data.Repository.Characters.Interfaces;
 using OstreCWEB.Data.Repository.Fight;
-using OstreCWEB.Data.Repository.Identity;
+using OstreCWEB.Data.Repository.Fight.Enums;
 using OstreCWEB.Data.Repository.ManyToMany;
 using OstreCWEB.Services.Factory;
+using System;
 using System.Security.Claims;
-using System.Security.Principal;
-using static System.Net.Mime.MediaTypeNames;
 
 namespace OstreCWEB.Services.Fight
 {
     internal class FightService : IFightService
     {
-        private IFightRepository _fightRepository; 
+        private IFightRepository _fightRepository;
         private FightInstance _activeFightInstance;
         private IFightFactory _fightFactory;
         private IUserParagraphRepository _userParagraphRepository;
@@ -34,21 +31,21 @@ namespace OstreCWEB.Services.Fight
             IPlayableCharacterRepository playableCharacterRepository,
             IHttpContextAccessor httpContextAccessor
             )
-        {  
-            _fightRepository = fightRepository;   
+        {
+            _fightRepository = fightRepository;
             _fightFactory = fightFactory;
             _userParagraphRepository = userParagraphRepository;
             _characterFactory = characterFactory;
             _playableCharacterRepository = playableCharacterRepository;
-            _httpContextAccessor = httpContextAccessor; 
+            _httpContextAccessor = httpContextAccessor;
         }
-        public FightInstance GetActiveFightInstance(string userId,int characterId)
+        public FightInstance GetActiveFightInstance(string userId, int characterId)
         {
             var httpUserId = _httpContextAccessor.HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value;
             _activeFightInstance = _fightRepository.GetById(userId, characterId);
             return _activeFightInstance;
         }
-        
+
         public bool ValidateFightInstanceModel(FightInstance model)
         {
             if (model.ActivePlayer != null)
@@ -60,26 +57,26 @@ namespace OstreCWEB.Services.Fight
         }
 
 
-        public async Task InitializeFightAsync(string userId,UserParagraph gameInstance)
-        {  
-            if(_activeFightInstance != null) { throw new Exception("Fight already initialized");}   
+        public async Task InitializeFightAsync(string userId, UserParagraph gameInstance)
+        {
+            if (_activeFightInstance != null) { throw new Exception("Fight already initialized"); }
 
-            if(gameInstance != null && gameInstance.Paragraph.FightProp != null)
+            if (gameInstance != null && gameInstance.Paragraph.FightProp != null)
             {
                 var fightInstance = _fightFactory.BuildNewFightInstance(gameInstance, _characterFactory.CreateEnemiesInstances(gameInstance.Paragraph.FightProp.ParagraphEnemies).Result);
-                fightInstance.FightHistory.Add("Fight initialized"); 
+                fightInstance.FightHistory.Add("Fight initialized");
                 _fightRepository.Add(userId, fightInstance, out string operationResult);
             }
             else
             {
                 throw new Exception("Fight initialization failed. Game instance doesn't exist or active paragraph is not a fight");
-            } 
+            }
         }
         public async Task CommitAction(string userId)
         {
             _activeFightInstance.PlayerActionCounter--;
             ApplyAction(_activeFightInstance.ActiveTarget, _activeFightInstance.ActivePlayer, _activeFightInstance.ActiveAction);
-            
+
             if (_activeFightInstance.ActiveTarget.CombatId != 1)
             {
                 if (_activeFightInstance.ActiveTarget.CurrentHealthPoints <= 0)
@@ -87,20 +84,20 @@ namespace OstreCWEB.Services.Fight
                     _activeFightInstance.ActiveEnemies.Remove((Enemy)GetActiveTarget());
                     _activeFightInstance.ActiveTarget = null;
                 }
-
             }
             if (_activeFightInstance.ActionGrantedByItem && _activeFightInstance.IsItemToDelete)
             {
-            _fightRepository.DeleteLinkedItem(_activeFightInstance, _activeFightInstance.ItemToDeleteId);
+                _fightRepository.DeleteLinkedItem(_activeFightInstance, _activeFightInstance.ItemToDeleteId);
             }
-            if (!_activeFightInstance.ActionGrantedByItem && _activeFightInstance.ActiveAction.ActionType != CharacterActionType.Cantrip )
+            if (!_activeFightInstance.ActionGrantedByItem && _activeFightInstance.ActiveAction.ActionType != CharacterActionType.Cantrip)
             {
-                _activeFightInstance.ActivePlayer.LinkedActions.First(a => a.CharacterAction.CharacterActionId == _activeFightInstance.ActiveAction.CharacterActionId).UsesLeftBeforeRest--; 
+                _activeFightInstance.ActivePlayer.LinkedActions.First(a => a.CharacterAction.CharacterActionId == _activeFightInstance.ActiveAction.CharacterActionId).UsesLeftBeforeRest--;
             }
-            var combatEnded = IsFightFinished(_activeFightInstance.ActiveEnemies, GetActivePlayer()); 
-            if (combatEnded) {
+            var combatEnded = IsFightFinished(_activeFightInstance.ActiveEnemies, GetActivePlayer());
+            if (combatEnded)
+            {
                 var fightWon = IsFightWon(_activeFightInstance.ActivePlayer);
-                FinishFight(fightWon);  
+                FinishFight(fightWon);
             }
             else
             {
@@ -109,9 +106,9 @@ namespace OstreCWEB.Services.Fight
                 {
                     _activeFightInstance.PlayerActionCounter = 2;
                     StartAiTurn();
-                } 
-            } 
-        } 
+                }
+            }
+        }
         public List<string> ReturnHistory() => _activeFightInstance.FightHistory;
         public void UpdateActiveTarget(Character character)
         {
@@ -147,17 +144,16 @@ namespace OstreCWEB.Services.Fight
                 var result = random.Next(0, enemy.AllAvailableActions.Count());
                 var enemyAction = enemy.AllAvailableActions[result];
                 ApplyAction(_activeFightInstance.ActivePlayer, enemy, enemyAction);
-            }  
+            }
         }
-        public FightInstance GetFightState(string userId,int characterId) => _fightRepository.GetById(userId, characterId);
-
+        public FightInstance GetFightState(string userId, int characterId) => _fightRepository.GetById(userId, characterId);
         public Character GetActiveTarget() => _activeFightInstance.ActiveTarget;
         public CharacterAction GetActiveActions() => _activeFightInstance.ActiveAction;
         public void UpdateActiveAction(CharacterAction action)
         {
             _activeFightInstance.ActiveAction = action;
         }
-        private PlayableCharacter GetActivePlayer() =>  _activeFightInstance.ActivePlayer;
+        private PlayableCharacter GetActivePlayer() => _activeFightInstance.ActivePlayer;
         private int UpdateTurnNumber(int turnNumber) => turnNumber += 1;
 
         private List<string> UpdateFightHistory(List<string> FightHistory, string message)
@@ -165,9 +161,16 @@ namespace OstreCWEB.Services.Fight
             FightHistory.Add(message);
             return FightHistory;
         }
+
         private void ApplyAction(Character target, Character caster, CharacterAction action)
         {
-            //TODO: APPLY STATUS 
+            if (action.ActionType == CharacterActionType.WeaponAttack)
+            {
+
+            }
+
+
+
             if (action.SavingThrowPossible)
             {
                 var damage = 0;
@@ -177,6 +180,7 @@ namespace OstreCWEB.Services.Fight
                 {
                     ApplyStatus(target, action.Status);
                 }
+
                 _activeFightInstance.FightHistory = UpdateFightHistory(_activeFightInstance.FightHistory,
                        $" {target.CharacterName} lost {damage} healthpoints, current healthpoints {target.CurrentHealthPoints}," +
                        $" due to {caster.CharacterName} using {action.ActionName}" +
@@ -189,6 +193,7 @@ namespace OstreCWEB.Services.Fight
 
                 if (action.AggressiveAction)
                 {
+                    var tryToHit = TryToHit()
                     var damage = ApplyDamage(target, action, savingThrow);
 
                     if (IsTargetAlive(target))
@@ -213,6 +218,73 @@ namespace OstreCWEB.Services.Fight
                 }
             }
         }
+
+        private bool IsTargetHit(Character caster, Character target, CharacterAction action)
+        {
+            var casterMod = CheckStatForHit(caster, action);
+            var targetArmor = CheckArmor(target);
+            if (targetArmor > casterMod) return false;
+            else return true;
+
+        }
+
+        private int CheckStatForHit(Character caster, CharacterAction action)
+        {
+            var castertMod = 0;
+            var castertRoll = 0;
+
+            switch (action.StatForTest)
+            {
+                case Statistics.Strenght:
+                    castertMod = CalculateModifier(caster.Strenght);
+                    castertRoll = DiceThrow(20) + castertMod;
+                    return castertRoll;
+
+                case Statistics.Intelligence:
+                    castertMod = CalculateModifier(caster.Intelligence);
+                    castertRoll = DiceThrow(20) + castertMod;
+                    return castertRoll;
+
+                case Statistics.Constitution:
+                    castertMod = CalculateModifier(caster.Constitution);
+                    castertRoll = DiceThrow(20) + castertMod;
+                    return castertRoll;
+
+                case Statistics.Wisdom:
+                    castertMod = CalculateModifier(caster.Wisdom);
+                    castertRoll = DiceThrow(20) + castertMod;
+                    return castertRoll;
+
+                case Statistics.Dexterity:
+                    castertMod = CalculateModifier(caster.Dexterity);
+                    castertRoll = DiceThrow(20) + castertMod;
+                    return castertRoll;
+
+                case Statistics.Charisma:
+                    castertMod = CalculateModifier(caster.Charisma);
+                    castertRoll = DiceThrow(20) + castertMod;
+                    return castertRoll;
+
+                default:
+                    return 0;
+            }
+        }
+
+        private int CheckArmor(Character target)
+        {
+            int? armor = 0;
+            foreach (var item in target.LinkedItems)
+            {
+                if (item.IsEquipped)
+                {
+                    if (item.Item.ItemType == ItemType.Armor || item.Item.ItemType == ItemType.Shield)
+                    {
+                        armor = armor + item.Item.ArmorClass;
+                    }                  
+                }
+            }
+            return (int)armor;
+        }
         private bool IsTargetAlive(Character target)
         {
             if (target.MaxHealthPoints <= 0) { return false; }
@@ -234,6 +306,8 @@ namespace OstreCWEB.Services.Fight
                 updateValue += DiceThrow(actions.Max_Dmg);
             }
             updateValue += actions.Flat_Dmg;
+
+
             if (actions.SavingThrowPossible && savingThrow)
             {
                 updateValue = updateValue / 2;
@@ -264,7 +338,7 @@ namespace OstreCWEB.Services.Fight
                     target.CurrentHealthPoints = target.MaxHealthPoints;
                 }
             }
-     
+
 
             return updateValue;
         }
@@ -370,7 +444,7 @@ namespace OstreCWEB.Services.Fight
 
         public async Task RemoveItem()
         {
-            var itemToDelete = _activeFightInstance.ItemToDeleteId;   
+            var itemToDelete = _activeFightInstance.ItemToDeleteId;
             _fightRepository.DeleteLinkedItem(_activeFightInstance, itemToDelete);
         }
 
@@ -379,7 +453,7 @@ namespace OstreCWEB.Services.Fight
             _activeFightInstance.ItemToDeleteId = id;
         }
         public async Task DeleteFightInstanceAsync(string userId)
-        { 
+        {
             _fightRepository.Delete(userId, _activeFightInstance.ActivePlayer.CharacterId, out string operationResult);
         }
     }

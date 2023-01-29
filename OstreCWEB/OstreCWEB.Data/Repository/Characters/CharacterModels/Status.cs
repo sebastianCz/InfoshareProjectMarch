@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using OstreCWEB.Data.Repository.Fight.Enums;
+using System.ComponentModel.DataAnnotations;
 
 namespace OstreCWEB.Data.Repository.Characters.CharacterModels
 {
@@ -11,5 +12,6 @@ namespace OstreCWEB.Data.Repository.Characters.CharacterModels
         //
         public string Name { get; set; }
         public string Description { get; set; }
+        public StatusType StatusType { get; set; }
     }
 }
