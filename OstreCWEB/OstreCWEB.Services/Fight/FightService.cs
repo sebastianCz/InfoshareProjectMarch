@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using OstreCWEB.Data.DataBase;
 using OstreCWEB.Data.DataBase.ManyToMany;
 using OstreCWEB.Data.Factory;
@@ -9,6 +10,7 @@ using OstreCWEB.Data.Repository.Fight;
 using OstreCWEB.Data.Repository.Identity;
 using OstreCWEB.Data.Repository.ManyToMany;
 using OstreCWEB.Services.Factory;
+using System.Security.Claims;
 using System.Security.Principal;
 namespace OstreCWEB.Services.Fight
 {
@@ -19,13 +21,16 @@ namespace OstreCWEB.Services.Fight
         private IFightFactory _fightFactory;
         private IUserParagraphRepository _userParagraphRepository;
         private ICharacterFactory _characterFactory;
-        private readonly IPlayableCharacterRepository _playableCharacterRepository; 
+        private readonly IPlayableCharacterRepository _playableCharacterRepository;
+        private readonly IHttpContextAccessor _httpContextAccessor;
+
         public FightService(
             IFightRepository fightRepository,
             IFightFactory fightFactory,
             IUserParagraphRepository userParagraphRepository,
             ICharacterFactory characterFactory,
-            IPlayableCharacterRepository playableCharacterRepository
+            IPlayableCharacterRepository playableCharacterRepository,
+            IHttpContextAccessor httpContextAccessor
             )
         {  
             _fightRepository = fightRepository;   
@@ -33,9 +38,11 @@ namespace OstreCWEB.Services.Fight
             _userParagraphRepository = userParagraphRepository;
             _characterFactory = characterFactory;
             _playableCharacterRepository = playableCharacterRepository;
+            _httpContextAccessor = httpContextAccessor; 
         }
         public FightInstance GetActiveFightInstance(string userId,int characterId)
         {
+            var httpUserId = _httpContextAccessor.HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value;
             _activeFightInstance = _fightRepository.GetById(userId, characterId);
             return _activeFightInstance;
         }
@@ -91,9 +98,7 @@ namespace OstreCWEB.Services.Fight
             var combatEnded = IsFightFinished(_activeFightInstance.ActiveEnemies, GetActivePlayer()); 
             if (combatEnded) {
                 var fightWon = IsFightWon(_activeFightInstance.ActivePlayer);
-                FinishFight(fightWon);
-     
-               
+                FinishFight(fightWon);  
             }
             else
             {

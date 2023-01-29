@@ -1,9 +1,4 @@
-﻿using OstreCWEB.Data.Repository.Characters.CharacterModels;
-using OstreCWEB.Data.Repository.Identity;
-using System.Collections.Generic;
-using System.Diagnostics;
-
-namespace OstreCWEB.Data.Repository.Fight
+﻿namespace OstreCWEB.Data.Repository.Fight
 {
     internal  class FightRepository : IFightRepository
     {
