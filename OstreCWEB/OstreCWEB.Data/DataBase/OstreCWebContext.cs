@@ -15,6 +15,7 @@ namespace OstreCWEB.Data.DataBase
         public DbSet<ActionCharacter> ActionCharactersRelation { get; set; }
         public DbSet<ItemCharacter> ItemsCharactersRelation { get; set; }
         public DbSet<UserParagraph> UserParagraphs { get; set; }
+        public DbSet<ParagraphItem> ParagraphItems { get; set; }
 
         //User
         public DbSet<User> Users { get; set; }
@@ -58,6 +59,7 @@ namespace OstreCWEB.Data.DataBase
             ConfigureUsersParagraphs(builder);
             ConfigureManyToMany(builder);
             ConfigureUser(builder);
+            ConfigureParagraphItems(builder);
         }
         private void ConfigureUser(ModelBuilder builder)
         {
@@ -202,6 +204,20 @@ namespace OstreCWEB.Data.DataBase
             builder.Entity<UserParagraph>()
                 .HasOne(x => x.Paragraph)
                 .WithMany(x => x.UserParagraphs);  
+        }
+
+        private void ConfigureParagraphItems(ModelBuilder builder)
+        {
+            builder.Entity<ParagraphItem>()
+                .HasKey(x => new { x.ItemId, x.ParagraphId });
+
+            builder.Entity<ParagraphItem>()
+                .HasOne(x => x.Item)
+                .WithMany(x => x.ParagraphItems);
+
+            builder.Entity<ParagraphItem>()
+                .HasOne(x => x.Paragraph)
+                .WithMany(x => x.paragraphItems);
         }
     } 
 }     

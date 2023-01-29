@@ -1,5 +1,6 @@
 ﻿using OstreCWEB.Data.DataBase;
 using OstreCWEB.Data.Repository.Characters.MetaTags;
+using OstreCWEB.Data.Repository.StoryModels;
 
 namespace OstreCWEB.Data.Repository.ManyToMany
 {
@@ -11,9 +12,11 @@ namespace OstreCWEB.Data.Repository.ManyToMany
         {
             _context = context;
         }
-        public Task<ItemCharacter> Create()
+
+        public async Task AddRange(List<ItemCharacter> itemsCharacter)
         {
-            throw new NotImplementedException();
+            _context.ItemsCharactersRelation.AddRange(itemsCharacter);
+            await _context.SaveChangesAsync();
         }
 
         public Task<ItemCharacter> Delete()

@@ -1,4 +1,5 @@
 ﻿using OstreCWEB.Data.DataBase;
+using OstreCWEB.Data.DataBase.ManyToMany;
 using OstreCWEB.Data.Repository.Characters.Enums;
 using OstreCWEB.Data.Repository.Identity;
 using OstreCWEB.Data.Repository.StoryModels;
@@ -60,6 +61,15 @@ namespace OstreCWEB.Data.InitialData
                                 {
                                     ChoiceText = "Next",
                                     NextParagraphId = 4
+                                }
+                            },
+                            paragraphItems = new List<ParagraphItem>
+                            {
+                                new ParagraphItem
+                                {
+                                    AmountOfItems = 2,
+                                    ItemId = 2,
+                                    ParagraphId = 3
                                 }
                             }
                         },
