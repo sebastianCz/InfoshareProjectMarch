@@ -58,6 +58,10 @@ namespace OstreCWEB.Services.Characters
         {
             return _playableCharacterRepository.GetAllRaces();
         }
+        public List<PlayableClass> GetAllClasses()
+        {
+            return _playableCharacterRepository.GetAllClasses();
+        }
         public void RollAttributes(PlayableCharacter model)
         {
             _playableCharacterRepository.RollAttributes(model);

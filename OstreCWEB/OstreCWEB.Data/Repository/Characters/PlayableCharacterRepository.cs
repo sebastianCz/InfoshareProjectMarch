@@ -74,6 +74,10 @@ namespace OstreCWEB.Data.Repository.Characters
         {
             return _db.PlayableCharacterRaces.ToList();
         }
+        public List<PlayableClass> GetAllClasses()
+        {
+            return _db.PlayableCharacterClasses.ToList();
+        }
 
         public void Update(PlayableCharacter model, string operation, AbilityScores attribute)
         {

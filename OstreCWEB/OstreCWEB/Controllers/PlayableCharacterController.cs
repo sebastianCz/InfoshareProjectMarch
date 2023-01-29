@@ -85,12 +85,47 @@ namespace OstreCWEB.Controllers
 
         public ActionResult SetRace()
         {
-            return View();
+            var racesDictionary = new Dictionary<int, string>();
+            var modelCharacterList = _playableCharacterService.GetAllRaces();
+
+            foreach (var race in modelCharacterList)
+            {
+                racesDictionary.Add(race.PlayableRaceId, race.RaceName);
+            }
+
+            var model = new PlayableCharacterCreateView();
+            model.CharacterRaces = racesDictionary;
+
+            return View(model);
         }
-        public ActionResult SetClass()
+
+        public ActionResult SetClass(int RaceId)
         {
-            return View();
+            var model = new PlayableCharacterCreateView();
+            model.RaceId = RaceId;
+
+            var classesDictionary = new Dictionary<int, string>();
+            var modelCharacterList = _playableCharacterService.GetAllClasses();
+
+            foreach (var charClass in modelCharacterList)
+            {
+                classesDictionary.Add(charClass.PlayableClassId, charClass.ClassName);
+            }
+
+            model.CharacterClasses = classesDictionary;
+            return View(model);
         }
+
+        public ActionResult SetAttributes(int PlayableClassId, int RaceId)
+        {
+            var model = new PlayableCharacterCreateView();
+            model.PlayableClassId = PlayableClassId;
+            model.RaceId = RaceId;
+            ViewBag.RaceId = model.RaceId;
+            ViewBag.XClassId = model.PlayableClassId;
+            return View(model);
+        }
+
         public ActionResult Summary()
         {
             return View();

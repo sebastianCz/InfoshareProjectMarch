@@ -1,6 +1,49 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
+﻿@model OstreCWEB.ViewModel.Characters.PlayableCharacterCreateView
+
 @{
+    ViewData["Title"] = "Create";
 }
-<h1>Choose your race</h1>
+
+<h1>Create</h1>
+
+<hr />
+
+<div class="row">
+    <div class="col-md-4 ">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="p-3 bg-opacity-75 border border-warning-subtle rounded-top" style="background: radial-gradient(circle at -4% -12.9%, rgb(90, 98, 110) 0.3%, rgb(33, 31, 33) 90.2%);
+                color:goldenrod; text-align:center">
+                <h2>Hero Race</h2>
+            </div>
+            <div class="p-3 bg-warning bg-opacity-75 border border-warning-subtle rounded-top" style="background: #eee; box-shadow: 0 8px 8px -4px black;">            
+                <div class="form-group">
+                    <label asp-for="RaceId" class="control-label"></label>
+                    @Html.DropDownListFor(m => m.RaceId, new SelectList(Model.CharacterRaces,"Key","Value"),
+                        " Please select race ",
+                        new {
+                            @class = "form-control"
+                        })
+                    <span asp-validation-for="RaceId" class="text-danger"></span>
+                </div>
+            </div>            
+                <div class="form-group">
+                    <input type="submit" value="Create" class="btn" asp-action="SetClass" asp-controller="PlayableCharacter" />
+                </div>
+        </form>
+    </div>
+</div>
+
+@using (Html.BeginForm("SetClass", "PlayableCharacter", FormMethod.Post))
+{
+    foreach (var race in Model.CharacterRaces)
+    {
+                <input type="radio" name="RaceId" value="@race.Key"/> @race.Value
+                <br />
+    }
+        <input type="submit" value="Next" />
+}
+
+<div>
+    <a asp-action="Index" asp-controller="Home" class="btn btn-danger" onclick="return confirm('Are you sure you want to quit from character creator?');">Race</a>
+</div>

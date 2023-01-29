@@ -20,6 +20,7 @@ namespace OstreCWEB.Services.Characters
         #region
         public void CreateNew(PlayableCharacter model);
         public List<PlayableRace> GetAllRaces();
+        public List<PlayableClass> GetAllClasses();
         public void RollAttributes(PlayableCharacter model);
 
 
