@@ -141,6 +141,7 @@ namespace OstreCWEB.Services.Game
         public async Task EquipItemAsync(int itemRelationId, string userId)
         {
             var gameInstance = await _userParagraphRepository.GetActiveByUserIdAsync(userId);
+            //Add spaghetti code to find out if given item can be equipped! 
             gameInstance.ActiveCharacter.LinkedItems.SingleOrDefault(x => x.Id == itemRelationId).IsEquipped = true;
             await _userParagraphRepository.SaveChangesAsync();
         } 
