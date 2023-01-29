@@ -55,7 +55,7 @@ namespace OstreCWEB.Controllers
             if (model.CurrentParagraph.ParagraphType == ParagraphType.Test)
             {
                 model.TestParagraphView = new TestParagraphView();
-                model.TestParagraphView.Description = $"Roll the dice for {userParagraph.Paragraph.TestProp.Skill}";
+                model.TestParagraphView.Description = $"Roll the dice for {userParagraph.Paragraph.TestProp.AbilityScores}";
                 if (_httpContextAccessor.HttpContext.Request.Cookies.Any())
                 {
                     var throwCookies = _httpContextAccessor.HttpContext.Request.Cookies.Where(c => c.Key == "Throw");

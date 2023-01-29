@@ -7,7 +7,7 @@ namespace OstreCWEB.ViewModel.StoryBuilder.Properties
     {
         public int Id { get; set; }
 
-        public Skills Skill { get; set; }
+        public AbilityScores AbilityScores { get; set; }
         public TestDifficulty TestDifficulty { get; set; }
     }
 }

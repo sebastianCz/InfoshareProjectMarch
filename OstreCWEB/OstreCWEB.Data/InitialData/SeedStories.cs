@@ -99,7 +99,7 @@ namespace OstreCWEB.Data.InitialData
                             StageDescription = "Perception test to see goblins",
                             TestProp = new TestProp
                             {
-                                Skill = Skills.Perception,
+                                AbilityScores = AbilityScores.Wisdom,
                                 TestDifficulty = TestDifficulty.Easy
                             },
                             Choices = new List<Choice>
