@@ -12,7 +12,7 @@ using OstreCWEB.Data.DataBase;
 namespace OstreCWEB.Data.Migrations
 {
     [DbContext(typeof(OstreCWebContext))]
-    [Migration("20230125090111_Initial")]
+    [Migration("20230129125054_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -170,6 +170,9 @@ namespace OstreCWEB.Data.Migrations
 
                     b.Property<int>("ParagraphId")
                         .HasColumnType("int");
+
+                    b.Property<bool>("Rest")
+                        .HasColumnType("bit");
 
                     b.Property<string>("UserId")
                         .IsRequired()
@@ -556,6 +559,9 @@ namespace OstreCWEB.Data.Migrations
 
                     b.Property<int>("ParagraphType")
                         .HasColumnType("int");
+
+                    b.Property<bool>("RestoreRest")
+                        .HasColumnType("bit");
 
                     b.Property<string>("StageDescription")
                         .IsRequired()

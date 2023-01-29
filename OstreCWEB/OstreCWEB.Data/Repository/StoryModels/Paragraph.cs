@@ -11,6 +11,7 @@ namespace OstreCWEB.Data.Repository.StoryModels
 
         public ParagraphType ParagraphType { get; set; }
         public string StageDescription { get; set; }
+        public bool RestoreRest { get; set; }
 
         // Paragraph type properties
         public FightProp? FightProp { get; set; }
