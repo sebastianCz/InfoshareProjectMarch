@@ -30,58 +30,48 @@
                                         <a  class="btn btn-danger" asp-route-id="@Model.ActivePlayer.CombatId" asp-action="SetActiveTarget">Target</a>
                                     }
                                 </div>
-                            </div>
 
+                </div>
                         </div>
                     </div>
                 </div>
                 <!--Turn state(center)-->
-                <div class="p-2 bg-warning">
-                    Chosen action:
-                    <br />
-                    
-                    @if (Model.ActiveAction != null)
+                <div class="p-2 bg-warning"> 
+                    @if (Model.CanShowActiveAction)
                     {
-                        @Model.ActiveAction.ActionName;
-        
-                        <br />
-                        <p>Possible Targets:</p>
-                        <br />
-                        @Model.ActiveAction.PossibleTarget
+                       <p>Chosen action: @Model.ActiveAction.ActionName</p> 
+                       <p> <label asp-for="@Model.ActiveAction.PossibleTarget"></label>  @(Model.ActiveAction.PossibleTarget == TargetType.Caster? "Yourself" : "Enemy")</p>    
                     }
                     else
                     {
                         <p>Choose an action to see possible targets</p>
-                    }
-                    <br />
-                    <p>Chosen Target:</p>
-                    <br />
-                    @if (Model.ActiveTarget != null && Model.ActiveTarget.CombatId != null)
+                    }  
+                    @if (Model.CanShowActiveTarget)
                     {
-                        @Model.ActiveTarget.CharacterName
-                    }
-                    <br />
-                    @if (Model.ActiveTarget != null && Model.ActiveTarget.CombatId != null && Model.ActiveTarget.CombatId != 0 && Model.ActiveAction != null)
-                    {
-
-                        <a  asp-action="CommitPlayerAction" >Commit Action</a>
+                     <p>Chosen Target:@Model.ActiveTarget.CharacterName</p>
+                    } 
+                    @if (Model.CanCommitAction)
+                    { 
+                       <a  asp-action="CommitPlayerAction" >Commit Action</a>
                     } 
                 </div>
                 <!--Available actions(right column)-->
-                <div class="p-2 flex-grow-1 bg-primary">
-                   
-                   
+                <div class="p-2 flex-grow-1 bg-primary"> 
                     <ul class="list-group list-group-horizontal-xl"> 
                       @if(Model.ActivePlayer.HasShowableActions)
                       {
                        <h5>Your abilities</h5>
                             @foreach (var action in @Model.ActivePlayer.LinkedActions)
                         {
-                            if(action.IsShowable)
+                            if(action.IsActionUsableInCombat)
                             {
                             <li class="list-group-item">
-                            <a class="btn btn-danger" asp-route-id="@action.CharacterAction.CharacterActionId" asp-action="SetActiveAction">@action.CharacterAction.ActionName <br />Uses left: @action.UsesLeftBeforeRest</a>
-                            </li>
+                            <a class="btn btn-danger" asp-route-id="@action.CharacterAction.CharacterActionId" asp-action="SetActiveAction">@action.CharacterAction.ActionName
+                                @if (action.CanShowUsesLeft) {
+                                    <p>Uses left: @action.UsesLeftBeforeRest</p>
+                                }
+                                </a>
+                        </li>
                             } 
                         }
                       }

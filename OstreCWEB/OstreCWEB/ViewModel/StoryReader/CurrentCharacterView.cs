@@ -27,7 +27,7 @@ namespace OstreCWEB.ViewModel.StoryReader
         { 
             get
             {
-                return LinkedItems.Where(i => i.IsEquipped == true).Count();
+                return LinkedItems.Where(i => !i.IsEquipped).Count();
             } 
         }
         public int CurrentHealthPercentage { get { return CalculateCurrentHealthPercentage(); } }
@@ -36,7 +36,7 @@ namespace OstreCWEB.ViewModel.StoryReader
         {
             return (CurrentHealthPoints*100)/ MaxHealthPoints;
         }
-        public bool HasShowableActions { get { return LinkedActions.Where(a => a.IsShowable).Count() > 0; } }
+        public bool HasShowableActions { get { return LinkedActions.Where(a => a.IsActionUsableInCombat).Count() > 0; } }
 
     }
 }
