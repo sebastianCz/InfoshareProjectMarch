@@ -84,7 +84,11 @@ namespace OstreCWEB.Services.Characters
             int sum = rolls.Take(3).Sum();
             return sum;
         }
-        private List<int> attributeList = new List<int>();
+
+        public async Task<string> GetClassNameById(int id)
+        {
+            return "error";
+        }
 
         #endregion
     }

@@ -26,15 +26,18 @@
                         })
                     <span asp-validation-for="RaceId" class="text-danger"></span>
                 </div>
-            </div>            
+            </div>
+            <br />
                 <div class="form-group">
-                    <input type="submit" value="Create" class="btn" asp-action="SetClass" asp-controller="PlayableCharacter" />
+                    <a asp-action="Index" asp-controller="Home" class="btn btn-danger" onclick="return confirm('Are you sure you want to quit from character creator?');">Back</a>
+                    <input type="submit" value="SetClass" class="btn" asp-action="SetClass" asp-controller="PlayableCharacter"
+                    style="background: radial-gradient(circle at -4% -12.9%, rgb(90, 98, 110) 0.3%, rgb(33, 31, 33) 90.2%);color:goldenrod; text-align:center"/>
                 </div>
         </form>
     </div>
 </div>
 
-@using (Html.BeginForm("SetClass", "PlayableCharacter", FormMethod.Post))
+@*@using (Html.BeginForm("SetClass", "PlayableCharacter", FormMethod.Post))
 {
     foreach (var race in Model.CharacterRaces)
     {
@@ -42,8 +45,6 @@
                 <br />
     }
         <input type="submit" value="Next" />
-}
+}*@
 
-<div>
-    <a asp-action="Index" asp-controller="Home" class="btn btn-danger" onclick="return confirm('Are you sure you want to quit from character creator?');">Race</a>
-</div>
+

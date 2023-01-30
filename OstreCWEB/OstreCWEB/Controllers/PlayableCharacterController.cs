@@ -26,43 +26,9 @@ namespace OstreCWEB.Controllers
         }
         public IActionResult Index()
         {
-            ViewBag.UserId = _userService.GetUserById(User);
             //var model = _playableCharacterService.GetAll();
             return View();
-        }
-        public ActionResult Create()
-        {
-            Random rnd = new Random();
-
-            ViewBag.classId = rnd.Next(1, 2);
-            ViewBag.Str = _playableCharacterService.RollDice();
-            ViewBag.Dex = _playableCharacterService.RollDice();
-            ViewBag.Con = _playableCharacterService.RollDice();
-            ViewBag.Int = _playableCharacterService.RollDice();
-            ViewBag.Wis = _playableCharacterService.RollDice();
-            ViewBag.Cha = _playableCharacterService.RollDice();
-            ViewBag.Sum = ViewBag.Str + ViewBag.Dex + ViewBag.Con + ViewBag.Int + ViewBag.Wis + ViewBag.Cha;
-
-
-            var racesDictionary = new Dictionary<int, string>();
-            var classesDictionary = new Dictionary<int, string>();
-
-            var modelCharacterList = _playableCharacterService.GetAllRaces();
-            //var modelCharacterList = _playableCharacterService.GetAllClasses();
-
-            foreach (var race in modelCharacterList)
-            {
-                racesDictionary.Add(race.PlayableRaceId, race.RaceName);
-            }
-            //foreach (var item in collection)
-            //{
-
-            //}
-            var model = new PlayableCharacterCreateView();
-            model.CharacterRaces = racesDictionary;
-            model.CharacterClasses = classesDictionary;
-            return View(model);
-        }        
+        }     
 
         // POST: CharacterCreatorController/Create
         [HttpPost]
@@ -71,17 +37,17 @@ namespace OstreCWEB.Controllers
         {
             try
             {
-
+                var playableCharacter = _mapper.Map<PlayableCharacter>(model);
+                playableCharacter.UserId = _userService.GetUserId(User);
+                _playableCharacterService.Create(playableCharacter);
+                return RedirectToAction(nameof(Index));
             }
             catch
             {
                 return View();
             }
             
-            var playableCharacter = _mapper.Map<PlayableCharacter>(model);
-            playableCharacter.UserId = _userService.GetUserId(User); 
-            _playableCharacterService.Create(playableCharacter);
-            return RedirectToAction(nameof(Index));
+
         }
 
         public ActionResult SetRace()
@@ -100,11 +66,8 @@ namespace OstreCWEB.Controllers
             return View(model);
         }
 
-        public ActionResult SetClass(int RaceId)
+        public ActionResult SetClass(PlayableCharacterCreateView model)
         {
-            var model = new PlayableCharacterCreateView();
-            model.RaceId = RaceId;
-
             var classesDictionary = new Dictionary<int, string>();
             var modelCharacterList = _playableCharacterService.GetAllClasses();
 
@@ -117,20 +80,52 @@ namespace OstreCWEB.Controllers
             return View(model);
         }
 
-        public ActionResult SetAttributes(int PlayableClassId, int RaceId)
+        public ActionResult SetAttributes(PlayableCharacterCreateView model)
         {
-            var model = new PlayableCharacterCreateView();
-            model.PlayableClassId = PlayableClassId;
-            model.RaceId = RaceId;
+            ViewBag.Str = _playableCharacterService.RollDice();
+            ViewBag.Dex = _playableCharacterService.RollDice();
+            ViewBag.Con = _playableCharacterService.RollDice();
+            ViewBag.Int = _playableCharacterService.RollDice();
+            ViewBag.Wis = _playableCharacterService.RollDice();
+            ViewBag.Cha = _playableCharacterService.RollDice();
+            ViewBag.Sum = ViewBag.Str + ViewBag.Dex + ViewBag.Con + ViewBag.Int + ViewBag.Wis + ViewBag.Cha;
+
             ViewBag.RaceId = model.RaceId;
             ViewBag.XClassId = model.PlayableClassId;
             return View(model);
         }
 
-        public ActionResult Summary()
+        public ActionResult SetName(PlayableCharacterCreateView model)
         {
+            ViewBag.RaceId = model.RaceId;
+            ViewBag.ClassId = model.PlayableClassId;
+            ViewBag.Str = model.Strenght;
+            ViewBag.Dex = model.Dexterity;
+            ViewBag.Con = model.Constitution;
+            ViewBag.Int = model.Intelligence;
+            ViewBag.Wis = model.Wisdom;
+            ViewBag.Cha = model.Charisma;
+
+            return View(model);
+        }
+
+        public ActionResult Summary(PlayableCharacterCreateView model)
+        {
+            ViewBag.RaceId = model.RaceId;
+            var raceName = _playableCharacterService.GetById(model.RaceId);
+            ViewBag.RaceName = raceName;
+            ViewBag.ClassId = model.PlayableClassId;
+            //ViewBag.ClassName = model.CharacterClass.ClassName;
+            ViewBag.Str = model.Strenght;
+            ViewBag.Dex = model.Dexterity;
+            ViewBag.Con = model.Constitution;
+            ViewBag.Int = model.Intelligence;
+            ViewBag.Wis = model.Wisdom;
+            ViewBag.Cha = model.Charisma;
+            ViewBag.Name = model.CharacterName;
             return View();
         }
+
         //public ActionResult ChangeValue(PlayableCharacter characterModel, string operation, AbilityScores attribute)
         //{
         //    var model = _playableCharacterService.GetAll();
@@ -142,7 +137,7 @@ namespace OstreCWEB.Controllers
         {
             //var model = _playableCharacterService.GetAll();
             _playableCharacterService.RollAttributes(model);
-            return RedirectToAction(nameof(Create));
+            return RedirectToAction(nameof(SetAttributes));
         }
 
 
