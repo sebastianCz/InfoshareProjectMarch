@@ -186,7 +186,8 @@ namespace OstreCWEB.Services.Fight
                            $" {target.CharacterName} lost {damage} healthpoints, current healthpoints {target.CurrentHealthPoints}," +
                            $" due to {caster.CharacterName} using {action.ActionName}" +
                            $" saving throw was {(savingThrow ? "successful" : "failed")}, " +
-                           GetLogCharacterIsBlind(caster));
+                           GetLogCharacterIsBlind(caster) +
+                           GetLogCharacterIsBlessed(caster));
                 }
                 else
                 {
@@ -203,22 +204,33 @@ namespace OstreCWEB.Services.Fight
                             _activeFightInstance.FightHistory = UpdateFightHistory(_activeFightInstance.FightHistory,
                            $" {target.CharacterName} lost {damage} healthpoints, current healthpoints {target.CurrentHealthPoints}," +
                            $" due to {caster.CharacterName}  using {action.ActionName}" +
-                           GetLogCharacterIsBlind(caster));
+                           GetLogCharacterIsBlind(caster) +
+                           GetLogCharacterIsBlessed(caster));
                         }
                         else
                         {
                             _activeFightInstance.FightHistory = UpdateFightHistory(_activeFightInstance.FightHistory,
                            $" {target.CharacterName} lost {damage} healthpoints, current healthpoints {target.CurrentHealthPoints}," +
                            $" due to {caster.CharacterName}  using {action.ActionName} and died" +
-                           GetLogCharacterIsBlind(caster));
+                           GetLogCharacterIsBlind(caster) +
+                           GetLogCharacterIsBlessed(caster));
                         }
                     }
                     else
                     {
+                        if (action.ActionName == "Bless")
+                        {
+                            _activeFightInstance.FightHistory = UpdateFightHistory(_activeFightInstance.FightHistory,
+                                                        $" {target.CharacterName} used bless on himself!");                                                
+                        }
+                        else
+                        {
                         var heal = ApplyHeal(target, action, savingThrow);
                         _activeFightInstance.FightHistory = UpdateFightHistory(_activeFightInstance.FightHistory,
                             $" {target.CharacterName} gained {heal} healthpoints, current healthpoints {target.MaxHealthPoints}," +
                             $" due to {caster.CharacterName}  using {action.ActionName}");
+                        }
+
                     }
                 }
                 
