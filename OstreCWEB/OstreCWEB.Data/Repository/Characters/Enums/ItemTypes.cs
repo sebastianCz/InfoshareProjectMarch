@@ -6,7 +6,6 @@
         Shield = 3, 
         TwoHandedWeapon = 4,
         SingleHandedWeapon = 5,
-        FinesseWeapon=6,
         SpecialItem=7 
     }
 }

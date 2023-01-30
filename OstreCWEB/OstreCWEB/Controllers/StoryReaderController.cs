@@ -118,7 +118,15 @@ namespace OstreCWEB.Controllers
         }
         public async Task<ActionResult> Equipitem(int id)
         {
-            await _gameService.EquipItemAsync(id, _userService.GetUserId(User));
+            try
+            {
+                await _gameService.EquipItemAsync(id, _userService.GetUserId(User));
+            }
+            catch(Exception ex)
+            {
+                _logger.LogError(ex.Message);
+            }
+           
             return RedirectToAction(nameof(Index));
         }
     }

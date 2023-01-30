@@ -48,12 +48,7 @@ internal class SeedCharacters : ISeeder
         {
             new PlayableRace
             {
-                RaceName = "Human",
-                //DefaultSkillsForClass = new List<Skill>
-                //{
-                //        Skill.acrobatics,
-                //        Skill.religion
-                //    },
+                RaceName = "Human", 
                 AmountOfSkillsToChoose = 1, 
             } 
         };
@@ -64,13 +59,19 @@ internal class SeedCharacters : ISeeder
             {
                 new PlayableClass
                 {
-                    ClassName = "Warrior",
+                    ClassName = "Fighter",
                     StrengthBonus=1,
                     ConstitutionBonus=1
                 },
                  new PlayableClass
                 {
-                    ClassName = "Mage",
+                    ClassName = "Wizard",
+                    StrengthBonus=0,
+                    IntelligenceBonus=1
+                },
+                   new PlayableClass
+                {
+                    ClassName = "Cleric",
                     StrengthBonus=0,
                     IntelligenceBonus=1
                 }
@@ -80,10 +81,10 @@ internal class SeedCharacters : ISeeder
             {
                  new CharacterAction
             {
-                ActionName = "Short Sword Attack",
+                ActionName = "1d6 attack",
                 ActionDescription = "Strikes the chosen character with your weapon",
                 ActionType = CharacterActionType.WeaponAttack,
-                SavingThrowPossible = true,
+                SavingThrowPossible = false,
                 Max_Dmg = 6,
                 Flat_Dmg = 1,
                 Hit_Dice_Nr = 1,
@@ -93,6 +94,22 @@ internal class SeedCharacters : ISeeder
                 AggressiveAction = true
                 
             },
+                          new CharacterAction
+            {
+                ActionName = "2d6 attack",
+                ActionDescription = "Strikes the chosen character with your weapon",
+                ActionType = CharacterActionType.WeaponAttack,
+                SavingThrowPossible = false,
+                Max_Dmg = 6,
+                Flat_Dmg = 2,
+                Hit_Dice_Nr = 2,
+                PossibleTarget = TargetType.Target,
+                InflictsStatus = false,
+                StatForTest = Statistics.Strenght,
+                AggressiveAction = true
+
+            },
+
                       new CharacterAction
             {
                 ActionName = "Fireball",
@@ -194,6 +211,12 @@ internal class SeedCharacters : ISeeder
                 new Item()
                 {
                     Name="Short Sword",
+                    ItemType =ItemType.SingleHandedWeapon,
+                    DeleteOnUse = false
+                },
+                 new Item()
+                {
+                    Name="Two Handed Sword",
                     ItemType =ItemType.TwoHandedWeapon,
                     DeleteOnUse = false
                 },
@@ -216,7 +239,7 @@ internal class SeedCharacters : ISeeder
                 {
                     Name="Heavy Armor",
                     ItemType = ItemType.Armor,
-                    ArmorClass = 2,
+                    ArmorClass = 16,
                     ArmorType = ArmorType.HeaveArmor, 
                     DeleteOnUse=false
                 },
@@ -224,7 +247,7 @@ internal class SeedCharacters : ISeeder
                 {
                     Name="Mage Robe",
                     ItemType = ItemType.Armor,
-                    ArmorClass = 1,
+                    ArmorClass = 10,
                     ArmorType= ArmorType.LightArmor,
                     DeleteOnUse = false
                 }
@@ -235,13 +258,28 @@ internal class SeedCharacters : ISeeder
                 {
                     CharacterName = "Goblin Archer",
                     NonPlayableRace = Races.Humanoid,
-                    MaxHealthPoints = 10,
-                    CurrentHealthPoints = 10,
+                    MaxHealthPoints = 8,
+                    CurrentHealthPoints = 8,
                     Level = 1,
                     Strenght = 10,
                     Dexterity =12,
                     Constitution=10,
                     Intelligence=8,
+                    Wisdom = 8,
+                    Charisma = 6,
+                     IsTemplate= true
+                },
+                  new Enemy
+                {
+                    CharacterName = "Orc",
+                    NonPlayableRace = Races.Humanoid,
+                    MaxHealthPoints = 15,
+                    CurrentHealthPoints = 15,
+                    Level = 1,
+                    Strenght = 15,
+                    Dexterity =12,
+                    Constitution=15,
+                    Intelligence=10,
                     Wisdom = 8,
                     Charisma = 6,
                      IsTemplate= true
@@ -309,73 +347,62 @@ internal class SeedCharacters : ISeeder
             Role = "admin"
 
         };
-        await _auth.RegisterAsync(register); 
-
-
-        //_db.UserRoles.Add(adminRole);
-
+        await _auth.RegisterAsync(register);  
         var users = await _identity.GetAll();
         _db.CharacterActions.AddRange(actions);
         _db.Statuses.AddRange(statuses);
         _db.PlayableCharacterRaces.AddRange(playableRaces);
         _db.PlayableCharacterClasses.AddRange(playableCharacterClasses);
-        _db.Items.AddRange(items);
+        _db.Items.AddRange(items); 
         _db.SaveChanges();
+        //adding actions to items
+        items.FirstOrDefault(i => i.Name.Contains("Two Handed Sword")).ActionToTrigger = actions.First(a => a.ActionName.Contains("2d6 attack"));
+        items.FirstOrDefault(i => i.Name.Contains("Short Sword")).ActionToTrigger = actions.FirstOrDefault(a => a.ActionName.Contains("1d6 attack"));
+        items.FirstOrDefault(i => i.Name.Contains("Healing Potion")).ActionToTrigger = actions.FirstOrDefault(a => a.ActionName.Contains("Small Heal"));
+        //adding statuses to actions
+        actions.FirstOrDefault(a => a.ActionName.Contains("Magic Missiles")).Status = statuses.FirstOrDefault(s => s.Name.Contains("Blind"));
+        actions.FirstOrDefault(a => a.ActionName.Contains("Bless")).Status = statuses.FirstOrDefault(s => s.Name.Contains("Bless"));
+        //adding items to classes
+        playableCharacterClasses.FirstOrDefault(c => c.ClassName == "Wizard").ItemsGrantedByClass.Add(items.FirstOrDefault(i=>i.Name.ToLower().Contains("mage robe")));
 
-        playableCharacters[0].CharacterClass = _db.PlayableCharacterClasses.First();
-        playableCharacters[1].CharacterClass = _db.PlayableCharacterClasses.First();
-        playableCharacters[0].Race = _db.PlayableCharacterRaces.First();
-        playableCharacters[1].Race = _db.PlayableCharacterRaces.First();
-        //_db.SaveChanges();
-        //ADDING RELATIONS
-        _db.Items.FirstOrDefault(i => i.Name.Contains("Short Sword")).ActionToTrigger = _db.CharacterActions.FirstOrDefault(a => a.ActionName.Contains("Short Sword Attack"));
-        _db.Items.FirstOrDefault(i => i.Name.Contains("Healing Potion")).ActionToTrigger = _db.CharacterActions.FirstOrDefault(a => a.ActionName.Contains("Small Heal"));
+        playableCharacterClasses.FirstOrDefault(c => c.ClassName == "Fighter").ItemsGrantedByClass.Add(items.FirstOrDefault(i => i.Name.ToLower().Contains("two handed sword"))); 
+        playableCharacterClasses.FirstOrDefault(c => c.ClassName == "Fighter").ItemsGrantedByClass.Add(items.FirstOrDefault(i => i.Name.ToLower().Contains("heavy armor")));
+        playableCharacterClasses.FirstOrDefault(c => c.ClassName == "Fighter").ItemsGrantedByClass.Add(items.FirstOrDefault(i => i.Name.ToLower().Contains("healing potion")));
 
-        _db.CharacterActions.FirstOrDefault(a => a.ActionName.Contains("Magic Missiles")).Status = _db.Statuses.FirstOrDefault(s => s.Name.Contains("Blind"));
-        _db.CharacterActions.FirstOrDefault(a => a.ActionName.Contains("Bless")).Status = _db.Statuses.FirstOrDefault(s => s.Name.Contains("Bless"));
+        playableCharacterClasses.FirstOrDefault(c => c.ClassName == "Cleric").ItemsGrantedByClass.Add(items.FirstOrDefault(i => i.Name.ToLower().Contains("short sword")));
+        playableCharacterClasses.FirstOrDefault(c => c.ClassName == "Cleric").ItemsGrantedByClass.Add(items.FirstOrDefault(i => i.Name.ToLower().Contains("small wooden shield")));
+        //adding actions to classes 
 
+        playableCharacterClasses.FirstOrDefault(c => c.ClassName == "Wizard").ActionsGrantedByClass.Add(actions.FirstOrDefault(i => i.ActionName.ToLower().Contains("magic missiles")));
+        playableCharacterClasses.FirstOrDefault(c => c.ClassName == "Wizard").ActionsGrantedByClass.Add(actions.FirstOrDefault(i => i.ActionName.ToLower().Contains("fireball")));
+
+        playableCharacterClasses.FirstOrDefault(c => c.ClassName == "Cleric").ActionsGrantedByClass.Add(actions.FirstOrDefault(i => i.ActionName.ToLower().Contains("small heal")));
+        playableCharacterClasses.FirstOrDefault(c => c.ClassName == "Cleric").ActionsGrantedByClass.Add(actions.FirstOrDefault(i => i.ActionName.ToLower().Contains("bless"))); 
+
+        playableCharacterClasses.FirstOrDefault(c => c.ClassName == "Fighter").ActionsGrantedByClass.Add(actions.FirstOrDefault(i => i.ActionName.ToLower().Contains("action surge"))); 
         _db.SaveChanges();
         foreach (var enemy in enemies)
         {
-            enemy.EquippedItems.Add(_db.Items.First(i => i.Name.ToLower().Contains("armor")));
-            enemy.EquippedItems.Add(_db.Items.First(i => i.Name.ToLower().Contains("short sword")));
-            enemy.EquippedItems.Add(_db.Items.First(i => i.Name.ToLower().Contains("small wooden shield")));
-        }
+            enemy.EquippedItems.Add(items.FirstOrDefault(i => i.Name.ToLower().Contains("armor")));
+            enemy.EquippedItems.Add(items.FirstOrDefault(i => i.Name.ToLower().Contains("short sword")));
+            enemy.EquippedItems.Add(items.FirstOrDefault(i => i.Name.ToLower().Contains("small wooden shield")));
+        } 
 
-        //warrior
-        playableCharacters[0].EquippedItems.Add(_db.Items.First(i => i.Name.ToLower().Contains("heavy armor")));
-        playableCharacters[0].EquippedItems.Add(_db.Items.First(i => i.Name.ToLower().Contains("short sword")));
-        playableCharacters[0].EquippedItems.Add(_db.Items.First(i => i.Name.ToLower().Contains("small wooden shield")));
+        //warrior  
+        playableCharacters[0].Race = playableRaces.FirstOrDefault(i => i.RaceName.ToLower().Contains("human"));
+        playableCharacters[0].CharacterClass = playableCharacterClasses.FirstOrDefault(i => i.ClassName.ToLower().Contains("fighter")); 
+        //mage  
+        playableCharacters[1].Race = playableRaces.FirstOrDefault(i => i.RaceName.ToLower().Contains("human"));
+        playableCharacters[1].CharacterClass = playableCharacterClasses.FirstOrDefault(i => i.ClassName.ToLower().Contains("wizard"));
 
-
-        playableCharacters[0].Inventory.Add(_db.Items.First(i => i.Name.ToLower().Contains("healing potion")));
-        
-
-        playableCharacters[0].Race = _db.PlayableCharacterRaces.First (i => i.RaceName.ToLower().Contains("human"));
-        playableCharacters[0].CharacterClass = _db.PlayableCharacterClasses.First (i => i.ClassName.ToLower().Contains("warrior"));
-
-        playableCharacters[0].InnateActions.Add(_db.CharacterActions.First (x => x.ActionName.ToLower().Contains("action surge")));
-        //mage
-        playableCharacters[1].EquippedItems.Add(_db.Items.First(i => i.Name.ToLower().Contains("mage robe")));
-
-        playableCharacters[1].Race = _db.PlayableCharacterRaces.First(i => i.RaceName.ToLower().Contains("human"));
-        playableCharacters[1].CharacterClass = _db.PlayableCharacterClasses.First(i => i.ClassName.ToLower().Contains("mage"));
-
-        playableCharacters[1].InnateActions.Add(_db.CharacterActions.First(x => x.ActionName.ToLower().Contains("magic Missiles")));
-        playableCharacters[1].InnateActions.Add(_db.CharacterActions.First(x => x.ActionName.ToLower().Contains("small Heal")));
-        playableCharacters[1].InnateActions.Add(_db.CharacterActions.First(x => x.ActionName.ToLower().Contains("fireball")));
-        playableCharacters = UpdatePlayableCharacterActionsRelations(playableCharacters);
-        enemies = UpdateEnemyActionsRelations(enemies);
-        playableCharacters = UpdatePlayableCharacterItemsRelations(playableCharacters);
         enemies = UpdateEnemyItemsRelations(enemies);
-
+        enemies = UpdateEnemyActionsRelations(enemies);
+        //playableCharacters = UpdatePlayableCharacterActionsRelations(playableCharacters); 
+        //playableCharacters = UpdatePlayableCharacterItemsRelations(playableCharacters); 
         _db.Enemies.AddRange(enemies);
         
-        users.First(u=>u.UserName =="AdminUser").CharactersCreated.Add(playableCharacters[0]);
-        users[1].CharactersCreated.Add(playableCharacters[1]);
-
-
-        //_db.SaveChanges();
+        users.FirstOrDefault(u=>u.UserName =="AdminUser").CharactersCreated.Add(playableCharacters[0]);
+        users[1].CharactersCreated.Add(playableCharacters[1]); 
         _db.SaveChanges();
         SeedStories.Initialize(_db, users.First(u => u.UserName == "AdminUser"));
     }
