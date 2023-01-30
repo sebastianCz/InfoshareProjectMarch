@@ -194,7 +194,7 @@ internal class SeedCharacters : ISeeder
                 new Item()
                 {
                     Name="Short Sword",
-                    ItemType =ItemType.TwoHandedWeapon,
+                    ItemType =ItemType.SingleHandedWeapon,
                     DeleteOnUse = false
                 },
                 new Item()
@@ -216,7 +216,7 @@ internal class SeedCharacters : ISeeder
                 {
                     Name="Heavy Armor",
                     ItemType = ItemType.Armor,
-                    ArmorClass = 2,
+                    ArmorClass = 16,
                     ArmorType = ArmorType.HeaveArmor, 
                     DeleteOnUse=false
                 },
@@ -224,7 +224,7 @@ internal class SeedCharacters : ISeeder
                 {
                     Name="Mage Robe",
                     ItemType = ItemType.Armor,
-                    ArmorClass = 1,
+                    ArmorClass = 10,
                     ArmorType= ArmorType.LightArmor,
                     DeleteOnUse = false
                 }
@@ -321,11 +321,7 @@ internal class SeedCharacters : ISeeder
         _db.PlayableCharacterClasses.AddRange(playableCharacterClasses);
         _db.Items.AddRange(items);
         _db.SaveChanges();
-
-        playableCharacters[0].CharacterClass = _db.PlayableCharacterClasses.First();
-        playableCharacters[1].CharacterClass = _db.PlayableCharacterClasses.First();
-        playableCharacters[0].Race = _db.PlayableCharacterRaces.First();
-        playableCharacters[1].Race = _db.PlayableCharacterRaces.First();
+ 
         //_db.SaveChanges();
         //ADDING RELATIONS
         _db.Items.FirstOrDefault(i => i.Name.Contains("Short Sword")).ActionToTrigger = _db.CharacterActions.FirstOrDefault(a => a.ActionName.Contains("Short Sword Attack"));

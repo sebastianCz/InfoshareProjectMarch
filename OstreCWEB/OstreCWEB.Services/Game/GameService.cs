@@ -1,6 +1,7 @@
 ﻿using OstreCWEB.Data.DataBase.ManyToMany;
 using OstreCWEB.Data.Factory;
 using OstreCWEB.Data.Repository.Characters.CharacterModels;
+using OstreCWEB.Data.Repository.Characters.Enums;
 using OstreCWEB.Data.Repository.Characters.Interfaces;
 using OstreCWEB.Data.Repository.Characters.MetaTags;
 using OstreCWEB.Data.Repository.Identity;
@@ -182,10 +183,69 @@ namespace OstreCWEB.Services.Game
         } 
         public async Task EquipItemAsync(int itemRelationId, string userId)
         {
-            var gameInstance = await _userParagraphRepository.GetActiveByUserIdAsync(userId);
-            //Add spaghetti code to find out if given item can be equipped! 
-            gameInstance.ActiveCharacter.LinkedItems.SingleOrDefault(x => x.Id == itemRelationId).IsEquipped = true;
+            var gameInstance = await _userParagraphRepository.GetActiveByUserIdAsync(userId); 
+            var itemToEquip = gameInstance.ActiveCharacter.LinkedItems.SingleOrDefault(x => x.Id == itemRelationId);
+
+            //Every item has specific condition, a two handed sword can't be used with a shield etc. 
+            await DesequipAlreadyEquipped(gameInstance.ActiveCharacter, itemToEquip);
+            if (itemToEquip.Item.ItemType != ItemType.SpecialItem)
+            {
+                itemToEquip.IsEquipped = true;
+            }
+            else
+            {
+                throw new Exception("Special Items can't be equipped!");
+            }
+          
             await _userParagraphRepository.SaveChangesAsync();
+        } 
+        private async Task DesequipAlreadyEquipped(PlayableCharacter character,ItemCharacter itemToEquip)
+        {
+            switch (itemToEquip.Item.ItemType)
+            {
+                case ItemType.TwoHandedWeapon:
+                    //Desequip shield and singleHandedWeapon
+                    foreach (var item in character.LinkedItems)
+                    {
+                        if (item.IsEquipped && item.Item.ItemType == ItemType.Shield || item.Item.ItemType == ItemType.SingleHandedWeapon || item.Item.ItemType == ItemType.TwoHandedWeapon)
+                        {
+                            item.IsEquipped = false;
+                        }
+                    } 
+                    return;
+                case ItemType.SingleHandedWeapon:
+                    //desequip two handed weapon
+                    foreach (var item in character.LinkedItems)
+                    {
+                        if (item.IsEquipped && item.Item.ItemType == ItemType.TwoHandedWeapon || item.Item.ItemType == ItemType.SingleHandedWeapon)
+                        {
+                            item.IsEquipped = false;
+                        }
+                    }
+                    return;
+                case ItemType.Shield:
+                    //Desequip two handed weapon
+                    foreach (var item in character.LinkedItems)
+                    {
+                        if (item.IsEquipped && item.Item.ItemType == ItemType.TwoHandedWeapon || item.Item.ItemType == ItemType.Shield)
+                        {
+                            item.IsEquipped = false;
+                        }
+                    }
+                    return;
+                case ItemType.SpecialItem: 
+                    return;
+                default:
+                    foreach (var item in character.LinkedItems)
+                    {
+                        if (item.IsEquipped && item.Item.ItemType == itemToEquip.Item.ItemType)
+                        {
+                            item.IsEquipped = false;
+                        }
+                    }
+                    return; 
+            }
+           
         } 
     }
 }

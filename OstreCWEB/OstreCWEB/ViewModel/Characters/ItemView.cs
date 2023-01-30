@@ -44,6 +44,13 @@ namespace OstreCWEB.ViewModel.Characters
                 }
             }
         }
+        public bool CanBeEquipped
+        {
+            get
+            {
+                return this.ItemType != ItemType.SpecialItem;
+            }
+        }
      
      
     }
