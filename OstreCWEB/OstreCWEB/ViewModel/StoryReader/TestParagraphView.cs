@@ -4,6 +4,6 @@
     {
         public string Description { get; set; }
         public int Throw { get; set; } = 0;
-        public int ThrowModifier { get; set; } = 1;
+        public int ThrowModifier { get; set; }
     }
 }
