@@ -129,10 +129,10 @@ internal class SeedCharacters : ISeeder
             },
                     new CharacterAction
             {
-                ActionName = " s",
+                ActionName = "Magic Missiles",
                 ActionDescription = "Throws magic missiles at the enmy",
                 ActionType = CharacterActionType.Spell,
-                        SavingThrowPossible = true,
+                SavingThrowPossible = true,
                 Max_Dmg = 4,
                 Flat_Dmg = 2,
                 Hit_Dice_Nr = 2,

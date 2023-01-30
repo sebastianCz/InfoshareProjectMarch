@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Http;
+using Microsoft.EntityFrameworkCore.Diagnostics;
 using OstreCWEB.Data.DataBase.ManyToMany;
 using OstreCWEB.Data.Factory;
 using OstreCWEB.Data.Repository.Characters.CharacterModels;
@@ -10,6 +11,7 @@ using OstreCWEB.Data.Repository.ManyToMany;
 using OstreCWEB.Services.Factory;
 using System;
 using System.Security.Claims;
+using System.Security.Cryptography.X509Certificates;
 
 namespace OstreCWEB.Services.Fight
 {
@@ -164,110 +166,112 @@ namespace OstreCWEB.Services.Fight
 
         private void ApplyAction(Character target, Character caster, CharacterAction action)
         {
-            if (action.ActionType == CharacterActionType.WeaponAttack)
+            var IsHit = IsTargetHit(target, caster, action);
+
+            if (IsHit)
             {
 
-            }
-
-
-
-            if (action.SavingThrowPossible)
-            {
-                var damage = 0;
-                var savingThrow = SpellSavingThrow(target, caster, action);
-                damage = ApplyDamage(target, action, savingThrow);
-                if (!savingThrow)
+                if (action.SavingThrowPossible)
                 {
-                    ApplyStatus(target, action.Status);
-                }
-
-                _activeFightInstance.FightHistory = UpdateFightHistory(_activeFightInstance.FightHistory,
-                       $" {target.CharacterName} lost {damage} healthpoints, current healthpoints {target.CurrentHealthPoints}," +
-                       $" due to {caster.CharacterName} using {action.ActionName}" +
-                       $" saving throw was {(savingThrow ? "successful" : "failed")}");
-            }
-            else
-            {
-                var savingThrow = false;
-                if (action.Status != null) { ApplyStatus(target, action.Status); }
-
-                if (action.AggressiveAction)
-                {
-                    var tryToHit = TryToHit()
-                    var damage = ApplyDamage(target, action, savingThrow);
-
-                    if (IsTargetAlive(target))
+                    var damage = 0;
+                    var savingThrow = SpellSavingThrow(target, caster, action);
+                    damage = ApplyDamage(target, action, savingThrow);
+                    if (!savingThrow)
                     {
-                        _activeFightInstance.FightHistory = UpdateFightHistory(_activeFightInstance.FightHistory,
-                       $" {target.CharacterName} lost {damage} healthpoints, current healthpoints {target.CurrentHealthPoints}," +
-                       $" due to {caster.CharacterName}  using {action.ActionName}");
+                        ApplyStatus(target, action.Status);
                     }
-                    else
-                    {
-                        _activeFightInstance.FightHistory = UpdateFightHistory(_activeFightInstance.FightHistory,
-                       $" {target.CharacterName} lost {damage} healthpoints, current healthpoints {target.CurrentHealthPoints}," +
-                       $" due to {caster.CharacterName}  using {action.ActionName} and died");
-                    }
+
+                    _activeFightInstance.FightHistory = UpdateFightHistory(_activeFightInstance.FightHistory,
+                           $" {target.CharacterName} lost {damage} healthpoints, current healthpoints {target.CurrentHealthPoints}," +
+                           $" due to {caster.CharacterName} using {action.ActionName}" +
+                           $" saving throw was {(savingThrow ? "successful" : "failed")}, " +
+                           GetLogCharacterIsBlind(caster));
                 }
                 else
                 {
-                    var heal = ApplyHeal(target, action, savingThrow);
-                    _activeFightInstance.FightHistory = UpdateFightHistory(_activeFightInstance.FightHistory,
-                        $" {target.CharacterName} gained {heal} healthpoints, current healthpoints {target.MaxHealthPoints}," +
-                        $" due to {caster.CharacterName}  using {action.ActionName}");
+                    var savingThrow = false;
+                    if (action.Status != null) { ApplyStatus(target, action.Status); }
+
+                    if (action.AggressiveAction)
+                    {
+                        //var tryToHit = TryToHit()
+                        var damage = ApplyDamage(target, action, savingThrow);
+
+                        if (IsTargetAlive(target))
+                        {
+                            _activeFightInstance.FightHistory = UpdateFightHistory(_activeFightInstance.FightHistory,
+                           $" {target.CharacterName} lost {damage} healthpoints, current healthpoints {target.CurrentHealthPoints}," +
+                           $" due to {caster.CharacterName}  using {action.ActionName}" +
+                           GetLogCharacterIsBlind(caster));
+                        }
+                        else
+                        {
+                            _activeFightInstance.FightHistory = UpdateFightHistory(_activeFightInstance.FightHistory,
+                           $" {target.CharacterName} lost {damage} healthpoints, current healthpoints {target.CurrentHealthPoints}," +
+                           $" due to {caster.CharacterName}  using {action.ActionName} and died" +
+                           GetLogCharacterIsBlind(caster));
+                        }
+                    }
+                    else
+                    {
+                        var heal = ApplyHeal(target, action, savingThrow);
+                        _activeFightInstance.FightHistory = UpdateFightHistory(_activeFightInstance.FightHistory,
+                            $" {target.CharacterName} gained {heal} healthpoints, current healthpoints {target.MaxHealthPoints}," +
+                            $" due to {caster.CharacterName}  using {action.ActionName}");
+                    }
                 }
+                
             }
+            else
+            {
+                _activeFightInstance.FightHistory = UpdateFightHistory(_activeFightInstance.FightHistory,
+                                            $" {caster.CharacterName} tried to use {action.ActionName} on {target.CharacterName}, but have missed");
+            }
+
         }
 
-        private bool IsTargetHit(Character caster, Character target, CharacterAction action)
+        private bool IsTargetHit(Character target, Character caster, CharacterAction action)
         {
-            var casterMod = CheckStatForHit(caster, action);
-            var targetArmor = CheckArmor(target);
-            if (targetArmor > casterMod) return false;
-            else return true;
+            if (action.AggressiveAction && action.ActionType != CharacterActionType.Spell)
+            {
+        
+                var casterMod = CheckStatForHit(caster, action);
+                var targetArmor = CheckArmor(target);
+                if (targetArmor > casterMod) return false;
+                else return true;
+            }
+            return true;
 
         }
 
         private int CheckStatForHit(Character caster, CharacterAction action)
         {
-            var castertMod = 0;
-            var castertRoll = 0;
-
+            var roll = IsBlind(caster) ?
+                Math.Min(DiceThrow20(), DiceThrow20()) :
+                DiceThrow20();
+            var modifier = 0;
             switch (action.StatForTest)
             {
                 case Statistics.Strenght:
-                    castertMod = CalculateModifier(caster.Strenght);
-                    castertRoll = DiceThrow(20) + castertMod;
-                    return castertRoll;
-
+                    modifier = CalculateModifier(caster.Strenght);
+                    break;
                 case Statistics.Intelligence:
-                    castertMod = CalculateModifier(caster.Intelligence);
-                    castertRoll = DiceThrow(20) + castertMod;
-                    return castertRoll;
-
+                    modifier = CalculateModifier(caster.Intelligence);
+                    break;
                 case Statistics.Constitution:
-                    castertMod = CalculateModifier(caster.Constitution);
-                    castertRoll = DiceThrow(20) + castertMod;
-                    return castertRoll;
-
+                    modifier = CalculateModifier(caster.Constitution);
+                    break;
                 case Statistics.Wisdom:
-                    castertMod = CalculateModifier(caster.Wisdom);
-                    castertRoll = DiceThrow(20) + castertMod;
-                    return castertRoll;
-
+                    modifier = CalculateModifier(caster.Wisdom);
+                    break;
                 case Statistics.Dexterity:
-                    castertMod = CalculateModifier(caster.Dexterity);
-                    castertRoll = DiceThrow(20) + castertMod;
-                    return castertRoll;
-
+                    modifier = CalculateModifier(caster.Dexterity);
+                    break;
                 case Statistics.Charisma:
-                    castertMod = CalculateModifier(caster.Charisma);
-                    castertRoll = DiceThrow(20) + castertMod;
-                    return castertRoll;
-
-                default:
-                    return 0;
+                    modifier = CalculateModifier(caster.Charisma);
+                    break;
             }
+            return roll + modifier;
         }
 
         private int CheckArmor(Character target)
@@ -280,7 +284,7 @@ namespace OstreCWEB.Services.Fight
                     if (item.Item.ItemType == ItemType.Armor || item.Item.ItemType == ItemType.Shield)
                     {
                         armor = armor + item.Item.ArmorClass;
-                    }                  
+                    }
                 }
             }
             return (int)armor;
@@ -419,6 +423,11 @@ namespace OstreCWEB.Services.Fight
 
             return numbers.First(x => x == numbers[value - 1]);
         }
+
+        private int DiceThrow20()
+        {
+            return DiceThrow(20);
+        }
         private int DiceThrow(int maxValue)
         {
             Random rand = new Random();
@@ -455,6 +464,20 @@ namespace OstreCWEB.Services.Fight
         public async Task DeleteFightInstanceAsync(string userId)
         {
             _fightRepository.Delete(userId, _activeFightInstance.ActivePlayer.CharacterId, out string operationResult);
+        }
+
+        public bool IsBlind(Character character)
+        {
+            return character.ActiveStatuses.Select(s => s.StatusType == StatusType.Blind).Any();
+        }
+
+        public String GetLogCharacterIsBlind(Character character)
+        {
+            if (IsBlind(character))
+            {
+                return "attack was made with disadventage due to blind status";
+            }
+            return "";
         }
     }
 }
