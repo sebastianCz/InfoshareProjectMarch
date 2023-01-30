@@ -43,7 +43,7 @@ internal class SeedCharacters : ISeeder
             {
                 StatusType = StatusType.Bless,
                 Name="Bless",
-                Description="Character is blessed. It has a bonus 1d4 to every roll"
+                Description="Character is blessed. It has advantage to every hit roll"
             }
         };
 
@@ -357,7 +357,7 @@ internal class SeedCharacters : ISeeder
         playableCharacters[0].Race = _db.PlayableCharacterRaces.First (i => i.RaceName.ToLower().Contains("human"));
         playableCharacters[0].CharacterClass = _db.PlayableCharacterClasses.First (i => i.ClassName.ToLower().Contains("warrior"));
 
-        playableCharacters[0].InnateActions.Add(_db.CharacterActions.First (x => x.ActionName.ToLower().Contains("action surge")));
+        playableCharacters[0].InnateActions.Add(_db.CharacterActions.First (x => x.ActionName.ToLower().Contains("bless")));
         //mage
         playableCharacters[1].EquippedItems.Add(_db.Items.First(i => i.Name.ToLower().Contains("mage robe")));
 

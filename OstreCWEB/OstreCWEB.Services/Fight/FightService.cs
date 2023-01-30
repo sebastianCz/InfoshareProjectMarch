@@ -12,6 +12,7 @@ using OstreCWEB.Services.Factory;
 using System;
 using System.Security.Claims;
 using System.Security.Cryptography.X509Certificates;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace OstreCWEB.Services.Fight
 {
@@ -246,9 +247,8 @@ namespace OstreCWEB.Services.Fight
 
         private int CheckStatForHit(Character caster, CharacterAction action)
         {
-            var roll = IsBlind(caster) ?
-                Math.Min(DiceThrow20(), DiceThrow20()) :
-                DiceThrow20();
+
+            var roll = HitRollWithStatus(caster);
             var modifier = 0;
             switch (action.StatForTest)
             {
@@ -273,6 +273,23 @@ namespace OstreCWEB.Services.Fight
             }
             return roll + modifier;
         }
+
+        private int HitRollWithStatus(Character caster)
+        {
+            var roll = 0;
+
+            if (IsBlind(caster) && !IsBlessed(caster))
+            {
+                roll = Math.Min(DiceThrow20(), DiceThrow20());
+            }
+            else if (IsBlessed(caster) && !IsBlind(caster))
+            {
+                roll = Math.Max(DiceThrow20(), DiceThrow20());
+            }
+            else roll = DiceThrow20();
+            return roll;
+        }
+
 
         private int CheckArmor(Character target)
         {
@@ -468,7 +485,7 @@ namespace OstreCWEB.Services.Fight
 
         public bool IsBlind(Character character)
         {
-            return character.ActiveStatuses.Select(s => s.StatusType == StatusType.Blind).Any();
+            return character.ActiveStatuses.Where(s => s.StatusType == StatusType.Blind).Any();
         }
 
         public String GetLogCharacterIsBlind(Character character)
@@ -476,6 +493,20 @@ namespace OstreCWEB.Services.Fight
             if (IsBlind(character))
             {
                 return "attack was made with disadventage due to blind status";
+            }
+            return "";
+        }
+
+        public bool IsBlessed(Character character)
+        {
+            return character.ActiveStatuses.Where(s => s.StatusType == StatusType.Bless).Any();
+        }
+
+        public String GetLogCharacterIsBlessed(Character character)
+        {
+            if (IsBlessed(character))
+            {
+                return "attack was made with advantage due to bless status";
             }
             return "";
         }
