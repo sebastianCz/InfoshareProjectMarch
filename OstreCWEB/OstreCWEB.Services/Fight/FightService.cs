@@ -109,6 +109,8 @@ namespace OstreCWEB.Services.Fight
                 {
                     _activeFightInstance.PlayerActionCounter = 2;
                     StartAiTurn();
+                    _activeFightInstance.ActivePlayer.ActiveStatuses.Clear();
+                    _activeFightInstance.ActiveEnemies.ForEach(e => e.ActiveStatuses.Clear());
                 }
             }
         }
