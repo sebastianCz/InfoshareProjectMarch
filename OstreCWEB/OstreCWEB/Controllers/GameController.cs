@@ -84,7 +84,7 @@ namespace OstreCWEB.Controllers
                 }
                 if (activeStoryCookies.Any())
                 {
-                    model.ActiveStory = _mapper.Map<StoryView>(await _storyService.GetStoryById(Convert.ToInt32(activeStoryCookies.ToList().FirstOrDefault().Value)));
+                    model.ActiveStory = _mapper.Map<StoriesView>(await _storyService.GetStoryById(Convert.ToInt32(activeStoryCookies.ToList().FirstOrDefault().Value)));
                 }
             };
 
@@ -93,9 +93,9 @@ namespace OstreCWEB.Controllers
             model.User = _mapper.Map<UserView>(x);
                 foreach(var gameSessionView in model.User.UserParagraphs)
                 { 
-                    gameSessionView.Story = _mapper.Map<StoryView>(await _storyService.GetStoryById(gameSessionView.Paragraph.StoryId));  
+                    gameSessionView.Story = _mapper.Map<StoriesView>(await _storyService.GetStoryById(gameSessionView.Paragraph.StoryId));  
                 }   
-                model.OtherUsersStories = _mapper.Map<List<StoryView>>(await _storyService.GetAllStories());   
+                model.OtherUsersStories = _mapper.Map<List<StoriesView>>(await _storyService.GetAllStories());   
                 model.OtherUsersCharacters = _mapper.Map<List<PlayableCharacterRow>>(await _playableCharacterService.GetAllTemplates(_userService.GetUserId(User)));
    
             return View(model);

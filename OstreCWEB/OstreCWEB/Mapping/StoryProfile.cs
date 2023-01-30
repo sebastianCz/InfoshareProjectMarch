@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using OstreCWEB.Data.Repository.StoryModels;
 using OstreCWEB.Data.Repository.StoryModels.Properties;
+using OstreCWEB.Services.Models;
 using OstreCWEB.ViewModel.StoryBuilder;
 using OstreCWEB.ViewModel.StoryBuilder.Properties;
 
@@ -10,18 +11,19 @@ namespace OstreCWEB.Mapping
     {
         public StoryProfile() 
         {
-            CreateMap<Story, StoryAllParagraphsView>();
+            //Game
+            CreateMap<Paragraph, GameParagraphView>();
 
-            CreateMap<Story, StoryView>()
+            //StoryBuilder          
+            CreateMap<Story, StoriesView>()
                 .ReverseMap()
                     .ForMember(dest => dest.Paragraphs, opt => opt.Ignore());
 
-            CreateMap<Paragraph, ParagraphView>();
+            CreateMap<Story, StoryParagraphsView>();
+            CreateMap<Paragraph, ParagraphElementOfStoryView>();
 
-            CreateMap<Story, StoryDetailsView>()
-                .ForMember(dest => dest.PreviousParagraphs, opt => opt.Ignore())
-                .ForMember(dest => dest.CurrentParagraphView, opt => opt.Ignore())
-                .ForMember(dest => dest.NextParagraphs, opt => opt.Ignore());
+            CreateMap<ParagraphDetails, ParagraphDetailsView>();
+            CreateMap<ParagraphWithCoice, ParagraphWithCoiceView>();
 
             CreateMap<TestProp, TestPropView>();
 

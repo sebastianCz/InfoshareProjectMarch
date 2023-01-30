@@ -22,6 +22,14 @@ namespace OstreCWEB.Data.Repository.StoryModels
                 .ToList();
         }
 
+        public async Task<IReadOnlyCollection<Story>> GetStoriesByUserId(string userId)
+        {
+            return _ostreCWebContext.Stories
+                .Where(s => s.UserId == userId)
+                .Include(s => s.Paragraphs)
+                .ToList();
+        }
+
         public async Task<Story> GetStoryById(int idStory)
         {
             return _ostreCWebContext.Stories
@@ -38,6 +46,15 @@ namespace OstreCWEB.Data.Repository.StoryModels
                     .ThenInclude(p => p.ShopkeeperProp)
                 .SingleOrDefault(s => s.Id == idStory);
         }
+
+        public async Task<Story> GetStoryWithParagraphsById(int idStory)
+        {
+            return _ostreCWebContext.Stories
+                .Include(s => s.Paragraphs)
+                    .ThenInclude(p => p.Choices)               
+                .SingleOrDefault(s => s.Id == idStory);
+        }
+
         public async Task<Story> GetStoryNoIncludesAsync(int storyId)
         {
             return await _ostreCWebContext.Stories.SingleOrDefaultAsync(s => s.Id == storyId);

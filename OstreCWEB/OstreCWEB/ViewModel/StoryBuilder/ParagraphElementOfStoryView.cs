@@ -1,11 +1,9 @@
 ﻿using OstreCWEB.Data.Repository.StoryModels.Enums;
-using OstreCWEB.Data.Repository.StoryModels.Properties;
-using OstreCWEB.ViewModel.StoryBuilder.Properties;
 using System.ComponentModel.DataAnnotations;
 
 namespace OstreCWEB.ViewModel.StoryBuilder
 {
-    public class ParagraphView
+    public class ParagraphElementOfStoryView
     {
         public int Id { get; set; }
 
@@ -17,10 +15,5 @@ namespace OstreCWEB.ViewModel.StoryBuilder
 
         [Display(Name = "Amount Of Choices")]
         public int AmountOfChoices { get; set; }
-
-        // Choice options
-        public List<ChoiceView> Choices { get; set; }
-
-        public int StoryId { get; set; }
     }
 }

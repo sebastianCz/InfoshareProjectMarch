@@ -1,4 +1,4 @@
-﻿@model OstreCWEB.ViewModel.StoryBuilder.StoryAllParagraphsView
+﻿@model OstreCWEB.ViewModel.StoryBuilder.StoryParagraphsView
 
 @{
     ViewData["Title"] = $"Story " + @Model.Name;
@@ -24,7 +24,7 @@
     <div class="btn-group" role="group" aria-label="Basic mixed styles example">
         <a asp-action="EditStory" asp-route-id="@Model.Id" type="button" class="btn btn-warning">Edit</a>
         <a asp-action="DeleteStory" asp-route-id="@Model.Id" type="button" class="btn btn-danger">Delete</a>
-        <a asp-route-name="storyBuilder" asp-action="Details" asp-route-id="@Model.Id" asp-route-paragraphId="@Model.FirstParagraphId" type="button" class="btn btn-primary">Show Details</a>
+        <a asp-route-name="StoryBuilder" asp-action="ParagraphDetails" asp-route-id="@Model.Id" asp-route-paragraphId="@Model.FirstParagraphId" type="button" class="btn btn-primary">Show Details</a>
         <a asp-action="Index" type="button" class="btn btn-success">Back to List</a>
     </div>
 </div>
@@ -64,7 +64,7 @@
                             </td>
                             <td>
                                 @*                        <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |*@
-                                <a asp-route-name="storyBuilder" asp-action="Details" asp-route-id="@Model.Id" asp-route-paragraphId="@item.Id" type="button" class="btn btn-success">Go here!</a>
+                                <a asp-route-name="StoryBuilder" asp-action="ParagraphDetails" asp-route-id="@Model.Id" asp-route-paragraphId="@item.Id" type="button" class="btn btn-success">Go here!</a>
                                 @*                        <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>*@
                             </td>
                         </tr>
@@ -83,7 +83,7 @@
                             </td>
                             <td>
                                 @*                        <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |*@
-                                <a asp-route-name="storyBuilder" asp-action="Details" asp-route-id="@Model.Id" asp-route-paragraphId="@item.Id" type="button" class="btn btn-success">Go here!</a>
+                                <a asp-route-name="StoryBuilder" asp-action="ParagraphDetails" asp-route-id="@Model.Id" asp-route-paragraphId="@item.Id" type="button" class="btn btn-success">Go here!</a>
                                 @*                        <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>*@
                             </td>
                         </tr>
@@ -102,7 +102,7 @@
                             </td>
                             <td>
                                 @*                        <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |*@
-                                <a asp-route-name="storyBuilder" asp-action="Details" asp-route-id="@Model.Id" asp-route-paragraphId="@item.Id" type="button" class="btn btn-success">Go here!</a>
+                                <a asp-route-name="StoryBuilder" asp-action="ParagraphDetails" asp-route-id="@Model.Id" asp-route-paragraphId="@item.Id" type="button" class="btn btn-success">Go here!</a>
                                 @*                        <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>*@
                             </td>
                         </tr>
@@ -121,7 +121,7 @@
                             </td>
                             <td>
                                 @*                        <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |*@
-                                <a asp-route-name="storyBuilder" asp-action="Details" asp-route-id="@Model.Id" asp-route-paragraphId="@item.Id" type="button" class="btn btn-success">Go here!</a>
+                                <a asp-route-name="StoryBuilder" asp-action="ParagraphDetails" asp-route-id="@Model.Id" asp-route-paragraphId="@item.Id" type="button" class="btn btn-success">Go here!</a>
                                 @*                        <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>*@
                             </td>
                         </tr>
@@ -140,7 +140,7 @@
                             </td>
                             <td>
                                 @*                        <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |*@
-                                <a asp-route-name="storyBuilder" asp-action="Details" asp-route-id="@Model.Id" asp-route-paragraphId="@item.Id" type="button" class="btn btn-success">Go here!</a>
+                                <a asp-route-name="StoryBuilder" asp-action="ParagraphDetails" asp-route-id="@Model.Id" asp-route-paragraphId="@item.Id" type="button" class="btn btn-success">Go here!</a>
                                 @*                        <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>*@
                             </td>
                         </tr>
