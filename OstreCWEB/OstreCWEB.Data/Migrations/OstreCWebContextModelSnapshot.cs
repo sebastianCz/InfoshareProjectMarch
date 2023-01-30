@@ -290,6 +290,9 @@ namespace OstreCWEB.Data.Migrations
                     b.Property<int>("Max_Dmg")
                         .HasColumnType("int");
 
+                    b.Property<int?>("PlayableClassId")
+                        .HasColumnType("int");
+
                     b.Property<int>("PossibleTarget")
                         .HasColumnType("int");
 
@@ -306,6 +309,8 @@ namespace OstreCWEB.Data.Migrations
                         .HasColumnType("int");
 
                     b.HasKey("CharacterActionId");
+
+                    b.HasIndex("PlayableClassId");
 
                     b.HasIndex("StatusId");
 
@@ -339,9 +344,14 @@ namespace OstreCWEB.Data.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int?>("PlayableClassId")
+                        .HasColumnType("int");
+
                     b.HasKey("ItemId");
 
                     b.HasIndex("ActionToTriggerCharacterActionId");
+
+                    b.HasIndex("PlayableClassId");
 
                     b.ToTable("Items");
                 });
@@ -886,9 +896,15 @@ namespace OstreCWEB.Data.Migrations
 
             modelBuilder.Entity("OstreCWEB.Data.Repository.Characters.CharacterModels.CharacterAction", b =>
                 {
+                    b.HasOne("OstreCWEB.Data.Repository.Characters.CharacterModels.PlayableClass", "PlayableClass")
+                        .WithMany("ActionsGrantedByClass")
+                        .HasForeignKey("PlayableClassId");
+
                     b.HasOne("OstreCWEB.Data.Repository.Characters.CharacterModels.Status", "Status")
                         .WithMany("CharacterActions")
                         .HasForeignKey("StatusId");
+
+                    b.Navigation("PlayableClass");
 
                     b.Navigation("Status");
                 });
@@ -899,7 +915,13 @@ namespace OstreCWEB.Data.Migrations
                         .WithMany("LinkedItems")
                         .HasForeignKey("ActionToTriggerCharacterActionId");
 
+                    b.HasOne("OstreCWEB.Data.Repository.Characters.CharacterModels.PlayableClass", "PlayableClass")
+                        .WithMany("ItemsGrantedByClass")
+                        .HasForeignKey("PlayableClassId");
+
                     b.Navigation("ActionToTrigger");
+
+                    b.Navigation("PlayableClass");
                 });
 
             modelBuilder.Entity("OstreCWEB.Data.Repository.Characters.MetaTags.ActionCharacter", b =>
@@ -1095,6 +1117,10 @@ namespace OstreCWEB.Data.Migrations
 
             modelBuilder.Entity("OstreCWEB.Data.Repository.Characters.CharacterModels.PlayableClass", b =>
                 {
+                    b.Navigation("ActionsGrantedByClass");
+
+                    b.Navigation("ItemsGrantedByClass");
+
                     b.Navigation("PlayableCharacter");
                 });
 

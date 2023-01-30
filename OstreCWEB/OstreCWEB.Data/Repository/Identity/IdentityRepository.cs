@@ -27,6 +27,7 @@ namespace OstreCWEB.Data.Repository.Identity
             var user = await _context.Users.SingleOrDefaultAsync(u=>u.Id == id); 
             return user;
         }
+        
         public async Task<List<User>> GetAll()
         {
             return await _context.Users.ToListAsync();

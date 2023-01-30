@@ -60,6 +60,22 @@ namespace OstreCWEB.Data.DataBase
             ConfigureManyToMany(builder);
             ConfigureUser(builder);
             ConfigureParagraphItems(builder);
+            ConfigureClasses(builder);
+        }
+        private void ConfigureClasses(ModelBuilder builder)
+        {
+            builder.Entity<PlayableClass>().HasKey(x => x.PlayableClassId);
+
+            builder.Entity<PlayableClass>()
+                .HasMany(x => x.ActionsGrantedByClass)
+                .WithOne(x => x.PlayableClass)
+                .HasForeignKey(x => x.PlayableClassId);
+           
+            builder.Entity<PlayableClass>()
+                .HasMany(x => x.ItemsGrantedByClass)
+                .WithOne(x => x.PlayableClass)
+                .HasForeignKey(x => x.PlayableClassId);
+
         }
         private void ConfigureUser(ModelBuilder builder)
         {
@@ -126,6 +142,7 @@ namespace OstreCWEB.Data.DataBase
             builder.Entity<PlayableCharacter>().Navigation(e => e.Race).AutoInclude();
             builder.Entity<PlayableCharacter>().Navigation(e => e.LinkedActions).AutoInclude();
             builder.Entity<PlayableCharacter>().Navigation(e => e.LinkedItems).AutoInclude();
+
             builder.Entity<Character>().HasKey(entity => entity.CharacterId);
             builder.Entity<PlayableCharacter>()
                 .HasOne(r => r.Race)
