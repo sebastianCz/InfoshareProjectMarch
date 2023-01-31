@@ -7,7 +7,7 @@ namespace OstreCWEB.Services.Identity
     {
         Task<StatusIdentity> LoginAsync(Login model);
         Task<StatusIdentity> RegisterAsync(Registration model);
-        Task<StatusIdentity> ChangePasswordAsync(ChangePassword model, string username);
+        Task<StatusIdentity> ChangePasswordAsync(ChangePassword model, string userId);
         Task LogoutAsync();
     }
 }

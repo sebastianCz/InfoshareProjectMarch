@@ -113,10 +113,10 @@ namespace OstreCWEB.Services.Identity
             return status;
 
         }
-        public async Task<StatusIdentity> ChangePasswordAsync(ChangePassword model, string username)
+        public async Task<StatusIdentity> ChangePasswordAsync(ChangePassword model, string userId)
         {
             var status = new StatusIdentity();
-            var user = await userManager.FindByNameAsync(username);
+            var user = await userManager.FindByIdAsync(userId);
             if (user == null)
             {
                 status.Message = "User does not exist";

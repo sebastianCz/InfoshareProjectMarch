@@ -13,9 +13,12 @@ namespace OstreCWEB.Controllers
     public class LoginController : Controller
     {
         private readonly IUserAuthenticationService _service;
-        public LoginController(IUserAuthenticationService service)
+        private readonly IUserService _userService;
+
+        public LoginController(IUserAuthenticationService service, IUserService userService)
         {
             _service = service;
+            _userService = userService;
         }
 
         public IActionResult Registration()
@@ -60,20 +63,16 @@ namespace OstreCWEB.Controllers
             await _service.LogoutAsync();
             return RedirectToAction("Index", "Home");
         }
-
-        [Authorize]
         public IActionResult ChangePassword()
         {
             return View();
         }
-        [Authorize]
         [HttpPost]
         public async Task<IActionResult> ChangePassword(ChangePassword model)
         {
-            if (!ModelState.IsValid)
+            if (ModelState.IsValid)
             {
-                //return View(model);
-                var result = await _service.ChangePasswordAsync(model, User.Identity.Name);
+                var result = await _service.ChangePasswordAsync(model, _userService.GetUserId(User));
                 TempData["msg"] = result.Message;
                 return RedirectToAction(nameof(ChangePassword));
             }
