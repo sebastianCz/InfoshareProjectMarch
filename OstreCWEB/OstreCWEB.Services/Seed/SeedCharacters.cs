@@ -232,7 +232,6 @@ internal class SeedCharacters : ISeeder
                     Name="Small Wooden Shield",
                     ItemType = ItemType.Shield,
                     ArmorClass=2,
-                    ArmorType = ArmorType.Shield ,
                     DeleteOnUse = false
                 },
                  new Item
@@ -240,7 +239,6 @@ internal class SeedCharacters : ISeeder
                     Name="Heavy Armor",
                     ItemType = ItemType.Armor,
                     ArmorClass = 16,
-                    ArmorType = ArmorType.HeaveArmor, 
                     DeleteOnUse=false
                 },
                 new Item
@@ -248,7 +246,6 @@ internal class SeedCharacters : ISeeder
                     Name="Mage Robe",
                     ItemType = ItemType.Armor,
                     ArmorClass = 10,
-                    ArmorType= ArmorType.LightArmor,
                     DeleteOnUse = false
                 }
             }; 

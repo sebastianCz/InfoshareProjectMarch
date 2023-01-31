@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace OstreCWEB.Data.Migrations
 {
-    public partial class ClassesItemsDependancy : Migration
+    public partial class initialcreate : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -297,11 +297,10 @@ namespace OstreCWEB.Data.Migrations
                 {
                     ItemId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    ActionToTriggerCharacterActionId = table.Column<int>(type: "int", nullable: true),
+                    ActionToTriggerId = table.Column<int>(type: "int", nullable: true),
                     PlayableClassId = table.Column<int>(type: "int", nullable: true),
                     ItemType = table.Column<int>(type: "int", nullable: false),
                     ArmorClass = table.Column<int>(type: "int", nullable: true),
-                    ArmorType = table.Column<int>(type: "int", nullable: true),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     DeleteOnUse = table.Column<bool>(type: "bit", nullable: false)
                 },
@@ -309,8 +308,8 @@ namespace OstreCWEB.Data.Migrations
                 {
                     table.PrimaryKey("PK_Items", x => x.ItemId);
                     table.ForeignKey(
-                        name: "FK_Items_CharacterActions_ActionToTriggerCharacterActionId",
-                        column: x => x.ActionToTriggerCharacterActionId,
+                        name: "FK_Items_CharacterActions_ActionToTriggerId",
+                        column: x => x.ActionToTriggerId,
                         principalTable: "CharacterActions",
                         principalColumn: "CharacterActionId");
                     table.ForeignKey(
@@ -707,9 +706,9 @@ namespace OstreCWEB.Data.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "IX_Items_ActionToTriggerCharacterActionId",
+                name: "IX_Items_ActionToTriggerId",
                 table: "Items",
-                column: "ActionToTriggerCharacterActionId");
+                column: "ActionToTriggerId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Items_PlayableClassId",

@@ -96,10 +96,12 @@ namespace OstreCWEB.Data.DataBase
         private void ConfigureItems(ModelBuilder builder)
         {
             builder.Entity<Item>().Navigation(e => e.ActionToTrigger).AutoInclude();
-
+            builder.Entity<Item>()
+                .HasOne(x => x.ActionToTrigger)
+                .WithMany(x => x.LinkedItems)
+                .HasForeignKey(x => x.ActionToTriggerId);
             //builder.Entity<ItemCharacter>()
-            // .HasKey(x => new { x.ItemId, x.CharacterId });
-
+            // .HasKey(x => new { x.ItemId, x.CharacterId }); 
             builder.Entity<ItemCharacter>()
                 .HasOne(x => x.Item)
                 .WithMany(x => x.LinkedCharacters)
