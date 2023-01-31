@@ -1,7 +1,7 @@
 ﻿@model OstreCWEB.ViewModel.Characters.PlayableCharacterCreateView
 
 @{
-    ViewData["Title"] = "Create";
+    ViewData["Title"] = "Set Race";
 }
 
 <h1>Create</h1>
@@ -29,7 +29,8 @@
             </div>
             <br />
                 <div class="form-group">
-                    <a asp-action="Index" asp-controller="Home" class="btn btn-danger" onclick="return confirm('Are you sure you want to quit from character creator?');">Back</a>
+                    <a asp-action="Index" asp-controller="Home" class="btn" onclick="return confirm('Are you sure you want to quit from character creator?');"
+                    style="background: radial-gradient(circle at -4% -12.9%, rgb(90, 98, 110) 0.3%, rgb(33, 31, 33) 90.2%);color:goldenrod; text-align:center">Back</a>
                     <input type="submit" value="SetClass" class="btn" asp-action="SetClass" asp-controller="PlayableCharacter"
                     style="background: radial-gradient(circle at -4% -12.9%, rgb(90, 98, 110) 0.3%, rgb(33, 31, 33) 90.2%);color:goldenrod; text-align:center"/>
                 </div>

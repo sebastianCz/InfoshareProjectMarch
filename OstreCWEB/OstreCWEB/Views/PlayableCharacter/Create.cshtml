@@ -101,7 +101,7 @@
                     <br />
                     <div>
                         <label class="control-label">TotalAvailablePoints</label>
-                        <input class="form-control" id="sum-input" value="@ViewBag.Sum" readonly/>
+                        <input class="form-control" id="totalAvailablePoints" value="@ViewBag.Sum" readonly/>
                     </div>
                     <br />
                     <div class="form-group">
@@ -200,7 +200,7 @@ $("#roll-button").on("click", function() {
     $("#wisdom-input").val(generateAttribute());
     $("#charisma-input").val(generateAttribute());
     var sum = parseInt($("#strength-input").val()) + parseInt($("#dexterity-input").val()) + parseInt($("#constitution-input").val()) + parseInt($("#intelligence-input").val()) + parseInt($("#wisdom-input").val()) + parseInt($("#charisma-input").val());
-    $("#sum-input").val(sum);
+    $("#totalAvailablePoints").val(sum);
 });
 
     //Save button event listener
@@ -211,7 +211,7 @@ $("#roll-button").on("click", function() {
       var intelligence = $("#intelligence-input").val();
       var wisdom = $("#wisdom-input").val();
       var charisma = $("#charisma-input").val();
-      var sum = $("#sum-input").val();
+      var sum = $("#totalAvailablePoints").val();
 
       localStorage.setItem("strength", strength);
       localStorage.setItem("dexterity", dexterity);
@@ -229,7 +229,7 @@ $("#roll-button").on("click", function() {
       $("#intelligence-input").val(localStorage.getItem("intelligence"));
       $("#wisdom-input").val(localStorage.getItem("wisdom"));
       $("#charisma-input").val(localStorage.getItem("charisma"));
-      $("#sum-input").val(localStorage.getItem("sum"));
+      $("#totalAvailablePoints").val(localStorage.getItem("sum"));
     });
   });
 </script>

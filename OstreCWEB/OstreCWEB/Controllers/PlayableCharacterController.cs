@@ -89,6 +89,7 @@ namespace OstreCWEB.Controllers
             ViewBag.Wis = _playableCharacterService.RollDice();
             ViewBag.Cha = _playableCharacterService.RollDice();
             ViewBag.Sum = ViewBag.Str + ViewBag.Dex + ViewBag.Con + ViewBag.Int + ViewBag.Wis + ViewBag.Cha;
+            ViewBag.AvailablePoints = 0;
 
             ViewBag.RaceId = model.RaceId;
             ViewBag.XClassId = model.PlayableClassId;
@@ -112,8 +113,8 @@ namespace OstreCWEB.Controllers
         public ActionResult Summary(PlayableCharacterCreateView model)
         {
             ViewBag.RaceId = model.RaceId;
-            var raceName = _playableCharacterService.GetById(model.RaceId);
-            ViewBag.RaceName = raceName;
+            //var raceName = _playableCharacterService.GetById(model.RaceId);
+            //ViewBag.RaceName = raceName;
             ViewBag.ClassId = model.PlayableClassId;
             //ViewBag.ClassName = model.CharacterClass.ClassName;
             ViewBag.Str = model.Strenght;

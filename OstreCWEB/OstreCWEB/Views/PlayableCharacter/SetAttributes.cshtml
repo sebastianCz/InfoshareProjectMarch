@@ -1,7 +1,7 @@
 ﻿@model OstreCWEB.ViewModel.Characters.PlayableCharacterCreateView
 
 @{
-    ViewData["Title"] = "Create";
+    ViewData["Title"] = "Attributes";
 }
 
 <h1>Set Attributes</h1>
@@ -23,63 +23,296 @@
             </div>
                 <div class="p-3 bg-warning bg-opacity-75 border border-warning-subtle rounded-top" style="background: #eee; box-shadow: 0 8px 8px -4px black;"> 
                     <div>
-                        <a asp-action="RollAttributePoints" class="btn btn-primary">Roll</a>
+                        @*<form asp-action="Create">
+                            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                            <input asp-for="RaceId" hidden="true"/>
+                            <input asp-for="PlayableClassId" hidden="true"/>
+                            <div class="form-group">
+                                <input asp-action="RollAttributePoints" type="submit" value="Roll" class="btn" style="background: radial-gradient(circle at -4% -12.9%, rgb(90, 98, 110) 0.3%, rgb(33, 31, 33) 90.2%);color:goldenrod; text-align:center"/>                                
+                            </div>
+                        </form><!--Roll Attribute points - cause problems-->
+                        @*<a asp-action="RollAttributePoints" class="btn btn-primary">Roll</a>*@
+                        <div style="">
+                          <input type="button" id="roll-button" class="btn" value="Roll" style="background: radial-gradient(circle at -4% -12.9%, rgb(90, 98, 110) 0.3%, rgb(33, 31, 33) 90.2%);color:goldenrod; text-align:center"/>
+                          <input type="button" id="save-button" class="btn" value="Save" style="background: radial-gradient(circle at -4% -12.9%, rgb(90, 98, 110) 0.3%, rgb(33, 31, 33) 90.2%);color:goldenrod; text-align:center"/>
+                          <input type="button" id="load-button" class="btn" value="Load" style="background: radial-gradient(circle at -4% -12.9%, rgb(90, 98, 110) 0.3%, rgb(33, 31, 33) 90.2%);color:goldenrod; text-align:center"/>
+                        </div>
                     </div>
                     <br />
                     <div>
                         <label class="control-label">TotalAvailablePoints</label>
-                        <input class="form-control" id="sum-input" value="@ViewBag.Sum" readonly/>
+                        <input class="form-control" id="totalAvailablePoints" value="@ViewBag.Sum" readonly/>
+                    </div>
+                    <div>
+                        <label class="control-label">AvailablePoints</label>
+                        <input class="form-control" id="availablePoints" value="@ViewBag.AvailablePoints" readonly/>
                     </div>
                     <br />
-                    <div class="form-group">
-                        <label asp-for="Strenght" class="control-label"></label>
-                        <input asp-for="Strenght" class="form-control" id="strength-input" value="@ViewBag.Str" readonly/>
-                    @*<a asp-action="ChangeValue" asp-route-operation="up" asp-route-attribute="Strength" class="btn btn-primary">+</a>
+                    <div class="form-group" style="display:inline">
+                        <div class="col-md-4">
+                            <label asp-for="Strenght" class="control-label"></label>
+                            <input asp-for="Strenght" class="form-control" id="strength-input" value="@ViewBag.Str" readonly/>
+                        </div>
+                        <div class="col-md-4">
+                            <a id="strengthPlus" class="btn btn-primary">+</a>
+                            <a id="strengthMinus" class="btn btn-primary">-</a>
+                        </div>                        
+                        @*<a asp-action="ChangeValue" asp-route-operation="up" asp-route-attribute="Strength" class="btn btn-primary">+</a>
                         <a asp-action="ChangeValue" asp-route-operation="down" asp-route-attribute="Strength" class="btn btn-primary">-</a>*@
                         <span asp-validation-for="Strenght" class="text-danger"></span>
                     </div>
                     <div class="form-group">
                         <label asp-for="Dexterity" class="control-label"></label>    
-                            <input asp-for="Dexterity" class="form-control" id="dexterity-input" value="@ViewBag.Dex" readonly/>
-                    @*<a asp-action="ChangeValue" asp-route-operation="up" asp-route-attribute="Dexterity" class="btn btn-primary">+</a>
-                            <a asp-action="ChangeValue" asp-route-operation="down" asp-route-attribute="Dexterity" class="btn btn-primary">-</a>*@
+                        <input asp-for="Dexterity" class="form-control" id="dexterity-input" value="@ViewBag.Dex" readonly/>
+                        <a id="dexterityPlus" class="btn btn-primary">+</a>
+                        <a id="dexterityMinus" class="btn btn-primary">-</a>
+                        @*<a asp-action="ChangeValue" asp-route-operation="up" asp-route-attribute="Dexterity" class="btn btn-primary">+</a>
+                        <a asp-action="ChangeValue" asp-route-operation="down" asp-route-attribute="Dexterity" class="btn btn-primary">-</a>*@
                         <span asp-validation-for="Dexterity" class="text-danger"></span>
                     </div>
                     <div class="form-group">
                         <label asp-for="Constitution" class="control-label"></label>
                         <input asp-for="Constitution" class="form-control" id="constitution-input" value="@ViewBag.Con" readonly/>
-                    @* <a asp-action="ChangeValue" asp-route-characterid="1" asp-route-operation="up" asp-route-attribute="Constitution" class="btn btn-primary">+</a>
+                        <a id="constitutionPlus" class="btn btn-primary">+</a>
+                        <a id="constitutionMinus" class="btn btn-primary">-</a>
+                    @*  <a asp-action="ChangeValue" asp-route-characterid="1" asp-route-operation="up" asp-route-attribute="Constitution" class="btn btn-primary">+</a>
                         <a asp-action="ChangeValue" asp-route-characterid="1" asp-route-operation="down" asp-route-attribute="Constitution" class="btn btn-primary">-</a>*@
                         <span asp-validation-for="Constitution" class="text-danger"></span>
                     </div>
                     <div class="form-group">
                         <label asp-for="Intelligence" class="control-label"></label>
                         <input asp-for="Intelligence" class="form-control" id="intelligence-input" value="@ViewBag.Int" readonly/>
-                    @*                <a asp-action="ChangeValue" asp-route-characterid="1" asp-route-operation="up" asp-route-attribute="Intelligence" class="btn btn-primary">+</a>
+                        <a id="intelligencePlus" class="btn btn-primary">+</a>
+                        <a id="intelligenceMinus" class="btn btn-primary">-</a>
+                    @*  <a asp-action="ChangeValue" asp-route-characterid="1" asp-route-operation="up" asp-route-attribute="Intelligence" class="btn btn-primary">+</a>
                         <a asp-action="ChangeValue" asp-route-characterid="1" asp-route-operation="down" asp-route-attribute="Intelligence" class="btn btn-primary">-</a>*@
                         <span asp-validation-for="Intelligence" class="text-danger"></span>
                     </div>
                     <div class="form-group">
                         <label asp-for="Wisdom" class="control-label"></label>
                         <input asp-for="Wisdom" class="form-control" id="wisdom-input" value="@ViewBag.Wis" readonly/>
-                    @*                <a asp-action="ChangeValue" asp-route-characterid="1" asp-route-operation="up" asp-route-attribute="Wisdom" class="btn btn-primary">+</a>
+                        <a id="wisdomPlus" class="btn btn-primary">+</a>
+                        <a id="wisdomMinus" class="btn btn-primary">-</a>
+                    @*  <a asp-action="ChangeValue" asp-route-characterid="1" asp-route-operation="up" asp-route-attribute="Wisdom" class="btn btn-primary">+</a>
                         <a asp-action="ChangeValue" asp-route-characterid="1" asp-route-operation="down" asp-route-attribute="Wisdom" class="btn btn-primary">-</a>*@
                         <span asp-validation-for="Wisdom" class="text-danger"></span>
                     </div>
                     <div class="form-group">
                         <label asp-for="Charisma" class="control-label"></label>
                         <input asp-for="Charisma" class="form-control" id="charisma-input" value="@ViewBag.Cha" readonly/>
-                    @*                <a asp-action="ChangeValue" asp-route-characterid="1" asp-route-operation="up" asp-route-attribute="Charisma" class="btn btn-primary">+</a>
+                        <a id="charismaPlus" class="btn btn-primary">+</a>
+                        <a id="charismaMinus" class="btn DnD-button">-</a>
+                    @*  <a asp-action="ChangeValue" asp-route-characterid="1" asp-route-operation="up" asp-route-attribute="Charisma" class="btn btn-primary">+</a>
                         <a asp-action="ChangeValue" asp-route-characterid="1" asp-route-operation="down" asp-route-attribute="Charisma" class="btn btn-primary">-</a>*@
                         <span asp-validation-for="Charisma" class="text-danger"></span>
                     </div>
                 </div>
                 <br />
                 <div class="form-group">
-                    <input asp-action="SetClass" type="submit" value="Set Class" class="btn" style="background: radial-gradient(circle at -4% -12.9%, rgb(90, 98, 110) 0.3%, rgb(33, 31, 33) 90.2%);color:goldenrod; text-align:center"/>
-                    <input asp-action="SetName" type="submit" value="Set Name" class="btn" style="background: radial-gradient(circle at -4% -12.9%, rgb(90, 98, 110) 0.3%, rgb(33, 31, 33) 90.2%);color:goldenrod; text-align:center"/>
+                    <input asp-action="SetClass" type="submit" value="Set Class" class="btn dnd-button" />
+                    <input asp-action="SetName" type="submit" value="Set Name" class="btn dnd-button" />
                 </div>
         </form>
     </div>
 </div>
 
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+  $(document).ready(function(){
+
+      function generateAttribute() {
+  var rolls = [];
+  for (var i = 0; i < 4; i++) {
+    rolls.push(Math.floor(Math.random() * 6) + 1);
+  }
+  rolls.sort();
+  rolls.shift();
+  var sum = rolls.reduce(function(a, b) {
+    return a + b;
+  }, 0);
+  return sum;
+}
+
+    //Roll button event listener
+$("#roll-button").on("click", function() {
+    $("#strength-input").val(generateAttribute());
+    $("#dexterity-input").val(generateAttribute());
+    $("#constitution-input").val(generateAttribute());
+    $("#intelligence-input").val(generateAttribute());
+    $("#wisdom-input").val(generateAttribute());
+    $("#charisma-input").val(generateAttribute());
+    var sum = parseInt($("#strength-input").val()) + parseInt($("#dexterity-input").val()) + parseInt($("#constitution-input").val()) + parseInt($("#intelligence-input").val()) + parseInt($("#wisdom-input").val()) + parseInt($("#charisma-input").val());
+    $("#totalAvailablePoints").val(sum);
+    $("#availablePoints").val(0);
+});
+
+
+
+    //Save button event listener
+    $("#save-button").on("click", function() {
+      var strength = $("#strength-input").val();
+      var dexterity = $("#dexterity-input").val();
+      var constitution = $("#constitution-input").val();
+      var intelligence = $("#intelligence-input").val();
+      var wisdom = $("#wisdom-input").val();
+      var charisma = $("#charisma-input").val();
+      var sum = $("#totalAvailablePoints").val();
+      var availablePoints = $("#availablePoints").val();
+
+      localStorage.setItem("strength", strength);
+      localStorage.setItem("dexterity", dexterity);
+      localStorage.setItem("constitution", constitution);
+      localStorage.setItem("intelligence", intelligence);
+      localStorage.setItem("wisdom", wisdom);
+      localStorage.setItem("charisma", charisma);
+      localStorage.setItem("sum", sum);
+      localStorage.setItem("availablePoints", availablePoints);
+    });
+    //Load button event listener
+    $("#load-button").on("click", function() {
+      $("#strength-input").val(localStorage.getItem("strength"));
+      $("#dexterity-input").val(localStorage.getItem("dexterity"));
+      $("#constitution-input").val(localStorage.getItem("constitution"));
+      $("#intelligence-input").val(localStorage.getItem("intelligence"));
+      $("#wisdom-input").val(localStorage.getItem("wisdom"));
+      $("#charisma-input").val(localStorage.getItem("charisma"));
+      $("#totalAvailablePoints").val(localStorage.getItem("sum"));
+      $("#availablePoints").val(localStorage.getItem("availablePoints"));
+    });
+  });
+</script>
+@*<script>
+  $(document).ready(function(){
+    $("#strengthPlus").on("click", function() {
+      var currentValue = parseInt($("#strength-input").val());
+      if (currentValue < 18) {
+        $("#strength-input").val(currentValue + 1);
+      }
+    });
+    $("#strengthMinus").on("click", function() {
+      var currentValue = parseInt($("#strength-input").val());
+      if (currentValue > 0) {
+        $("#strength-input").val(currentValue - 1);
+      }
+    });
+  });
+</script>
+*@
+<script>
+  $(document).ready(function(){
+    $("#strengthPlus").on("click", function() {
+      var currentValue = parseInt($("#strength-input").val());
+      var availablePoints = parseInt($("#availablePoints").val());
+      if (currentValue < 18 && availablePoints > 0) {
+        $("#strength-input").val(currentValue + 1);
+        $("#availablePoints").val(availablePoints - 1);
+      }
+    });
+    $("#strengthMinus").on("click", function() {
+      var currentValue = parseInt($("#strength-input").val());
+      var availablePoints = parseInt($("#availablePoints").val());
+      if (currentValue > 3) {
+        $("#strength-input").val(currentValue - 1);
+        $("#availablePoints").val(availablePoints + 1);
+      }
+    });
+  });//strength
+    $(document).ready(function(){
+    $("#dexterityPlus").on("click", function() {
+      var currentValue = parseInt($("#dexterity-input").val());
+      var availablePoints = parseInt($("#availablePoints").val());
+      if (currentValue < 18 && availablePoints > 0) {
+        $("#dexterity-input").val(currentValue + 1);
+        $("#availablePoints").val(availablePoints - 1);
+      }
+    });
+    $("#dexterityMinus").on("click", function() {
+      var currentValue = parseInt($("#dexterity-input").val());
+      var availablePoints = parseInt($("#availablePoints").val());
+      if (currentValue > 3) {
+        $("#dexterity-input").val(currentValue - 1);
+        $("#availablePoints").val(availablePoints + 1);
+      }
+    });
+  });//dexterity
+    $(document).ready(function(){
+    $("#constitutionPlus").on("click", function() {
+      var currentValue = parseInt($("#constitution-input").val());
+      var availablePoints = parseInt($("#availablePoints").val());
+      if (currentValue < 18 && availablePoints > 0) {
+        $("#constitution-input").val(currentValue + 1);
+        $("#availablePoints").val(availablePoints - 1);
+      }
+    });
+    $("#constitutionMinus").on("click", function() {
+      var currentValue = parseInt($("#constitution-input").val());
+      var availablePoints = parseInt($("#availablePoints").val());
+      if (currentValue > 3) {
+        $("#constitution-input").val(currentValue - 1);
+        $("#availablePoints").val(availablePoints + 1);
+      }
+    });
+  });//constitution
+    $(document).ready(function(){
+    $("#intelligencePlus").on("click", function() {
+      var currentValue = parseInt($("#intelligence-input").val());
+      var availablePoints = parseInt($("#availablePoints").val());
+      if (currentValue < 18 && availablePoints > 0) {
+        $("#intelligence-input").val(currentValue + 1);
+        $("#availablePoints").val(availablePoints - 1);
+      }
+    });
+    $("#intelligenceMinus").on("click", function() {
+      var currentValue = parseInt($("#intelligence-input").val());
+      var availablePoints = parseInt($("#availablePoints").val());
+      if (currentValue > 3) {
+        $("#intelligence-input").val(currentValue - 1);
+        $("#availablePoints").val(availablePoints + 1);
+      }
+    });
+  });//intelligence
+    $(document).ready(function(){
+    $("#wisdomPlus").on("click", function() {
+      var currentValue = parseInt($("#wisdom-input").val());
+      var availablePoints = parseInt($("#availablePoints").val());
+      if (currentValue < 18 && availablePoints > 0) {
+        $("#wisdom-input").val(currentValue + 1);
+        $("#availablePoints").val(availablePoints - 1);
+      }
+    });
+    $("#wisdomMinus").on("click", function() {
+      var currentValue = parseInt($("#wisdom-input").val());
+      var availablePoints = parseInt($("#availablePoints").val());
+      if (currentValue > 3) {
+        $("#wisdom-input").val(currentValue - 1);
+        $("#availablePoints").val(availablePoints + 1);
+      }
+    });
+  });//wisdom
+    $(document).ready(function(){
+    $("#charismaPlus").on("click", function() {
+      var currentValue = parseInt($("#charisma-input").val());
+      var availablePoints = parseInt($("#availablePoints").val());
+      if (currentValue < 18 && availablePoints > 0) {
+        $("#charisma-input").val(currentValue + 1);
+        $("#availablePoints").val(availablePoints - 1);
+      }
+    });
+    $("#charismaMinus").on("click", function() {
+      var currentValue = parseInt($("#charisma-input").val());
+      var availablePoints = parseInt($("#availablePoints").val());
+      if (currentValue > 3) {
+        $("#charisma-input").val(currentValue - 1);
+        $("#availablePoints").val(availablePoints + 1);
+      }
+    });
+  });//charisma
+</script>
+
+<style>
+.dnd-button{
+    background: radial-gradient(circle at -4% -12.9%, rgb(90, 98, 110) 0.3%, rgb(33, 31, 33) 90.2%);
+    color:goldenrod;
+    text-align:center
+}
+</style>

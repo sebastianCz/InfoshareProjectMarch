@@ -64,13 +64,6 @@ internal class SeedCharacters : ISeeder
 
         var playableCharacterClasses = new List<PlayableClass>
             {
-                new PlayableClass
-                {
-                    ClassName = "Barbarian",
-                    StrengthBonus=1,
-                    ConstitutionBonus=1,
-                    BaseHP = 12
-                },
                  new PlayableClass
                 {
                     ClassName = "Fighter",
