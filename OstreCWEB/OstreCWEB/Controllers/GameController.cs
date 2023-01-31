@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using OstreCWEB.Services.Characters;
 using OstreCWEB.Services.Game;
@@ -11,6 +12,7 @@ using OstreCWEB.ViewModel.StoryBuilder;
 
 namespace OstreCWEB.Controllers
 {
+    [Authorize]
     public class GameController : Controller
     {
         private readonly IUserService _userService;

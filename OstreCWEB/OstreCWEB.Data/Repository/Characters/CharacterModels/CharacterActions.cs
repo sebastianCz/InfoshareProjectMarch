@@ -15,7 +15,9 @@ namespace OstreCWEB.Data.Repository.Characters.CharacterModels
         public int? StatusId { get; set; }
 
         public List<ActionCharacter>? LinkedCharacter {get;set;} 
-        public List<Item>? LinkedItems { get; set; }
+        public List<Item>? LinkedItems { get; set; } 
+        public int? PlayableClassId { get; set; }
+        public PlayableClass? PlayableClass { get; set; }
         //
 
         public string ActionName { get; set; }

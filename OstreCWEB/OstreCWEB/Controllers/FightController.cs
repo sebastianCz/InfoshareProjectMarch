@@ -2,7 +2,6 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using OstreCWEB.Data.Repository.Fight;
-using OstreCWEB.Data.Repository.Identity;
 using OstreCWEB.Data.Repository.ManyToMany;
 using OstreCWEB.Services.Fight;
 using OstreCWEB.Services.Game;
