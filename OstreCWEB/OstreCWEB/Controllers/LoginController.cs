@@ -79,43 +79,43 @@ namespace OstreCWEB.Controllers
             }
             return View(model);
         }
-        //public bool sendEmailSMTP(int emailType, CurrentUser currentUser, out string feedback)
-        //{
-        //    var smtpClient = new SmtpClient("smtp.gmail.com")
-        //    {
-        //        Port = 587,
-        //        Credentials = new NetworkCredential("ostreCGame@gmail.com", "jgkeyglxajjymsft"),
-        //        EnableSsl = true,
-        //    };
+        public bool sendEmailSMTP(int emailType, Registration registration, out string feedback)
+        {
+            var smtpClient = new SmtpClient("smtp.gmail.com")
+            {
+                Port = 587,
+                Credentials = new NetworkCredential("ostreCGame@gmail.com", "jgkeyglxajjymsft"),
+                EnableSsl = true,
+            };
 
-        //    var mailMessage = new MailMessage
-        //    {
-        //        From = new MailAddress("ostreCGame@gmail.com"),
-        //        Subject = "",
-        //        Body = "",
-        //        IsBodyHtml = true,
-        //    };
+            var mailMessage = new MailMessage
+            {
+                From = new MailAddress("ostreCGame@gmail.com"),
+                Subject = "",
+                Body = "",
+                IsBodyHtml = true,
+            };
 
-        //    //Forgot Password template
-        //    if (emailType == 1)
-        //    {
-        //        mailMessage.Subject = "Ostre C Game password recovery email";
-        //        mailMessage.Body = $"<h1>Hello,</h1> <br> <h2> dear {currentUser.UserName}</h2><br> You forgot your password. <br> For now the best I can do is send you your password. Here it is : <br>" +
-        //            $"Your username: {currentUser.UserName} <br> Your password: {currentUser.Password} <br> Please don't forget your password going forward. <br> <b>Regards</b>,<br><b> Ostre C team</b>";
+            //Forgot Password template
+            if (emailType == 1)
+            {
+                mailMessage.Subject = "Ostre C Game password recovery email";
+                mailMessage.Body = $"<h1>Hello,</h1> <br> <h2> dear {registration.UserName}</h2><br> You forgot your password. <br> For now the best I can do is send you your password. Here it is : <br>" +
+                    $"Your username: {registration.UserName} <br> Your password: {registration.Password} <br> Please don't forget your password going forward. <br> <b>Regards</b>,<br><b> Ostre C team</b>";
 
-        //        mailMessage.To.Add(currentUser.Email);
+                mailMessage.To.Add(registration.Email);
 
-        //        feedback = "Email sent on the email adress assigned to your existing account :" + currentUser.Email;
-        //        smtpClient.Send(mailMessage);
-        //        return true;
-        //    }
-        //    else
-        //    {
-        //        feedback = "An non existing email template was chosen";
-        //        throw new Exception(feedback);
-        //        return false;
+                feedback = "Email sent on the email adress assigned to your existing account :" + registration.Email;
+                smtpClient.Send(mailMessage);
+                return true;
+            }
+            else
+            {
+                feedback = "An non existing email template was chosen";
+                throw new Exception(feedback);
+                return false;
 
-        //    }
+            }
 
             // Admin account
             //public async Task<IActionResult> Reg()
@@ -132,5 +132,5 @@ namespace OstreCWEB.Controllers
             //    return Ok(result);
             //}
         }
-    
+    }
 }
