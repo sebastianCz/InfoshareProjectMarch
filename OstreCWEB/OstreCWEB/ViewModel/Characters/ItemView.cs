@@ -44,6 +44,7 @@ namespace OstreCWEB.ViewModel.Characters
                 }
             }
         }
+        [DisplayName("Equipable")]
         public bool CanBeEquipped
         {
             get
