@@ -4,6 +4,7 @@ using OstreCWEB.Data.InitialData;
 using OstreCWEB.Data.Repository.Characters.CharacterModels;
 using OstreCWEB.Data.Repository.Characters.Enums;
 using OstreCWEB.Data.Repository.Characters.MetaTags;
+using OstreCWEB.Data.Repository.Fight.Enums;
 using OstreCWEB.Data.Repository.Identity;
 using OstreCWEB.Services.Identity;
 
@@ -29,18 +30,20 @@ internal class SeedCharacters : ISeeder
          await Seed();
     } 
     private async Task Seed()
-    { 
+    {
         var statuses = new List<Status>
         {
             new Status
-            { 
+            {
+                StatusType = StatusType.Blind,
                 Name="Blind",
                 Description = "Blinds the character making him less accurate" 
             },
             new Status
             {
+                StatusType = StatusType.Bless,
                 Name="Bless",
-                Description="Character is blessed. It has a bonus 1d4 to every roll"
+                Description="Character is blessed. It has advantage to every hit roll"
             }
         };
 
@@ -146,7 +149,7 @@ internal class SeedCharacters : ISeeder
                 ActionName = "Magic Missiles",
                 ActionDescription = "Throws magic missiles at the enmy",
                 ActionType = CharacterActionType.Spell,
-                        SavingThrowPossible = true,
+                SavingThrowPossible = true,
                 Max_Dmg = 4,
                 Flat_Dmg = 2,
                 Hit_Dice_Nr = 2,
@@ -311,6 +314,20 @@ internal class SeedCharacters : ISeeder
                     Wisdom = 14,
                     Charisma = 12,
                     IsTemplate = true
+                },
+                 new PlayableCharacter
+                {
+                    CharacterName = "AdminCharacterCleric",
+                    MaxHealthPoints = 30,
+                    CurrentHealthPoints = 30,
+                    Level = 1,
+                    Strenght = 16,
+                    Dexterity = 10,
+                    Constitution = 14,
+                    Intelligence = 16,
+                    Wisdom = 12,
+                    Charisma = 12,
+                    IsTemplate = true
                 }
             };
 
@@ -376,7 +393,7 @@ internal class SeedCharacters : ISeeder
         playableCharacterClasses.FirstOrDefault(c => c.ClassName == "Cleric").ActionsGrantedByClass.Add(actions.FirstOrDefault(i => i.ActionName.ToLower().Contains("small heal")));
         playableCharacterClasses.FirstOrDefault(c => c.ClassName == "Cleric").ActionsGrantedByClass.Add(actions.FirstOrDefault(i => i.ActionName.ToLower().Contains("bless"))); 
 
-        playableCharacterClasses.FirstOrDefault(c => c.ClassName == "Fighter").ActionsGrantedByClass.Add(actions.FirstOrDefault(i => i.ActionName.ToLower().Contains("action surge"))); 
+        
         _db.SaveChanges();
         foreach (var enemy in enemies)
         {
@@ -391,6 +408,10 @@ internal class SeedCharacters : ISeeder
         //mage  
         playableCharacters[1].Race = playableRaces.FirstOrDefault(i => i.RaceName.ToLower().Contains("human"));
         playableCharacters[1].CharacterClass = playableCharacterClasses.FirstOrDefault(i => i.ClassName.ToLower().Contains("wizard"));
+        //cleric
+        playableCharacters[2].Race = playableRaces.FirstOrDefault(i => i.RaceName.ToLower().Contains("human"));
+        playableCharacters[2].CharacterClass = playableCharacterClasses.FirstOrDefault(i => i.ClassName.ToLower().Contains("cleric"));
+
 
         enemies = UpdateEnemyItemsRelations(enemies);
         enemies = UpdateEnemyActionsRelations(enemies);
@@ -400,6 +421,7 @@ internal class SeedCharacters : ISeeder
         
         users.FirstOrDefault(u=>u.UserName =="AdminUser").CharactersCreated.Add(playableCharacters[0]);
         users[1].CharactersCreated.Add(playableCharacters[1]); 
+        users[2].CharactersCreated.Add(playableCharacters[2]); 
         _db.SaveChanges();
         SeedStories.Initialize(_db, users.First(u => u.UserName == "AdminUser"));
     }

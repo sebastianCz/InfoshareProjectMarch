@@ -12,8 +12,8 @@ using OstreCWEB.Data.DataBase;
 namespace OstreCWEB.Data.Migrations
 {
     [DbContext(typeof(OstreCWebContext))]
-    [Migration("20230131190827_initial-create")]
-    partial class initialcreate
+    [Migration("20230131204559_Initial")]
+    partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -443,6 +443,9 @@ namespace OstreCWEB.Data.Migrations
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("StatusType")
+                        .HasColumnType("int");
 
                     b.HasKey("StatusId");
 

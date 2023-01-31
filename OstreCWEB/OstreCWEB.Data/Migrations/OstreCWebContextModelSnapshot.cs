@@ -442,6 +442,9 @@ namespace OstreCWEB.Data.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int>("StatusType")
+                        .HasColumnType("int");
+
                     b.HasKey("StatusId");
 
                     b.ToTable("Statuses");
