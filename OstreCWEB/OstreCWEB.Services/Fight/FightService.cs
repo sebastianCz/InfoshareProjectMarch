@@ -96,22 +96,20 @@ namespace OstreCWEB.Services.Fight
             {
                 _activeFightInstance.ActivePlayer.LinkedActions.First(a => a.CharacterAction.CharacterActionId == _activeFightInstance.ActiveAction.CharacterActionId).UsesLeftBeforeRest--;
             }
+
+            if (_activeFightInstance.PlayerActionCounter == 0)
+            {
+                _activeFightInstance.PlayerActionCounter = 2;
+                StartAiTurn();
+                _activeFightInstance.ActivePlayer.ActiveStatuses.Clear();
+                _activeFightInstance.ActiveEnemies.ForEach(e => e.ActiveStatuses.Clear());
+                _activeFightInstance.TurnNumber = UpdateTurnNumber(_activeFightInstance.TurnNumber);
+            }
             var combatEnded = IsFightFinished(_activeFightInstance.ActiveEnemies, GetActivePlayer());
             if (combatEnded)
             {
                 var fightWon = IsFightWon(_activeFightInstance.ActivePlayer);
                 FinishFight(fightWon);
-            }
-            else
-            {
-                _activeFightInstance.TurnNumber = UpdateTurnNumber(_activeFightInstance.TurnNumber);
-                if (_activeFightInstance.PlayerActionCounter == 0)
-                {
-                    _activeFightInstance.PlayerActionCounter = 2;
-                    StartAiTurn();
-                    _activeFightInstance.ActivePlayer.ActiveStatuses.Clear();
-                    _activeFightInstance.ActiveEnemies.ForEach(e => e.ActiveStatuses.Clear());
-                }
             }
         }
         public List<string> ReturnHistory() => _activeFightInstance.FightHistory;
@@ -223,19 +221,19 @@ namespace OstreCWEB.Services.Fight
                         if (action.ActionName == "Bless")
                         {
                             _activeFightInstance.FightHistory = UpdateFightHistory(_activeFightInstance.FightHistory,
-                                                        $" {target.CharacterName} used bless on himself!");                                                
+                                                        $" {target.CharacterName} used bless on himself!");
                         }
                         else
                         {
-                        var heal = ApplyHeal(target, action, savingThrow);
-                        _activeFightInstance.FightHistory = UpdateFightHistory(_activeFightInstance.FightHistory,
-                            $" {target.CharacterName} gained {heal} healthpoints, current healthpoints {target.MaxHealthPoints}," +
-                            $" due to {caster.CharacterName}  using {action.ActionName}");
+                            var heal = ApplyHeal(target, action, savingThrow);
+                            _activeFightInstance.FightHistory = UpdateFightHistory(_activeFightInstance.FightHistory,
+                                $" {target.CharacterName} gained {heal} healthpoints, current healthpoints {target.MaxHealthPoints}," +
+                                $" due to {caster.CharacterName}  using {action.ActionName}");
                         }
 
                     }
                 }
-                
+
             }
             else
             {
@@ -247,9 +245,9 @@ namespace OstreCWEB.Services.Fight
 
         private bool IsTargetHit(Character target, Character caster, CharacterAction action)
         {
-            if (action.AggressiveAction && action.ActionType != CharacterActionType.Spell)
+            if (action.AggressiveAction && action.ActionType != CharacterActionType.Spell && action.ActionType != CharacterActionType.Cantrip)
             {
-        
+
                 var casterMod = CheckStatForHit(caster, action);
                 var targetArmor = CheckArmor(target);
                 if (targetArmor > casterMod) return false;
