@@ -99,7 +99,8 @@ namespace OstreCWEB.Data.Migrations
                     StatusId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Description = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    StatusType = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -240,6 +241,7 @@ namespace OstreCWEB.Data.Migrations
                     CharacterActionId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     StatusId = table.Column<int>(type: "int", nullable: true),
+                    PlayableClassId = table.Column<int>(type: "int", nullable: true),
                     ActionName = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     ActionDescription = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     ActionType = table.Column<int>(type: "int", nullable: false),
@@ -256,6 +258,11 @@ namespace OstreCWEB.Data.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_CharacterActions", x => x.CharacterActionId);
+                    table.ForeignKey(
+                        name: "FK_CharacterActions_PlayableCharacterClasses_PlayableClassId",
+                        column: x => x.PlayableClassId,
+                        principalTable: "PlayableCharacterClasses",
+                        principalColumn: "PlayableClassId");
                     table.ForeignKey(
                         name: "FK_CharacterActions_Statuses_StatusId",
                         column: x => x.StatusId,
@@ -291,10 +298,10 @@ namespace OstreCWEB.Data.Migrations
                 {
                     ItemId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    ActionToTriggerCharacterActionId = table.Column<int>(type: "int", nullable: true),
+                    ActionToTriggerId = table.Column<int>(type: "int", nullable: true),
+                    PlayableClassId = table.Column<int>(type: "int", nullable: true),
                     ItemType = table.Column<int>(type: "int", nullable: false),
                     ArmorClass = table.Column<int>(type: "int", nullable: true),
-                    ArmorType = table.Column<int>(type: "int", nullable: true),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     DeleteOnUse = table.Column<bool>(type: "bit", nullable: false)
                 },
@@ -302,10 +309,15 @@ namespace OstreCWEB.Data.Migrations
                 {
                     table.PrimaryKey("PK_Items", x => x.ItemId);
                     table.ForeignKey(
-                        name: "FK_Items_CharacterActions_ActionToTriggerCharacterActionId",
-                        column: x => x.ActionToTriggerCharacterActionId,
+                        name: "FK_Items_CharacterActions_ActionToTriggerId",
+                        column: x => x.ActionToTriggerId,
                         principalTable: "CharacterActions",
                         principalColumn: "CharacterActionId");
+                    table.ForeignKey(
+                        name: "FK_Items_PlayableCharacterClasses_PlayableClassId",
+                        column: x => x.PlayableClassId,
+                        principalTable: "PlayableCharacterClasses",
+                        principalColumn: "PlayableClassId");
                 });
 
             migrationBuilder.CreateTable(
@@ -658,6 +670,11 @@ namespace OstreCWEB.Data.Migrations
                 filter: "[UserParagraphId] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
+                name: "IX_CharacterActions_PlayableClassId",
+                table: "CharacterActions",
+                column: "PlayableClassId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_CharacterActions_StatusId",
                 table: "CharacterActions",
                 column: "StatusId");
@@ -690,9 +707,14 @@ namespace OstreCWEB.Data.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "IX_Items_ActionToTriggerCharacterActionId",
+                name: "IX_Items_ActionToTriggerId",
                 table: "Items",
-                column: "ActionToTriggerCharacterActionId");
+                column: "ActionToTriggerId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Items_PlayableClassId",
+                table: "Items",
+                column: "PlayableClassId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_ItemsCharactersRelation_CharacterId",
@@ -796,9 +818,6 @@ namespace OstreCWEB.Data.Migrations
                 name: "Items");
 
             migrationBuilder.DropTable(
-                name: "PlayableCharacterClasses");
-
-            migrationBuilder.DropTable(
                 name: "PlayableCharacterRaces");
 
             migrationBuilder.DropTable(
@@ -809,6 +828,9 @@ namespace OstreCWEB.Data.Migrations
 
             migrationBuilder.DropTable(
                 name: "Paragraphs");
+
+            migrationBuilder.DropTable(
+                name: "PlayableCharacterClasses");
 
             migrationBuilder.DropTable(
                 name: "Statuses");

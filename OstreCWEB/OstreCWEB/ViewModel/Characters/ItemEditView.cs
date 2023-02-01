@@ -4,7 +4,7 @@ using System.ComponentModel;
 
 namespace OstreCWEB.ViewModel.Characters
 {
-    public class ItemView
+    public class ItemEditView
     {
 
         public int ItemId { get; set; }
@@ -14,23 +14,15 @@ namespace OstreCWEB.ViewModel.Characters
         public int ArmorClass { get; set; } 
         [DisplayName("Name")]
         public string? Name { get; set; }
-        [DisplayName("Linked Action")]
-        public  CharacterActionView ActionToTrigger { get; set; }
-        [DisplayName("Linked Class")]
-        public PlayableClassView PlayableClass { get; set; }
+        [DisplayName("Linked Action")] 
+        public int ActionToTriggerId { get; set; }
+        [DisplayName("Granted by class")]
+        public int? PlayableClassId { get; set; }
+        public  Dictionary<int, string> AllExistingActions { get; set; }
+        public Dictionary<int, string> AllExistingClasses { get; set; }
+
         [DisplayName("Destroyed on use")]
-        public bool DeleteOnUse { get; set; } 
-        public bool IsActionShowable 
-        {
-            get
-            {
-                if(this.ActionToTrigger != null)
-                {
-                    return true;
-                }
-                return false;
-            }  
-        }
+        public bool DeleteOnUse { get; set; }  
         public bool isArmor
         {
             get
