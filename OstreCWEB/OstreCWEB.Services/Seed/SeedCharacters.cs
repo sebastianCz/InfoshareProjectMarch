@@ -75,7 +75,7 @@ internal class SeedCharacters : ISeeder
                 {
                     ClassName = "Cleric",
                     StrengthBonus=0,
-                    IntelligenceBonus=1,
+                    WisdomBonus=1,
                     BaseHP = 8
                 },
                 new PlayableClass

@@ -24,6 +24,7 @@ namespace OstreCWEB.Services.Characters
         public void RollAttributes(PlayableCharacter model);
 
         public Task<string> GetClassNameById(int id);
+        public List<string> GetAllNames();
         #endregion
         public int RollDice(int maxValue = 7);
     }

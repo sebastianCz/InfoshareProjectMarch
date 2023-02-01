@@ -108,7 +108,22 @@ namespace OstreCWEB.Data.Repository.Characters
             int sum = rolls.Take(3).Sum();
             return sum;
         }
+
+        List<string> maleNames = new List<string>()
+            {
+                "Aiden", "Ethan", "Jacob", "Michael", "William",
+                "Alexander", "Daniel", "Matthew", "Nicholas", "Christopher",
+                "Andrew", "Brandon", "Caleb", "David", "Elijah",
+                "Isaac", "Gabriel", "Josiah", "Luke", "Noah"
+            };
+
+        public List<string> GetAllNames()
+        {
+            return maleNames;
+        }
         #endregion
+
+
 
     }
 }

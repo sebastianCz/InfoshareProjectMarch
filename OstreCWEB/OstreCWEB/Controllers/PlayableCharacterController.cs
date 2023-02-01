@@ -46,8 +46,6 @@ namespace OstreCWEB.Controllers
             {
                 return View();
             }
-            
-
         }
 
         public ActionResult SetRace()
@@ -92,15 +90,11 @@ namespace OstreCWEB.Controllers
             ViewBag.AvailablePoints = 0;
 
             ViewBag.RaceId = model.RaceId;
-            ViewBag.XClassId = model.PlayableClassId;
-
-            //
-            //var character = new List<PlayableClass>();
-            //character.Add(new PlayableClass { PlayableClassId = 1, ClassName = "Fighter", StrengthBonus = 1 });
-            //character.Add(new PlayableClass { PlayableClassId = 2, ClassName = "Cleric", WisdomBonus = 1 });
-            //character.Add(new PlayableClass { PlayableClassId = 3, ClassName = "Wizard", IntelligenceBonus = 1 });
+            ViewBag.ClassId = model.PlayableClassId;
 
             var character = _playableCharacterService.GetAllClasses();
+
+            var attributesList = new List<PlayableClassView>();
 
             var bonusStr = character.Where(c => c.PlayableClassId == model.RaceId).Select(c => c.StrengthBonus).FirstOrDefault();
             var bonusWis = character.Where(c => c.PlayableClassId == model.RaceId).Select(c => c.WisdomBonus).FirstOrDefault();
@@ -117,6 +111,8 @@ namespace OstreCWEB.Controllers
 
         public ActionResult SetName(PlayableCharacterCreateView model)
         {
+            var listName = _playableCharacterService.GetAllNames();
+
             ViewBag.RaceId = model.RaceId;
             ViewBag.ClassId = model.PlayableClassId;
             ViewBag.Str = model.Strenght;
@@ -126,17 +122,8 @@ namespace OstreCWEB.Controllers
             ViewBag.Wis = model.Wisdom;
             ViewBag.Cha = model.Charisma;
 
+            ViewBag.MaleNames = listName;
 
-            // do przeniesienia
-            List<string> maleNames = new List<string>()
-            {
-                "Aiden", "Ethan", "Jacob", "Michael", "William",
-                "Alexander", "Daniel", "Matthew", "Nicholas", "Christopher",
-                "Andrew", "Brandon", "Caleb", "David", "Elijah",
-                "Isaac", "Gabriel", "Josiah", "Luke", "Noah"
-            };
-
-            ViewBag.MaleNames = maleNames[0];
 
 
             return View(model);
@@ -144,6 +131,7 @@ namespace OstreCWEB.Controllers
 
         public ActionResult Summary(PlayableCharacterCreateView model)
         {
+            var modelCharacter = _playableCharacterService.GetAll();
             ViewBag.RaceId = model.RaceId;
             //var raceName = _playableCharacterService.GetById(model.RaceId);
             //ViewBag.RaceName = raceName;
@@ -156,19 +144,10 @@ namespace OstreCWEB.Controllers
             ViewBag.Wis = model.Wisdom;
             ViewBag.Cha = model.Charisma;
             ViewBag.Name = model.CharacterName;
-            return View();
+            return View(model);
         }
-
-        //public ActionResult ChangeValue(PlayableCharacter characterModel, string operation, AbilityScores attribute)
-        //{
-        //    var model = _playableCharacterService.GetAll();
-        //    _playableCharacterService.UpdateAttribute(characterModel, operation, attribute);
-        //    return RedirectToAction(nameof(Create));
-        //}
-
         public ActionResult RollAttributePoints(PlayableCharacter model)
         {
-            //var model = _playableCharacterService.GetAll();
             _playableCharacterService.RollAttributes(model);
             return RedirectToAction(nameof(SetAttributes));
         }

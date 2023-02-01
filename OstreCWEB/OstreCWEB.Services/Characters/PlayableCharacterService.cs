@@ -8,9 +8,12 @@ namespace OstreCWEB.Services.Characters
     public class PlayableCharacterService : IPlayableCharacterService 
     {
         private readonly IPlayableCharacterRepository _playableCharacterRepository;
-        public PlayableCharacterService(IPlayableCharacterRepository characterRepository)
+        private readonly ICharacterClassRepository _characterClassRepository;
+
+        public PlayableCharacterService(IPlayableCharacterRepository characterRepository, ICharacterClassRepository characterClassRepository)
         {
             _playableCharacterRepository = characterRepository;
+            _characterClassRepository = characterClassRepository;
         } 
         public Task Add(Character charater)
         {
@@ -88,6 +91,10 @@ namespace OstreCWEB.Services.Characters
         public async Task<string> GetClassNameById(int id)
         {
             return "error";
+        }
+        public List<string> GetAllNames()
+        {
+            return _playableCharacterRepository.GetAllNames();
         }
 
         #endregion

@@ -4,14 +4,31 @@
     ViewData["Title"] = "Attributes";
 }
 
-<h1>Set Attributes</h1>
-<p>race: @ViewBag.RaceId</p>
-<p>class: @ViewBag.XClassId</p>
-<p>class mod: @ViewBag.BonusStr</p>
-<p>class mod: @ViewBag.BonusWis</p>
-<p>class mod: @ViewBag.BonusInt</p>
-<p>class name: @ViewBag.ClassName</p>
-<hr />
+<div class="accordion" id="accordionExample">
+  <div class="accordion-item">
+    <h2 class="accordion-header" id="headingOne">
+      <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+        Statistics
+      </button>
+    </h2>
+    <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
+      <div class="accordion-body">
+        <div>
+            <h1>Set Attributes</h1>
+            <p>race: @ViewBag.RaceId</p>
+            <p>class: @ViewBag.ClassId</p>
+            <p>class mod: @ViewBag.BonusStr</p>
+            <p>class mod: @ViewBag.BonusWis</p>
+            <p>class mod: @ViewBag.BonusInt</p>
+            <p>class name: @ViewBag.ClassName</p>
+            <hr />
+        </div>
+      </div>
+    </div>
+  </div>
+</div><!--Statistics only for test-->
+
+
 
 
 <div class="row">
@@ -21,6 +38,7 @@
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input asp-for="RaceId" hidden="true"/>
             <input asp-for="PlayableClassId" hidden="true"/>
+
             <div class="p-3 bg-opacity-75 border border-warning-subtle rounded-top" style="background: radial-gradient(circle at -4% -12.9%, rgb(90, 98, 110) 0.3%, rgb(33, 31, 33) 90.2%);
                 color:goldenrod; text-align:center">
                 <h2>Attribute Points</h2>
@@ -52,7 +70,7 @@
                         <input class="form-control" id="availablePoints" value="@ViewBag.AvailablePoints" readonly/>
                     </div>
                     <br />
-                    <div class="form-group" style="display:inline">
+                    <div class="form-group">
                         <div class="col-md-4">
                             <label asp-for="Strenght" class="control-label"></label>
                             <input asp-for="Strenght" class="form-control" id="strength-input" value="@ViewBag.Str" readonly/>

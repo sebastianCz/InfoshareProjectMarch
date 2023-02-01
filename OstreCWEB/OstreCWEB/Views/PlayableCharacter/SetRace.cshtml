@@ -8,7 +8,7 @@
 
 <hr />
 
-<div class="row">
+@*<div class="row">
     <div class="col-md-4 ">
         <form asp-action="Create">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
@@ -36,7 +36,7 @@
                 </div>
         </form>
     </div>
-</div>
+</div>*@
 
 <div class="row">
     <div class="col-md-4 ">
@@ -54,7 +54,7 @@
                     {
                         <div class="form-check">
                             <input asp-for="RaceId" class="form-check-input" type="radio" value="@item.Key" id="class_@item.Key"/>
-                            <label class="form-check-label" for="class_@item.Key">@item.Value</label>
+                            <label class="form-check-label" for="class_@item.Key">@item.Value</label>                            
                         </div>
                     }
                     <span asp-validation-for="RaceId" class="text-danger"></span>
