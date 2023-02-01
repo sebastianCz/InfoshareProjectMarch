@@ -1,6 +1,6 @@
-﻿using OstreCWEB.Data.DataBase;
-using OstreCWEB.Data.Repository.StoryModels;
+﻿using OstreCWEB.Data.Repository.StoryModels;
 using OstreCWEB.Services.Models;
+using OstreCWEB.Data.Repository.StoryModels.Enums;
 
 namespace OstreCWEB.Services.StoryServices
 {
@@ -146,6 +146,9 @@ namespace OstreCWEB.Services.StoryServices
                     paragraphDetails.PreviousParagraphs.Add(previousParagraph);
                 }
             }
+
+            paragraphDetails.Delete = !paragraphDetails.PreviousParagraphs.Any
+                (x => x.ParagraphType == ParagraphType.Fight || x.ParagraphType == ParagraphType.Test);
 
             return paragraphDetails;
         }

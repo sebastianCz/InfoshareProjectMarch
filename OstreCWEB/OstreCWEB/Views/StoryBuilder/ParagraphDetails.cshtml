@@ -23,37 +23,44 @@
     </div>
     <div class="btn-group" role="group" aria-label="Basic mixed styles example">
         <a asp-action="EditStory" asp-route-id="@Model.StoryId" type="button" class="btn btn-warning">Edit</a>
-        <a asp-action="DeleteStory" asp-route-id="@Model.StoryId" type="button" class="btn btn-danger">Delete</a>
         <a asp-action="StoryParagraphsList" asp-route-id="@Model.StoryId" type="button" class="btn btn-primary">Show All Paragraphs</a>
+        <a asp-action="DeleteStory" asp-route-id="@Model.StoryId" type="button" class="btn btn-danger">Delete</a>
         <a asp-action="Index" type="button" class="btn btn-success">Back to List</a>
     </div>
 </div>
 
-@if (Model.PreviousParagraphs.Count() != 0)
-{
-    <div class="card">
-        <div class="card-body">
-            <h5 class="card-title">Previous Paragraphs</h5>
-            <table class="table table-striped">
-                <thead>
-                    <tr>
-                        <th>
-                            <label asp-for="PreviousParagraphs.First().ParagraphType"></label>
-                        </th>
-                        <th>
-                            <label asp-for="PreviousParagraphs.First().StageDescription"></label>
-                        </th>
-                        <th>
-                            <label asp-for="PreviousParagraphs.First().AmountOfChoices"></label>
-                        </th>
-                        <th>____Action____</th>
-                    </tr>
-                </thead>
+
+<div class="card">
+    <div class="card-body">
+        <h5 class="card-title">Previous Paragraphs</h5>
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>
+                        The choice that brings you here
+                    </th>
+                    <th>
+                        <label asp-for="PreviousParagraphs.First().ParagraphType"></label>
+                    </th>
+                    <th>
+                        <label asp-for="PreviousParagraphs.First().StageDescription"></label>
+                    </th>
+                    <th>
+                        Choices
+                    </th>
+                    <th>____Action____</th>
+                </tr>
+            </thead>
+            @if (Model.PreviousParagraphs.Count() != 0)
+            {
                 <tbody>
                     @foreach (var item in Model.PreviousParagraphs)
                     {
                         <tr>
                             <td>
+                                @item.DescriptionOfChoice
+                            </td>
+                            <td>
                                 @item.ParagraphType
                             </td>
                             <td>
@@ -63,73 +70,87 @@
                                 @item.AmountOfChoices
                             </td>
                             <td>
-                                @*                        <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |*@
                                 <a asp-route-name="StoryBuilder" asp-action="ParagraphDetails" asp-route-id="@Model.StoryId" asp-route-paragraphId="@item.Id" type="button" class="btn btn-success">Go here!</a>
-                                @*                        <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>*@
                             </td>
                         </tr>
                     }
                 </tbody>
-            </table>
-        </div>
+            }
+        </table>
+        <a asp-action="CreateParagraph" asp-route-id="@Model.StoryId" type="button" class="btn btn-success">Create Previous Paragraph</a>
     </div>
-}
+</div>
 
-@if (Model.AmountOfParagraphs != 0)
-{
-    <div class="card">
-        <div class="card-body">
-            <h5 class="card-title">Current Paragraph</h5>
 
-            <dl class="row">
-                <dt class="col-sm-2">
-                    <label asp-for="@Model.CurrentParagraphView.ParagraphType"></label>
-                </dt>
-                <dd class="col-sm-10">
-                    @Model.CurrentParagraphView.ParagraphType
-                </dd>
-                <dt class="col-sm-2">
-                    <label asp-for="@Model.CurrentParagraphView.StageDescription"></label>
-                </dt>
-                <dd class="col-sm-10">
-                    @Model.CurrentParagraphView.StageDescription
-                </dd>
-                <dt class="col-sm-2">
-                    <label asp-for="@Model.CurrentParagraphView.AmountOfChoices"></label>
-                </dt>
-                <dd class="col-sm-10">
-                    @Model.CurrentParagraphView.AmountOfChoices
-                </dd>
-            </dl>
-        </div>
+<div class="card">
+    <div class="card-body">
+        <h5 class="card-title">Current Paragraph</h5>
+
+        <dl class="row">
+            <dt class="col-sm-2">
+                <label asp-for="@Model.CurrentParagraphView.ParagraphType"></label>
+            </dt>
+            <dd class="col-sm-10">
+                @Model.CurrentParagraphView.ParagraphType
+            </dd>
+            <dt class="col-sm-2">
+                <label asp-for="@Model.CurrentParagraphView.StageDescription"></label>
+            </dt>
+            <dd class="col-sm-10">
+                @Model.CurrentParagraphView.StageDescription
+            </dd>
+            <dt class="col-sm-2">
+                <label asp-for="@Model.CurrentParagraphView.AmountOfChoices"></label>
+            </dt>
+            <dd class="col-sm-10">
+                @Model.CurrentParagraphView.AmountOfChoices
+            </dd>
+        </dl>
+        <a asp-action="CreateParagraph" asp-route-id="@Model.StoryId" type="button" class="btn btn-success">Create a new choice with an existing paragraph</a>
+        <a asp-action="CreateParagraph" asp-route-id="@Model.StoryId" type="button" class="btn btn-primary">Edit Paragraph</a>
+
+        @if (Model.Delete)
+        {
+            <a asp-action="CreateParagraph" asp-route-id="@Model.StoryId" type="button" class="btn btn-danger">Delete Paragraph</a>
+        }
+        @if (!Model.Delete)
+        {
+            <div>If you want to delete this paragraph, it must not be from Test or Fight</div>
+        }
     </div>
-}
+</div>
 
-@if (Model.NextParagraphs.Count() != 0)
-{
-    <div class="card">
-        <div class="card-body">
-            <h5 class="card-title">Next Paragraphs</h5>
-            <table class="table table-striped">
-                <thead>
-                    <tr>
-                        <th>
-                            <label asp-for="NextParagraphs.First().ParagraphType"></label>
-                        </th>
-                        <th>
-                            <label asp-for="NextParagraphs.First().StageDescription"></label>
-                        </th>
-                        <th>
-                            <label asp-for="NextParagraphs.First().AmountOfChoices"></label>
-                        </th>
-                        <th>____Action____</th>
-                    </tr>
-                </thead>
+
+<div class="card">
+    <div class="card-body">
+        <h5 class="card-title">Next Paragraphs</h5>
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>
+                        The choice that leads here
+                    </th>
+                    <th>
+                        <label asp-for="NextParagraphs.First().ParagraphType"></label>
+                    </th>
+                    <th>
+                        <label asp-for="NextParagraphs.First().StageDescription"></label>
+                    </th>
+                    <th>
+                        Choices
+                    </th>
+                </tr>
+            </thead>
+            @if (Model.NextParagraphs.Count() != 0)
+            {
                 <tbody>
                     @foreach (var item in Model.NextParagraphs)
                     {
                         <tr>
                             <td>
+                                <a asp-route-name="storyBuilder" asp-action="ParagraphDetails" asp-route-id="@Model.StoryId" asp-route-paragraphId="@item.Id" type="button" class="btn btn-warning">@item.DescriptionOfChoice</a>
+                            </td>
+                            <td>
                                 @item.ParagraphType
                             </td>
                             <td>
@@ -138,17 +159,11 @@
                             <td>
                                 @item.AmountOfChoices
                             </td>
-                            <td>
-                                @*                        <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |*@
-                                <a asp-route-name="storyBuilder" asp-action="ParagraphDetails" asp-route-id="@Model.StoryId" asp-route-paragraphId="@item.Id" type="button" class="btn btn-success">Go here!</a>
-                                @*                        <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>*@
-                            </td>
                         </tr>
                     }
                 </tbody>
-            </table>
-        </div>
+            }
+        </table>
+        <a asp-action="CreateParagraph" asp-route-id="@Model.StoryId" type="button" class="btn btn-success">Create Next Paragraph</a>
     </div>
-}
-
-<a asp-action="CreateParagraph" asp-route-id="@Model.StoryId" type="button" class="btn btn-success">Create new Paragraph</a>
+</div>

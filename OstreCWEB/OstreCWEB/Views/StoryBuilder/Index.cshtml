@@ -33,7 +33,7 @@
                         <label asp-for="First().Description"></label>
                     </th>
                     <th>
-                        <label asp-for="First().AmountOfParagraphs"></label>
+                        Paragraphs
                     </th>
                     <th></th>
                 </tr>
@@ -56,19 +56,8 @@
                         </td>
                     </tr>
                 }
-                <tr>
-                    <td>
-                        <label asp-for="First().Name"></label>
-                    </td>
-                    <td>
-                        <label asp-for="First().Description"></label>
-                    </td>
-                    <td>
-                        <label asp-for="First().AmountOfParagraphs"></label>
-                    </td>
-                    <td><a asp-action="Create" type="button" class="btn btn-success">Create new Story</a></td>
-                </tr>
             </tbody>
         </table>
+        <a asp-action="CreateStory" type="button" class="btn btn-success">Create new Story</a>
     </div>
 </div>

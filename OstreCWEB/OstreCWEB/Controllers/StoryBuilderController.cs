@@ -21,6 +21,14 @@ namespace OstreCWEB.Controllers
             _logger = logger;
         }
 
+        /*
+                |S|
+                |T|
+                |O|
+                |R|
+                |Y| 
+        */
+
         // GET: StoryBuilderController
         public async Task<ActionResult> Index()
         {
@@ -58,6 +66,49 @@ namespace OstreCWEB.Controllers
             }
         }
 
+        // GET: StoryBuilderController/DeleteStory/5
+        public async Task<ActionResult> DeleteStory(int id)
+        {
+            return View(_mapper.Map<StoriesView>(await _storyService.GetStoryById(id)));
+        }
+
+        // POST: StoryBuilderController/DeleteStory/5
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> DeleteStory(StoriesView story)
+        {
+            try
+            {
+                await _storyService.DeleteStory(story.Id);
+                return RedirectToAction(nameof(Index));
+            }
+            catch
+            {
+                return View();
+            }
+        }
+
+        // GET: StoryBuilderController/Edit/5
+        public async Task<ActionResult> EditStory(int id)
+        {
+            return View(_mapper.Map<StoriesView>(await _storyService.GetStoryById(id)));
+        }
+
+        // POST: StoryBuilderController/Edit/5
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> EditStory(StoriesView model)
+        {
+            try
+            {
+                await _storyService.UpdateStory(model.Id, model.Name, model.Description);
+                return RedirectToAction(nameof(Index));
+            }
+            catch
+            {
+                return View();
+            }
+        }
 
         // GET: StoryBuilderController/StoryParagraphsList
         public async Task<ActionResult> StoryParagraphsList(int id)
@@ -65,6 +116,18 @@ namespace OstreCWEB.Controllers
             var model = _mapper.Map<StoryParagraphsView>(await _storyService.GetStoryWithParagraphsById(id));
             return View(model);
         }
+
+        /*
+                |P|
+                |A|
+                |R|
+                |A|
+                |G|
+                |R|
+                |A|
+                |P|
+                |H|   
+        */
 
         // GET: StoryBuilderController/ParagraphDetails/5/1
         public async Task<ActionResult> ParagraphDetails(int id, int paragraphId)

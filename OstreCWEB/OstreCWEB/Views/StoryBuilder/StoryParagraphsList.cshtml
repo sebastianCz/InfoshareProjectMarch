@@ -22,27 +22,29 @@
         Amount of Paragraphs: @Model.AmountOfParagraphs
     </div>
     <div class="btn-group" role="group" aria-label="Basic mixed styles example">
-        <a asp-action="EditStory" asp-route-id="@Model.Id" type="button" class="btn btn-warning">Edit</a>
+        <a asp-action="EditStory" asp-route-id="@Model.Id" type="button" class="btn btn-warning">Edit</a>      
+        @if (Model.AmountOfParagraphs != 0)
+        {
+            <a asp-route-name="StoryBuilder" asp-action="ParagraphDetails" asp-route-id="@Model.Id" asp-route-paragraphId="@Model.FirstParagraphId" type="button" class="btn btn-primary">Show Details</a>
+        }
         <a asp-action="DeleteStory" asp-route-id="@Model.Id" type="button" class="btn btn-danger">Delete</a>
-        <a asp-route-name="StoryBuilder" asp-action="ParagraphDetails" asp-route-id="@Model.Id" asp-route-paragraphId="@Model.FirstParagraphId" type="button" class="btn btn-primary">Show Details</a>
         <a asp-action="Index" type="button" class="btn btn-success">Back to List</a>
     </div>
 </div>
 
 <div class="card">
     <div class="card-body">
-        <h5 class="card-title">Next Paragraphs</h5>
+        <h5 class="card-title">Paragraphs</h5>
         <table class="table table-striped">
             <thead>
                 <tr>
                     <th>
-                        <label asp-for="Paragraphs.First().ParagraphType"></label>
-                    </th>
+                        Type
                     <th>
                         <label asp-for="Paragraphs.First().StageDescription"></label>
                     </th>
                     <th>
-                        <label asp-for="Paragraphs.First().AmountOfChoices"></label>
+                        Choices
                     </th>
                     <th>____Action____</th>
                 </tr>
@@ -64,7 +66,7 @@
                             </td>
                             <td>
                                 @*                        <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |*@
-                                <a asp-route-name="StoryBuilder" asp-action="ParagraphDetails" asp-route-id="@Model.Id" asp-route-paragraphId="@item.Id" type="button" class="btn btn-success">Go here!</a>
+                                <a asp-route-name="StoryBuilder" asp-action="ParagraphDetails" asp-route-id="@Model.Id" asp-route-paragraphId="@item.Id" type="button" class="btn btn-success">Show Details</a>
                                 @*                        <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>*@
                             </td>
                         </tr>
@@ -83,7 +85,7 @@
                             </td>
                             <td>
                                 @*                        <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |*@
-                                <a asp-route-name="StoryBuilder" asp-action="ParagraphDetails" asp-route-id="@Model.Id" asp-route-paragraphId="@item.Id" type="button" class="btn btn-success">Go here!</a>
+                                <a asp-route-name="StoryBuilder" asp-action="ParagraphDetails" asp-route-id="@Model.Id" asp-route-paragraphId="@item.Id" type="button" class="btn btn-success">Show Details</a>
                                 @*                        <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>*@
                             </td>
                         </tr>
@@ -102,7 +104,7 @@
                             </td>
                             <td>
                                 @*                        <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |*@
-                                <a asp-route-name="StoryBuilder" asp-action="ParagraphDetails" asp-route-id="@Model.Id" asp-route-paragraphId="@item.Id" type="button" class="btn btn-success">Go here!</a>
+                                <a asp-route-name="StoryBuilder" asp-action="ParagraphDetails" asp-route-id="@Model.Id" asp-route-paragraphId="@item.Id" type="button" class="btn btn-success">Show Details</a>
                                 @*                        <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>*@
                             </td>
                         </tr>
@@ -121,7 +123,7 @@
                             </td>
                             <td>
                                 @*                        <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |*@
-                                <a asp-route-name="StoryBuilder" asp-action="ParagraphDetails" asp-route-id="@Model.Id" asp-route-paragraphId="@item.Id" type="button" class="btn btn-success">Go here!</a>
+                                <a asp-route-name="StoryBuilder" asp-action="ParagraphDetails" asp-route-id="@Model.Id" asp-route-paragraphId="@item.Id" type="button" class="btn btn-success">Show Details</a>
                                 @*                        <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>*@
                             </td>
                         </tr>
@@ -140,27 +142,14 @@
                             </td>
                             <td>
                                 @*                        <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |*@
-                                <a asp-route-name="StoryBuilder" asp-action="ParagraphDetails" asp-route-id="@Model.Id" asp-route-paragraphId="@item.Id" type="button" class="btn btn-success">Go here!</a>
+                                <a asp-route-name="StoryBuilder" asp-action="ParagraphDetails" asp-route-id="@Model.Id" asp-route-paragraphId="@item.Id" type="button" class="btn btn-success">Show Details</a>
                                 @*                        <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>*@
                             </td>
                         </tr>
                     }
-                }
-                <tr>
-                    <td>
-                        Paragraph Type
-                    </td>
-                    <td>
-                        Stage Description
-                    </td>
-                    <td>
-                        Amount Of Choices
-                    </td>
-                    <td>
-                        <a asp-action="CreateParagraph" asp-route-id="@Model.Id" type="button" class="btn btn-success">Create new Paragraph</a>
-                    </td>
-                </tr>
+                }                       
             </tbody>
         </table>
+        <a asp-action="CreateParagraph" asp-route-id="@Model.Id" type="button" class="btn btn-success">Create new Paragraph</a>
     </div>
 </div>

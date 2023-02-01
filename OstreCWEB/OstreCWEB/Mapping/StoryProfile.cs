@@ -26,7 +26,6 @@ namespace OstreCWEB.Mapping
             CreateMap<ParagraphWithCoice, ParagraphWithCoiceView>();
 
             CreateMap<TestProp, TestPropView>();
-
             CreateMap<FightProp, FightPropView>();
 
             CreateMap<EnemyInParagraph, EnemyInParagraphView>()

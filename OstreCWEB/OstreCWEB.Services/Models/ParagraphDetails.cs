@@ -12,5 +12,7 @@ namespace OstreCWEB.Services.Models
         public List<ParagraphWithCoice> PreviousParagraphs { get; set; } = new List<ParagraphWithCoice>();
         public Paragraph CurrentParagraphView { get; set; }
         public List<ParagraphWithCoice> NextParagraphs { get; set; } = new List<ParagraphWithCoice>();
+
+        public bool Delete { get; set; }
     }
 }

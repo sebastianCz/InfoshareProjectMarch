@@ -14,5 +14,7 @@ namespace OstreCWEB.ViewModel.StoryBuilder
         public List<ParagraphWithCoiceView> PreviousParagraphs { get; set; } = new List<ParagraphWithCoiceView>();
         public ParagraphElementOfStoryView CurrentParagraphView { get; set; }
         public List<ParagraphWithCoiceView> NextParagraphs { get; set; } = new List<ParagraphWithCoiceView>();
+
+        public bool Delete { get; set; }
     }
 }
