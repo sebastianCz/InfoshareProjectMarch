@@ -15,6 +15,7 @@ namespace OstreCWEB.Data.DataBase
         public DbSet<ActionCharacter> ActionCharactersRelation { get; set; }
         public DbSet<ItemCharacter> ItemsCharactersRelation { get; set; }
         public DbSet<UserParagraph> UserParagraphs { get; set; }
+        public DbSet<ParagraphItem> ParagraphItems { get; set; }
 
         //User
         public DbSet<User> Users { get; set; }
@@ -59,6 +60,23 @@ namespace OstreCWEB.Data.DataBase
             ConfigureUsersParagraphs(builder);
             ConfigureManyToMany(builder);
             ConfigureUser(builder);
+            ConfigureParagraphItems(builder);
+            ConfigureClasses(builder);
+        }
+        private void ConfigureClasses(ModelBuilder builder)
+        {
+            builder.Entity<PlayableClass>().HasKey(x => x.PlayableClassId);
+
+            builder.Entity<PlayableClass>()
+                .HasMany(x => x.ActionsGrantedByClass)
+                .WithOne(x => x.PlayableClass)
+                .HasForeignKey(x => x.PlayableClassId);
+           
+            builder.Entity<PlayableClass>()
+                .HasMany(x => x.ItemsGrantedByClass)
+                .WithOne(x => x.PlayableClass)
+                .HasForeignKey(x => x.PlayableClassId);
+
         }
         private void ConfigureUser(ModelBuilder builder)
         {
@@ -79,10 +97,12 @@ namespace OstreCWEB.Data.DataBase
         private void ConfigureItems(ModelBuilder builder)
         {
             builder.Entity<Item>().Navigation(e => e.ActionToTrigger).AutoInclude();
-
+            builder.Entity<Item>()
+                .HasOne(x => x.ActionToTrigger)
+                .WithMany(x => x.LinkedItems)
+                .HasForeignKey(x => x.ActionToTriggerId);
             //builder.Entity<ItemCharacter>()
-            // .HasKey(x => new { x.ItemId, x.CharacterId });
-
+            // .HasKey(x => new { x.ItemId, x.CharacterId }); 
             builder.Entity<ItemCharacter>()
                 .HasOne(x => x.Item)
                 .WithMany(x => x.LinkedCharacters)
@@ -125,6 +145,7 @@ namespace OstreCWEB.Data.DataBase
             builder.Entity<PlayableCharacter>().Navigation(e => e.Race).AutoInclude();
             builder.Entity<PlayableCharacter>().Navigation(e => e.LinkedActions).AutoInclude();
             builder.Entity<PlayableCharacter>().Navigation(e => e.LinkedItems).AutoInclude();
+
             builder.Entity<Character>().HasKey(entity => entity.CharacterId);
             builder.Entity<PlayableCharacter>()
                 .HasOne(r => r.Race)
@@ -203,6 +224,20 @@ namespace OstreCWEB.Data.DataBase
             builder.Entity<UserParagraph>()
                 .HasOne(x => x.Paragraph)
                 .WithMany(x => x.UserParagraphs);  
+        }
+
+        private void ConfigureParagraphItems(ModelBuilder builder)
+        {
+            builder.Entity<ParagraphItem>()
+                .HasKey(x => new { x.ItemId, x.ParagraphId });
+
+            builder.Entity<ParagraphItem>()
+                .HasOne(x => x.Item)
+                .WithMany(x => x.ParagraphItems);
+
+            builder.Entity<ParagraphItem>()
+                .HasOne(x => x.Paragraph)
+                .WithMany(x => x.paragraphItems);
         }
     } 
 }     

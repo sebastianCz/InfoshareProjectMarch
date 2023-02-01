@@ -1,4 +1,5 @@
 ﻿using OstreCWEB.Data.DataBase;
+using OstreCWEB.Data.DataBase.ManyToMany;
 using OstreCWEB.Data.Repository.Characters.Enums;
 using OstreCWEB.Data.Repository.Identity;
 using OstreCWEB.Data.Repository.StoryModels;
@@ -27,11 +28,13 @@ namespace OstreCWEB.Data.InitialData
                         new Paragraph
                         {
                             ParagraphType = ParagraphType.DescOfStage,
-                            StageDescription = "You die, load the game or start over!"
+                            RestoreRest = false,
+                            StageDescription = "You die, load the game or start over!",                                                   
                         },
                         new Paragraph
                         {
                             ParagraphType = ParagraphType.DescOfStage,
+                            RestoreRest = false,
                             StageDescription = "In the city of Neverwinter, a dwarf named Gundren Rockseeker asked you to bring a wagon load of provisions to the rough-and-tumble settlement of Phandalin, a couple of days' travel southeast of the city. Gundren was clearly excited and more than a little secretive about his reasons for the trip, saying only that he and his brothers had found \"something big\", and that he'd pay you ten gold pieces each for escorting his supplies safely to Barthen's Provisions, a trading post in Phandalin. He then set out ahead of you on horse, along with a warrior escort named Sildar Haliwinter, claiming he needed to arrive early to \"take care of business.\" You've spent the last few days following the High Road south from Neverwinter, and you've just recently veered east along the Triboar Trail. You've encountered no trouble so far, but this territory can be dangerous. Bandits and outlaws have been known to lurk along the trail.",
                             Choices = new List<Choice>
                             {
@@ -50,6 +53,7 @@ namespace OstreCWEB.Data.InitialData
                         new Paragraph
                         {
                             ParagraphType = ParagraphType.DescOfStage,
+                            RestoreRest = true,
                             StageDescription = "The wagon is packed full of an assortment of mining supplies and food. This includes a dozen sacks of flour, several casks ofsalted pork, two kegs ofstrong ale, shovels, picks, and crowbars (about a dozen each), and five lanterns with a small barrel of oil (about fiftyflasks in volume). The total value of the cargo is 100 gp.",
                             Choices = new List<Choice>
                             {
@@ -58,11 +62,21 @@ namespace OstreCWEB.Data.InitialData
                                     ChoiceText = "Next",
                                     NextParagraphId = 4
                                 }
+                            },
+                            paragraphItems = new List<ParagraphItem>
+                            {
+                                new ParagraphItem
+                                {
+                                    AmountOfItems = 2,
+                                    ItemId = 2,
+                                    ParagraphId = 3
+                                }
                             }
                         },
                         new Paragraph
                         {
                             ParagraphType = ParagraphType.DescOfStage,
+                            RestoreRest = true,
                             StageDescription = "You've been on the Triboar Trail for about half a day. As you come around a bend, you spot two dead horses sprawled about fifty feet ahead of you, blocking the path. Each has several black-feathered arrows sticking out of it. The woods press close to the trail here, with a steep embankment and dense thickets on either side.",
                             Choices = new List<Choice>
                             {
@@ -81,6 +95,7 @@ namespace OstreCWEB.Data.InitialData
                         new Paragraph
                         {
                             ParagraphType = ParagraphType.Test,
+                            RestoreRest = false,
                             StageDescription = "Perception test to see goblins",
                             TestProp = new TestProp
                             {
@@ -104,6 +119,7 @@ namespace OstreCWEB.Data.InitialData
                         new Paragraph
                         {
                             ParagraphType = ParagraphType.DescOfStage,
+                            RestoreRest = false,
                             StageDescription = "The horses as belonging to Gundren Rockseeker and Sildar Hallwinter. They've been dead about a day, and it's clear that arrows killed the horses.",
                             Choices = new List<Choice>
                             {
@@ -117,6 +133,7 @@ namespace OstreCWEB.Data.InitialData
                         new Paragraph
                         {
                             ParagraphType = ParagraphType.DescOfStage,
+                            RestoreRest = false,
                             StageDescription = "Two goblins are hiding in the woods, one on each side of the road.",
                             Choices = new List<Choice>
                             {
@@ -135,6 +152,7 @@ namespace OstreCWEB.Data.InitialData
                         new Paragraph
                         {
                             ParagraphType = ParagraphType.DescOfStage,
+                            RestoreRest = false,
                             StageDescription = "The saddlebags have been looted. Nearby lies an empty 1 leather map case.",
                             Choices = new List<Choice>
                             {
@@ -148,6 +166,7 @@ namespace OstreCWEB.Data.InitialData
                         new Paragraph
                         {
                             ParagraphType = ParagraphType.Fight,
+                            RestoreRest = false,
                             StageDescription = "Fight with 2 goblin",
                             FightProp = new FightProp
                             {
@@ -178,12 +197,13 @@ namespace OstreCWEB.Data.InitialData
                         new Paragraph
                         {
                             ParagraphType = ParagraphType.DescOfStage,
+                            RestoreRest = true,
                             StageDescription = "You are looking at two dead goblins.",
                             Choices = new List<Choice>
                             {
                                 new Choice
                                 {
-                                    ChoiceText = "Nothing else, kill your hero!",
+                                    ChoiceText = "Nothing else!",
                                     NextParagraphId = 1
                                 }
                             }

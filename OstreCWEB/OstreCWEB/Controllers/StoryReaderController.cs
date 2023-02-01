@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using OstreCWEB.Data.Repository.Identity;
 using OstreCWEB.Data.Repository.ManyToMany;
 using OstreCWEB.Data.Repository.StoryModels.Enums;
 using OstreCWEB.Services.Game;
@@ -48,6 +49,9 @@ namespace OstreCWEB.Controllers
             var userParagraph = await _userParagraphRepository.GetActiveByUserIdAsync(_userService.GetUserId(User));
             model.CurrentParagraph = _mapper.Map<CurrentParagraphView>(userParagraph.Paragraph);
             model.CurrentCharacter = _mapper.Map<CurrentCharacterView>(userParagraph.ActiveCharacter);
+
+            model.Rest = userParagraph.Rest;
+
             if (model.CurrentParagraph.ParagraphType == ParagraphType.Test)
             {
                 model.TestParagraphView = new TestParagraphView();
@@ -106,6 +110,24 @@ namespace OstreCWEB.Controllers
         {
             await _gameService.HealCharacterAsync(_userService.GetUserId(User));
             return RedirectToAction("Index");
+        }
+        public async Task<ActionResult> UnequipItem(int id)
+        {
+            await _gameService.UnequipItemAsync(id, _userService.GetUserId(User));
+            return RedirectToAction(nameof(Index));
+        }
+        public async Task<ActionResult> Equipitem(int id)
+        {
+            try
+            {
+                await _gameService.EquipItemAsync(id, _userService.GetUserId(User));
+            }
+            catch(Exception ex)
+            {
+                _logger.LogError(ex.Message);
+            }
+           
+            return RedirectToAction(nameof(Index));
         }
     }
 }

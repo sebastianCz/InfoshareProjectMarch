@@ -9,10 +9,10 @@ namespace OstreCWEB.Data.Repository.Characters.Interfaces
 {
     public interface IItemRepository
     {
-        public Task<Item> GetById(int id);
-        public Task<List<Item>> GetAll(int id);
-        public Task Update(Item item);
-        public Task Create(Item item);
-        public Task Delete(Item item);
+        public Task<Item> GetByIdAsync(int id);
+        public Task<List<Item>> GetAllAsync();
+        public Task UpdateAsync(Item item);
+        public Task CreateAsync(Item item);
+        public Task DeleteAsync(Item item);
     }
 }

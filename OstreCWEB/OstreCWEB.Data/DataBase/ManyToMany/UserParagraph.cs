@@ -15,5 +15,6 @@ namespace OstreCWEB.Data.DataBase.ManyToMany
         public Paragraph Paragraph { get; set; } 
         public PlayableCharacter? ActiveCharacter { get; set; }
         public bool ActiveGame { get; set; }
+        public bool Rest { get; set; }
     }
 }

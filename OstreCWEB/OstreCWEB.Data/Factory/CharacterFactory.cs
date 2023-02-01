@@ -84,16 +84,16 @@ namespace OstreCWEB.Data.Factory
         }  
         private PlayableCharacter ConfigureNewInstanceAction(PlayableCharacter template, PlayableCharacter newInstance)
         {
-            if(template.LinkedActions != null)
+            if(template.CharacterClass.ActionsGrantedByClass != null && template.CharacterClass.ActionsGrantedByClass.Count() >0)
             {
-                foreach (var linkedAction in template.LinkedActions)
+                foreach (var linkedAction in template.CharacterClass.ActionsGrantedByClass)
                 {
                     newInstance.LinkedActions.Add(
                          new ActionCharacter()
                          {
                              CharacterId = newInstance.CharacterId,  
                              CharacterActionId = linkedAction.CharacterActionId, 
-                             UsesLeftBeforeRest = linkedAction.UsesLeftBeforeRest
+                             UsesLeftBeforeRest = linkedAction.UsesMaxBeforeRest
                          });
                 }
             } 
@@ -101,16 +101,16 @@ namespace OstreCWEB.Data.Factory
         } 
         private PlayableCharacter ConfigureNewInstanceItems(PlayableCharacter template, PlayableCharacter newInstance)
         { 
-           if(template.LinkedActions != null)
+           if(template.CharacterClass.ItemsGrantedByClass != null && template.CharacterClass.ItemsGrantedByClass.Count() > 0)
             {
-                foreach (var linkedItem in template.LinkedItems)
+                foreach (var linkedItem in template.CharacterClass.ItemsGrantedByClass)
                 {
                     newInstance.LinkedItems.Add(
                         new ItemCharacter()
                         {
                             CharacterId = newInstance.CharacterId,  
                             ItemId = linkedItem.ItemId,
-                            IsEquipped = linkedItem.IsEquipped
+                            IsEquipped = false
                         });
                 } 
             } 

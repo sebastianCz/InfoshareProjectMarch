@@ -6,13 +6,22 @@
             <div class="modal fade" id="item-@linkedItem.Id" tabindex="-1" aria-hidden="true" style="display: none;">
                 <div class="modal-dialog modal-lg">
                     <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title">Large Modal</h5>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        <div class="modal-header">  
                         </div>
+                        
+                        <div class="modal-body">
+                            <partial name="_ItemCharacterView" model="@linkedItem"></partial> 
+                        </div> 
 
-                        <div class="modal-body"> <partial name="_ItemInventory" model="@linkedItem.Item"></partial></div>
                         <div class="modal-footer">
+                            @if (!linkedItem.IsEquipped && linkedItem.Item.CanBeEquipped )
+                            {
+                                <a asp-controller="StoryReader" asp-action="EquipItem" asp-route-id="@linkedItem.Id"><button type="button" class="btn btn-secondary">Equip</button></a>
+                            }
+                            else if (linkedItem.IsEquipped && linkedItem.Item.CanBeEquipped)
+                            {
+                                <a asp-controller="StoryReader" asp-action="UnequipItem" asp-route-id="@linkedItem.Id"><button type="button" class="btn btn-secondary">Unequip</button></a>
+                            }
                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                         </div>
                     </div>
@@ -24,13 +33,17 @@
         {
             <div class="modal fade" id="action-@linkedAction.CharacterAction.CharacterActionId" tabindex="-1" aria-hidden="true" style="display: none;">
                 <div class="modal-dialog modal-lg">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title">Large Modal</h5>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                        </div> 
+                    <div class="modal-content"> 
                         <div class="modal-body"> <partial name="_CharacterAction" model="@linkedAction.CharacterAction"></partial></div>
-                        <div class="modal-footer">
+                        @if (linkedAction.CanShowUsesLeft)
+                        {
+                            <div >
+                            <dt class="col-sm-2 border-bottom"><label asp-for="@linkedAction.UsesLeftBeforeRest"></label></dt>
+                            <dd class="col-sm-10">@linkedAction.UsesLeftBeforeRest</dd>
+                            </div>
+                        }
+                            <div class="modal-footer">
+                          
                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                         </div>
                     </div>

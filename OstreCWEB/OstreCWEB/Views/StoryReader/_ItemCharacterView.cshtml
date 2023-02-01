@@ -1,0 +1,28 @@
+﻿@model OstreCWEB.ViewModel.Characters.ItemCharacterView
+
+<div class="card">
+    <div class="card-body"> 
+        <h2 class="card-title">@Model.Item.Name</h2>
+        <dl class="row">
+            
+            @if(Model.Item.CanBeEquipped)
+            {
+             <dt class="col-sm-2 border-bottom"><label asp-for="@Model.IsEquipped"></label></dt>
+            <dd class="col-sm-10"> @(Model.IsEquipped ? "Yes" : "No")</dd>
+            }
+            @if(Model.Item.DeleteOnUse){
+             <dt class="col-sm-2 border-bottom"><label asp-for="@Model.Item.DeleteOnUse"></label></dt>
+              <dd class="col-sm-10"> Yes</dd>
+            }
+            @if (Model.Item.isArmor)
+            { 
+                <dt class="col-sm-2 border-bottom"><label asp-for="@Model.Item.ArmorClass"></label></dt>
+                <dd class="col-sm-10">@Model.Item.ArmorClass</dd> 
+            } 
+        </dl> 
+        @if (Model.Item.IsActionShowable)
+        {
+            <partial name="_ActionFromItem" model="@Model" />
+        }
+    </div>
+</div>

@@ -5,14 +5,14 @@
 }
 <!--Playable Character-->
 
- 
-            <div class="d-flex flex-row mb-3">
+
+<div class="row align-items-top mb-3 justify-content-md-center">
 
                 <!--Playable character info( left column)-->
-                <div class="p-2 bg-info">
+    <div class="col-lg-3 ">
                     <div class="card shadow-sm">
                         <div class="card-body">@Model.ActivePlayer.CharacterName ||Combat ID: @Model.ActivePlayer.CombatId</div>
-                        <svg class="bd-placeholder-img card-img-top" width="100%" height="225" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: Thumbnail" preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title><rect width="100%" height="100%" fill="#55595c"></rect><text x="50%" y="50%" fill="#eceeef" dy=".3em">Thumbnail</text></svg>
+                       @* <svg class="bd-placeholder-img card-img-top" width="100%" height="225" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: Thumbnail" preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title><rect width="100%" height="100%" fill="#55595c"></rect><text x="50%" y="50%" fill="#eceeef" dy=".3em">Thumbnail</text></svg>*@
                         <div class="card-body">
                             @Model.ActivePlayer.CharacterName
                             <p>Current Hp</p>
@@ -30,58 +30,51 @@
                                         <a  class="btn btn-danger" asp-route-id="@Model.ActivePlayer.CombatId" asp-action="SetActiveTarget">Target</a>
                                     }
                                 </div>
-                            </div>
 
+                </div>
                         </div>
                     </div>
                 </div>
                 <!--Turn state(center)-->
-                <div class="p-2 bg-warning">
-                    Chosen action:
-                    <br />
-                    
-                    @if (Model.ActiveAction != null)
+    <div class="col-lg-3 offset-md-1 ">
+        <div class="card ">
+        @if (Model.CanShowActiveAction)
                     {
-                        @Model.ActiveAction.ActionName;
-        
-                        <br />
-                        <p>Possible Targets:</p>
-                        <br />
-                        @Model.ActiveAction.PossibleTarget
+                       <p>Chosen action: @Model.ActiveAction.ActionName</p> 
+                       <p> <label asp-for="@Model.ActiveAction.PossibleTarget"></label>  @(Model.ActiveAction.PossibleTarget == TargetType.Caster? "Yourself" : "Enemy")</p>    
                     }
                     else
                     {
                         <p>Choose an action to see possible targets</p>
-                    }
-                    <br />
-                    <p>Chosen Target:</p>
-                    <br />
-                    @if (Model.ActiveTarget != null && Model.ActiveTarget.CombatId != null)
+                    }  
+                    @if (Model.CanShowActiveTarget)
                     {
-                        @Model.ActiveTarget.CharacterName
-                    }
-                    <br />
-                    @if (Model.ActiveTarget != null && Model.ActiveTarget.CombatId != null && Model.ActiveTarget.CombatId != 0 && Model.ActiveAction != null)
-                    {
-
-                        <a  asp-action="CommitPlayerAction" >Commit Action</a>
+                     <p>Chosen Target:@Model.ActiveTarget.CharacterName</p>
                     } 
+                    @if (Model.CanCommitAction)
+                    { 
+                       <a  asp-action="CommitPlayerAction" >Commit Action</a>
+                    } 
+                    </div>
                 </div>
                 <!--Available actions(right column)-->
-                <div class="p-2 flex-grow-1 bg-primary">
-                   
-                   
-                    <ul class="list-group list-group-horizontal-xl"> 
+    <div class="col-lg-3 offset-md-1  bg-white  ">
+        <div class="card shadow-sm">
+        <ul class="list-group list-group-horizontal-xl"> 
                       @if(Model.ActivePlayer.HasShowableActions)
                       {
                        <h5>Your abilities</h5>
                             @foreach (var action in @Model.ActivePlayer.LinkedActions)
                         {
-                            if(action.IsShowable)
+                            if(action.IsActionUsableInCombat)
                             {
                             <li class="list-group-item">
-                            <a class="btn btn-danger" asp-route-id="@action.CharacterAction.CharacterActionId" asp-action="SetActiveAction">@action.CharacterAction.ActionName <br />Uses left: @action.UsesLeftBeforeRest</a>
-                            </li>
+                            <a class="btn btn-danger" asp-route-id="@action.CharacterAction.CharacterActionId" asp-action="SetActiveAction">@action.CharacterAction.ActionName
+                                @if (action.CanShowUsesLeft) {
+                                    <p>Uses left: @action.UsesLeftBeforeRest</p>
+                                }
+                                </a>
+                        </li>
                             } 
                         }
                       }
@@ -95,6 +88,7 @@
                             </li>
                         } 
                         </ul> 
+                        </div>
                 </div> 
             </div>
  
@@ -102,7 +96,7 @@
 <!--Fight History-->
 
 
-<div class="d-flex flex-row mb-3">
+<div class="d-flex flex-row mb-3 bg-white opacity-75">
 
     <div class="p-2 flex-grow-1">
         <ul class="nav nav-pills nav-stacked OstreCScroll">          
@@ -117,7 +111,7 @@
 </div> 
    
 <!--Enemies cards-->
-<div class="album py-5 bg-light">
+<div class="album py-5">
     <div class="container">
         <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
 
@@ -132,7 +126,7 @@
                             var viewId = i + 1;
                         }
                         <div class="card-body">@Model.ActiveEnemies[i].CharacterName @viewId ||Combat ID: @Model.ActiveEnemies[i].CombatId </div>
-                        <svg class="bd-placeholder-img card-img-top" width="100%" height="225" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: Thumbnail" preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title><rect width="100%" height="100%" fill="#55595c"></rect><text x="50%" y="50%" fill="#eceeef" dy=".3em">Thumbnail</text></svg>
+                      @*  <svg class="bd-placeholder-img card-img-top" width="100%" height="225" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: Thumbnail" preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title><rect width="100%" height="100%" fill="#55595c"></rect><text x="50%" y="50%" fill="#eceeef" dy=".3em">Thumbnail</text></svg>*@
 
                         <div class="card-body">
                             <b><label asp-for="@Model.ActiveEnemies[i].CurrentHealthPoints"></label></b><br>

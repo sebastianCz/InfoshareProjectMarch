@@ -61,6 +61,10 @@ namespace OstreCWEB.Data.Repository.Characters
         public async Task<PlayableCharacter> GetByIdNoTrackingAsync(int characterTemplateId)
         {
             return await _db.PlayableCharacters
+                 .Include(x=>x.CharacterClass)
+                 .ThenInclude(y=>y.ActionsGrantedByClass)
+                 .Include(x => x.CharacterClass)
+                 .ThenInclude(y => y.ItemsGrantedByClass)
                  .AsNoTracking()
                  .SingleOrDefaultAsync(x => x.CharacterId == characterTemplateId);
         }

@@ -15,7 +15,15 @@
 
 
         //Ef config
-        public List<PlayableCharacter> PlayableCharacter { get; set; } 
+        public List<PlayableCharacter> PlayableCharacter { get; set; }
+        public List<CharacterAction> ActionsGrantedByClass { get; set; }
+        public List<Item> ItemsGrantedByClass { get; set; }
+        public PlayableClass()
+        {
+            PlayableCharacter = new List<PlayableCharacter>();
+            ActionsGrantedByClass = new List<CharacterAction>();
+            ItemsGrantedByClass = new List<Item>();
+        }
      
     }
 }

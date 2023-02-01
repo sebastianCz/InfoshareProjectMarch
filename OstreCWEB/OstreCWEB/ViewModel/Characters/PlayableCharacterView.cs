@@ -1,8 +1,4 @@
-﻿using OstreCWEB.Data.DataBase.ManyToMany;
-using OstreCWEB.Data.Repository.Characters.CharacterModels;
-using OstreCWEB.Data.Repository.Characters.MetaTags;
-
-namespace OstreCWEB.ViewModel.Characters
+﻿namespace OstreCWEB.ViewModel.Characters
 {
     public class PlayableCharacterView
     { 

@@ -28,7 +28,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-builder.Services.ConfigureApplicationCookie(options => options.LoginPath = "/LoginController/Login");
+builder.Services.ConfigureApplicationCookie(options => options.LoginPath = "/Login/Login");
 
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 builder.Services 

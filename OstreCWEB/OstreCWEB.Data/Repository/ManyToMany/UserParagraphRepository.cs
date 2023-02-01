@@ -70,8 +70,11 @@ namespace OstreCWEB.Data.Repository.ManyToMany
                 .Include(x => x.Paragraph)
                     .ThenInclude(x => x.FightProp)
                     .ThenInclude(y => y.ParagraphEnemies)
-                    .ThenInclude(z => z.Enemy)
-                .Include(x => x.ActiveCharacter) 
+                    .ThenInclude(z => z.Enemy)                
+                .Include(x => x.Paragraph)
+                    .ThenInclude(p => p.paragraphItems)
+                        .ThenInclude(pi => pi.Item)
+                .Include(x => x.ActiveCharacter)
                 .SingleOrDefaultAsync(s => s.User.Id == userId && s.ActiveGame);
         }
         public async Task<UserParagraph> GetActiveByUserIdNoTrackingAsync(string userId)
@@ -107,6 +110,10 @@ namespace OstreCWEB.Data.Repository.ManyToMany
                 .SingleOrDefault(s => s.User.Id == userId && s.ActiveGame);
             var test = _context.ChangeTracker;
             return result;
+        }
+        public async Task SaveChangesAsync()
+        {
+            await _context.SaveChangesAsync();
         }
     }
 }

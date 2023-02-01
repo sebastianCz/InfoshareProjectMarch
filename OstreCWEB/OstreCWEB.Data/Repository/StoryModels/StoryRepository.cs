@@ -46,6 +46,7 @@ namespace OstreCWEB.Data.Repository.StoryModels
         public async Task<Paragraph> GetParagraphById(int idParagraph)
         { 
             return _ostreCWebContext.Paragraphs
+                .Include(p => p.paragraphItems)
                 .SingleOrDefault(p => p.Id == idParagraph);
         }
         public async Task<Paragraph> GetCombatParagraphById(int idParagraph)

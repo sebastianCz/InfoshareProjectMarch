@@ -2,7 +2,6 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using OstreCWEB.Data.Repository.Fight;
-using OstreCWEB.Data.Repository.Identity;
 using OstreCWEB.Data.Repository.ManyToMany;
 using OstreCWEB.Services.Fight;
 using OstreCWEB.Services.Game;
@@ -82,6 +81,7 @@ namespace OstreCWEB.Controllers
         {
             var activeGameInstance = await _userParagraphRepository.GetActiveByUserIdNoTrackingAsync(_userService.GetUserId(User));
             var activeFightInstance = _fightService.GetActiveFightInstance(_userService.GetUserId(User), activeGameInstance.ActiveCharacter.CharacterId);
+            activeFightInstance.ActionGrantedByItem = false;
             _fightService.UpdateActiveAction(_fightService.ChooseAction(id));
                 //We reset active target since each action can target different types of targets.
                 _fightService.ResetActiveTarget();
@@ -114,9 +114,9 @@ namespace OstreCWEB.Controllers
                 activeGameInstance.ActiveCharacter.LinkedActions.ForEach(x => x.UsesLeftBeforeRest = activeFightInstance.ActivePlayer.LinkedActions.FirstOrDefault(y => y.CharacterActionId == x.CharacterActionId).UsesLeftBeforeRest);
                 for (var i = activeGameInstance.ActiveCharacter.LinkedItems.Count - 1; i >= 0; i--)
                 {
-                    var contains = true;
+                    var contains = false;
                     var item = activeGameInstance.ActiveCharacter.LinkedItems[i];
-                    activeFightInstance.ActivePlayer.LinkedItems.ForEach(x => { if (x.ItemId == item.Id) { contains = false; } });
+                    activeFightInstance.ActivePlayer.LinkedItems.ForEach(x => { if (x.Id == item.Id) { contains = true; } });
                     if (!contains) { activeGameInstance.ActiveCharacter.LinkedItems.RemoveAt(i); }
                 }
                 if (fightState.PlayerWon) 

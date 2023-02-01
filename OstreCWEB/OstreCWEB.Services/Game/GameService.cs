@@ -1,7 +1,9 @@
 ﻿using OstreCWEB.Data.DataBase.ManyToMany;
 using OstreCWEB.Data.Factory;
 using OstreCWEB.Data.Repository.Characters.CharacterModels;
+using OstreCWEB.Data.Repository.Characters.Enums;
 using OstreCWEB.Data.Repository.Characters.Interfaces;
+using OstreCWEB.Data.Repository.Characters.MetaTags;
 using OstreCWEB.Data.Repository.Identity;
 using OstreCWEB.Data.Repository.ManyToMany;
 using OstreCWEB.Data.Repository.StoryModels;
@@ -17,33 +19,35 @@ namespace OstreCWEB.Services.Game
         private readonly IStoryRepository _storyRepository;
         private readonly IPlayableCharacterRepository _playableCharacterRepository;
         private readonly ICharacterFactory _characterFactory;
+        private readonly IItemCharacterRepository _itemCharacterRepository;
 
         public GameService(
             IUserParagraphRepository userParagraphRepository,
             IIdentityRepository identityRepository,
             IStoryRepository storyRepository,
             IPlayableCharacterRepository playableCharacter,
-            ICharacterFactory characterFactory
-            )
+            ICharacterFactory characterFactory,
+            IItemCharacterRepository itemCharacterRepository)
         {
             _userParagraphRepository = userParagraphRepository;
             _identityRepository = identityRepository;
             _storyRepository = storyRepository;
             _playableCharacterRepository = playableCharacter;
             _characterFactory = characterFactory;
+            _itemCharacterRepository = itemCharacterRepository;
         }
         public async Task<UserParagraph> CreateNewGameInstanceAsync(string userId, int characterTemplateId, int storyId)
         {
             var user = await _identityRepository.GetUser(userId);
-            if (user.UserParagraphs.Count >= 5) { throw new Exception(); } 
-            var newGameInstance = new UserParagraph(); 
+            if (user.UserParagraphs.Count >= 5) { throw new Exception(); }
+            var newGameInstance = new UserParagraph();
 
-            var story = await  _storyRepository.GetStoryNoIncludesAsync(storyId); 
+            var story = await _storyRepository.GetStoryNoIncludesAsync(storyId);
 
             newGameInstance.User = user;
             newGameInstance.Paragraph = await _storyRepository.GetParagraphById(story.FirstParagraphId);
 
-            var notTrackedCharacter = await _playableCharacterRepository.GetByIdNoTrackingAsync(characterTemplateId); 
+            var notTrackedCharacter = await _playableCharacterRepository.GetByIdNoTrackingAsync(characterTemplateId);
             var newCharacterInstance = _characterFactory.CreatePlayableCharacterInstance(notTrackedCharacter).Result;
 
             newGameInstance.ActiveCharacter = newCharacterInstance;
@@ -51,25 +55,39 @@ namespace OstreCWEB.Services.Game
 
             user.UserParagraphs.ForEach(c => c.ActiveGame = false);
             user.UserParagraphs.Add(newGameInstance);
-            await _identityRepository.Update(user);  
+            await _identityRepository.Update(user);
             return newGameInstance;
         }
 
 
-        public  Task<List<Enemy>> GenerateEnemies(List<EnemyInParagraph> enemiesToGenerate)
-        { 
-            return _characterFactory.CreateEnemiesInstances(enemiesToGenerate); 
+        public Task<List<Enemy>> GenerateEnemies(List<EnemyInParagraph> enemiesToGenerate)
+        {
+            return _characterFactory.CreateEnemiesInstances(enemiesToGenerate);
         }
 
         public async Task NextParagraphAsync(string userId, int choiceId)
         {
             var userParagraph = await _userParagraphRepository.GetActiveByUserIdAsync(userId);
             userParagraph.Paragraph = await _storyRepository.GetParagraphById(userParagraph.Paragraph.Choices[choiceId].NextParagraphId);
+
+            if (userParagraph.Paragraph.paragraphItems.Count > 0)
+            {
+                await AddItem(userParagraph.ActiveCharacter, userParagraph.Paragraph.paragraphItems);
+            }
+            userParagraph.Rest = userParagraph.Paragraph.RestoreRest;
+
             await _userParagraphRepository.UpdateAsync(userParagraph);
         }
-        public async Task NextParagraphAfterFightAsync(UserParagraph gameInstance,int choiceId)
+        public async Task NextParagraphAfterFightAsync(UserParagraph gameInstance, int choiceId)
         {
             gameInstance.Paragraph = await _storyRepository.GetParagraphById(gameInstance.Paragraph.Choices[choiceId].NextParagraphId);
+
+            if (gameInstance.Paragraph.paragraphItems.Count > 0)
+            {
+                await AddItem(gameInstance.ActiveCharacter, gameInstance.Paragraph.paragraphItems);
+            }
+            gameInstance.Rest = gameInstance.Paragraph.RestoreRest;
+
             await _userParagraphRepository.UpdateAsync(gameInstance);
         }
         public async Task DeleteGameInstanceAsync(int userParagrahId)
@@ -94,6 +112,10 @@ namespace OstreCWEB.Services.Game
         {
             var userParagraph = await _userParagraphRepository.GetActiveByUserIdAsync(userId);
             userParagraph.ActiveCharacter.CurrentHealthPoints = userParagraph.ActiveCharacter.MaxHealthPoints;
+            userParagraph.ActiveCharacter.LinkedActions.ForEach(x => x.UsesLeftBeforeRest = x.CharacterAction.UsesMaxBeforeRest);
+
+            userParagraph.Rest = false;
+
             await _userParagraphRepository.UpdateAsync(userParagraph);
         }
 
@@ -111,7 +133,7 @@ namespace OstreCWEB.Services.Game
         public int ThrowDice(int maxValue)
         {
             Random rnd = new Random();
-            return rnd.Next(1, maxValue+1);
+            return rnd.Next(1, maxValue + 1);
         }
 
         //Private
@@ -127,11 +149,103 @@ namespace OstreCWEB.Services.Game
                 case TestDifficulty.NearlyImpossible: return 30;
                 default: throw new ArgumentOutOfRangeException();
             }
-        }
-
+        } 
         private int GetModifire()
         {
             return 0;
         }
+
+        private async Task AddItem(PlayableCharacter activeCharacter, List<ParagraphItem> paragraphItems)
+        {
+            List<ItemCharacter> items = new List<ItemCharacter>();
+
+            foreach (var item in paragraphItems)
+            {
+                for (int i = 0; i < item.AmountOfItems; i++)
+                {
+
+                    items.Add(
+                        new ItemCharacter
+                        {
+                            CharacterId = activeCharacter.CharacterId,
+                            ItemId = item.ItemId,
+                            IsEquipped = false
+                        });
+                }
+            }
+            await _itemCharacterRepository.AddRange(items);
+        }
+        public async Task UnequipItemAsync(int itemRelationId, string userId)
+        {
+           var gameInstance = await _userParagraphRepository.GetActiveByUserIdAsync(userId);
+            gameInstance.ActiveCharacter.LinkedItems.SingleOrDefault(x => x.Id == itemRelationId).IsEquipped = false;
+            await _userParagraphRepository.SaveChangesAsync();
+        } 
+        public async Task EquipItemAsync(int itemRelationId, string userId)
+        {
+            var gameInstance = await _userParagraphRepository.GetActiveByUserIdAsync(userId); 
+            var itemToEquip = gameInstance.ActiveCharacter.LinkedItems.SingleOrDefault(x => x.Id == itemRelationId);
+
+            //Every item has specific condition, a two handed sword can't be used with a shield etc. 
+            await DesequipAlreadyEquipped(gameInstance.ActiveCharacter, itemToEquip);
+            if (itemToEquip.Item.ItemType != ItemType.SpecialItem)
+            {
+                itemToEquip.IsEquipped = true;
+            }
+            else
+            {
+                throw new Exception("Special Items can't be equipped!");
+            }
+          
+            await _userParagraphRepository.SaveChangesAsync();
+        } 
+        private async Task DesequipAlreadyEquipped(PlayableCharacter character,ItemCharacter itemToEquip)
+        {
+            switch (itemToEquip.Item.ItemType)
+            {
+                case ItemType.TwoHandedWeapon:
+                    //Desequip shield and singleHandedWeapon
+                    foreach (var item in character.LinkedItems)
+                    {
+                        if (item.IsEquipped && item.Item.ItemType == ItemType.Shield || item.Item.ItemType == ItemType.SingleHandedWeapon || item.Item.ItemType == ItemType.TwoHandedWeapon)
+                        {
+                            item.IsEquipped = false;
+                        }
+                    } 
+                    return;
+                case ItemType.SingleHandedWeapon:
+                    //desequip two handed weapon
+                    foreach (var item in character.LinkedItems)
+                    {
+                        if (item.IsEquipped && item.Item.ItemType == ItemType.TwoHandedWeapon || item.Item.ItemType == ItemType.SingleHandedWeapon)
+                        {
+                            item.IsEquipped = false;
+                        }
+                    }
+                    return;
+                case ItemType.Shield:
+                    //Desequip two handed weapon
+                    foreach (var item in character.LinkedItems)
+                    {
+                        if (item.IsEquipped && item.Item.ItemType == ItemType.TwoHandedWeapon || item.Item.ItemType == ItemType.Shield)
+                        {
+                            item.IsEquipped = false;
+                        }
+                    }
+                    return;
+                case ItemType.SpecialItem: 
+                    return;
+                default:
+                    foreach (var item in character.LinkedItems)
+                    {
+                        if (item.IsEquipped && item.Item.ItemType == itemToEquip.Item.ItemType)
+                        {
+                            item.IsEquipped = false;
+                        }
+                    }
+                    return; 
+            }
+           
+        } 
     }
 }

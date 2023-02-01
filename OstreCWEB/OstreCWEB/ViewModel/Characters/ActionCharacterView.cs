@@ -1,19 +1,34 @@
 ﻿using OstreCWEB.Data.Repository.Characters.CharacterModels;
 using OstreCWEB.Data.Repository.Characters.Enums;
+using System.ComponentModel;
 
 namespace OstreCWEB.ViewModel.Characters
 {
     public class ActionCharacterView
     {
-        public CharacterActionView CharacterAction { get; set; } 
+        [DisplayName("Your action")]
+        public CharacterActionView CharacterAction { get; set; }
+        [DisplayName("Uses left before rest:")]
         //Amount of uses before action is not available 
         public int UsesLeftBeforeRest { get; set; }
-        public bool IsShowable {
+        public bool IsActionUsableInCombat 
+        {
             get
             {
-                return UsesLeftBeforeRest > 0 || CharacterAction.ActionType == CharacterActionType.Cantrip 
-                        || CharacterAction.ActionType == CharacterActionType.SpecialAction; 
+                if (CharacterAction != null)
+                {
+                    if (CharacterAction.ActionType != CharacterActionType.Cantrip && CharacterAction.ActionType != CharacterActionType.WeaponAttack) { return UsesLeftBeforeRest > 0; }
+                    else { return true; }
+                }
+                else { return false; }
             }
         } 
+        public bool CanShowUsesLeft
+        {
+            get
+            {
+                return this.CharacterAction.ActionType != CharacterActionType.Cantrip;
+            }
+        }
     }
 }

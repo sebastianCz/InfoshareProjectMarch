@@ -1,0 +1,41 @@
+﻿ @model IEnumerable<OstreCWEB.ViewModel.Characters.ItemView>
+@{
+}
+<div class="card">
+    <div class="card-body">
+        
+        <h5 class="card-title">Items</h5>
+        <br />
+        <a asp-controller="Items" asp-action="Create" type="button" class="btn btn-primary">Add new item</a>
+        <br />
+        <table class="table">
+            <thead>
+                <tr>
+                    <th scope="col"> <Label asp-for=" FirstOrDefault().Name"></Label></th>
+                    <th scope="col"> <Label asp-for=" FirstOrDefault().ItemType"></Label></th>
+                    <th scope="col"> <Label asp-for=" FirstOrDefault().ArmorClass"></Label></th> 
+                    <th scope="col"> <Label asp-for=" FirstOrDefault().ActionToTrigger.ActionName"></Label></th>
+                    <th scope="col"> <Label asp-for=" FirstOrDefault().DeleteOnUse"></Label></th>
+                    <th scope="col"> <Label asp-for=" FirstOrDefault().CanBeEquipped"></Label></th>
+                    <th scope="col"> <Label asp-for=" FirstOrDefault().PlayableClass"></Label></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <th scope="row">@item.Name</th>
+                        <td>@item.ItemType.ToString()</td>
+                        <td>@(item.isArmor ? item.ArmorClass : "N/A")</td>
+                        <td>@(item.ActionToTrigger != null ? item.ActionToTrigger.ActionName : "N/A")</td>
+                        <td>@item.DeleteOnUse</td>
+                        <td>@(item.isArmor ? "Yes" : "No")</td>
+                        <td>@(item.PlayableClass != null ? item.PlayableClass.ClassName : "N/A")</td>
+                        <td><a asp-controller="Items" asp-action="Edit" asp-route-id="@item.ItemId" type="button" class="btn btn-primary">Edit</a></td> 
+                    </tr>
+                }
+            </tbody>
+        </table>
+        <!-- End Default Table Example -->
+    </div>
+</div>
