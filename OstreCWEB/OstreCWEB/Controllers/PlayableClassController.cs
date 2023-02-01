@@ -10,25 +10,23 @@ using OstreCWEB.ViewModel.Characters;
 namespace OstreCWEB.Controllers
 {
     [Authorize(Roles = "admin")]
-    public class ItemsController : Controller
+    public class PlayableClassController : Controller
     {
         public ICharacterClassRepository _characterClassRepository { get; }
         public IItemRepository _ItemRepository { get; }
         public IMapper _Mapper { get; }
         public ICharacterActionsRepository _CharacterActionsRepository { get; }
 
-        public ItemsController(ICharacterClassRepository characterClassRepository,IItemRepository itemRepository,IMapper mapper,ICharacterActionsRepository characterActionsRepository)
+        public PlayableClassController(ICharacterClassRepository characterClassRepository,IMapper mapper)
         {
-            _characterClassRepository = characterClassRepository;
-            _ItemRepository = itemRepository;
-            _Mapper = mapper;
-            _CharacterActionsRepository = characterActionsRepository;
+            _characterClassRepository = characterClassRepository; 
+            _Mapper = mapper; 
         }
         // GET: ItemController
         public async Task<ActionResult> Index()
         {
-            var items =  await _ItemRepository.GetAllAsync();
-            var model = _Mapper.Map<IEnumerable<ItemView>>(items);
+            var classes =  await _characterClassRepository.GetAllAsync();
+            var model = _Mapper.Map<IEnumerable<PlayableClassView>>(classes);
             return View(model);
         }
 
@@ -41,24 +39,18 @@ namespace OstreCWEB.Controllers
         // GET: ItemController/Create
         public async Task<ActionResult> Create()
         {
-            var model = new ItemEditView();
-            var allActions = await _CharacterActionsRepository.GetAllAsync();
-            var allClasses = await _characterClassRepository.GetAllAsync();
-            model.AllExistingActions = new Dictionary<int, string>();
-            model.AllExistingClasses = new Dictionary<int, string>();
-            allActions.ForEach(x => model.AllExistingActions.Add(x.CharacterActionId, x.ActionName));
-            allClasses.ForEach(x => model.AllExistingClasses.Add(x.PlayableClassId, x.ClassName));
+            var model = new PlayableClassView();   
             return View(model);
         }
 
         // POST: ItemController/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Create(ItemEditView item)
+        public async Task<ActionResult> Create(PlayableClassView playableClass)
         {
             try
             {
-                await _ItemRepository.UpdateAsync(_Mapper.Map<Item>(item));
+                await _characterClassRepository.UpdateAsync(_Mapper.Map<PlayableClass>(playableClass));
                 return RedirectToAction(nameof(Index));
             }
             catch
@@ -69,25 +61,19 @@ namespace OstreCWEB.Controllers
 
         // GET: ItemController/Edit/5
         public async Task<ActionResult> Edit(int id)
-        {
-            var model = _Mapper.Map<ItemEditView>(await _ItemRepository.GetByIdAsync(id));
-            var allActions = await _CharacterActionsRepository.GetAllAsync();
-            var allClasses = await _characterClassRepository.GetAllAsync();
-            model.AllExistingActions = new Dictionary<int, string>();
-            model.AllExistingClasses = new Dictionary<int, string>();
-            allActions.ForEach(x => model.AllExistingActions.Add(x.CharacterActionId,x.ActionName));
-            allClasses.ForEach(x => model.AllExistingClasses.Add(x.PlayableClassId, x.ClassName));
+        { 
+            var model = _Mapper.Map<PlayableClassView>(await _characterClassRepository.GetByIdNoIncludesAsync(id)); 
             return View(model);
         }
 
         // POST: ItemController/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Edit(ItemEditView item)
+        public async Task<ActionResult> Edit(PlayableClassView item)
         {
             try
             {
-                await _ItemRepository.UpdateAsync(_Mapper.Map<Item>(item));
+                await _characterClassRepository.UpdateAsync(_Mapper.Map<PlayableClass>(item));
                 return RedirectToAction(nameof(Index));
             }
             catch
@@ -101,8 +87,7 @@ namespace OstreCWEB.Controllers
         {
             try
             {
-                await _ItemRepository.DeleteAsync(id);
-               
+                await _characterClassRepository.DeleteAsync(id); 
             }
             catch
             {

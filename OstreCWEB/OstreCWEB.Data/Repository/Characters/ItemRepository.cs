@@ -26,9 +26,10 @@ namespace OstreCWEB.Data.Repository.Characters
             await _context.SaveChangesAsync();
         }
 
-        public Task DeleteAsync(Item item)
+        public async Task DeleteAsync(int id)
         {
-            throw new NotImplementedException();
+            _context.Items.Remove(await GetByIdAsync(id));
+            await _context.SaveChangesAsync();
         }
 
         public async Task<List<Item>> GetAllAsync()

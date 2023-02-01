@@ -20,14 +20,17 @@ namespace OstreCWEB.Data.Repository.Characters
 
         public OstreCWebContext Context { get; }
 
-        public Task CreateAsync(PlayableClass item)
+        public async Task CreateAsync(PlayableClass item)
         {
-            throw new NotImplementedException();
+            _context.PlayableCharacterClasses.Add(item);
+            await _context.SaveChangesAsync();
         }
 
-        public Task DeleteAsync(PlayableClass item)
+        public async Task DeleteAsync(int id)
         {
-            throw new NotImplementedException();
+            var playableClass = await GetByIdAsync(id);
+            _context.PlayableCharacterClasses.Remove(playableClass);
+            await _context.SaveChangesAsync();
         }
 
         public async Task<List<PlayableClass>> GetAllAsync()
@@ -35,14 +38,22 @@ namespace OstreCWEB.Data.Repository.Characters
             return await _context.PlayableCharacterClasses.ToListAsync();
         }
 
-        public Task<PlayableClass> GetByIdAsync(int id)
+        public async Task<PlayableClass> GetByIdNoIncludesAsync(int id)
         {
-            throw new NotImplementedException();
+            return await _context.PlayableCharacterClasses
+                .SingleOrDefaultAsync(x => x.PlayableClassId == id);
         }
-
-        public Task UpdateAsync(PlayableClass item)
+        private async Task<PlayableClass> GetByIdAsync(int id)
         {
-            throw new NotImplementedException();
+            return await _context.PlayableCharacterClasses
+                .Include(x=>x.ItemsGrantedByClass)
+                .Include(x=>x.ActionsGrantedByClass)
+                .SingleOrDefaultAsync(x => x.PlayableClassId == id);
+        }
+        public async Task UpdateAsync(PlayableClass item)
+        {
+            _context.PlayableCharacterClasses.Update(item);
+            await _context.SaveChangesAsync();
         }
     }
 }

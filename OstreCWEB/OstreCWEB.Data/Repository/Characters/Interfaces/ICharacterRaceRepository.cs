@@ -13,6 +13,6 @@ namespace OstreCWEB.Data.Repository.Characters.Interfaces
         public Task<List<PlayableRace>> GetAll(int id);
         public Task Update(PlayableRace item);
         public Task Create(PlayableRace item);
-        public Task Delete(PlayableRace item);
+        public Task Delete(int id);
     }
 }

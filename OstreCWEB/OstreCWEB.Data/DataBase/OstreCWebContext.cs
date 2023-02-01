@@ -74,7 +74,8 @@ namespace OstreCWEB.Data.DataBase
             builder.Entity<PlayableClass>()
                 .HasMany(x => x.ItemsGrantedByClass)
                 .WithOne(x => x.PlayableClass)
-                .HasForeignKey(x => x.PlayableClassId);
+                .HasForeignKey(x => x.PlayableClassId)
+                .OnDelete(DeleteBehavior.ClientSetNull);
 
         }
         private void ConfigureUser(ModelBuilder builder)

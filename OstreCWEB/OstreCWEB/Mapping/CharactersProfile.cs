@@ -18,7 +18,7 @@ namespace OstreCWEB.Mapping
             CreateMap<Item, ItemView>();
             CreateMap<Item, ItemEditView>()
                 .ForMember(x => x.AllExistingActions, options => options.Ignore())  
-              .ForMember(x => x.AllExistingClasses, options => options.Ignore());
+                .ForMember(x => x.AllExistingClasses, options => options.Ignore());
             CreateMap<ItemEditView, Item>()
                 .ForMember(x => x.LinkedCharacters, options => options.Ignore())
                  .ForMember(x => x.ParagraphItems, options => options.Ignore())
@@ -28,6 +28,10 @@ namespace OstreCWEB.Mapping
             CreateMap<Status, StatusView>();
             CreateMap<PlayableRace, PlayableRaceView>();
             CreateMap<PlayableClass, PlayableClassView>();
+            CreateMap<PlayableClassView, PlayableClass>()
+                .ForMember(x => x.PlayableCharacter, options => options.Ignore())
+                .ForMember(x => x.ActionsGrantedByClass, options => options.Ignore())
+                .ForMember(x => x.ItemsGrantedByClass, options => options.Ignore()); 
             CreateMap<Character, CharacterView>();
             CreateMap<ItemCharacter, ItemCharacterView>();
             CreateMap<ActionCharacter, ActionCharacterView>();
