@@ -93,6 +93,25 @@ namespace OstreCWEB.Controllers
 
             ViewBag.RaceId = model.RaceId;
             ViewBag.XClassId = model.PlayableClassId;
+
+            //
+            //var character = new List<PlayableClass>();
+            //character.Add(new PlayableClass { PlayableClassId = 1, ClassName = "Fighter", StrengthBonus = 1 });
+            //character.Add(new PlayableClass { PlayableClassId = 2, ClassName = "Cleric", WisdomBonus = 1 });
+            //character.Add(new PlayableClass { PlayableClassId = 3, ClassName = "Wizard", IntelligenceBonus = 1 });
+
+            var character = _playableCharacterService.GetAllClasses();
+
+            var bonusStr = character.Where(c => c.PlayableClassId == model.RaceId).Select(c => c.StrengthBonus).FirstOrDefault();
+            var bonusWis = character.Where(c => c.PlayableClassId == model.RaceId).Select(c => c.WisdomBonus).FirstOrDefault();
+            var bonusInt = character.Where(c => c.PlayableClassId == model.RaceId).Select(c => c.IntelligenceBonus).FirstOrDefault();
+            var className = character.Where(c => c.PlayableClassId == model.RaceId).Select(c => c.ClassName).FirstOrDefault();
+
+            ViewBag.BonusStr = bonusStr;
+            ViewBag.BonusWis = bonusWis;
+            ViewBag.BonusInt = bonusInt;
+            ViewBag.ClassName = className;
+            //
             return View(model);
         }
 
@@ -106,6 +125,19 @@ namespace OstreCWEB.Controllers
             ViewBag.Int = model.Intelligence;
             ViewBag.Wis = model.Wisdom;
             ViewBag.Cha = model.Charisma;
+
+
+            // do przeniesienia
+            List<string> maleNames = new List<string>()
+            {
+                "Aiden", "Ethan", "Jacob", "Michael", "William",
+                "Alexander", "Daniel", "Matthew", "Nicholas", "Christopher",
+                "Andrew", "Brandon", "Caleb", "David", "Elijah",
+                "Isaac", "Gabriel", "Josiah", "Luke", "Noah"
+            };
+
+            ViewBag.MaleNames = maleNames[0];
+
 
             return View(model);
         }
@@ -140,8 +172,5 @@ namespace OstreCWEB.Controllers
             _playableCharacterService.RollAttributes(model);
             return RedirectToAction(nameof(SetAttributes));
         }
-
-
-
     }
 }

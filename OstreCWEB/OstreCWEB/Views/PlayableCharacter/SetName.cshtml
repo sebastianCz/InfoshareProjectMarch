@@ -64,3 +64,21 @@
         </form>
     </div>
 </div>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+  $(document).ready(function(){
+    var names = ["Gandalf", "Harry", "Isaac", "Jack", "Karl", "Luke", "Merlin", "Nathan", "Oscar", "Peter", "Quincy", "Richard", "Samuel", "Tom", "Ulrich", "Victor", "William", "Xander", "Yorick", "Zachary"];
+
+
+    function generateRandomName() {
+      var randomIndex = Math.floor(Math.random() * names.length);
+      var randomName = names[randomIndex];
+      $("#characterName-input").val(randomName);
+    }
+
+    $("#randomNameButton").on("click", function() {
+      generateRandomName();
+    });
+  });
+</script>

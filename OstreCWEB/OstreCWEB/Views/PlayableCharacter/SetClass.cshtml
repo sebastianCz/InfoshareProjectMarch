@@ -39,3 +39,37 @@
         </form>
     </div>
 </div><!--Form Set Class-->
+
+<div class="row">
+    <div class="col-md-4 ">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            
+            <div class="p-3 bg-opacity-75 border border-warning-subtle rounded-top" style="background: radial-gradient(circle at -4% -12.9%, rgb(90, 98, 110) 0.3%, rgb(33, 31, 33) 90.2%);
+                color:goldenrod; text-align:center">
+                <h2>Hero Class</h2>
+            </div>
+            <div class="p-3 bg-warning bg-opacity-75 border border-warning-subtle rounded-top" style="background: #eee; box-shadow: 0 8px 8px -4px black;">            
+                <div class="form-group">
+                    <input asp-for="RaceId" hidden="true"/>
+                    <label asp-for="PlayableClassId" class="control-label"></label>
+                    @foreach (var item in Model.CharacterClasses)
+                    {
+                        <div class="form-check">
+                            <input asp-for="PlayableClassId" class="form-check-input" type="radio" value="@item.Key" id="class_@item.Key"/>
+                            <label class="form-check-label" for="class_@item.Key">@item.Value</label>
+                        </div>
+                    }
+                    <span asp-validation-for="PlayableClassId" class="text-danger"></span>
+                </div>
+            </div>
+            <br />
+                <div class="form-group">
+                    <a asp-action="SetRace" class="btn"
+                    style="background: radial-gradient(circle at -4% -12.9%, rgb(90, 98, 110) 0.3%, rgb(33, 31, 33) 90.2%);color:goldenrod; text-align:center">Set Race</a>
+                    <input type="submit" value="Create" class="btn" asp-action="SetAttributes" asp-controller="PlayableCharacter"
+                    style="background: radial-gradient(circle at -4% -12.9%, rgb(90, 98, 110) 0.3%, rgb(33, 31, 33) 90.2%);color:goldenrod; text-align:center"/>                    
+                </div>                
+        </form>
+    </div>
+</div><!--Form Set Class-->
