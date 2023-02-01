@@ -9,20 +9,30 @@ namespace OstreCWEB.Services.Characters
     {
         private readonly IPlayableCharacterRepository _playableCharacterRepository;
         private readonly ICharacterClassRepository _characterClassRepository;
+        private readonly ICharacterRaceRepository _characterRaceRepository;
 
-        public PlayableCharacterService(IPlayableCharacterRepository characterRepository, ICharacterClassRepository characterClassRepository)
+        public PlayableCharacterService(IPlayableCharacterRepository characterRepository, ICharacterClassRepository characterClassRepository, ICharacterRaceRepository characterRaceRepository)
         {
             _playableCharacterRepository = characterRepository;
             _characterClassRepository = characterClassRepository;
+            _characterRaceRepository = characterRaceRepository;
         } 
         public Task Add(Character charater)
         {
             throw new NotImplementedException();
         }
         public Task Create(PlayableCharacter playableCharacter)
-        {
-            playableCharacter.CurrentHealthPoints = 10;
-            playableCharacter.MaxHealthPoints = 10;
+        {            
+            playableCharacter.CharacterClass = _characterClassRepository.GetById(playableCharacter.PlayableClassId);
+            playableCharacter.Race = _characterRaceRepository.GetById(playableCharacter.RaceId);
+            playableCharacter.Strenght = playableCharacter.Strenght + playableCharacter.CharacterClass.StrengthBonus + playableCharacter.Race.StrengthBonus;
+            playableCharacter.Dexterity = playableCharacter.Dexterity + playableCharacter.CharacterClass.DexterityBonus + playableCharacter.Race.DexterityBonus;
+            playableCharacter.Constitution = playableCharacter.Constitution + playableCharacter.CharacterClass.ConstitutionBonus + playableCharacter.Race.ConstitutionBonus;
+            playableCharacter.Intelligence = playableCharacter.Intelligence + playableCharacter.CharacterClass.IntelligenceBonus + playableCharacter.Race.IntelligenceBonus;
+            playableCharacter.Wisdom = playableCharacter.Wisdom + playableCharacter.CharacterClass.WisdomBonus + playableCharacter.Race.WisdomBonus;
+            playableCharacter.Charisma = playableCharacter.Charisma + playableCharacter.CharacterClass.CharismaBonus + playableCharacter.Race.CharismaBonus;
+            playableCharacter.CurrentHealthPoints = playableCharacter.MaxHP();
+            playableCharacter.MaxHealthPoints = playableCharacter.MaxHP();
             playableCharacter.IsTemplate = true;
 
             return _playableCharacterRepository.Create(playableCharacter);
@@ -96,7 +106,6 @@ namespace OstreCWEB.Services.Characters
         {
             return _playableCharacterRepository.GetAllNames();
         }
-
         #endregion
     }
 }

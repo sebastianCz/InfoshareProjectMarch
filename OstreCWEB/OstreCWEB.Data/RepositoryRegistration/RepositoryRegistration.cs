@@ -28,6 +28,7 @@ namespace OstreCWEB.Data.RepositoryRegistration
             services.AddTransient<IEnemyRepository, EnemyRepository>();
             services.AddTransient<IItemRepository, ItemRepository>();
             services.AddTransient<ICharacterClassRepository, CharacterClassRepository>();
+            services.AddTransient<ICharacterRaceRepository, CharacterRaceRepository>();
         }
     }
 }

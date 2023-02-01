@@ -131,7 +131,6 @@ namespace OstreCWEB.Controllers
 
         public ActionResult Summary(PlayableCharacterCreateView model)
         {
-            var modelCharacter = _playableCharacterService.GetAll();
             ViewBag.RaceId = model.RaceId;
             //var raceName = _playableCharacterService.GetById(model.RaceId);
             //ViewBag.RaceName = raceName;

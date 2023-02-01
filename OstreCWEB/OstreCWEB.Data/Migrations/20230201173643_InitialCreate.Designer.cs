@@ -12,13 +12,8 @@ using OstreCWEB.Data.DataBase;
 namespace OstreCWEB.Data.Migrations
 {
     [DbContext(typeof(OstreCWebContext))]
-<<<<<<<< HEAD:OstreCWEB/OstreCWEB.Data/Migrations/20230127222421_InitialCreate.Designer.cs
-    [Migration("20230127222421_InitialCreate")]
+    [Migration("20230201173643_InitialCreate")]
     partial class InitialCreate
-========
-    [Migration("20230131204559_Initial")]
-    partial class Initial
->>>>>>>> Develop:OstreCWEB/OstreCWEB.Data/Migrations/20230131204559_Initial.Designer.cs
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {

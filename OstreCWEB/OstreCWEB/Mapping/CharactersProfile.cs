@@ -54,7 +54,9 @@ namespace OstreCWEB.Mapping
             CreateMap<PlayableRaceView, PlayableRace>()
                 .ForMember(dest => dest.PlayableCharacter, opt => opt.Ignore());
             CreateMap<PlayableClassView, PlayableClass>()
-                .ForMember(dest => dest.PlayableCharacter, opt => opt.Ignore());
+                .ForMember(dest => dest.PlayableCharacter, opt => opt.Ignore())
+                .ForMember(dest => dest.ActionsGrantedByClass, opt => opt.Ignore())
+                .ForMember(dest => dest.ItemsGrantedByClass, opt => opt.Ignore());
         } 
     }
 }

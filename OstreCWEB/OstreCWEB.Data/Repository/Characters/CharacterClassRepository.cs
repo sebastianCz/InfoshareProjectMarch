@@ -39,6 +39,10 @@ namespace OstreCWEB.Data.Repository.Characters
         {
             throw new NotImplementedException();
         }
+        public PlayableClass GetById(int id)
+        {
+            return _context.PlayableCharacterClasses.SingleOrDefault(x => x.PlayableClassId == id);
+        }
 
         public Task UpdateAsync(PlayableClass item)
         {

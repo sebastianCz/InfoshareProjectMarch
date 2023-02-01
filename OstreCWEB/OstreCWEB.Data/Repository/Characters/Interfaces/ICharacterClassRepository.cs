@@ -14,5 +14,6 @@ namespace OstreCWEB.Data.Repository.Characters.Interfaces
         public Task UpdateAsync(PlayableClass item);
         public Task CreateAsync(PlayableClass item);
         public Task DeleteAsync(PlayableClass item);
+        public PlayableClass GetById(int id);
     }
 }
