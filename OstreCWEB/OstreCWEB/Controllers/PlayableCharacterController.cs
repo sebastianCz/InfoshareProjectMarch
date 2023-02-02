@@ -60,7 +60,16 @@ namespace OstreCWEB.Controllers
 
             var model = new PlayableCharacterCreateView();
             model.CharacterRaces = racesDictionary;
-            
+
+            string humanDescription = _playableCharacterService.GetRaceDescription(0);
+            ViewBag.HumanDescription = humanDescription;
+
+            string elfDescription = _playableCharacterService.GetRaceDescription(1);
+            ViewBag.ElfDescription = elfDescription;
+
+            string dwarfDescription = _playableCharacterService.GetRaceDescription(2);
+            ViewBag.DwarfDescription = dwarfDescription;
+
             return View(model);
         }
 
@@ -76,13 +85,14 @@ namespace OstreCWEB.Controllers
 
             model.CharacterClasses = classesDictionary;
 
-            string fighterDescription = "A fighter is a character class that focuses on combat prowess and physical prowess." +
-                " Fighters are versatile characters that can wield a variety of weapons and armor and have the ability to adapt to different battle situations." +
-                " They have a high hit point value and strong defense, making them formidable in close combat. They can also serve as the party's primary defender," +
-                " using their combat skills and bravery to protect their allies. With a variety of fighting styles, weapons, and armor options, the fighter class is" +
-                " ideal for players who enjoy engaging in direct combat and tactical battles.";
-
+            string fighterDescription = _playableCharacterService.GetClassDescription(0);
             ViewBag.FighterDescription = fighterDescription;
+
+            string wizardDescription = _playableCharacterService.GetClassDescription(1);
+            ViewBag.WizardDescription = wizardDescription;
+
+            string clericDescription = _playableCharacterService.GetClassDescription(2);
+            ViewBag.ClericDescription = clericDescription;
 
             return View(model);
         }
@@ -140,11 +150,15 @@ namespace OstreCWEB.Controllers
 
         public ActionResult Summary(PlayableCharacterCreateView model)
         {
+            var characterClasses = _playableCharacterService.GetAllClasses();
+            var characterRaces = _playableCharacterService.GetAllRaces();
+
             ViewBag.RaceId = model.RaceId;
-            //var raceName = _playableCharacterService.GetById(model.RaceId);
-            //ViewBag.RaceName = raceName;
+            var raceName = characterRaces.Where(c => c.PlayableRaceId == model.RaceId).Select(c => c.RaceName).FirstOrDefault();
+            ViewBag.RaceName = raceName;
             ViewBag.ClassId = model.PlayableClassId;
-            //ViewBag.ClassName = model.CharacterClass.ClassName;
+            var className = characterClasses.Where(c => c.PlayableClassId == model.PlayableClassId).Select(c => c.ClassName).FirstOrDefault();
+            ViewBag.ClassName = className;
             ViewBag.Str = model.Strenght;
             ViewBag.Dex = model.Dexterity;
             ViewBag.Con = model.Constitution;

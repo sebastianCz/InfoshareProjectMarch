@@ -4,10 +4,6 @@
     ViewData["Title"] = "Set Race";
 }
 
-<h1>Create</h1>
-
-<hr />
-
 @*<div class="row">
     <div class="col-md-4 ">
         <form asp-action="Create">
@@ -71,7 +67,7 @@
     </div>
 </div><!--Form Set Class-->
 
-<p id="description">Test</p>
+<p id="description" style="color:white"></p> <!--Race Description-->
 
 @*@using (Html.BeginForm("SetClass", "PlayableCharacter", FormMethod.Post))
 {
@@ -90,9 +86,11 @@
     input.addEventListener("change", function() {
       var description = "";
       if (input.value === "1") {
-        description = "Fighter description";
+        description = "@ViewBag.HumanDescription";
       } else if (input.value === "2") {
-        description = "Cleric description";
+        description = "@ViewBag.DwarfDescription";
+      } else if (input.value === "3") {
+        description = "@ViewBag.ElfDescription";
       }
       document.querySelector("#description").textContent = description;
     });

@@ -25,6 +25,8 @@ namespace OstreCWEB.Data.Repository.Characters.Interfaces
         public List<PlayableClass> GetAllClasses();
         public void RollAttributes(PlayableCharacter model);
         public List<string> GetAllNames();
+        public string GetRaceDescription(int id);
+        public string GetClassDescription(int id);
 
         #endregion
     }

@@ -1,12 +1,8 @@
 ﻿@model OstreCWEB.ViewModel.Characters.PlayableCharacterCreateView
-
+@using System.Web;
 @{
     ViewData["Title"] = "Set Class";
 }
-
-<h1>Set Class</h1>
-
-<hr />
 
 @*<div class="row">
     <div class="col-md-4 ">
@@ -74,7 +70,7 @@
     </div>
 </div><!--Form Set Class-->
 
-<p id="description" style="color:white">Test</p>
+<p id="description" style="color:white"></p><!--Class Description-->
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
@@ -82,15 +78,13 @@
     input.addEventListener("change", function() {
       var description = "";
       if (input.value === "1") {
-        description = "fighterDescription";
+        description = "@ViewBag.FighterDescription";
       } else if (input.value === "2") {
-        description = "Dwarf description";
+        description = "@ViewBag.WizardDescription";
+      } else if (input.value === "3") {
+        description = "@ViewBag.ClericDescription";
       }
       document.querySelector("#description").textContent = description;
     });
   });
-</script>
-
-<script>
-    var fighterDescription = @Html.Raw(ViewBag.FighterDescription);
 </script>

@@ -22,9 +22,10 @@ namespace OstreCWEB.Services.Characters
         public List<PlayableRace> GetAllRaces();
         public List<PlayableClass> GetAllClasses();
         public void RollAttributes(PlayableCharacter model);
-
         public Task<string> GetClassNameById(int id);
         public List<string> GetAllNames();
+        public string GetRaceDescription(int id);
+        public string GetClassDescription(int id);
         #endregion
         public int RollDice(int maxValue = 7);
     }

@@ -106,6 +106,15 @@ namespace OstreCWEB.Services.Characters
         {
             return _playableCharacterRepository.GetAllNames();
         }
+        public string GetRaceDescription(int id)
+        {
+            return _playableCharacterRepository.GetRaceDescription(id);
+        }
+        public string GetClassDescription(int id)
+        {
+            return _playableCharacterRepository.GetClassDescription(id);
+        }
+
         #endregion
     }
 }
