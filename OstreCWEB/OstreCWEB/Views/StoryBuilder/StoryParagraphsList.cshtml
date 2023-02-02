@@ -35,6 +35,7 @@
 <div class="card">
     <div class="card-body">
         <h5 class="card-title">Paragraphs</h5>
+        <a asp-action="CreatNewParagraph" asp-route-id="@Model.Id" type="button" class="btn btn-success">Create new Paragraph</a>
         <table class="table table-striped">
             <thead>
                 <tr>
@@ -103,7 +104,7 @@
                             </td>
                         </tr>
                     }
-                    @if (item.ParagraphType == OstreCWEB.Data.Repository.StoryModels.Enums.ParagraphType.Dialog)
+                    @*@if (item.ParagraphType == OstreCWEB.Data.Repository.StoryModels.Enums.ParagraphType.Dialog)
                     {
                         <tr class="table-Primary">
                             <td>
@@ -119,8 +120,8 @@
                                 <a asp-route-name="StoryBuilder" asp-action="ParagraphDetails" asp-route-id="@Model.Id" asp-route-paragraphId="@item.Id" type="button" class="btn btn-success">Show Details</a>
                             </td>
                         </tr>
-                    }
-                    @if (item.ParagraphType == OstreCWEB.Data.Repository.StoryModels.Enums.ParagraphType.Shopkeeper)
+                    }*@
+                    @*@if (item.ParagraphType == OstreCWEB.Data.Repository.StoryModels.Enums.ParagraphType.Shopkeeper)
                     {
                         <tr class="table-success">
                             <td>
@@ -136,10 +137,10 @@
                                 <a asp-route-name="StoryBuilder" asp-action="ParagraphDetails" asp-route-id="@Model.Id" asp-route-paragraphId="@item.Id" type="button" class="btn btn-success">Show Details</a>
                             </td>
                         </tr>
-                    }
+                    }*@
                 }                       
             </tbody>
         </table>
-        <a asp-action="CreateParagraph" asp-route-id="@Model.Id" type="button" class="btn btn-success">Create new Paragraph</a>
+        <a asp-action="CreatNewParagraph" asp-route-id="@Model.Id" type="button" class="btn btn-success">Create new Paragraph</a>
     </div>
 </div>

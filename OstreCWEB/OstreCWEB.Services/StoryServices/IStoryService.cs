@@ -1,4 +1,5 @@
-﻿using OstreCWEB.Data.Repository.StoryModels;
+﻿using OstreCWEB.Data.Repository.Identity;
+using OstreCWEB.Data.Repository.StoryModels;
 using OstreCWEB.Services.Models;
 
 namespace OstreCWEB.Services.StoryServices
@@ -7,6 +8,7 @@ namespace OstreCWEB.Services.StoryServices
     {
         //Tools
         public Task<IReadOnlyCollection<Story>> GetAllStories();
+        public Task<IReadOnlyCollection<Story>> GetStoriesByUserId(string userId);
         public Task<Story> GetStoryById(int idStory);
         public Task<Story> GetStoryWithParagraphsById(int idStory);
         public Task<Paragraph> GetParagraphById(int idParagraph);
@@ -14,9 +16,9 @@ namespace OstreCWEB.Services.StoryServices
         public Task<IReadOnlyCollection<Paragraph>> GetNextParagraphsById(int idParagraph, int idStory);
 
         //Story
-        public Task UpdateStory(int idStory, string Name, string Description);
-        public Task AddStory(Story story);
-        public Task DeleteStory(int idStory);
+        public Task UpdateStory(int idStory, string Name, string Description, string userId);
+        public Task AddStory(Story story, string userId);
+        public Task DeleteStory(int idStory, string userId);
 
         //Paragraph
         public Task<ParagraphDetails> GetParagraphDetailsById(int idParagraph, int idStory);

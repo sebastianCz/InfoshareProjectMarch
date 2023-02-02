@@ -1,6 +1,7 @@
 ﻿using OstreCWEB.Data.Repository.StoryModels;
 using OstreCWEB.Services.Models;
 using OstreCWEB.Data.Repository.StoryModels.Enums;
+using OstreCWEB.Data.Repository.Identity;
 
 namespace OstreCWEB.Services.StoryServices
 {
@@ -18,7 +19,7 @@ namespace OstreCWEB.Services.StoryServices
             return await _storyRepository.GetAllStories();
         }
 
-        public async Task<IReadOnlyCollection<Story>> GetStoriesByUser(string userId)
+        public async Task<IReadOnlyCollection<Story>> GetStoriesByUserId(string userId)
         {
             return await _storyRepository.GetStoriesByUserId(userId);
         }
@@ -61,25 +62,41 @@ namespace OstreCWEB.Services.StoryServices
 
         //Story
 
-        public async Task AddStory(Story story)
+        public async Task AddStory(Story story, string userId)
         {
+            story.UserId = userId;
             await _storyRepository.AddStory(story);
         }
 
-        public async Task UpdateStory(int idStory, string Name, string Description)
+        public async Task UpdateStory(int idStory, string Name, string Description, string userId)
         {
             var story = await _storyRepository.GetStoryById(idStory);
-            story.Name = Name;
-            story.Description = Description;
 
-            await _storyRepository.UpdateStory(story);
+            if (story.UserId == userId)
+            {
+                story.Name = Name;
+                story.Description = Description;
+
+                await _storyRepository.UpdateStory(story);
+            }
+            else
+            {
+                new Exception("This is not your Story");
+            }
         }
 
-        public async Task DeleteStory(int idStory)
+        public async Task DeleteStory(int idStory, string userId)
         {
             var story = await _storyRepository.GetStoryById(idStory);
 
-            await _storyRepository.DeleteStory(story);
+            if (story.UserId == userId)
+            {
+                await _storyRepository.DeleteStory(story);
+            }
+            else
+            {
+                new Exception("This is not your Story");
+            }
         }
 
         //Paragraph
