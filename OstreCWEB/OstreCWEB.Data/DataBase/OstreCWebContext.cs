@@ -158,12 +158,11 @@ namespace OstreCWEB.Data.DataBase
             builder.Entity<PlayableCharacter>()
                 .HasOne(c => c.CharacterClass)
                 .WithMany(p => p.PlayableCharacter);
-            builder.Entity<PlayableCharacter>()
-                 .HasOne(x => x.UserParagraph)
-                 .WithOne(x => x.ActiveCharacter)
-                 .HasForeignKey<UserParagraph>(x => x.ActiveCharacterId)
+            builder.Entity<UserParagraph>()
+                 .HasOne(x => x.ActiveCharacter)
+                 .WithOne(x => x.UserParagraph)
+                 .HasForeignKey<PlayableCharacter>(x => x.UserParagraphId)
                  .OnDelete(DeleteBehavior.ClientCascade);
-                  
         }
 
         private void ConfigureStories(ModelBuilder builder)

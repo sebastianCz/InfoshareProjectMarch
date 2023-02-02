@@ -14,5 +14,7 @@ namespace OstreCWEB.Data.Repository.ManyToMany
         public Task<UserParagraph> GetActiveByUserIdNoTrackingAsync(string userId);
         public UserParagraph GetActiveByUserIdNoTracking(string userId);
         public Task SaveChangesAsync();
+        public Task DeleteInstanceBasedOnRace(int id);
+        public Task DeleteInstanceBasedOnClass(int id);
     }
 }

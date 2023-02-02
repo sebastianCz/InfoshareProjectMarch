@@ -1,10 +1,9 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Identity.Client;
 using OstreCWEB.Data.Repository.Characters.CharacterModels;
 using OstreCWEB.Data.Repository.Characters.Interfaces;
+using OstreCWEB.Data.Repository.ManyToMany;
 using OstreCWEB.ViewModel.Characters;
 
 namespace OstreCWEB.Controllers
@@ -15,12 +14,14 @@ namespace OstreCWEB.Controllers
         public ICharacterClassRepository _characterClassRepository { get; }
         public IItemRepository _ItemRepository { get; }
         public IMapper _Mapper { get; }
+        public IUserParagraphRepository _userParagraphRepository { get; }
         public ICharacterActionsRepository _CharacterActionsRepository { get; }
 
-        public PlayableClassController(ICharacterClassRepository characterClassRepository,IMapper mapper)
+        public PlayableClassController(ICharacterClassRepository characterClassRepository,IMapper mapper,IUserParagraphRepository userParagraphRepository)
         {
             _characterClassRepository = characterClassRepository; 
-            _Mapper = mapper; 
+            _Mapper = mapper;
+            _userParagraphRepository = userParagraphRepository;
         }
         // GET: ItemController
         public async Task<ActionResult> Index()
@@ -87,6 +88,7 @@ namespace OstreCWEB.Controllers
         {
             try
             {
+                await _userParagraphRepository.DeleteInstanceBasedOnClass(id);
                 await _characterClassRepository.DeleteAsync(id); 
             }
             catch

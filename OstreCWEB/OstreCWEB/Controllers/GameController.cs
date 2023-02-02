@@ -36,27 +36,31 @@ namespace OstreCWEB.Controllers
         [HttpGet]
         public async Task<ActionResult> StartGame()
         {
-            var activeCharacterCookies = _httpContextAccessor.HttpContext.Request.Cookies.Where(c => c.Key == "ActiveCharacter");
-            var activeStoryCookies = _httpContextAccessor.HttpContext.Request.Cookies.Where(c => c.Key == "ActiveStory");
-            if (activeCharacterCookies != null && activeCharacterCookies.FirstOrDefault().Key != null && activeStoryCookies != null && activeStoryCookies.FirstOrDefault().Key != null)
+            try
             {
-                try
-                { 
-                    var gameInstance = await _gameService.CreateNewGameInstanceAsync(
-                        _userService.GetUserId(User),
-                        Convert.ToInt32(activeCharacterCookies.FirstOrDefault().Value),
-                        Convert.ToInt32(activeStoryCookies.FirstOrDefault().Value));
-                    return RedirectToAction("Index", "StoryReader"); 
-                }
-                catch
+                var activeCharacterCookies = _httpContextAccessor.HttpContext.Request.Cookies.Where(c => c.Key == "ActiveCharacter");
+                var activeStoryCookies = _httpContextAccessor.HttpContext.Request.Cookies.Where(c => c.Key == "ActiveStory");
+                if (activeCharacterCookies != null && activeCharacterCookies.FirstOrDefault().Key != null && activeStoryCookies != null && activeStoryCookies.FirstOrDefault().Key != null)
                 {
+                    if (_playableCharacterService.Exists(Convert.ToInt32(activeCharacterCookies.FirstOrDefault().Value)) && _storyService.Exists(Convert.ToInt32(activeStoryCookies.FirstOrDefault().Value)))
+                    {
+                        var gameInstance = await _gameService.CreateNewGameInstanceAsync(
+                            _userService.GetUserId(User),
+                            Convert.ToInt32(activeCharacterCookies.FirstOrDefault().Value),
+                            Convert.ToInt32(activeStoryCookies.FirstOrDefault().Value));
+                    }
+                    return RedirectToAction("Index", "StoryReader");
+                }
+                else
+                { 
                     return RedirectToAction(nameof(Index));
                 }
+              
             }
-            else
+            catch
             {
                 return RedirectToAction(nameof(Index));
-            } 
+            }
         }
 
         public async Task<ActionResult> DeleteGame(int id)
@@ -79,12 +83,12 @@ namespace OstreCWEB.Controllers
                 var activeCharacterCookies = _httpContextAccessor.HttpContext.Request.Cookies.Where(c => c.Key == "ActiveCharacter");
                 var activeStoryCookies = _httpContextAccessor.HttpContext.Request.Cookies.Where(c => c.Key == "ActiveStory");
 
-                if (activeCharacterCookies.Any())
-                {
-                    model.ActiveCharacter = _mapper.Map<PlayableCharacterView>(await _playableCharacterService.GetById(Convert.ToInt32(activeCharacterCookies.ToList().FirstOrDefault().Value)));
+                if (activeCharacterCookies.Any() && _playableCharacterService.Exists(Convert.ToInt32(activeCharacterCookies.FirstOrDefault().Value)))
+                { 
+                        model.ActiveCharacter = _mapper.Map<PlayableCharacterView>(await _playableCharacterService.GetById(Convert.ToInt32(activeCharacterCookies.ToList().FirstOrDefault().Value)));
 
                 }
-                if (activeStoryCookies.Any())
+                if (activeStoryCookies.Any() && _storyService.Exists(Convert.ToInt32(activeStoryCookies.FirstOrDefault().Value)))
                 {
                     model.ActiveStory = _mapper.Map<StoryView>(await _storyService.GetStoryById(Convert.ToInt32(activeStoryCookies.ToList().FirstOrDefault().Value)));
                 }

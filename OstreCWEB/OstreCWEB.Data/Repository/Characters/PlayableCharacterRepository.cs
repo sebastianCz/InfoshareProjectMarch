@@ -19,6 +19,10 @@ namespace OstreCWEB.Data.Repository.Characters
             _db.SaveChanges();
             return Task.FromResult(playableCharacter);
         }
+        public bool Exists(int id)
+        {
+            return _db.PlayableCharacters.Any(x => x.CharacterId ==id);
+        }
 
         public async Task DeleteAsync(PlayableCharacter playableCharacter)
         {

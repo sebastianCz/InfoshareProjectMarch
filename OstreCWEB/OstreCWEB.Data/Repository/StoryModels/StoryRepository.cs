@@ -15,6 +15,10 @@ namespace OstreCWEB.Data.Repository.StoryModels
             _ostreCWebContext = ostreCWebContext;
         }
 
+        public bool Exists(int storyId)
+        {
+            return _ostreCWebContext.Stories.Any(story => story.Id == storyId);
+        }
         public async Task<IReadOnlyCollection<Story>> GetAllStories()
         {
             return _ostreCWebContext.Stories
@@ -78,5 +82,6 @@ namespace OstreCWEB.Data.Repository.StoryModels
             _ostreCWebContext.Paragraphs.Add(paragraph);
             await _ostreCWebContext.SaveChangesAsync();
         }
+
     }
 }
