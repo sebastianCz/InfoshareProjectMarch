@@ -1,4 +1,6 @@
-﻿using OstreCWEB.Data.Repository.StoryModels;
+﻿using OstreCWEB.Data.Repository.Characters.CharacterModels;
+using OstreCWEB.Data.Repository.Characters.Interfaces;
+using OstreCWEB.Data.Repository.StoryModels;
 using OstreCWEB.Data.Repository.StoryModels.Enums;
 using OstreCWEB.Services.Models;
 
@@ -7,10 +9,12 @@ namespace OstreCWEB.Services.StoryServices
     internal class StoryService : IStoryService
     {
         private readonly IStoryRepository _storyRepository;
+        private readonly IEnemyRepository _enemyRepository;
 
-        public StoryService(IStoryRepository storyRepository)
+        public StoryService(IStoryRepository storyRepository, IEnemyRepository enemyRepository)
         {
             _storyRepository = storyRepository;
+            _enemyRepository = enemyRepository;
         }
 
         public async Task<IReadOnlyCollection<Story>> GetAllStories()
@@ -151,6 +155,13 @@ namespace OstreCWEB.Services.StoryServices
                 (x => x.ParagraphType == ParagraphType.Fight || x.ParagraphType == ParagraphType.Test);
 
             return paragraphDetails;
+        }
+
+        public async Task<IReadOnlyCollection<Enemy>> GetAllEnemies()
+        {
+            var test = await _enemyRepository.GetAllTemplatesAsync();
+
+            return test;
         }
     }
 }

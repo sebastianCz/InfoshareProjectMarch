@@ -1,4 +1,4 @@
-﻿using OstreCWEB.Data.Repository.Identity;
+﻿using OstreCWEB.Data.Repository.Characters.CharacterModels;
 using OstreCWEB.Data.Repository.StoryModels;
 using OstreCWEB.Services.Models;
 
@@ -20,5 +20,7 @@ namespace OstreCWEB.Services.StoryServices
         //Paragraph
         public Task<ParagraphDetails> GetParagraphDetailsById(int idParagraph, int idStory);
         public Task AddParagraph(Paragraph paragraph, string userId);
+
+        public Task<IReadOnlyCollection<Enemy>> GetAllEnemies();
     }
 }

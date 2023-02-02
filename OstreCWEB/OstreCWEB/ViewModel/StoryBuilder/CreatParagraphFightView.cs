@@ -1,11 +1,14 @@
-﻿using OstreCWEB.Data.Repository.StoryModels.Enums;
+﻿using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
+using OstreCWEB.Data.Repository.StoryModels.Enums;
 
 namespace OstreCWEB.ViewModel.StoryBuilder
 {
     public class CreatParagraphFightView
     {
-        // ParagraphFight Properties
-              
+        // Enemy Dictionary
+        public Dictionary<int, string> Enemies { get; set; }
+
+        // ParagraphFight Properties             
         public int FirstEnemyId { get; set; }
         public int FirstAmountOfEnemy { get; set; }
 

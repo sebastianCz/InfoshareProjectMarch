@@ -65,7 +65,8 @@ namespace OstreCWEB.Mapping
                 .ForMember(dest => dest.SecondEnemyId, opt => opt.Ignore())
                 .ForMember(dest => dest.SecondAmountOfEnemy, opt => opt.Ignore())               
                 .ForMember(dest => dest.ThirdEnemyId, opt => opt.Ignore())
-                .ForMember(dest => dest.ThirdAmountOfEnemy, opt => opt.Ignore());
+                .ForMember(dest => dest.ThirdAmountOfEnemy, opt => opt.Ignore())
+                .ForMember(dest => dest.Enemies, opt => opt.Ignore());
 
             CreateMap<CreatNewParagraphView, CreatParagraphTestView>()
                 .ForMember(dest => dest.AbilityScores, opt => opt.Ignore())

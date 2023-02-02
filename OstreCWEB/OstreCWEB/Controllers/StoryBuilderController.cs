@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using OstreCWEB.Data.Repository.StoryModels;
 using OstreCWEB.Data.Repository.StoryModels.Enums;
 using OstreCWEB.Data.Repository.StoryModels.Properties;
+using OstreCWEB.Services.Characters;
 using OstreCWEB.Services.Identity;
 using OstreCWEB.Services.StoryServices;
 using OstreCWEB.ViewModel.StoryBuilder;
@@ -15,6 +16,7 @@ namespace OstreCWEB.Controllers
     {
         private readonly IMapper _mapper;
         private readonly ILogger<StoryBuilderController> _logger;
+
         private readonly IStoryService _storyService;
         private readonly IUserService _userService;
 
@@ -214,6 +216,17 @@ namespace OstreCWEB.Controllers
         public async Task<ActionResult> CreatParagraphFight(CreatNewParagraphView paragraphFight)
         {
             var model = _mapper.Map<CreatParagraphFightView>(paragraphFight);
+
+            var enemyDictionary = new Dictionary<int, string>();
+            var enemiesList = await _storyService.GetAllEnemies();
+
+            foreach (var enemy in enemiesList)
+            {
+                enemyDictionary.Add(enemy.CharacterId, enemy.CharacterName);
+            }
+
+            model.Enemies = enemyDictionary;
+
             return View(model);
         }
 
@@ -224,6 +237,39 @@ namespace OstreCWEB.Controllers
             try
             {
                 var paragraph = _mapper.Map<Paragraph>(paragraphFight);
+
+                paragraph.FightProp = new FightProp
+                {
+                    ParagraphEnemies = new List<EnemyInParagraph>
+                    {
+                        new EnemyInParagraph
+                        {
+                            EnemyId = paragraphFight.FirstEnemyId,
+                            AmountOfEnemy = paragraphFight.FirstAmountOfEnemy
+                        }
+                    }
+                };
+
+                if (paragraphFight.SecondAmountOfEnemy != 0)
+                {
+                    paragraph.FightProp.ParagraphEnemies.Add(
+                        new EnemyInParagraph
+                        {
+                            EnemyId = paragraphFight.SecondEnemyId,
+                            AmountOfEnemy = paragraphFight.SecondAmountOfEnemy
+                        });
+                }
+
+                if (paragraphFight.ThirdAmountOfEnemy != 0)
+                {
+                    paragraph.FightProp.ParagraphEnemies.Add(
+                        new EnemyInParagraph
+                        {
+                            EnemyId = paragraphFight.ThirdEnemyId,
+                            AmountOfEnemy = paragraphFight.ThirdAmountOfEnemy
+                        });
+                }
+
                 await _storyService.AddParagraph(paragraph, _userService.GetUserId(User));
                 return RedirectToAction(nameof(StoryParagraphsList), _mapper.Map<StoryParagraphsView>(await _storyService.GetStoryWithParagraphsById(paragraphFight.StoryId)));
             }

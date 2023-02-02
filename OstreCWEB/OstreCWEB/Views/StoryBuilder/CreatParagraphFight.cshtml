@@ -1,11 +1,11 @@
 ﻿@model OstreCWEB.ViewModel.StoryBuilder.CreatParagraphFightView
 
 @{
-    ViewData["Title"] = "Create Paragraph Test";
+    ViewData["Title"] = "Create Paragraph Fight";
 }
 
 <div class="pagetitle">
-    <h1>Create Paragraph Test</h1>
+    <h1>Create Paragraph Fight</h1>
     <nav>
         <ol class="breadcrumb">
             <li class="breadcrumb-item"><a asp-area="" asp-controller="Home" asp-action="Index">Home</a></li>
@@ -19,7 +19,7 @@
     <div class="card-body">
         <h5 class="card-title">Creat Test Paragraph</h5>
         <div class="col-md-4">
-            <form asp-action="CreatParagraphTest">
+            <form asp-action="CreatParagraphFight">
                 <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
                 <dl class="row">
@@ -44,15 +44,48 @@
                 </dl>
 
                 <div class="form-group">
-                    <label asp-for="AbilityScores" class="control-label"></label>
-                    <select asp-for="AbilityScores" asp-items="Html.GetEnumSelectList<AbilityScores>()" class="form-control"></select>
-                    <span asp-validation-for="AbilityScores" class="text-danger"></span>
+                    <label asp-for="FirstEnemyId" class="control-label"></label>
+                    @Html.DropDownListFor(m => m.FirstEnemyId, new SelectList(Model.Enemies,"Key","Value"),
+                    new {
+                    @class = "form-control"
+                    })
+                    <span asp-validation-for="FirstEnemyId" class="text-danger"></span>
                 </div>
 
                 <div class="form-group">
-                    <label asp-for="TestDifficulty" class="control-label"></label>
-                    <select asp-for="TestDifficulty" asp-items="Html.GetEnumSelectList<TestDifficulty>()" class="form-control"></select>
-                    <span asp-validation-for="TestDifficulty" class="text-danger"></span>
+                    <label asp-for="FirstAmountOfEnemy" class="control-label"></label>
+                    <input asp-for="FirstAmountOfEnemy" class="form-control" />
+                    <span asp-validation-for="FirstAmountOfEnemy" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="SecondEnemyId" class="control-label"></label>
+                    @Html.DropDownListFor(m => m.SecondEnemyId, new SelectList(Model.Enemies,"Key","Value"),
+                    new {
+                    @class = "form-control"
+                    })
+                    <span asp-validation-for="SecondEnemyId" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="SecondAmountOfEnemy" class="control-label"></label>
+                    <input asp-for="SecondAmountOfEnemy" class="form-control" />
+                    <span asp-validation-for="SecondAmountOfEnemy" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="ThirdEnemyId" class="control-label"></label>
+                    @Html.DropDownListFor(m => m.ThirdEnemyId, new SelectList(Model.Enemies,"Key","Value"),
+                    new {
+                    @class = "form-control"
+                    })
+                    <span asp-validation-for="ThirdEnemyId" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="ThirdAmountOfEnemy" class="control-label"></label>
+                    <input asp-for="ThirdAmountOfEnemy" class="form-control" />
+                    <span asp-validation-for="ThirdAmountOfEnemy" class="text-danger"></span>
                 </div>
 
                 <div>
