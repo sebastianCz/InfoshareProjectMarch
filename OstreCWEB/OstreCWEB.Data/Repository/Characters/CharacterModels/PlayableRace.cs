@@ -11,14 +11,8 @@ namespace OstreCWEB.Data.Repository.Characters.CharacterModels
         [Key]
         public int PlayableRaceId { get; set; }
         public List<PlayableCharacter> PlayableCharacter { get; set; } 
-        //
-   
-        [NotMapped]
-        public List<CharacterSkills> DefaultSkillsForClass { get; set; }
-        public string RaceName { get; set; }
-     
-        public int AmountOfSkillsToChoose { get; set; }
-
+        // 
+        public string RaceName { get; set; } 
         public int IntelligenceBonus { get; set; }
         public int StrengthBonus { get; set; }
         public int WisdomBonus { get; set; }

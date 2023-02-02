@@ -1,8 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using OstreCWEB.Data.DataBase;
-using OstreCWEB.Data.Factory;
 using OstreCWEB.Data.Repository.Characters.CharacterModels;
-using OstreCWEB.Data.Repository.Characters.Interfaces; 
+using OstreCWEB.Data.Repository.Characters.Interfaces;
 
 namespace OstreCWEB.Data.Repository.Characters
 {

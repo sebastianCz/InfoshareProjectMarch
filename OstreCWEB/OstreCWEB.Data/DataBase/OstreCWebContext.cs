@@ -6,6 +6,9 @@ using OstreCWEB.Data.Repository.Characters.MetaTags;
 using OstreCWEB.Data.Repository.Identity;
 using OstreCWEB.Data.Repository.StoryModels;
 using OstreCWEB.Data.Repository.StoryModels.Properties;
+using System.Reflection.Emit;
+using System.Reflection.Metadata;
+using System.Security.Cryptography.X509Certificates;
 
 namespace OstreCWEB.Data.DataBase
 {
@@ -155,6 +158,12 @@ namespace OstreCWEB.Data.DataBase
             builder.Entity<PlayableCharacter>()
                 .HasOne(c => c.CharacterClass)
                 .WithMany(p => p.PlayableCharacter);
+            builder.Entity<PlayableCharacter>()
+                 .HasOne(x => x.UserParagraph)
+                 .WithOne(x => x.ActiveCharacter)
+                 .HasForeignKey<UserParagraph>(x => x.ActiveCharacterId)
+                 .OnDelete(DeleteBehavior.ClientCascade);
+                  
         }
 
         private void ConfigureStories(ModelBuilder builder)
@@ -224,6 +233,7 @@ namespace OstreCWEB.Data.DataBase
             builder.Entity<UserParagraph>()
                 .HasOne(x => x.Paragraph)
                 .WithMany(x => x.UserParagraphs);  
+            
         }
 
         private void ConfigureParagraphItems(ModelBuilder builder)

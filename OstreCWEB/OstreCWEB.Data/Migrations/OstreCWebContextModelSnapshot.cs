@@ -181,6 +181,9 @@ namespace OstreCWEB.Data.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("UserParagraphId"), 1L, 1);
 
+                    b.Property<int>("ActiveCharacterId")
+                        .HasColumnType("int");
+
                     b.Property<bool>("ActiveGame")
                         .HasColumnType("bit");
 
@@ -195,6 +198,9 @@ namespace OstreCWEB.Data.Migrations
                         .HasColumnType("nvarchar(450)");
 
                     b.HasKey("UserParagraphId");
+
+                    b.HasIndex("ActiveCharacterId")
+                        .IsUnique();
 
                     b.HasIndex("ParagraphId");
 
@@ -395,9 +401,6 @@ namespace OstreCWEB.Data.Migrations
                         .HasColumnType("int");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("PlayableRaceId"), 1L, 1);
-
-                    b.Property<int>("AmountOfSkillsToChoose")
-                        .HasColumnType("int");
 
                     b.Property<int>("CharismaBonus")
                         .HasColumnType("int");
@@ -798,10 +801,6 @@ namespace OstreCWEB.Data.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.HasIndex("UserParagraphId")
-                        .IsUnique()
-                        .HasFilter("[UserParagraphId] IS NOT NULL");
-
                     b.HasDiscriminator().HasValue("PlayableCharacter");
                 });
 
@@ -877,6 +876,12 @@ namespace OstreCWEB.Data.Migrations
 
             modelBuilder.Entity("OstreCWEB.Data.DataBase.ManyToMany.UserParagraph", b =>
                 {
+                    b.HasOne("OstreCWEB.Data.Repository.Characters.CharacterModels.PlayableCharacter", "ActiveCharacter")
+                        .WithOne("UserParagraph")
+                        .HasForeignKey("OstreCWEB.Data.DataBase.ManyToMany.UserParagraph", "ActiveCharacterId")
+                        .OnDelete(DeleteBehavior.ClientCascade)
+                        .IsRequired();
+
                     b.HasOne("OstreCWEB.Data.Repository.StoryModels.Paragraph", "Paragraph")
                         .WithMany("UserParagraphs")
                         .HasForeignKey("ParagraphId")
@@ -888,6 +893,8 @@ namespace OstreCWEB.Data.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("ActiveCharacter");
 
                     b.Navigation("Paragraph");
 
@@ -1076,22 +1083,11 @@ namespace OstreCWEB.Data.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("OstreCWEB.Data.DataBase.ManyToMany.UserParagraph", "UserParagraph")
-                        .WithOne("ActiveCharacter")
-                        .HasForeignKey("OstreCWEB.Data.Repository.Characters.CharacterModels.PlayableCharacter", "UserParagraphId");
-
                     b.Navigation("CharacterClass");
 
                     b.Navigation("Race");
 
                     b.Navigation("User");
-
-                    b.Navigation("UserParagraph");
-                });
-
-            modelBuilder.Entity("OstreCWEB.Data.DataBase.ManyToMany.UserParagraph", b =>
-                {
-                    b.Navigation("ActiveCharacter");
                 });
 
             modelBuilder.Entity("OstreCWEB.Data.Repository.Characters.CharacterModels.Character", b =>
@@ -1173,6 +1169,11 @@ namespace OstreCWEB.Data.Migrations
             modelBuilder.Entity("OstreCWEB.Data.Repository.Characters.CharacterModels.Enemy", b =>
                 {
                     b.Navigation("EnemyInParagraphs");
+                });
+
+            modelBuilder.Entity("OstreCWEB.Data.Repository.Characters.CharacterModels.PlayableCharacter", b =>
+                {
+                    b.Navigation("UserParagraph");
                 });
 #pragma warning restore 612, 618
         }

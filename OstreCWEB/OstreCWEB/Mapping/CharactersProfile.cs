@@ -27,6 +27,8 @@ namespace OstreCWEB.Mapping
             //CreateMap<CharacterActionView, CharacterAction>();
             CreateMap<Status, StatusView>();
             CreateMap<PlayableRace, PlayableRaceView>();
+            CreateMap<PlayableRaceView, PlayableRace>()
+                .ForMember(x => x.PlayableCharacter, options => options.Ignore());
             CreateMap<PlayableClass, PlayableClassView>();
             CreateMap<PlayableClassView, PlayableClass>()
                 .ForMember(x => x.PlayableCharacter, options => options.Ignore())

@@ -52,7 +52,6 @@ internal class SeedCharacters : ISeeder
             new PlayableRace
             {
                 RaceName = "Human", 
-                AmountOfSkillsToChoose = 1, 
             } 
         };
 
