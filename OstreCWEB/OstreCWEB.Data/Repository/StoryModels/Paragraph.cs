@@ -24,7 +24,7 @@ namespace OstreCWEB.Data.Repository.StoryModels
 
         // Db relations properties
         public List<UserParagraph> UserParagraphs { get; set; }
-        public List<ParagraphItem> paragraphItems { get; set; }
+        public List<ParagraphItem> ParagraphItems { get; set; }
         public int StoryId { get; set; }
         public Story Story { get; set; }
 

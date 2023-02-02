@@ -72,7 +72,7 @@ namespace OstreCWEB.Data.Repository.ManyToMany
                     .ThenInclude(y => y.ParagraphEnemies)
                     .ThenInclude(z => z.Enemy)                
                 .Include(x => x.Paragraph)
-                    .ThenInclude(p => p.paragraphItems)
+                    .ThenInclude(p => p.ParagraphItems)
                         .ThenInclude(pi => pi.Item)
                 .Include(x => x.ActiveCharacter)
                 .SingleOrDefaultAsync(s => s.User.Id == userId && s.ActiveGame);

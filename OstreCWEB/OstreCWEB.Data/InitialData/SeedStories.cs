@@ -63,7 +63,7 @@ namespace OstreCWEB.Data.InitialData
                                     NextParagraphId = 4
                                 }
                             },
-                            paragraphItems = new List<ParagraphItem>
+                            ParagraphItems = new List<ParagraphItem>
                             {
                                 new ParagraphItem
                                 {

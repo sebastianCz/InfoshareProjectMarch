@@ -1,6 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using OstreCWEB.Data.DataBase;
-using OstreCWEB.Data.Repository.StoryModels.Enums;
 
 #nullable disable
 
@@ -63,7 +62,7 @@ namespace OstreCWEB.Data.Repository.StoryModels
         public async Task<Paragraph> GetParagraphById(int idParagraph)
         { 
             return _ostreCWebContext.Paragraphs
-                .Include(p => p.paragraphItems)
+                .Include(p => p.ParagraphItems)
                 .SingleOrDefault(p => p.Id == idParagraph);
         }
         public async Task<Paragraph> GetCombatParagraphById(int idParagraph)

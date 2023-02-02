@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using OstreCWEB.Data.Repository.StoryModels;
 using OstreCWEB.Data.Repository.StoryModels.Enums;
+using OstreCWEB.Data.Repository.StoryModels.Properties;
 using OstreCWEB.Services.Identity;
 using OstreCWEB.Services.StoryServices;
 using OstreCWEB.ViewModel.StoryBuilder;
@@ -165,13 +166,14 @@ namespace OstreCWEB.Controllers
                 {
                     return RedirectToAction(nameof(CreatParagraphTest), paragraph);
                 }
-                else if(paragraph.ParagraphType == ParagraphType.Fight)
+                else if (paragraph.ParagraphType == ParagraphType.Fight)
                 {
                     return RedirectToAction(nameof(CreatParagraphFight), paragraph);
                 }
                 else
                 {
-                    return RedirectToAction(nameof(StoryParagraphsList), paragraph.StoryId);
+                    await _storyService.AddParagraph(_mapper.Map<Paragraph>(paragraph), _userService.GetUserId(User));
+                    return RedirectToAction(nameof(StoryParagraphsList), _mapper.Map<StoryParagraphsView>(await _storyService.GetStoryWithParagraphsById(paragraph.StoryId)));
                 }
             }
             catch
@@ -183,15 +185,52 @@ namespace OstreCWEB.Controllers
         // GET: StoryBuilderController/CreatParagraphTest
         public async Task<ActionResult> CreatParagraphTest(CreatNewParagraphView paragraph)
         {
-            var model = new CreatParagraphTestView();
+            var model = _mapper.Map<CreatParagraphTestView>(paragraph);
             return View(model);
         }
 
-        // GET: StoryBuilderController/CreatParagraphFight
-        public async Task<ActionResult> CreatParagraphFight(CreatNewParagraphView paragraph)
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> CreatParagraphTest(CreatParagraphTestView paragraphTest)
         {
-            var model = new CreatParagraphFightView();
+            try
+            {
+                var paragraph = _mapper.Map<Paragraph>(paragraphTest);
+                paragraph.TestProp = new TestProp
+                {
+                    AbilityScores = paragraphTest.AbilityScores,
+                    TestDifficulty = paragraphTest.TestDifficulty
+                };
+                await _storyService.AddParagraph(paragraph, _userService.GetUserId(User));
+                return RedirectToAction(nameof(StoryParagraphsList), _mapper.Map<StoryParagraphsView>(await _storyService.GetStoryWithParagraphsById(paragraphTest.StoryId)));
+            }
+            catch
+            {
+                return View();
+            }
+        }
+
+        // GET: StoryBuilderController/CreatParagraphFight
+        public async Task<ActionResult> CreatParagraphFight(CreatNewParagraphView paragraphFight)
+        {
+            var model = _mapper.Map<CreatParagraphFightView>(paragraphFight);
             return View(model);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> CreatParagraphFight(CreatParagraphFightView paragraphFight)
+        {
+            try
+            {
+                var paragraph = _mapper.Map<Paragraph>(paragraphFight);
+                await _storyService.AddParagraph(paragraph, _userService.GetUserId(User));
+                return RedirectToAction(nameof(StoryParagraphsList), _mapper.Map<StoryParagraphsView>(await _storyService.GetStoryWithParagraphsById(paragraphFight.StoryId)));
+            }
+            catch
+            {
+                return View();
+            }
         }
 
         /*

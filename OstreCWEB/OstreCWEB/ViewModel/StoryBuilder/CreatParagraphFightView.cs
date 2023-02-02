@@ -5,8 +5,15 @@ namespace OstreCWEB.ViewModel.StoryBuilder
     public class CreatParagraphFightView
     {
         // ParagraphFight Properties
-        public int EnemyId { get; set; }
-        public int AmountOfEnemy { get; set; }
+              
+        public int FirstEnemyId { get; set; }
+        public int FirstAmountOfEnemy { get; set; }
+
+        public int SecondEnemyId { get; set; }
+        public int SecondAmountOfEnemy { get; set; }
+
+        public int ThirdEnemyId { get; set; }
+        public int ThirdAmountOfEnemy { get; set; }
 
         // General
         public ParagraphType ParagraphType { get; set; }

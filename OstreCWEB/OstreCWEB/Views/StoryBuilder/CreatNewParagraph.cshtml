@@ -47,7 +47,8 @@
                     </div>
                 </div>
 
-                <p></p>
+                <input asp-for="StoryId" hidden="true" />
+
                 <div class="form-group">
                     <input type="submit" value="Next Step" class="btn btn-success" />
                     <a asp-action="StoryParagraphsList" asp-route-id="@Model.StoryId" type="button" class="btn btn-primary">Back to List</a>

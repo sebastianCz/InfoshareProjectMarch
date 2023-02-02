@@ -1,7 +1,6 @@
 ﻿using OstreCWEB.Data.Repository.StoryModels;
-using OstreCWEB.Services.Models;
 using OstreCWEB.Data.Repository.StoryModels.Enums;
-using OstreCWEB.Data.Repository.Identity;
+using OstreCWEB.Services.Models;
 
 namespace OstreCWEB.Services.StoryServices
 {
@@ -32,32 +31,6 @@ namespace OstreCWEB.Services.StoryServices
         public async Task<Story> GetStoryWithParagraphsById(int idStory)
         {
             return await _storyRepository.GetStoryWithParagraphsById(idStory);
-        }
-
-        public async Task<Paragraph> GetParagraphById(int idParagraph)
-        {
-            return await _storyRepository.GetParagraphById(idParagraph);
-        }
-
-        public async Task<IReadOnlyCollection<Paragraph>> GetPreviousParagraphsById(int idParagraph, int idStory)
-        {
-            var story = await _storyRepository.GetStoryById(idStory);
-            return story.Paragraphs.Where(s => s.Choices.Any(c => c.NextParagraphId == idParagraph)).ToList();
-        }
-
-        public async Task<IReadOnlyCollection<Paragraph>> GetNextParagraphsById(int idParagraph, int idStory)
-        {
-            var story = await _storyRepository.GetStoryById(idStory);
-            var paragraph = story.Paragraphs.FirstOrDefault(p => p.Id == idParagraph);
-            var result = new List<Paragraph>();
-            if (paragraph.Choices.Count() != 0)
-            {
-                foreach (var item in paragraph.Choices)
-                {
-                    result.Add(story.Paragraphs.FirstOrDefault(p => p.Id == item.NextParagraphId));
-                }
-            }
-            return result;
         }
 
         //Story
@@ -100,14 +73,24 @@ namespace OstreCWEB.Services.StoryServices
         }
 
         //Paragraph
-        public async Task AddParagraph(Paragraph paragraph)
+        public async Task AddParagraph(Paragraph paragraph, string userId)
         {
-            await _storyRepository.AddParagraph(paragraph);
-            var story = await _storyRepository.GetStoryById(paragraph.StoryId);
-            if (story.GetAmountOfParagraphs() == 1)
+            var userStories = await _storyRepository.GetStoriesByUserId(userId);
+
+            if (userStories.Any(s => s.Id == paragraph.StoryId))
             {
-                story.FirstParagraphId = story.Paragraphs[0].Id;
-                await _storyRepository.UpdateStory(story);
+                await _storyRepository.AddParagraph(paragraph);
+                var stories = await _storyRepository.GetAllStories();
+                var story = stories.FirstOrDefault(x => x.Id == paragraph.StoryId);
+                if (story.GetAmountOfParagraphs() == 1)
+                {
+                    story.FirstParagraphId = story.Paragraphs[0].Id;
+                    await _storyRepository.UpdateStory(story);
+                }
+            }
+            else
+            {
+                new Exception("This is not your Story");
             }
         }
 

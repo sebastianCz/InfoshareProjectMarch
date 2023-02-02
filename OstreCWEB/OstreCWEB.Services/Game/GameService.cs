@@ -70,9 +70,9 @@ namespace OstreCWEB.Services.Game
             var userParagraph = await _userParagraphRepository.GetActiveByUserIdAsync(userId);
             userParagraph.Paragraph = await _storyRepository.GetParagraphById(userParagraph.Paragraph.Choices[choiceId].NextParagraphId);
 
-            if (userParagraph.Paragraph.paragraphItems.Count > 0)
+            if (userParagraph.Paragraph.ParagraphItems.Count > 0)
             {
-                await AddItem(userParagraph.ActiveCharacter, userParagraph.Paragraph.paragraphItems);
+                await AddItem(userParagraph.ActiveCharacter, userParagraph.Paragraph.ParagraphItems);
             }
             userParagraph.Rest = userParagraph.Paragraph.RestoreRest;
 
@@ -82,9 +82,9 @@ namespace OstreCWEB.Services.Game
         {
             gameInstance.Paragraph = await _storyRepository.GetParagraphById(gameInstance.Paragraph.Choices[choiceId].NextParagraphId);
 
-            if (gameInstance.Paragraph.paragraphItems.Count > 0)
+            if (gameInstance.Paragraph.ParagraphItems.Count > 0)
             {
-                await AddItem(gameInstance.ActiveCharacter, gameInstance.Paragraph.paragraphItems);
+                await AddItem(gameInstance.ActiveCharacter, gameInstance.Paragraph.ParagraphItems);
             }
             gameInstance.Rest = gameInstance.Paragraph.RestoreRest;
 

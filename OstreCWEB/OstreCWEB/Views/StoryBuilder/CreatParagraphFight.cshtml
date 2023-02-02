@@ -1,6 +1,4 @@
-﻿@using OstreCWEB.Data.Repository.StoryModels.Enums
-@using OstreCWEB.Data.Repository.Characters.Enums
-@model OstreCWEB.ViewModel.StoryBuilder.CreatParagraphTestView
+﻿@model OstreCWEB.ViewModel.StoryBuilder.CreatParagraphFightView
 
 @{
     ViewData["Title"] = "Create Paragraph Test";
@@ -12,7 +10,7 @@
         <ol class="breadcrumb">
             <li class="breadcrumb-item"><a asp-area="" asp-controller="Home" asp-action="Index">Home</a></li>
             <li class="breadcrumb-item"><a asp-area="" asp-controller="StoryBuilder" asp-action="Index">StoryBuilder</a></li>
-            <li class="breadcrumb-item active">Create Paragraph Test</li>
+            <li class="breadcrumb-item active">Create Paragraph Fight</li>
         </ol>
     </nav>
 </div>
@@ -59,10 +57,10 @@
 
                 <div>
                     <p></p>
-                <input asp-for="ParagraphType" hidden="true" />
-                <input asp-for="StageDescription" hidden="true" />
-                <input asp-for="RestoreRest" hidden="true" />
-                <input asp-for="StoryId" hidden="true" />
+                    <input asp-for="ParagraphType" hidden="true" />
+                    <input asp-for="StageDescription" hidden="true" />
+                    <input asp-for="RestoreRest" hidden="true" />
+                    <input asp-for="StoryId" hidden="true" />
                 </div>
 
                 <div class="form-group">

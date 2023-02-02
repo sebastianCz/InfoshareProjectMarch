@@ -10,10 +10,6 @@ namespace OstreCWEB.ViewModel.StoryBuilder
         public string StageDescription { get; set; }
         public bool RestoreRest { get; set; }
 
-        // Choice Properties
-        //public string ChoiceText { get; set; }
-        //public int NextParagraphId { get; set; }
-
         // Items Properties
 
         //public int AmountOfItems { get; set; }

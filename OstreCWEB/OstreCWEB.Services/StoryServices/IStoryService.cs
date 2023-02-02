@@ -11,9 +11,6 @@ namespace OstreCWEB.Services.StoryServices
         public Task<IReadOnlyCollection<Story>> GetStoriesByUserId(string userId);
         public Task<Story> GetStoryById(int idStory);
         public Task<Story> GetStoryWithParagraphsById(int idStory);
-        public Task<Paragraph> GetParagraphById(int idParagraph);
-        public Task<IReadOnlyCollection<Paragraph>> GetPreviousParagraphsById(int idParagraph, int idStory);
-        public Task<IReadOnlyCollection<Paragraph>> GetNextParagraphsById(int idParagraph, int idStory);
 
         //Story
         public Task UpdateStory(int idStory, string Name, string Description, string userId);
@@ -22,6 +19,6 @@ namespace OstreCWEB.Services.StoryServices
 
         //Paragraph
         public Task<ParagraphDetails> GetParagraphDetailsById(int idParagraph, int idStory);
-        public Task AddParagraph(Paragraph paragraph);
+        public Task AddParagraph(Paragraph paragraph, string userId);
     }
 }
