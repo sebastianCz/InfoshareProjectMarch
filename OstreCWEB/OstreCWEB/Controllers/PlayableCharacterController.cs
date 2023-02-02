@@ -60,7 +60,7 @@ namespace OstreCWEB.Controllers
 
             var model = new PlayableCharacterCreateView();
             model.CharacterRaces = racesDictionary;
-
+            
             return View(model);
         }
 
@@ -75,6 +75,15 @@ namespace OstreCWEB.Controllers
             }
 
             model.CharacterClasses = classesDictionary;
+
+            string fighterDescription = "A fighter is a character class that focuses on combat prowess and physical prowess." +
+                " Fighters are versatile characters that can wield a variety of weapons and armor and have the ability to adapt to different battle situations." +
+                " They have a high hit point value and strong defense, making them formidable in close combat. They can also serve as the party's primary defender," +
+                " using their combat skills and bravery to protect their allies. With a variety of fighting styles, weapons, and armor options, the fighter class is" +
+                " ideal for players who enjoy engaging in direct combat and tactical battles.";
+
+            ViewBag.FighterDescription = fighterDescription;
+
             return View(model);
         }
 

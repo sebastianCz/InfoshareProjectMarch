@@ -71,6 +71,7 @@
     </div>
 </div><!--Form Set Class-->
 
+<p id="description">Test</p>
 
 @*@using (Html.BeginForm("SetClass", "PlayableCharacter", FormMethod.Post))
 {
@@ -81,5 +82,22 @@
     }
         <input type="submit" value="Next" />
 }*@
+
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+  document.querySelectorAll(".form-check-input").forEach(function(input) {
+    input.addEventListener("change", function() {
+      var description = "";
+      if (input.value === "1") {
+        description = "Fighter description";
+      } else if (input.value === "2") {
+        description = "Cleric description";
+      }
+      document.querySelector("#description").textContent = description;
+    });
+  });
+</script>
+
 
 

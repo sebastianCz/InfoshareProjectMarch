@@ -73,3 +73,24 @@
         </form>
     </div>
 </div><!--Form Set Class-->
+
+<p id="description" style="color:white">Test</p>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+  document.querySelectorAll(".form-check-input").forEach(function(input) {
+    input.addEventListener("change", function() {
+      var description = "";
+      if (input.value === "1") {
+        description = "fighterDescription";
+      } else if (input.value === "2") {
+        description = "Dwarf description";
+      }
+      document.querySelector("#description").textContent = description;
+    });
+  });
+</script>
+
+<script>
+    var fighterDescription = @Html.Raw(ViewBag.FighterDescription);
+</script>
