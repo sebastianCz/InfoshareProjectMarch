@@ -37,6 +37,11 @@ namespace OstreCWEB.Mapping
             CreateMap<Character, CharacterView>();
             CreateMap<ItemCharacter, ItemCharacterView>();
             CreateMap<ActionCharacter, ActionCharacterView>();
+            CreateMap<CharacterActionEditView, CharacterAction>()
+                .ForMember(x => x.LinkedCharacter, options => options.Ignore())
+                 .ForMember(x => x.LinkedItems, options => options.Ignore())
+                  .ForMember(x => x.Status, options => options.Ignore())
+             .ForMember(x => x.PlayableClass, options => options.Ignore());
         } 
     }
 }
