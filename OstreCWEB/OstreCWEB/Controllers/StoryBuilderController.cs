@@ -137,5 +137,17 @@ namespace OstreCWEB.Controllers
 
             return View(model);
         }
+
+        /*
+                |C|
+                |H|
+                |O|
+                |I|
+                |C|
+                |E|
+   
+        */
+
+
     }
 }
