@@ -82,11 +82,6 @@ namespace OstreCWEB.Data.Repository.Characters
         {
             return _db.PlayableCharacterClasses.ToList();
         }
-
-        public void Update(PlayableCharacter model, string operation, AbilityScores attribute)
-        {
-
-        }
         public void RollAttributes(PlayableCharacter model)
         {
             var calc = model;
@@ -116,7 +111,6 @@ namespace OstreCWEB.Data.Repository.Characters
         {
             return maleNames;
         }
-
         public string GetClassDescription(int id)
         {
             return classesDescription[id];
@@ -141,7 +135,7 @@ namespace OstreCWEB.Data.Repository.Characters
             //Fighter
             "A fighter is a character class that focuses on combat prowess and physical prowess." +
                 " Fighters are versatile characters that can wield a variety of weapons and armor and have the ability to adapt to different battle situations." +
-                " They have a high hit point value and strong defense, making them formidable in close combat. They can also serve as the party's primary defender," +
+                " They have a high hit point value and strong defense, making them formidable in close combat. They can also serve as the partys primary defender," +
                 " using their combat skills and bravery to protect their allies. With a variety of fighting styles, weapons, and armor options, the fighter class is" +
                 " ideal for players who enjoy engaging in direct combat and tactical battles.",
             //Wizard

@@ -3,7 +3,7 @@
     ViewData["Title"] = "Set Name";
 }
 
-<div class="accordion" id="accordionExample">
+<div class="accordion" id="accordionExample" hidden="true">
   <div class="accordion-item">
     <h2 class="accordion-header" id="headingOne">
       <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
@@ -43,11 +43,11 @@
                 <input asp-for="Wisdom"/>
                 <input asp-for="Charisma"/>
             </div><!--Attributes pass-->
-                <div class="p-3 bg-opacity-75 border border-warning-subtle rounded-top" style="background: radial-gradient(circle at -4% -12.9%, rgb(90, 98, 110) 0.3%, rgb(33, 31, 33) 90.2%);
+                <div class="p-3 bg-light bg-opacity-75 border border-warning-subtle rounded" style="background: radial-gradient(circle at -4% -12.9%, rgb(90, 98, 110) 0.3%, rgb(33, 31, 33) 90.2%);
                 color:goldenrod; text-align:center">
                     <h2>Hero Name</h2>
                 </div>
-                <div class="p-3 bg-warning bg-opacity-75 border border-warning-subtle rounded-top" style="background: #eee; box-shadow: 0 8px 8px -4px black;">                
+                <div class="p-3 bg-light bg-opacity-75 border border-warning-subtle rounded" style="background: #eee; box-shadow: 0 8px 8px -4px black;">                
                      <div class="form-group">
                         <label asp-for="CharacterName" class="control-label"></label>
                         <input asp-for="CharacterName" id="characterName-input" class="form-control" placeholder="Your hero's name" required="text"/>
