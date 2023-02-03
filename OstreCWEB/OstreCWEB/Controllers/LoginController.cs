@@ -1,9 +1,12 @@
 ﻿
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.CodeAnalysis.CSharp.Syntax;
+using Microsoft.AspNetCore.Mvc.Diagnostics;
 using OstreCWEB.Data.Repository.Identity;
 using OstreCWEB.Services.Identity;
+using System.Net.Mail;
+using System.Net;
+using NuGet.Packaging.Signing;
 
 namespace OstreCWEB.Controllers
 {
@@ -11,9 +14,13 @@ namespace OstreCWEB.Controllers
     public class LoginController : Controller
     {
         private readonly IUserAuthenticationService _service;
-        public LoginController(IUserAuthenticationService service)
+        private readonly IUserService _userService;
+
+
+        public LoginController(IUserAuthenticationService service, IUserService userService)
         {
             _service = service;
+            _userService = userService;
         }
 
         public IActionResult Registration()
@@ -58,6 +65,38 @@ namespace OstreCWEB.Controllers
             await _service.LogoutAsync();
             return RedirectToAction("Index", "Home");
         }
+        public IActionResult ChangePassword()
+        {
+            return View();
+        }
+        [HttpPost]
+        public async Task<IActionResult> ChangePassword(ChangePassword model)
+        {
+            if (ModelState.IsValid)
+            {
+                var result = await _service.ChangePasswordAsync(model, _userService.GetUserId(User));
+                TempData["msg"] = result.Message;
+                return RedirectToAction(nameof(ChangePassword));
+            }
+            return View(model);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> ResetPassword(ChangePassword model)
+        {
+            if (ModelState.IsValid)
+            {
+                var result = await _service.ChangePasswordAsync(model, _userService.GetUserId(User));
+                TempData["msg"] = result.Message;
+                return RedirectToAction(nameof(ChangePassword));
+            }
+            return View(model);
+        }
+
+
+
+
+
 
         // Admin account
         //public async Task<IActionResult> Reg()
@@ -73,5 +112,6 @@ namespace OstreCWEB.Controllers
         //    var result = await this._service.RegistrationAsync(model);
         //    return Ok(result);
         //}
+
     }
 }
