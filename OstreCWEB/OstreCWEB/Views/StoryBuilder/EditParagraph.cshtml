@@ -83,7 +83,7 @@
                                         @if (Model.ParagraphEnemies.Count() > 1)
                                         {
                                             <td>
-                                                <a asp-action="DeleteEnemyFromParagraph" asp-route-id="@item.Id" type="button" class="btn btn-danger">Remove</a>
+                                                <a asp-route-name="EnemyInParagraph" asp-action="DeleteEnemyFromParagraph" asp-route-fightParagraphId="@item.Id" asp-route-paragraphId="@Model.Id" type="button" class="btn btn-danger">Remove</a>
                                             </td>
                                         }
                                         @if (!(Model.ParagraphEnemies.Count() > 1))
@@ -93,7 +93,7 @@
                                             </td>
                                         }
                                         <td>
-                                            <a asp-action="EditEnemyInParagraph" asp-route-id="@item.Id" type="button" class="btn btn-danger">Edit</a>
+                                            <a asp-route-name="EnemyInParagraph" asp-action="EditEnemyInParagraph" asp-route-fightParagraphId="@item.Id" asp-route-paragraphId="@Model.Id" type="button" class="btn btn-danger">Edit</a>
                                         </td>
                                     </tr>
                                 }
@@ -103,7 +103,7 @@
                         {
                             <div>*You cannot remove the last enemy from a paragraph.</div>
                         }
-                        <button type="button" class="btn btn-success">Add New Enemy</button>
+                        <a asp-route-name="EnemyInParagraph" asp-action="AddEnemyInParagraph" asp-route-fightParagraphId="@Model.FightPropId" asp-route-paragraphId="@Model.Id" button type="button" class="btn btn-success">Add New Enemy</a>
                     }
                     @if (Model.ParagraphType == ParagraphType.Test)
                     {

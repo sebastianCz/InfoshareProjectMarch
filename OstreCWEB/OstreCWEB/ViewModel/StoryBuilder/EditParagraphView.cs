@@ -23,7 +23,7 @@ namespace OstreCWEB.ViewModel.StoryBuilder
 
         // Db relations properties
         //public List<ParagraphItem> ParagraphItems { get; set; }
-
+        public int FightPropId { get; set; }
         public int StoryId { get; set; }
     }
 }

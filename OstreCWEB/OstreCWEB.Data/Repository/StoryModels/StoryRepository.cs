@@ -105,6 +105,25 @@ namespace OstreCWEB.Data.Repository.StoryModels
             await _ostreCWebContext.SaveChangesAsync();
         }
 
+        public async Task AddEnemyToParagraph(EnemyInParagraph enemyInParagraph)
+        {
+            _ostreCWebContext.EnemyInParagraphs.Add(enemyInParagraph);
+            await _ostreCWebContext.SaveChangesAsync();
+        }
+
+        public async Task<EnemyInParagraph> GetEnemyInParagraphById(int id)
+        {
+            return _ostreCWebContext.EnemyInParagraphs
+                .SingleOrDefault(ep => ep.Id == id);
+        }
+
+        public async Task DeleteEnemyInParagraph(int enemyInParagraphId)
+        {
+            _ostreCWebContext.EnemyInParagraphs.Remove(await GetEnemyInParagraphById(enemyInParagraphId));
+            await _ostreCWebContext.SaveChangesAsync();
+        }
+
+
         public async Task DeleteParagraph(Paragraph paragraph)
         {
             _ostreCWebContext.Paragraphs.Remove(paragraph);

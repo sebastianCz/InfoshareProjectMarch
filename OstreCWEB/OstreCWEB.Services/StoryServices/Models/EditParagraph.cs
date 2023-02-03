@@ -20,7 +20,7 @@ namespace OstreCWEB.Services.StoryServices.Models
 
         // Db relations properties
         //public List<ParagraphItem> ParagraphItems { get; set; }
-
+        public int FightPropId { get; set; }
         public int StoryId { get; set; }
     }
 }

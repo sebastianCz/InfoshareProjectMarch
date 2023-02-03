@@ -246,6 +246,7 @@ namespace OstreCWEB.Services.StoryServices
             if (paragraph.ParagraphType == ParagraphType.Fight)
             {
                 EditParagraph.ParagraphEnemies = new List<EnemyInParagraphService>();
+                EditParagraph.FightPropId = paragraph.FightProp.Id;
 
                 if (paragraph.FightProp.ParagraphEnemies.Count() != 0)
                 {
@@ -257,6 +258,7 @@ namespace OstreCWEB.Services.StoryServices
                                 Id = item.Id,
                                 AmountOfEnemy = item.AmountOfEnemy,
                                 EnemyName = item.Enemy.CharacterName,
+                                ParagraphId = paragraph.Id,
                                 FightPropId = item.FightPropId,
                                 EnemyId = item.EnemyId
                             });
@@ -297,6 +299,24 @@ namespace OstreCWEB.Services.StoryServices
                 throw new Exception("This is not your Story");
             }
         }
+
+        public async Task AddEnemyToParagraph(EnemyInParagraphService enemyInParagraphService)
+        {
+            var enemyInParagraph = new EnemyInParagraph
+            {
+                EnemyId = enemyInParagraphService.EnemyId,
+                FightPropId = enemyInParagraphService.FightPropId,
+                AmountOfEnemy = enemyInParagraphService.AmountOfEnemy
+            };
+
+            await _storyRepository.AddEnemyToParagraph(enemyInParagraph);
+        }
+
+        public async Task DeleteEnemyInParagraph(int enemyInParagraphId)
+        {
+            await _storyRepository.DeleteEnemyInParagraph(enemyInParagraphId);
+        }
+
 
         public async Task<IReadOnlyCollection<Enemy>> GetAllEnemies()
         {

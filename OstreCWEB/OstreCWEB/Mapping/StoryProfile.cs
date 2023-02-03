@@ -79,6 +79,7 @@ namespace OstreCWEB.Mapping
                 .ReverseMap();
 
             CreateMap<EnemyInParagraphService, EnemyInParagraphView>()
+                .ForMember(dest => dest.Enemies, opt => opt.Ignore())
                 .ReverseMap();
         }
     }

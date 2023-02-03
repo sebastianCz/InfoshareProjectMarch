@@ -91,4 +91,8 @@ app.MapControllerRoute(
     name: "storyBuilder",
     pattern: "{controller=Home}/{action=Index}/{id?}/{paragraphId?}");
 
+app.MapControllerRoute(
+    name: "EnemyInParagraph",
+    pattern: "{controller=Home}/{action=Index}/{fightParagraphId?}/{paragraphId?}/");
+
 app.Run();

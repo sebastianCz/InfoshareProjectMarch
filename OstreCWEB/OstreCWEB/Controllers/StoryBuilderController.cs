@@ -313,7 +313,7 @@ namespace OstreCWEB.Controllers
             return View(model);
         }
 
-        // POST: StoryBuilderController/EditStory/5
+        // POST: StoryBuilderController/AddEnemyInParagraph/5
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> EditParagraph(EditParagraphView model)
@@ -328,6 +328,57 @@ namespace OstreCWEB.Controllers
                 return View();
             }
         }
+
+        // GET: StoryBuilderController/AddEnemyInParagraph/5/1
+        public async Task<ActionResult> AddEnemyInParagraph(int fightParagraphId, int paragraphId)
+        {
+            var model = new EnemyInParagraphView();
+
+            model.ParagraphId = paragraphId;
+            model.FightPropId = fightParagraphId;
+
+            var enemyDictionary = new Dictionary<int, string>();
+            var enemiesList = await _storyService.GetAllEnemies();
+
+            foreach (var enemy in enemiesList)
+            {
+                enemyDictionary.Add(enemy.CharacterId, enemy.CharacterName);
+            }
+
+            model.Enemies = enemyDictionary;
+
+            return View(model);
+        }
+
+        // POST: StoryBuilderController/EditStory/5/1
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> AddEnemyInParagraph(EnemyInParagraphView model)
+        {
+            try
+            {
+                await _storyService.AddEnemyToParagraph(_mapper.Map<EnemyInParagraphService>(model));
+                return RedirectToAction(nameof(EditParagraph), _mapper.Map<EditParagraphView>(await _storyService.GetEditParagraphById(model.ParagraphId)));
+            }
+            catch
+            {
+                return View();
+            }
+        }
+
+        public async Task<ActionResult> DeleteEnemyFromParagraph(int fightParagraphId, int paragraphId)
+        {
+            try
+            {
+                await _storyService.DeleteEnemyInParagraph(fightParagraphId);
+                return RedirectToAction(nameof(EditParagraph), _mapper.Map<EditParagraphView>(await _storyService.GetEditParagraphById(paragraphId)));
+            }
+            catch
+            {
+                return View();
+            }
+        }
+
         /*
                 |C|
                 |H|

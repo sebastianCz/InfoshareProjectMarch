@@ -19,6 +19,9 @@ namespace OstreCWEB.Data.Repository.StoryModels
         public Task<Paragraph> GetParagraphToEditById(int paragraphId);
         public Task UpdateParagraph(Paragraph paragraph);
 
+        public Task AddEnemyToParagraph(EnemyInParagraph enemyInParagraph);
+        public Task DeleteEnemyInParagraph(int enemyInParagraphId);
+
         public Task<Choice> GetChoiceDetailsById(int idChoice);
     }
 }

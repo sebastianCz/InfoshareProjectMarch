@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
-using OstreCWEB.Data.Repository.StoryModels.Enums;
+﻿using OstreCWEB.Data.Repository.StoryModels.Enums;
 
 namespace OstreCWEB.ViewModel.StoryBuilder
 {

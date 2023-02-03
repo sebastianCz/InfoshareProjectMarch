@@ -1,11 +1,10 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using OstreCWEB.Data.Repository.Identity;
 using OstreCWEB.Data.Repository.ManyToMany;
 using OstreCWEB.Data.Repository.StoryModels.Enums;
 using OstreCWEB.Services.Game;
-using OstreCWEB.Services.Identity; 
+using OstreCWEB.Services.Identity;
 using OstreCWEB.Services.StoryServices;
 using OstreCWEB.ViewModel.StoryReader;
 
@@ -81,14 +80,12 @@ namespace OstreCWEB.Controllers
                 _httpContextAccessor.HttpContext.Response.Cookies.Append("Throw", $"{0}", options);
             }
             return View(model);
-
-            //return RedirectToAction("Index", "Home");
         }
 
         public async Task<ActionResult> CommitNextParagraph(int id)
         {
             await _gameService.NextParagraphAsync(_userService.GetUserId(User), id);
-            return RedirectToAction("Index");
+            return RedirectToAction(nameof(Index));
         }
         public async Task<ActionResult> RollTheDice()
         {
@@ -103,7 +100,7 @@ namespace OstreCWEB.Controllers
             _httpContextAccessor.HttpContext.Response.Cookies.Append("Throw", $"{result[0]}", options);
             _httpContextAccessor.HttpContext.Response.Cookies.Append("Modifire", $"{result[1]}", options);
 
-            return RedirectToAction("Index");
+            return RedirectToAction(nameof(Index));
         }
 
         public async Task<ActionResult> TestThrow()
@@ -116,12 +113,12 @@ namespace OstreCWEB.Controllers
 
             int resultOfThrow = await _gameService.TestThrowAsync(_userService.GetUserId(User), roll, modifire);
             await _gameService.NextParagraphAsync(_userService.GetUserId(User), resultOfThrow);
-            return RedirectToAction("Index");
+            return RedirectToAction(nameof(Index));
         }
         public async Task<ActionResult> HealCharacter()
         {
             await _gameService.HealCharacterAsync(_userService.GetUserId(User));
-            return RedirectToAction("Index");
+            return RedirectToAction(nameof(Index));
         }
         public async Task<ActionResult> UnequipItem(int id)
         {
