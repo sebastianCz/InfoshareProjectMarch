@@ -13,6 +13,6 @@ namespace OstreCWEB.Data.Repository.Characters.Interfaces
         public Task<List<CharacterAction>> GetAllAsync();
         public Task UpdateAsync(CharacterAction item);
         public Task CreateAsync(CharacterAction item);
-        public Task DeleteAsync(CharacterAction item);
+        public Task DeleteAsync(int id);
     }
 }

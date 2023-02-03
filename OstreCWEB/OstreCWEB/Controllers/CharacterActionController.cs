@@ -68,24 +68,24 @@ namespace OstreCWEB.Controllers
         // GET: ItemController/Edit/5
         public async Task<ActionResult> Edit(int id)
         {
-            //var model = _Mapper.Map<ItemEditView>(await _ItemRepository.GetByIdAsync(id));
-            //var allActions = await _characterActionsRepository.GetAllAsync();
-            //var allClasses = await _characterClassRepository.GetAllAsync();
-            //model.AllExistingActions = new Dictionary<int, string>();
-            //model.AllExistingClasses = new Dictionary<int, string>();
-            //allActions.ForEach(x => model.AllExistingActions.Add(x.CharacterActionId,x.ActionName));
-            //allClasses.ForEach(x => model.AllExistingClasses.Add(x.PlayableClassId, x.ClassName));
-            return View();
+            var model = _Mapper.Map<CharacterActionEditView>(await _characterActionsRepository.GetByIdAsync(id));
+            model.AllStatuses = new Dictionary<int, string>();
+            model.AllClasses = new Dictionary<int, string>();
+            var statuses = await _statusRepository.GetAllAsync();
+            var classes = await _characterClassRepository.GetAllAsync();
+            statuses.ForEach(x => model.AllStatuses.Add(x.StatusId, x.StatusType.ToString()));
+            classes.ForEach(x => model.AllClasses.Add(x.PlayableClassId, x.ClassName));
+            return View(model);
         }
 
         // POST: ItemController/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Edit(ItemEditView item)
+        public async Task<ActionResult> Edit(CharacterActionEditView item)
         {
             try
             {
-                //await _ItemRepository.UpdateAsync(_Mapper.Map<Item>(item));
+                await _characterActionsRepository.UpdateAsync(_Mapper.Map<CharacterAction>(item));
                 return RedirectToAction(nameof(Index));
             }
             catch
@@ -99,7 +99,7 @@ namespace OstreCWEB.Controllers
         {
             try
             {
-                //await _ItemRepository.DeleteAsync(id);
+                await _characterActionsRepository.DeleteAsync(id);
                
             }
             catch

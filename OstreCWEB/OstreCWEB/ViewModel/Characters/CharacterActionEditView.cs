@@ -27,7 +27,7 @@ namespace OstreCWEB.ViewModel.Characters
         [DisplayName("Inflicts status")]
         public bool InflictsStatus { get; set; }
         [DisplayName("Linked Status")] 
-        public int StatusId { get; set; }
+        public int? StatusId { get; set; }
         [DisplayName("Linked Status")]
         public Dictionary<int, string> AllStatuses{get;set;}
         [DisplayName("Linked Class")]
@@ -38,6 +38,6 @@ namespace OstreCWEB.ViewModel.Characters
         //Defined for items which have max use before disapearing. 
         [DisplayName("Deals damage:")] 
         public bool AggressiveAction { get; set; } 
-        public int PlayableClassId { get; set; }
+        public int? PlayableClassId { get; set; }
     }
 }

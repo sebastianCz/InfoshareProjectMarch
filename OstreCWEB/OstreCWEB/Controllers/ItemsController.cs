@@ -57,7 +57,7 @@ namespace OstreCWEB.Controllers
         public async Task<ActionResult> Create(ItemEditView item)
         {
             try
-            {
+            { 
                 await _ItemRepository.UpdateAsync(_Mapper.Map<Item>(item));
                 return RedirectToAction(nameof(Index));
             }

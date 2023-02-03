@@ -6,9 +6,6 @@ using OstreCWEB.Data.Repository.Characters.MetaTags;
 using OstreCWEB.Data.Repository.Identity;
 using OstreCWEB.Data.Repository.StoryModels;
 using OstreCWEB.Data.Repository.StoryModels.Properties;
-using System.Reflection.Emit;
-using System.Reflection.Metadata;
-using System.Security.Cryptography.X509Certificates;
 
 namespace OstreCWEB.Data.DataBase
 {
@@ -121,6 +118,13 @@ namespace OstreCWEB.Data.DataBase
         {
             builder.Entity<CharacterAction>().Navigation(e => e.Status).AutoInclude();
 
+            builder.Entity<CharacterAction>()
+                .HasMany(x => x.LinkedItems)
+                .WithOne(x => x.ActionToTrigger)
+                .HasForeignKey(x => x.ActionToTriggerId)
+                .OnDelete(DeleteBehavior.ClientSetNull);
+
+
             builder.Entity<ActionCharacter>()
                 .HasKey(x => new { x.CharacterId, x.CharacterActionId });
 
@@ -133,6 +137,7 @@ namespace OstreCWEB.Data.DataBase
                 .HasOne(pt => pt.CharacterAction)
                 .WithMany(t => t.LinkedCharacter)
                 .HasForeignKey(pt => pt.CharacterActionId);
+             
         }
 
         private void UserConfiguration(ModelBuilder builder)

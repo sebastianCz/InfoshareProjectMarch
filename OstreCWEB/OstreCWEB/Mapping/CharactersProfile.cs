@@ -37,6 +37,9 @@ namespace OstreCWEB.Mapping
             CreateMap<Character, CharacterView>();
             CreateMap<ItemCharacter, ItemCharacterView>();
             CreateMap<ActionCharacter, ActionCharacterView>();
+            CreateMap<CharacterAction, CharacterActionEditView>()
+                .ForMember(x => x.AllStatuses, options => options.Ignore())
+                .ForMember(x => x.AllClasses, options => options.Ignore());
             CreateMap<CharacterActionEditView, CharacterAction>()
                 .ForMember(x => x.LinkedCharacter, options => options.Ignore())
                  .ForMember(x => x.LinkedItems, options => options.Ignore())
