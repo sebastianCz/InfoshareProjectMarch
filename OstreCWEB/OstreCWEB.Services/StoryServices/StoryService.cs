@@ -145,7 +145,7 @@ namespace OstreCWEB.Services.StoryServices
             }
         }
 
-            public async Task<ParagraphDetails> GetParagraphDetailsById(int idParagraph, int idStory)
+        public async Task<ParagraphDetails> GetParagraphDetailsById(int idParagraph, int idStory)
         {
             var story = await _storyRepository.GetStoryById(idStory);
 
@@ -181,7 +181,7 @@ namespace OstreCWEB.Services.StoryServices
                     else
                     {
                         nextParagraphView = new ParagraphWithCoice
-                        { 
+                        {
                             Id = -1,
                             ParagraphType = default,
                             StageDescription = "The paragraph doesn't exist",
@@ -230,6 +230,48 @@ namespace OstreCWEB.Services.StoryServices
             return paragraphDetails;
         }
 
+        public async Task<EditParagraph> GetEditParagraphById(int paragraphId)
+        {
+            var paragraph = await _storyRepository.GetParagraphToEditById(paragraphId);
+
+            var EditParagraph = new EditParagraph
+            {
+                Id = paragraph.Id,
+                ParagraphType = paragraph.ParagraphType,
+                StageDescription = paragraph.StageDescription,
+                StoryId = paragraph.StoryId,
+            };
+
+            if (paragraph.ParagraphType == ParagraphType.Fight)
+            {
+                EditParagraph.ParagraphEnemies = new List<EnemyInParagraphService>();
+
+                if (paragraph.FightProp.ParagraphEnemies.Count() != 0)
+                {
+                    foreach (var item in paragraph.FightProp.ParagraphEnemies)
+                    {
+                        EditParagraph.ParagraphEnemies.Add(
+                            new EnemyInParagraphService
+                            {
+                                Id = item.Id,
+                                AmountOfEnemy = item.AmountOfEnemy,
+                                EnemyName = item.Enemy.CharacterName,
+                                FightPropId = item.FightPropId,
+                                EnemyId = item.EnemyId
+                            });
+                    }
+                }
+            }
+
+            if (paragraph.ParagraphType == ParagraphType.Test)
+            {
+                EditParagraph.AbilityScores = paragraph.TestProp.AbilityScores;
+                EditParagraph.TestDifficulty = paragraph.TestProp.TestDifficulty;
+            }
+
+            return EditParagraph;
+        }
+
         public async Task<IReadOnlyCollection<Enemy>> GetAllEnemies()
         {
             return await _enemyRepository.GetAllTemplatesAsync();
@@ -250,7 +292,7 @@ namespace OstreCWEB.Services.StoryServices
                 NextParagraph = choice.Paragraph.Story.Paragraphs.FirstOrDefault(p => p.Id == choice.NextParagraphId)
             };
 
-            if(choiceDetails.PreviousParagraph.ParagraphType == ParagraphType.Fight || choiceDetails.PreviousParagraph.ParagraphType == ParagraphType.Test)
+            if (choiceDetails.PreviousParagraph.ParagraphType == ParagraphType.Fight || choiceDetails.PreviousParagraph.ParagraphType == ParagraphType.Test)
             {
                 choiceDetails.Delete = false;
             }

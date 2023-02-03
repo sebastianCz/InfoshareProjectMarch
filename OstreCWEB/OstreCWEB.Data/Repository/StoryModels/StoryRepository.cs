@@ -44,6 +44,8 @@ namespace OstreCWEB.Data.Repository.StoryModels
                     .ThenInclude(p => p.TestProp)
                 .Include(s => s.Paragraphs)
                     .ThenInclude(p => p.ShopkeeperProp)
+                .Include(s => s.Paragraphs)
+                    .ThenInclude(p => p.ParagraphItems)
                 .SingleOrDefault(s => s.Id == idStory);
         }
 
@@ -101,6 +103,21 @@ namespace OstreCWEB.Data.Repository.StoryModels
         {
             _ostreCWebContext.Paragraphs.Remove(paragraph);
             await _ostreCWebContext.SaveChangesAsync();
+        }
+
+        public async Task<Paragraph> GetParagraphToEditById(int paragraphId)
+        {
+            return await _ostreCWebContext.Paragraphs
+                .Include(p => p.Choices)
+                .Include(p => p.FightProp)
+                    .ThenInclude(f => f.ParagraphEnemies)
+                        .ThenInclude(pe => pe.Enemy)
+                .Include(p => p.DialogProp)
+                .Include(p => p.TestProp)
+                .Include(p => p.ShopkeeperProp)
+                .Include(p => p.ParagraphItems)
+                .SingleOrDefaultAsync(s => s.Id == paragraphId);
+
         }
 
         public async Task<Choice> GetChoiceDetailsById(int idChoice)

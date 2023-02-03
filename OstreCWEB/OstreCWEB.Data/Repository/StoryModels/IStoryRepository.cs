@@ -16,6 +16,7 @@ namespace OstreCWEB.Data.Repository.StoryModels
         public Task DeleteStory(Story story); 
         public Task AddParagraph(Paragraph paragraph);
         public Task DeleteParagraph(Paragraph paragraph);
+        public Task<Paragraph> GetParagraphToEditById(int paragraphId);
 
         public Task<Choice> GetChoiceDetailsById(int idChoice);
     }

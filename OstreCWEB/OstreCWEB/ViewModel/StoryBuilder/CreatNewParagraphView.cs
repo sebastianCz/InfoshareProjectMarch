@@ -1,5 +1,4 @@
-﻿using OstreCWEB.Data.Repository.Characters.Enums;
-using OstreCWEB.Data.Repository.StoryModels.Enums;
+﻿using OstreCWEB.Data.Repository.StoryModels.Enums;
 
 namespace OstreCWEB.ViewModel.StoryBuilder
 {

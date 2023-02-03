@@ -304,6 +304,29 @@ namespace OstreCWEB.Controllers
             }
         }
 
+
+        // GET: StoryBuilderController/EditParagraph/5
+        public async Task<ActionResult> EditParagraph(int id)
+        {
+            var model = _mapper.Map<EditParagraphView>(await _storyService.GetEditParagraphById(id));
+
+            return View(model);
+        }
+
+        // POST: StoryBuilderController/EditStory/5
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> EditParagraph(EditParagraphView model)
+        {
+            try
+            {
+                return RedirectToAction(nameof(Index));
+            }
+            catch
+            {
+                return View();
+            }
+        }
         /*
                 |C|
                 |H|

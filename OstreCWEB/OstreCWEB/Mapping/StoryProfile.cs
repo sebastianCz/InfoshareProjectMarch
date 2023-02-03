@@ -75,6 +75,11 @@ namespace OstreCWEB.Mapping
             CreateMap<ChoiceDetails, ChoiceDetailsView>();
             CreateMap<Choice, CurrentChoiceView>();
 
+            CreateMap<EditParagraph, EditParagraphView>()
+                .ReverseMap();
+
+            CreateMap<EnemyInParagraphService, EnemyInParagraphView>()
+                .ReverseMap();
         }
     }
 }
