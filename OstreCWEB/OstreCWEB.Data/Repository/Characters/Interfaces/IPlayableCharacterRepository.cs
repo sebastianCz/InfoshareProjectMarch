@@ -17,6 +17,18 @@ namespace OstreCWEB.Data.Repository.Characters.Interfaces
         public Task DeleteAsync(PlayableCharacter playableCharacter);
         public Task<PlayableCharacter> GetByIdNoTrackingAsync(int characterTemplateId);
         public Task UpdateAlreadyTrackedAsync(PlayableCharacter playableCharacter);
+
+        #region
+
+        public void CreateNew(PlayableCharacter model);
+        public List<PlayableRace> GetAllRaces();
+        public List<PlayableClass> GetAllClasses();
+        public void RollAttributes(PlayableCharacter model);
+        public List<string> GetAllNames();
+        public string GetRaceDescription(int id);
+        public string GetClassDescription(int id);
+
+        #endregion
         public bool Exists(int id);
     }
 }

@@ -2,12 +2,17 @@
 using OstreCWEB.Data.DataBase;
 using OstreCWEB.Data.Repository.Characters.CharacterModels;
 using OstreCWEB.Data.Repository.Characters.Interfaces;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
 namespace OstreCWEB.Data.Repository.Characters
 {
     internal class CharacterRaceRepository : ICharacterRaceRepository
     {
-        public OstreCWebContext _ostreCWebContext { get; }
+        private readonly OstreCWebContext _ostreCWebContext;
         public CharacterRaceRepository(OstreCWebContext ostreCWebContext)
         {
             _ostreCWebContext = ostreCWebContext;
@@ -33,6 +38,10 @@ namespace OstreCWEB.Data.Repository.Characters
         public async Task<PlayableRace> GetByIdAsync(int id)
         {
             return await _ostreCWebContext.PlayableCharacterRaces.SingleOrDefaultAsync(x => x.PlayableRaceId == id);
+        }
+        public PlayableRace GetById(int id)
+        {            
+            return _ostreCWebContext.PlayableCharacterRaces.SingleOrDefault(x => x.PlayableRaceId == id);
         }
 
         public async Task UpdateAsync(PlayableRace item)

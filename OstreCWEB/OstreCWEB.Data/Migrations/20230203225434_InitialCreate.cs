@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace OstreCWEB.Data.Migrations
 {
-    public partial class Initial : Migration
+    public partial class InitialCreate : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -65,7 +65,8 @@ namespace OstreCWEB.Data.Migrations
                     WisdomBonus = table.Column<int>(type: "int", nullable: false),
                     DexterityBonus = table.Column<int>(type: "int", nullable: false),
                     ConstitutionBonus = table.Column<int>(type: "int", nullable: false),
-                    CharismaBonus = table.Column<int>(type: "int", nullable: false)
+                    CharismaBonus = table.Column<int>(type: "int", nullable: false),
+                    BaseHP = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -482,7 +483,6 @@ namespace OstreCWEB.Data.Migrations
                     CharacterName = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     MaxHealthPoints = table.Column<int>(type: "int", nullable: false),
                     CurrentHealthPoints = table.Column<int>(type: "int", nullable: false),
-                    Level = table.Column<int>(type: "int", nullable: false),
                     Strenght = table.Column<int>(type: "int", nullable: false),
                     Dexterity = table.Column<int>(type: "int", nullable: false),
                     Constitution = table.Column<int>(type: "int", nullable: false),

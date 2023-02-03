@@ -9,7 +9,6 @@
         public List<ActionCharacterView> LinkedActions { get; set; }
         public string CharacterName { get; set; }  
         public int MaxHealthPoints { get; set; }
-        public int Level { get; set; }
         public int Strenght { get; set; }
         public int Dexterity { get; set; }
         public int Constitution { get; set; }

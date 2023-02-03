@@ -12,8 +12,8 @@ using OstreCWEB.Data.DataBase;
 namespace OstreCWEB.Data.Migrations
 {
     [DbContext(typeof(OstreCWebContext))]
-    [Migration("20230203212617_Initial")]
-    partial class Initial
+    [Migration("20230203225434_InitialCreate")]
+    partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -242,9 +242,6 @@ namespace OstreCWEB.Data.Migrations
                     b.Property<bool>("IsTemplate")
                         .HasColumnType("bit");
 
-                    b.Property<int>("Level")
-                        .HasColumnType("int");
-
                     b.Property<int>("MaxHealthPoints")
                         .HasColumnType("int");
 
@@ -365,6 +362,9 @@ namespace OstreCWEB.Data.Migrations
                         .HasColumnType("int");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("PlayableClassId"), 1L, 1);
+
+                    b.Property<int>("BaseHP")
+                        .HasColumnType("int");
 
                     b.Property<int>("CharismaBonus")
                         .HasColumnType("int");

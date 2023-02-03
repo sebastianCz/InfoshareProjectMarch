@@ -51,31 +51,46 @@ internal class SeedCharacters : ISeeder
         {
             new PlayableRace
             {
-                RaceName = "Human", 
-            } 
+                RaceName = "Human",
+                CharismaBonus = 1,
+                StrengthBonus = 1
+            },
+            new PlayableRace
+            {
+                RaceName = "Dwarf",
+                ConstitutionBonus = 1,
+                StrengthBonus = 1
+            },
+            new PlayableRace
+            {
+                RaceName = "Elf",
+                IntelligenceBonus = 1,
+                WisdomBonus = 1
+            }
         };
 
         
 
         var playableCharacterClasses = new List<PlayableClass>
             {
-                new PlayableClass
+                 new PlayableClass
                 {
                     ClassName = "Fighter",
                     StrengthBonus=1,
-                    ConstitutionBonus=1
+                    ConstitutionBonus=1,
+                    BaseHP = 20
                 },
                  new PlayableClass
                 {
                     ClassName = "Wizard",
-                    StrengthBonus=0,
-                    IntelligenceBonus=1
+                    IntelligenceBonus=1,
+                    BaseHP = 15
                 },
                    new PlayableClass
                 {
                     ClassName = "Cleric",
-                    StrengthBonus=0,
-                    IntelligenceBonus=1
+                    WisdomBonus=1,
+                    BaseHP = 15
                 }
             }; 
         //Property StatusName is null if none is applied.
@@ -259,7 +274,6 @@ internal class SeedCharacters : ISeeder
                     NonPlayableRace = Races.Humanoid,
                     MaxHealthPoints = 8,
                     CurrentHealthPoints = 8,
-                    Level = 1,
                     Strenght = 10,
                     Dexterity =12,
                     Constitution=10,
@@ -274,7 +288,6 @@ internal class SeedCharacters : ISeeder
                     NonPlayableRace = Races.Humanoid,
                     MaxHealthPoints = 15,
                     CurrentHealthPoints = 15,
-                    Level = 1,
                     Strenght = 15,
                     Dexterity =12,
                     Constitution=15,
@@ -291,7 +304,6 @@ internal class SeedCharacters : ISeeder
                     CharacterName = "AdminCharacterWarrior",
                     MaxHealthPoints = 30,
                     CurrentHealthPoints = 30,
-                    Level = 1,
                     Strenght = 16,
                     Dexterity = 14,
                     Constitution = 10,
@@ -305,7 +317,6 @@ internal class SeedCharacters : ISeeder
                     CharacterName = "AdminCharacterMage",
                     MaxHealthPoints = 30,
                     CurrentHealthPoints = 30,
-                    Level = 1,
                     Strenght = 10,
                     Dexterity = 10,
                     Constitution = 14,
@@ -318,8 +329,7 @@ internal class SeedCharacters : ISeeder
                 {
                     CharacterName = "AdminCharacterCleric",
                     MaxHealthPoints = 30,
-                    CurrentHealthPoints = 30,
-                    Level = 1,
+                    CurrentHealthPoints = 30, 
                     Strenght = 16,
                     Dexterity = 10,
                     Constitution = 14,
@@ -422,7 +432,7 @@ internal class SeedCharacters : ISeeder
         users[1].CharactersCreated.Add(playableCharacters[1]); 
         users[2].CharactersCreated.Add(playableCharacters[2]); 
         _db.SaveChanges();
-        SeedStories.Initialize(_db, users.First(u => u.UserName == "AdminUser"));
+        SeedStories.Initialize(_db, users.FirstOrDefault(u => u.UserName == "AdminUser"));
     }
 
     public  List<PlayableCharacter> UpdatePlayableCharacterItemsRelations(List<PlayableCharacter> characters)
