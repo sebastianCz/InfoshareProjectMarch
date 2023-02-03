@@ -124,12 +124,12 @@ namespace OstreCWEB.Services.StoryServices
                         new Choice
                         {
                             ChoiceText = "Failure - " + paragraph.StageDescription,
-                            NextParagraphId = successParagraph.Id,
+                            NextParagraphId = failureParagraph.Id,
                         },
                         new Choice
                         {
                             ChoiceText = "Success - " + paragraph.StageDescription,
-                            NextParagraphId = failureParagraph.Id,
+                            NextParagraphId = successParagraph.Id,
                         },
                     };
                     await _storyRepository.AddParagraph(paragraph);
