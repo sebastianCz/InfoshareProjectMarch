@@ -114,7 +114,6 @@ namespace OstreCWEB.Services.Characters
         {
             return _playableCharacterRepository.GetClassDescription(id);
         }
-
         #endregion
     }
 }

@@ -46,7 +46,6 @@ namespace OstreCWEB.Data.Repository.Characters
         {
             return await _db.PlayableCharacters.FirstAsync(c => c.CharacterId == id);
         }
-
         public async Task UpdateAsync(PlayableCharacter playableCharacter)
         {
             _db.PlayableCharacters.Update(playableCharacter);
@@ -57,7 +56,6 @@ namespace OstreCWEB.Data.Repository.Characters
             var tracked = await _db.PlayableCharacters.FindAsync(playableCharacter.CharacterId);
             tracked = playableCharacter;
         }
-
         public async Task<PlayableCharacter> GetByIdNoTrackingAsync(int characterTemplateId)
         {
             return await _db.PlayableCharacters
@@ -119,6 +117,7 @@ namespace OstreCWEB.Data.Repository.Characters
         {
             return racesDescription[id];
         }
+
         #endregion
 
         #region Data

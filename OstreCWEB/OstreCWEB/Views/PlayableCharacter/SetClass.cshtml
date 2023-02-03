@@ -59,19 +59,27 @@
                     <span asp-validation-for="PlayableClassId" class="text-danger"></span>
                 </div>
             </div>
-            <br /> 
+            <br />
+            <div class="p-1 bg-light bg-opacity-75 border border-warning-subtle rounded" style="background: radial-gradient(circle at -4% -12.9%, rgb(90, 98, 110) 0.3%, rgb(33, 31, 33) 90.2%);
+                color:goldenrod; text-align:center">
+                <h4>Bonus</h4>
+            </div>
             <div class="p-3 bg-light bg-opacity-75 border border-warning-subtle rounded">
-                    Bonus: 
+                    <p id="classBonus"></p> 
             </div>
             <br />
                 <div class="form-group">
                     <a asp-action="SetRace" class="btn"
                     style="background: radial-gradient(circle at -4% -12.9%, rgb(90, 98, 110) 0.3%, rgb(33, 31, 33) 90.2%);color:goldenrod; text-align:center">Set Race</a>
-                    <input type="submit" value="Create" class="btn" asp-action="SetAttributes" asp-controller="PlayableCharacter"
+                    <input type="submit" value="Set Attributes" class="btn" asp-action="SetAttributes" asp-controller="PlayableCharacter"
                     style="background: radial-gradient(circle at -4% -12.9%, rgb(90, 98, 110) 0.3%, rgb(33, 31, 33) 90.2%);color:goldenrod; text-align:center"/>                    
                 </div>                
             </form>
         </div>
+            <div class="p-1 bg-light bg-opacity-75 border border-warning-subtle rounded" style="background: radial-gradient(circle at -4% -12.9%, rgb(90, 98, 110) 0.3%, rgb(33, 31, 33) 90.2%);
+                color:goldenrod; text-align:center">
+                <h4>Description</h4>
+            </div>
         <div class="col-md-12 p-3 bg-light bg-opacity-75 border border-warning-subtle rounded">
             <p id="description"></p><!--Class Description-->
         </div> 
@@ -83,14 +91,19 @@
   document.querySelectorAll(".form-check-input").forEach(function(input) {
     input.addEventListener("change", function() {
       var description = "";
+      var classBonus = "";
       if (input.value === "1") {
         description = "@ViewBag.FighterDescription";
+        classBonus = "@ViewBag.ClassInfoFighter";
       } else if (input.value === "2") {
         description = "@ViewBag.WizardDescription";
+        classBonus = "@ViewBag.ClassInfoWizard";
       } else if (input.value === "3") {
         description = "@ViewBag.ClericDescription";
+        classBonus = "@ViewBag.ClassInfoCleric";
       }
       document.querySelector("#description").textContent = description;
+      document.querySelector("#classBonus").textContent = classBonus;
     });
   });
 </script>

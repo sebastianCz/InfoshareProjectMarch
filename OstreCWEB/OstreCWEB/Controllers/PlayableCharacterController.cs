@@ -70,6 +70,9 @@ namespace OstreCWEB.Controllers
             string dwarfDescription = _playableCharacterService.GetRaceDescription(2);
             ViewBag.DwarfDescription = dwarfDescription;
 
+            @ViewBag.RaceInfoHuman = "Strength: 1, Charisma: 1";
+            @ViewBag.RaceInfoDwarf = "Strength: 1, Constitution: 1";
+            @ViewBag.RaceInfoElf = "Intelligence: 1, Wisdom: 1";
             return View(model);
         }
 
@@ -81,7 +84,7 @@ namespace OstreCWEB.Controllers
             foreach (var charClass in modelCharacterList)
             {
                 classesDictionary.Add(charClass.PlayableClassId, charClass.ClassName);
-            }
+            }            
 
             model.CharacterClasses = classesDictionary;
 
@@ -93,6 +96,10 @@ namespace OstreCWEB.Controllers
 
             string clericDescription = _playableCharacterService.GetClassDescription(2);
             ViewBag.ClericDescription = clericDescription;
+
+            @ViewBag.ClassInfoFighter = "Strength: 1, Constitution: 1";
+            @ViewBag.ClassInfoWizard = "Intelligence: 1";
+            @ViewBag.ClassInfoCleric = "Wisdom: 1";
 
             return View(model);
         }

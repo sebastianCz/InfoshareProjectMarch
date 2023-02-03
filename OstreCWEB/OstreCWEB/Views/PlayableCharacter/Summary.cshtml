@@ -60,22 +60,43 @@
                     </div>                
             </form>
         </div>
-        <div class="col-md-2">
+        <div class="col-12 col-md-6 card ">Column 1</div>
+        <div class="col-12 col-md-6 card ">Column 2</div>
+@*        <div class="col-md-2">
             <div>
                 stats
             </div>
-        </div>
-        <div class="col-md-2">
+        </div>*@
+@*        <div class="col-md-2">
             <div>
                 stats
             </div>
-        </div>
+        </div>*@
     </div>
 </div><!--Form Set Class-->
 
 <div class="container">
   <div class="row">
-    <div class="col-12 col-md-6 card p-3 m-6">Column 1</div>
+    <div class="col-12 col-md-6 card p-3 m-6">
+        <div class="col-6">
+            <span>Strength:</span><input type="text" asp-for="Strenght" readonly/>
+        </div>
+        <div class="col-6">
+            <span>Dexterity:</span><input type="text" asp-for="Dexterity" readonly/>
+        </div>
+        <div class="col-6">
+            <span>Constitution:</span><input type="text" asp-for="Constitution" readonly/>
+        </div>
+        <div class="col-6">
+            <span>Intelligence:</span><input type="text" asp-for="Intelligence" readonly/>
+        </div>
+        <div class="col-6">
+            <span>Wisdom:</span><input type="text" asp-for="Wisdom" readonly/>
+        </div>
+        <div class="col-6">
+            <span>Charisma:</span><input type="text" asp-for="Charisma" readonly/>
+        </div>
+    </div>
     <div class="col-12 col-md-6 card p-3 m-6">Column 2</div>
   </div>
 </div>
