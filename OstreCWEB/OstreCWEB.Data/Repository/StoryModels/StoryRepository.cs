@@ -87,6 +87,12 @@ namespace OstreCWEB.Data.Repository.StoryModels
             await _ostreCWebContext.SaveChangesAsync();
         }
 
+        public async Task UpdateParagraph(Paragraph paragraph)
+        {
+            _ostreCWebContext.Paragraphs.Update(paragraph);
+            await _ostreCWebContext.SaveChangesAsync();
+        }
+
         public async Task DeleteStory(Story story)
         {
             _ostreCWebContext.Stories.Remove(story);

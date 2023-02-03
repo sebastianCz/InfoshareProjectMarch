@@ -24,6 +24,7 @@ namespace OstreCWEB.Services.StoryServices
         public Task<IReadOnlyCollection<Enemy>> GetAllEnemies();
         public Task DeleteParagraph(int idParagraph, string userId);
         public Task<EditParagraph> GetEditParagraphById(int paragraphId);
+        public Task UpdateParagraph(EditParagraph editParagraph, string userId);
 
         //Choice
         public Task<ChoiceDetails> GetChoiceDetailsById(int idChoice);

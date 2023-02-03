@@ -7,6 +7,7 @@ using OstreCWEB.Data.Repository.StoryModels.Properties;
 using OstreCWEB.Services.Characters;
 using OstreCWEB.Services.Identity;
 using OstreCWEB.Services.StoryServices;
+using OstreCWEB.Services.StoryServices.Models;
 using OstreCWEB.ViewModel.StoryBuilder;
 
 namespace OstreCWEB.Controllers
@@ -143,8 +144,7 @@ namespace OstreCWEB.Controllers
         // GET: StoryBuilderController/ParagraphDetails/5/1
         public async Task<ActionResult> ParagraphDetails(int id, int paragraphId)
         {
-            var paragraphDetail = await _storyService.GetParagraphDetailsById(paragraphId, id);
-            var model = _mapper.Map<ParagraphDetailsView>(paragraphDetail);
+            var model = _mapper.Map<ParagraphDetailsView>(await _storyService.GetParagraphDetailsById(paragraphId, id));
 
             return View(model);
         }
@@ -320,7 +320,8 @@ namespace OstreCWEB.Controllers
         {
             try
             {
-                return RedirectToAction(nameof(Index));
+                await _storyService.UpdateParagraph(_mapper.Map<EditParagraph>(model), _userService.GetUserId(User));               
+                return RedirectToAction(nameof(StoryParagraphsList), _mapper.Map<StoryParagraphsView>(await _storyService.GetStoryWithParagraphsById(model.StoryId)));
             }
             catch
             {

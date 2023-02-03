@@ -1,5 +1,6 @@
 ﻿using OstreCWEB.Data.Repository.Characters.CharacterModels;
 using OstreCWEB.Data.Repository.Characters.Interfaces;
+using OstreCWEB.Data.Repository.Identity;
 using OstreCWEB.Data.Repository.StoryModels;
 using OstreCWEB.Data.Repository.StoryModels.Enums;
 using OstreCWEB.Data.Repository.StoryModels.Properties;
@@ -270,6 +271,31 @@ namespace OstreCWEB.Services.StoryServices
             }
 
             return EditParagraph;
+        }
+
+        public async Task UpdateParagraph(EditParagraph editParagraph, string userId)
+        {
+            var userStories = await _storyRepository.GetStoriesByUserId(userId);
+
+            if (userStories.Any(s => s.Id == editParagraph.StoryId))
+            {
+                var paragraph = await _storyRepository.GetParagraphToEditById(editParagraph.Id);
+
+                paragraph.StageDescription = editParagraph.StageDescription;
+                paragraph.RestoreRest = editParagraph.RestoreRest;
+
+                if (editParagraph.ParagraphType == ParagraphType.Test)
+                {
+                    paragraph.TestProp.TestDifficulty = editParagraph.TestDifficulty;
+                    paragraph.TestProp.AbilityScores = editParagraph.AbilityScores;
+                }
+
+                await _storyRepository.UpdateParagraph(paragraph);
+            }
+            else
+            {
+                throw new Exception("This is not your Story");
+            }
         }
 
         public async Task<IReadOnlyCollection<Enemy>> GetAllEnemies()
