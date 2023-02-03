@@ -14,10 +14,12 @@
                         </div> 
 
                         <div class="modal-footer">
-                            @if (!linkedItem.IsEquipped)
+                            @if (!linkedItem.IsEquipped && linkedItem.Item.CanBeEquipped )
                             {
                                 <a asp-controller="StoryReader" asp-action="EquipItem" asp-route-id="@linkedItem.Id"><button type="button" class="btn btn-secondary">Equip</button></a>
-                            }else{
+                            }
+                            else if (linkedItem.IsEquipped && linkedItem.Item.CanBeEquipped)
+                            {
                                 <a asp-controller="StoryReader" asp-action="UnequipItem" asp-route-id="@linkedItem.Id"><button type="button" class="btn btn-secondary">Unequip</button></a>
                             }
                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>

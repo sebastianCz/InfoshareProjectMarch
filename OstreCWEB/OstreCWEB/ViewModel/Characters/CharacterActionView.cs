@@ -31,6 +31,7 @@ namespace OstreCWEB.ViewModel.Characters
         public bool InflictsStatus { get; set; }
         [DisplayName("Status")]
         public StatusView Status { get; set; }
+        public int StatusId { get; set; }
         //Defined for actions reseting with rest.
         [DisplayName("Uses max before rest:")] 
         public int UsesMaxBeforeRest { get; set; }

@@ -20,6 +20,10 @@ namespace OstreCWEB.Services.Identity
         {
             return await _identityRepository.GetUser(id);
         }
+        public async Task<User> GetUserByIdForNewGameInstance(string id)
+        {
+            return await _identityRepository.GetUser(id);
+        }
 
         public string GetUserId(ClaimsPrincipal user)
         { 
