@@ -239,6 +239,9 @@ namespace OstreCWEB.Controllers
             ViewBag.ModWis = modWis;
             ViewBag.ModCha = modCha;
 
+            var currentHealth = characterClasses.Where(x => x.PlayableClassId == model.PlayableClassId).Select(c => c.BaseHP).FirstOrDefault();
+            ViewBag.Health = currentHealth + modCon;
+
             ViewBag.Name = model.CharacterName;
 
             return View(model);

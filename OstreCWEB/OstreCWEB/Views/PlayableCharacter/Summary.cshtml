@@ -62,6 +62,9 @@
                         <div >
                             <p style="margin-bottom: 0px">Class:</p><input type="text" value="@ViewBag.ClassName" readonly/>
                         </div>
+                        <div >
+                            <p style="margin-bottom: 0px">HP:</p><input type="text" value="@ViewBag.Health" readonly/>
+                        </div>
                         <hr style="margin-top: 20px"/>
                         <div class="col-6">
                             <span>Strength:</span><input type="text" value="@ViewBag.Str" readonly/><span class="dnd-mod"></span>@if (@ViewBag.ModStr > 0){<span class="dnd-mod">+</span><span class="dnd-mod">@ViewBag.ModStr</span><span class="dnd-mod"></span>}else{ <span class="dnd-modMinus">@ViewBag.ModStr</span>}
