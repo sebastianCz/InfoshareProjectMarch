@@ -6,6 +6,7 @@ using OstreCWEB.Data.Repository.Identity;
 using OstreCWEB.Services.Identity;
 using System.Net.Mail;
 using System.Net;
+using NuGet.Packaging.Signing;
 
 namespace OstreCWEB.Controllers
 {
@@ -14,6 +15,7 @@ namespace OstreCWEB.Controllers
     {
         private readonly IUserAuthenticationService _service;
         private readonly IUserService _userService;
+
 
         public LoginController(IUserAuthenticationService service, IUserService userService)
         {
@@ -78,58 +80,38 @@ namespace OstreCWEB.Controllers
             }
             return View(model);
         }
-        public bool sendEmailSMTP(int emailType, Registration registration, out string feedback)
+
+        [HttpPost]
+        public async Task<IActionResult> ResetPassword(ChangePassword model)
         {
-            var smtpClient = new SmtpClient("smtp.gmail.com")
+            if (ModelState.IsValid)
             {
-                Port = 587,
-                Credentials = new NetworkCredential("ostreCGame@gmail.com", "jgkeyglxajjymsft"),
-                EnableSsl = true,
-            };
-
-            var mailMessage = new MailMessage
-            {
-                From = new MailAddress("ostreCGame@gmail.com"),
-                Subject = "",
-                Body = "",
-                IsBodyHtml = true,
-            };
-
-            //Forgot Password template
-            if (emailType == 1)
-            {
-                mailMessage.Subject = "Ostre C Game password recovery email";
-                mailMessage.Body = $"<h1>Hello,</h1> <br> <h2> dear {registration.UserName}</h2><br> You forgot your password. <br> For now the best I can do is send you your password. Here it is : <br>" +
-                    $"Your username: {registration.UserName} <br> Your password: {registration.Password} <br> Please don't forget your password going forward. <br> <b>Regards</b>,<br><b> Ostre C team</b>";
-
-                mailMessage.To.Add(registration.Email);
-
-                feedback = "Email sent on the email adress assigned to your existing account :" + registration.Email;
-                smtpClient.Send(mailMessage);
-                return true;
+                var result = await _service.ChangePasswordAsync(model, _userService.GetUserId(User));
+                TempData["msg"] = result.Message;
+                return RedirectToAction(nameof(ChangePassword));
             }
-            else
-            {
-                feedback = "An non existing email template was chosen";
-                throw new Exception(feedback);
-                return false;
-
-            }
-
-            // Admin account
-            //public async Task<IActionResult> Reg()
-            //{
-            //    var model = new Registration
-            //    {
-            //        Username = "admin",
-            //        Name = "admin",
-            //        Email = "admin",
-            //        Password = "Admin@1234"
-            //    };
-            //    model.Role = "admin";
-            //    var result = await this._service.RegistrationAsync(model);
-            //    return Ok(result);
-            //}
+            return View(model);
         }
+
+
+
+
+
+
+        // Admin account
+        //public async Task<IActionResult> Reg()
+        //{
+        //    var model = new Registration
+        //    {
+        //        Username = "admin",
+        //        Name = "admin",
+        //        Email = "admin",
+        //        Password = "Admin@1234"
+        //    };
+        //    model.Role = "admin";
+        //    var result = await this._service.RegistrationAsync(model);
+        //    return Ok(result);
+        //}
+
     }
 }
