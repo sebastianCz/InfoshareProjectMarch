@@ -1,0 +1,60 @@
+﻿@model OstreCWEB.ViewModel.StoryBuilder.EnemyInParagraphView
+
+@{
+    ViewData["Title"] = "Add Enemy to Fight";
+}
+
+<div class="pagetitle">
+    <h1>Add Enemy to Fight</h1>
+    <nav>
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a asp-area="" asp-controller="Home" asp-action="Index">Home</a></li>
+            <li class="breadcrumb-item"><a asp-area="" asp-controller="StoryBuilder" asp-action="Index">StoryBuilder</a></li>
+            <li class="breadcrumb-item active">Add Enemy to Fight</li>
+        </ol>
+    </nav>
+</div>
+
+<div class="card">
+    <div class="card-body">
+        <h5 class="card-title">Add Enemy to Fight</h5>
+        <div class="col-md-4">
+            <form asp-action="AddEnemyInParagraph">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+                <div class="form-group">
+                    <label asp-for="EnemyId" class="control-label"></label>
+                    @Html.DropDownListFor(m => m.EnemyId, new SelectList(Model.Enemies,"Key","Value"),
+                    "-NONE-",
+                    new {
+                    @class = "form-control"
+                    })
+                    <span asp-validation-for="EnemyId" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="AmountOfEnemy" class="control-label"></label>
+                    <input asp-for="AmountOfEnemy" class="form-control" />
+                    <span asp-validation-for="AmountOfEnemy" class="text-danger"></span>
+                </div>
+
+                <div>
+                    <p></p>
+                    <input asp-for="ParagraphId" hidden="true" />
+                    <input asp-for="FightPropId" hidden="true" />
+                </div>
+
+                <div class="form-group">
+                    <input type="submit" value="Create" class="btn btn-success" />
+                    <a asp-action="EditParagraph" asp-route-id="@Model.ParagraphId" type="button" class="btn btn-primary">Back to edit</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

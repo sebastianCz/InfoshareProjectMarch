@@ -1,6 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using OstreCWEB.Data.DataBase;
-using OstreCWEB.Data.Factory;
 using OstreCWEB.Data.Repository.Characters.CharacterModels;
 using OstreCWEB.Data.Repository.Characters.Enums;
 using OstreCWEB.Data.Repository.Characters.Interfaces;
@@ -20,6 +19,10 @@ namespace OstreCWEB.Data.Repository.Characters
             _db.PlayableCharacters.Add(playableCharacter);
             _db.SaveChanges();
             return Task.FromResult(playableCharacter);
+        }
+        public bool Exists(int id)
+        {
+            return _db.PlayableCharacters.Any(x => x.CharacterId ==id);
         }
 
         public async Task DeleteAsync(PlayableCharacter playableCharacter)

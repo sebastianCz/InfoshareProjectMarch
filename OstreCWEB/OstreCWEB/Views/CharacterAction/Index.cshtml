@@ -1,0 +1,35 @@
+﻿ @model IEnumerable<OstreCWEB.ViewModel.Characters.CharacterActionView>
+@{
+}
+<div class="card">
+    <div class="card-body">
+        
+        <h5 class="card-title">Items</h5>
+        <br />
+        <a asp-controller="CharacterAction" asp-action="Create" type="button" class="btn btn-primary">Add new item</a>
+        <br />
+        <table class="table">
+            <thead>
+                <tr>
+                    <th scope="col"> <Label asp-for=" FirstOrDefault().ActionName"></Label></th>
+                    <th scope="col"> <Label asp-for=" FirstOrDefault().ActionDescription"></Label></th>
+                    <th scope="col"> <Label asp-for=" FirstOrDefault().ActionType"></Label></th>
+                    <th scope="col"> <Label asp-for=" FirstOrDefault().Status.Name"></Label></th> 
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var action in Model)
+                {
+                    <tr>
+                        <th scope="row">@action.ActionName</th>
+                        <td>@action.ActionDescription</td>
+                        <td>@action.ActionType.ToString()</td> 
+                        <td><a asp-controller="CharacterAction" asp-action="Edit" asp-route-id="@action.CharacterActionId" type="button" class="btn btn-primary">Edit</a></td>
+                        <td><a asp-controller="CharacterAction" asp-action="Delete" asp-route-id="@action.CharacterActionId" type="button" class="btn btn-primary">Delete</a></td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+        <!-- End Default Table Example -->
+    </div>
+</div>

@@ -1,7 +1,4 @@
 ﻿using OstreCWEB.Data.Repository.Characters.Enums;
-using Microsoft.CodeAnalysis.CSharp.Syntax;
-using OstreCWEB.Data.Repository.Characters.CharacterModels;
-using OstreCWEB.Data.Repository.Characters.Enums;
 using System.ComponentModel;
 
 namespace OstreCWEB.ViewModel.Characters

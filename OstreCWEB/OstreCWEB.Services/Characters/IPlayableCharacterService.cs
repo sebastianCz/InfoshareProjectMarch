@@ -29,5 +29,6 @@ namespace OstreCWEB.Services.Characters
         public int CalculateModifier(int value);
         #endregion
         public int RollDice(int maxValue = 7);
+        public bool Exists(int id);
     }
 }

@@ -19,16 +19,16 @@ namespace OstreCWEB.Controllers
         private readonly IMapper _mapper;
         private readonly IStoryService _storyService;
         private readonly IPlayableCharacterService _playableCharacterService;
-        private readonly IHttpContextAccessor _httpContextAccessor;
+        private readonly IHttpContextAccessor _httpContextAccessor; 
         private readonly IGameService _gameService;
 
-        public GameController(IGameService gameService, IHttpContextAccessor httpContextAccessor, IUserService userService, IMapper mapper, IStoryService storyService, IPlayableCharacterService playableCharacterService)
+        public GameController( IGameService gameService, IHttpContextAccessor httpContextAccessor, IUserService userService, IMapper mapper, IStoryService storyService, IPlayableCharacterService playableCharacterService)
         {
             _userService = userService;
             _mapper = mapper;
             _storyService = storyService;
             _playableCharacterService = playableCharacterService;
-            _httpContextAccessor = httpContextAccessor;
+            _httpContextAccessor = httpContextAccessor; 
             _gameService = gameService;
         }
 
@@ -36,27 +36,37 @@ namespace OstreCWEB.Controllers
         [HttpGet]
         public async Task<ActionResult> StartGame()
         {
-            var activeCharacterCookies = _httpContextAccessor.HttpContext.Request.Cookies.Where(c => c.Key == "ActiveCharacter");
-            var activeStoryCookies = _httpContextAccessor.HttpContext.Request.Cookies.Where(c => c.Key == "ActiveStory");
-            if (activeCharacterCookies != null && activeCharacterCookies.FirstOrDefault().Key != null && activeStoryCookies != null && activeStoryCookies.FirstOrDefault().Key != null)
+            try
             {
-                try
-                { 
-                    var gameInstance = await _gameService.CreateNewGameInstanceAsync(
-                        _userService.GetUserId(User),
-                        Convert.ToInt32(activeCharacterCookies.FirstOrDefault().Value),
-                        Convert.ToInt32(activeStoryCookies.FirstOrDefault().Value));
-                    return RedirectToAction("Index", "StoryReader"); 
-                }
-                catch
+                var activeCharacterCookies = _httpContextAccessor.HttpContext.Request.Cookies.Where(c => c.Key == "ActiveCharacter");
+                var activeStoryCookies = _httpContextAccessor.HttpContext.Request.Cookies.Where(c => c.Key == "ActiveStory");
+                if (activeCharacterCookies != null && activeCharacterCookies.FirstOrDefault().Key != null && activeStoryCookies != null && activeStoryCookies.FirstOrDefault().Key != null)
                 {
+                    if (_playableCharacterService.Exists(Convert.ToInt32(activeCharacterCookies.FirstOrDefault().Value)) && _storyService.Exists(Convert.ToInt32(activeStoryCookies.FirstOrDefault().Value)))
+                    {
+                        var gameInstance = await _gameService.CreateNewGameInstanceAsync(
+                            _userService.GetUserId(User),
+                            Convert.ToInt32(activeCharacterCookies.FirstOrDefault().Value),
+                            Convert.ToInt32(activeStoryCookies.FirstOrDefault().Value));
+                    }
+                   
+                    return RedirectToAction("Index", "StoryReader");
+                }
+                else
+                {
+                    TempData["msg"] = "You didn't select both a character and a story to play!";
                     return RedirectToAction(nameof(Index));
                 }
+              
             }
-            else
-            {
+            catch(Exception ex)
+            { 
+                TempData["msg"] = "" +
+                    "You chose a character and a story but starting a new game failed. | " +
+                    "Your max save games limit is 5 | "+
+                    "If the issue persists contact ostreCGame@gmail.com";
                 return RedirectToAction(nameof(Index));
-            } 
+            }
         }
 
         public async Task<ActionResult> DeleteGame(int id)
@@ -79,25 +89,26 @@ namespace OstreCWEB.Controllers
                 var activeCharacterCookies = _httpContextAccessor.HttpContext.Request.Cookies.Where(c => c.Key == "ActiveCharacter");
                 var activeStoryCookies = _httpContextAccessor.HttpContext.Request.Cookies.Where(c => c.Key == "ActiveStory");
 
-                if (activeCharacterCookies.Any())
-                {
-                    model.ActiveCharacter = _mapper.Map<PlayableCharacterView>(await _playableCharacterService.GetById(Convert.ToInt32(activeCharacterCookies.ToList().FirstOrDefault().Value)));
+                if (activeCharacterCookies.Any() && _playableCharacterService.Exists(Convert.ToInt32(activeCharacterCookies.FirstOrDefault().Value)))
+                { 
+                        model.ActiveCharacter = _mapper.Map<PlayableCharacterView>(await _playableCharacterService.GetById(Convert.ToInt32(activeCharacterCookies.ToList().FirstOrDefault().Value)));
 
                 }
-                if (activeStoryCookies.Any())
+                if (activeStoryCookies.Any() && _storyService.Exists(Convert.ToInt32(activeStoryCookies.FirstOrDefault().Value)))
                 {
-                    model.ActiveStory = _mapper.Map<StoryView>(await _storyService.GetStoryById(Convert.ToInt32(activeStoryCookies.ToList().FirstOrDefault().Value)));
+                    model.ActiveStory = _mapper.Map<StoriesView>(await _storyService.GetStoryById(Convert.ToInt32(activeStoryCookies.ToList().FirstOrDefault().Value)));
                 }
             };
+
 
             var x = await _userService.GetUserById(_userService.GetUserId(User));
 
             model.User = _mapper.Map<UserView>(x);
                 foreach(var gameSessionView in model.User.UserParagraphs)
                 { 
-                    gameSessionView.Story = _mapper.Map<StoryView>(await _storyService.GetStoryById(gameSessionView.Paragraph.StoryId));  
+                    gameSessionView.Story = _mapper.Map<StoriesView>(await _storyService.GetStoryById(gameSessionView.Paragraph.StoryId));  
                 }   
-                model.OtherUsersStories = _mapper.Map<List<StoryView>>(await _storyService.GetAllStories());   
+                model.OtherUsersStories = _mapper.Map<List<StoriesView>>(await _storyService.GetAllStories());   
                 model.OtherUsersCharacters = _mapper.Map<List<PlayableCharacterRow>>(await _playableCharacterService.GetAllTemplates(_userService.GetUserId(User)));
    
             return View(model);

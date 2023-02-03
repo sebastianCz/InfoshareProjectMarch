@@ -63,7 +63,7 @@ namespace OstreCWEB.Data.InitialData
                                     NextParagraphId = 4
                                 }
                             },
-                            paragraphItems = new List<ParagraphItem>
+                            ParagraphItems = new List<ParagraphItem>
                             {
                                 new ParagraphItem
                                 {
@@ -99,7 +99,7 @@ namespace OstreCWEB.Data.InitialData
                             StageDescription = "Perception test to see goblins",
                             TestProp = new TestProp
                             {
-                                Skill = Skills.Perception,
+                                AbilityScores = AbilityScores.Wisdom,
                                 TestDifficulty = TestDifficulty.Easy
                             },
                             Choices = new List<Choice>

@@ -1,0 +1,112 @@
+﻿@model OstreCWEB.ViewModel.StoryBuilder.CreatParagraphFightView
+
+@{
+    ViewData["Title"] = "Create Paragraph Fight";
+}
+
+<div class="pagetitle">
+    <h1>Create Paragraph Fight</h1>
+    <nav>
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a asp-area="" asp-controller="Home" asp-action="Index">Home</a></li>
+            <li class="breadcrumb-item"><a asp-area="" asp-controller="StoryBuilder" asp-action="Index">StoryBuilder</a></li>
+            <li class="breadcrumb-item active">Create Paragraph Fight</li>
+        </ol>
+    </nav>
+</div>
+
+<div class="card">
+    <div class="card-body">
+        <h5 class="card-title">Creat Test Paragraph</h5>
+        <div class="col-md-4">
+            <form asp-action="CreatParagraphFight">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+                <dl class="row">
+                    <dt class="col-sm-4">
+                        <label asp-for="ParagraphType"></label>
+                    </dt>
+                    <dd class="col-sm-8">
+                        @Model.ParagraphType
+                    </dd>
+                    <dt class="col-sm-4">
+                        <label asp-for="StageDescription"></label>
+                    </dt>
+                    <dd class="col-sm-8">
+                        @Model.StageDescription
+                    </dd>
+                    <dt class="col-sm-4">
+                        <label asp-for="RestoreRest"></label>
+                    </dt>
+                    <dd class="col-sm-8">
+                        @Model.RestoreRest
+                    </dd>
+                </dl>
+
+                <div class="form-group">
+                    <label asp-for="FirstEnemyId" class="control-label"></label>
+                    @Html.DropDownListFor(m => m.FirstEnemyId, new SelectList(Model.Enemies,"Key","Value"),
+                    new {
+                    @class = "form-control"
+                    })
+                    <span asp-validation-for="FirstEnemyId" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="FirstAmountOfEnemy" class="control-label"></label>
+                    <input asp-for="FirstAmountOfEnemy" class="form-control" />
+                    <span asp-validation-for="FirstAmountOfEnemy" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="SecondEnemyId" class="control-label"></label>
+                    @Html.DropDownListFor(m => m.SecondEnemyId, new SelectList(Model.Enemies,"Key","Value"),
+                    new {
+                    @class = "form-control"
+                    })
+                    <span asp-validation-for="SecondEnemyId" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="SecondAmountOfEnemy" class="control-label"></label>
+                    <input asp-for="SecondAmountOfEnemy" class="form-control" />
+                    <span asp-validation-for="SecondAmountOfEnemy" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="ThirdEnemyId" class="control-label"></label>
+                    @Html.DropDownListFor(m => m.ThirdEnemyId, new SelectList(Model.Enemies,"Key","Value"),
+                    new {
+                    @class = "form-control"
+                    })
+                    <span asp-validation-for="ThirdEnemyId" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="ThirdAmountOfEnemy" class="control-label"></label>
+                    <input asp-for="ThirdAmountOfEnemy" class="form-control" />
+                    <span asp-validation-for="ThirdAmountOfEnemy" class="text-danger"></span>
+                </div>
+
+                <div>
+                    <p></p>
+                    <input asp-for="ParagraphType" hidden="true" />
+                    <input asp-for="StageDescription" hidden="true" />
+                    <input asp-for="RestoreRest" hidden="true" />
+                    <input asp-for="StoryId" hidden="true" />
+                </div>
+
+                <div class="form-group">
+                    <input type="submit" value="Create" class="btn btn-success" />
+                    <a asp-action="StoryParagraphsList" asp-route-id="@Model.StoryId" type="button" class="btn btn-primary">Back to List</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

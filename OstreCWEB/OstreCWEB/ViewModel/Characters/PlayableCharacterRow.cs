@@ -1,7 +1,4 @@
-﻿using OstreCWEB.Data.DataBase.ManyToMany;
-using OstreCWEB.Data.Repository.Characters.CharacterModels;
-using OstreCWEB.Data.Repository.Characters.MetaTags;
-using System.ComponentModel;
+﻿using System.ComponentModel;
 
 namespace OstreCWEB.ViewModel.Characters
 {

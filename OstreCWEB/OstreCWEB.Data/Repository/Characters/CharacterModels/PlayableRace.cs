@@ -8,14 +8,9 @@ namespace OstreCWEB.Data.Repository.Characters.CharacterModels
         //Ef Config// 
         [Key]
         public int PlayableRaceId { get; set; }
-        public List<PlayableCharacter> PlayableCharacter { get; set; }
-
-        
-        //  
-
-
-        public string RaceName { get; set; }    
-
+        public List<PlayableCharacter> PlayableCharacter { get; set; } 
+        // 
+        public string RaceName { get; set; } 
         public int IntelligenceBonus { get; set; }
         public int StrengthBonus { get; set; }
         public int WisdomBonus { get; set; }

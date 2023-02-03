@@ -29,5 +29,6 @@ namespace OstreCWEB.Data.Repository.Characters.Interfaces
         public string GetClassDescription(int id);
 
         #endregion
+        public bool Exists(int id);
     }
 }

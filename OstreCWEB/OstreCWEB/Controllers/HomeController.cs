@@ -4,9 +4,11 @@ using OstreCWEB.Data.DataBase;
 using OstreCWEB.Models;
 using System.Diagnostics;
 using OstreCWEB.Data.Repository.Identity;
+using Microsoft.AspNetCore.Authorization;
 
 namespace OstreCWEB.Controllers
 {
+    [Authorize]
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;

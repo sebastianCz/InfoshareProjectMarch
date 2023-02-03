@@ -1,10 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using OstreCWEB.Data.DataBase;
 using OstreCWEB.Data.DataBase.ManyToMany;
-using OstreCWEB.Data.Factory;
 using OstreCWEB.Data.Repository.Characters.Interfaces;
 using OstreCWEB.Data.Repository.Identity;
-using System.Security.Cryptography.X509Certificates;
 
 #nullable disable
 
@@ -22,6 +20,27 @@ namespace OstreCWEB.Data.Repository.ManyToMany
             _playableCharacterRepository = playableCharacterRepository; 
         }
 
+        
+        public async Task DeleteInstanceBasedOnRace(int raceId)
+        {
+            var instances = await _context.PlayableCharacters 
+                .Where(x => x.RaceId == raceId && !x.IsTemplate)
+                .Include(x => x.UserParagraph)
+                .Select(x => x.UserParagraph)
+                .ToListAsync(); 
+            _context.UserParagraphs.RemoveRange(instances);
+            await _context.SaveChangesAsync();
+        }
+        public async Task DeleteInstanceBasedOnClass(int classId)
+        {
+            var instances = await _context.PlayableCharacters
+                .Where(x => x.PlayableClassId == classId && !x.IsTemplate)
+                .Include(x => x.UserParagraph)
+                .Select(x => x.UserParagraph)
+                .ToListAsync();
+            _context.UserParagraphs.RemoveRange(instances);
+            await _context.SaveChangesAsync();
+        }
         public Task<UserParagraph> Add()
         {
             throw new NotImplementedException();
@@ -72,7 +91,7 @@ namespace OstreCWEB.Data.Repository.ManyToMany
                     .ThenInclude(y => y.ParagraphEnemies)
                     .ThenInclude(z => z.Enemy)                
                 .Include(x => x.Paragraph)
-                    .ThenInclude(p => p.paragraphItems)
+                    .ThenInclude(p => p.ParagraphItems)
                         .ThenInclude(pi => pi.Item)
                 .Include(x => x.ActiveCharacter)
                 .SingleOrDefaultAsync(s => s.User.Id == userId && s.ActiveGame);

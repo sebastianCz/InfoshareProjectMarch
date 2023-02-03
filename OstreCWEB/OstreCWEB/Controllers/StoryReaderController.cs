@@ -1,11 +1,10 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using OstreCWEB.Data.Repository.Identity;
 using OstreCWEB.Data.Repository.ManyToMany;
 using OstreCWEB.Data.Repository.StoryModels.Enums;
 using OstreCWEB.Services.Game;
-using OstreCWEB.Services.Identity; 
+using OstreCWEB.Services.Identity;
 using OstreCWEB.Services.StoryServices;
 using OstreCWEB.ViewModel.StoryReader;
 
@@ -55,14 +54,18 @@ namespace OstreCWEB.Controllers
             if (model.CurrentParagraph.ParagraphType == ParagraphType.Test)
             {
                 model.TestParagraphView = new TestParagraphView();
-                model.TestParagraphView.Description = $"Roll the dice for {userParagraph.Paragraph.TestProp.Skill}";
+                model.TestParagraphView.Description = $"Roll the dice for {userParagraph.Paragraph.TestProp.AbilityScores}";
                 if (_httpContextAccessor.HttpContext.Request.Cookies.Any())
                 {
-                    var throwCookies = _httpContextAccessor.HttpContext.Request.Cookies.Where(c => c.Key == "Throw");
-                    var throwResult = Convert.ToInt32(throwCookies.ToList().FirstOrDefault().Value);
-                    if (throwResult > 0)
+                    var rollCookies = _httpContextAccessor.HttpContext.Request.Cookies.Where(c => c.Key == "Throw");
+                    var modifireCookies = _httpContextAccessor.HttpContext.Request.Cookies.Where(c => c.Key == "Modifire");
+
+                    var roll = Convert.ToInt32(rollCookies.ToList().FirstOrDefault().Value);
+                    var modifire = Convert.ToInt32(modifireCookies.ToList().FirstOrDefault().Value);
+                    if (roll > 0)
                     {
-                        model.TestParagraphView.Throw = throwResult;
+                        model.TestParagraphView.Throw = roll;
+                        model.TestParagraphView.ThrowModifier = modifire;
                     }
                 }
             }
@@ -77,39 +80,45 @@ namespace OstreCWEB.Controllers
                 _httpContextAccessor.HttpContext.Response.Cookies.Append("Throw", $"{0}", options);
             }
             return View(model);
-
-            //return RedirectToAction("Index", "Home");
         }
 
         public async Task<ActionResult> CommitNextParagraph(int id)
         {
             await _gameService.NextParagraphAsync(_userService.GetUserId(User), id);
-            return RedirectToAction("Index");
+            return RedirectToAction(nameof(Index));
         }
         public async Task<ActionResult> RollTheDice()
         {
+            int[] result = await _gameService.ThrowDice(20, _userService.GetUserId(User));
+
             CookieOptions options = new CookieOptions();
             //This cookie will expire on session end.
             options.Expires = default(DateTime?);
             options.Path = "/";
             //Bypasses consent policy checks.
             options.IsEssential = true;
-            _httpContextAccessor.HttpContext.Response.Cookies.Append("Throw", $"{_gameService.ThrowDice(20)}", options);
+            _httpContextAccessor.HttpContext.Response.Cookies.Append("Throw", $"{result[0]}", options);
+            _httpContextAccessor.HttpContext.Response.Cookies.Append("Modifire", $"{result[1]}", options);
 
-            return RedirectToAction("Index");
+            return RedirectToAction(nameof(Index));
         }
 
-        public async Task<ActionResult> TestThrow(int id)
+        public async Task<ActionResult> TestThrow()
         {
-            int resultOfThrow = await _gameService.TestThrowAsync(_userService.GetUserId(User), id);
+            var rollCookies = _httpContextAccessor.HttpContext.Request.Cookies.Where(c => c.Key == "Throw");
+            var modifireCookies = _httpContextAccessor.HttpContext.Request.Cookies.Where(c => c.Key == "Modifire");
+
+            var roll = Convert.ToInt32(rollCookies.ToList().FirstOrDefault().Value);
+            var modifire = Convert.ToInt32(modifireCookies.ToList().FirstOrDefault().Value);
+
+            int resultOfThrow = await _gameService.TestThrowAsync(_userService.GetUserId(User), roll, modifire);
             await _gameService.NextParagraphAsync(_userService.GetUserId(User), resultOfThrow);
-            await _gameService.HealCharacterAsync(_userService.GetUserId(User));
-            return RedirectToAction("Index");
+            return RedirectToAction(nameof(Index));
         }
         public async Task<ActionResult> HealCharacter()
         {
             await _gameService.HealCharacterAsync(_userService.GetUserId(User));
-            return RedirectToAction("Index");
+            return RedirectToAction(nameof(Index));
         }
         public async Task<ActionResult> UnequipItem(int id)
         {

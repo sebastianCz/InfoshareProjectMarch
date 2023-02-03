@@ -58,6 +58,7 @@ namespace OstreCWEB.Services.Game
             await _identityRepository.Update(user);
             return newGameInstance;
         }
+ 
 
 
         public Task<List<Enemy>> GenerateEnemies(List<EnemyInParagraph> enemiesToGenerate)
@@ -70,9 +71,9 @@ namespace OstreCWEB.Services.Game
             var userParagraph = await _userParagraphRepository.GetActiveByUserIdAsync(userId);
             userParagraph.Paragraph = await _storyRepository.GetParagraphById(userParagraph.Paragraph.Choices[choiceId].NextParagraphId);
 
-            if (userParagraph.Paragraph.paragraphItems.Count > 0)
+            if (userParagraph.Paragraph.ParagraphItems.Count > 0)
             {
-                await AddItem(userParagraph.ActiveCharacter, userParagraph.Paragraph.paragraphItems);
+                await AddItem(userParagraph.ActiveCharacter, userParagraph.Paragraph.ParagraphItems);
             }
             userParagraph.Rest = userParagraph.Paragraph.RestoreRest;
 
@@ -82,9 +83,9 @@ namespace OstreCWEB.Services.Game
         {
             gameInstance.Paragraph = await _storyRepository.GetParagraphById(gameInstance.Paragraph.Choices[choiceId].NextParagraphId);
 
-            if (gameInstance.Paragraph.paragraphItems.Count > 0)
+            if (gameInstance.Paragraph.ParagraphItems.Count > 0)
             {
-                await AddItem(gameInstance.ActiveCharacter, gameInstance.Paragraph.paragraphItems);
+                await AddItem(gameInstance.ActiveCharacter, gameInstance.Paragraph.ParagraphItems);
             }
             gameInstance.Rest = gameInstance.Paragraph.RestoreRest;
 
@@ -119,21 +120,55 @@ namespace OstreCWEB.Services.Game
             await _userParagraphRepository.UpdateAsync(userParagraph);
         }
 
-        public async Task<int> TestThrowAsync(string userId, int rollValue)
+        public async Task<int> TestThrowAsync(string userId, int rollValue, int modifire)
         {
             var userParagraph = await _userParagraphRepository.GetActiveByUserIdAsync(userId);
 
             int testDifficulty = GetTestDifficulty(userParagraph.Paragraph.TestProp.TestDifficulty);
-            int modifire = GetModifire();
+
             int result = rollValue + modifire;
 
             return result < testDifficulty ? 0 : 1; // 0 - Failure, 1 - Success
         }
 
-        public int ThrowDice(int maxValue)
+        public async Task<int[]> ThrowDice(int maxValue, string userId)
         {
+            var userParagraph = await _userParagraphRepository.GetActiveByUserIdAsync(userId);
+
             Random rnd = new Random();
-            return rnd.Next(1, maxValue + 1);
+            int roll = rnd.Next(1, maxValue + 1);
+
+            int modifire;
+            switch (userParagraph.Paragraph.TestProp.AbilityScores)
+            {
+                case AbilityScores.Wisdom:
+                    modifire = GetModifire(userParagraph.ActiveCharacter.Wisdom);
+                    break;
+                case AbilityScores.Strength:
+                    modifire = GetModifire(userParagraph.ActiveCharacter.Strenght);
+                    break;
+                case AbilityScores.Charisma:
+                    modifire = GetModifire(userParagraph.ActiveCharacter.Charisma);
+                    break;
+                case AbilityScores.Constitution:
+                    modifire = GetModifire(userParagraph.ActiveCharacter.Constitution);
+                    break;
+                case AbilityScores.Dexterity:
+                    modifire = GetModifire(userParagraph.ActiveCharacter.Dexterity);
+                    break;
+                case AbilityScores.Intelligence:
+                    modifire = GetModifire(userParagraph.ActiveCharacter.Intelligence);
+                    break;
+                default:
+                    modifire = 0;
+                    break;
+            }
+        
+            int[] result = new int[2];
+            result[0] = roll;
+            result[1] = modifire;
+
+            return result;
         }
 
         //Private
@@ -149,10 +184,16 @@ namespace OstreCWEB.Services.Game
                 case TestDifficulty.NearlyImpossible: return 30;
                 default: throw new ArgumentOutOfRangeException();
             }
-        } 
-        private int GetModifire()
+        }
+
+        private int GetModifire(int value)
         {
-            return 0;
+            List<int> numbers = new List<int>() {
+                -5,-4,-4,-3,-3,-2,-2,-1,-1, 0,
+                 0, 1, 1, 2, 2, 3, 3, 4, 4, 5,
+                 5, 6, 6, 7, 7, 8, 8, 9, 9, 10 };
+
+            return numbers.First(x => x == numbers[value - 1]);
         }
 
         private async Task AddItem(PlayableCharacter activeCharacter, List<ParagraphItem> paragraphItems)
@@ -177,10 +218,10 @@ namespace OstreCWEB.Services.Game
         }
         public async Task UnequipItemAsync(int itemRelationId, string userId)
         {
-           var gameInstance = await _userParagraphRepository.GetActiveByUserIdAsync(userId);
+            var gameInstance = await _userParagraphRepository.GetActiveByUserIdAsync(userId);
             gameInstance.ActiveCharacter.LinkedItems.SingleOrDefault(x => x.Id == itemRelationId).IsEquipped = false;
             await _userParagraphRepository.SaveChangesAsync();
-        } 
+        }
         public async Task EquipItemAsync(int itemRelationId, string userId)
         {
             var gameInstance = await _userParagraphRepository.GetActiveByUserIdAsync(userId); 

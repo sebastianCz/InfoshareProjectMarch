@@ -1,4 +1,5 @@
-﻿using OstreCWEB.Data.DataBase;
+﻿using Microsoft.EntityFrameworkCore;
+using OstreCWEB.Data.DataBase;
 using OstreCWEB.Data.Repository.Characters.CharacterModels;
 using OstreCWEB.Data.Repository.Characters.Interfaces;
 using System;
@@ -11,35 +12,42 @@ namespace OstreCWEB.Data.Repository.Characters
 {
     internal class CharacterRaceRepository : ICharacterRaceRepository
     {
-        private OstreCWebContext _ostreCWebContext;
+        private readonly OstreCWebContext _ostreCWebContext;
         public CharacterRaceRepository(OstreCWebContext ostreCWebContext)
         {
             _ostreCWebContext = ostreCWebContext;
-        }        
-
-        public Task Create(PlayableRace item)
+        }
+         
+        public async Task CreateAsync(PlayableRace item)
         {
-            throw new NotImplementedException();
+            _ostreCWebContext.PlayableCharacterRaces.Add(item);
+            await _ostreCWebContext.SaveChangesAsync();
         }
 
-        public Task Delete(PlayableRace item)
+        public async Task DeleteAsync(int id)
         {
-            throw new NotImplementedException();
+            _ostreCWebContext.PlayableCharacterRaces.Remove(await GetByIdAsync(id));
+            await _ostreCWebContext.SaveChangesAsync();
         }
 
-        public Task<List<PlayableRace>> GetAll(int id)
+        public async Task<List<PlayableRace>> GetAllAsync()
         {
-            throw new NotImplementedException();
+            return await _ostreCWebContext.PlayableCharacterRaces.ToListAsync();
         }
 
+        public async Task<PlayableRace> GetByIdAsync(int id)
+        {
+            return await _ostreCWebContext.PlayableCharacterRaces.SingleOrDefaultAsync(x => x.PlayableRaceId == id);
+        }
         public PlayableRace GetById(int id)
-        {
+        {            
             return _ostreCWebContext.PlayableCharacterRaces.SingleOrDefault(x => x.PlayableRaceId == id);
         }
 
-        public Task Update(PlayableRace item)
+        public async Task UpdateAsync(PlayableRace item)
         {
-            throw new NotImplementedException();
+            _ostreCWebContext.Update(item);
+            await _ostreCWebContext.SaveChangesAsync();
         }
     }
 }

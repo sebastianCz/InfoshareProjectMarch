@@ -19,9 +19,9 @@ namespace OstreCWEB.Data.Repository.Characters
             await _db.SaveChangesAsync();
         }
 
-        public async Task DeleteAsync(CharacterAction characterAction)
+        public async Task DeleteAsync(int id)
         {
-            _db.CharacterActions.Remove(characterAction);
+            _db.CharacterActions.Remove(GetByIdWithLinkedItemsAsync(id));
              await _db.SaveChangesAsync();
         }
 
@@ -39,6 +39,14 @@ namespace OstreCWEB.Data.Repository.Characters
                 .Include(s=>s.Status)
                 .Include(s=>s.LinkedCharacter) 
                 .SingleOrDefaultAsync(s => s.CharacterActionId == id);
+        }
+        private  CharacterAction GetByIdWithLinkedItemsAsync(int id)
+        {
+            return _db.CharacterActions
+                .Include(s => s.Status)
+                .Include(s => s.LinkedCharacter)
+                .Include(x=>x.LinkedItems)
+                .SingleOrDefault(s => s.CharacterActionId == id);
         }
 
         public async Task UpdateAsync(CharacterAction characterAction)

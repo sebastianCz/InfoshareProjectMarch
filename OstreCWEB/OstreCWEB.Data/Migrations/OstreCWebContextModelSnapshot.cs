@@ -181,6 +181,9 @@ namespace OstreCWEB.Data.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("UserParagraphId"), 1L, 1);
 
+                    b.Property<int?>("ActiveCharacterId")
+                        .HasColumnType("int");
+
                     b.Property<bool>("ActiveGame")
                         .HasColumnType("bit");
 
@@ -716,10 +719,10 @@ namespace OstreCWEB.Data.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
-                    b.Property<int>("ParagraphId")
+                    b.Property<int>("AbilityScores")
                         .HasColumnType("int");
 
-                    b.Property<int>("Skill")
+                    b.Property<int>("ParagraphId")
                         .HasColumnType("int");
 
                     b.Property<int>("TestDifficulty")
@@ -862,7 +865,7 @@ namespace OstreCWEB.Data.Migrations
                         .IsRequired();
 
                     b.HasOne("OstreCWEB.Data.Repository.StoryModels.Paragraph", "Paragraph")
-                        .WithMany("paragraphItems")
+                        .WithMany("ParagraphItems")
                         .HasForeignKey("ParagraphId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -1075,7 +1078,8 @@ namespace OstreCWEB.Data.Migrations
 
                     b.HasOne("OstreCWEB.Data.DataBase.ManyToMany.UserParagraph", "UserParagraph")
                         .WithOne("ActiveCharacter")
-                        .HasForeignKey("OstreCWEB.Data.Repository.Characters.CharacterModels.PlayableCharacter", "UserParagraphId");
+                        .HasForeignKey("OstreCWEB.Data.Repository.Characters.CharacterModels.PlayableCharacter", "UserParagraphId")
+                        .OnDelete(DeleteBehavior.ClientCascade);
 
                     b.Navigation("CharacterClass");
 
@@ -1148,13 +1152,13 @@ namespace OstreCWEB.Data.Migrations
 
                     b.Navigation("FightProp");
 
+                    b.Navigation("ParagraphItems");
+
                     b.Navigation("ShopkeeperProp");
 
                     b.Navigation("TestProp");
 
                     b.Navigation("UserParagraphs");
-
-                    b.Navigation("paragraphItems");
                 });
 
             modelBuilder.Entity("OstreCWEB.Data.Repository.StoryModels.Properties.FightProp", b =>

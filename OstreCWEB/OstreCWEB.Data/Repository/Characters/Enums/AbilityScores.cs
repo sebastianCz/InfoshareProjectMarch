@@ -1,6 +1,6 @@
 ﻿namespace OstreCWEB.Data.Repository.Characters.Enums
 {
-    public enum AbilityScores
+    public enum AbilityScores // I use this
     {
         Strength = 0,
         Dexterity = 1,
