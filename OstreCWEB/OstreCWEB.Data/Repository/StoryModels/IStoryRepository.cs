@@ -1,4 +1,6 @@
-﻿namespace OstreCWEB.Data.Repository.StoryModels
+﻿using OstreCWEB.Data.Repository.StoryModels.Properties;
+
+namespace OstreCWEB.Data.Repository.StoryModels
 {
     public interface IStoryRepository
     {
@@ -13,5 +15,6 @@
         public Task AddStory(Story story);
         public Task DeleteStory(Story story); 
         public Task AddParagraph(Paragraph paragraph);
+        public Task<Choice> GetChoiceDetailsById(int idChoice);
     }
 }

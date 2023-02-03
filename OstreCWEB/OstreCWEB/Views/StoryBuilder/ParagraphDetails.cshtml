@@ -58,7 +58,7 @@
                     {
                         <tr>
                             <td>
-                                @item.DescriptionOfChoice
+                                <a asp-action="ChoiceDetails" asp-route-id="@item.ChoiceId" type="button" class="btn btn-warning">@item.DescriptionOfChoice</a>
                             </td>
                             <td>
                                 @item.ParagraphType
@@ -70,7 +70,7 @@
                                 @item.AmountOfChoices
                             </td>
                             <td>
-                                <a asp-route-name="StoryBuilder" asp-action="ParagraphDetails" asp-route-id="@Model.StoryId" asp-route-paragraphId="@item.Id" type="button" class="btn btn-success">Go here!</a>
+                                <a asp-route-name="StoryBuilder" asp-action="ParagraphDetails" asp-route-id="@Model.StoryId" asp-route-paragraphId="@item.Id" type="button" class="btn btn-success">Show details!</a>
                             </td>
                         </tr>
                     }
@@ -88,26 +88,29 @@
 
         <dl class="row">
             <dt class="col-sm-2">
-                <label asp-for="@Model.CurrentParagraphView.ParagraphType"></label>
+                <label asp-for="@Model.CurrentParagraph.ParagraphType"></label>
             </dt>
             <dd class="col-sm-10">
-                @Model.CurrentParagraphView.ParagraphType
+                @Model.CurrentParagraph.ParagraphType
             </dd>
             <dt class="col-sm-2">
-                <label asp-for="@Model.CurrentParagraphView.StageDescription"></label>
+                <label asp-for="@Model.CurrentParagraph.StageDescription"></label>
             </dt>
             <dd class="col-sm-10">
-                @Model.CurrentParagraphView.StageDescription
+                @Model.CurrentParagraph.StageDescription
             </dd>
             <dt class="col-sm-2">
-                <label asp-for="@Model.CurrentParagraphView.AmountOfChoices"></label>
+                <label asp-for="@Model.CurrentParagraph.AmountOfChoices"></label>
             </dt>
             <dd class="col-sm-10">
-                @Model.CurrentParagraphView.AmountOfChoices
+                @Model.CurrentParagraph.AmountOfChoices
             </dd>
         </dl>
-        <a asp-action="CreateParagraph" asp-route-id="@Model.StoryId" type="button" class="btn btn-success">Create a new choice with an existing paragraph</a>
-        <a asp-action="CreateParagraph" asp-route-id="@Model.StoryId" type="button" class="btn btn-primary">Edit Paragraph</a>
+        @if (Model.CreatChoice)
+        {
+            <a asp-action="CreateParagraph" asp-route-id="@Model.StoryId" type="button" class="btn btn-success">Create a new choice with an existing paragraph</a>
+        }
+        <a asp-action="EditParagraph" asp-route-id="@Model.CurrentParagraph.Id" type="button" class="btn btn-primary">Edit Paragraph</a>
 
         @if (Model.Delete)
         {
@@ -115,7 +118,11 @@
         }
         @if (!Model.Delete)
         {
-            <div><i>*If you want to delete this paragraph, it must not be from Test or Fight</i></div>
+            <div><i>*If you want to delete this paragraph, it must not be from Test or Fight Paragraph</i></div>
+        }
+        @if(!Model.CreatChoice)
+        {
+            <div><i>**You cannot add a choice to a Test or Fight Paragraph</i></div>
         }
     </div>
 </div>
@@ -139,6 +146,7 @@
                     <th>
                         Choices
                     </th>
+                    <th>____Action____</th>
                 </tr>
             </thead>
             @if (Model.NextParagraphs.Count() != 0)
@@ -148,7 +156,7 @@
                     {
                         <tr>
                             <td>
-                                <a asp-route-name="storyBuilder" asp-action="ParagraphDetails" asp-route-id="@Model.StoryId" asp-route-paragraphId="@item.Id" type="button" class="btn btn-warning">@item.DescriptionOfChoice</a>
+                                <a asp-action="ChoiceDetails" asp-route-id="@item.ChoiceId" type="button" class="btn btn-warning">@item.DescriptionOfChoice</a>
                             </td>
                             <td>
                                 @item.ParagraphType
@@ -159,11 +167,21 @@
                             <td>
                                 @item.AmountOfChoices
                             </td>
+                            <td>
+                                <a asp-route-name="StoryBuilder" asp-action="ParagraphDetails" asp-route-id="@Model.StoryId" asp-route-paragraphId="@item.Id" type="button" class="btn btn-success">Show details!</a>
+                            </td>
                         </tr>
                     }
                 </tbody>
             }
         </table>
-        <a asp-action="CreateParagraph" asp-route-id="@Model.StoryId" type="button" class="btn btn-success">Create Next Paragraph</a>
+        @if (Model.CreatChoice)
+        {
+            <a asp-action="CreateParagraph" asp-route-id="@Model.StoryId" type="button" class="btn btn-success">Create Next Paragraph</a>
+        }
+        @if (!Model.CreatChoice)
+        {
+            <div><i>**You cannot add a choice to a Test or Fight Paragraph</i></div>
+        }
     </div>
 </div>

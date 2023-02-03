@@ -21,7 +21,7 @@ namespace OstreCWEB.Mapping
                     .ForMember(dest => dest.FirstParagraphId, opt => opt.Ignore());
 
             CreateMap<Story, StoryParagraphsView>();
-            CreateMap<Paragraph, ParagraphElementOfStoryView>();
+            CreateMap<Paragraph, ParagraphElementView>();
 
             CreateMap<ParagraphDetails, ParagraphDetailsView>();
             CreateMap<ParagraphWithCoice, ParagraphWithCoiceView>();
@@ -70,7 +70,11 @@ namespace OstreCWEB.Mapping
 
             CreateMap<CreatNewParagraphView, CreatParagraphTestView>()
                 .ForMember(dest => dest.AbilityScores, opt => opt.Ignore())
-                .ForMember(dest => dest.TestDifficulty, opt => opt.Ignore()); 
+                .ForMember(dest => dest.TestDifficulty, opt => opt.Ignore());
+
+            CreateMap<ChoiceDetails, ChoiceDetailsView>();
+            CreateMap<Choice, CurrentChoiceView>();
+
         }
     }
 }

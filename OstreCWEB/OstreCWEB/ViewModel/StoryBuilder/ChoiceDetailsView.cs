@@ -2,8 +2,9 @@
 
 namespace OstreCWEB.ViewModel.StoryBuilder
 {
-    public class ParagraphDetailsView
+    public class ChoiceDetailsView
     {
+        //Story
         public int StoryId { get; set; }
         public string NameOfStory { get; set; }
         public string DescriptionOfStory { get; set; }
@@ -11,11 +12,12 @@ namespace OstreCWEB.ViewModel.StoryBuilder
         [Display(Name = "Amount Of Paragraphs")]
         public int AmountOfParagraphs { get; set; }
 
-        public List<ParagraphWithCoiceView> PreviousParagraphs { get; set; } = new List<ParagraphWithCoiceView>();
-        public ParagraphElementView CurrentParagraph { get; set; }
-        public List<ParagraphWithCoiceView> NextParagraphs { get; set; } = new List<ParagraphWithCoiceView>();
+        // Choice
+        public ParagraphElementView PreviousParagraph { get; set; }
+        public CurrentChoiceView CurrentChoice { get; set; }
+        public ParagraphElementView NextParagraph { get; set; }
 
-        public bool CreatChoice { get; set; }
+        //Settings
         public bool Delete { get; set; }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using OstreCWEB.Data.DataBase;
+using OstreCWEB.Data.Repository.StoryModels.Properties;
 
 #nullable disable
 
@@ -93,6 +94,15 @@ namespace OstreCWEB.Data.Repository.StoryModels
         {
             _ostreCWebContext.Paragraphs.Add(paragraph);
             await _ostreCWebContext.SaveChangesAsync();
+        }
+
+        public async Task<Choice> GetChoiceDetailsById(int idChoice)
+        {
+            return _ostreCWebContext.Choices
+                .Include(c => c.Paragraph)
+                    .ThenInclude(p => p.Story)
+                        .ThenInclude(s => s.Paragraphs)
+                .SingleOrDefault(c => c.Id == idChoice);
         }
     }
 }

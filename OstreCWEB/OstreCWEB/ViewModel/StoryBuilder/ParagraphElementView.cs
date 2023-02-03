@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace OstreCWEB.ViewModel.StoryBuilder
 {
-    public class ParagraphElementOfStoryView
+    public class ParagraphElementView
     {
         public int Id { get; set; }
 
@@ -15,5 +15,7 @@ namespace OstreCWEB.ViewModel.StoryBuilder
 
         [Display(Name = "Amount Of Choices")]
         public int AmountOfChoices { get; set; }
+
+        public int StoryId { get; set; }
     }
 }

@@ -15,6 +15,8 @@ namespace OstreCWEB.ViewModel.StoryBuilder
 
         [Display(Name = "Amount Of Choices")]
         public int AmountOfChoices { get; set; }
+
+        public int ChoiceId { get; set; }
         public string DescriptionOfChoice { get; set; }
     }
 }

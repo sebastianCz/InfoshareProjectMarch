@@ -10,9 +10,10 @@ namespace OstreCWEB.Services.Models
         public int AmountOfParagraphs { get; set; }
 
         public List<ParagraphWithCoice> PreviousParagraphs { get; set; } = new List<ParagraphWithCoice>();
-        public Paragraph CurrentParagraphView { get; set; }
+        public Paragraph CurrentParagraph { get; set; }
         public List<ParagraphWithCoice> NextParagraphs { get; set; } = new List<ParagraphWithCoice>();
 
+        public bool CreatChoice { get; set; }
         public bool Delete { get; set; }
     }
 }

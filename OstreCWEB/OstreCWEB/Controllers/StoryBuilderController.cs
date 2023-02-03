@@ -289,6 +289,14 @@ namespace OstreCWEB.Controllers
    
         */
 
+        // GET: StoryBuilderController/ParagraphDetails/5/1
+        public async Task<ActionResult> ChoiceDetails(int id)
+        {
+            var choiceDetail = await _storyService.GetChoiceDetailsById(id);
+            var model = _mapper.Map<ChoiceDetailsView>(choiceDetail);
+
+            return View(model);
+        }
 
     }
 }

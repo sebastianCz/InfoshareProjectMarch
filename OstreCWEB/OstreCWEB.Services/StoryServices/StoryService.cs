@@ -2,6 +2,7 @@
 using OstreCWEB.Data.Repository.Characters.Interfaces;
 using OstreCWEB.Data.Repository.StoryModels;
 using OstreCWEB.Data.Repository.StoryModels.Enums;
+using OstreCWEB.Data.Repository.StoryModels.Properties;
 using OstreCWEB.Services.Models;
 
 namespace OstreCWEB.Services.StoryServices
@@ -58,7 +59,7 @@ namespace OstreCWEB.Services.StoryServices
             }
             else
             {
-                new Exception("This is not your Story");
+                throw new Exception("This is not your Story");
             }
         }
 
@@ -72,7 +73,7 @@ namespace OstreCWEB.Services.StoryServices
             }
             else
             {
-                new Exception("This is not your Story");
+                throw new Exception("This is not your Story");
             }
         }
 
@@ -83,7 +84,32 @@ namespace OstreCWEB.Services.StoryServices
 
             if (userStories.Any(s => s.Id == paragraph.StoryId))
             {
-                await _storyRepository.AddParagraph(paragraph);
+                if (paragraph.ParagraphType == ParagraphType.DescOfStage)
+                {
+                    await _storyRepository.AddParagraph(paragraph);
+                }
+                else if (paragraph.ParagraphType == ParagraphType.Test || paragraph.ParagraphType == ParagraphType.Fight)
+                {
+                    paragraph.Choices = new List<Choice>
+                    {
+                        new Choice
+                        {
+                            ChoiceText = "Failure - " + paragraph.StageDescription,
+                            NextParagraphId = -1
+                        },
+                        new Choice
+                        {
+                            ChoiceText = "Success - " + paragraph.StageDescription,
+                            NextParagraphId = -1
+                        },
+                    };
+                    await _storyRepository.AddParagraph(paragraph);
+                }
+                else
+                {
+                    throw new NotImplementedException();
+                }
+
                 var stories = await _storyRepository.GetAllStories();
                 var story = stories.FirstOrDefault(x => x.Id == paragraph.StoryId);
                 if (story.GetAmountOfParagraphs() == 1)
@@ -94,7 +120,7 @@ namespace OstreCWEB.Services.StoryServices
             }
             else
             {
-                new Exception("This is not your Story");
+                throw new Exception("This is not your Story");
             }
         }
 
@@ -108,25 +134,41 @@ namespace OstreCWEB.Services.StoryServices
                 NameOfStory = story.Name,
                 DescriptionOfStory = story.Description,
                 AmountOfParagraphs = story.GetAmountOfParagraphs(),
-                CurrentParagraphView = story.Paragraphs.FirstOrDefault(p => p.Id == idParagraph),
+                CurrentParagraph = story.Paragraphs.FirstOrDefault(p => p.Id == idParagraph),
                 NextParagraphs = new List<ParagraphWithCoice>(),
                 PreviousParagraphs = new List<ParagraphWithCoice>()
             };
 
-            if (paragraphDetails.CurrentParagraphView.Choices.Count() != 0)
+            if (paragraphDetails.CurrentParagraph.Choices.Count() != 0)
             {
-                foreach (var item in paragraphDetails.CurrentParagraphView.Choices)
+                foreach (var item in paragraphDetails.CurrentParagraph.Choices)
                 {
-                    var nextParagraph = story.Paragraphs.FirstOrDefault(p => p.Id == item.NextParagraphId);
-                    ParagraphWithCoice nextParagraphView = new ParagraphWithCoice
+                    ParagraphWithCoice nextParagraphView;
+                    if (item.NextParagraphId != -1)
                     {
-                        Id = nextParagraph.Id,
-                        ParagraphType = nextParagraph.ParagraphType,
-                        StageDescription = nextParagraph.StageDescription,
-                        AmountOfChoices = nextParagraph.GetAmountOfChoices(),
-                        DescriptionOfChoice = item.ChoiceText
-                    };
-
+                        var nextParagraph = story.Paragraphs.FirstOrDefault(p => p.Id == item.NextParagraphId);
+                        nextParagraphView = new ParagraphWithCoice
+                        {
+                            Id = nextParagraph.Id,
+                            ParagraphType = nextParagraph.ParagraphType,
+                            StageDescription = nextParagraph.StageDescription,
+                            AmountOfChoices = nextParagraph.GetAmountOfChoices(),
+                            ChoiceId = item.Id,
+                            DescriptionOfChoice = item.ChoiceText
+                        };
+                    }
+                    else
+                    {
+                        nextParagraphView = new ParagraphWithCoice
+                        { 
+                            Id = -1,
+                            ParagraphType = default,
+                            StageDescription = "The paragraph doesn't exist",
+                            AmountOfChoices = 0,
+                            ChoiceId = item.Id,
+                            DescriptionOfChoice = item.ChoiceText
+                        };
+                    }
                     paragraphDetails.NextParagraphs.Add(nextParagraphView);
                 }
             }
@@ -144,6 +186,7 @@ namespace OstreCWEB.Services.StoryServices
                         ParagraphType = item.ParagraphType,
                         StageDescription = item.StageDescription,
                         AmountOfChoices = item.GetAmountOfChoices(),
+                        ChoiceId = choice.Id,
                         DescriptionOfChoice = choice.ChoiceText
                     };
 
@@ -154,14 +197,48 @@ namespace OstreCWEB.Services.StoryServices
             paragraphDetails.Delete = !paragraphDetails.PreviousParagraphs.Any
                 (x => x.ParagraphType == ParagraphType.Fight || x.ParagraphType == ParagraphType.Test);
 
+            if (paragraphDetails.CurrentParagraph.ParagraphType == ParagraphType.Fight || paragraphDetails.CurrentParagraph.ParagraphType == ParagraphType.Test)
+            {
+                paragraphDetails.CreatChoice = false;
+            }
+            else
+            {
+                paragraphDetails.CreatChoice = true;
+            }
+
             return paragraphDetails;
         }
 
         public async Task<IReadOnlyCollection<Enemy>> GetAllEnemies()
         {
-            var test = await _enemyRepository.GetAllTemplatesAsync();
+            return await _enemyRepository.GetAllTemplatesAsync();
+        }
 
-            return test;
+        public async Task<ChoiceDetails> GetChoiceDetailsById(int idChoice)
+        {
+            var choice = await _storyRepository.GetChoiceDetailsById(idChoice);
+
+            var choiceDetails = new ChoiceDetails
+            {
+                StoryId = choice.Paragraph.Story.Id,
+                DescriptionOfStory = choice.Paragraph.Story.Description,
+                NameOfStory = choice.Paragraph.Story.Name,
+                AmountOfParagraphs = choice.Paragraph.Story.GetAmountOfParagraphs(),
+                PreviousParagraph = choice.Paragraph,
+                CurrentChoice = choice,
+                NextParagraph = choice.Paragraph.Story.Paragraphs.FirstOrDefault(p => p.Id == choice.NextParagraphId)
+            };
+
+            if(choiceDetails.PreviousParagraph.ParagraphType == ParagraphType.Fight || choiceDetails.PreviousParagraph.ParagraphType == ParagraphType.Test)
+            {
+                choiceDetails.Delete = false;
+            }
+            else
+            {
+                choiceDetails.Delete = true;
+            }
+
+            return choiceDetails;
         }
     }
 }

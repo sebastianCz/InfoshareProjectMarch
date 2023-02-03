@@ -1,7 +1,4 @@
-﻿using OstreCWEB.Data.Repository.StoryModels;
-using OstreCWEB.Data.Repository.StoryModels.Enums;
-using System.ComponentModel.DataAnnotations;
-using System.Xml.Linq;
+﻿using OstreCWEB.Data.Repository.StoryModels.Enums;
 
 namespace OstreCWEB.Services.Models
 {
@@ -11,6 +8,8 @@ namespace OstreCWEB.Services.Models
         public ParagraphType ParagraphType { get; set; }
         public string StageDescription { get; set; }
         public int AmountOfChoices { get; set; }
+
+        public int ChoiceId { get; set; }
         public string DescriptionOfChoice { get; set; }
     }
 }
