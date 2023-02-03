@@ -34,6 +34,7 @@ namespace OstreCWEB.Services.Identity
                 if (userId == null)  { return ""; } 
 
                 return userId.Value; 
+
         } 
     }
 }
