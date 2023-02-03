@@ -1,6 +1,6 @@
 ﻿using OstreCWEB.Data.Repository.Characters.CharacterModels;
 using OstreCWEB.Data.Repository.StoryModels;
-using OstreCWEB.Services.Models;
+using OstreCWEB.Services.StoryServices.Models;
 
 namespace OstreCWEB.Services.StoryServices
 {
@@ -18,11 +18,11 @@ namespace OstreCWEB.Services.StoryServices
         public Task DeleteStory(int idStory, string userId);
 
         //Paragraph
+        public Task<Paragraph> GetParagraphById(int idParagraphId);
         public Task<ParagraphDetails> GetParagraphDetailsById(int idParagraph, int idStory);
         public Task AddParagraph(Paragraph paragraph, string userId);
-
         public Task<IReadOnlyCollection<Enemy>> GetAllEnemies();
-
+        public Task DeleteParagraph(int idParagraph, string userId);
 
         //Choice
         public Task<ChoiceDetails> GetChoiceDetailsById(int idChoice);

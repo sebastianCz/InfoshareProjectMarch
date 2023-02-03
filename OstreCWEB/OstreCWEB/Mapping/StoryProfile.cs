@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 using OstreCWEB.Data.Repository.StoryModels;
 using OstreCWEB.Data.Repository.StoryModels.Properties;
-using OstreCWEB.Services.Models;
+using OstreCWEB.Services.StoryServices.Models;
 using OstreCWEB.ViewModel.Game;
 using OstreCWEB.ViewModel.StoryBuilder;
 

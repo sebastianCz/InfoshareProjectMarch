@@ -1,7 +1,7 @@
 ﻿using OstreCWEB.Data.Repository.StoryModels;
 using OstreCWEB.Data.Repository.StoryModels.Properties;
 
-namespace OstreCWEB.Services.Models
+namespace OstreCWEB.Services.StoryServices.Models
 {
     public class ChoiceDetails
     {

@@ -279,6 +279,31 @@ namespace OstreCWEB.Controllers
             }
         }
 
+
+        // GET: StoryBuilderController/DeleteParagraph/5
+        public async Task<ActionResult> DeleteParagraph(int id)
+        {
+            var model = _mapper.Map<ParagraphElementView>(await _storyService.GetParagraphById(id));
+
+            return View(model);
+        }
+
+        // POST: StoryBuilderController/DeleteParagraph/5
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> DeleteParagraph(ParagraphElementView paragraph)
+        {
+            try
+            {
+                await _storyService.DeleteParagraph(paragraph.Id, _userService.GetUserId(User));
+                return RedirectToAction(nameof(StoryParagraphsList), _mapper.Map<StoryParagraphsView>(await _storyService.GetStoryWithParagraphsById(paragraph.StoryId)));
+            }
+            catch
+            {
+                return View();
+            }
+        }
+
         /*
                 |C|
                 |H|

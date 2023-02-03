@@ -3,7 +3,7 @@ using OstreCWEB.Data.Repository.Characters.Interfaces;
 using OstreCWEB.Data.Repository.StoryModels;
 using OstreCWEB.Data.Repository.StoryModels.Enums;
 using OstreCWEB.Data.Repository.StoryModels.Properties;
-using OstreCWEB.Services.Models;
+using OstreCWEB.Services.StoryServices.Models;
 
 namespace OstreCWEB.Services.StoryServices
 {
@@ -78,6 +78,12 @@ namespace OstreCWEB.Services.StoryServices
         }
 
         //Paragraph
+        public async Task<Paragraph> GetParagraphById(int idParagraphId)
+        {
+            return await _storyRepository.GetParagraphById(idParagraphId);
+        }
+
+
         public async Task AddParagraph(Paragraph paragraph, string userId)
         {
             var userStories = await _storyRepository.GetStoriesByUserId(userId);
@@ -123,8 +129,23 @@ namespace OstreCWEB.Services.StoryServices
                 throw new Exception("This is not your Story");
             }
         }
+        public async Task DeleteParagraph(int idParagraph, string userId)
+        {
 
-        public async Task<ParagraphDetails> GetParagraphDetailsById(int idParagraph, int idStory)
+            var paragraph = await _storyRepository.GetParagraphById(idParagraph);
+            var story = await _storyRepository.GetStoryById(paragraph.StoryId);
+
+            if (story.UserId == userId)
+            {
+                await _storyRepository.DeleteParagraph(story.Paragraphs.FirstOrDefault(p => p.Id == idParagraph));
+            }
+            else
+            {
+                throw new Exception("This is not your Story");
+            }
+        }
+
+            public async Task<ParagraphDetails> GetParagraphDetailsById(int idParagraph, int idStory)
         {
             var story = await _storyRepository.GetStoryById(idStory);
 

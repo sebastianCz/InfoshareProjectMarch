@@ -114,7 +114,7 @@
 
         @if (Model.Delete)
         {
-            <a asp-action="CreateParagraph" asp-route-id="@Model.StoryId" type="button" class="btn btn-danger">Delete Paragraph</a>
+            <a asp-action="DeleteParagraph" asp-route-id="@Model.CurrentParagraph.Id" type="button" class="btn btn-danger">Delete Paragraph</a>
         }
         @if (!Model.Delete)
         {

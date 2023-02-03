@@ -5,17 +5,13 @@ namespace OstreCWEB.ViewModel.StoryBuilder
 {
     public class CreatNewParagraphView
     {
-        // General
         public ParagraphType ParagraphType { get; set; }
         public string StageDescription { get; set; }
         public bool RestoreRest { get; set; }
 
-        // Items Properties
-
         //public int AmountOfItems { get; set; }
         //public int ItemId { get; set; }
 
-        // Story relations
         public int StoryId { get; set; }
     }
 }

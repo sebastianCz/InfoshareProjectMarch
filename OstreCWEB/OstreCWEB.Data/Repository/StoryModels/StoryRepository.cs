@@ -64,6 +64,7 @@ namespace OstreCWEB.Data.Repository.StoryModels
         { 
             return _ostreCWebContext.Paragraphs
                 .Include(p => p.ParagraphItems)
+                .Include(p => p.Choices)
                 .SingleOrDefault(p => p.Id == idParagraph);
         }
         public async Task<Paragraph> GetCombatParagraphById(int idParagraph)
@@ -93,6 +94,12 @@ namespace OstreCWEB.Data.Repository.StoryModels
         public async Task AddParagraph(Paragraph paragraph)
         {
             _ostreCWebContext.Paragraphs.Add(paragraph);
+            await _ostreCWebContext.SaveChangesAsync();
+        }
+
+        public async Task DeleteParagraph(Paragraph paragraph)
+        {
+            _ostreCWebContext.Paragraphs.Remove(paragraph);
             await _ostreCWebContext.SaveChangesAsync();
         }
 
