@@ -51,7 +51,8 @@
                      <div class="form-group">
                         <label asp-for="CharacterName" class="control-label"></label>
                         <input asp-for="CharacterName" id="characterName-input" class="form-control" placeholder="Your hero's name" required="text"/>
-                        <span asp-validation-for="CharacterName" class="text-danger"></span>
+                        @*@<span asp-validation-for="CharacterName" class="text-danger"></span>*@
+                        <br />
                     </div>
                     <input type="button" id="randomNameButton" value="Generate Name" style="background: radial-gradient(circle at -4% -12.9%, rgb(90, 98, 110) 0.3%, rgb(33, 31, 33) 90.2%);color:goldenrod; text-align:center">
                 </div>

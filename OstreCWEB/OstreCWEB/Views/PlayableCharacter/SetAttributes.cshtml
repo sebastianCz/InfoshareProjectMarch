@@ -4,7 +4,7 @@
     ViewData["Title"] = "Attributes";
 }
 
-<div class="accordion" id="accordionExample" hidden="true">
+<div class="accordion" id="accordionExample" hidden>
   <div class="accordion-item">
     <h2 class="accordion-header" id="headingOne">
       <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
@@ -17,9 +17,13 @@
             <h1>Set Attributes</h1>
             <p>race: @ViewBag.RaceId</p>
             <p>class: @ViewBag.ClassId</p>
-            <p>class mod: @ViewBag.BonusStr</p>
-            <p>class mod: @ViewBag.BonusWis</p>
-            <p>class mod: @ViewBag.BonusInt</p>
+            <span>class str mod: @ViewBag.BonusClassStr</span> |  <span>@ViewBag.BonusRaceStr</span><br>
+            <span>class dex mod: @ViewBag.BonusClassDex</span> |  <span>@ViewBag.BonusRaceDex</span><br>
+            <span>class con mod: @ViewBag.BonusClassCon</span> |  <span>@ViewBag.BonusRaceCon</span><br>
+            <span>class int mod: @ViewBag.BonusClassInt</span> |  <span>@ViewBag.BonusRaceInt</span><br>
+            <span>class wis mod: @ViewBag.BonusClassWis</span> |  <span>@ViewBag.BonusRaceWis</span><br>
+            <span>class cha mod: @ViewBag.BonusClassCha</span> |  <span>@ViewBag.BonusRaceCha</span><br>
+            
             <p>class name: @ViewBag.ClassName</p>
             <hr />
         </div>
@@ -27,9 +31,6 @@
     </div>
   </div>
 </div><!--Statistics only for test-->
-
-
-
 
 <div class="row">
     <div class="col-md-4 ">
@@ -45,22 +46,13 @@
             </div>
                 <div class="p-3 bg-light bg-opacity-75 border border-warning-subtle rounded" style="background: #eee; box-shadow: 0 8px 8px -4px black;"> 
                     <div>
-                        @*<form asp-action="Create">
-                            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-                            <input asp-for="RaceId" hidden="true"/>
-                            <input asp-for="PlayableClassId" hidden="true"/>
-                            <div class="form-group">
-                                <input asp-action="RollAttributePoints" type="submit" value="Roll" class="btn" style="background: radial-gradient(circle at -4% -12.9%, rgb(90, 98, 110) 0.3%, rgb(33, 31, 33) 90.2%);color:goldenrod; text-align:center"/>                                
-                            </div>
-                        </form><!--Roll Attribute points - cause problems-->
-                        @*<a asp-action="RollAttributePoints" class="btn btn-primary">Roll</a>*@
                         <div style="">
                           <input type="button" id="roll-button" class="btn" value="Roll" style="background: radial-gradient(circle at -4% -12.9%, rgb(90, 98, 110) 0.3%, rgb(33, 31, 33) 90.2%);color:goldenrod; text-align:center"/>
                           <input type="button" id="save-button" class="btn" value="Save" style="background: radial-gradient(circle at -4% -12.9%, rgb(90, 98, 110) 0.3%, rgb(33, 31, 33) 90.2%);color:goldenrod; text-align:center"/>
                           <input type="button" id="load-button" class="btn" value="Load" style="background: radial-gradient(circle at -4% -12.9%, rgb(90, 98, 110) 0.3%, rgb(33, 31, 33) 90.2%);color:goldenrod; text-align:center"/>
                         </div>
                     </div>
-                    <br />
+                    <hr style="margin-top: 20px"/>
                     <div>
                         <label class="control-label">TotalAvailablePoints</label>
                         <input class="form-control" id="totalAvailablePoints" value="@ViewBag.Sum" readonly/>
@@ -69,9 +61,13 @@
                         <label class="control-label">AvailablePoints</label>
                         <input class="form-control" id="availablePoints" value="@ViewBag.AvailablePoints" readonly/>
                     </div>
-                    <br />
+                    <hr style="margin-top: 20px"/>
                     <div class="form-group row">
-                        <label asp-for="Strenght" class="control-label"></label>
+                        @*<label asp-for="Strenght" class="control-label"></label>*@
+                        <div>
+                            <span>Strength:</span>
+                            <span class="dnd-bonus"></span>@if (@ViewBag.BonusStr != 0){<span class="dnd-bonus">(+</span><span class="dnd-bonus">@ViewBag.BonusStr</span><span class="dnd-bonus">)</span>}
+                        </div>                    
                     <div class="col-md-4">                            
                         <input type="text" asp-for="Strenght" class="form-control" id="strength-input" value="@ViewBag.Str" readonly/>
                     </div>
@@ -82,7 +78,11 @@
                         <span asp-validation-for="Strenght" class="text-danger"></span>
                     </div><!--Strength-->
                     <div class="form-group row">
-                        <label asp-for="Dexterity" class="control-label"></label>
+                        @*<label asp-for="Dexterity" class="control-label"></label>*@
+                        <div>
+                            <span>Dexterity:</span>
+                            <span class="dnd-bonus"></span>@if (@ViewBag.BonusDex != 0){<span class="dnd-bonus">(+</span><span class="dnd-bonus">@ViewBag.BonusDex</span><span class="dnd-bonus">)</span>}
+                        </div>
                     <div class="col-md-4">                            
                         <input type="text" asp-for="Dexterity" class="form-control" id="dexterity-input" value="@ViewBag.Dex" readonly/>
                     </div>
@@ -92,47 +92,73 @@
                         </div>
                         <span asp-validation-for="Dexterity" class="text-danger"></span>
                     </div><!--Dexterity-->
-                    <div class="form-group">
-                        <label asp-for="Constitution" class="control-label"></label>
+                    <div class="form-group row">
+                        @*<label asp-for="Constitution" class="control-label"></label>*@
+                        <div>
+                            <span>Constitution:</span>
+                            <span class="dnd-bonus"></span>@if (@ViewBag.BonusCon != 0){<span class="dnd-bonus">(+</span><span class="dnd-bonus">@ViewBag.BonusCon</span><span class="dnd-bonus">)</span>}
+                        </div>
+                    <div class="col-md-4">                            
                         <input type="text" asp-for="Constitution" class="form-control" id="constitution-input" value="@ViewBag.Con" readonly/>
-                        <a id="constitutionPlus" class="btn dnd-button">+</a>
-                        <a id="constitutionMinus" class="btn dnd-button">-</a>
-                    @*  <a asp-action="ChangeValue" asp-route-characterid="1" asp-route-operation="up" asp-route-attribute="Constitution" class="btn btn-primary">+</a>
-                        <a asp-action="ChangeValue" asp-route-characterid="1" asp-route-operation="down" asp-route-attribute="Constitution" class="btn btn-primary">-</a>*@
+                    </div>
+                        <div class="col-md-6">
+                            <a id="constitutionPlus" class="btn dnd-button">+</a>
+                            <a id="constitutionMinus" class="btn dnd-button">-</a>
+                        </div>
                         <span asp-validation-for="Constitution" class="text-danger"></span>
-                    </div>
-                    <div class="form-group">
-                        <label asp-for="Intelligence" class="control-label"></label>
+                    </div><!--Constitution-->
+                    <div class="form-group row">
+                        @*<label asp-for="Intelligence" class="control-label"></label>*@
+                        <div>
+                            <span>Intelligence:</span>
+                            <span class="dnd-bonus"></span>@if (@ViewBag.BonusInt != 0){<span class="dnd-bonus">(+</span><span class="dnd-bonus">@ViewBag.BonusInt</span><span class="dnd-bonus">)</span>}
+                        </div>
+                    <div class="col-md-4">                            
                         <input type="text" asp-for="Intelligence" class="form-control" id="intelligence-input" value="@ViewBag.Int" readonly/>
-                        <a id="intelligencePlus" class="btn dnd-button">+</a>
-                        <a id="intelligenceMinus" class="btn dnd-button">-</a>
-                    @*  <a asp-action="ChangeValue" asp-route-characterid="1" asp-route-operation="up" asp-route-attribute="Intelligence" class="btn btn-primary">+</a>
-                        <a asp-action="ChangeValue" asp-route-characterid="1" asp-route-operation="down" asp-route-attribute="Intelligence" class="btn btn-primary">-</a>*@
+                    </div>
+                        <div class="col-md-6">
+                            <a id="intelligencePlus" class="btn dnd-button">+</a>
+                            <a id="intelligenceMinus" class="btn dnd-button">-</a>
+                        </div>
                         <span asp-validation-for="Intelligence" class="text-danger"></span>
-                    </div>
-                    <div class="form-group">
-                        <label asp-for="Wisdom" class="control-label"></label>
+                    </div><!--Intelligence-->
+                    <div class="form-group row">
+                        @*<label asp-for="Wisdom" class="control-label"></label>*@
+                        <div>
+                            <span>Wisdom:</span>
+                            <span class="dnd-bonus"></span>@if (@ViewBag.BonusWis != 0){<span class="dnd-bonus">(+</span><span class="dnd-bonus">@ViewBag.BonusWis</span><span class="dnd-bonus">)</span>}
+                        </div>
+                    <div class="col-md-4">                            
                         <input type="text" asp-for="Wisdom" class="form-control" id="wisdom-input" value="@ViewBag.Wis" readonly/>
-                        <a id="wisdomPlus" class="btn dnd-button">+</a>
-                        <a id="wisdomMinus" class="btn dnd-button">-</a>
-                    @*  <a asp-action="ChangeValue" asp-route-characterid="1" asp-route-operation="up" asp-route-attribute="Wisdom" class="btn btn-primary">+</a>
-                        <a asp-action="ChangeValue" asp-route-characterid="1" asp-route-operation="down" asp-route-attribute="Wisdom" class="btn btn-primary">-</a>*@
+                    </div>
+                        <div class="col-md-6">
+                            <a id="wisdomPlus" class="btn dnd-button">+</a>
+                            <a id="wisdomMinus" class="btn dnd-button">-</a>
+                        </div>
                         <span asp-validation-for="Wisdom" class="text-danger"></span>
+                    </div><!--Wisdom-->
+                    <div class="form-group row">
+                        @*<label asp-for="Charisma" class="control-label"></label>*@
+                        <div>
+                            <span>Charisma:</span>
+                            <span class="dnd-bonus"></span>@if (@ViewBag.BonusCha != 0){<span class="dnd-bonus">(+</span><span class="dnd-bonus">@ViewBag.BonusCha</span><span class="dnd-bonus">)</span>}
+                        </div>
+                    <div class="col-md-4">
+                        <input type="text" asp-for="Charisma" class="form-control" id="charisma-input" value="@ViewBag.Cha" readonly/>
                     </div>
-                    <div class="form-group">
-                        <label asp-for="Charisma" class="control-label"></label>
-                        <input  type="text"asp-for="Charisma" class="form-control" id="charisma-input" value="@ViewBag.Cha" readonly/>
-                        <a id="charismaPlus" class="btn dnd-button">+</a>
-                        <a id="charismaMinus" class="btn dnd-button">-</a>
-                    @*  <a asp-action="ChangeValue" asp-route-characterid="1" asp-route-operation="up" asp-route-attribute="Charisma" class="btn btn-primary">+</a>
-                        <a asp-action="ChangeValue" asp-route-characterid="1" asp-route-operation="down" asp-route-attribute="Charisma" class="btn btn-primary">-</a>*@
+                        <div class="col-md-6">
+                            <a id="charismaPlus" class="btn dnd-button">+</a>
+                            <a id="charismaMinus" class="btn dnd-button">-</a>
+                        </div>
                         <span asp-validation-for="Charisma" class="text-danger"></span>
-                    </div>
+                    </div><!--Charisma-->
                 </div>
                 <br />
                 <div class="form-group">
-                    <input asp-action="SetClass" type="submit" value="Set Class" class="btn dnd-button" />
-                    <input asp-action="SetName" type="submit" value="Set Name" class="btn dnd-button" />
+                    @*<input asp-action="SetClass" type="submit" value="Set Class" class="btn dnd-button" />
+                    <input asp-action="SetName" type="submit" value="Set Name" class="btn dnd-button" />*@
+                    <input asp-action="SetClass" type="submit" value="Set Class" class="btn" style="background: radial-gradient(circle at -4% -12.9%, rgb(90, 98, 110) 0.3%, rgb(33, 31, 33) 90.2%);color:goldenrod; text-align:center"/>
+                    <input asp-action="SetName" type="submit" value="Set Name" class="btn" style="background: radial-gradient(circle at -4% -12.9%, rgb(90, 98, 110) 0.3%, rgb(33, 31, 33) 90.2%);color:goldenrod; text-align:center"/>
                 </div>
         </form>
     </div>
@@ -203,23 +229,7 @@ $("#roll-button").on("click", function() {
     });
   });
 </script>
-@*<script>
-  $(document).ready(function(){
-    $("#strengthPlus").on("click", function() {
-      var currentValue = parseInt($("#strength-input").val());
-      if (currentValue < 18) {
-        $("#strength-input").val(currentValue + 1);
-      }
-    });
-    $("#strengthMinus").on("click", function() {
-      var currentValue = parseInt($("#strength-input").val());
-      if (currentValue > 0) {
-        $("#strength-input").val(currentValue - 1);
-      }
-    });
-  });
-</script>
-*@
+
 <script>
   $(document).ready(function(){
     $("#strengthPlus").on("click", function() {
@@ -336,5 +346,8 @@ $("#roll-button").on("click", function() {
     background: radial-gradient(circle at -4% -12.9%, rgb(90, 98, 110) 0.3%, rgb(33, 31, 33) 90.2%);
     color:goldenrod;
     text-align:center
+}
+.dnd-bonus{
+    color:orangered;
 }
 </style>

@@ -1,4 +1,5 @@
 ﻿using OstreCWEB.Data.Repository.Characters.MetaTags;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Text.Json.Serialization;
@@ -17,10 +18,11 @@ namespace OstreCWEB.Data.Repository.Characters.CharacterModels
         public List<ItemCharacter>? LinkedItems { get; set; }
         public bool IsTemplate { get; set; }
         //=============================================================//
+        [DisplayName("Character Name")]
         public string CharacterName { get; set; }
         public int MaxHealthPoints { get; set; }
-        public int CurrentHealthPoints { get; set; }  
-
+        public int CurrentHealthPoints { get; set; }
+        [DisplayName("Strength")]
         public int Strenght { get; set; }
         public int Dexterity { get; set; }
         public int Constitution { get; set; }

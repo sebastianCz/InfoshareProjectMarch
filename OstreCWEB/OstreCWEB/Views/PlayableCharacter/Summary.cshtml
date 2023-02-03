@@ -51,6 +51,38 @@
                     color:goldenrod; text-align:center">
                     <h2>Summary</h2>
                 </div>
+                <div class="container">
+                  <div class="row p-3 bg-light bg-opacity-75 border border-warning-subtle rounded">
+                        <div>
+                            <p style="margin-bottom: 0px">Name:</p><input type="text" value="@Model.CharacterName" readonly/>
+                        </div>
+                        <div>
+                            <p style="margin-bottom: 0px">Race:</p><input type="text" value="@ViewBag.RaceName" readonly/>
+                        </div>
+                        <div >
+                            <p style="margin-bottom: 0px">Class:</p><input type="text" value="@ViewBag.ClassName" readonly/>
+                        </div>
+                        <hr style="margin-top: 20px"/>
+                        <div class="col-6">
+                            <span>Strength:</span><input type="text" value="@ViewBag.Str" readonly/><span class="dnd-mod"></span>@if (@ViewBag.ModStr > 0){<span class="dnd-mod">+</span><span class="dnd-mod">@ViewBag.ModStr</span><span class="dnd-mod"></span>}else{ <span class="dnd-modMinus">@ViewBag.ModStr</span>}
+                        </div>
+                        <div class="col-6">
+                            <span>Dexterity:</span><input type="text" value="@ViewBag.Dex" readonly/><span class="dnd-mod"></span>@if (@ViewBag.ModDex > 0){<span class="dnd-mod">+</span><span class="dnd-mod">@ViewBag.ModDex</span><span class="dnd-mod"></span>}else{ <span class="dnd-modMinus">@ViewBag.ModDex</span>}
+                        </div>
+                        <div class="col-6">
+                            <span>Constitution:</span><input type="text" value="@ViewBag.Con" readonly/><span class="dnd-mod"></span>@if (@ViewBag.ModCon > 0){<span class="dnd-mod">+</span><span class="dnd-mod">@ViewBag.ModCon</span><span class="dnd-mod"></span>}else{ <span class="dnd-modMinus">@ViewBag.ModCon</span>}
+                        </div>
+                        <div class="col-6">
+                            <span>Intelligence:</span><input type="text" value="@ViewBag.Int" readonly/><span class="dnd-mod"></span>@if (@ViewBag.ModInt > 0){<span class="dnd-mod">+</span><span class="dnd-mod">@ViewBag.ModInt</span><span class="dnd-mod"></span>}else{ <span class="dnd-modMinus">@ViewBag.ModInt</span>}
+                        </div>
+                        <div class="col-6">
+                            <span>Wisdom:</span><input type="text" value="@ViewBag.Wis" readonly/><span class="dnd-mod"></span>@if (@ViewBag.ModWis > 0){<span class="dnd-mod">+</span><span class="dnd-mod">@ViewBag.ModWis</span><span class="dnd-mod"></span>}else{ <span class="dnd-modMinus">@ViewBag.ModWis</span>}
+                        </div>
+                        <div class="col-6">
+                            <span>Charisma:</span><input type="text" value="@ViewBag.Cha" readonly/><span class="dnd-mod"></span>@if (@ViewBag.ModCha > 0){<span class="dnd-mod">+</span><span class="dnd-mod">@ViewBag.ModCha</span><span class="dnd-mod"></span>}else{ <span class="dnd-modMinus">@ViewBag.ModCha</span>}
+                        </div>
+                  </div>
+                </div>
                 <br />
                     <div class="form-group">
                         <input type="submit" value="Set Name" class="btn" asp-action="SetName" asp-controller="PlayableCharacter"
@@ -60,50 +92,14 @@
                     </div>                
             </form>
         </div>
-        <div class="col-12 col-md-6 card ">Column 1</div>
-        <div class="col-12 col-md-6 card ">Column 2</div>
-@*        <div class="col-md-2">
-            <div>
-                stats
-            </div>
-        </div>*@
-@*        <div class="col-md-2">
-            <div>
-                stats
-            </div>
-        </div>*@
     </div>
 </div><!--Form Set Class-->
 
-<div class="container">
-  <div class="row">
-    <div class="col-12 col-md-6 card p-3 m-6">
-        <div class="col-6">
-            <span>Strength:</span><input type="text" asp-for="Strenght" readonly/>
-        </div>
-        <div class="col-6">
-            <span>Dexterity:</span><input type="text" asp-for="Dexterity" readonly/>
-        </div>
-        <div class="col-6">
-            <span>Constitution:</span><input type="text" asp-for="Constitution" readonly/>
-        </div>
-        <div class="col-6">
-            <span>Intelligence:</span><input type="text" asp-for="Intelligence" readonly/>
-        </div>
-        <div class="col-6">
-            <span>Wisdom:</span><input type="text" asp-for="Wisdom" readonly/>
-        </div>
-        <div class="col-6">
-            <span>Charisma:</span><input type="text" asp-for="Charisma" readonly/>
-        </div>
-    </div>
-    <div class="col-12 col-md-6 card p-3 m-6">Column 2</div>
-  </div>
-</div>
-
-<div class="container">
-  <div class="row">
-    <div class="col-12 col-md-5 my-3 card">Column 1</div>
-    <div class="col-12 col-md-5 my-3 card">Column 2</div>
-  </div>
-</div>
+<style>
+.dnd-mod{
+    color:darkgreen;
+}
+.dnd-modMinus{
+    color:darkred;
+}
+</style>

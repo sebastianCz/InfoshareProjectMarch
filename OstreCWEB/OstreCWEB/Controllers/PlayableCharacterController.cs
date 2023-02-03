@@ -118,18 +118,49 @@ namespace OstreCWEB.Controllers
             ViewBag.RaceId = model.RaceId;
             ViewBag.ClassId = model.PlayableClassId;
 
-            var character = _playableCharacterService.GetAllClasses();
+            var characterClasses = _playableCharacterService.GetAllClasses();
+            var characterRaces = _playableCharacterService.GetAllRaces();
 
-            var attributesList = new List<PlayableClassView>();
+            var bonusClassStr = characterClasses.Where(c => c.PlayableClassId == model.PlayableClassId).Select(c => c.StrengthBonus).FirstOrDefault();
+            var bonusClassDex = characterClasses.Where(c => c.PlayableClassId == model.PlayableClassId).Select(c => c.DexterityBonus).FirstOrDefault();
+            var bonusClassCon = characterClasses.Where(c => c.PlayableClassId == model.PlayableClassId).Select(c => c.ConstitutionBonus).FirstOrDefault();
+            var bonusClassInt = characterClasses.Where(c => c.PlayableClassId == model.PlayableClassId).Select(c => c.IntelligenceBonus).FirstOrDefault();
+            var bonusClassWis = characterClasses.Where(c => c.PlayableClassId == model.PlayableClassId).Select(c => c.WisdomBonus).FirstOrDefault();
+            var bonusClassCha = characterClasses.Where(c => c.PlayableClassId == model.PlayableClassId).Select(c => c.CharismaBonus).FirstOrDefault();
 
-            var bonusStr = character.Where(c => c.PlayableClassId == model.RaceId).Select(c => c.StrengthBonus).FirstOrDefault();
-            var bonusWis = character.Where(c => c.PlayableClassId == model.RaceId).Select(c => c.WisdomBonus).FirstOrDefault();
-            var bonusInt = character.Where(c => c.PlayableClassId == model.RaceId).Select(c => c.IntelligenceBonus).FirstOrDefault();
-            var className = character.Where(c => c.PlayableClassId == model.RaceId).Select(c => c.ClassName).FirstOrDefault();
+            var bonusRaceStr = characterRaces.Where(c => c.PlayableRaceId == model.RaceId).Select(c => c.StrengthBonus).FirstOrDefault();
+            var bonusRaceDex = characterRaces.Where(c => c.PlayableRaceId == model.RaceId).Select(c => c.DexterityBonus).FirstOrDefault();
+            var bonusRaceCon = characterRaces.Where(c => c.PlayableRaceId == model.RaceId).Select(c => c.ConstitutionBonus).FirstOrDefault();
+            var bonusRaceInt = characterRaces.Where(c => c.PlayableRaceId == model.RaceId).Select(c => c.IntelligenceBonus).FirstOrDefault();
+            var bonusRaceWis = characterRaces.Where(c => c.PlayableRaceId == model.RaceId).Select(c => c.WisdomBonus).FirstOrDefault();
+            var bonusRaceCha = characterRaces.Where(c => c.PlayableRaceId == model.RaceId).Select(c => c.CharismaBonus).FirstOrDefault();
 
-            ViewBag.BonusStr = bonusStr;
-            ViewBag.BonusWis = bonusWis;
-            ViewBag.BonusInt = bonusInt;
+            var className = characterClasses.Where(c => c.PlayableClassId == model.RaceId).Select(c => c.ClassName).FirstOrDefault();
+
+            ViewBag.BonusClassStr = bonusClassStr;
+            ViewBag.BonusClassDex = bonusClassDex;
+            ViewBag.BonusClassCon = bonusClassCon;
+            ViewBag.BonusClassInt = bonusClassInt;
+            ViewBag.BonusClassWis = bonusClassWis;
+            ViewBag.BonusClassCha = bonusClassCha;
+
+            ViewBag.BonusRaceStr = bonusRaceStr;
+            ViewBag.BonusRaceDex = bonusRaceDex;
+            ViewBag.BonusRaceCon = bonusRaceCon;
+            ViewBag.BonusRaceInt = bonusRaceInt;
+            ViewBag.BonusRaceWis = bonusRaceWis;
+            ViewBag.BonusRaceCha = bonusRaceCha;
+
+            ViewBag.BonusStr = bonusClassStr + bonusRaceStr;
+            ViewBag.BonusDex = bonusClassDex + bonusRaceDex;
+            ViewBag.BonusCon = bonusClassCon + bonusRaceCon;
+            ViewBag.BonusInt = bonusClassInt + bonusRaceInt;
+            ViewBag.BonusWis = bonusClassWis + bonusRaceWis;
+            ViewBag.BonusCha = bonusClassCha + bonusRaceCha;
+
+
+
+
             ViewBag.ClassName = className;
             //
             return View(model);
@@ -150,8 +181,6 @@ namespace OstreCWEB.Controllers
 
             ViewBag.MaleNames = listName;
 
-
-
             return View(model);
         }
 
@@ -160,19 +189,58 @@ namespace OstreCWEB.Controllers
             var characterClasses = _playableCharacterService.GetAllClasses();
             var characterRaces = _playableCharacterService.GetAllRaces();
 
+            var bonusClassStr = characterClasses.Where(c => c.PlayableClassId == model.PlayableClassId).Select(c => c.StrengthBonus).FirstOrDefault();
+            var bonusClassDex = characterClasses.Where(c => c.PlayableClassId == model.PlayableClassId).Select(c => c.DexterityBonus).FirstOrDefault();
+            var bonusClassCon = characterClasses.Where(c => c.PlayableClassId == model.PlayableClassId).Select(c => c.ConstitutionBonus).FirstOrDefault();
+            var bonusClassInt = characterClasses.Where(c => c.PlayableClassId == model.PlayableClassId).Select(c => c.IntelligenceBonus).FirstOrDefault();
+            var bonusClassWis = characterClasses.Where(c => c.PlayableClassId == model.PlayableClassId).Select(c => c.WisdomBonus).FirstOrDefault();
+            var bonusClassCha = characterClasses.Where(c => c.PlayableClassId == model.PlayableClassId).Select(c => c.CharismaBonus).FirstOrDefault();
+
+            var bonusRaceStr = characterRaces.Where(c => c.PlayableRaceId == model.RaceId).Select(c => c.StrengthBonus).FirstOrDefault();
+            var bonusRaceDex = characterRaces.Where(c => c.PlayableRaceId == model.RaceId).Select(c => c.DexterityBonus).FirstOrDefault();
+            var bonusRaceCon = characterRaces.Where(c => c.PlayableRaceId == model.RaceId).Select(c => c.ConstitutionBonus).FirstOrDefault();
+            var bonusRaceInt = characterRaces.Where(c => c.PlayableRaceId == model.RaceId).Select(c => c.IntelligenceBonus).FirstOrDefault();
+            var bonusRaceWis = characterRaces.Where(c => c.PlayableRaceId == model.RaceId).Select(c => c.WisdomBonus).FirstOrDefault();
+            var bonusRaceCha = characterRaces.Where(c => c.PlayableRaceId == model.RaceId).Select(c => c.CharismaBonus).FirstOrDefault();
+
+            var _str = model.Strenght + bonusClassStr + bonusRaceStr;
+            var _dex = model.Dexterity + bonusClassDex + bonusRaceDex;
+            var _con = model.Constitution + bonusClassCon + bonusRaceCon;
+            var _int = model.Intelligence + bonusClassInt + bonusRaceInt;
+            var _wis = model.Wisdom + bonusClassWis + bonusRaceWis;
+            var _cha = model.Charisma + bonusClassCha + bonusRaceCha;
+
+            var modStr = _playableCharacterService.CalculateModifier(_str);
+            var modDex = _playableCharacterService.CalculateModifier(_dex);
+            var modCon = _playableCharacterService.CalculateModifier(_con);
+            var modInt = _playableCharacterService.CalculateModifier(_int);
+            var modWis = _playableCharacterService.CalculateModifier(_wis);
+            var modCha = _playableCharacterService.CalculateModifier(_cha);
+
             ViewBag.RaceId = model.RaceId;
             var raceName = characterRaces.Where(c => c.PlayableRaceId == model.RaceId).Select(c => c.RaceName).FirstOrDefault();
             ViewBag.RaceName = raceName;
+
             ViewBag.ClassId = model.PlayableClassId;
             var className = characterClasses.Where(c => c.PlayableClassId == model.PlayableClassId).Select(c => c.ClassName).FirstOrDefault();
             ViewBag.ClassName = className;
-            ViewBag.Str = model.Strenght;
-            ViewBag.Dex = model.Dexterity;
-            ViewBag.Con = model.Constitution;
-            ViewBag.Int = model.Intelligence;
-            ViewBag.Wis = model.Wisdom;
-            ViewBag.Cha = model.Charisma;
+
+            ViewBag.Str = _str;
+            ViewBag.Dex = _dex;
+            ViewBag.Con = _con;
+            ViewBag.Int = _int;
+            ViewBag.Wis = _wis;
+            ViewBag.Cha = _cha;
+
+            ViewBag.ModStr = modStr;
+            ViewBag.ModDex = modDex;
+            ViewBag.ModCon = modCon;
+            ViewBag.ModInt = modInt;
+            ViewBag.ModWis = modWis;
+            ViewBag.ModCha = modCha;
+
             ViewBag.Name = model.CharacterName;
+
             return View(model);
         }
         public ActionResult RollAttributePoints(PlayableCharacter model)

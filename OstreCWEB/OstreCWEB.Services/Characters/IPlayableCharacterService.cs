@@ -26,6 +26,7 @@ namespace OstreCWEB.Services.Characters
         public List<string> GetAllNames();
         public string GetRaceDescription(int id);
         public string GetClassDescription(int id);
+        public int CalculateModifier(int value);
         #endregion
         public int RollDice(int maxValue = 7);
     }
