@@ -2,6 +2,7 @@
 using OstreCWEB.Data.DataBase;
 using OstreCWEB.Data.DataBase.ManyToMany;
 using OstreCWEB.Data.Factory;
+using OstreCWEB.Data.Repository.Characters.Enums;
 using OstreCWEB.Data.Repository.Characters.Interfaces;
 using OstreCWEB.Data.Repository.Identity;
 using System.Security.Cryptography.X509Certificates;
@@ -22,6 +23,27 @@ namespace OstreCWEB.Data.Repository.ManyToMany
             _playableCharacterRepository = playableCharacterRepository; 
         }
 
+        
+        public async Task DeleteInstanceBasedOnRace(int raceId)
+        {
+            var instances = await _context.PlayableCharacters 
+                .Where(x => x.RaceId == raceId && !x.IsTemplate)
+                .Include(x => x.UserParagraph)
+                .Select(x => x.UserParagraph)
+                .ToListAsync(); 
+            _context.UserParagraphs.RemoveRange(instances);
+            await _context.SaveChangesAsync();
+        }
+        public async Task DeleteInstanceBasedOnClass(int classId)
+        {
+            var instances = await _context.PlayableCharacters
+                .Where(x => x.PlayableClassId == classId && !x.IsTemplate)
+                .Include(x => x.UserParagraph)
+                .Select(x => x.UserParagraph)
+                .ToListAsync();
+            _context.UserParagraphs.RemoveRange(instances);
+            await _context.SaveChangesAsync();
+        }
         public Task<UserParagraph> Add()
         {
             throw new NotImplementedException();

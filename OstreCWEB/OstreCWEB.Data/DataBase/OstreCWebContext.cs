@@ -74,7 +74,8 @@ namespace OstreCWEB.Data.DataBase
             builder.Entity<PlayableClass>()
                 .HasMany(x => x.ItemsGrantedByClass)
                 .WithOne(x => x.PlayableClass)
-                .HasForeignKey(x => x.PlayableClassId);
+                .HasForeignKey(x => x.PlayableClassId)
+                .OnDelete(DeleteBehavior.ClientSetNull);
 
         }
         private void ConfigureUser(ModelBuilder builder)
@@ -117,6 +118,13 @@ namespace OstreCWEB.Data.DataBase
         {
             builder.Entity<CharacterAction>().Navigation(e => e.Status).AutoInclude();
 
+            builder.Entity<CharacterAction>()
+                .HasMany(x => x.LinkedItems)
+                .WithOne(x => x.ActionToTrigger)
+                .HasForeignKey(x => x.ActionToTriggerId)
+                .OnDelete(DeleteBehavior.ClientSetNull);
+
+
             builder.Entity<ActionCharacter>()
                 .HasKey(x => new { x.CharacterId, x.CharacterActionId });
 
@@ -129,6 +137,7 @@ namespace OstreCWEB.Data.DataBase
                 .HasOne(pt => pt.CharacterAction)
                 .WithMany(t => t.LinkedCharacter)
                 .HasForeignKey(pt => pt.CharacterActionId);
+             
         }
 
         private void UserConfiguration(ModelBuilder builder)
@@ -154,6 +163,11 @@ namespace OstreCWEB.Data.DataBase
             builder.Entity<PlayableCharacter>()
                 .HasOne(c => c.CharacterClass)
                 .WithMany(p => p.PlayableCharacter);
+            builder.Entity<UserParagraph>()
+                 .HasOne(x => x.ActiveCharacter)
+                 .WithOne(x => x.UserParagraph)
+                 .HasForeignKey<PlayableCharacter>(x => x.UserParagraphId)
+                 .OnDelete(DeleteBehavior.ClientCascade);
         }
 
         private void ConfigureStories(ModelBuilder builder)
@@ -223,6 +237,7 @@ namespace OstreCWEB.Data.DataBase
             builder.Entity<UserParagraph>()
                 .HasOne(x => x.Paragraph)
                 .WithMany(x => x.UserParagraphs);  
+            
         }
 
         private void ConfigureParagraphItems(ModelBuilder builder)

@@ -57,7 +57,7 @@ namespace OstreCWEB.Controllers
         public async Task<ActionResult> Create(ItemEditView item)
         {
             try
-            {
+            { 
                 await _ItemRepository.UpdateAsync(_Mapper.Map<Item>(item));
                 return RedirectToAction(nameof(Index));
             }
@@ -97,24 +97,18 @@ namespace OstreCWEB.Controllers
         }
 
         // GET: ItemController/Delete/5
-        public ActionResult Delete(int id)
-        {
-            return View();
-        }
-
-        // POST: ItemController/Delete/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, IFormCollection collection)
+        public async Task<ActionResult> Delete(int id)
         {
             try
             {
-                return RedirectToAction(nameof(Index));
+                await _ItemRepository.DeleteAsync(id);
+               
             }
             catch
             {
-                return View();
-            }
-        }
+                //log error
+            } 
+            return RedirectToAction(nameof(Index));
+        } 
     }
 }

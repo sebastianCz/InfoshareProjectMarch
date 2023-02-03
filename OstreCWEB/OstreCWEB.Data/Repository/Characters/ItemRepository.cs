@@ -2,11 +2,6 @@
 using OstreCWEB.Data.DataBase;
 using OstreCWEB.Data.Repository.Characters.CharacterModels;
 using OstreCWEB.Data.Repository.Characters.Interfaces;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace OstreCWEB.Data.Repository.Characters
 {
@@ -26,9 +21,10 @@ namespace OstreCWEB.Data.Repository.Characters
             await _context.SaveChangesAsync();
         }
 
-        public Task DeleteAsync(Item item)
+        public async Task DeleteAsync(int id)
         {
-            throw new NotImplementedException();
+            _context.Items.Remove(await GetByIdAsync(id));
+            await _context.SaveChangesAsync();
         }
 
         public async Task<List<Item>> GetAllAsync()

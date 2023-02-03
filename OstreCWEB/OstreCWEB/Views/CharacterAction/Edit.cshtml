@@ -1,0 +1,108 @@
+﻿@using OstreCWEB.Data.Repository.Characters.Enums
+@model OstreCWEB.ViewModel.Characters.CharacterActionEditView
+
+<div class="row align-items-top mb-3 justify-content-md-center">
+
+    <!--Playable character info( left column)-->
+    <div class="col-lg-3 ">
+        <div class="card shadow-sm">
+            <h3>Edit view</h3>
+            <div class="card-body">
+
+                <form asp-action="Edit">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    <input type="hidden" asp-for="CharacterActionId" />
+                    <div class="form-group">
+                        <label asp-for="ActionName"></label>
+                        <input asp-for="ActionName" class="form-control" />
+                        <span asp-validation-for="ActionName" class="text-danger"></span>
+                    </div>
+                     <div class="form-group">
+                        <label asp-for="ActionDescription"></label>
+                        <input asp-for="ActionDescription" class="form-control" />
+                        <span asp-validation-for="ActionDescription" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="ActionType"></label>
+                        <select asp-for="ActionType" asp-items="Html.GetEnumSelectList<CharacterActionType>()">
+                            <option selected="selected" value="">Please select</option>
+                        </select>
+                        <span asp-validation-for="ActionType" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="StatForTest"></label>
+                        <select asp-for="StatForTest" asp-items="Html.GetEnumSelectList<Statistics>()">
+                            <option selected="selected" value="">Please select</option>
+                        </select>
+                        <span asp-validation-for="StatForTest" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Max_Dmg"></label> 
+                            <input asp-for="Max_Dmg" type="number" min="0" max="20" step="1" class="form-control" />
+                            <span asp-validation-for="Max_Dmg" class="text-danger"></span>
+                     </div>
+                    <div class="form-group">
+                        <label asp-for="Flat_Dmg"></label>
+                        <input asp-for="Flat_Dmg" type="number" min="0" max="5" step="1" class="form-control" />
+                        <span asp-validation-for="Flat_Dmg" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Hit_Dice_Nr"></label>
+                        <input asp-for="Hit_Dice_Nr" type="number" min="0" max="6" step="1" class="form-control" />
+                        <span asp-validation-for="Hit_Dice_Nr" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="PossibleTarget"></label>
+                        <select asp-for="PossibleTarget" asp-items="Html.GetEnumSelectList<TargetType>()">
+                            <option selected="selected" value="">Please select</option>
+                        </select>
+                        <span asp-validation-for="PossibleTarget" class="text-danger"></span>
+                    </div>
+
+                    <div class="form-group">
+                        <label asp-for="SavingThrowPossible"></label>
+                        <input type="checkbox" asp-for="SavingThrowPossible"></input>
+                        <span asp-validation-for="SavingThrowPossible"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="InflictsStatus"></label>
+                        <input type="checkbox" asp-for="InflictsStatus"></input>
+                        <span asp-validation-for="InflictsStatus"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="AggressiveAction"></label>
+                        <input type="checkbox" asp-for="AggressiveAction"></input>
+                        <span asp-validation-for="AggressiveAction"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="StatusId" class="control-label"></label>
+                        @Html.DropDownListFor(m => m.StatusId, new SelectList(Model.AllStatuses,"Key","Value"),
+                        "-None-",
+                        new {
+                        @class = "form-control"
+                        })
+                        <span asp-validation-for="StatusId" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="PlayableClassId" class="control-label"></label>
+                        @Html.DropDownListFor(m => m.PlayableClassId, new SelectList(Model.AllClasses,"Key","Value"),
+                        "-None-",
+                        new {
+                        @class = "form-control"
+                        })
+                        <span asp-validation-for="StatusId" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="UsesMaxBeforeRest"></label>
+                        <input asp-for="UsesMaxBeforeRest" type="number" min="0" max="5" step="1" class="form-control" />
+                        <span asp-validation-for="UsesMaxBeforeRest" class="text-danger"></span>
+                    </div> 
+                    <div class="form-group">
+                        <input type="submit" value="Save" class="btn btn-primary" />
+                        <a asp-controller="Items" asp-action="Index" type="button" class="btn btn-primary">Back</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div> 
+</div>

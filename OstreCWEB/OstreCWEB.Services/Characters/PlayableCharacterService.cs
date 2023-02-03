@@ -12,6 +12,10 @@ namespace OstreCWEB.Services.Characters
         {
             _playableCharacterRepository = characterRepository;
         } 
+        public bool Exists(int id)
+        {
+            return _playableCharacterRepository.Exists(id);
+        }
         public Task Add(Character charater)
         {
             throw new NotImplementedException();
@@ -41,5 +45,6 @@ namespace OstreCWEB.Services.Characters
         {
             throw new NotImplementedException();
         }
+        
     }
 }

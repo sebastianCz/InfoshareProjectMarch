@@ -116,10 +116,9 @@ namespace OstreCWEB.Controllers
                 return View();
             }
         }
-        public async Task<ActionResult> Seed()
+        public async Task Seed()
         {
             await _seeder.SeedCharactersDb();
-            return View();
         }
     }
 }

@@ -55,13 +55,13 @@
                                             <span class="input-group-text" id="inputGroupPrepend"></span>
                                             <input type="text" name="username" class="form-control" placeholder="Enter Username" id="yourUsername" asp-for="Username" required="">
 
-                                            <div class="invalid-feedback"><span class="err" asp-validation-for="Username"></span></div>
+                                            <span class="err" asp-validation-for="Username"></span> 
                                         </div>
                                     </div>
                                     <div class="col-12">   
                                         <label asp-for="Password" class="form-label">Password</label>
                                         <input type="password" asp-for="Password" name="password" placeholder="Enter Password" class="form-control" id="yourPassword" required="">
-                                        <div class="invalid-feedback"> <span asp-validation-for="Password" class="err"></span></div>
+                                        <span asp-validation-for="Password" class="err"></span> 
                                     </div>
                                     @* <div class="col-12">
                                     @* <div class="form-check">
@@ -84,6 +84,12 @@
                                             Don't have an account yet? <a class="text-alert" href="/Login/Registration"> Sign up</a>
                                         </p>
                                     </div>
+                                    <li>
+                                        <a asp-controller="SuperAdmin" asp-action="Seed">
+                                            <i class="bi bi-circle"></i>
+                                            <span>Seed</span>
+                                        </a>
+                                    </li>
                                 </form>
                             </div>
                         </div> 

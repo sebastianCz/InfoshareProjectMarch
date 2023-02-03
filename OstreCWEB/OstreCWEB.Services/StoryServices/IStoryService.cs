@@ -18,5 +18,6 @@ namespace OstreCWEB.Services.StoryServices
 
         //Paragraph
         Task AddParagraph(Paragraph paragraph);
+        public bool Exists(int storyId);
     }
 }

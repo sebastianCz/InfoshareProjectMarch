@@ -16,5 +16,6 @@ namespace OstreCWEB.Services.Characters
         public Task Add(Character charater);
         public Task Update(Character charater);
         public Task Remove(Character charater);
+        public bool Exists(int id);
     }
 }

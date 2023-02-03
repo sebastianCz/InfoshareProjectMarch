@@ -11,5 +11,6 @@
         public Task AddStory(Story story);
         public Task DeleteStory(Story story); 
         public Task AddParagraph(Paragraph paragraph);
+        public bool Exists(int story);
     }
 }
