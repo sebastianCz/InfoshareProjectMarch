@@ -19,16 +19,16 @@ namespace OstreCWEB.Controllers
         private readonly IMapper _mapper;
         private readonly IStoryService _storyService;
         private readonly IPlayableCharacterService _playableCharacterService;
-        private readonly IHttpContextAccessor _httpContextAccessor;
+        private readonly IHttpContextAccessor _httpContextAccessor; 
         private readonly IGameService _gameService;
 
-        public GameController(IGameService gameService, IHttpContextAccessor httpContextAccessor, IUserService userService, IMapper mapper, IStoryService storyService, IPlayableCharacterService playableCharacterService)
+        public GameController( IGameService gameService, IHttpContextAccessor httpContextAccessor, IUserService userService, IMapper mapper, IStoryService storyService, IPlayableCharacterService playableCharacterService)
         {
             _userService = userService;
             _mapper = mapper;
             _storyService = storyService;
             _playableCharacterService = playableCharacterService;
-            _httpContextAccessor = httpContextAccessor;
+            _httpContextAccessor = httpContextAccessor; 
             _gameService = gameService;
         }
 
@@ -49,16 +49,22 @@ namespace OstreCWEB.Controllers
                             Convert.ToInt32(activeCharacterCookies.FirstOrDefault().Value),
                             Convert.ToInt32(activeStoryCookies.FirstOrDefault().Value));
                     }
+                   
                     return RedirectToAction("Index", "StoryReader");
                 }
                 else
-                { 
+                {
+                    TempData["msg"] = "You didn't select both a character and a story to play!";
                     return RedirectToAction(nameof(Index));
                 }
               
             }
-            catch
-            {
+            catch(Exception ex)
+            { 
+                TempData["msg"] = "" +
+                    "You chose a character and a story but starting a new game failed. | " +
+                    "Your max save games limit is 5 | "+
+                    "If the issue persists contact ostreCGame@gmail.com";
                 return RedirectToAction(nameof(Index));
             }
         }
@@ -93,6 +99,7 @@ namespace OstreCWEB.Controllers
                     model.ActiveStory = _mapper.Map<StoryView>(await _storyService.GetStoryById(Convert.ToInt32(activeStoryCookies.ToList().FirstOrDefault().Value)));
                 }
             };
+
 
             var x = await _userService.GetUserById(_userService.GetUserId(User));
 

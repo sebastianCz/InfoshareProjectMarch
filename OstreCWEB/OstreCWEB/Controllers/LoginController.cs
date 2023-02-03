@@ -51,7 +51,7 @@ namespace OstreCWEB.Controllers
             var result = await _service.LoginAsync(model);
             if (result.StatusCode == 1)
             {
-                return RedirectToAction("Index", "Profile");
+                return RedirectToAction("Index", "Game");
             }
             else
             {
