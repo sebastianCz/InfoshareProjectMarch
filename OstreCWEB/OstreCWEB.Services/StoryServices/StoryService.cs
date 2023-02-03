@@ -18,7 +18,10 @@ namespace OstreCWEB.Services.StoryServices
             _storyRepository = storyRepository;
             _enemyRepository = enemyRepository;
         }
-
+        public bool Exists(int id)
+        {
+            return _storyRepository.Exists(id);
+        }
         public async Task<IReadOnlyCollection<Story>> GetAllStories()
         {
             return await _storyRepository.GetAllStories();

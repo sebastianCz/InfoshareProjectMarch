@@ -3,7 +3,7 @@ using System.ComponentModel;
 
 namespace OstreCWEB.ViewModel.Characters
 {
-    public class CharacterActionView
+    public class CharacterActionEditView
     {
         public int CharacterActionId { get; set; }
         [DisplayName("Action name")]
@@ -26,21 +26,18 @@ namespace OstreCWEB.ViewModel.Characters
         public TargetType PossibleTarget { get; set; }
         [DisplayName("Inflicts status")]
         public bool InflictsStatus { get; set; }
-        [DisplayName("Status")]
-        public StatusView Status { get; set; }
-        public int StatusId { get; set; }
+        [DisplayName("Linked Status")] 
+        public int? StatusId { get; set; }
+        [DisplayName("Linked Status")]
+        public Dictionary<int, string> AllStatuses{get;set;}
+        [DisplayName("Linked Class")]
+        public Dictionary<int, string> AllClasses { get; set; }
         //Defined for actions reseting with rest.
         [DisplayName("Uses max before rest:")] 
         public int UsesMaxBeforeRest { get; set; }
         //Defined for items which have max use before disapearing. 
         [DisplayName("Deals damage:")] 
-        public bool AggressiveAction { get; set; }
-        public bool CanShowUsesMax 
-        { get
-            {
-                return this.ActionType != CharacterActionType.Cantrip;
-            
-            } 
-        }
+        public bool AggressiveAction { get; set; } 
+        public int? PlayableClassId { get; set; }
     }
 }

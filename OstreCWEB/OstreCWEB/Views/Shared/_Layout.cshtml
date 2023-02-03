@@ -1,7 +1,7 @@
 ﻿@using Microsoft.AspNetCore.Identity
 @using OstreCWEB.Data.Repository.Identity
 @inject SignInManager<User> SignInManager
-@inject UserManager<User> UserManager
+@inject UserManager<User> UserManager 
 <html lang="en">
 <head>
     <meta charset="utf-8" />
@@ -197,7 +197,7 @@
                      @if (SignInManager.IsSignedIn(User))
                         {
                     <a class="nav-link nav-profile d-flex align-items-center pe-0" href="#" data-bs-toggle="dropdown"> 
-                             <img src="~/img/profile-img.jpg" alt="Profile" class="rounded-circle"> 
+                            @* <img src="~/img/profile-img.jpg" alt="Profile" class="rounded-circle"> *@
                             <span class="d-none d-md-block dropdown-toggle ps-2">@UserManager.GetUserName(User)</span> 
                     </a><!-- End Profile Iamge Icon -->
                     }
@@ -220,13 +220,19 @@
                                 <li>
                                     <hr class="dropdown-divider">
                                 </li> 
-
+                                 <li>
+                                <a asp-controller="Login" asp-action="ChangePassword" class="dropdown-item d-flex align-items-center">
+                                        <i class="bi bi-box-arrow-right"></i>
+                                        <span>Change Password</span>
+                                    </a>
+                                </li> 
                                 <li>
                                     <a asp-controller="Login" asp-action="Logout" class="dropdown-item d-flex align-items-center" >
                                         <i class="bi bi-box-arrow-right"></i>
                                         <span>Sign Out</span>
                                     </a>
                                 </li> 
+
                              
                        
                     </ul><!-- End Profile Dropdown Items -->
@@ -247,32 +253,59 @@
                     <i class="bi bi-grid"></i>
                     <span>Home page</span>
                 </a>
-            </li><!-- End Dashboard Nav -->
+            </li><!-- End Dashboard Nav --> 
+          <!-- End Create Character Page Nav -->
+            @if (SignInManager.IsSignedIn(User) && User.IsInRole("admin"))
+            {
 
-            <li class="nav-item">
-                <a class="nav-link collapsed" asp-area="" asp-controller="StoryBuilder" asp-action="Index">
-                    <i class="bi bi-bricks"></i>
-                    <span>Story Builder</span>
+           
+            <li class="nav-item"> 
+                <a class="nav-link" data-bs-target="#tables-nav" data-bs-toggle="collapse" href="#" aria-expanded="true"> 
+                    <i class="bi bi-layout-text-window-reverse"></i>
+                    <span>Admin Panel</span>
+                    <i class="bi bi-chevron-down ms-auto"></i> 
                 </a>
-            </li><!-- End Create Character Page Nav -->
+                <ul id="tables-nav" class="nav-content collapse show" data-bs-parent="#sidebar-nav" style=""> 
+                  
+                    <li> 
+                    <a asp-controller="items" asp-action="Index"> 
+                        <i class="bi bi-circle"></i>
+                                <span>Manage Items</span>
+                            </a>
+                    </li>
 
-            <li class="nav-heading">Pages</li> 
+                        <li>
+                            <a asp-controller="CharacterAction" asp-action="Index">
+                                <i class="bi bi-circle"></i>
+                                <span>Manage Actions</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a asp-controller="PlayableClass" asp-action="Index">
+                                <i class="bi bi-circle"></i>
+                                <span>Manage Classes</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a asp-controller="PlayableRace" asp-action="Index">
+                                <i class="bi bi-circle"></i>
+                                <span>Manage Races</span>
+                            </a>
+                        </li>
+                </ul>
+            </li>
+            }
 
-             <li class="nav-item">
-                <a class="nav-link collapsed" asp-area="" asp-controller="Fight" asp-action="FightView">
-                    <i class="bi bi-hammer"></i>
-                    <span>Fight Simulator</span>
-                </a>
-            </li><!-- End Fight Nav-->  
-            <li class="nav-item">
-                <a class="nav-link collapsed" asp-area="" asp-controller="SuperAdmin" asp-action="Index">
-                    <i class="bi bi-hammer"></i>
-                    <span>Seeding/Debug panel</span>
-                </a>
-            </li><!-- End SuperAdmin Nav-->
+            <!--End Admin Crud--> 
              @if (SignInManager.IsSignedIn(User))
-                        {   
-              <li class="nav-item">
+             {
+                <li class="nav-item">
+                    <a class="nav-link collapsed" asp-area="" asp-controller="StoryBuilder" asp-action="Index">
+                        <i class="bi bi-bricks"></i>
+                        <span>Story Builder</span>
+                    </a>
+                </li>
+             <li class="nav-item">
                 <a class="nav-link collapsed" asp-area="" asp-controller="Game" asp-action="Index">
                     <i class="bi bi-hammer"></i>
                     <span>Play</span>

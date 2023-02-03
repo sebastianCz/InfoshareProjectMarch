@@ -33,5 +33,8 @@ namespace OstreCWEB.Services.StoryServices
         public Task<ChoiceCreator> GetChoiceCreator(int firstParagraphId, int secondParagraphId);
         public Task AddChoice(ChoiceCreator choiceCreator);
         public Task DeleteChoice(int choiceId);
+
+
+        public bool Exists(int storyId);
     }
 }

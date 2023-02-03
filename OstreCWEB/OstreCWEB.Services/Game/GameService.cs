@@ -58,6 +58,7 @@ namespace OstreCWEB.Services.Game
             await _identityRepository.Update(user);
             return newGameInstance;
         }
+ 
 
 
         public Task<List<Enemy>> GenerateEnemies(List<EnemyInParagraph> enemiesToGenerate)

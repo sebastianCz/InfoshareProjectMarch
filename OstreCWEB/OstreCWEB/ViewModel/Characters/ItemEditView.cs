@@ -15,7 +15,7 @@ namespace OstreCWEB.ViewModel.Characters
         [DisplayName("Name")]
         public string? Name { get; set; }
         [DisplayName("Linked Action")] 
-        public int ActionToTriggerId { get; set; }
+        public int? ActionToTriggerId { get; set; }
         [DisplayName("Granted by class")]
         public int? PlayableClassId { get; set; }
         public  Dictionary<int, string> AllExistingActions { get; set; }

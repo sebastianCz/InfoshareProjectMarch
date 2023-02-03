@@ -25,5 +25,6 @@ namespace OstreCWEB.Data.Repository.StoryModels
         public Task<Choice> GetChoiceDetailsById(int idChoice);
         public Task AddChoice(Choice choice);
         public Task DeleteChoice(int choiceId);
+        public bool Exists(int story);
     }
 }
