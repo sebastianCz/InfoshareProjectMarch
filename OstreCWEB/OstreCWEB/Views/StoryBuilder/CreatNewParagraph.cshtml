@@ -1,0 +1,66 @@
+﻿@using OstreCWEB.Data.Repository.StoryModels.Enums
+@model OstreCWEB.ViewModel.StoryBuilder.CreatNewParagraphView
+
+@{
+    ViewData["Title"] = "Create Paragraph";
+}
+
+<div class="pagetitle">
+    <h1>Create Paragraph</h1>
+    <nav>
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a asp-area="" asp-controller="Home" asp-action="Index">Home</a></li>
+            <li class="breadcrumb-item"><a asp-area="" asp-controller="StoryBuilder" asp-action="Index">StoryBuilder</a></li>
+            <li class="breadcrumb-item active">Create Paragraph</li>
+        </ol>
+    </nav>
+</div>
+
+<div class="card">
+    <div class="card-body">
+        <h5 class="card-title">Creat New Paragraph</h5>
+        <div class="col-md-4">
+            <form asp-action="CreatNewParagraph">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+                <div class="form-group">
+                    <label asp-for="ParagraphType" class="control-label"></label>
+                    <select asp-for="ParagraphType" asp-items="Html.GetEnumSelectList<ParagraphType>()" class="form-control"></select>
+                    <span asp-validation-for="ParagraphType" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="StageDescription" class="control-label"></label>
+                    <input asp-for="StageDescription" class="form-control" />
+                    <span asp-validation-for="StageDescription" class="text-danger"></span>
+                </div>
+
+                <div class="row mb-5">
+                    <label class="col-sm-2 col-form-label">Rest in Paragraph</label>
+                    <div class="col-sm-10">
+                        <div class="form-check form-switch">
+                            <p></p>
+                            <label asp-for="RestoreRest" class="form-check-label" for="flexSwitchCheckDefault">Switch buttom - No/Yes</label>
+                            <input asp-for="RestoreRest" class="form-check-input" type="checkbox" id="flexSwitchCheckDefault">
+                            <span asp-validation-for="RestoreRest" class="text-danger"></span>
+                        </div>
+                    </div>
+                </div>
+
+                <input asp-for="StoryId" hidden="true" />
+
+                <div class="form-group">
+                    <input type="submit" value="Next Step" class="btn btn-success" />
+                    <a asp-action="StoryParagraphsList" asp-route-id="@Model.StoryId" type="button" class="btn btn-primary">Back to List</a>
+                </div>
+
+            </form>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

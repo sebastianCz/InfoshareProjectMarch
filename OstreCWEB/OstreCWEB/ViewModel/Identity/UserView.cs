@@ -10,7 +10,7 @@ namespace OstreCWEB.ViewModel.Identity
         [DisplayName("Your Characters")]
         public List<PlayableCharacterRow> CharactersCreated { get; set; }
         [DisplayName("Your Stories")]
-        public List<StoryView> StoriesCreated { get; set; }
+        public List<StoriesView> StoriesCreated { get; set; }
         [DisplayName("Your Saved Games")]
         public List<UserParagraphView> UserParagraphs { get; set; }
         //  

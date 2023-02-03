@@ -3,16 +3,18 @@ using OstreCWEB.Data.DataBase;
 using OstreCWEB.Data.Repository.Characters.CharacterModels;
 using OstreCWEB.Data.Repository.Characters.Interfaces;
 
+#nullable disable
+
 namespace OstreCWEB.Data.Repository.Characters
 {
     internal class EnemyRepository : IEnemyRepository
     {
         private readonly OstreCWebContext _context;
-        public EnemyRepository(OstreCWebContext _context)
+
+        public EnemyRepository(OstreCWebContext context)
         {
-            Context = _context;
-        } 
-        public OstreCWebContext Context { get; }
+            _context = context;
+        }
 
         public async Task CreateAsync(Enemy item)
         {
@@ -24,9 +26,11 @@ namespace OstreCWEB.Data.Repository.Characters
             throw new NotImplementedException();
         }
 
-        public async Task<List<Enemy>> GetAllTemplatesAsync()
+        public async Task<IReadOnlyCollection<Enemy>> GetAllTemplatesAsync()
         {
-            throw new NotImplementedException();
+            return _context.Enemies
+                .Where(e => e.IsTemplate)
+                .ToList();
         }
 
         public async Task<Enemy> GetByIdAsync(int id)

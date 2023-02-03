@@ -251,7 +251,7 @@ namespace OstreCWEB.Data.DataBase
 
             builder.Entity<ParagraphItem>()
                 .HasOne(x => x.Paragraph)
-                .WithMany(x => x.paragraphItems);
+                .WithMany(x => x.ParagraphItems);
         }
     } 
 }     

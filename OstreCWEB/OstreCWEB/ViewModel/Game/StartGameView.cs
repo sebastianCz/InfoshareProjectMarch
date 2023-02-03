@@ -13,18 +13,18 @@ namespace OstreCWEB.ViewModel.Game
         
        public List<PlayableCharacterRow> OtherUsersCharacters { get; set; }
         [DisplayName("Other Stories")]
-        public List<StoryView> OtherUsersStories { get; set; }
+        public List<StoriesView> OtherUsersStories { get; set; }
         [DisplayName("Saved Game")]
         public UserParagraphView UserParagraph { get; set; }
         [DisplayName("Chosen Character")]
         public PlayableCharacterView ActiveCharacter { get; set; }
         [DisplayName("Chosen Story")]
-        public StoryView ActiveStory { get; set; }
+        public StoriesView ActiveStory { get; set; }
        public StartGameView( )
         {
             User = new UserView();
             OtherUsersCharacters = new List<PlayableCharacterRow>();
-            OtherUsersStories = new List<StoryView>();
+            OtherUsersStories = new List<StoriesView>();
         }
     }
 }

@@ -1,25 +1,25 @@
-﻿@model OstreCWEB.ViewModel.StoryBuilder.StoriesView
+﻿@model OstreCWEB.ViewModel.StoryBuilder.ParagraphElementView
 
 @{
-    ViewData["Title"] = "Delete Story";
+    ViewData["Title"] = "Delete Paragraph";
 }
 
 
 <div class="pagetitle">
-    <h1>Delete Story</h1>
+    <h1>Delete Paragraph</h1>
     <nav>
         <ol class="breadcrumb">
             <li class="breadcrumb-item"><a asp-area="" asp-controller="Home" asp-action="Index">Home</a></li>
             <li class="breadcrumb-item"><a asp-area="" asp-controller="StoryBuilder" asp-action="Index">StoryBuilder</a></li>
-            <li class="breadcrumb-item active">Delete Story</li>
+            <li class="breadcrumb-item active">Delete Paragraph</li>
         </ol>
     </nav>
 </div>
 
 
 <div class="card">
-    <div class="card-body">       
-        <h5 class="card-title">Are you sure you want to delete Story with all paragraphs?</h5>
+    <div class="card-body">
+        <h5 class="card-title">Are you sure you want to delete Paragraph with all elements?</h5>
         <dl class="row">
             <dt class="col-sm-2">
                 <label asp-for="Id"></label>
@@ -28,28 +28,29 @@
                 @Model.Id
             </dd>
             <dt class="col-sm-2">
-                <label asp-for="Name"></label>
+                <label asp-for="ParagraphType"></label>
             </dt>
             <dd class="col-sm-10">
-                @Model.Name
+                @Model.ParagraphType
             </dd>
             <dt class="col-sm-2">
-                <label asp-for="Description"></label>
+                <label asp-for="StageDescription"></label>
             </dt>
             <dd class="col-sm-10">
-                @Model.Description
+                @Model.StageDescription
             </dd>
             <dt class="col-sm-2">
-                <label asp-for="AmountOfParagraphs"></label>
+                <label asp-for="AmountOfChoices"></label>
             </dt>
             <dd class="col-sm-10">
-                @Model.AmountOfParagraphs
+                @Model.AmountOfChoices
             </dd>
         </dl>
 
-        <form asp-action="DeleteStory">
+        <form asp-action="DeleteParagraph">
+            <input asp-for="StoryId" hidden="true" />
             <input type="submit" value="Delete" class="btn btn-danger" />
-            <a asp-action="Index" type="button" class="btn btn-primary">Back to List</a>
+            <a asp-route-name="StoryBuilder" asp-action="ParagraphDetails" asp-route-id="@Model.StoryId" asp-route-paragraphId="@Model.Id" type="button" class="btn btn-success">Back to details!</a>
         </form>
     </div>
 </div>

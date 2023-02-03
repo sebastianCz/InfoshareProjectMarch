@@ -1,11 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using OstreCWEB.Data.DataBase;
 using OstreCWEB.Data.DataBase.ManyToMany;
-using OstreCWEB.Data.Factory;
-using OstreCWEB.Data.Repository.Characters.Enums;
 using OstreCWEB.Data.Repository.Characters.Interfaces;
 using OstreCWEB.Data.Repository.Identity;
-using System.Security.Cryptography.X509Certificates;
 
 #nullable disable
 
@@ -94,7 +91,7 @@ namespace OstreCWEB.Data.Repository.ManyToMany
                     .ThenInclude(y => y.ParagraphEnemies)
                     .ThenInclude(z => z.Enemy)                
                 .Include(x => x.Paragraph)
-                    .ThenInclude(p => p.paragraphItems)
+                    .ThenInclude(p => p.ParagraphItems)
                         .ThenInclude(pi => pi.Item)
                 .Include(x => x.ActiveCharacter)
                 .SingleOrDefaultAsync(s => s.User.Id == userId && s.ActiveGame);

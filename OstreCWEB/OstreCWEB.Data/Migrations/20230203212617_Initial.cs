@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace OstreCWEB.Data.Migrations
 {
-    public partial class initial : Migration
+    public partial class Initial : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -403,7 +403,7 @@ namespace OstreCWEB.Data.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Skill = table.Column<int>(type: "int", nullable: false),
+                    AbilityScores = table.Column<int>(type: "int", nullable: false),
                     TestDifficulty = table.Column<int>(type: "int", nullable: false),
                     ParagraphId = table.Column<int>(type: "int", nullable: false)
                 },

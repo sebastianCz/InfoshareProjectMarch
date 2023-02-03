@@ -8,7 +8,7 @@ namespace OstreCWEB.Data.Repository.StoryModels.Properties
         // General
         public int Id { get; set; }
 
-        public Skills Skill { get; set; }
+        public AbilityScores AbilityScores { get; set; }
         public TestDifficulty TestDifficulty { get; set; }
 
         // Db relations properties

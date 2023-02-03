@@ -91,4 +91,20 @@ app.MapControllerRoute(
     name: "storyBuilder",
     pattern: "{controller=Home}/{action=Index}/{id?}/{paragraphId?}");
 
+app.MapControllerRoute(
+    name: "EnemyInParagraph",
+    pattern: "{controller=Home}/{action=Index}/{fightParagraphId?}/{paragraphId?}/");
+
+app.MapControllerRoute(
+    name: "ChooseSecondParagraph",
+    pattern: "{controller=Home}/{action=Index}/{storyId?}/{firstParagraphId?}/");
+
+app.MapControllerRoute(
+    name: "ChoiceCreator",
+    pattern: "{controller=Home}/{action=Index}/{firstParagraphId?}/{secondParagraphId?}");
+
+app.MapControllerRoute(
+    name: "DeleteChoice",
+    pattern: "{controller=Home}/{action=Index}/{choiceId?}/{storyId?}");
+
 app.Run();

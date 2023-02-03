@@ -2,7 +2,7 @@
 
 namespace OstreCWEB.ViewModel.StoryBuilder
 {
-    public class StoryDetailsView
+    public class StoryParagraphsView
     {
         public int Id { get; set; }
         public string Name { get; set; }
@@ -10,10 +10,7 @@ namespace OstreCWEB.ViewModel.StoryBuilder
 
         [Display(Name = "Amount Of Paragraphs")]
         public int AmountOfParagraphs { get; set; }
-
-        public List<ParagraphView> PreviousParagraphs { get; set; } = new List<ParagraphView>();
-        public ParagraphView CurrentParagraphView { get; set; }
-        public List<ParagraphView> NextParagraphs { get; set; } = new List<ParagraphView>();
+        public List<ParagraphElementView> Paragraphs { get; set; }
 
         public int FirstParagraphId { get; set; }
     }

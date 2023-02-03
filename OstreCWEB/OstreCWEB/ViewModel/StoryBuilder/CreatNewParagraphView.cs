@@ -1,16 +1,15 @@
 ﻿using OstreCWEB.Data.Repository.StoryModels.Enums;
-using System.ComponentModel.DataAnnotations;
 
 namespace OstreCWEB.ViewModel.StoryBuilder
 {
-    public class ParagraphCreateView
-    { 
-
-        [Display(Name = "Paragraph Type")]
+    public class CreatNewParagraphView
+    {
         public ParagraphType ParagraphType { get; set; }
-
-        [Display(Name = "Stage Description")]
         public string StageDescription { get; set; }
+        public bool RestoreRest { get; set; }
+
+        //public int AmountOfItems { get; set; }
+        //public int ItemId { get; set; }
 
         public int StoryId { get; set; }
     }
