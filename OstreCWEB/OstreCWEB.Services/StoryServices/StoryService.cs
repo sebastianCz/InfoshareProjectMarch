@@ -100,17 +100,36 @@ namespace OstreCWEB.Services.StoryServices
                 }
                 else if (paragraph.ParagraphType == ParagraphType.Test || paragraph.ParagraphType == ParagraphType.Fight)
                 {
+                    var failureParagraph = new Paragraph
+                    {
+                        StageDescription = "Failure - " + paragraph.StageDescription,
+                        ParagraphType = ParagraphType.DescOfStage,
+                        RestoreRest = false,
+                        StoryId = paragraph.StoryId
+                    };
+
+                    var successParagraph = new Paragraph
+                    {
+                        StageDescription = "Success - " + paragraph.StageDescription,
+                        ParagraphType = ParagraphType.DescOfStage,
+                        RestoreRest = false,
+                        StoryId = paragraph.StoryId
+                    };
+
+                    await _storyRepository.AddParagraph(successParagraph);
+                    await _storyRepository.AddParagraph(failureParagraph);
+
                     paragraph.Choices = new List<Choice>
                     {
                         new Choice
                         {
                             ChoiceText = "Failure - " + paragraph.StageDescription,
-                            NextParagraphId = -1
+                            NextParagraphId = successParagraph.Id,
                         },
                         new Choice
                         {
                             ChoiceText = "Success - " + paragraph.StageDescription,
-                            NextParagraphId = -1
+                            NextParagraphId = failureParagraph.Id,
                         },
                     };
                     await _storyRepository.AddParagraph(paragraph);
