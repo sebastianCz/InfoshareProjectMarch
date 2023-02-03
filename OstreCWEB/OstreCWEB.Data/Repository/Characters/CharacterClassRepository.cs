@@ -45,6 +45,11 @@ namespace OstreCWEB.Data.Repository.Characters
                 .Include(x=>x.ActionsGrantedByClass)
                 .SingleOrDefaultAsync(x => x.PlayableClassId == id);
         }
+        public PlayableClass GetById(int id)
+        {
+            return _context.PlayableCharacterClasses.SingleOrDefault(x => x.PlayableClassId == id);
+        }
+
         public async Task UpdateAsync(PlayableClass item)
         {
             _context.PlayableCharacterClasses.Update(item);

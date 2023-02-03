@@ -23,5 +23,19 @@ namespace OstreCWEB.Data.Repository.Characters.CharacterModels
         {
 
         }
+
+        public int MaxHP()
+        {
+            return this.CharacterClass.BaseHP + CalculateModifier(this.Constitution);
+        }
+        private int CalculateModifier(int value)
+        {
+            List<int> numbers = new List<int>() {
+                   -5,-4,-4,-3,-3,-2,-2,-1,-1, 0,
+                    0, 1, 1, 2, 2, 3, 3, 4, 4, 5,
+                    5, 6, 6, 7, 7, 8, 8, 9, 9, 10 };
+
+            return numbers.First(x => x == numbers[value - 1]);
+        }
     }
 }

@@ -9,6 +9,7 @@ namespace OstreCWEB.Data.Repository.Characters.Interfaces
 {
     public interface ICharacterRaceRepository
     {
+        public PlayableRace GetById(int id);
         public Task<PlayableRace> GetByIdAsync(int id);
         public Task<List<PlayableRace>> GetAllAsync();
         public Task UpdateAsync(PlayableRace item);

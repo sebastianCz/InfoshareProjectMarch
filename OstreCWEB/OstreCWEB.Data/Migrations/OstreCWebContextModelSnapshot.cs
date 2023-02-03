@@ -240,9 +240,6 @@ namespace OstreCWEB.Data.Migrations
                     b.Property<bool>("IsTemplate")
                         .HasColumnType("bit");
 
-                    b.Property<int>("Level")
-                        .HasColumnType("int");
-
                     b.Property<int>("MaxHealthPoints")
                         .HasColumnType("int");
 
@@ -363,6 +360,9 @@ namespace OstreCWEB.Data.Migrations
                         .HasColumnType("int");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("PlayableClassId"), 1L, 1);
+
+                    b.Property<int>("BaseHP")
+                        .HasColumnType("int");
 
                     b.Property<int>("CharismaBonus")
                         .HasColumnType("int");

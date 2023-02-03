@@ -14,10 +14,6 @@ namespace OstreCWEB.ViewModel.Characters
 
         [DisplayName("Max health points")]
         public int MaxHealthPoints { get; set; }
-
-        [DisplayName("Level")]
-        public int Level { get; set; }
-
         [DisplayName("Equipped Items")]
         public List<ItemView> EquippedItems { get; set; }
 
