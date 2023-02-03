@@ -349,5 +349,56 @@ namespace OstreCWEB.Services.StoryServices
 
             return choiceDetails;
         }
+
+        public async Task<ChoiceCreator> GetChoiceCreator(int firstParagraphId, int secondParagraphId)
+        {
+            var firstParagraph = await _storyRepository.GetParagraphById(firstParagraphId);
+            var secondParagraph = await _storyRepository.GetParagraphById(secondParagraphId);
+
+            var choiceCreator = new ChoiceCreator
+            {
+                ChangePlaces = false,
+
+                ParagraphId = firstParagraph.Id,
+                PreviousParagraph = firstParagraph,
+
+                NextParagraphId = secondParagraph.Id,
+                NextParagraph = secondParagraph,
+
+                StoryId = firstParagraph.StoryId
+            };
+            return choiceCreator;
+        }
+
+        public async Task AddChoice(ChoiceCreator choiceCreator)
+        {
+            var choice = new Choice();
+
+            if (!choiceCreator.ChangePlaces)
+            {
+                choice = new Choice
+                {
+                    ChoiceText = choiceCreator.ChoiceText,
+                    NextParagraphId = choiceCreator.NextParagraphId,
+                    ParagraphId = choiceCreator.ParagraphId
+                };
+            }
+            else
+            {
+                choice = new Choice
+                {
+                    ChoiceText = choiceCreator.ChoiceText,
+                    NextParagraphId = choiceCreator.ParagraphId,
+                    ParagraphId = choiceCreator.NextParagraphId
+                };
+            }
+
+            await _storyRepository.AddChoice(choice);
+        }
+
+        public async Task DeleteChoice(int choiceId)
+        {
+            await _storyRepository.DeleteChoice(choiceId);
+        }
     }
 }

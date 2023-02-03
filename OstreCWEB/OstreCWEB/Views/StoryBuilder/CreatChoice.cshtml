@@ -1,0 +1,115 @@
+﻿@model OstreCWEB.ViewModel.StoryBuilder.ChoiceCreatorView
+
+@{
+    ViewData["Title"] = $"Choice Creator";
+}
+
+<div class="pagetitle">
+    <h1>Choice Creator</h1>
+    <nav>
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a asp-area="" asp-controller="Home" asp-action="Index">Home</a></li>
+            <li class="breadcrumb-item"><a asp-area="" asp-controller="StoryBuilder" asp-action="Index">StoryBuilder</a></li>
+            <li class="breadcrumb-item active">Choice Creator</li>
+        </ol>
+    </nav>
+</div>
+
+<div class="card">
+    <div class="card-body">
+        <h5 class="card-title">Previous Paragraph</h5>
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>
+                        <label asp-for="PreviousParagraph.ParagraphType"></label>
+                    </th>
+                    <th>
+                        <label asp-for="PreviousParagraph.StageDescription"></label>
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                        @Model.PreviousParagraph.ParagraphType
+                    </td>
+                    <td>
+                        @Model.PreviousParagraph.StageDescription
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+
+<div class="card">
+    <div class="card-body">
+        <h5 class="card-title">Current Choice</h5>
+        <div class="col-md-4">
+            <form asp-action="CreatChoice">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+                <div class="form-group">
+                    <label asp-for="ChoiceText" class="control-label"></label>
+                    <input asp-for="ChoiceText" class="form-control" />
+                    <span asp-validation-for="ChoiceText" class="text-danger"></span>
+                </div>
+
+                <div class="row mb-5">
+                    <label class="col-sm-2 col-form-label">Rest in Paragraph</label>
+                    <div class="col-sm-10">
+                        <div class="form-check form-switch">
+                            <p></p>
+                            <label asp-for="ChangePlaces" class="form-check-label" for="flexSwitchCheckDefault">Switch buttom - No/Yes</label>
+                            <input asp-for="ChangePlaces" class="form-check-input" type="checkbox" id="flexSwitchCheckDefault">
+                            <span asp-validation-for="ChangePlaces" class="text-danger"></span>
+                        </div>
+                    </div>
+                </div>
+
+                <div>
+                    <p></p>
+                    <input asp-for="NextParagraphId" hidden="true" />
+                    <input asp-for="ParagraphId" hidden="true" />
+                    <input asp-for="StoryId" hidden="true" />
+                </div>
+
+                <div class="form-group">
+                    <input type="submit" value="Create" class="btn btn-success" />
+                    <a asp-route-name="StoryBuilder" asp-action="ParagraphDetails" asp-route-id="@Model.StoryId" asp-route-paragraphId="@Model.ParagraphId" type="button" class="btn btn-warning">Back to details!</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+<div class="card">
+    <div class="card-body">
+        <h5 class="card-title">Next Paragraphs</h5>
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>
+                        <label asp-for="NextParagraph.ParagraphType"></label>
+                    </th>
+                    <th>
+                        <label asp-for="NextParagraph.StageDescription"></label>
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                        @Model.NextParagraph.ParagraphType
+                    </td>
+                    <td>
+                        @Model.NextParagraph.StageDescription
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

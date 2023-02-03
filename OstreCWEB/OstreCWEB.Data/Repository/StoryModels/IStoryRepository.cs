@@ -23,5 +23,7 @@ namespace OstreCWEB.Data.Repository.StoryModels
         public Task DeleteEnemyInParagraph(int enemyInParagraphId);
 
         public Task<Choice> GetChoiceDetailsById(int idChoice);
+        public Task AddChoice(Choice choice);
+        public Task DeleteChoice(int choiceId);
     }
 }

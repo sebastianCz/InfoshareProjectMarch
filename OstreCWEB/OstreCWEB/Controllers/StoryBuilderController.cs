@@ -366,6 +366,7 @@ namespace OstreCWEB.Controllers
             }
         }
 
+        // POST: StoryBuilderController/DeleteEnemyFromParagraph/4/2
         public async Task<ActionResult> DeleteEnemyFromParagraph(int fightParagraphId, int paragraphId)
         {
             try
@@ -389,7 +390,7 @@ namespace OstreCWEB.Controllers
    
         */
 
-        // GET: StoryBuilderController/ParagraphDetails/5/1
+        // GET: StoryBuilderController/ChoiceDetails/5
         public async Task<ActionResult> ChoiceDetails(int id)
         {
             var choiceDetail = await _storyService.GetChoiceDetailsById(id);
@@ -398,5 +399,50 @@ namespace OstreCWEB.Controllers
             return View(model);
         }
 
+        // GET: StoryBuilderController/ChooseSecondParagraph/1/2
+        public async Task<ActionResult> ChooseSecondParagraph(int storyId, int firstParagraphId)
+        {
+            var model = _mapper.Map<StoryParagraphsView>(await _storyService.GetStoryWithParagraphsById(storyId));
+            ViewBag.fightParagraphId = firstParagraphId;
+            return View(model);
+        }
+
+        // GET: StoryBuilderController/ChooseSecondParagraph/1/2
+        public async Task<ActionResult> CreatChoice(int firstParagraphId, int secondParagraphId)
+        {
+            var model = _mapper.Map<ChoiceCreatorView>(await _storyService.GetChoiceCreator(firstParagraphId, secondParagraphId));
+            ViewBag.fightParagraphId = firstParagraphId;
+            return View(model);
+        }
+
+        // POST: StoryBuilderController/CreatChoice/5/1
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> CreatChoice(ChoiceCreatorView model)
+        {
+            try
+            {
+                await _storyService.AddChoice(_mapper.Map<ChoiceCreator>(model));
+                return RedirectToAction(nameof(StoryParagraphsList), _mapper.Map<StoryParagraphsView>(await _storyService.GetStoryWithParagraphsById(model.StoryId)));
+            }
+            catch
+            {
+                return View();
+            }
+        }
+
+        // POST: StoryBuilderController/DeleteEnemyFromParagraph/4/2
+        public async Task<ActionResult> DeleteChoice(int choiceId, int storyId)
+        {
+            try
+            {
+                await _storyService.DeleteChoice(choiceId);
+                return RedirectToAction(nameof(StoryParagraphsList), _mapper.Map<StoryParagraphsView>(await _storyService.GetStoryWithParagraphsById(storyId)));
+            }
+            catch
+            {
+                return View();
+            }
+        }
     }
 }

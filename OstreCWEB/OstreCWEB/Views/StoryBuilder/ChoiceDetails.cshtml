@@ -80,7 +80,7 @@
 
         @if (Model.Delete)
         {
-            <a asp-action="DeleteChoice" asp-route-id="@Model.CurrentChoice.Id" type="button" class="btn btn-danger">Delete Choice</a>
+            <a asp-route-name="DeleteChoice" asp-action="DeleteChoice" asp-route-choiceId="@Model.CurrentChoice.Id" asp-route-storyId="@Model.StoryId" type="button" class="btn btn-danger">Delete!</a>
         }
         @if (!Model.Delete)
         {

@@ -153,5 +153,19 @@ namespace OstreCWEB.Data.Repository.StoryModels
                         .ThenInclude(s => s.Paragraphs)
                 .SingleOrDefault(c => c.Id == idChoice);
         }
+
+        public async Task AddChoice(Choice choice)
+        {
+            _ostreCWebContext.Choices.Add(choice);
+            await _ostreCWebContext.SaveChangesAsync();
+        }
+
+        public async Task DeleteChoice(int choiceId)
+        {
+            var choice = _ostreCWebContext.Choices.SingleOrDefault(c => c.Id == choiceId);
+
+            _ostreCWebContext.Choices.Remove(choice);
+            await _ostreCWebContext.SaveChangesAsync();
+        }
     }
 }
