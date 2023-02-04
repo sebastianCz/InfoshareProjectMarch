@@ -10,7 +10,7 @@
         <ol class="breadcrumb">
             <li class="breadcrumb-item"><a asp-area="" asp-controller="Home" asp-action="Index">Home</a></li>
             <li class="breadcrumb-item"><a asp-area="" asp-controller="StoryBuilder" asp-action="Index">StoryBuilder</a></li>
-            <li class="breadcrumb-item active">Story details</li>
+            <li class="breadcrumb-item active">Paragraph details</li>
         </ol>
     </nav>
 </div>
@@ -110,6 +110,11 @@
         {
             <a asp-route-name="ChooseSecondParagraph" asp-action="ChooseSecondParagraph" asp-route-storyId="@Model.StoryId" asp-route-firstParagraphId="@Model.CurrentParagraph.Id" type="button" class="btn btn-success">Create a new choice with an existing paragraph</a>
         }
+        @if (!Model.CreatChoice)
+        {
+            <button type="button" class="btn btn-success" disabled>Create a new choice with an existing paragraph</button>
+        }
+
         <a asp-action="EditParagraph" asp-route-id="@Model.CurrentParagraph.Id" type="button" class="btn btn-primary">Edit Paragraph</a>
 
         @if (Model.Delete)
@@ -118,6 +123,7 @@
         }
         @if (!Model.Delete)
         {
+            <button type="button" class="btn btn-danger" disabled>Delete Paragraph</button>
             <div><i>*If you want to delete this paragraph, it must not be from Test or Fight Paragraph</i></div>
         }
         @if (!Model.CreatChoice)
@@ -175,13 +181,14 @@
                 </tbody>
             }
         </table>
-        @if (Model.CreatChoice)
+        <a asp-action="CreatNewParagraph" asp-route-id="@Model.StoryId" type="button" class="btn btn-success">Create new Paragraph</a>
+@*        @if (Model.CreatChoice)
         {
             <a asp-action="CreatNewParagraph" asp-route-id="@Model.StoryId" type="button" class="btn btn-success">Create new Paragraph</a>
         }
         @if (!Model.CreatChoice)
         {
             <div><i>**You cannot add a choice to a Test or Fight Paragraph</i></div>
-        }
+        }*@
     </div>
 </div>

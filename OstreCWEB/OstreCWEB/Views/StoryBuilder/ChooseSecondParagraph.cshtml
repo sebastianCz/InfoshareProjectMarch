@@ -26,7 +26,9 @@
 <div class="card">
     <div class="card-body">
         <h5 class="card-title">Select the second paragraph</h5>
-        <a asp-route-name="StoryBuilder" asp-action="ParagraphDetails" asp-route-id="@Model.Id" asp-route-paragraphId="@ViewBag.fightParagraphId" type="button" class="btn btn-warning">Back to details!</a>
+        <a asp-route-name="StoryBuilder" asp-action="ParagraphDetails" asp-route-id="@Model.Id" asp-route-paragraphId="@ViewBag.fightParagraphId" type="button" class="btn btn-primary">Back to details!</a>
+        <a asp-action="CreatNewParagraph" asp-route-id="@Model.Id" type="button" class="btn btn-warning">Create new Paragraph</a>
+        <div><i>If you start creating a new paragraph, you will stop creating  a choice.</i></div>
         <table class="table table-striped">
             <thead>
                 <tr>
@@ -98,6 +100,8 @@
                 }
             </tbody>
         </table>
-        <a asp-route-name="StoryBuilder" asp-action="ParagraphDetails" asp-route-id="@Model.Id" asp-route-paragraphId="@ViewBag.fightParagraphId" type="button" class="btn btn-warning">Back to details!</a>
+        <a asp-route-name="StoryBuilder" asp-action="ParagraphDetails" asp-route-id="@Model.Id" asp-route-paragraphId="@ViewBag.fightParagraphId" type="button" class="btn btn-primary">Back to details!</a>
+        <a asp-action="CreatNewParagraph" asp-route-id="@Model.Id" type="button" class="btn btn-warning">Create new Paragraph</a>
+        <div><i>If you start creating a new paragraph, you will stop creating  a choice.</i></div>
     </div>
 </div>
