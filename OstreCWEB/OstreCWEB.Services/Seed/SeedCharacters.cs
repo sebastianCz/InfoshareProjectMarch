@@ -193,7 +193,7 @@ internal class SeedCharacters : ISeeder
                  new CharacterAction
             {
                 ActionName = "Bless",
-                ActionDescription = "Blesses the target giving him advantage a bonus 1d4 to attack rolls",
+                ActionDescription = "Blesses the target giving him advantage",
                 ActionType = CharacterActionType.Spell,
                      SavingThrowPossible = false,
                 Max_Dmg = 0,
@@ -202,22 +202,6 @@ internal class SeedCharacters : ISeeder
                 PossibleTarget = TargetType.Caster,
                 InflictsStatus = true,
                 Status = _db.Statuses.FirstOrDefault(s=>s.StatusId == 2),
-                StatForTest = Statistics.None,
-                UsesMaxBeforeRest = 1,
-                 AggressiveAction = false
-            },
-                 
-                 new CharacterAction
-            {
-                ActionName = "Action Surge",
-                ActionDescription = "Gives you one more action once per day and once per turn",
-                ActionType = CharacterActionType.SpecialAction,
-                     SavingThrowPossible = false,
-                Max_Dmg = 0,
-                Flat_Dmg = 0,
-                Hit_Dice_Nr = 0,
-                PossibleTarget = TargetType.Caster,
-                InflictsStatus = false,
                 StatForTest = Statistics.None,
                 UsesMaxBeforeRest = 1,
                  AggressiveAction = false
@@ -264,7 +248,22 @@ internal class SeedCharacters : ISeeder
                     ItemType = ItemType.Armor,
                     ArmorClass = 10,
                     DeleteOnUse = false
+                },
+                new Item
+                {
+                    Name="Medium Armor",
+                    ItemType = ItemType.Armor,
+                    ArmorClass = 14,
+                    DeleteOnUse = false
+                },
+                 new Item
+                {
+                    Name="Light Armor",
+                    ItemType = ItemType.Armor,
+                    ArmorClass = 12,
+                    DeleteOnUse = false
                 }
+
             }; 
         var enemies = new List<Enemy>
             {
@@ -394,6 +393,7 @@ internal class SeedCharacters : ISeeder
 
         playableCharacterClasses.FirstOrDefault(c => c.ClassName == "Cleric").ItemsGrantedByClass.Add(items.FirstOrDefault(i => i.Name.ToLower().Contains("short sword")));
         playableCharacterClasses.FirstOrDefault(c => c.ClassName == "Cleric").ItemsGrantedByClass.Add(items.FirstOrDefault(i => i.Name.ToLower().Contains("small wooden shield")));
+        playableCharacterClasses.FirstOrDefault(c => c.ClassName == "Cleric").ItemsGrantedByClass.Add(items.FirstOrDefault(i => i.Name.ToLower().Contains("medium armor")));
         //adding actions to classes 
 
         playableCharacterClasses.FirstOrDefault(c => c.ClassName == "Wizard").ActionsGrantedByClass.Add(actions.FirstOrDefault(i => i.ActionName.ToLower().Contains("magic missiles")));
@@ -406,7 +406,7 @@ internal class SeedCharacters : ISeeder
         _db.SaveChanges();
         foreach (var enemy in enemies)
         {
-            enemy.EquippedItems.Add(items.FirstOrDefault(i => i.Name.ToLower().Contains("armor")));
+            enemy.EquippedItems.Add(items.FirstOrDefault(i => i.Name.ToLower().Contains("light armor")));
             enemy.EquippedItems.Add(items.FirstOrDefault(i => i.Name.ToLower().Contains("short sword")));
             enemy.EquippedItems.Add(items.FirstOrDefault(i => i.Name.ToLower().Contains("small wooden shield")));
         } 
