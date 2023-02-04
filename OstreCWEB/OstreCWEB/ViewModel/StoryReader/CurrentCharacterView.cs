@@ -19,8 +19,27 @@ namespace OstreCWEB.ViewModel.StoryReader
         public PlayableClassView CharacterClass { get; set; }
         public List<ItemCharacterView> LinkedItems { get; set; }
         public List<ActionCharacterView> LinkedActions { get; set; }
+        public List<StatusView> ActiveStatuses { get; set; }
         
-        public IEnumerable<ItemCharacterView> ItemCharacterWithAction { get { return LinkedItems.Where(l => l.Item.ActionToTrigger != null);  } }
+        public IEnumerable<ItemCharacterView> ItemCharacterWithAction 
+        { 
+            get 
+            {
+                var result = new List<ItemCharacterView>();
+                    foreach(var item in LinkedItems)
+                {
+                    if(item.Item.ItemType != Data.Repository.Characters.Enums.ItemType.SpecialItem  && item.IsEquipped && item.Item.ActionToTrigger != null)
+                    {
+                        result.Add(item);
+                    }
+                    if(item.Item.ItemType == Data.Repository.Characters.Enums.ItemType.SpecialItem && item.Item.ActionToTrigger != null)
+                    {
+                        result.Add(item);
+                    } 
+                }
+                return result;
+            } 
+        }
         public int CombatId { get; set; }
         public int NotEquippedItemsCount  
         { 

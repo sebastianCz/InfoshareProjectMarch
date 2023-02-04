@@ -1,4 +1,5 @@
 ﻿@using OstreCWEB.Data.Repository.Characters.Enums
+@using OstreCWEB.Data.Repository.Fight.Enums
 @model OstreCWEB.ViewModel.Fight.FightViewModel;
 @{
     ViewData["Title"] = "Fight";
@@ -24,14 +25,32 @@
                             <br />
                             <div class="d-flex justify-content-between align-items-center">
                                 <div class="btn-group">
-                        @if (Model.ActiveAction != null && Model.ActiveAction.PossibleTarget == TargetType.Caster)
+
+                                    @if(Model.ActivePlayer.ActiveStatuses.Count() > 0){
+                                        foreach(var status in Model.ActivePlayer.ActiveStatuses )
+                                        {
+                                            @if(status.StatusType == StatusType.Blind){
+                                    <button type="button" class="btn btn-warning" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="@status.Description">
+                                                 @status.Name
+                                              </button>
+                                            }else{
+
+                                    <button type="button" class="btn btn-success" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="@status.Description">
+                                                    @status.Name
+                                             </button>
+                                    
+                                            }
+                                        }
+                         
+                                    }
+                                    @if (Model.ActiveAction != null && Model.ActiveAction.PossibleTarget == TargetType.Caster)
 
                                     { 
                                         <a  class="btn btn-danger" asp-route-id="@Model.ActivePlayer.CombatId" asp-action="SetActiveTarget">Target</a>
                                     }
                                 </div>
 
-                </div>
+                             </div>
                         </div>
                     </div>
                 </div>
@@ -84,9 +103,10 @@
                         @foreach (var item in @Model.ActivePlayer.ItemCharacterWithAction)
                         {
                             <li class="list-group-item">
-                        <a class="btn btn-danger" asp-route-id="@item.Id" asp-action="SetActiveActionFromItem">@item.Item.ActionToTrigger.ActionName @if(item.Item.DeleteOnUse){<br /><div>Disapears on use</div>}</a>
+                        <a class="btn btn-danger" asp-route-id="@item.Id" asp-action="SetActiveActionFromItem">@item.Item.Name @if(item.Item.DeleteOnUse){<br /><div>Disapears on use</div>}</a>
                             </li>
-                        } 
+                        }
+                       
                         </ul> 
                         </div>
                 </div> 
@@ -134,9 +154,8 @@
                             <label asp-for="@Model.ActiveEnemies[i].ActiveStatuses"></label><br>
                             @foreach (var status in @Model.ActiveEnemies[i].ActiveStatuses)
                             {
-                                <button type="button" class="btn btn-secondary" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="@status.Name">
-                                    @status.Description
-                                            <button type="submit" class="btn btn-sm btn-outline-secondary">Target </button>
+                                <button type="button" class="btn btn-secondary" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="@status.Description">
+                                    @status.Name
                                 </button>
 
                             }
