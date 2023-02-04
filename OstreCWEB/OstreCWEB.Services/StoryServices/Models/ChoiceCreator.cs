@@ -4,6 +4,8 @@ namespace OstreCWEB.Services.StoryServices.Models
 {
     public class ChoiceCreator
     {
+        public int Id { get; set; }
+
         public string ChoiceText { get; set; }
         public bool ChangePlaces { get; set; }
 

@@ -411,7 +411,6 @@ namespace OstreCWEB.Controllers
         public async Task<ActionResult> CreatChoice(int firstParagraphId, int secondParagraphId)
         {
             var model = _mapper.Map<ChoiceCreatorView>(await _storyService.GetChoiceCreator(firstParagraphId, secondParagraphId));
-            ViewBag.fightParagraphId = firstParagraphId;
             return View(model);
         }
 
@@ -443,6 +442,46 @@ namespace OstreCWEB.Controllers
             {
                 return View();
             }
+        }
+
+        // GET: StoryBuilderController/EditChoice/1
+        public async Task<ActionResult> EditChoice(int id)
+        {
+            var model = _mapper.Map<ChoiceCreatorView>(await _storyService.GetChoiceCreatorById(id));
+            return View(model);
+        }
+
+
+        // POST: StoryBuilderController/EditChoice/5
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> EditChoice(ChoiceCreatorView model)
+        {
+            try
+            {
+                await _storyService.UpdateChoice(_mapper.Map<ChoiceCreator>(model));
+                return RedirectToAction(nameof(StoryParagraphsList), _mapper.Map<StoryParagraphsView>(await _storyService.GetStoryWithParagraphsById(model.StoryId)));
+            }
+            catch
+            {
+                return View();
+            }
+        }
+
+        // GET: StoryBuilderController/ChooseSecondParagraph/1/2
+        public async Task<ActionResult> ChangeSecondParagraph(int storyId, int choiceId)
+        {
+            var model = _mapper.Map<StoryParagraphsView>(await _storyService.GetStoryWithParagraphsById(storyId));
+            ViewBag.choiceId = choiceId;
+            return View(model);
+        }
+
+
+        // GET: StoryBuilderController/ChangeParagraph/1/2
+        public async Task<ActionResult> ChangeParagraph(int id, int secondParagraphId)
+        {
+            var model = _mapper.Map<ChoiceCreatorView>(await _storyService.GetChoiceCreatorById(id, secondParagraphId));
+            return View(model);
         }
     }
 }
