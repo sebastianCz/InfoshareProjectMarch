@@ -107,4 +107,12 @@ app.MapControllerRoute(
     name: "DeleteChoice",
     pattern: "{controller=Home}/{action=Index}/{choiceId?}/{storyId?}");
 
+app.MapControllerRoute(
+    name: "ChooseSecondParagraph",
+    pattern: "{controller=Home}/{action=Index}/{storyId?}/{choiceId?}/");
+
+app.MapControllerRoute(
+    name: "ChangeSecondParagraph",
+    pattern: "{controller=Home}/{action=Index}/{id?}/{secondParagraphId?}/");
+
 app.Run();

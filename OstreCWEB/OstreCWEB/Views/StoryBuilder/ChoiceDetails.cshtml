@@ -43,7 +43,7 @@
                     <th>
                         <label asp-for="PreviousParagraph.StageDescription"></label>
                     </th>
-                    <th>____Action____</th>
+                    <th>Paragraph</th>
                 </tr>
             </thead>
             <tbody>
@@ -111,7 +111,7 @@
                     <th>
                         <label asp-for="NextParagraph.StageDescription"></label>
                     </th>
-                    <th>____Action____</th>
+                    <th>Paragraph</th>
                 </tr>
             </thead>
             <tbody>
@@ -128,6 +128,6 @@
                 </tr>
             </tbody>
         </table>
-        <a asp-action="ChangeNextParagraph" type="button" class="btn btn-warning">Change Next Paragraph</a>
+        <a asp-route-name="ChooseSecondParagraph" asp-action="ChangeSecondParagraph" asp-route-storyId="@Model.StoryId" asp-route-choiceId="@Model.CurrentChoice.Id" type="button" class="btn btn-warning">Change Next Paragraph</a>
     </div>
 </div>

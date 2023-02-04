@@ -416,6 +416,31 @@ namespace OstreCWEB.Services.StoryServices
             return choiceCreator;
         }
 
+        public async Task<ChoiceCreator> GetChoiceCreatorById(int choiceId, int secondParagraphId)
+        {
+            var choice = await _storyRepository.GetChoiceDetailsById(choiceId);
+            var nextParagraph = await _storyRepository.GetParagraphById(secondParagraphId);
+
+            var choiceCreator = new ChoiceCreator
+            {
+                Id = choiceId,
+
+                ChangePlaces = false,
+                ChoiceText = choice.ChoiceText,
+
+                ParagraphId = choice.ParagraphId,
+                PreviousParagraph = choice.Paragraph,
+
+                NextParagraphId = secondParagraphId,
+                NextParagraph = nextParagraph,
+
+                StoryId = choice.Paragraph.StoryId
+            };
+
+            return choiceCreator;
+        }
+
+
         public async Task UpdateChoice(ChoiceCreator choiceCreator)
         {
             var choice = await _storyRepository.GetChoiceDetailsById(choiceCreator.Id);
