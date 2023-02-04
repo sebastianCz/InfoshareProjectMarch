@@ -1,4 +1,5 @@
-﻿@model OstreCWEB.ViewModel.StoryBuilder.ChoiceDetailsView
+﻿@using OstreCWEB.Data.Repository.StoryModels.Enums;
+@model OstreCWEB.ViewModel.StoryBuilder.ChoiceDetailsView
 
 @{
     ViewData["Title"] = $"Story " + @Model.NameOfStory;
@@ -10,7 +11,7 @@
         <ol class="breadcrumb">
             <li class="breadcrumb-item"><a asp-area="" asp-controller="Home" asp-action="Index">Home</a></li>
             <li class="breadcrumb-item"><a asp-area="" asp-controller="StoryBuilder" asp-action="Index">StoryBuilder</a></li>
-            <li class="breadcrumb-item active">Story details</li>
+            <li class="breadcrumb-item active">Choice details</li>
         </ol>
     </nav>
 </div>
@@ -42,7 +43,7 @@
                     <th>
                         <label asp-for="PreviousParagraph.StageDescription"></label>
                     </th>
-                    <th>____Action____</th>
+                    <th>Paragraph</th>
                 </tr>
             </thead>
             <tbody>
@@ -59,7 +60,14 @@
                 </tr>
             </tbody>
         </table>
-        <a asp-action="ChangePreviousParagraph" type="button" class="btn btn-warning">Change Previous Paragraph</a>
+@*        @if (@Model.PreviousParagraph.ParagraphType != ParagraphType.Test && @Model.PreviousParagraph.ParagraphType != ParagraphType.Fight)
+        {
+            <a asp-action="ChangePreviousParagraph" type="button" class="btn btn-warning">Change Previous Paragraph</a>
+        }
+        @if (@Model.PreviousParagraph.ParagraphType == ParagraphType.Test || @Model.PreviousParagraph.ParagraphType == ParagraphType.Fight)
+        {
+             <div><i>*You cannot change a choice that comes from a Test or Fight paragraph</i></div>
+        }*@
     </div>
 </div>
 
@@ -84,6 +92,7 @@
         }
         @if (!Model.Delete)
         {
+            <button type="button" class="btn btn-danger" disabled>Delete!</button>
             <div><i>*You cannot remove a choice that comes from a Test or Fight paragraph</i></div>
         }
     </div>
@@ -102,7 +111,7 @@
                     <th>
                         <label asp-for="NextParagraph.StageDescription"></label>
                     </th>
-                    <th>____Action____</th>
+                    <th>Paragraph</th>
                 </tr>
             </thead>
             <tbody>
@@ -119,6 +128,6 @@
                 </tr>
             </tbody>
         </table>
-        <a asp-action="ChangeNextParagraph" type="button" class="btn btn-warning">Change Next Paragraph</a>
+        <a asp-route-name="ChooseSecondParagraph" asp-action="ChangeSecondParagraph" asp-route-storyId="@Model.StoryId" asp-route-choiceId="@Model.CurrentChoice.Id" type="button" class="btn btn-warning">Change Next Paragraph</a>
     </div>
 </div>

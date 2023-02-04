@@ -26,9 +26,9 @@
 <div class="card">
     <div class="card-body">
         <h5 class="card-title">Select the second paragraph</h5>
-        <a asp-route-name="StoryBuilder" asp-action="ParagraphDetails" asp-route-id="@Model.Id" asp-route-paragraphId="@ViewBag.fightParagraphId" type="button" class="btn btn-primary">Back to details!</a>
+        <a asp-action="ChoiceDetails" asp-route-id="@ViewBag.choiceId" type="button" class="btn btn-primary">Back to details!</a>
         <a asp-action="CreatNewParagraph" asp-route-id="@Model.Id" type="button" class="btn btn-warning">Create new Paragraph</a>
-        <div><i>If you start creating a new paragraph, you will stop creating  a choice.</i></div>
+        <div><i>If you start creating a new paragraph, you will stop change a choice.</i></div>
         <table class="table table-striped">
             <thead>
                 <tr>
@@ -59,7 +59,7 @@
                                 @item.AmountOfChoices
                             </td>
                             <td>
-                                <a asp-route-name="ChoiceCreator" asp-action="CreatChoice" asp-route-firstParagraphId="@ViewBag.fightParagraphId" asp-route-secondParagraphId="@item.Id" type="button" class="btn btn-success">Choose it!</a>
+                                <a asp-route-name="ChangeSecondParagraph" asp-action="ChangeParagraph" asp-route-id="@ViewBag.choiceId" asp-route-secondParagraphId="@item.Id" type="button" class="btn btn-success">Choose it!</a>
                             </td>
                         </tr>
                     }
@@ -76,7 +76,7 @@
                                 @item.AmountOfChoices
                             </td>
                             <td>
-                                <a asp-route-name="ChoiceCreator" asp-action="CreatChoice" asp-route-firstParagraphId="@ViewBag.fightParagraphId" asp-route-secondParagraphId="@item.Id" type="button" class="btn btn-success">Choose it!</a>
+                                <a asp-route-name="ChangeSecondParagraph" asp-action="ChangeParagraph" asp-route-id="@ViewBag.choiceId" asp-route-secondParagraphId="@item.Id" type="button" class="btn btn-success">Choose it!</a>
                             </td>
                         </tr>
                     }
@@ -93,15 +93,15 @@
                                 @item.AmountOfChoices
                             </td>
                             <td>
-                                <a asp-route-name="ChoiceCreator" asp-action="CreatChoice" asp-route-firstParagraphId="@ViewBag.fightParagraphId" asp-route-secondParagraphId="@item.Id" type="button" class="btn btn-success">Choose it!</a>
+                                <a asp-route-name="ChangeSecondParagraph" asp-action="ChangeParagraph" asp-route-id="@ViewBag.choiceId" asp-route-secondParagraphId="@item.Id" type="button" class="btn btn-success">Choose it!</a>
                             </td>
                         </tr>
                     }
                 }
             </tbody>
         </table>
-        <a asp-route-name="StoryBuilder" asp-action="ParagraphDetails" asp-route-id="@Model.Id" asp-route-paragraphId="@ViewBag.fightParagraphId" type="button" class="btn btn-primary">Back to details!</a>
+        <a asp-action="ChoiceDetails" asp-route-id="@ViewBag.choiceId" type="button" class="btn btn-primary">Back to details!</a>
         <a asp-action="CreatNewParagraph" asp-route-id="@Model.Id" type="button" class="btn btn-warning">Create new Paragraph</a>
-        <div><i>If you start creating a new paragraph, you will stop creating  a choice.</i></div>
+        <div><i>If you start creating a new paragraph, you will stop change a choice.</i></div>
     </div>
 </div>
