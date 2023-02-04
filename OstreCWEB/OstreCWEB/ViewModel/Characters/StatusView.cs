@@ -1,4 +1,5 @@
 ﻿using OstreCWEB.Data.Repository.Characters.CharacterModels;
+using OstreCWEB.Data.Repository.Fight.Enums;
 using System.ComponentModel;
 
 namespace OstreCWEB.ViewModel.Characters
@@ -10,5 +11,6 @@ namespace OstreCWEB.ViewModel.Characters
         public string Name { get; set; }
         [DisplayName("Status description")]
         public string Description { get; set; }
+        public StatusType StatusType { get; set; }
     }
 }
