@@ -34,7 +34,27 @@ namespace OstreCWEB.Data.Repository.StoryModels
                 .ToList();
         }
 
-        public async Task<Story> GetStoryById(int idStory)
+        public async Task<Story> GetStoryByIdAsync(int idStory)
+        {
+            return _ostreCWebContext.Stories
+                .Include(s => s.Paragraphs)
+                    .ThenInclude(p => p.Choices)
+                .Include(s => s.Paragraphs)
+                    .ThenInclude(p => p.FightProp)
+                        .ThenInclude(f => f.ParagraphEnemies)
+                .Include(s => s.Paragraphs)
+                    .ThenInclude(p => p.DialogProp)
+                .Include(s => s.Paragraphs)
+                    .ThenInclude(p => p.TestProp)
+                .Include(s => s.Paragraphs)
+                    .ThenInclude(p => p.ShopkeeperProp)
+                .Include(s => s.Paragraphs)
+                    .ThenInclude(p => p.ParagraphItems)
+                .Include(s => s.Paragraphs)
+                    .ThenInclude(p => p.UserParagraphs)
+                .SingleOrDefault(s => s.Id == idStory);
+        }
+        public Story GetStoryById(int idStory)
         {
             return _ostreCWebContext.Stories
                 .Include(s => s.Paragraphs)

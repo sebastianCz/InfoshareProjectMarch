@@ -81,7 +81,7 @@ namespace OstreCWEB.Controllers
         // GET: StoryBuilderController/DeleteStory/5
         public async Task<ActionResult> DeleteStory(int id)
         {
-            return View(_mapper.Map<StoriesView>(await _storyService.GetStoryById(id)));
+            return View(_mapper.Map<StoriesView>(await _storyService.GetStoryByIdAsync(id)));
         }
 
         // POST: StoryBuilderController/DeleteStory/5
@@ -103,7 +103,7 @@ namespace OstreCWEB.Controllers
         // GET: StoryBuilderController/EditStory/5
         public async Task<ActionResult> EditStory(int id)
         {
-            return View(_mapper.Map<StoriesView>(await _storyService.GetStoryById(id)));
+            return View(_mapper.Map<StoriesView>(await _storyService.GetStoryByIdAsync(id)));
         }
 
         // POST: StoryBuilderController/EditStory/5

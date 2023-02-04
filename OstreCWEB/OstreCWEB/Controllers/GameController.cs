@@ -96,22 +96,25 @@ namespace OstreCWEB.Controllers
                 }
                 if (activeStoryCookies.Any() && _storyService.Exists(Convert.ToInt32(activeStoryCookies.FirstOrDefault().Value)))
                 {
-                    model.ActiveStory = _mapper.Map<StoriesView>(await _storyService.GetStoryById(Convert.ToInt32(activeStoryCookies.ToList().FirstOrDefault().Value)));
+                    model.ActiveStory = _mapper.Map<StoriesView>(await _storyService.GetStoryByIdAsync(Convert.ToInt32(activeStoryCookies.ToList().FirstOrDefault().Value)));
                 }
             };
 
 
-            var x = await _userService.GetUserById(_userService.GetUserId(User));
-
+            var x = await _userService.GetUserById(_userService.GetUserId(User)); 
             model.User = _mapper.Map<UserView>(x);
                 foreach(var gameSessionView in model.User.UserParagraphs)
-                { 
-                    gameSessionView.Story = _mapper.Map<StoriesView>(await _storyService.GetStoryById(gameSessionView.Paragraph.StoryId));  
+                {
+                    var getStoryTask =  _storyService.GetStoryById(gameSessionView.Paragraph.StoryId); 
+                    gameSessionView.Story = _mapper.Map<StoriesView>(getStoryTask);  
                 }   
                 model.OtherUsersStories = _mapper.Map<List<StoriesView>>(await _storyService.GetAllStories());   
-                model.OtherUsersCharacters = _mapper.Map<List<PlayableCharacterRow>>(await _playableCharacterService.GetAllTemplates(_userService.GetUserId(User)));
-   
+                model.OtherUsersCharacters = _mapper.Map<List<PlayableCharacterRow>>(await _playableCharacterService.GetAllTemplates(_userService.GetUserId(User))); 
             return View(model);
+        }
+        private async Task BuildUserParagraphStoriesView()
+        {
+
         }
         [HttpGet]
         public ActionResult SetActiveStory(int id)

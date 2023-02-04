@@ -8,7 +8,7 @@ namespace OstreCWEB.ViewModel.Characters
     {
         [DisplayName(" Id")]
         public int PlayableClassId { get; set; }
-        [DisplayName("Name")]
+        [DisplayName("Class Name")]
         public string ClassName { get; set; }
         [DisplayName("Intelligence Bonus")]
         public int BaseHP { get; set; }

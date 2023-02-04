@@ -24,7 +24,11 @@ namespace OstreCWEB.Data.Repository.Identity
         }
         public async Task<User> GetUser(string id)
         {
-            var user = await _context.Users.SingleOrDefaultAsync(u=>u.Id == id); 
+            var user = await _context.Users
+                .Include(x=>x.UserParagraphs) 
+                .Include(x=>x.StoriesCreated)
+                .ThenInclude(x=>x.Paragraphs)
+                .SingleOrDefaultAsync(u=>u.Id == id); 
             return user;
         }
         

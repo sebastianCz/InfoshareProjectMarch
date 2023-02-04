@@ -6,7 +6,8 @@ namespace OstreCWEB.Data.Repository.StoryModels
     {
         public Task<IReadOnlyCollection<Story>> GetAllStories();
         public Task<IReadOnlyCollection<Story>> GetStoriesByUserId(string userId);
-        public Task<Story> GetStoryById(int idStory);
+        public Task<Story> GetStoryByIdAsync(int idStory);
+        public Story GetStoryById(int idStory);
         public Task<Story> GetStoryWithParagraphsById(int idStory);
         public Task<Paragraph> GetParagraphById(int idParagraph); 
         public Task<Paragraph> GetCombatParagraphById(int idParagraph);
