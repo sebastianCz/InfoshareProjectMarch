@@ -97,7 +97,7 @@ namespace OstreCWEB.Services.Fight
                 _activeFightInstance.ActivePlayer.LinkedActions.First(a => a.CharacterAction.CharacterActionId == _activeFightInstance.ActiveAction.CharacterActionId).UsesLeftBeforeRest--;
             }
 
-            if (_activeFightInstance.PlayerActionCounter == 0)
+            if (_activeFightInstance.PlayerActionCounter <= 0)
             {
                 _activeFightInstance.PlayerActionCounter = 2;
                 StartAiTurn();
