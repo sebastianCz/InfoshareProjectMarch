@@ -68,7 +68,7 @@ namespace OstreCWEB.Data.InitialData
                                 new ParagraphItem
                                 {
                                     AmountOfItems = 2,
-                                    ItemId = 2,
+                                    Item = context.Items.SingleOrDefault(x => x.Name == "Healing Potion"),
                                     ParagraphId = 3
                                 }
                             }
