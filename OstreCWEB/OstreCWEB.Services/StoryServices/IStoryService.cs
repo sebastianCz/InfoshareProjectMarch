@@ -31,9 +31,10 @@ namespace OstreCWEB.Services.StoryServices
         //Choice
         public Task<ChoiceDetails> GetChoiceDetailsById(int idChoice);
         public Task<ChoiceCreator> GetChoiceCreator(int firstParagraphId, int secondParagraphId);
+        public Task<ChoiceCreator> GetChoiceCreatorById(int choiceId);
         public Task AddChoice(ChoiceCreator choiceCreator);
         public Task DeleteChoice(int choiceId);
-
+        public Task UpdateChoice(ChoiceCreator choiceCreator);
 
         public bool Exists(int storyId);
     }

@@ -2,6 +2,8 @@
 {
     public class ChoiceCreatorView
     {
+        public int Id { get; set; }
+
         public string ChoiceText { get; set; }
         public bool ChangePlaces { get; set; }
 

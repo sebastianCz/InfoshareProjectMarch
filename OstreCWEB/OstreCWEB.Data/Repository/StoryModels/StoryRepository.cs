@@ -173,5 +173,11 @@ namespace OstreCWEB.Data.Repository.StoryModels
             _ostreCWebContext.Choices.Remove(choice);
             await _ostreCWebContext.SaveChangesAsync();
         }
+
+        public async Task UpdateChoice(Choice choice)
+        {
+            _ostreCWebContext.Choices.Update(choice);
+            await _ostreCWebContext.SaveChangesAsync();
+        }
     }
 }

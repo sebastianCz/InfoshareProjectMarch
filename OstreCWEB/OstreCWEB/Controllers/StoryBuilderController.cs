@@ -411,7 +411,6 @@ namespace OstreCWEB.Controllers
         public async Task<ActionResult> CreatChoice(int firstParagraphId, int secondParagraphId)
         {
             var model = _mapper.Map<ChoiceCreatorView>(await _storyService.GetChoiceCreator(firstParagraphId, secondParagraphId));
-            ViewBag.fightParagraphId = firstParagraphId;
             return View(model);
         }
 
@@ -444,5 +443,28 @@ namespace OstreCWEB.Controllers
                 return View();
             }
         }
+
+        // GET: StoryBuilderController/ChooseSecondParagraph/1/2
+        public async Task<ActionResult> EditChoice(int id)
+        {
+            var model = _mapper.Map<ChoiceCreatorView>(await _storyService.GetChoiceCreatorById(id));
+            return View(model);
+        }
+
+        // POST: StoryBuilderController/CreatChoice/5/1
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> EditChoice(ChoiceCreatorView model)
+        {
+            try
+            {
+                await _storyService.UpdateChoice(_mapper.Map<ChoiceCreator>(model));
+                return RedirectToAction(nameof(StoryParagraphsList), _mapper.Map<StoryParagraphsView>(await _storyService.GetStoryWithParagraphsById(model.StoryId)));
+            }
+            catch
+            {
+                return View();
+            }
+        }      
     }
 }
