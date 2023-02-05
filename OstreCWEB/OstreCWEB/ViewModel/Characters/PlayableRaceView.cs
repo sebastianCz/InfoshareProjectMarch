@@ -9,7 +9,7 @@ namespace OstreCWEB.ViewModel.Characters
     {
         [DisplayName(" Id")]
         public int PlayableRaceId { get; set; }
-        [DisplayName("Name")]
+        [DisplayName("Playable Race")]
         public string RaceName { get; set; }
         [DisplayName("Intelligence Bonus")]
         public int IntelligenceBonus { get; set; }

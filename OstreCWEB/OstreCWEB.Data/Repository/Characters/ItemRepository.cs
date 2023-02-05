@@ -2,6 +2,7 @@
 using OstreCWEB.Data.DataBase;
 using OstreCWEB.Data.Repository.Characters.CharacterModels;
 using OstreCWEB.Data.Repository.Characters.Interfaces;
+using OstreCWEB.ViewModel.Characters;
 
 namespace OstreCWEB.Data.Repository.Characters
 {
@@ -12,8 +13,7 @@ namespace OstreCWEB.Data.Repository.Characters
         {
            _context = context;
         }
-
-        public OstreCWebContext Context { get; }
+         
 
         public async Task CreateAsync(Item item)
         {
@@ -44,6 +44,10 @@ namespace OstreCWEB.Data.Repository.Characters
         {
             _context.Items.Update(item);
             await _context.SaveChangesAsync();
+        }
+        public async Task<IQueryable<Item>> GetPaginatedListAsync()
+        {
+            return _context.Items.AsNoTracking();
         }
     }
 }

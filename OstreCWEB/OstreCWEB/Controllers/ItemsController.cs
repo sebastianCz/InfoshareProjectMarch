@@ -1,12 +1,9 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Identity.Client;
 using OstreCWEB.Data.Repository.Characters.CharacterModels;
 using OstreCWEB.Data.Repository.Characters.Interfaces;
 using OstreCWEB.ViewModel.Characters;
-
 namespace OstreCWEB.Controllers
 {
     [Authorize(Roles = "admin")]
@@ -25,12 +22,25 @@ namespace OstreCWEB.Controllers
             _CharacterActionsRepository = characterActionsRepository;
         }
         // GET: ItemController
-        public async Task<ActionResult> Index()
+        public async Task<ActionResult> Index( string sortOrder,  int? pageNumber)
         {
-            var items =  await _ItemRepository.GetAllAsync();
-            var model = _Mapper.Map<IEnumerable<ItemView>>(items);
-            return View(model);
+            ViewData["NameSortParm"] = String.IsNullOrEmpty(sortOrder) ? "name_desc" : ""; 
+            ViewData["CurrentSort"] = sortOrder; 
+
+          int pageSize = 5; 
+            var items =  await _ItemRepository.GetPaginatedListAsync();  
+            return View(
+                  await PaginatedList<Item>.CreateAsync(items, pageNumber ?? 1, pageSize)
+                );
         }
+        //public async Task<ActionResult> Index()
+        //{
+            
+          
+        //    var items = await _ItemRepository.GetAllAsync(); 
+        //    var model = _Mapper.Map<IEnumerable<ItemView>>(items);
+        //    return View(model);
+        //}
 
         // GET: ItemController/Details/5
         public ActionResult Details(int id)

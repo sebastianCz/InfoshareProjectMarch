@@ -9,7 +9,8 @@ namespace OstreCWEB.Services.StoryServices
         //Tools
         public Task<IReadOnlyCollection<Story>> GetAllStories();
         public Task<IReadOnlyCollection<Story>> GetStoriesByUserId(string userId);
-        public Task<Story> GetStoryById(int idStory);
+        public Task<Story> GetStoryByIdAsync(int idStory);
+        public Story GetStoryById(int idStory);
         public Task<Story> GetStoryWithParagraphsById(int idStory);
 
         //Story

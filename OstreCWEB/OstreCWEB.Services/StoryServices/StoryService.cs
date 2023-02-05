@@ -32,9 +32,13 @@ namespace OstreCWEB.Services.StoryServices
             return await _storyRepository.GetStoriesByUserId(userId);
         }
 
-        public async Task<Story> GetStoryById(int idStory)
+        public async Task<Story> GetStoryByIdAsync(int idStory)
         {
-            return await _storyRepository.GetStoryById(idStory);
+            return await _storyRepository.GetStoryByIdAsync(idStory);
+        }
+        public Story GetStoryById(int idStory)
+        {
+            return _storyRepository.GetStoryById(idStory);
         }
 
         public async Task<Story> GetStoryWithParagraphsById(int idStory)
@@ -52,7 +56,7 @@ namespace OstreCWEB.Services.StoryServices
 
         public async Task UpdateStory(int idStory, string Name, string Description, string userId)
         {
-            var story = await _storyRepository.GetStoryById(idStory);
+            var story = await _storyRepository.GetStoryByIdAsync(idStory);
 
             if (story.UserId == userId)
             {
@@ -69,7 +73,7 @@ namespace OstreCWEB.Services.StoryServices
 
         public async Task DeleteStory(int idStory, string userId)
         {
-            var story = await _storyRepository.GetStoryById(idStory);
+            var story = await _storyRepository.GetStoryByIdAsync(idStory);
 
             if (story.UserId == userId)
             {
@@ -156,7 +160,7 @@ namespace OstreCWEB.Services.StoryServices
         {
 
             var paragraph = await _storyRepository.GetParagraphById(idParagraph);
-            var story = await _storyRepository.GetStoryById(paragraph.StoryId);
+            var story = await _storyRepository.GetStoryByIdAsync(paragraph.StoryId);
 
             if (story.UserId == userId)
             {
@@ -170,7 +174,7 @@ namespace OstreCWEB.Services.StoryServices
 
         public async Task<ParagraphDetails> GetParagraphDetailsById(int idParagraph, int idStory)
         {
-            var story = await _storyRepository.GetStoryById(idStory);
+            var story = await _storyRepository.GetStoryByIdAsync(idStory);
 
             var paragraphDetails = new ParagraphDetails
             {

@@ -1,4 +1,5 @@
 ﻿using OstreCWEB.Data.Repository.Characters.CharacterModels;
+using OstreCWEB.ViewModel.Characters;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,5 +15,6 @@ namespace OstreCWEB.Data.Repository.Characters.Interfaces
         public Task UpdateAsync(Item item);
         public Task CreateAsync(Item item);
         public Task DeleteAsync(int itemId);
+        public Task<IQueryable<Item>> GetPaginatedListAsync();
     }
 }
