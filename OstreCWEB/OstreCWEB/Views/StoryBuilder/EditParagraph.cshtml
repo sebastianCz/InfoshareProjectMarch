@@ -1,0 +1,145 @@
+﻿@using OstreCWEB.Data.Repository.StoryModels.Enums
+@using OstreCWEB.Data.Repository.Characters.Enums
+@model OstreCWEB.ViewModel.StoryBuilder.EditParagraphView
+
+@{
+    ViewData["Title"] = "Paragraph editor";
+}
+
+<div class="pagetitle">
+    <h1>Edit Paragraph</h1>
+    <nav>
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a asp-area="" asp-controller="Home" asp-action="Index">Home</a></li>
+            <li class="breadcrumb-item"><a asp-area="" asp-controller="StoryBuilder" asp-action="Index">StoryBuilder</a></li>
+            <li class="breadcrumb-item active">Paragraph editor</li>
+        </ol>
+    </nav>
+</div>
+
+<div class="card">
+    <div class="card-body">
+        <div class="row">
+            <div class="col-md-4">
+                <form asp-action="EditParagraph">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    <p></p>
+                    <dl class="row">
+                        <dt class="col-sm-3">
+                            <label asp-for="ParagraphType"></label>
+                        </dt>
+                        <dd class="col-sm-9">
+                            @Model.ParagraphType
+                        </dd>
+                    </dl>
+
+                    <div class="form-group">
+                        <label asp-for="StageDescription" class="control-label"></label>
+                        <input asp-for="StageDescription" class="form-control" />
+                        <span asp-validation-for="StageDescription" class="text-danger"></span>
+                    </div>
+
+                    <div class="row mb-5">
+                        <label class="col-sm-2 col-form-label">Rest in Paragraph</label>
+                        <div class="col-sm-10">
+                            <div class="form-check form-switch">
+                                <p></p>
+                                <label asp-for="RestoreRest" class="form-check-label" for="flexSwitchCheckDefault">Switch buttom - Yes/No</label>
+                                <input asp-for="RestoreRest" class="form-check-input" type="checkbox" id="flexSwitchCheckDefault">
+                                <span asp-validation-for="RestoreRest" class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+
+                    @if (Model.ParagraphType == ParagraphType.Fight)
+                    {
+                        if (Model.ParagraphEnemies.Count() != 0)
+                        {
+                            <table class="table table-striped">
+                                <thead>
+                                    <tr>
+                                        <th>
+                                            Enemy Name
+                                        <th>
+                                            Amount Of Enemy
+                                        </th>
+                                        <th>
+                                            ____Delete____
+                                        </th>
+                                        <th>
+                                            _____Edit_____
+                                        </th>
+                                    </tr>
+                                </thead>
+                                @foreach (var item in Model.ParagraphEnemies)
+                                {
+                                    <tr>
+                                        <td>
+                                            @item.EnemyName
+                                        </td>
+                                        <td>
+                                            @item.AmountOfEnemy
+                                        </td>
+                                        @if (Model.ParagraphEnemies.Count() > 1)
+                                        {
+                                            <td>
+                                                <a asp-route-name="EnemyInParagraph" asp-action="DeleteEnemyFromParagraph" asp-route-fightParagraphId="@item.Id" asp-route-paragraphId="@Model.Id" type="button" class="btn btn-danger">Remove</a>
+                                            </td>
+                                        }
+                                        @if (!(Model.ParagraphEnemies.Count() > 1))
+                                        {
+                                            <td>
+                                                <button type="button" class="btn btn-danger" disabled>Remove</button>
+                                            </td>
+                                        }
+                                        <td>
+                                            <a asp-route-name="EnemyInParagraph" asp-action="EditEnemyInParagraph" asp-route-fightParagraphId="@item.Id" asp-route-paragraphId="@Model.Id" type="button" class="btn btn-danger">Edit</a>
+                                        </td>
+                                    </tr>
+                                }
+                            </table>
+                        }
+                        @if (!(Model.ParagraphEnemies.Count() > 1))
+                        {
+                            <div>*You cannot remove the last enemy from a paragraph.</div>
+                        }
+                        <a asp-route-name="EnemyInParagraph" asp-action="AddEnemyInParagraph" asp-route-fightParagraphId="@Model.FightPropId" asp-route-paragraphId="@Model.Id" button type="button" class="btn btn-success">Add New Enemy</a>
+                    }
+                    @if (Model.ParagraphType == ParagraphType.Test)
+                    {
+                        <div class="form-group">
+                            <label asp-for="AbilityScores" class="control-label"></label>
+                            <select asp-for="AbilityScores" asp-items="Html.GetEnumSelectList<AbilityScores>()" class="form-control"></select>
+                            <span asp-validation-for="AbilityScores" class="text-danger"></span>
+                        </div>
+
+                        <div class="form-group">
+                            <label asp-for="TestDifficulty" class="control-label"></label>
+                            <select asp-for="TestDifficulty" asp-items="Html.GetEnumSelectList<TestDifficulty>()" class="form-control"></select>
+                            <span asp-validation-for="TestDifficulty" class="text-danger"></span>
+                        </div>
+                    }
+
+                    <div>
+                        <p></p>
+                        <input asp-for="Id" hidden="true" />
+                        <input asp-for="ParagraphType" hidden="true" />
+                        <input asp-for="StoryId" hidden="true" />
+                    </div>
+
+                    <div class="form-group">
+                        <input type="submit" value="Save" class="btn btn-success" />
+                        <a asp-route-name="StoryBuilder" asp-action="ParagraphDetails" asp-route-id="@Model.StoryId" asp-route-paragraphId="@Model.Id" type="button" class="btn btn-primary">Back to Details</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+                            }

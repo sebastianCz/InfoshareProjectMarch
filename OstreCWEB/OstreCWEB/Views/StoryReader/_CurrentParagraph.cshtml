@@ -1,0 +1,20 @@
+﻿@model OstreCWEB.ViewModel.StoryReader.CurrentParagraphView
+
+<div class="card">
+    <div class="card-body">
+        <h5 class="card-title">@Model.StageDescription</h5>
+
+        <div class="list-group">
+            @for (int i = 0; i < Model.Choices.Count(); i++)
+            {
+                <a asp-route-name="StoryReader" asp-action="CommitNextParagraph" asp-route-id="@i" type="button" class="list-group-item list-group-item-action">@Model.Choices[i].ChoiceText</a>
+            }
+            @if(Model.Choices.Count() == 0)
+            {
+            <a asp-controller="Game" asp-action="Index" type="button" class="list-group-item list-group-item-action">
+                You have no choice, go to the menu!
+            </a>
+            }
+        </div>
+    </div>
+</div>

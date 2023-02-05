@@ -1,0 +1,55 @@
+﻿@model OstreCWEB.ViewModel.StoryBuilder.StoriesView
+
+@{
+    ViewData["Title"] = "Delete Story";
+}
+
+
+<div class="pagetitle">
+    <h1>Delete Story</h1>
+    <nav>
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a asp-area="" asp-controller="Home" asp-action="Index">Home</a></li>
+            <li class="breadcrumb-item"><a asp-area="" asp-controller="StoryBuilder" asp-action="Index">StoryBuilder</a></li>
+            <li class="breadcrumb-item active">Delete Story</li>
+        </ol>
+    </nav>
+</div>
+
+
+<div class="card">
+    <div class="card-body">       
+        <h5 class="card-title">Are you sure you want to delete Story with all paragraphs?</h5>
+        <dl class="row">
+            <dt class="col-sm-2">
+                <label asp-for="Id"></label>
+            </dt>
+            <dd class="col-sm-10">
+                @Model.Id
+            </dd>
+            <dt class="col-sm-2">
+                <label asp-for="Name"></label>
+            </dt>
+            <dd class="col-sm-10">
+                @Model.Name
+            </dd>
+            <dt class="col-sm-2">
+                <label asp-for="Description"></label>
+            </dt>
+            <dd class="col-sm-10">
+                @Model.Description
+            </dd>
+            <dt class="col-sm-2">
+                <label asp-for="AmountOfParagraphs"></label>
+            </dt>
+            <dd class="col-sm-10">
+                @Model.AmountOfParagraphs
+            </dd>
+        </dl>
+
+        <form asp-action="DeleteStory">
+            <input type="submit" value="Delete" class="btn btn-danger" />
+            <a asp-action="Index" type="button" class="btn btn-primary">Back to List</a>
+        </form>
+    </div>
+</div>

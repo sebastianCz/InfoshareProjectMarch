@@ -1,0 +1,30 @@
+﻿@model IEnumerable<OstreCWEB.ViewModel.Characters.PlayableCharacterRow>
+@{
+    ViewData["Title"] = "_PlayableCharacterTable";
+} 
+<div class="card">
+    <div class="card-body"> 
+        <!-- Default Table -->
+        <table class="table">
+            <thead>
+                <tr> 
+                    <th scope="col"> <Label asp-for="FirstOrDefault().CharacterName"></Label></th>
+                    <th scope="col"> <Label asp-for="FirstOrDefault().CharacterClass.ClassName"></Label></th>
+                    <th scope="col"> <Label asp-for="FirstOrDefault().Race.RaceName"></Label></th>
+                </tr>
+            </thead>
+            <tbody>
+                 @foreach(var character in Model){
+                <tr> 
+                        <th scope="row">@character.CharacterName</th>
+                        <td>@character.CharacterClass.ClassName</td>
+                        <td>@character.Race.RaceName</td>
+                        <td><a asp-controller="Game" asp-action="SetActiveCharacter" asp-route-id="@character.CharacterId" type="button" class="btn btn-primary">Choose this character</a></td>
+                </tr> 
+                }
+            </tbody>
+        </table>
+        <!-- End Default Table Example -->
+    </div>
+</div>
+

@@ -1,0 +1,57 @@
+﻿@model IEnumerable<OstreCWEB.ViewModel.StoryBuilder.StoriesView>
+
+@{
+    ViewData["Title"] = "StoryBuilder";
+}
+
+
+
+<div class="pagetitle">
+    <h1>Your stories to edit</h1>
+    <nav>
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a asp-area="" asp-controller="Home" asp-action="Index">Home</a></li>
+            <li class="breadcrumb-item"><a asp-area="" asp-controller="StoryBuilder" asp-action="Index">StoryBuilder</a></li>
+        </ol>
+    </nav>
+</div> 
+<div class="card">
+    <div class="card-body">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>
+                        <label asp-for="First().Name"></label>
+                    </th>
+                    <th>
+                        <label asp-for="First().Description"></label>
+                    </th>
+                    <th>
+                        Paragraphs
+                    </th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>
+                            @item.Name
+                        </td>
+                        <td>
+                            @item.Description
+                        </td>
+                        <td>
+                            @item.AmountOfParagraphs
+                        </td>
+                        <td>
+                            <a asp-route-name="StoryBuilder" asp-action="StoryParagraphsList" asp-route-id="@item.Id" type="button" class="btn btn-primary">Details</a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+        <a asp-action="CreateStory" type="button" class="btn btn-success">Create new Story</a>
+    </div>
+</div>

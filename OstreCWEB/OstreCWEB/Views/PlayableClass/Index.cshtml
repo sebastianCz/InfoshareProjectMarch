@@ -1,0 +1,42 @@
+﻿ @model IEnumerable<OstreCWEB.ViewModel.Characters.PlayableClassView>
+@{
+}
+<div class="card">
+    <div class="card-body">
+        
+        <h5 class="card-title">Playable Classes</h5>
+        <br />
+        <a asp-controller="PlayableClass" asp-action="Create" type="button" class="btn btn-primary">Add new class</a>
+        <br />
+        <table class="table">
+            <thead>
+                <tr>
+                    <th scope="col"> <Label asp-for=" FirstOrDefault().ClassName"></Label></th>
+                    <th scope="col"> <Label asp-for=" FirstOrDefault().ConstitutionBonus"></Label></th>
+                    <th scope="col"> <Label asp-for=" FirstOrDefault().CharismaBonus"></Label></th> 
+                    <th scope="col"> <Label asp-for=" FirstOrDefault().DexterityBonus"></Label></th>
+                    <th scope="col"> <Label asp-for=" FirstOrDefault().IntelligenceBonus"></Label></th>
+                    <th scope="col"> <Label asp-for=" FirstOrDefault().StrengthBonus"></Label></th>
+                    <th scope="col"> <Label asp-for=" FirstOrDefault().WisdomBonus"></Label></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var playableClass in Model)
+                {
+                    <tr>
+                        <th scope="row">@playableClass.ClassName</th>
+                        <td>@playableClass.ConstitutionBonus</td>
+                        <td>@playableClass.CharismaBonus</td>
+                        <td>@playableClass.DexterityBonus</td>
+                        <td>@playableClass.IntelligenceBonus</td>
+                        <td>@playableClass.StrengthBonus</td>
+                        <td>@playableClass.WisdomBonus</td>
+                        <td><a asp-controller="PlayableClass" asp-action="Edit" asp-route-id="@playableClass.PlayableClassId" type="button" class="btn btn-primary">Edit</a></td>
+                        <td><a asp-controller="PlayableClass" asp-action="Delete" asp-route-id="@playableClass.PlayableClassId" type="button" class="btn btn-primary">Delete</a></td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+        <!-- End Default Table Example -->
+    </div>
+</div>

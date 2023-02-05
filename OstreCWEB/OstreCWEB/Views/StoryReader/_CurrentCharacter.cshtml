@@ -1,0 +1,59 @@
+﻿@model OstreCWEB.ViewModel.StoryReader.CurrentCharacterView
+
+<div class="card">
+    <div class="card-body">
+        <h5 class="card-title">@Model.CharacterName </h5>
+        <h5 >HealthPoints: @Model.CurrentHealthPoints / @Model.MaxHealthPoints</h5>
+
+        @if (51 <= @Model.CurrentHealthPercentage)
+        {
+            <div class="progress mt-3">
+                <div class="progress-bar progress-bar-striped bg-success progress-bar-animated" role="progressbar" style="width: @Model.CurrentHealthPercentage%" aria-valuenow="@Model.CurrentHealthPoints" aria-valuemin="0" aria-valuemax="@Model.MaxHealthPoints"></div>
+            </div>
+        }
+
+        @if (26 <= @Model.CurrentHealthPercentage && 51 > @Model.CurrentHealthPercentage)
+        {
+            <div class="progress mt-3">
+                <div class="progress-bar progress-bar-striped bg-warning progress-bar-animated" role="progressbar" style="width: @Model.CurrentHealthPercentage%" aria-valuenow="@Model.CurrentHealthPoints" aria-valuemin="0" aria-valuemax="@Model.MaxHealthPoints"></div>
+            </div>
+        }
+
+        @if (26 > @Model.CurrentHealthPercentage)
+        {
+            <div class="progress mt-3">
+                <div class="progress-bar progress-bar-striped bg-danger progress-bar-animated" role="progressbar" style="width: @Model.CurrentHealthPercentage%" aria-valuenow="@Model.CurrentHealthPoints" aria-valuemin="0" aria-valuemax="@Model.MaxHealthPoints"></div>
+            </div>
+        }
+        </br>
+
+        <table class="table table-striped">
+            <tbody>
+                <tr>
+                    <td>Strenght</td>
+                    <td>@Model.Strenght</td>
+                </tr>
+                <tr>
+                    <td>Dexterity</td>
+                    <td>@Model.Dexterity</td>
+                </tr>
+                <tr>
+                    <td>Constitution</td>
+                    <td>@Model.Constitution</td>
+                </tr>
+                <tr>
+                    <td>Intelligence</td>
+                    <td>@Model.Intelligence</td>
+                </tr>
+                <tr>
+                    <td>Wisdom</td>
+                    <td>@Model.Wisdom</td>
+                </tr>
+                <tr>
+                    <td>Charisma</td>
+                    <td>@Model.Charisma</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

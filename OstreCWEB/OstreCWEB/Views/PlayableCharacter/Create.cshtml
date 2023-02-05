@@ -1,0 +1,277 @@
+﻿@model OstreCWEB.ViewModel.Characters.PlayableCharacterCreateView
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<h1>Create</h1>
+
+<hr />
+
+
+
+<div class="row">
+    <div class="col-md-4 ">
+        @*<partial name ="_SetClass" model="@Model"/>*@
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="p-3 bg-opacity-75 border border-warning-subtle rounded-top" style="background: radial-gradient(circle at -4% -12.9%, rgb(90, 98, 110) 0.3%, rgb(33, 31, 33) 90.2%);
+                color:goldenrod; text-align:center">
+                <h2>Hero Race</h2>
+            </div>
+            <div class="p-3 bg-warning bg-opacity-75 border border-warning-subtle rounded-top" style="background: #eee; box-shadow: 0 8px 8px -4px black;">            
+                <div class="form-group">
+                    <label asp-for="RaceId" class="control-label"></label>
+                        @Html.DropDownListFor(m => m.RaceId, new SelectList(Model.CharacterRaces,"Key","Value"),
+                        " Please select race ",
+                        new {
+                            @class = "form-control"
+                        })
+                    <span asp-validation-for="RaceId" class="text-danger"></span>
+                </div>
+            </div>
+            <br />
+            <br />
+            <div class="p-3 bg-opacity-75 border border-warning-subtle rounded-top" style="background: radial-gradient(circle at -4% -12.9%, rgb(90, 98, 110) 0.3%, rgb(33, 31, 33) 90.2%);
+                color:goldenrod; text-align:center">
+                <h2>Hero Class</h2>
+            </div>
+            <div class="p-3 bg-warning bg-opacity-75 border border-warning-subtle rounded-top" style="background: #eee; box-shadow: 0 8px 8px -4px black;">
+                <div>
+                    <input type="button" class="btn" id="barbarian-input" value="Barbarian" onclick="setStringValue('Barbarian')" style="background: radial-gradient(circle at -4% -12.9%, rgb(90, 98, 110) 0.3%, rgb(33, 31, 33) 90.2%);color:goldenrod; text-align:center"/>
+                    <input type="button" class="btn" id="fighter-input" value="Fighter" onclick="setStringValue('Fighter')" style="background: radial-gradient(circle at -4% -12.9%, rgb(90, 98, 110) 0.3%, rgb(33, 31, 33) 90.2%);color:goldenrod; text-align:center"/>
+                    <input type="button" class="btn" id="cleric-input" value="Cleric" onclick="setStringValue('Cleric')" style="background: radial-gradient(circle at -4% -12.9%, rgb(90, 98, 110) 0.3%, rgb(33, 31, 33) 90.2%);color:goldenrod; text-align:center"/>
+                    <input type="button" class="btn" id="wizard-input" value="Wizard" onclick="setStringValue('Wizard')" style="background: radial-gradient(circle at -4% -12.9%, rgb(90, 98, 110) 0.3%, rgb(33, 31, 33) 90.2%);color:goldenrod; text-align:center"/>
+
+                </div>
+                <br />
+                <div>
+                    <label>Playable Class</label>
+                    <input class="form-control" id="stringInput" value="Barbarian" readonly/>
+                </div>
+                <div class="form-group" hidden>
+                    <label asp-for="PlayableClassId" class="control-label"></label>
+                    <input asp-for="PlayableClassId" class="form-control" id="intInput" value="@ViewBag.classId" required/>
+                    <span asp-validation-for="PlayableClassId" class="text-danger"></span>
+                </div>
+            </div>
+
+
+            <br />
+@*            <div class="form-group" >
+                <label asp-for="RaceId" class="control-label"></label>
+                <input asp-for="RaceId" class="form-control" value="@ViewBag.raceId" />
+                <span asp-validation-for="RaceId" class="text-danger"></span>
+            </div>*@
+@*            <div class="form-group" >
+                <label asp-for="UserParagraphId" class="control-label"></label>
+                <input asp-for="UserParagraphId" class="form-control" value="1" />
+                <span asp-validation-for="UserParagraphId" class="text-danger"></span>
+            </div>*@
+@*            <div class="form-group" >
+                <label asp-for="IsTemplate" class="control-label"></label>
+                <input asp-for="IsTemplate" class="form-control" value="False" />
+                <span asp-validation-for="IsTemplate" class="text-danger"></span>
+            </div>*@
+@*            <div class="form-group" >
+                <label asp-for="Level" class="control-label"></label>
+                <input asp-for="Level" class="form-control" value="1" />
+                <span asp-validation-for="Level" class="text-danger"></span>
+            </div>*@
+@*            <div class="form-group">
+                <label asp-for="Id" class="control-label"></label>
+                <input asp-for="Id" class="form-control" />
+                <span asp-validation-for="Id" class="text-danger"></span>
+            </div>*@
+            <br />
+            <div class="p-3 bg-opacity-75 border border-warning-subtle rounded-top" style="background: radial-gradient(circle at -4% -12.9%, rgb(90, 98, 110) 0.3%, rgb(33, 31, 33) 90.2%);
+                color:goldenrod; text-align:center">
+                <h2>Attribute Points</h2>
+            </div>
+                <div class="p-3 bg-warning bg-opacity-75 border border-warning-subtle rounded-top" style="background: #eee; box-shadow: 0 8px 8px -4px black;"> 
+                    <div>
+                        <a asp-action="RollAttributePoints" asp-route-characterid="1" class="btn btn-primary">Roll</a>
+                    </div>
+                    <div style="">
+                      <input type="button" id="roll-button" class="btn" value="Roll" style="background: radial-gradient(circle at -4% -12.9%, rgb(90, 98, 110) 0.3%, rgb(33, 31, 33) 90.2%);color:goldenrod; text-align:center"/>
+                      <input type="button" id="save-button" class="btn" value="Save" style="background: radial-gradient(circle at -4% -12.9%, rgb(90, 98, 110) 0.3%, rgb(33, 31, 33) 90.2%);color:goldenrod; text-align:center"/>
+                      <input type="button" id="load-button" class="btn" value="Load" style="background: radial-gradient(circle at -4% -12.9%, rgb(90, 98, 110) 0.3%, rgb(33, 31, 33) 90.2%);color:goldenrod; text-align:center"/>
+                    </div>
+                    <br />
+                    <div>
+                        <label class="control-label">TotalAvailablePoints</label>
+                        <input class="form-control" id="totalAvailablePoints" value="@ViewBag.Sum" readonly/>
+                    </div>
+                    <br />
+                    <div class="form-group">
+                        <label asp-for="Strenght" class="control-label"></label>
+                        <input asp-for="Strenght" class="form-control" id="strength-input" value="@ViewBag.Str" readonly/>
+                        @*<a asp-action="ChangeValue" asp-route-operation="up" asp-route-attribute="Strength" class="btn btn-primary">+</a>
+                        <a asp-action="ChangeValue" asp-route-operation="down" asp-route-attribute="Strength" class="btn btn-primary">-</a>*@
+                        <span asp-validation-for="Strenght" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Dexterity" class="control-label"></label>    
+                            <input asp-for="Dexterity" class="form-control" id="dexterity-input" value="@ViewBag.Dex" readonly/>
+                            @*<a asp-action="ChangeValue" asp-route-operation="up" asp-route-attribute="Dexterity" class="btn btn-primary">+</a>
+                            <a asp-action="ChangeValue" asp-route-operation="down" asp-route-attribute="Dexterity" class="btn btn-primary">-</a>*@
+                        <span asp-validation-for="Dexterity" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Constitution" class="control-label"></label>
+                        <input asp-for="Constitution" class="form-control" id="constitution-input" value="@ViewBag.Con" readonly/>
+                       @* <a asp-action="ChangeValue" asp-route-characterid="1" asp-route-operation="up" asp-route-attribute="Constitution" class="btn btn-primary">+</a>
+                        <a asp-action="ChangeValue" asp-route-characterid="1" asp-route-operation="down" asp-route-attribute="Constitution" class="btn btn-primary">-</a>*@
+                        <span asp-validation-for="Constitution" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Intelligence" class="control-label"></label>
+                        <input asp-for="Intelligence" class="form-control" id="intelligence-input" value="@ViewBag.Int" readonly/>
+        @*                <a asp-action="ChangeValue" asp-route-characterid="1" asp-route-operation="up" asp-route-attribute="Intelligence" class="btn btn-primary">+</a>
+                        <a asp-action="ChangeValue" asp-route-characterid="1" asp-route-operation="down" asp-route-attribute="Intelligence" class="btn btn-primary">-</a>*@
+                        <span asp-validation-for="Intelligence" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Wisdom" class="control-label"></label>
+                        <input asp-for="Wisdom" class="form-control" id="wisdom-input" value="@ViewBag.Wis" readonly/>
+        @*                <a asp-action="ChangeValue" asp-route-characterid="1" asp-route-operation="up" asp-route-attribute="Wisdom" class="btn btn-primary">+</a>
+                        <a asp-action="ChangeValue" asp-route-characterid="1" asp-route-operation="down" asp-route-attribute="Wisdom" class="btn btn-primary">-</a>*@
+                        <span asp-validation-for="Wisdom" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Charisma" class="control-label"></label>
+                        <input asp-for="Charisma" class="form-control" id="charisma-input" value="@ViewBag.Cha" readonly/>
+        @*                <a asp-action="ChangeValue" asp-route-characterid="1" asp-route-operation="up" asp-route-attribute="Charisma" class="btn btn-primary">+</a>
+                        <a asp-action="ChangeValue" asp-route-characterid="1" asp-route-operation="down" asp-route-attribute="Charisma" class="btn btn-primary">-</a>*@
+                        <span asp-validation-for="Charisma" class="text-danger"></span>
+                    </div>
+                </div>
+                <br />
+                <br />
+                <div class="p-3 bg-opacity-75 border border-warning-subtle rounded-top" style="background: radial-gradient(circle at -4% -12.9%, rgb(90, 98, 110) 0.3%, rgb(33, 31, 33) 90.2%);
+                color:goldenrod; text-align:center">
+                    <h2>Hero Name</h2>
+                </div>
+                <div class="p-3 bg-warning bg-opacity-75 border border-warning-subtle rounded-top" style="background: #eee; box-shadow: 0 8px 8px -4px black;">                
+                     <div class="form-group">
+                        <label asp-for="CharacterName" class="control-label"></label>
+                        <input asp-for="CharacterName" id="characterName-input" class="form-control" placeholder="Your hero's name" required="text"/>
+                        <span asp-validation-for="CharacterName" class="text-danger"></span>
+                    </div>
+                    <input type="button" id="randomNameButton" value="Generate Name" style="background: radial-gradient(circle at -4% -12.9%, rgb(90, 98, 110) 0.3%, rgb(33, 31, 33) 90.2%);color:goldenrod; text-align:center">
+                </div>
+
+                <br />
+                <div class="form-group">
+                    <input type="submit" value="Create" class="btn" style="background: radial-gradient(circle at -4% -12.9%, rgb(90, 98, 110) 0.3%, rgb(33, 31, 33) 90.2%);color:goldenrod; text-align:center"/>
+                </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index" asp-controller="Home" class="btn btn-danger" onclick="return confirm('Are you sure you want to quit from character creator?');">Menu</a>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+  $(document).ready(function(){
+
+      function generateAttribute() {
+  var rolls = [];
+  for (var i = 0; i < 4; i++) {
+    rolls.push(Math.floor(Math.random() * 6) + 1);
+  }
+  rolls.sort();
+  rolls.shift();
+  var sum = rolls.reduce(function(a, b) {
+    return a + b;
+  }, 0);
+  return sum;
+}
+
+    //Roll button event listener
+$("#roll-button").on("click", function() {
+    $("#strength-input").val(generateAttribute());
+    $("#dexterity-input").val(generateAttribute());
+    $("#constitution-input").val(generateAttribute());
+    $("#intelligence-input").val(generateAttribute());
+    $("#wisdom-input").val(generateAttribute());
+    $("#charisma-input").val(generateAttribute());
+    var sum = parseInt($("#strength-input").val()) + parseInt($("#dexterity-input").val()) + parseInt($("#constitution-input").val()) + parseInt($("#intelligence-input").val()) + parseInt($("#wisdom-input").val()) + parseInt($("#charisma-input").val());
+    $("#totalAvailablePoints").val(sum);
+});
+
+    //Save button event listener
+    $("#save-button").on("click", function() {
+      var strength = $("#strength-input").val();
+      var dexterity = $("#dexterity-input").val();
+      var constitution = $("#constitution-input").val();
+      var intelligence = $("#intelligence-input").val();
+      var wisdom = $("#wisdom-input").val();
+      var charisma = $("#charisma-input").val();
+      var sum = $("#totalAvailablePoints").val();
+
+      localStorage.setItem("strength", strength);
+      localStorage.setItem("dexterity", dexterity);
+      localStorage.setItem("constitution", constitution);
+      localStorage.setItem("intelligence", intelligence);
+      localStorage.setItem("wisdom", wisdom);
+      localStorage.setItem("charisma", charisma);
+      localStorage.setItem("sum", sum);
+    });
+    //Load button event listener
+    $("#load-button").on("click", function() {
+      $("#strength-input").val(localStorage.getItem("strength"));
+      $("#dexterity-input").val(localStorage.getItem("dexterity"));
+      $("#constitution-input").val(localStorage.getItem("constitution"));
+      $("#intelligence-input").val(localStorage.getItem("intelligence"));
+      $("#wisdom-input").val(localStorage.getItem("wisdom"));
+      $("#charisma-input").val(localStorage.getItem("charisma"));
+      $("#totalAvailablePoints").val(localStorage.getItem("sum"));
+    });
+  });
+</script>
+<script>
+function setStringValue(value) {
+    var stringInput = document.getElementById("stringInput");
+    stringInput.value = value;
+    switch(value){
+        case 'Barbarian':
+            setIntValue(1);
+            break;
+        case 'Fighter':
+            setIntValue(2);
+            break;
+        case 'Cleric':
+            setIntValue(3);
+            break;
+        case 'Wizard':
+            setIntValue(4);
+            break;
+    }
+}
+
+function setIntValue(value) {
+    var intInput = document.getElementById("intInput");
+    intInput.value = value;
+}
+
+</script>
+
+<script>
+  $(document).ready(function(){
+    var names = ["Gandalf", "Harry", "Isaac", "Jack", "Karl", "Luke", "Merlin", "Nathan", "Oscar", "Peter", "Quincy", "Richard", "Samuel", "Tom", "Ulrich", "Victor", "William", "Xander", "Yorick", "Zachary"];
+
+
+    function generateRandomName() {
+      var randomIndex = Math.floor(Math.random() * names.length);
+      var randomName = names[randomIndex];
+      $("#characterName-input").val(randomName);
+    }
+
+    $("#randomNameButton").on("click", function() {
+      generateRandomName();
+    });
+  });
+</script>

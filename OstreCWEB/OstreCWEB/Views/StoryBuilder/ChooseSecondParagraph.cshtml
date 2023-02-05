@@ -1,0 +1,107 @@
+﻿@model OstreCWEB.ViewModel.StoryBuilder.StoryParagraphsView
+
+@{
+    ViewData["Title"] = $"Story " + @Model.Name;
+}
+
+<div class="pagetitle">
+    <h1>@Model.Name</h1>
+    <nav>
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a asp-area="" asp-controller="Home" asp-action="Index">Home</a></li>
+            <li class="breadcrumb-item"><a asp-area="" asp-controller="StoryBuilder" asp-action="Index">StoryBuilder</a></li>
+            <li class="breadcrumb-item active">Select the second paragraph</li>
+        </ol>
+    </nav>
+</div>
+
+<div class="card">
+    <div class="card-body">
+        <h5 class="card-title">Description:</h5>
+        @Model.Description<br />
+        Amount of Paragraphs: @Model.AmountOfParagraphs
+    </div>
+</div>
+
+<div class="card">
+    <div class="card-body">
+        <h5 class="card-title">Select the second paragraph</h5>
+        <a asp-route-name="StoryBuilder" asp-action="ParagraphDetails" asp-route-id="@Model.Id" asp-route-paragraphId="@ViewBag.fightParagraphId" type="button" class="btn btn-primary">Back to details!</a>
+        <a asp-action="CreatNewParagraph" asp-route-id="@Model.Id" type="button" class="btn btn-warning">Create new Paragraph</a>
+        <div><i>If you start creating a new paragraph, you will stop creating  a choice.</i></div>
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>
+                        Type
+                    <th>
+                        <label asp-for="Paragraphs.First().StageDescription"></label>
+                    </th>
+                    <th>
+                        Choices
+                    </th>
+                    <th>____Action____</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model.Paragraphs)
+                {
+                    @if (item.ParagraphType == OstreCWEB.Data.Repository.StoryModels.Enums.ParagraphType.DescOfStage)
+                    {
+                        <tr>
+                            <td>
+                                @item.ParagraphType
+                            </td>
+                            <td>
+                                @item.StageDescription
+                            </td>
+                            <td>
+                                @item.AmountOfChoices
+                            </td>
+                            <td>
+                                <a asp-route-name="ChoiceCreator" asp-action="CreatChoice" asp-route-firstParagraphId="@ViewBag.fightParagraphId" asp-route-secondParagraphId="@item.Id" type="button" class="btn btn-success">Choose it!</a>
+                            </td>
+                        </tr>
+                    }
+                    @if (item.ParagraphType == OstreCWEB.Data.Repository.StoryModels.Enums.ParagraphType.Fight)
+                    {
+                        <tr class="table-danger">
+                            <td>
+                                @item.ParagraphType
+                            </td>
+                            <td>
+                                @item.StageDescription
+                            </td>
+                            <td>
+                                @item.AmountOfChoices
+                            </td>
+                            <td>
+                                <a asp-route-name="ChoiceCreator" asp-action="CreatChoice" asp-route-firstParagraphId="@ViewBag.fightParagraphId" asp-route-secondParagraphId="@item.Id" type="button" class="btn btn-success">Choose it!</a>
+                            </td>
+                        </tr>
+                    }
+                    @if (item.ParagraphType == OstreCWEB.Data.Repository.StoryModels.Enums.ParagraphType.Test)
+                    {
+                        <tr class="table-warning">
+                            <td>
+                                @item.ParagraphType
+                            </td>
+                            <td>
+                                @item.StageDescription
+                            </td>
+                            <td>
+                                @item.AmountOfChoices
+                            </td>
+                            <td>
+                                <a asp-route-name="ChoiceCreator" asp-action="CreatChoice" asp-route-firstParagraphId="@ViewBag.fightParagraphId" asp-route-secondParagraphId="@item.Id" type="button" class="btn btn-success">Choose it!</a>
+                            </td>
+                        </tr>
+                    }
+                }
+            </tbody>
+        </table>
+        <a asp-route-name="StoryBuilder" asp-action="ParagraphDetails" asp-route-id="@Model.Id" asp-route-paragraphId="@ViewBag.fightParagraphId" type="button" class="btn btn-primary">Back to details!</a>
+        <a asp-action="CreatNewParagraph" asp-route-id="@Model.Id" type="button" class="btn btn-warning">Create new Paragraph</a>
+        <div><i>If you start creating a new paragraph, you will stop creating  a choice.</i></div>
+    </div>
+</div>

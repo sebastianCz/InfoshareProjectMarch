@@ -1,0 +1,204 @@
+﻿@using OstreCWEB.Data.Repository.Characters.Enums
+@using OstreCWEB.Data.Repository.Fight.Enums
+@model OstreCWEB.ViewModel.Fight.FightViewModel;
+@{
+    ViewData["Title"] = "Fight";
+}
+<!--Playable Character-->
+
+
+<div class="row align-items-top mb-3 justify-content-md-center">
+
+                <!--Playable character info( left column)-->
+    <div class="col-lg-3 ">
+                    <div class="card shadow-sm">
+                        <div class="card-body">@Model.ActivePlayer.CharacterName </div>
+                       @* <svg class="bd-placeholder-img card-img-top" width="100%" height="225" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: Thumbnail" preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title><rect width="100%" height="100%" fill="#55595c"></rect><text x="50%" y="50%" fill="#eceeef" dy=".3em">Thumbnail</text></svg>*@
+                        <div class="card-body">
+                            @Model.ActivePlayer.CharacterName
+                            <p>Current Hp</p>
+                            @Model.ActivePlayer.CurrentHealthPoints
+                            <p>Max Hp</p>
+                            @Model.ActivePlayer.MaxHealthPoints
+                            <p>Action Counter</p>
+                            @Model.PlayerActionCounter
+                            <br />
+                            <div class="d-flex justify-content-between align-items-center">
+                                <div class="btn-group">
+
+                                    @if(Model.ActivePlayer.ActiveStatuses.Count() > 0){
+                                        foreach(var status in Model.ActivePlayer.ActiveStatuses )
+                                        {
+                                            @if(status.StatusType == StatusType.Blind){
+                                    <button type="button" class="btn btn-warning" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="@status.Description">
+                                                 @status.Name
+                                              </button>
+                                            }else{
+
+                                    <button type="button" class="btn btn-success" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="@status.Description">
+                                                    @status.Name
+                                             </button>
+                                    
+                                            }
+                                        }
+                         
+                                    }
+                                    @if (Model.ActiveAction != null && Model.ActiveAction.PossibleTarget == TargetType.Caster)
+
+                                    { 
+                                        <a  class="btn btn-danger" asp-route-id="@Model.ActivePlayer.CombatId" asp-action="SetActiveTarget">Target</a>
+                                    }
+                                </div>
+
+                             </div>
+                        </div>
+                    </div>
+                </div>
+                <!--Turn state(center)-->
+    <div class="col-lg-3 offset-md-1 ">
+        <div class="card ">
+        @if (Model.CanShowActiveAction)
+                    {
+                       <p>Chosen action: @Model.ActiveAction.ActionName</p> 
+                       <p> <label asp-for="@Model.ActiveAction.PossibleTarget"></label>  @(Model.ActiveAction.PossibleTarget == TargetType.Caster? "Yourself" : "Enemy")</p>    
+                    }
+                    else
+                    {
+                        <p>Choose an action to see possible targets</p>
+                    }  
+                    @if (Model.CanShowActiveTarget)
+                    {
+                     <p>Chosen Target:@Model.ActiveTarget.CharacterName</p>
+                    } 
+                    @if (Model.CanCommitAction)
+                    { 
+                       <a  asp-action="CommitPlayerAction" >Commit Action</a>
+                    } 
+                    </div>
+                </div>
+                <!--Available actions(right column)-->
+    <div class="col-lg-3 offset-md-1  bg-white  ">
+        <div class="card shadow-sm">
+        <ul class="list-group list-group-horizontal-xl"> 
+                      @if(Model.ActivePlayer.HasShowableActions)
+                      {
+                       <h5>Your abilities</h5>
+                            @foreach (var action in @Model.ActivePlayer.LinkedActions)
+                        {
+                            if(action.IsActionUsableInCombat)
+                            {
+                            <li class="list-group-item">
+                            <a class="btn btn-danger" asp-route-id="@action.CharacterAction.CharacterActionId" asp-action="SetActiveAction">@action.CharacterAction.ActionName
+                                @if (action.CanShowUsesLeft) {
+                                    <p>Uses left: @action.UsesLeftBeforeRest</p>
+                                }
+                                </a>
+                        </li>
+                            } 
+                        }
+                      }
+                     </ul>   
+                        <h5>Actions from items</h5>
+                     <ul class="list-group list-group-horizontal-xl">
+                        @foreach (var item in @Model.ActivePlayer.ItemCharacterWithAction)
+                        {
+                            <li class="list-group-item">
+                        <a class="btn btn-danger" asp-route-id="@item.Id" asp-action="SetActiveActionFromItem">@item.Item.Name @if(item.Item.DeleteOnUse){<br /><div>Disapears on use</div>}</a>
+                            </li>
+                        }
+                       
+                        </ul> 
+                        </div>
+                </div> 
+            </div>
+ 
+
+<!--Fight History-->
+
+
+<div class="d-flex flex-row mb-3 bg-white opacity-75">
+
+    <div class="p-2 flex-grow-1">
+        <ul class="nav nav-pills nav-stacked OstreCScroll">          
+            @for (int i = Model.FightHistory.Count() -1; i >= 0; i--)
+            {
+                @Model.FightHistory[i] <br /> 
+            }
+        </ul>
+
+    </div>
+
+</div> 
+   
+<!--Enemies cards-->
+<div class="album py-5">
+    <div class="container">
+        <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
+
+            @for (var i = 0; i < Model.ActiveEnemies.Count(); i++)
+            {
+                <div class="col ">
+
+                    @*<div class=" card  @((Model.ActiveTarget != null && Model.ActiveTarget.CombatId != null && Model.ActiveTarget.CombatId == Model.ActiveEnemies[i].CombatId ? " f" : " .bg-danger"))">*@
+                    <div class=" card">
+
+                        @{
+                            var viewId = i + 1;
+                        }
+                        <div class="card-body">@Model.ActiveEnemies[i].CharacterName @viewId  </div>
+                      @*  <svg class="bd-placeholder-img card-img-top" width="100%" height="225" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: Thumbnail" preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title><rect width="100%" height="100%" fill="#55595c"></rect><text x="50%" y="50%" fill="#eceeef" dy=".3em">Thumbnail</text></svg>*@
+
+                        <div class="card-body">
+                            <b><label asp-for="@Model.ActiveEnemies[i].CurrentHealthPoints"></label></b><br>
+                            @Model.ActiveEnemies[i].CurrentHealthPoints<br>
+                            <label asp-for="@Model.ActiveEnemies[i].ActiveStatuses"></label><br>
+                            @foreach (var status in @Model.ActiveEnemies[i].ActiveStatuses)
+                            {
+                                <button type="button" class="btn btn-secondary" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="@status.Description">
+                                    @status.Name
+                                </button>
+
+                            }
+                            <div class="d-flex justify-content-between align-items-center">
+                                @if (Model.ActiveAction != null && Model.ActiveAction.PossibleTarget == TargetType.Target)
+                                {
+                                    <div class="d-flex justify-content-between align-items-center">
+                                        <div class="btn-group">
+                                            <a class="btn btn-danger" asp-route-id="@Model.ActiveEnemies[i].CombatId" asp-action="SetActiveTarget">Target</a>
+                                        </div>
+                                    </div>
+                                } 
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</div>
+
+
+
+
+<script>
+    function GenerateEnemies() {
+        $.ajax({
+            type: "GET",
+            url: "Home/GenerateEnemies",
+            async: true,
+            success: function (msg) {
+
+            },
+            error: function () {
+                return "error";
+            }
+        });
+    }
+    @section Scripts {
+        @{
+            await Html.RenderPartialAsync("_ValidationScriptsPartial");
+        }
+        }
+                    const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
+        const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl))
+    </script>   

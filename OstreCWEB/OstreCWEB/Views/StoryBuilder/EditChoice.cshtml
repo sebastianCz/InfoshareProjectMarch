@@ -1,0 +1,134 @@
+﻿@using OstreCWEB.Data.Repository.StoryModels.Enums;
+@model OstreCWEB.ViewModel.StoryBuilder.ChoiceCreatorView
+
+@{
+    ViewData["Title"] = $"Edit Choice";
+}
+
+<div class="pagetitle">
+    <h1>Edit Choice</h1>
+    <nav>
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a asp-area="" asp-controller="Home" asp-action="Index">Home</a></li>
+            <li class="breadcrumb-item"><a asp-area="" asp-controller="StoryBuilder" asp-action="Index">StoryBuilder</a></li>
+            <li class="breadcrumb-item active">Edit Choice</li>
+        </ol>
+    </nav>
+</div>
+
+<div class="card">
+    <div class="card-body">
+        <h5 class="card-title">Previous Paragraph</h5>
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>
+                        <label asp-for="PreviousParagraph.ParagraphType"></label>
+                    </th>
+                    <th>
+                        <label asp-for="PreviousParagraph.StageDescription"></label>
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                        @Model.PreviousParagraph.ParagraphType
+                    </td>
+                    <td>
+                        @Model.PreviousParagraph.StageDescription
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+
+<div class="card">
+    <div class="card-body">
+        <h5 class="card-title">Edit Choice</h5>
+        <div class="col-md-4">
+            <form asp-action="EditChoice">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+                <div class="form-group">
+                    <label asp-for="ChoiceText" class="control-label"></label>
+                    <input asp-for="ChoiceText" class="form-control" />
+                    <span asp-validation-for="ChoiceText" class="text-danger"></span>
+                </div>
+
+@*                @if (@Model.NextParagraph.ParagraphType != ParagraphType.Test && @Model.NextParagraph.ParagraphType != ParagraphType.Fight)
+                {
+                    <div class="row mb-6">
+                        <label class="col-sm-4 col-form-label">Change Places</label>
+                        <div class="col-sm-8">
+                            <div class="form-check form-switch">
+                                <p></p>
+                                <label asp-for="ChangePlaces" class="form-check-label" for="flexSwitchCheckDefault">Switch buttom - No/Yes</label>
+                                <input asp-for="ChangePlaces" class="form-check-input" type="checkbox" id="flexSwitchCheckDefault">
+                                <span asp-validation-for="ChangePlaces" class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+                }
+                @if (@Model.NextParagraph.ParagraphType == ParagraphType.Test || @Model.NextParagraph.ParagraphType == ParagraphType.Fight)
+                {
+                    <div class="row mb-6">
+                        <label class="col-sm-4 col-form-label">Change Places</label>
+                        <div class="col-sm-8">
+                            <div class="form-check form-switch">
+                                <p></p>
+                                <label asp-for="ChangePlaces" class="form-check-label" for="flexSwitchCheckDefault" disabled>Switch buttom - No/Yes</label>
+                                <input asp-for="ChangePlaces" class="form-check-input" type="checkbox" id="flexSwitchCheckDefault" disabled>
+                                <span asp-validation-for="ChangePlaces" class="text-danger" disabled></span>
+                            </div>
+                        </div>
+                    </div>
+                }*@
+
+                <div>
+                    <p></p>
+                    <input asp-for="Id" hidden="true"/>
+                    <input asp-for="NextParagraphId" hidden="true" />
+                    <input asp-for="ParagraphId" hidden="true" />
+                    <input asp-for="StoryId" hidden="true" />
+                </div>
+
+                <div class="form-group">
+                    <input type="submit" value="Edit" class="btn btn-success" />
+                    <a asp-action="ChoiceDetails" asp-route-id="@Model.Id" type="button" class="btn btn-primary">Back to details!</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+<div class="card">
+    <div class="card-body">
+        <h5 class="card-title">Next Paragraphs</h5>
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>
+                        <label asp-for="NextParagraph.ParagraphType"></label>
+                    </th>
+                    <th>
+                        <label asp-for="NextParagraph.StageDescription"></label>
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                        @Model.NextParagraph.ParagraphType
+                    </td>
+                    <td>
+                        @Model.NextParagraph.StageDescription
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
